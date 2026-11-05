@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';

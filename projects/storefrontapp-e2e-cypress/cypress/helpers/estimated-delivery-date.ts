@@ -26,7 +26,7 @@ export function checkoutShippingAddress() {
 export function checkoutDeliveryMode() {
   cy.get('[formcontrolname="deliveryModeId"]').eq(0).click();
   cy.get('cx-delivery-mode').within(() => {
-    cy.wait(3000);
+    cy.wait(1000);
     cy.findByText('Continue').click();
   });
 }

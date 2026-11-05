@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import type { i18n, InitOptions } from 'i18next';
 import { BehaviorSubject, Observable } from 'rxjs';

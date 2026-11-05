@@ -156,6 +156,7 @@ describe('ProductGridItemComponent in product-list', () => {
     component = fixture.componentInstance;
     componentInjector = fixture.debugElement.injector;
 
+    mockProduct.averageRating = 4.5;
     component.product = mockProduct;
 
     component.ngOnChanges();

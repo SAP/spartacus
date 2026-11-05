@@ -1,17 +1,19 @@
-import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { IconComponent, MockIconComponent } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
-import { vi } from 'vitest';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -26,40 +28,29 @@ const CONFIGURATION: Configurator.ConfigurationWithOverview = {
 };
 
 class MockConfiguratorGroupsService {
-  setGroupStatusVisited() {}
+  setGroupStatusVisited = vi.fn();
 }
 
 class MockConfiguratorStorefrontUtilsService {
-  getElement(): void {}
-
-  getElements(): void {}
-
-  getPrefixId(): void {}
-
-  hasScrollbar(): void {}
-
-  changeStyling(): void {}
-
-  removeStyling(): void {}
-
-  createOvGroupId(): void {}
-
-  createOvMenuItemId(): void {}
-
-  ensureElementVisible(): void {}
-
-  getSpareViewportHeight(): void {}
-
-  getVerticallyScrolledPixels(): void {}
-
-  scrollToConfigurationElement(): void {}
+  getElementById = vi.fn();
+  getElements = vi.fn();
+  getPrefixId = vi.fn();
+  hasScrollbar = vi.fn();
+  getClosestElement = vi.fn();
+  changeStylingOfElement = vi.fn();
+  removeStylingOfElement = vi.fn();
+  createOvGroupId = vi.fn((_idPrefix?: string, _groupId?: string) => '');
+  createOvMenuItemId = vi.fn();
+  ensureElementVisible = vi.fn();
+  getSpareViewportHeight = vi.fn();
+  getVerticallyScrolledPixels = vi.fn();
+  navigateToOverviewGroup = vi.fn();
 }
 
 let component: ConfiguratorOverviewMenuComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
 let htmlElem: HTMLElement;
 let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
-let configuratorGroupsService: ConfiguratorGroupsService;
 
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewMenuComponent);
@@ -67,29 +58,9 @@ function initialize() {
   component = fixture.componentInstance;
   component.config = CONFIGURATION;
 
-  configuratorGroupsService = TestBed.inject(
-    ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-  );
-
-  vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
-
   configuratorStorefrontUtilsService = TestBed.inject(
-    ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    ConfiguratorStorefrontUtilsService
   );
-
-  vi.spyOn(configuratorStorefrontUtilsService, 'scrollToConfigurationElement');
-
-  vi.spyOn(configuratorStorefrontUtilsService, 'ensureElementVisible');
-
-  vi.spyOn(configuratorStorefrontUtilsService, 'changeStyling');
-
-  vi.spyOn(configuratorStorefrontUtilsService, 'removeStyling');
-
-  vi.spyOn(configuratorStorefrontUtilsService, 'createOvGroupId');
-
-  vi.spyOn(configuratorStorefrontUtilsService, 'createOvMenuItemId');
-
-  vi.spyOn(configuratorStorefrontUtilsService, 'getPrefixId');
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {
@@ -109,6 +80,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
       .overrideComponent(ConfiguratorOverviewMenuComponent, {
@@ -130,18 +102,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
   it('should call ngAfterViewInit after ovMenu is rendered', () => {
     initialize();
-    fixture.detectChanges();
-    vi.spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
-    vi.spyOn(configuratorStorefrontUtilsService, 'getElement');
-    vi.spyOn(configuratorStorefrontUtilsService, 'getElements');
-    vi.spyOn(
-      configuratorStorefrontUtilsService,
-      'getVerticallyScrolledPixels'
+    vi.mocked(
+      configuratorStorefrontUtilsService.getVerticallyScrolledPixels
     ).mockReturnValue(0);
-    vi.spyOn(configuratorStorefrontUtilsService, 'hasScrollbar');
-
-    component.ngAfterViewInit();
     fixture.detectChanges();
+    vi.clearAllMocks();
+    component.ngAfterViewInit();
 
     expect(component).toBeDefined();
     expect(
@@ -150,9 +116,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
     expect(
       configuratorStorefrontUtilsService.getVerticallyScrolledPixels
     ).toHaveBeenCalledTimes(1);
-    expect(configuratorStorefrontUtilsService.getElement).toHaveBeenCalledTimes(
-      0
-    );
+    expect(
+      configuratorStorefrontUtilsService.getElementById
+    ).toHaveBeenCalledTimes(0);
     expect(
       configuratorStorefrontUtilsService.getSpareViewportHeight
     ).toHaveBeenCalledTimes(1);
@@ -207,12 +173,15 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should call changeStyling', () => {
+    it('should call changeStylingOfElement', () => {
       fixture.detectChanges();
       vi.clearAllMocks();
       component['changeStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.getClosestElement
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.changeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -222,12 +191,15 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should call removeStyling', () => {
+    it('should call removeStylingOfElement', () => {
       fixture.detectChanges();
       vi.clearAllMocks();
       component['removeStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.getClosestElement
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.removeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -243,7 +215,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.amount = 1;
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.changeStyling
+        configuratorStorefrontUtilsService.changeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
 
@@ -253,7 +225,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.amount = 0;
       component['adjustStyling']();
       expect(
-        configuratorStorefrontUtilsService.removeStyling
+        configuratorStorefrontUtilsService.removeStylingOfElement
       ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
@@ -276,22 +248,89 @@ describe('ConfigurationOverviewMenuComponent', () => {
   });
 
   describe('navigateToGroup', () => {
-    it('should invoke utils service for determining group id', () => {
+    it('should delegate to utils service', () => {
       initialize();
       fixture.detectChanges();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
-        configuratorStorefrontUtilsService.createOvGroupId
-      ).toHaveBeenCalled();
+        configuratorStorefrontUtilsService.navigateToOverviewGroup
+      ).toHaveBeenCalledWith(GROUP_PREFIX, GROUP_ID_LOCAL);
+    });
+  });
+
+  describe('in-page navigation (productConfiguratorCPQContainer)', () => {
+    beforeEach(() => {
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
+      initialize();
+      fixture.detectChanges();
     });
 
-    it('should invoke utils service for scrolling', () => {
+    it('should render the menu inside a labelled navigation landmark', () => {
+      const nav = htmlElem.querySelector('nav');
+      expect(nav).not.toBeNull();
+      expect(nav?.getAttribute('aria-label')).toBe(
+        'configurator.a11y.overviewMenu'
+      );
+      expect(nav?.querySelectorAll('button.cx-menu-item').length).toBe(
+        htmlElem.querySelectorAll('button.cx-menu-item').length
+      );
+    });
+
+    it('should label the menu items as navigation to the group', () => {
+      const menuItem = htmlElem.querySelector('button.cx-menu-item');
+      expect(menuItem?.getAttribute('aria-label')).toContain(
+        'configurator.a11y.navigateToOverviewGroup'
+      );
+    });
+
+    it('should mark only the highlighted menu item as current location', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElements'
+      ).mockReturnValue(menuItems);
+      component['highlight'](menuItems[0]);
+      component['highlight'](menuItems[1]);
+      expect(menuItems[0].hasAttribute('aria-current')).toBe(false);
+      expect(menuItems[1].getAttribute('aria-current')).toBe('location');
+    });
+  });
+
+  describe('without in-page navigation', () => {
+    beforeEach(() => {
       initialize();
       fixture.detectChanges();
-      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+    });
+
+    it('should not render a navigation landmark', () => {
+      expect(htmlElem.querySelector('nav')).toBeNull();
       expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
-      ).toHaveBeenCalled();
+        htmlElem.querySelectorAll('button.cx-menu-item').length
+      ).toBeGreaterThan(0);
+    });
+
+    it('should keep the legacy aria-label of the menu items', () => {
+      const menuItem = htmlElem.querySelector('button.cx-menu-item');
+      expect(menuItem?.getAttribute('aria-label')).toContain(
+        'configurator.a11y.groupName'
+      );
+    });
+
+    it('should not set aria-current on the highlighted menu item', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      vi.spyOn(
+        configuratorStorefrontUtilsService,
+        'getElements'
+      ).mockReturnValue(menuItems);
+      component['highlight'](menuItems[0]);
+      expect(menuItems[0].hasAttribute('aria-current')).toBe(false);
     });
   });
 
@@ -331,8 +370,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('onScroll', () => {
     beforeEach(() => {
       initialize();
-      vi.spyOn(configuratorStorefrontUtilsService, 'getElements');
-      vi.spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
     });
 
     it('should call onScroll method', () => {
@@ -353,7 +390,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('onResize', () => {
     beforeEach(() => {
       initialize();
-      vi.spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
     });
 
     it('should call onResize method', () => {
@@ -379,9 +415,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
     it('should return empty string because spare viewport height is larger that menu items height', () => {
       component.menuItemsHeight = 400;
       fixture.detectChanges();
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getSpareViewportHeight'
+      vi.mocked(
+        configuratorStorefrontUtilsService.getSpareViewportHeight
       ).mockReturnValue(600);
       expect(component['getHeight']()).toEqual('');
     });
@@ -389,9 +424,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
     it('should return spare viewport height because menu items height is equal zero', () => {
       component.menuItemsHeight = 400;
       fixture.detectChanges();
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getSpareViewportHeight'
+      vi.mocked(
+        configuratorStorefrontUtilsService.getSpareViewportHeight
       ).mockReturnValue(200);
       expect(component['getHeight']()).toEqual('200px');
     });
@@ -432,10 +466,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should not get menu item to highlight because getElements method return undefined', () => {
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getElements'
-      ).mockReturnValue(undefined);
+      vi.mocked(configuratorStorefrontUtilsService.getElements).mockReturnValue(
+        undefined
+      );
       fixture.detectChanges();
 
       expect(component['getMenuItemToHighlight']()).not.toBeDefined();
@@ -445,14 +478,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
       groups = createElements('div');
 
       vi.spyOn(document, 'querySelectorAll').mockReturnValue(groups);
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getElements'
-      ).mockReturnValue(groups);
+      vi.mocked(configuratorStorefrontUtilsService.getElements).mockReturnValue(
+        groups
+      );
 
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getVerticallyScrolledPixels'
+      vi.mocked(
+        configuratorStorefrontUtilsService.getVerticallyScrolledPixels
       ).mockReturnValue(undefined);
 
       fixture.detectChanges();
@@ -464,24 +495,23 @@ describe('ConfigurationOverviewMenuComponent', () => {
       groups = createElements('div');
 
       vi.spyOn(document, 'querySelectorAll').mockReturnValue(groups);
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getElements'
-      ).mockReturnValue(groups);
+      vi.mocked(configuratorStorefrontUtilsService.getElements).mockReturnValue(
+        groups
+      );
 
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getVerticallyScrolledPixels'
+      vi.mocked(
+        configuratorStorefrontUtilsService.getVerticallyScrolledPixels
       ).mockReturnValue(123);
 
       fixture.detectChanges();
 
       let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
       let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getElement'
+      vi.mocked(
+        configuratorStorefrontUtilsService.getElementById
       ).mockReturnValue(menuItem);
+
+      fixture.detectChanges();
 
       expect(component['getMenuItemToHighlight']()?.id).toEqual(menuItem.id);
     });
@@ -498,10 +528,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
       const elementToHighlight = menuItems[menuItems.length - 1];
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getElements'
-      ).mockReturnValue(undefined);
+      vi.mocked(configuratorStorefrontUtilsService.getElements).mockReturnValue(
+        undefined
+      );
       component['highlight'](elementToHighlight);
       expect(
         elementToHighlight.classList.contains(component['ACTIVE_CLASS'])
@@ -514,10 +543,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
       const elementToHighlight = menuItems[menuItems.length - 1];
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'getElements'
-      ).mockReturnValue(menuItems);
+      vi.mocked(configuratorStorefrontUtilsService.getElements).mockReturnValue(
+        menuItems
+      );
       component['highlight'](elementToHighlight);
       expect(
         elementToHighlight.classList.contains(component['ACTIVE_CLASS'])
@@ -532,7 +560,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
     it('should not call ensureElementVisible  method because elementToHighlight is undefined', () => {
       fixture.detectChanges();
-      vi.spyOn(configuratorStorefrontUtilsService, 'hasScrollbar');
       component['ensureElementVisible'](undefined);
       expect(
         configuratorStorefrontUtilsService.hasScrollbar
@@ -548,9 +575,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
       const element = menuItems[menuItems.length - 1];
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'hasScrollbar'
+      vi.mocked(
+        configuratorStorefrontUtilsService.hasScrollbar
       ).mockReturnValue(false);
       component['ensureElementVisible'](element);
       expect(
@@ -567,9 +593,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
       const element = menuItems[menuItems.length - 1];
-      vi.spyOn(
-        configuratorStorefrontUtilsService,
-        'hasScrollbar'
+      vi.mocked(
+        configuratorStorefrontUtilsService.hasScrollbar
       ).mockReturnValue(true);
       component['ensureElementVisible'](element);
       expect(

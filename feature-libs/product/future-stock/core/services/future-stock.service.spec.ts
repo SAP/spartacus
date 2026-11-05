@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,

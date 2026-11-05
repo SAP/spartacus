@@ -9,6 +9,7 @@ import {
 import {
   CxDatePipe,
   FeaturesConfig,
+  FeatureStylesService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -394,5 +395,40 @@ describe('QuickOrderComponent', () => {
     expect(
       quickOrderService.clearNonPurchasableProductError
     ).toHaveBeenCalled();
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('QuickOrderComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [QuickOrderComponent],
+      providers: [
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
+        {
+          provide: QuickOrderStatePersistenceService,
+          useClass: MockQuickOrderStatePersistenceService,
+        },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(QuickOrderComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

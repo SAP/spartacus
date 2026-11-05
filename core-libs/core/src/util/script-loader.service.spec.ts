@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { DOCUMENT, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ScriptLoader, ScriptPlacement } from './script-loader.service';

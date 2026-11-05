@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 
 import { I18nTestingModule, Price, TranslatePipe } from '@spartacus/core';
 import {
@@ -174,6 +173,8 @@ describe('QuoteSummarySellerEditComponent', () => {
     component = fixture.componentInstance;
     quoteFacade = TestBed.inject(QuoteFacade);
     mockQuote.quoteDiscounts = {};
+    mockQuote.sapQuoteDiscountsRate = undefined;
+    mockQuote.sapQuoteDiscountsType = undefined;
     mockQuoteDetails$.next(mockQuote);
     quoteIsEditable = true;
   });

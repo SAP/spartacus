@@ -9,7 +9,6 @@ import {
 } from '@spartacus/core';
 import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { vi } from 'vitest';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
 const query = {

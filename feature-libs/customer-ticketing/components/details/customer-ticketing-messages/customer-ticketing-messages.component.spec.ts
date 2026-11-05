@@ -27,7 +27,6 @@ import {
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
-import { vi } from 'vitest';
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;

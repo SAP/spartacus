@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -19,7 +18,6 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 import { ConfiguratorTextfieldAddToCartButtonComponent } from '../add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configurator-textfield-input-field.component';
 import { ConfiguratorTextfieldFormComponent } from './configurator-textfield-form.component';
-import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '3';
@@ -104,9 +102,7 @@ describe('TextfieldFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;
-    textfieldService = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
-    );
+    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
   });
 
   it('should create component', () => {

@@ -7,7 +7,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { vi } from 'vitest';
 import { FocusFirstInvalidFieldDirective } from './focus-first-invalid-field.directive';
 
 @Component({
@@ -28,13 +27,8 @@ describe('FocusFirstInvalidFieldDirective', () => {
   let fixture: ComponentFixture<HostComponent>;
   let directive: FocusFirstInvalidFieldDirective;
 
-  // The directive defers focus to a `setTimeout(0)` macrotask; awaiting a real
-  // macrotask (a later `setTimeout(0)`) lets it run before we assert, without
-  // needing `fakeAsync`/`tick` (unsupported by the vitest zone setup).
-  const flushMacrotask = (): Promise<void> =>
-    new Promise((resolve) => setTimeout(resolve));
-
   beforeEach(() => {
+    vi.useFakeTimers();
     TestBed.configureTestingModule({
       imports: [HostComponent],
     });
@@ -45,6 +39,11 @@ describe('FocusFirstInvalidFieldDirective', () => {
       .injector.get(FocusFirstInvalidFieldDirective);
   });
 
+  afterEach(async () => {
+    await vi.runAllTimersAsync();
+    vi.useRealTimers();
+  });
+
   it('should focus the inner input of the first invalid ng-select', async () => {
     const invalidSelectInput: HTMLElement = fixture.debugElement.query(
       By.css('.invalid-select input')
@@ -52,7 +51,7 @@ describe('FocusFirstInvalidFieldDirective', () => {
     vi.spyOn(invalidSelectInput, 'focus');
 
     directive.focusFirstInvalidField();
-    await flushMacrotask(); // flush the deferred macrotask
+    await vi.runAllTimersAsync();
 
     expect(invalidSelectInput.focus).toHaveBeenCalled();
   });
@@ -70,7 +69,7 @@ describe('FocusFirstInvalidFieldDirective', () => {
     vi.spyOn(textInput, 'focus');
 
     directive.focusFirstInvalidField();
-    await flushMacrotask();
+    await vi.runAllTimersAsync();
 
     expect(textInput.focus).toHaveBeenCalled();
   });
@@ -89,7 +88,7 @@ describe('FocusFirstInvalidFieldDirective', () => {
     vi.spyOn(validSelectInput, 'focus');
 
     directive.focusFirstInvalidField();
-    await flushMacrotask();
+    await vi.runAllTimersAsync();
 
     expect(validSelectInput.focus).not.toHaveBeenCalled();
   });

@@ -5,13 +5,19 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   B2BUser,
   CostCenter,
   CxDatePipe,
+  FeatureToggles,
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
@@ -28,6 +34,8 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
   imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe],
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
+  private featureToggles = inject(FeatureToggles);
+
   constructor(
     protected translation: TranslationService,
     protected unitLevelOrderDetailsService: UnitLevelOrderDetailService
@@ -133,10 +141,15 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
         const formattedAddress = this.normalizeFormattedAddress(
           deliveryAddress?.formattedAddress ?? ''
         );
+        const fullName = `${deliveryAddress?.firstName} ${deliveryAddress?.lastName}`;
 
         return {
           title: textTitle,
-          textBold: `${deliveryAddress?.firstName} ${deliveryAddress?.lastName}`,
+          textBold:
+            this.featureToggles.addTitleToAddressCard &&
+            !!deliveryAddress?.title
+              ? `${deliveryAddress.title} ${fullName}`
+              : fullName,
           text: [formattedAddress, deliveryAddress?.country?.name],
         } as Card;
       })
@@ -191,17 +204,20 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
   ): Observable<Card> {
     return this.translation.translate('paymentForm.billingAddress').pipe(
       filter(() => Boolean(billingAddress)),
-      map(
-        (textTitle) =>
-          ({
-            title: textTitle,
-            textBold: `${billingAddress?.firstName} ${billingAddress?.lastName}`,
-            text: [
-              billingAddress?.formattedAddress,
-              billingAddress?.country?.name,
-            ],
-          }) as Card
-      )
+      map((textTitle) => {
+        const fullName = `${billingAddress?.firstName} ${billingAddress?.lastName}`;
+        return {
+          title: textTitle,
+          textBold:
+            this.featureToggles.addTitleToAddressCard && !!billingAddress?.title
+              ? `${billingAddress.title} ${fullName}`
+              : fullName,
+          text: [
+            billingAddress?.formattedAddress,
+            billingAddress?.country?.name,
+          ],
+        } as Card;
+      })
     );
   }
 

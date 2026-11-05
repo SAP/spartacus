@@ -8,7 +8,6 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { AtMessageModule } from './assistive-technology-message.module';
-import { vi } from 'vitest';
 
 @Component({
   template: `

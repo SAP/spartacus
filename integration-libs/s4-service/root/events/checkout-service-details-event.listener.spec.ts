@@ -3,7 +3,6 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 
-import createSpy = jasmine.createSpy;
 import { CheckoutQueryResetEvent } from '@spartacus/checkout/base/root';
 import { CheckoutServiceDetailsEventListener } from './checkout-service-details-event.listener';
 import { CheckoutServiceDetailsSetEvent } from './checkout-service-details.events';
@@ -15,8 +14,8 @@ const mockData = 'test-schedule-detail';
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 describe(`CheckoutServiceDetailsEventListener`, () => {

@@ -7,6 +7,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -61,6 +62,7 @@ export class OpfCheckoutBillingAddressFormComponent
   protected activatedRoute = inject(ActivatedRoute);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
+  protected cdr = inject(ChangeDetectorRef);
 
   protected cart: Cart | null = null;
 
@@ -81,12 +83,16 @@ export class OpfCheckoutBillingAddressFormComponent
       this.activeCartFacade
         .getActive()
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((cart) => (this.cart = cart));
+        .subscribe((cart) => {
+          this.cart = cart;
+          this.cdr.markForCheck();
+        });
     } else {
       this.subscription.add(
-        this.activeCartFacade
-          .getActive()
-          .subscribe((cart) => (this.cart = cart))
+        this.activeCartFacade.getActive().subscribe((cart) => {
+          this.cart = cart;
+          this.cdr.markForCheck();
+        })
       );
     }
 
@@ -101,12 +107,14 @@ export class OpfCheckoutBillingAddressFormComponent
         .subscribe(() => {
           this.isEditBillingAddress = true;
           this.isAddingBillingAddressInProgress = true;
+          this.cdr.markForCheck();
         });
     } else {
       this.subscription.add(
         this.service.pickupNoDefaultAddress$.subscribe(() => {
           this.isEditBillingAddress = true;
           this.isAddingBillingAddressInProgress = true;
+          this.cdr.markForCheck();
         })
       );
     }

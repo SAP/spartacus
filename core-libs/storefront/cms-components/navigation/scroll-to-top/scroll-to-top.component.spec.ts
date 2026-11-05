@@ -13,7 +13,6 @@ import { SelectFocusUtility } from '../../../layout/a11y/index';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { MockIconComponent } from '../../misc/icon/testing/icon-testing.module';
 import { ScrollToTopComponent } from './scroll-to-top.component';
-import { vi } from 'vitest';
 
 const mockData: CmsScrollToTopComponent = {
   scrollBehavior: ScrollBehavior.SMOOTH,

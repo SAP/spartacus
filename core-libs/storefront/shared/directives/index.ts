@@ -5,3 +5,4 @@
  */
 
 export * from './horizontal-scrolling-position/index';
+export * from './roving-tabindex/index';

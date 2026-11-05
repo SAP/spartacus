@@ -7,7 +7,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { TmsCollectorConfig, TmsConfig } from '../config/tms-config';
 import { TmsCollector, WindowObject } from '../model/tms.model';
 import { TmsService } from './tms.service';

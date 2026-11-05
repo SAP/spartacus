@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ContentSlotComponentData, PageRobotsMeta } from '../../../../cms';
 import { CmsComponent } from '../../../../model';

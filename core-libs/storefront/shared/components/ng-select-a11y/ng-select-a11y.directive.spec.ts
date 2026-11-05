@@ -296,6 +296,8 @@ describe('NgSelectA11yDirective', () => {
       await Promise.resolve();
 
       expect(ancestor.classList).toContain('mouse-focus');
+
+      featureToggles.a11yRestoreFocusOnNgSelect = true;
     });
 
     it('should be a no-op when no ancestor has the "mouse-focus" class', async () => {

@@ -11,6 +11,7 @@ import {
   Address,
   CxDatePipe,
   FeaturesConfig,
+  FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
   MockDatePipe,
@@ -18,6 +19,7 @@ import {
   TranslatePipe,
   UserAddressService,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { EMPTY, of } from 'rxjs';
@@ -143,6 +145,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -171,6 +174,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
           provide: CheckoutFlowOrchestratorService,
           useClass: MockCheckoutFlowOrchestratorService,
         },
+        provideMockFeatureToggles({ addTitleToAddressCard: false }),
       ],
     })
       .overrideComponent(CheckoutDeliveryAddressComponent, {
@@ -206,6 +210,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
     userAddressService = TestBed.inject(UserAddressService);
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    featureToggles = TestBed.inject(FeatureToggles);
   });
 
   beforeEach(() => {
@@ -415,6 +420,65 @@ describe('CheckoutDeliveryAddressComponent', () => {
           expect(card.componentInstance.role).toEqual('group');
         });
       });
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    const addressWithTitle: Address = {
+      ...mockAddress1,
+      title: 'Mr.',
+    };
+    const addressWithoutTitle: Address = {
+      ...mockAddress1,
+      title: undefined,
+    };
+
+    it('should not prepend the title when the toggle is OFF', () => {
+      featureToggles.addTitleToAddressCard = false;
+
+      const card = component.getCardContent(
+        addressWithTitle,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+
+      expect(card.textBold).toEqual('John Doe');
+    });
+
+    it('should prepend the title when the toggle is ON and the address has a title', () => {
+      featureToggles.addTitleToAddressCard = true;
+
+      const card = component.getCardContent(
+        addressWithTitle,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+
+      expect(card.textBold).toEqual('Mr. John Doe');
+    });
+
+    it('should not prepend the title when the toggle is ON but the address has no title', () => {
+      featureToggles.addTitleToAddressCard = true;
+
+      const card = component.getCardContent(
+        addressWithoutTitle,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+
+      expect(card.textBold).toEqual('John Doe');
     });
   });
 

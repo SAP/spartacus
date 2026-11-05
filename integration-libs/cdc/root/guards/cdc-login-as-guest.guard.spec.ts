@@ -7,6 +7,7 @@ import {
 } from '@spartacus/core';
 import { CdcLoginAsGuestGuard } from './cdc-login-as-guest.guard';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { firstValueFrom } from 'rxjs';
 
 const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: true,
@@ -14,8 +15,8 @@ const mockFeatureToggles: FeatureToggles = {
 
 const mockWindowRef = {
   localStorage: {
-    getItem: jasmine.createSpy().and.returnValue('true'),
-    removeItem: jasmine.createSpy(),
+    getItem: vi.fn().mockReturnValue('true'),
+    removeItem: vi.fn(),
   },
 };
 
@@ -49,18 +50,16 @@ describe('CdcLoginAsGuestGuard', () => {
   });
 
   beforeEach(() => {
-    mockWindowRef.localStorage.removeItem.calls.reset();
+    mockWindowRef.localStorage.removeItem.mockClear();
   });
 
   it('should be created', () => {
     expect(guard).toBeTruthy();
   });
 
-  it('should use overridden login route', (done) => {
-    spyOn(semanticPathService, 'get');
-    guard.canActivate().subscribe(() => {
-      expect(semanticPathService.get).toHaveBeenCalledWith('login');
-      done();
-    });
+  it('should use overridden login route', async () => {
+    vi.spyOn(semanticPathService, 'get');
+    await firstValueFrom(guard.canActivate());
+    expect(semanticPathService.get).toHaveBeenCalledWith('login');
   });
 });

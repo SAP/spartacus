@@ -29,7 +29,6 @@ import {
 } from '../state/configurator-state';
 import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
-import { vi } from 'vitest';
 
 let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();

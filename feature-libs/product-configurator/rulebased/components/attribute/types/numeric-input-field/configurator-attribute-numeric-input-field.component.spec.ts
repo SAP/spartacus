@@ -10,6 +10,7 @@ import {
   FeaturesConfig,
   I18nTestingModule,
   LanguageService,
+  LoggerTestingModule,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
@@ -22,7 +23,6 @@ import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-se
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
-import { vi } from 'vitest';
 import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
@@ -131,6 +131,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       imports: [
         ReactiveFormsModule,
         I18nTestingModule,
+        LoggerTestingModule,
         ConfiguratorAttributeNumericInputFieldComponent,
         MockFocusDirective,
         MockCxIconComponent,

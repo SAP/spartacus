@@ -52,8 +52,8 @@ describe('CdsMerchandisingSiteContextService', () => {
       language,
     };
 
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
-    spyOn(languageService, 'getActive').and.returnValue(of(language));
+    vi.spyOn(baseSiteService, 'getActive').mockReturnValue(of(site));
+    vi.spyOn(languageService, 'getActive').mockReturnValue(of(language));
 
     let merchandisingSiteContext: MerchandisingSiteContext;
     cdsMerchandisingSiteContextService

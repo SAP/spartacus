@@ -14,25 +14,24 @@ import { UpdatePasswordModule } from '@spartacus/user/profile/components';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of, throwError } from 'rxjs';
 import { CDCUpdatePasswordComponentService } from './cdc-update-password-component.service';
-import createSpy = jasmine.createSpy;
 
 class MockUserPasswordService implements Partial<UserPasswordFacade> {
-  update = createSpy().and.returnValue(of({}));
+  update = vi.fn().mockReturnValue(of({}));
 }
 
 class MockRoutingService {
-  go = createSpy().and.stub();
-  getUrl = createSpy().and.returnValue('');
+  go = vi.fn().mockImplementation(() => {});
+  getUrl = vi.fn().mockReturnValue('');
 }
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  setRedirectUrl = createSpy();
+  setRedirectUrl = vi.fn();
 }
 
 class MockAuthService implements Partial<AuthService> {
-  coreLogout = createSpy().and.returnValue(Promise.resolve());
+  coreLogout = vi.fn().mockReturnValue(Promise.resolve());
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {}
@@ -87,8 +86,9 @@ describe('CDCUpdatePasswordComponentService', () => {
         oldPassword.setValue('Old1234!');
         newPassword.setValue('New1234!');
         newPasswordConfirm.setValue('New1234!');
-        cdcJsService.updateUserPasswordWithoutScreenSet =
-          createSpy().and.returnValue(of({ status: 'OK' }));
+        cdcJsService.updateUserPasswordWithoutScreenSet = vi
+          .fn()
+          .mockReturnValue(of({ status: 'OK' }));
         TestBed.compileComponents();
       });
 
@@ -115,7 +115,7 @@ describe('CDCUpdatePasswordComponentService', () => {
       });
 
       it('should reset the form', () => {
-        spyOn(service.form, 'reset').and.callThrough();
+        vi.spyOn(service.form, 'reset');
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
         expect(
@@ -127,8 +127,9 @@ describe('CDCUpdatePasswordComponentService', () => {
 
     describe('error', () => {
       beforeEach(() => {
-        cdcJsService.updateUserPasswordWithoutScreenSet =
-          createSpy().and.returnValue(
+        cdcJsService.updateUserPasswordWithoutScreenSet = vi
+          .fn()
+          .mockReturnValue(
             throwError(() => ({
               status: 'ERROR',
               errorDetails: 'Error occured',
@@ -146,7 +147,7 @@ describe('CDCUpdatePasswordComponentService', () => {
         expect(globalMessageService.add).not.toHaveBeenCalled();
       });
 
-      it('should not update the password or logout the user if CDC invocation fails', (done) => {
+      it('should not update the password or logout the user if CDC invocation fails', () => {
         oldPassword.setValue('Old1234!');
         newPassword.setValue('New1234!');
         newPasswordConfirm.setValue('New1234!');
@@ -158,7 +159,6 @@ describe('CDCUpdatePasswordComponentService', () => {
           'Error occured',
           GlobalMessageType.MSG_TYPE_ERROR
         );
-        done();
       });
     });
   });

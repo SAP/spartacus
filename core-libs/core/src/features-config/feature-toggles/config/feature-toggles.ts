@@ -172,36 +172,11 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
-   * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
-   *
-   * This is to improve the user experience on mobile devices, where the menu remains open
-   * after clicking on a link that navigates to the same page.
-   * Affects: `NavigationUIComponent`
-   */
-  navigationMenuCloseOnSameLinkClick?: boolean;
-
-  /**
    * When enabled, translates the "Password expired" error message
    * to the user's selected language using Spartacus i18n.
    * Affects: `LoginComponent`
    */
   enablePasswordExpiredErrorTranslation?: boolean;
-
-  /**
-   * shows the Quote Purchase Order Number input field in the Quote Request form
-   * and in the Quote Details page
-   *
-   * when set to `true`, the user will be able to enter a Purchase Order Number
-   * when requesting a quote and see it in the quote details
-   */
-  enableQuotePurchaseOrderNumber?: boolean;
-
-  /**
-   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
-   * on the `ReturnOrderComponent` when navigating to the return request details page.
-   * Affects: `ReturnOrderComponent`
-   */
-  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 
   /**
    * When enabled, the media prefix from the backend config will be used
@@ -370,6 +345,13 @@ export interface FeatureTogglesInterface {
    * Affects: ProductReviewsComponent
    */
   a11yReviewsKeyboardControls?: boolean;
+
+  /**
+   * When enabled, scrolls the 'Show More/Less Reviews' button into view after
+   * clicking it, ensuring the focused element remains visible in the viewport.
+   * Affects: ProductReviewsComponent
+   */
+  a11yShowMoreReviewsFocusVisible?: boolean;
 
   /**
    * Use on existing form buttons that are programatically disabled/enabled.
@@ -557,6 +539,11 @@ export interface FeatureTogglesInterface {
    */
   enableHierarchicalAddressFormat?: boolean;
 
+  /**
+   * When enabled, the title on the address is added to the line containing the full name (Card.boldText).
+   */
+  addTitleToAddressCard?: boolean;
+
   /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
    * instead of `initiatePayment` while selecting/re-initiating payment.
    *
@@ -621,6 +608,25 @@ export interface FeatureTogglesInterface {
    * authenticated data through stale tabs.
    */
   propagateLogoutToAllTabs?: boolean;
+
+  /**
+   * When enabled, the post-logout redirect respects the `logout.redirectRoute`
+   * option in `LogoutConfig`. When disabled (default), the guard always redirects
+   * to the home page (or login page for protected storefronts), preserving the
+   * pre-existing behavior.
+   *
+   * Affects: `LogoutGuard`
+   *
+   * To override the default redirect route, provide `LogoutConfig` in your module:
+   * ```ts
+   * provideConfig({
+   *   logout: {
+   *     redirectRoute: 'login',
+   *   },
+   * } as LogoutConfig)
+   * ```
+   */
+  useConfigurableLogoutRedirect?: boolean;
 
   /**
    * When enabled, adds support for asynchronous configuration of the oAuth service and adds a default
@@ -715,6 +721,73 @@ export interface FeatureTogglesInterface {
   productConfiguratorConsolidatedButtonDisabling?: boolean;
 
   /**
+   * When enabled, CPQ `sapContainers` are converted for the storefront:
+   * `CpqConfiguratorNormalizer` maps `CONTAINER` attributes to
+   * `Configurator.UiType.CONTAINER`, attaches container rows and nested
+   * container-row groups, and `CpqConfiguratorOverviewNormalizer` adds bundle
+   * overview groups for selected container rows.
+   * `CpqConfiguratorNormalizerUtilsService` includes nested container issues in
+   * the total issue count. CPQ container product-card action buttons use
+   * secondary (select/add) and tertiary (remove/deselect) styles instead of
+   * primary and secondary. Product-card layout alignment styles are also
+   * applied (full-width action row, stretched column). Container attribute
+   * accordion and column layout styles are loaded for
+   * `ConfiguratorAttributeContainerComponent`.
+   * Nested container products are reflected in the configurator product title
+   * (slash-separated path) on the configuration page and in the product-title
+   * details. When a CPQ configuration has `hasFullConfigurationState`,
+   * root-level conflict and error messages are taken from the typed `messages`
+   * list; when the user views a nested container-row configuration,
+   * `ConfiguratorConflictAndErrorMessagesComponent` shows that row's typed
+   * messages. On the configuration overview (CPQ and variant configurator),
+   * the overview menu becomes an accessible in-page navigation: it is rendered
+   * as a labeled `nav` landmark, marks the active group with `aria-current` and
+   * moves the focus to the selected group heading. A skip link leads from the
+   * menu to the overview content, which is exposed as a focusable region.
+   * `ConfiguratorOverviewFormComponent` renders bundle configuration-detail
+   * sections (top-level landmarks, view-details links, and nested attribute
+   * blocks) as in-page navigation targets. If the overview is opened with a
+   * `rowId` query parameter (read-only bundle line item links, e.g. in
+   * checkout or the order history), it scrolls to and focuses the
+   * configuration details of that container row. These links also carry the
+   * row ID as URL fragment, so the view reset on navigation does not scroll
+   * the overview back to the top. This requires the router option
+   * `anchorScrolling: 'enabled'` (set by the Spartacus `AppRoutingModule`) and
+   * that no element on the overview page has an `id` or `name` equal to the
+   * row ID. CPQ cart bundle line items
+   * (PDP links, nested edit links, large-bundle overview navigation) and
+   * configure-cart-entry link labels/query params/fragment use `*cxFeature`
+   * template branches like `ConfiguratorAttributeProductCardComponent`.
+   *
+   * When disabled, legacy behavior is preserved (breaking changes above are
+   * not active): container attributes map to `NOT_IMPLEMENTED`, containers and
+   * nested container-row groups are not attached, overview omits container
+   * bundle groups, nested container issues are excluded from the issue total,
+   * conflict and error messaging uses `warningMessages`/`errorMessages` only
+   * (not container-row or typed root `messages`), bundle configuration-detail
+   * overview sections and their in-page targets are not rendered, and
+   * container-specific layout styles are not applied.
+   *
+   * Affects:
+   * `ConfiguratorAttributeContainerComponent`,
+   * `CpqConfiguratorNormalizer`,
+   * `CpqConfiguratorOverviewNormalizer`,
+   * `CpqConfiguratorNormalizerUtilsService` (nested container issue count),
+   * `ConfiguratorAttributeProductCardComponent`,
+   * `ConfiguratorProductTitleComponent`,
+   * `ConfiguratorConflictAndErrorMessagesComponent`,
+   * `ConfiguratorOverviewMenuComponent`,
+   * `ConfiguratorOverviewMenuStandaloneComponent`,
+   * `ConfiguratorOverviewSidebarComponent`,
+   * `ConfiguratorOverviewFormComponent` (bundle `rowId` deep link),
+   * `ConfiguratorCartEntryBundleInfoComponent`,
+   * `ConfigureCartEntryComponent`,
+   * `ConfiguratorFormComponent` (bundle `rowId` deep link),
+   * `ConfiguratorBadRequestHandler` (configurator product-card 404)
+   */
+  productConfiguratorCPQContainer?: boolean;
+
+  /**
    * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
    * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
    * stays legible on the danger background in the high-contrast dark theme
@@ -732,6 +805,14 @@ export interface FeatureTogglesInterface {
    * the adjacent surface.
    */
   a11yFocusIndicatorContrast?: boolean;
+
+  /**
+   * When enabled, the default theme's primary color (`--cx-color-primary`) is
+   * darkened so the contrast meets the contrast requirement of >= 4.5:1.
+   * This toggle can be removed if santorini-updated in theme.scss is uncommented
+   * as part of next major release.
+   */
+  a11yPrimaryColorContrast?: boolean;
 
   /**
    * When enabled, disabled action buttons (`.btn-primary`, `.btn-secondary`,
@@ -841,6 +922,92 @@ export interface FeatureTogglesInterface {
    * `AddressFormComponent`, `UnitAddressFormService`
    */
   enableFormFieldMaxLength?: boolean;
+
+  /**
+   * Makes the CVV (Card Verification Value) info icon in the checkout
+   * payment form keyboard accessible by rendering it as a focusable button.
+   *
+   * Affects: `CheckoutPaymentFormComponent`
+   */
+  a11yCvvInfoIconKeyboardAccessible?: boolean;
+
+  /**
+   * When enabled, adds arrow key navigation to organization administration
+   * navigation tiles/cards on the My Company landing page (CompanyPageTemplate),
+   * turning the banner tile group into a composite keyboard widget.
+   * Affects: BannerComponent
+   * ACC-270.3
+   */
+  a11yBannerArrowKeyNavigation?: boolean;
+
+  /**
+   * When enabled, adds up/down arrow key navigation between table rows,
+   * turning the table into a composite keyboard widget.
+   * Affects: TableComponent
+   * ACC-270.3
+   */
+  a11yTableKeyboardNavigation?: boolean;
+
+  /**
+   * When enabled, replaces per-link tabindex binding in PaginationComponent
+   * with roving tabindex (left/right arrow key navigation across page links).
+   * Affects: PaginationComponent
+   */
+  a11yPaginationKeyboardNavigation?: boolean;
+
+  /**
+   * When enabled, adds `cxFocusableCarouselItem` to product carousel items so
+   * arrow key navigation works inside the carousel.
+   * Affects: ProductCarouselItemComponent
+   * ACC-270.3
+   */
+  a11yCarouselItemArrowKeyNavigation?: boolean;
+
+  /**
+   * When enabled, the RESET button in the "Add To Your Coupon List" claim dialog
+   * is rendered as a proper `<button>` element instead of an `<a role="button">`
+   * without an `href`, making it reachable and operable with the keyboard.
+   * Fixes WCAG 2.1.1 (Keyboard) ACC-270.1 (Level A).
+   * Affects: `ClaimDialogComponent`
+   */
+  a11yCouponDialogResetButtonKeyboardAccessible?: boolean;
+
+  /**
+   * When enabled, the "In Stock" / "Out of Stock" info text in the
+   * `AddToCartComponent` uses `--cx-color-text` instead of
+   * `--cx-color-secondary`, ensuring the text meets the WCAG 1.4.3 Level AA
+   * minimum contrast ratio of 4.5:1 against all background surfaces.
+   *
+   * Affects: `AddToCartComponent`
+   */
+  a11yInStockInfoTextContrast?: boolean;
+
+  /**
+   * When enabled, improves contrast in high-contrast themes across multiple components
+   * that were missing HC overrides or had insufficient contrast ratios (below 7:1 AAA):
+   *
+   * - `StoreComponent` / `StoreSearchComponent` (pickup-in-store): "View Hours" button,
+   *   "Use My Location" link, and stock/opening-hours icons (CXSPA-12810)
+   * - `CardComponent`: delete-address confirmation message text (CXSPA-12821)
+   * - `CustomerTicketingListComponent`: table column header `<th>` cells (CXSPA-12801)
+   * - `QuickOrderComponent`: ng-select dropdown panel items (CXSPA-12775)
+   * - `ProductReviewsComponent`: "Read More" / "Read Less" links (CXSPA-12804)
+   * - `StoreFinderListItemComponent`: store links including hover state (CXSPA-12786)
+   * - `SearchBoxComponent`: search-box-v2 variant results panel (CXSPA-12789)
+   * - `SiteContextSelectorComponent`: language/currency/theme `<select>` background (CXSPA-12783)
+   *
+   * Affected SCSS files:
+   * - `feature-libs/pickup-in-store/styles/_store.scss`
+   * - `feature-libs/pickup-in-store/styles/_store-search.scss`
+   * - `core-libs/styles/scss/components/misc/card/_card.scss`
+   * - `feature-libs/customer-ticketing/styles/components/_customer-ticketing-list.scss`
+   * - `feature-libs/cart/quick-order/styles/_quick-order.scss`
+   * - `core-libs/styles/scss/components/product/details/_product-reviews.scss`
+   * - `feature-libs/storefinder/styles/components/_store-finder-list-item.scss`
+   * - `core-libs/styles/scss/components/product/search/_searchbox.scss`
+   * - `core-libs/styles/scss/components/layout/header/_site-context-selector.scss`
+   */
+  a11yHighContrastFix?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -861,10 +1028,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFutureStockAccordionAriaControls: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-  navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
-  enableQuotePurchaseOrderNumber: true,
-  enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
@@ -890,21 +1054,22 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: true,
   a11yReviewsKeyboardControls: true,
-  a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
-  a11yConsentManagementFocusPreservation: false,
+  a11yShowMoreReviewsFocusVisible: false,
+  a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
+  a11yConsentManagementFocusPreservation: true,
   a11yDeliveryModeFocusPreservation: false,
   a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
-  a11yVocalizeDropdownItemCount: false,
+  a11yVocalizeDropdownItemCount: true,
   a11yItemCounterValueText: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
-  useEnhancedSecurePasswordValidators: false,
+  useEnhancedSecurePasswordValidators: true,
   enableApplyVoucherEndpoint: false,
-  enableRemoveVoucherEndpoint: false,
+  enableRemoveVoucherEndpoint: true,
   showSortFieldsOnlyAtTop: false,
-  showRequiredAsterisks: false,
-  enableExpiredRefreshTokenHandlers: false,
+  showRequiredAsterisks: true,
+  enableExpiredRefreshTokenHandlers: true,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
   a11yQuickOrderResetFocus: false,
@@ -914,12 +1079,14 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
+  addTitleToAddressCard: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   enableCartSlowNetworkResilience: false,
   a11yRegistrationTermsAsteriskMargin: false,
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
+  useConfigurableLogoutRedirect: false,
   asyncAuthConfigInitializer: false,
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
@@ -928,9 +1095,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  productConfiguratorCPQContainer: false,
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
+  a11yPrimaryColorContrast: false,
   a11yDisabledButtonContrast: false,
   a11yImproveAddressFormFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
@@ -941,4 +1110,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  a11yCvvInfoIconKeyboardAccessible: false,
+  a11yBannerArrowKeyNavigation: false,
+  a11yTableKeyboardNavigation: false,
+  a11yPaginationKeyboardNavigation: false,
+  a11yCarouselItemArrowKeyNavigation: false,
+  a11yCouponDialogResetButtonKeyboardAccessible: false,
+  a11yInStockInfoTextContrast: false,
+  a11yHighContrastFix: false,
 };

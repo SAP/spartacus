@@ -11,6 +11,7 @@ import {
   Address,
   B2BUnit,
   Country,
+  FeatureDirective,
   TranslatePipe,
   UrlPipe,
   UserAddressService,
@@ -50,6 +51,7 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class UnitAddressDetailsComponent {

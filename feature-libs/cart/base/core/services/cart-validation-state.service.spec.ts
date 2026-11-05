@@ -8,7 +8,13 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from '@spartacus/core/testing/mock-feature-toggles';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+  ReplaySubject,
+  switchMap,
+} from 'rxjs';
 import { CartValidationStateService } from './cart-validation-state.service';
 
 const mockData = [
@@ -41,6 +47,7 @@ describe('CartValidationStateService', () => {
   let featureToggles: MockFeatureTogglesController;
 
   beforeEach(() => {
+    routerStateSubject.next({ navigationId: 0 });
     TestBed.configureTestingModule({
       providers: [
         CartValidationStateService,
@@ -74,7 +81,7 @@ describe('CartValidationStateService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should clear validation data after configured number of routing steps', () => {
+  it('should clear validation data after configured number of routing steps', async () => {
     (service.cartValidationResult$ as ReplaySubject<CartModification[]>).next(
       []
     );
@@ -84,15 +91,13 @@ describe('CartValidationStateService', () => {
     (service.cartValidationResult$ as ReplaySubject<CartModification[]>).next(
       mockData
     );
-
-    (service as any).checkForValidationResultClear$
-      .subscribe(() => {
-        let result;
-        service.cartValidationResult$.subscribe((val) => (result = val));
-        expect((service as any).navigationIdCount).toEqual(5);
-        expect(result?.length).toEqual(0);
-      })
-      .unsubscribe();
+    const result = await firstValueFrom(
+      service['checkForValidationResultClear$'].pipe(
+        switchMap(() => service.cartValidationResult$)
+      )
+    );
+    expect(service['navigationIdCount']).toEqual(5);
+    expect(result?.length).toEqual(0);
   });
 
   it('should update result and navigation id', () => {

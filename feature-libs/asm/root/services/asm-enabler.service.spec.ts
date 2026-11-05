@@ -9,11 +9,12 @@ import {
 } from '@spartacus/storefront';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
-const store = {};
-const MockWindowRef = {
-  localStorage: {
-    getItem: (key: string): string => {
+const store: Record<string, string> = {};
+class MockWindowRef extends MockWinRef {
+  override localStorage: any = {
+    getItem: (key: string): string | null => {
       return key in store ? store[key] : null;
     },
     setItem: (key: string, value: string) => {
@@ -24,8 +25,8 @@ const MockWindowRef = {
         delete store[key];
       }
     },
-  },
-};
+  };
+}
 
 class MockComponentFactoryResolver {
   resolveComponentFactory() {}
@@ -62,7 +63,7 @@ describe('AsmEnablerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         {
           provide: ComponentFactoryResolver,
           useClass: MockComponentFactoryResolver,

@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { BehaviorSubject, filter, firstValueFrom } from 'rxjs';
-import { vi } from 'vitest';
 import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
 
 @Component({

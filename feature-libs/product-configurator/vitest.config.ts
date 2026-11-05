@@ -10,6 +10,11 @@ import { defineConfig } from 'vitest/config';
 
 const root = `${import.meta.dirname}/../..`;
 
+// Without this, nxViteTsPaths picks tsconfig.lib.json, which maps @spartacus/*
+// to dist/. Once dist/ is built, library code and source-imported test helpers
+// then get separate copies of injection tokens (e.g. FeatureToggles).
+process.env['NX_TSCONFIG_PATH'] = `${import.meta.dirname}/tsconfig.spec.json`;
+
 export default defineConfig({
   root: import.meta.dirname,
   plugins: [angular(), nxViteTsPaths()],
@@ -17,6 +22,7 @@ export default defineConfig({
     alias: {
       'core-libs/storefront/shared/test/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive.ts`,
       'core-libs/storefront/shared/test/mock-feature-level-directive': `${root}/core-libs/storefront/shared/test/mock-feature-level-directive.ts`,
+      'core-libs/storefront/shared/test/mock-media.component': `${root}/core-libs/storefront/shared/test/mock-media.component.ts`,
       'core-libs/core/src/features-config/feature-toggles/testing': `${root}/core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
       'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts`,
       'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
@@ -33,13 +39,22 @@ export default defineConfig({
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
+      enabled: true,
       provider: 'v8',
-      reporter: ['lcov'],
+      reporter: ['text-summary', 'html', 'lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/product-configurator`,
+      include: ['**/*.ts'],
       exclude: [
+        '**/*.spec.ts',
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+        'setup-jest.ts',
+        'textfield/root/**',
         '../../testing/setup-vitest.ts',
       ],
       thresholds: {

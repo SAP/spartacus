@@ -6,7 +6,6 @@ import {
   SubscriptionBill,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
-import { vi } from 'vitest';
 
 const mockBillData: SubscriptionBill = {
   billAt: '2026-04-11T00:00:00+0000',

@@ -122,7 +122,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     component = fixture.componentInstance;
     component.order$ = of(order);
     fixture.detectChanges();
-    spyOn(globalMessageService, 'add').and.callThrough();
+    vi.spyOn(globalMessageService, 'add');
   };
 
   describe('order serviceable', () => {
@@ -148,19 +148,19 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       expect(elements.length).toEqual(1);
     });
     it('should not display a notification when time to service is more than 24 hours', () => {
-      spyOn(
+      vi.spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
-      ).and.returnValue(40);
+      ).mockReturnValue(40);
       (component as any).displayServiceMessage(mockOrder1);
       fixture.detectChanges();
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
     it('should display a notification when time to service is within 24 hours', () => {
-      spyOn(
+      vi.spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
-      ).and.returnValue(10);
+      ).mockReturnValue(10);
       (component as any).displayServiceMessage(mockOrder1);
       fixture.detectChanges();
       expect(globalMessageService.add).toHaveBeenCalledWith(

@@ -12,7 +12,6 @@ import {
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE, IconComponent, SpinnerModule } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderStoreDescriptionComponent } from '../store-finder-store-description/store-finder-store-description.component';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
 

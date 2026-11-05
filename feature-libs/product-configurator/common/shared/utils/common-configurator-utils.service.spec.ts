@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
@@ -8,7 +7,12 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  provideDefaultConfig,
+  UserIdService,
+} from '@spartacus/core';
+import { defaultCommonConfiguratorUISettingsConfig } from '../../components/config/default-common-configurator-ui-settings.config';
 import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
@@ -16,6 +20,7 @@ import {
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
+import { CommonConfiguratorUISettingsConfig } from '../../components/config/common-configurator-ui-settings.config';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 import { ConfiguratorModelUtils } from './configurator-model-utils';
 
@@ -84,13 +89,12 @@ describe('CommonConfiguratorUtilsService', () => {
           useClass: MockUserIdService,
         },
         { provide: CartItemContext, useClass: MockCartItemContext },
+        provideDefaultConfig(defaultCommonConfiguratorUISettingsConfig),
       ],
     }).compileComponents();
   });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    classUnderTest = TestBed.inject(CommonConfiguratorUtilsService);
     owner = ConfiguratorModelUtils.createInitialOwner();
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
     cartItem = {};

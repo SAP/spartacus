@@ -9,7 +9,6 @@ import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverPosition } from './popover.model';
-import { vi } from 'vitest';
 
 const mockPopoverPosition = 'top';
 

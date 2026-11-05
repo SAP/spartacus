@@ -721,6 +721,10 @@ describe('AddToCartComponent', () => {
     });
   });
   describe('createCartUiEventAddToCart', () => {
+    beforeEach(() => {
+      configureTestingModule();
+      stubSeviceAndCreateComponent();
+    });
     it('should create even from provided arguments', () => {
       const newEvent = addToCartComponent['createCartUiEventAddToCart'](
         productCode,

@@ -6,6 +6,7 @@ import {
   Address,
   Country,
   CxDatePipe,
+  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -19,7 +20,7 @@ import {
   OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
 
 // Mock pipes
@@ -241,6 +242,48 @@ describe('OrderConfirmationShippingComponent', () => {
       component.order$.subscribe((value) =>
         expect(value).toEqual({ code: 'test' })
       );
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    const mockFeatureToggles: Partial<FeatureToggles> = {
+      addTitleToAddressCard: false,
+    };
+    const mockAddressWithTitle: Address = {
+      ...mockAddress,
+      title: 'Dr.',
+    };
+
+    beforeEach(() => {
+      mockFeatureToggles.addTitleToAddressCard = false;
+      configureTestingModule().overrideProvider(FeatureToggles, {
+        useValue: mockFeatureToggles,
+      });
+      stubSeviceAndCreateComponent();
+    });
+
+    it('should not prefix the title when the toggle is OFF', async () => {
+      mockFeatureToggles.addTitleToAddressCard = false;
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+      );
+      expect(card.textBold).toEqual('John Doe');
+    });
+
+    it('should prefix the title when the toggle is ON and the address has a title', async () => {
+      mockFeatureToggles.addTitleToAddressCard = true;
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+      );
+      expect(card.textBold).toEqual('Dr. John Doe');
+    });
+
+    it('should not prefix the title when the toggle is ON but the address has no title', async () => {
+      mockFeatureToggles.addTitleToAddressCard = true;
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockAddress, 'Canada')
+      );
+      expect(card.textBold).toEqual('John Doe');
     });
   });
 });

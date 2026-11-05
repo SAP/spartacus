@@ -1,4 +1,4 @@
-import { Component, Directive, Input, Type } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
@@ -31,7 +31,6 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
-import { vi } from 'vitest';
 
 export class MockIconFontLoaderService {
   getStyleClasses(_iconType: ICON_TYPE): void {}
@@ -146,12 +145,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
 
     vi.spyOn(

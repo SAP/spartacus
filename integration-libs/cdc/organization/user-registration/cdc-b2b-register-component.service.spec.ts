@@ -18,13 +18,12 @@ import {
   UserRegistrationFacade,
 } from '@spartacus/organization/user-registration/root';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
-import { of, throwError } from 'rxjs';
+import { firstValueFrom, of, throwError } from 'rxjs';
 import { CDCB2BRegisterComponentService } from './cdc-b2b-register-component.service';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 
 const mockedGlobalMessageService = {
   add: () => {},
@@ -36,15 +35,15 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getDeliveryCountries = createSpy().and.returnValue(of([]));
-  getRegions = createSpy().and.returnValue(of([]));
+  getDeliveryCountries = vi.fn().mockReturnValue(of([]));
+  getRegions = vi.fn().mockReturnValue(of([]));
   loadDeliveryCountries(): void {
     return;
   }
 }
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
-  getTitles = createSpy().and.returnValue(of([]));
+  getTitles = vi.fn().mockReturnValue(of([]));
 }
 
 class MockTranslationService implements Partial<TranslationService> {
@@ -62,24 +61,24 @@ class MockUserRegistrationFacade implements Partial<UserRegistrationFacade> {
 class MockUserRegistrationConnector
   implements Partial<UserRegistrationConnector>
 {
-  registerUser = createSpy().and.callFake((user: any) => of(user));
+  registerUser = vi.fn().mockImplementation((user: any) => of(user));
 }
 
 class MockAuthService implements Partial<AuthService> {
-  loginWithCredentials = createSpy().and.returnValue(Promise.resolve());
-  isUserLoggedIn = createSpy().and.returnValue(of(true));
+  loginWithCredentials = vi.fn().mockReturnValue(Promise.resolve());
+  isUserLoggedIn = vi.fn().mockReturnValue(of(true));
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.callFake(() => of(false)); //no failures
+  get = vi.fn().mockImplementation(() => of(false)); //no failures
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  didLoad = createSpy().and.callFake(() => of(true));
-  registerOrganisationWithoutScreenSet = createSpy().and.callFake(() =>
-    of({ status: 'OK' })
-  );
-  onLoginEventHandler = createSpy();
+  didLoad = vi.fn().mockImplementation(() => of(true));
+  registerOrganisationWithoutScreenSet = vi
+    .fn()
+    .mockImplementation(() => of({ status: 'OK' }));
+  onLoginEventHandler = vi.fn();
 }
 
 describe('CdcRegisterComponentService', () => {
@@ -180,116 +179,86 @@ describe('CdcRegisterComponentService', () => {
   });
 
   describe('Register', () => {
-    it('should be able to register organization through CDC', (done) => {
-      cdcOrgRegisterService
-        .registerUser(orgRegistrationFormData)
-        .subscribe(() => {
-          expect(connector.registerUser).not.toHaveBeenCalled();
-          expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
-          ).toHaveBeenCalledWith({
-            firstName: 'firstName',
-            lastName: 'lastName',
-            email: 'firstName.lastName@test.com',
-            message: 'Department: CX; Position: QE',
-            addressLine1: 'Test St.',
-            addressLine2: '1/2',
-            postalCode: '1234',
-            town: 'Town',
-            region: 'US-AZ',
-            country: 'US',
-            phoneNumber: '9876543210',
-            companyName: 'New Company Inc.',
-          });
-        });
-      expect(cdcJsService.didLoad).toHaveBeenCalled();
-      done();
-    });
-
-    it('should NOT happen without CDC, should show error', (done) => {
-      spyOn(globalMessageService, 'remove');
-      spyOn(globalMessageService, 'add');
-      cdcJsService.didLoad = createSpy().and.callFake(() => of(false));
-      cdcOrgRegisterService.registerUser(orgRegistrationFormData).subscribe({
-        error: () => {
-          expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
-          ).not.toHaveBeenCalled();
-          expect(connector.registerUser).not.toHaveBeenCalled();
-          expect(globalMessageService.add).toHaveBeenCalledWith(
-            {
-              key: 'errorHandlers.scriptFailedToLoad',
-            },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
-          ).not.toHaveBeenCalled();
-          done();
-        },
-      });
-    });
-
-    it('should not do anything when CDC registration fails', (done) => {
-      cdcJsService.registerOrganisationWithoutScreenSet =
-        createSpy().and.returnValue(throwError('ERROR'));
-
-      cdcOrgRegisterService.registerUser(orgRegistrationFormData).subscribe({
-        error: () => {
-          expect(connector.registerUser).not.toHaveBeenCalled();
-          expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
-          ).toHaveBeenCalledWith({
-            firstName: 'firstName',
-            lastName: 'lastName',
-            email: 'firstName.lastName@test.com',
-            message: 'Department: CX; Position: QE',
-            addressLine1: 'Test St.',
-            addressLine2: '1/2',
-            postalCode: '1234',
-            town: 'Town',
-            region: 'US-AZ',
-            country: 'US',
-            phoneNumber: '9876543210',
-            companyName: 'New Company Inc.',
-          });
-        },
+    it('should be able to register organization through CDC', async () => {
+      await firstValueFrom(
+        cdcOrgRegisterService.registerUser(orgRegistrationFormData)
+      );
+      expect(connector.registerUser).not.toHaveBeenCalled();
+      expect(
+        cdcJsService.registerOrganisationWithoutScreenSet
+      ).toHaveBeenCalledWith({
+        firstName: 'firstName',
+        lastName: 'lastName',
+        email: 'firstName.lastName@test.com',
+        message: 'Department: CX; Position: QE',
+        addressLine1: 'Test St.',
+        addressLine2: '1/2',
+        postalCode: '1234',
+        town: 'Town',
+        region: 'US-AZ',
+        country: 'US',
+        phoneNumber: '9876543210',
+        companyName: 'New Company Inc.',
       });
       expect(cdcJsService.didLoad).toHaveBeenCalled();
-      done();
     });
 
-    it('should throw error when CDC user token fails', (done) => {
-      eventService.get = createSpy().and.returnValue(of(true));
-
-      cdcOrgRegisterService.registerUser(orgRegistrationFormData).subscribe({
-        error: () => {
-          expect(connector.registerUser).not.toHaveBeenCalled();
-          expect(
-            cdcJsService.registerOrganisationWithoutScreenSet
-          ).toHaveBeenCalledWith({
-            firstName: 'firstName',
-            lastName: 'lastName',
-            email: 'firstName.lastName@test.com',
-            message: 'Department: CX; Position: QE',
-            addressLine1: 'Test St.',
-            addressLine2: '1/2',
-            postalCode: '1234',
-            town: 'Town',
-            region: 'US-AZ',
-            country: 'US',
-            phoneNumber: '9876543210',
-            companyName: 'New Company Inc.',
-          });
-          done();
+    it('should NOT happen without CDC, should show error', async () => {
+      vi.spyOn(globalMessageService, 'remove');
+      vi.spyOn(globalMessageService, 'add');
+      cdcJsService.didLoad = vi.fn().mockImplementation(() => of(false));
+      await expect(
+        firstValueFrom(
+          cdcOrgRegisterService.registerUser(orgRegistrationFormData)
+        )
+      ).rejects.toBeDefined();
+      expect(
+        cdcJsService.registerOrganisationWithoutScreenSet
+      ).not.toHaveBeenCalled();
+      expect(connector.registerUser).not.toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'errorHandlers.scriptFailedToLoad',
         },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(
+        cdcJsService.registerOrganisationWithoutScreenSet
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should not do anything when CDC registration fails', async () => {
+      cdcJsService.registerOrganisationWithoutScreenSet = vi
+        .fn()
+        .mockReturnValue(throwError('ERROR'));
+
+      await expect(
+        firstValueFrom(
+          cdcOrgRegisterService.registerUser(orgRegistrationFormData)
+        )
+      ).rejects.toBeDefined();
+      expect(connector.registerUser).not.toHaveBeenCalled();
+      expect(
+        cdcJsService.registerOrganisationWithoutScreenSet
+      ).toHaveBeenCalledWith({
+        firstName: 'firstName',
+        lastName: 'lastName',
+        email: 'firstName.lastName@test.com',
+        message: 'Department: CX; Position: QE',
+        addressLine1: 'Test St.',
+        addressLine2: '1/2',
+        postalCode: '1234',
+        town: 'Town',
+        region: 'US-AZ',
+        country: 'US',
+        phoneNumber: '9876543210',
+        companyName: 'New Company Inc.',
       });
       expect(cdcJsService.didLoad).toHaveBeenCalled();
-      done();
     });
 
     it('should redirect to login page', () => {
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
       cdcOrgRegisterService
         .registerUser(orgRegistrationFormData)
         .subscribe()

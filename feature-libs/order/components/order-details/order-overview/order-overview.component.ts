@@ -13,6 +13,7 @@ import {
   CmsOrderDetailOverviewComponent,
   CostCenter,
   CxDatePipe,
+  FeatureToggles,
   PaymentDetails,
   TranslatePipe,
   TranslationService,
@@ -58,6 +59,7 @@ export class OrderOverviewComponent {
     OrderOverviewComponentService
   );
   protected orderConfig = inject(OrderConfig);
+  private featureToggles = inject(FeatureToggles);
   readonly cartOutlets = CartOutlets;
   readonly orderOutlets = OrderOutlets;
 
@@ -217,10 +219,14 @@ export class OrderOverviewComponent {
         const formattedAddress = this.normalizeFormattedAddress(
           deliveryAddress.formattedAddress ?? ''
         );
+        const fullName = `${deliveryAddress.firstName} ${deliveryAddress.lastName}`;
 
         return {
           title: textTitle,
-          textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
+          textBold:
+            this.featureToggles.addTitleToAddressCard && !!deliveryAddress.title
+              ? `${deliveryAddress.title} ${fullName}`
+              : fullName,
           text: [formattedAddress, deliveryAddress.country?.name],
         } as Card;
       })
@@ -273,17 +279,17 @@ export class OrderOverviewComponent {
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
     return this.translation.translate('paymentForm.billingAddress').pipe(
       filter(() => Boolean(billingAddress)),
-      map(
-        (textTitle) =>
-          ({
-            title: textTitle,
-            textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
-            text: [
-              billingAddress.formattedAddress,
-              billingAddress.country?.name,
-            ],
-          }) as Card
-      )
+      map((textTitle) => {
+        const fullName = `${billingAddress.firstName} ${billingAddress.lastName}`;
+        return {
+          title: textTitle,
+          textBold:
+            this.featureToggles.addTitleToAddressCard && !!billingAddress.title
+              ? `${billingAddress.title} ${fullName}`
+              : fullName,
+          text: [billingAddress.formattedAddress, billingAddress.country?.name],
+        } as Card;
+      })
     );
   }
 

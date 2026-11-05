@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import { Observable, firstValueFrom, of } from 'rxjs';

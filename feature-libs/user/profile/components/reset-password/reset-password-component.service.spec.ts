@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -16,7 +15,7 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 
 const resetToken = '123#Token';
@@ -100,46 +99,39 @@ describe('ResetPasswordComponentService', () => {
     });
 
     describe('isUpdating$', () => {
-      it('should return true', () => {
+      it('should return true', async () => {
         service['busy$'].next(true);
-        let result;
-        service.isUpdating$
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.isUpdating$);
         expect(result).toBeTruthy();
         expect(service.form.disabled).toBeTruthy();
       });
 
-      it('should return false', () => {
+      it('should return false', async () => {
         service['busy$'].next(false);
-        let result;
-        service.isUpdating$
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.isUpdating$);
         expect(result).toBeFalsy();
         expect(service.form.disabled).toBeFalsy();
       });
     });
 
     describe('resetToken$', () => {
-      it('should return token', () => {
-        let result;
-        service.resetToken$
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+      it('should return token', async () => {
+        routerState$.next({
+          state: {
+            queryParams: { token: resetToken },
+          },
+        });
+        const result = await firstValueFrom(service.resetToken$);
         expect(result).toEqual(resetToken);
       });
 
-      it('should not return token', () => {
+      it('should not return token', async () => {
         routerState$.next({
           state: {
             queryParams: {},
           },
         });
-        let result;
-        service.resetToken$
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+        const result = await firstValueFrom(service.resetToken$);
         expect(result).toBeFalsy();
       });
     });

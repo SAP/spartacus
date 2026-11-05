@@ -5,6 +5,7 @@
  */
 
 export * from './common-configurator-components.module';
+export * from './config/index';
 export * from './configurator-cart-entry-bundle-info/index';
 export * from './configurator-cart-entry-info/index';
 export * from './configurator-issues-notification/index';

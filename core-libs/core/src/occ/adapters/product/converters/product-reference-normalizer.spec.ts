@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductReferenceNormalizer } from './product-reference-normalizer';
 

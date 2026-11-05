@@ -76,6 +76,7 @@ describe('OpfGiftCardApplyComponent', () => {
     mockPaymentEventsService = jasmine.createSpyObj('OpfPaymentEventsService', [
       'emitIsGiftCardCoveredTotalAmountEvent',
       'emitReinitiatePaymentEvent',
+      'emitRefreshActiveConfigurationsEvent',
     ]);
     mockPaymentEventsService.isGiftCardCoveredTotalAmountEvent$ =
       isGiftCardCoveredSubject.asObservable();
@@ -159,6 +160,17 @@ describe('OpfGiftCardApplyComponent', () => {
 
     expect(
       mockPaymentEventsService.emitReinitiatePaymentEvent
+    ).toHaveBeenCalled();
+  });
+
+  it('should emit refreshActiveConfigurationsEvent after applying gift card', () => {
+    component.giftCardForm.setValue({ cardNumber: '12345678', pin: '123' });
+    mockGiftCardFacade.applyGiftCard.and.returnValue(of(void 0));
+
+    component.addGiftCard();
+
+    expect(
+      mockPaymentEventsService.emitRefreshActiveConfigurationsEvent
     ).toHaveBeenCalled();
   });
 

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RouterModule } from '@angular/router';
@@ -24,7 +19,6 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
-import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
@@ -121,9 +115,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     classUnderTest = fixture.componentInstance;
     classUnderTest.configuration = configurationTextField;
     htmlElem = fixture.nativeElement;
-    textfieldService = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
-    );
+    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
 
     OWNER.type = CommonConfigurator.OwnerType.PRODUCT;
     mockRouterState.state.params.ownerType =

@@ -33,6 +33,7 @@ import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { WebComponentHandler } from './handlers/web-component.handler';
 import { CxApiService } from './services/cx-api.service';
+import { vi } from 'vitest';
 
 const testText = 'test text';
 
@@ -144,11 +145,13 @@ describe('ComponentWrapperDirective', () => {
     let cmsConfig: CmsConfig;
 
     beforeEach(async () => {
-      testBedConfig.providers.push({
-        provide: PLATFORM_ID,
-        useValue: 'server',
-      });
-      TestBed.configureTestingModule(testBedConfig).compileComponents();
+      await TestBed.configureTestingModule({
+        ...testBedConfig,
+        providers: [
+          ...(testBedConfig.providers ?? []),
+          { provide: PLATFORM_ID, useValue: 'server' },
+        ],
+      }).compileComponents();
     });
 
     describe('with angular component', () => {
@@ -157,6 +160,10 @@ describe('ComponentWrapperDirective', () => {
           TestWrapperComponent as Type<TestWrapperComponent>
         );
         cmsConfig = TestBed.inject(CmsConfig);
+      });
+
+      afterEach(() => {
+        cmsConfig.cmsComponents.CMSTestComponent.disableSSR = undefined;
       });
 
       it('should instantiate the found component if it was enabled for SSR', () => {
@@ -275,7 +282,6 @@ describe('ComponentWrapperDirective', () => {
         vi.spyOn(component, 'testComponentRef');
 
         fixture.detectChanges();
-
         expect(component.testComponentRef).toHaveBeenCalled();
       });
     });
@@ -290,6 +296,11 @@ describe('ComponentWrapperDirective', () => {
         fixture = TestBed.createComponent(TestWrapperComponent);
         fixture.detectChanges();
         scriptEl = fixture.debugElement.nativeNode.nextSibling;
+      });
+
+      afterEach(() => {
+        MockCmsModuleConfig.cmsComponents.CMSTestComponent.component =
+          TestComponent;
       });
 
       it('should load web component script', () => {

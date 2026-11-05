@@ -357,7 +357,7 @@ export function reviewB2bReviewOrderPage(
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .within(() => {
-      cy.findByText(sampleUser.fullName);
+      cy.findByText(sampleUser.addressName);
       cy.findByText(sampleUser.address.line1);
     });
 

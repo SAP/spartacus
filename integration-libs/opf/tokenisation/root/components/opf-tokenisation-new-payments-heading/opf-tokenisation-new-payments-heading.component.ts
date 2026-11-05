@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe, UserPaymentService } from '@spartacus/core';
 import { OpfNewPaymentsHeadingContext } from '../../model';
 import { Observable, combineLatest, of } from 'rxjs';
@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators';
   selector: 'cx-opf-tokenisation-new-payments-heading',
   standalone: true,
   templateUrl: './opf-tokenisation-new-payments-heading.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class OpfTokenisationNewPaymentsHeadingComponent {

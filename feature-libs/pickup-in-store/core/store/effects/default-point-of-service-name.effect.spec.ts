@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   provideHttpClient,
@@ -65,7 +64,7 @@ describe('DefaultPointOfServiceEffect', () => {
           provide: UserProfileFacade,
           useClass: MockUserProfileFacade,
         },
-        { provide: WindowRef, useValue: localStorage ? MockWindowRef() : {} },
+        { provide: WindowRef, useClass: MockWindowRef },
         DefaultPointOfServiceEffect,
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),

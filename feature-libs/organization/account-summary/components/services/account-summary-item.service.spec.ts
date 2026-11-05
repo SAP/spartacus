@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import {

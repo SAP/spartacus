@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
@@ -91,13 +90,13 @@ const attributeDDWoValuesTemplate: Configurator.Attribute = {
   uiType: Configurator.UiType.DROPDOWN,
   selectedSingleValue: '',
 };
-const attributeSSIWithValues: Configurator.Attribute = {
+const attributeSSIWithValuesTemplate: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
   selectedSingleValue: 'SomeValue',
 };
-const attributeSSIWoValues: Configurator.Attribute = {
+const attributeSSIWoValuesTemplate: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
@@ -347,11 +346,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     occConfiguratorVariantNormalizer = TestBed.inject(
-      OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
+      OccConfiguratorVariantNormalizer
     );
-    configUISettingsConfig = TestBed.inject(
-      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
-    );
+    configUISettingsConfig = TestBed.inject(ConfiguratorUISettingsConfig);
     groups = [];
     flatGroups = [];
     configuration = structuredClone(configurationTemplate);
@@ -1184,11 +1181,15 @@ describe('OccConfiguratorVariantNormalizer', () => {
     let attributeDDWithValues: Configurator.Attribute;
     let attributeDDWoValues: Configurator.Attribute;
     let attributeRBWithValues: Configurator.Attribute;
+    let attributeSSIWithValues: Configurator.Attribute;
+    let attributeSSIWoValues: Configurator.Attribute;
 
     beforeEach(() => {
       attributeDDWithValues = structuredClone(attributeDDWithValuesTemplate);
       attributeDDWoValues = structuredClone(attributeDDWoValuesTemplate);
       attributeRBWithValues = structuredClone(attributeRBWithValuesTemplate);
+      attributeSSIWithValues = structuredClone(attributeSSIWithValuesTemplate);
+      attributeSSIWoValues = structuredClone(attributeSSIWoValuesTemplate);
     });
 
     it('should set incomplete by string type correctly', () => {

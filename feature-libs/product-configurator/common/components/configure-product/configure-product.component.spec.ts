@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -22,7 +22,6 @@ import {
   ReadOnlyPostfix,
 } from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
-import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 const configuratorType = ConfiguratorType.VARIANT;
@@ -161,9 +160,7 @@ function setupWithCurrentProductService(
       .compileComponents();
   }
 
-  currentProductService = TestBed.inject(
-    CurrentProductService as Type<CurrentProductService>
-  );
+  currentProductService = TestBed.inject(CurrentProductService);
   routingService = TestBed.inject(RoutingService);
 
   vi.spyOn(currentProductService, 'getProduct');

@@ -21,7 +21,6 @@ import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetComponent } from './facet.component';
-import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-icon',

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RoutingConfig } from '../../../routing/configurable-routes/config/routing-config';
 import { UrlParsingService } from '../../../routing/configurable-routes/url-translation/url-parsing.service';

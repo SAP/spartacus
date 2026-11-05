@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,19 +7,27 @@ import {
   ProductService,
   RouterState,
   RoutingService,
+  LoggerTestingModule,
   WindowRef,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorType,
+  ReadOnlyPostfix,
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
-import { vi } from 'vitest';
 
 let mockedWindow: {
   innerWidth?: number;
@@ -32,6 +40,7 @@ let mockedWindow: {
   scrollY: 1000,
   scroll() {},
 };
+@Injectable()
 class MockedWindowRef extends WindowRef {
   get nativeWindow(): Window | undefined {
     return this.isBrowser() ? <any>mockedWindow : undefined;
@@ -62,9 +71,8 @@ class MockConfiguratorGroupsService {
 }
 
 class MockKeyboardFocusService {
-  findFocusable() {}
-
-  set() {}
+  findFocusable = vi.fn();
+  set = vi.fn();
 }
 
 function createElement(id: string): HTMLElement {
@@ -103,6 +111,7 @@ function createFocusedElements(
       <label id="ATTR_1--value_3">value_3</label>
     </cx-configurator-form>
   `,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 class MockComponent {}
 
@@ -142,7 +151,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     routerStateObservable = of(mockRouterState);
 
     TestBed.configureTestingModule({
-      imports: [MockComponent],
+      imports: [LoggerTestingModule, MockComponent],
       providers: [
         {
           provide: ConfiguratorGroupsService,
@@ -161,6 +170,11 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           useClass: MockProductService,
         },
         { provide: WindowRef, useClass: MockedWindowRef },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: defaultConfiguratorUISettingsConfig,
+        },
+        provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
@@ -171,9 +185,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     mockedWindow.innerHeight = 1000;
     mockedWindow.innerWidth = 1000;
     mockedWindow.scrollY = 1000;
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
   });
 
   afterEach(() => {
@@ -291,6 +303,75 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     expect(values.length).toBe(0);
   });
 
+  describe('focusConfigurationElement', () => {
+    it('should focus the element without scrolling', () => {
+      const theElement = document.createElement('h2');
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(theElement);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      vi.spyOn(theElement, 'focus');
+      classUnderTest.focusConfigurationElement('#group h2');
+      expect(theElement.focus).toHaveBeenCalledWith({ preventScroll: true });
+    });
+
+    it('should not fail if the element cannot be found', () => {
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      expect(() =>
+        classUnderTest.focusConfigurationElement('#unknown')
+      ).not.toThrow();
+    });
+
+    it('should not focus if we are not in browser environment', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      vi.spyOn(windowRef.document, 'querySelector');
+      classUnderTest.focusConfigurationElement('#group h2');
+      expect(windowRef.document.querySelector).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('navigateToOverviewGroup', () => {
+    const HEADING_SELECTOR = '#A--B-ovGroup h2';
+
+    beforeEach(() => {
+      vi.spyOn(classUnderTest, 'scrollToConfigurationElement');
+      vi.spyOn(classUnderTest, 'focusConfigurationElement');
+    });
+
+    it('should scroll to the group heading', () => {
+      classUnderTest.navigateToOverviewGroup('A', 'B');
+      expect(classUnderTest.scrollToConfigurationElement).toHaveBeenCalledWith(
+        HEADING_SELECTOR
+      );
+    });
+
+    it('should not focus the group heading if in-page navigation is disabled', () => {
+      classUnderTest.navigateToOverviewGroup('A', 'B');
+      expect(classUnderTest.focusConfigurationElement).not.toHaveBeenCalled();
+    });
+
+    it('should focus the group heading if in-page navigation is enabled', () => {
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
+      classUnderTest.navigateToOverviewGroup('A', 'B');
+      expect(classUnderTest.scrollToConfigurationElement).toHaveBeenCalledWith(
+        HEADING_SELECTOR
+      );
+      expect(classUnderTest.focusConfigurationElement).toHaveBeenCalledWith(
+        HEADING_SELECTOR
+      );
+    });
+
+    it('should escape the group id in the heading selector', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      classUnderTest.navigateToOverviewGroup('A', 'GROUP@1');
+      expect(classUnderTest.scrollToConfigurationElement).toHaveBeenCalledWith(
+        '#A--GROUP\\@1-ovGroup h2'
+      );
+    });
+  });
+
   describe('scroll', () => {
     it('should handle situation that we are not in browser environment', () => {
       vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
@@ -344,9 +425,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       it('should not delegate to keyboard focus service because form is undefined', () => {
         vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
-        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(
-          undefined
-        );
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
         vi.spyOn(keyboardFocusService, 'findFocusable').mockReturnValue([]);
         classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
@@ -368,6 +447,38 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         vi.spyOn(keyboardFocusService, 'findFocusable').mockReturnValue([]);
         classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('focusElement', () => {
+      it('should focus the element identified by the selector', () => {
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+        const element = document.createElement('span');
+        vi.spyOn(element, 'focus');
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(element);
+
+        classUnderTest.focusElement('#elementId');
+
+        expect(windowRef.document.querySelector).toHaveBeenCalledWith(
+          '#elementId'
+        );
+        expect(element.focus).toHaveBeenCalled();
+      });
+
+      it('should not fail if the element is not found', () => {
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+        vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
+
+        expect(() => classUnderTest.focusElement('#elementId')).not.toThrow();
+      });
+
+      it('should not query the document when not running in a browser', () => {
+        vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+        vi.spyOn(windowRef.document, 'querySelector');
+
+        classUnderTest.focusElement('#elementId');
+
+        expect(windowRef.document.querySelector).not.toHaveBeenCalled();
       });
     });
 
@@ -486,7 +597,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         vi.spyOn(keyboardFocusService, 'findFocusable').mockReturnValue(
           focusedElements
         );
-        asSpy(windowRef.document.querySelector).mockReturnValue(undefined);
+        asSpy(windowRef.document.querySelector).mockReturnValue(null);
 
         classUnderTest.focusValue(attribute);
         verify(focusedElements);
@@ -568,10 +679,68 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
+  describe('getElementById', () => {
+    it('should not get HTML element when not running in browser', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      expect(classUnderTest.getElementById('elementMock')).toBeUndefined();
+    });
+
+    it('should return undefined if no element with the given ID exists', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      expect(classUnderTest.getElementById('unknownId')).toBeUndefined();
+    });
+
+    it('should get HTML element whose ID is not a valid CSS ID selector', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      const theElement = document.createElement('div');
+      theElement.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem';
+      document.body.appendChild(theElement);
+
+      expect(
+        classUnderTest.getElementById(
+          'cx--1--CONTAINER_ROW@1067@c036a9e2-ovMenuItem'
+        )
+      ).toEqual(theElement);
+
+      document.body.removeChild(theElement);
+    });
+  });
+
+  describe('idSelector', () => {
+    it('should not escape the ID when not running in browser', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      expect(classUnderTest.idSelector('GROUP@1')).toBe('#GROUP@1');
+    });
+
+    it('should escape characters that are not allowed in a CSS ID selector', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      expect(classUnderTest.idSelector('GROUP@1')).toBe('#GROUP\\@1');
+    });
+
+    it('should compose a selector that finds a descendant of the element with the escaped ID', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      const container = document.createElement('div');
+      container.id = 'cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup';
+      const heading = document.createElement('h2');
+      container.appendChild(heading);
+      document.body.appendChild(container);
+
+      expect(
+        classUnderTest.getElement(
+          classUnderTest.idSelector(
+            'cx--1--CONTAINER_ROW@1067@c036a9e2-ovGroup'
+          ) + ' h2'
+        )
+      ).toEqual(heading);
+
+      document.body.removeChild(container);
+    });
+  });
+
   describe('changeStyling', () => {
     it('should change styling of HTML element', () => {
       const theElement = document.createElement('elementMock');
-      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(undefined);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).not.toEqual('sticky');
@@ -586,12 +755,57 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
+  describe('changeStylingOfElement', () => {
+    it('should change styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      classUnderTest.changeStylingOfElement(theElement, 'position', 'sticky');
+      expect(theElement.style.position).toEqual('sticky');
+    });
+
+    it('should not change styling when element is undefined', () => {
+      expect(() =>
+        classUnderTest.changeStylingOfElement(undefined, 'position', 'sticky')
+      ).not.toThrow();
+    });
+  });
+
+  describe('removeStylingOfElement', () => {
+    it('should remove styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      theElement.style.position = 'sticky';
+      classUnderTest.removeStylingOfElement(theElement, 'position');
+      expect(theElement.style.position).toBe('');
+    });
+  });
+
+  describe('getClosestElement', () => {
+    it('should return undefined when not in browser', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      const element = document.createElement('div');
+      expect(classUnderTest.getClosestElement(element, 'cx-page-slot')).toBe(
+        undefined
+      );
+    });
+
+    it('should return closest ancestor', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      const slot = document.createElement('cx-page-slot');
+      const child = document.createElement('div');
+      slot.appendChild(child);
+      document.body.appendChild(slot);
+      expect(classUnderTest.getClosestElement(child, 'cx-page-slot')).toBe(
+        slot
+      );
+      document.body.removeChild(slot);
+    });
+  });
+
   describe('removeStyling', () => {
     it('should not remove styling of HTML element', () => {
       vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
       const theElement = document.createElement('elementMock');
       theElement.style.position = 'sticky';
-      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(undefined);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
 
       classUnderTest.removeStyling('elementMock', 'position');
       expect(theElement.style.position).toEqual('sticky');
@@ -661,7 +875,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
   describe('hasScrollbar', () => {
     it('should return false because element is undefined', () => {
-      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(undefined);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
 
       expect(classUnderTest.hasScrollbar('elementMock')).toBe(false);
     });
@@ -779,7 +993,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   });
 
   describe('getHeight', () => {
-    let form;
+    let form: HTMLElement;
 
     beforeEach(() => {
       form = htmlElem.querySelector('cx-configurator-form') as HTMLElement;
@@ -868,7 +1082,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       vi.spyOn(addToCart, 'getBoundingClientRect').mockReturnValue(
         new DOMRect(100, 100, 1000, 80)
       );
-      vi.spyOn<any>(classUnderTest, 'getHeight').mockReturnValue(100);
+      vi.spyOn(classUnderTest, 'getHeight').mockReturnValue(100);
 
       expect(classUnderTest.getSpareViewportHeight()).toBeGreaterThan(0);
     });
@@ -997,6 +1211,126 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           expect(isDisplayOnlyVariant).toBe(true);
         })
         .unsubscribe();
+    });
+  });
+
+  describe('isOverviewMenuFilterTabVisible', () => {
+    it('should return false if configurator type is undefined', () => {
+      expect(classUnderTest.isOverviewMenuFilterTabVisible(undefined)).toBe(
+        false
+      );
+    });
+
+    it('should return false for CLOUD CPQ configurator type by default', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.CPQ)
+      ).toBe(false);
+    });
+
+    it('should return true for variant configurator type by default', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.VARIANT)
+      ).toBe(true);
+    });
+
+    it('should return false for textfield configurator type by default', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(
+          ConfiguratorType.TEXTFIELD
+        )
+      ).toBe(false);
+    });
+
+    it('should return false for unlisted configurator types', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible('UNLISTEDTYPE')
+      ).toBe(false);
+    });
+
+    it('should honor customer config for custom configurator types', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+        overviewMenuFilterTabVisible: {
+          MYCUSTOMTYPE: true,
+        },
+      };
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible('MYCUSTOMTYPE')
+      ).toBe(true);
+    });
+
+    it('should return false for variant configurator type with read-only postfix', () => {
+      expect(
+        classUnderTest.isOverviewMenuFilterTabVisible(
+          ConfiguratorType.VARIANT + ReadOnlyPostfix
+        )
+      ).toBe(false);
+    });
+  });
+
+  describe('shouldHideBasePriceAndSelectedOptions', () => {
+    const createConfiguration = (
+      configuratorType: string,
+      hideBasePriceAndSelectedOptions?: boolean
+    ): Configurator.Configuration => ({
+      ...ConfiguratorTestUtils.createConfiguration(
+        '1',
+        ConfiguratorModelUtils.createOwner(
+          CommonConfigurator.OwnerType.PRODUCT,
+          'p',
+          configuratorType
+        )
+      ),
+      hideBasePriceAndSelectedOptions,
+    });
+
+    it('should hide base price and selected options for CPQ when storefront setting is true', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+        cpqHideBasePriceAndSelectedOptions: true,
+      };
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.CPQ)
+        )
+      ).toBe(true);
+    });
+
+    it('should not hide base price and selected options for CPQ when storefront setting is false', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+        cpqHideBasePriceAndSelectedOptions: false,
+      };
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.CPQ, true)
+        )
+      ).toBe(false);
+    });
+
+    it('should not hide base price and selected options for CPQ when storefront setting is unset', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {};
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.CPQ, true)
+        )
+      ).toBe(false);
+    });
+
+    it('should hide base price and selected options for variant configurator when OCC flag is true', () => {
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+        cpqHideBasePriceAndSelectedOptions: true,
+      };
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.VARIANT, true)
+        )
+      ).toBe(true);
+    });
+
+    it('should not hide base price and selected options for variant configurator when OCC flag is false', () => {
+      expect(
+        classUnderTest.shouldHideBasePriceAndSelectedOptions(
+          createConfiguration(ConfiguratorType.VARIANT, false)
+        )
+      ).toBe(false);
     });
   });
 

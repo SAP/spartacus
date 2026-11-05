@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { LoginEvent, ScriptLoader } from '@spartacus/core';
 import { WindowObject } from '@spartacus/tracking/tms/core';
-import { vi } from 'vitest';
 import '../config/default-aep.config';
 import { AepCollectorConfig } from '../config/default-aep.config';
 import { AepCollectorService } from './aep-collector.service';

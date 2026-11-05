@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { vi } from 'vitest';
 import { RequestedDeliveryDateAdapter } from './requested-delivery-date.adapter';
 import { RequestedDeliveryDateConnector } from './requested-delivery-date.connector';
 

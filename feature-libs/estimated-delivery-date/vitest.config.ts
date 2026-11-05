@@ -22,14 +22,21 @@ export default defineConfig({
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
+      enabled: true,
       provider: 'v8',
-      reporter: ['lcov'],
+      reporter: ['text-summary', 'html', 'lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/estimated-delivery-date`,
+      include: ['**/*.ts'],
       exclude: [
+        '**/*.spec.ts',
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
-        'vitest.config.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+        'setup-jest.ts',
       ],
       thresholds: {
         statements: 85,

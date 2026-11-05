@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FeatureDirective } from '@spartacus/core';
 import { CarouselComponent } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { vi } from 'vitest';
 import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
 
 const firstImage = {

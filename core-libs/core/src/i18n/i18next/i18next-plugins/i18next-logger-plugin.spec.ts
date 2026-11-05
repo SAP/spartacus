@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from '@spartacus/core';
 import { LoggerModule } from 'i18next';

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { InitOptions } from 'i18next';
 import { I18nextBackendInitializer } from './i18next-backend.initializer';

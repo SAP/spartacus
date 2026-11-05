@@ -1,5 +1,4 @@
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { CustomerCouponConnector } from './customer-coupon.connector';
 
 const PAGE_SIZE = 5;

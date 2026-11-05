@@ -285,6 +285,8 @@ describe('AsmMainUiComponent', () => {
   });
 
   beforeEach(() => {
+    vi.clearAllMocks();
+    dialogClose$.next('');
     fixture = TestBed.createComponent(AsmMainUiComponent);
     authService = TestBed.inject(AuthService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);

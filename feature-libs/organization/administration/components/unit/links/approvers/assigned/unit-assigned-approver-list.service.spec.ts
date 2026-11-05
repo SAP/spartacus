@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { B2BUnit, B2BUser, B2BUserRole, EntitiesModel } from '@spartacus/core';

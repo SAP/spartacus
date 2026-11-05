@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
-import { ReplaySubject, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { ReplaySubject, firstValueFrom, of } from 'rxjs';
 import { CpqQuoteService } from '../../cpq-qute.service';
 import { CpqQuoteDiscountComponent } from './cpq-quote.component';
 
@@ -33,10 +32,10 @@ describe('CpqQuoteDiscountComponent', () => {
     fixture = TestBed.createComponent(CpqQuoteDiscountComponent);
     component = fixture.componentInstance;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
-    fixture.detectChanges();
   });
 
   it('should display all content when isFlagQuote is false', () => {
+    fixture.detectChanges();
     const contentElements = fixture.nativeElement.querySelectorAll(
       '.cx-total, .cx-formatted-value'
     );
@@ -46,17 +45,14 @@ describe('CpqQuoteDiscountComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should expose orderEntry$', (done) => {
+  it('should expose orderEntry$', async () => {
     const orderEntry: Partial<OrderEntry & Array<CpqDiscounts>> = {
       orderCode: '123',
       cpqDiscounts: [],
     };
-    component.orderEntry$.pipe(take(1)).subscribe((value: any) => {
-      expect(value).toBe(orderEntry);
-      done();
-    });
-
     mockCartItemContext.item$.next(orderEntry);
+    const value = await firstValueFrom(component.orderEntry$);
+    expect(value).toBe(orderEntry);
   });
 
   describe('Cpq Quote Discount Percentage', () => {
@@ -64,7 +60,7 @@ describe('CpqQuoteDiscountComponent', () => {
       mockCartItemContext.item$.next({
         cpqDiscounts: undefined,
       });
-
+      fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-discount').length).toBe(0);
     });
@@ -149,7 +145,7 @@ describe('CpqQuoteDiscountComponent', () => {
       expect(component.quoteDiscountData).toBeNull();
     });
     it('should unsubscribe on ngOnDestroy', () => {
-      const unsubscribeSpy = spyOn(component['subscription'], 'unsubscribe');
+      const unsubscribeSpy = vi.spyOn(component['subscription'], 'unsubscribe');
       component.ngOnDestroy();
       expect(unsubscribeSpy).toHaveBeenCalled();
     });

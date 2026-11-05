@@ -9,7 +9,6 @@ import {
   ScriptLoader,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { defaultSmartEditConfig } from '../../root/config/default-smart-edit-config';
 import { SmartEditConfig } from '../../root/config/smart-edit-config';
 import { SmartEditService } from './smart-edit.service';

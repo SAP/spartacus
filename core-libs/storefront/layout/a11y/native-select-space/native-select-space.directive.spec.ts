@@ -10,7 +10,6 @@ import { By } from '@angular/platform-browser';
 import { FeatureToggles } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { NativeSelectSpaceDirective } from './native-select-space.directive';
-import { vi } from 'vitest';
 
 @Component({
   template: `<select cxNativeSelectSpace>

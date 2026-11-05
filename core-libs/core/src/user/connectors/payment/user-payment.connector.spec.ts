@@ -1,5 +1,4 @@
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { UserPaymentConnector } from './user-payment.connector';
 
 describe('UserPaymentConnector', () => {

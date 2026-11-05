@@ -12,7 +12,6 @@ import {
 import { defaultViewConfig, ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, of, Subscription } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
-import { vi } from 'vitest';
 
 class MockRouter {
   navigate = vi.fn();
@@ -70,6 +69,7 @@ describe('ProductListComponentService', () => {
   }
 
   beforeEach(() => {
+    mockRoutingState$.next({ state: mockDefaultRouterState });
     TestBed.configureTestingModule({
       providers: [
         ProductListComponentService,

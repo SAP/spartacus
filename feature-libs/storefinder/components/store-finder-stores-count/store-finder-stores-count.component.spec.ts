@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   FeatureDirective,
+  FeatureStylesService,
   MockDatePipe,
   MockTranslatePipe,
   MockTranslationService,
@@ -16,7 +17,6 @@ import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 
 const mockLocation = {
@@ -109,5 +109,35 @@ describe('StoreFinderStoresCountComponent', () => {
       'US',
     ]);
     expect(event.preventDefault).toHaveBeenCalled();
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('StoreFinderStoresCountComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterModule.forRoot([]), StoreFinderStoresCountComponent],
+      providers: [
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(StoreFinderStoresCountComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

@@ -1,10 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { Cart, CartType } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { firstValueFrom, of } from 'rxjs';
-import { vi } from 'vitest';
 import { CartActions } from '../store/actions';
 import {
   MULTI_CART_FEATURE,

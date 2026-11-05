@@ -11,7 +11,6 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
@@ -32,7 +31,7 @@ import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configura
     ConfiguratorAttributeSingleSelectionBundleComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_radioGroupProduct:

@@ -295,7 +295,7 @@ describe('Profile-tag events', () => {
     verifyDeliveryOptions();
     cy.wait(1000);
     selectPaymentMethod();
-    cy.wait(10000);
+    cy.wait(2000);
     verifyAndPlaceOrder();
     cy.wait(1000);
 

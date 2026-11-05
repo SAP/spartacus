@@ -16,7 +16,6 @@ import {
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.component';
 
 @Component({

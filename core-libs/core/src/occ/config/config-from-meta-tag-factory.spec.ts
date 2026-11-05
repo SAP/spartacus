@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Meta } from '@angular/platform-browser';
 import {
   mediaServerConfigFromMetaTagFactory,

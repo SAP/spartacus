@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Event, NavigationEnd, Router, RouterModule } from '@angular/router';

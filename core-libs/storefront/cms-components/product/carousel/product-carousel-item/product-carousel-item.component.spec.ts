@@ -12,11 +12,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
+  FeatureDirective,
+  FeatureToggles,
   I18nTestingModule,
   ProductService,
   RoutingService,
   UrlPipe,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   ImageFetchPriority,
   InnerComponentsHostDirective,
@@ -29,6 +32,7 @@ import {
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
 
@@ -59,6 +63,9 @@ class MockMediaComponent {
 
 @Directive({ selector: '[cxInnerComponentsHost]' })
 class MockInnerComponentsHostDirective {}
+
+@Directive({ selector: '[cxFocusableCarouselItem]' })
+class MockFocusableCarouselItemDirective {}
 
 describe('ProductCarouselItemComponent in product-carousel', () => {
   let component: ProductCarouselItemComponent;
@@ -101,6 +108,9 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
+        provideMockFeatureToggles({
+          a11yCarouselItemArrowKeyNavigation: false,
+        }),
       ],
     })
       .overrideComponent(ProductCarouselItemComponent, {
@@ -110,6 +120,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
             OutletDirective,
             MediaComponent,
             InnerComponentsHostDirective,
+            FeatureDirective,
           ],
         },
         add: {
@@ -119,6 +130,8 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
             MockOutletDirective,
             MockMediaComponent,
             MockInnerComponentsHostDirective,
+            MockFeatureDirective,
+            MockFocusableCarouselItemDirective,
           ],
         },
       })
@@ -255,5 +268,150 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
         });
       });
     });
+  });
+});
+
+describe('ProductCarouselItemComponent with a11yCarouselItemArrowKeyNavigation disabled (default)', () => {
+  let component: ProductCarouselItemComponent;
+  let fixture: ComponentFixture<ProductCarouselItemComponent>;
+  let mockLcpPresence$: BehaviorSubject<LcpPresence>;
+
+  const mockProduct = {
+    name: 'Test product',
+    code: '1',
+    price: { formattedValue: '$100,00' },
+    images: { PRIMARY: {} },
+  };
+
+  beforeEach(async () => {
+    mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
+
+    TestBed.configureTestingModule({
+      imports: [RouterModule.forRoot([])],
+      providers: [
+        { provide: LCP_PRESENCE, useValue: mockLcpPresence$ },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ProductService, useClass: MockProductService },
+        provideMockFeatureToggles({
+          a11yCarouselItemArrowKeyNavigation: false,
+        }),
+      ],
+    })
+      .overrideComponent(ProductCarouselItemComponent, {
+        remove: {
+          imports: [
+            UrlPipe,
+            OutletDirective,
+            MediaComponent,
+            InnerComponentsHostDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockUrlPipe,
+            MockOutletDirective,
+            MockMediaComponent,
+            MockInnerComponentsHostDirective,
+            MockFeatureDirective,
+            MockFocusableCarouselItemDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ProductCarouselItemComponent);
+    component = fixture.componentInstance;
+    component.item = mockProduct;
+    component.ngOnChanges({});
+    fixture.detectChanges();
+  });
+
+  it('should render product content (name and price) when toggle is disabled', () => {
+    // With MockFeatureDirective, the non-! template (new with cxFocusableCarouselItem) is rendered
+    const name = fixture.debugElement.query(By.css('.cx-product-name'));
+    const price = fixture.debugElement.query(By.css('.price'));
+    expect(name).toBeTruthy();
+    expect(name.nativeElement.textContent.trim()).toContain('Test product');
+    expect(price).toBeTruthy();
+  });
+});
+
+describe('ProductCarouselItemComponent with a11yCarouselItemArrowKeyNavigation enabled', () => {
+  let component: ProductCarouselItemComponent;
+  let fixture: ComponentFixture<ProductCarouselItemComponent>;
+  let featureToggles: FeatureToggles;
+  let mockLcpPresence$: BehaviorSubject<LcpPresence>;
+
+  const mockProduct = {
+    name: 'Test product',
+    code: '1',
+    price: { formattedValue: '$100,00' },
+    images: { PRIMARY: {} },
+  };
+
+  beforeEach(async () => {
+    mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
+
+    TestBed.configureTestingModule({
+      imports: [RouterModule.forRoot([])],
+      providers: [
+        { provide: LCP_PRESENCE, useValue: mockLcpPresence$ },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ProductService, useClass: MockProductService },
+        provideMockFeatureToggles({
+          a11yCarouselItemArrowKeyNavigation: false,
+        }),
+      ],
+    })
+      .overrideComponent(ProductCarouselItemComponent, {
+        remove: {
+          imports: [
+            UrlPipe,
+            OutletDirective,
+            MediaComponent,
+            InnerComponentsHostDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockUrlPipe,
+            MockOutletDirective,
+            MockMediaComponent,
+            MockInnerComponentsHostDirective,
+            MockFeatureDirective,
+            MockFocusableCarouselItemDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    featureToggles = TestBed.inject(FeatureToggles);
+    featureToggles.a11yCarouselItemArrowKeyNavigation = true;
+
+    fixture = TestBed.createComponent(ProductCarouselItemComponent);
+    component = fixture.componentInstance;
+    component.item = mockProduct;
+    component.ngOnChanges({});
+    fixture.detectChanges();
+  });
+
+  it('should render product name when toggle is enabled', () => {
+    const el = fixture.debugElement.query(By.css('.cx-product-name'));
+    expect(el).toBeTruthy();
+    expect(el.nativeElement.textContent.trim()).toContain('Test product');
+  });
+
+  it('should render product price when toggle is enabled', () => {
+    const el = fixture.debugElement.query(By.css('.price'));
+    expect(el).toBeTruthy();
+    expect(el.nativeElement.textContent.trim()).toContain('$100,00');
   });
 });

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import {
@@ -15,7 +14,6 @@ import {
 import { getConfiguratorReducers } from '../reducers/index';
 import { ConfiguratorTestUtils } from './../../../testing/configurator-test-utils';
 import { ConfiguratorSelectors } from './index';
-import { vi } from 'vitest';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfigurator>;
@@ -47,10 +45,8 @@ describe('Configurator selectors', () => {
       ],
     });
 
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    store = TestBed.inject(Store);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     owner = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
       productCode
