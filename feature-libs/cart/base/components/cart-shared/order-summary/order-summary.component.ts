@@ -17,7 +17,7 @@ import { AppliedCouponsComponent } from '../../cart-coupon/applied-coupons/appli
   imports: [AppliedCouponsComponent, TranslatePipe],
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
-  protected outlet? = inject<OutletContextData<any>>(OutletContextData, {
+  protected outlet? = inject(OutletContextData, {
     optional: true,
   });
 

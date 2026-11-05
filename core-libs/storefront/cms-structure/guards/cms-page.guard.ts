@@ -30,7 +30,7 @@ export class CmsPageGuard {
   protected service = inject(CmsPageGuardService);
   protected routingConfig = inject(RoutingConfigService);
 
-  static guardName = 'CmsPageGuard';
+  static readonly guardName = 'CmsPageGuard';
 
   protected beforeCmsPageGuardService = inject(BeforeCmsPageGuardService);
 
