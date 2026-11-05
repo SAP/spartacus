@@ -132,7 +132,7 @@ describe('ConfiguratorBasicEffectService', () => {
   let classUnderTest: ConfiguratorBasicEffectService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [ConfiguratorBasicEffectService],
     }).compileComponents();
   });
