@@ -12,5 +12,4 @@ export * from './mock-configurator-overview-filter-bar.component';
 export * from './mock-configurator-overview-filter.component';
 export * from './mock-configurator-price.component';
 export * from './mock-configurator-show-more.component';
-export * from './rulebased-configurator-mock-component-list';
 export * from './rulebased-configurator-testing-components.module';
