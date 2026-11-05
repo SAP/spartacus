@@ -52,7 +52,7 @@ class MockItemCounterComponent {
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [I18nTestingModule, ConfiguratorAttributeQuantityComponent],
       providers: [
         {
