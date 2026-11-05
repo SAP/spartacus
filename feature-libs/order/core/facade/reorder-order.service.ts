@@ -18,7 +18,7 @@ import {
 } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 
 @Injectable()
@@ -79,9 +79,13 @@ export class ReorderOrderService implements ReorderOrderFacade {
     // Wait for the cart entity to be fully removed from the store
     // before proceeding with the reorder.
     return this.multiCartFacade.getCartEntity(cartId).pipe(
-      filter((state) => !state.value && !state.loading),
+      filter((state) => !state.loading && (!state.value || !!state.error)),
       take(1),
-      map(() => userId)
+      switchMap((state) =>
+        state.error
+          ? throwError(() => new Error('Failed to delete cart before reorder'))
+          : of(userId)
+      )
     );
   }
 }
