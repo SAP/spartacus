@@ -384,6 +384,26 @@ export class ConfiguratorOverviewFormComponent {
   }
 
   /**
+   * Verifies whether the group is a configuration details section for a
+   * container bundle item listed in the parent group. Inlined sub-item row
+   * groups share the same ID shape but have no matching bundle attribute.
+   *
+   * @param group - Overview group
+   * @param parentGroup - Parent group in the overview hierarchy
+   * @return - `true` when the configuration details header and anchor apply
+   */
+  isContainerRowDetailsSection(
+    group: Configurator.GroupOverview,
+    parentGroup?: Configurator.GroupOverview
+  ): boolean {
+    return (
+      !!parentGroup &&
+      this.isContainerRowDetailsGroup(group) &&
+      !!this.getBundleAttributeForContainerRowGroup(parentGroup, group)
+    );
+  }
+
+  /**
    * Resolves the container attribute label for a configuration details section.
    *
    * @param parentGroup - Group that lists the container item
@@ -394,20 +414,31 @@ export class ConfiguratorOverviewFormComponent {
     parentGroup: Configurator.GroupOverview,
     containerRowGroup: Configurator.GroupOverview
   ): string {
+    return (
+      this.getBundleAttributeForContainerRowGroup(
+        parentGroup,
+        containerRowGroup
+      )?.attribute ?? ''
+    );
+  }
+
+  protected getBundleAttributeForContainerRowGroup(
+    parentGroup: Configurator.GroupOverview,
+    containerRowGroup: Configurator.GroupOverview
+  ): Configurator.AttributeOverview | undefined {
     const match = new RegExp(
       `^${Configurator.ContainerRowGroupIdPrefix}@([^@]+)@([^@]+)$`
     ).exec(containerRowGroup.id);
     if (!match || !parentGroup.attributes) {
-      return '';
+      return undefined;
     }
     const [, attributeId, valueId] = match;
-    const bundleAttribute = parentGroup.attributes.find(
+    return parentGroup.attributes.find(
       (attributeOverview) =>
         attributeOverview.type === Configurator.AttributeOverviewType.BUNDLE &&
         attributeOverview.attributeId === attributeId &&
         attributeOverview.valueId === valueId
     );
-    return bundleAttribute?.attribute ?? '';
   }
 
   /**

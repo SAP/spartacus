@@ -537,6 +537,51 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     ).toBe('');
   });
 
+  describe('isSelectedContainerRow', () => {
+    it('should return true for a selected row without actions', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+          selected: true,
+        })
+      ).toBe(true);
+    });
+
+    it('should return true for a selected row with actions other than ADD', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+          selected: true,
+          actions: [Cpq.ContainerRowAction.EDIT, Cpq.ContainerRowAction.DELETE],
+        })
+      ).toBe(true);
+    });
+
+    it('should return false for a selected row carrying the ADD action', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+          selected: true,
+          actions: [Cpq.ContainerRowAction.ADD],
+        })
+      ).toBe(false);
+    });
+
+    it('should return false for a row that is not selected', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+          selected: false,
+        })
+      ).toBe(false);
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+        })
+      ).toBe(false);
+    });
+  });
+
   describe('issue counting', () => {
     const ERROR_MSG = 'This is an error message';
     const VALIDATION_MSG = 'this is a failed validation';
