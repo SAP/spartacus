@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { B2BUnit, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
@@ -20,28 +20,27 @@ import { CellComponent } from '../../../../shared/table/cell.component';
 @Component({
   selector: 'cx-org-unit-user-link-cell',
   template: `
-    <a
-      class="button"
-      *ngIf="isUpdatingUserAllowed && hasItem && (unitKey$ | async) as uid"
-      [routerLink]="
-        { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
-      "
-    >
-      {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
-    </a>
+    @if (isUpdatingUserAllowed && hasItem && (unitKey$ | async); as uid) {
+      <a
+        class="button"
+        [routerLink]="
+          { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
+        "
+      >
+        {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
+      </a>
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
+  imports: [RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class UnitUserRolesCellComponent extends CellComponent {
+  protected override outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+  protected b2bUserService = inject(B2BUserService);
+
   unitKey$: Observable<string> = this.itemService.key$;
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: ItemService<B2BUnit>,
-    protected b2bUserService: B2BUserService
-  ) {
-    super(outlet);
-  }
   isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
   getRouterModel(uid: string): any {
     return { ...this.outlet.context, uid };

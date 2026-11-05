@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -38,8 +38,6 @@ import { Observable } from 'rxjs';
   selector: 'cx-billing-list',
   templateUrl: './subscription-billing-list.component.html',
   imports: [
-    NgIf,
-    NgFor,
     SpinnerComponent,
     TranslatePipe,
     PaginationComponent,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { CdcReConsentEvent } from '@spartacus/cdc/root';
 import { EventService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -14,12 +14,12 @@ import { take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CdcReconsentDialogEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+  protected launchDialogService = inject(LaunchDialogService);
+
   protected subscription = new Subscription();
 
-  constructor(
-    protected eventService: EventService,
-    protected launchDialogService: LaunchDialogService
-  ) {
+  constructor() {
     this.onReconsent();
   }
   protected onReconsent() {

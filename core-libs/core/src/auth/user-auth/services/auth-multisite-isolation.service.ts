@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
@@ -13,9 +13,9 @@ import { BaseSiteService } from '../../../site-context/facade/base-site.service'
   providedIn: 'root',
 })
 export class AuthMultisiteIsolationService {
-  protected readonly MULTISITE_SEPARATOR = '|';
+  protected baseSiteService = inject(BaseSiteService);
 
-  constructor(protected baseSiteService: BaseSiteService) {}
+  protected readonly MULTISITE_SEPARATOR = '|';
 
   /**
    * When isolation is turned on, a customer who registers for baseSiteA

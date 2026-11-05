@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -59,8 +59,6 @@ export interface CardWithAddress {
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     CardComponent,
     AddressFormComponent,
     SpinnerComponent,
@@ -69,6 +67,17 @@ export interface CardWithAddress {
   ],
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
+  protected userAddressService = inject(UserAddressService);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected activatedRoute = inject(ActivatedRoute);
+  protected translationService = inject(TranslationService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+
   protected checkoutConfigService = inject(CheckoutConfigService);
   private featureToggles = inject(FeatureToggles);
   protected busy$ = new BehaviorSubject<boolean>(false);
@@ -99,17 +108,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   @Optional() protected focusService = inject(SelectFocusUtility);
   @Optional() protected windowRef = inject(WindowRef);
-
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit(): void {
     this.loadAddresses();

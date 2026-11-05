@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { AsmCustomer360ReviewList } from '@spartacus/asm/customer-360/root';
 import {
   CxDatePipe,
@@ -33,6 +38,13 @@ import { ReviewEntry } from './asm-customer-360-product-reviews.model';
   imports: [AsmCustomer360TableComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ProductReviewsComponent implements OnInit {
+  protected asmCustomer360Config = inject(AsmCustomer360Config);
+  protected context = inject<
+    AsmCustomer360SectionContext<AsmCustomer360ReviewList>
+  >(AsmCustomer360SectionContext);
+  protected datePipe = inject(CxDatePipe);
+  protected translation = inject(TranslationService);
+
   reviewColumns: Array<CustomerTableColumn> = [
     {
       property: 'item',
@@ -61,13 +73,6 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
   reviewEntries$: Observable<Array<ReviewEntry>>;
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected asmCustomer360Config: AsmCustomer360Config,
-    protected context: AsmCustomer360SectionContext<AsmCustomer360ReviewList>,
-    protected datePipe: CxDatePipe,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.reviewEntries$ = combineLatest([

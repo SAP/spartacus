@@ -9,6 +9,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { VisualViewerComponent } from '../../visual-viewer/visual-viewer.component';
@@ -34,7 +35,7 @@ import { VisualPickingTabService } from './visual-picking-tab.service';
   ],
 })
 export class VisualPickingTabComponent implements AfterViewInit {
-  constructor(protected visualPickingTabService: VisualPickingTabService) {}
+  protected visualPickingTabService = inject(VisualPickingTabService);
 
   ngAfterViewInit(): void {
     this.visualPickingTabService.initialize(

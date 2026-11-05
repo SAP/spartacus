@@ -65,6 +65,11 @@ import { StorefrontOutlets } from './storefront-outlets.model';
   ],
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
+  private hamburgerMenuService = inject(HamburgerMenuService);
+  private routingService = inject(RoutingService);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected keyboardFocusService = inject(KeyboardFocusService);
+
   navigateSubscription: Subscription;
   focusConfig: FocusConfig = { disableMouseFocus: true, trap: false };
   skipFocusConfig: SkipFocusConfig = {
@@ -109,12 +114,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   protected categoryPageFocusSelector = 'cx-breadcrumb nav a';
 
-  constructor(
-    private hamburgerMenuService: HamburgerMenuService,
-    private routingService: RoutingService,
-    protected elementRef: ElementRef<HTMLElement>,
-    protected keyboardFocusService: KeyboardFocusService
-  ) {
+  constructor() {
     useFeatureStyles('a11yPreventWindowsHighContrastOverride');
     useFeatureStyles('alignNavigationMenuWithHeader');
     useFeatureStyles('cdsBottomHeaderSlotAdjustPosition');

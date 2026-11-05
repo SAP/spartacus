@@ -2,6 +2,7 @@ import {
   HttpClient,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -66,7 +67,7 @@ describe('OccPunchoutAdapter', () => {
         { provide: ConverterService, useValue: mockConverter },
         { provide: OccEndpointsService, useValue: mockOccEndpointsService },
         { provide: LoggerService, useValue: mockLogger },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

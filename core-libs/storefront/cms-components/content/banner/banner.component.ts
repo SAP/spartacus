@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -35,13 +35,17 @@ import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.dir
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LcpContextDirective,
-    NgIf,
     GenericLinkComponent,
     MediaComponent,
     AsyncPipe,
   ],
 })
 export class BannerComponent {
+  protected component =
+    inject<CmsComponentData<CmsBannerComponent>>(CmsComponentData);
+  protected urlService = inject(SemanticPathService);
+  protected cmsService = inject(CmsService);
+
   routerLink: string | any[] | undefined;
 
   @HostBinding('class') styleClasses: string | undefined;
@@ -55,12 +59,6 @@ export class BannerComponent {
       this.styleClasses = data.styleClasses;
     })
   );
-
-  constructor(
-    protected component: CmsComponentData<CmsBannerComponent>,
-    protected urlService: SemanticPathService,
-    protected cmsService: CmsService
-  ) {}
 
   @HostListener('keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void {

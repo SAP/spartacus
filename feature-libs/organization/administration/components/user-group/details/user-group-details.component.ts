@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { UserGroup } from '@spartacus/organization/administration/core';
@@ -30,7 +30,6 @@ import { UserGroupItemService } from '../services/user-group-item.service';
   ],
   host: { class: 'content-wrapper' },
   imports: [
-    NgIf,
     CardComponent,
     FocusDirective,
     RouterLink,
@@ -43,11 +42,11 @@ import { UserGroupItemService } from '../services/user-group-item.service';
   ],
 })
 export class UserGroupDetailsComponent {
+  protected itemService = inject<ItemService<UserGroup>>(ItemService);
+
   model$: Observable<UserGroup> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
   isInEditMode$ = this.itemService.isInEditMode$;
-
-  constructor(protected itemService: ItemService<UserGroup>) {}
 }

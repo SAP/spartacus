@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -175,7 +176,7 @@ describe('VisualPickingProductListComponent', () => {
           provide: ProductAvailabilityAdapter,
           useClass: MockProductAvailabilityAdapter,
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     })

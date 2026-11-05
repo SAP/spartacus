@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
@@ -54,7 +54,6 @@ import { RegisterComponentService } from './register-component.service';
   templateUrl: './register.component.html',
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     FormRequiredLegendComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -63,7 +62,6 @@ import { RegisterComponentService } from './register-component.service';
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     PasswordVisibilityToggleDirective,
-    NgFor,
     RouterLink,
     CaptchaComponent,
     SpinnerComponent,
@@ -73,6 +71,14 @@ import { RegisterComponentService } from './register-component.service';
   ],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  protected globalMessageService = inject(GlobalMessageService);
+  protected fb = inject(UntypedFormBuilder);
+  protected router = inject(RoutingService);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected anonymousConsentsConfig = inject(AnonymousConsentsConfig);
+  protected authConfigService = inject(AuthConfigService);
+  protected registerComponentService = inject(RegisterComponentService);
+
   // CXSPA-10916: Remove service with toggle
   private featureToggles = inject(FeatureToggles);
   protected passwordValidators = this.featureToggles
@@ -135,15 +141,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       checked;
   }
 
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected fb: UntypedFormBuilder,
-    protected router: RoutingService,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected authConfigService: AuthConfigService,
-    protected registerComponentService: RegisterComponentService
-  ) {
+  constructor() {
     useFeatureStyles('a11yRegistrationTermsAsteriskMargin');
   }
 

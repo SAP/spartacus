@@ -1,4 +1,4 @@
-<ng-container *ngIf="viewportReady; else loading">
+@if (viewportReady) {
   <div class="content-type-symbol" [hidden]="!viewportReady">
     <span class="content-type-text">{{
       (is2D
@@ -7,7 +7,6 @@
       ) | cxTranslate
     }}</span>
   </div>
-
   <div class="bottom overlay">
     <div [hidden]="!viewportReady" class="toolbar">
       <div class="toolbarHBox">
@@ -22,7 +21,6 @@
             }}"
             (click)="activateHomeView()"
           />
-
           <cx-epd-visualization-viewer-toolbar-button
             class="turntableButton toolbarItem"
             iconLibraryClass="fas"
@@ -35,7 +33,6 @@
             (click)="navigationMode = NavigationMode.Turntable"
             [checked]="navigationMode === NavigationMode.Turntable"
           />
-
           <cx-epd-visualization-viewer-toolbar-button
             class="panButton toolbarItem"
             iconLibraryClass="fas"
@@ -47,7 +44,6 @@
             (click)="navigationMode = NavigationMode.Pan"
             [checked]="navigationMode === NavigationMode.Pan"
           />
-
           <cx-epd-visualization-viewer-toolbar-button
             class="zoomButton toolbarItem"
             iconLibraryClass="fas"
@@ -59,7 +55,6 @@
             (click)="navigationMode = NavigationMode.Zoom"
             [checked]="navigationMode === NavigationMode.Zoom"
           />
-
           <cx-epd-visualization-viewer-toolbar-button
             class="isolateButton toolbarItem"
             iconLibraryClass="fas"
@@ -75,7 +70,6 @@
             (click)="isolateModeEnabled = !isolateModeEnabled"
             [checked]="isolateModeEnabled"
           />
-
           <cx-epd-visualization-viewer-toolbar-button
             class="playPauseButton toolbarItem"
             iconLibraryClass="fas"
@@ -90,7 +84,6 @@
             [disabled]="isolateModeEnabled"
             (click)="animationPlaying ? pauseAnimation() : playAnimation()"
           />
-
           <cx-epd-visualization-viewer-toolbar-button
             class="showAllHotpotsButton toolbarItem"
             iconLibraryClass="fas"
@@ -106,7 +99,6 @@
             (click)="showAllHotspotsEnabled = !showAllHotspotsEnabled"
           />
         </div>
-
         <div [hidden]="is2D || animationTotalDuration <= 0">
           <cx-epd-visualization-animation-slider
             [disabled]="isolateModeEnabled"
@@ -124,10 +116,8 @@
       </div>
     </div>
   </div>
-</ng-container>
-
-<ng-template #loading>
+} @else {
   <div class="cx-spinner">
     <cx-spinner />
   </div>
-</ng-template>
+}

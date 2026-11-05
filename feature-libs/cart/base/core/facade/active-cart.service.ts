@@ -48,6 +48,10 @@ import {
 
 @Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected winRef = inject(WindowRef);
+
   private featureToggles = inject(FeatureToggles);
   protected activeCartStatePersistenceService = inject(
     ActiveCartStatePersistenceService
@@ -76,11 +80,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // Instead of loading cart will run loadOrMerge method
   protected shouldLoadCartOnCodeFlow = true;
 
-  constructor(
-    protected multiCartFacade: MultiCartFacade,
-    protected userIdService: UserIdService,
-    protected winRef: WindowRef
-  ) {
+  constructor() {
     this.initActiveCart();
     this.detectUserChange();
     if (

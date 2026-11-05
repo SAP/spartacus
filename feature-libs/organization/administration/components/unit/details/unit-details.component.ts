@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
@@ -36,7 +36,6 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
   host: { class: 'content-wrapper' },
   imports: [
-    NgIf,
     CardComponent,
     FocusDirective,
     RouterLink,
@@ -50,6 +49,9 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
 })
 export class UnitDetailsComponent {
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+  protected orgUnitService? = inject(OrgUnitService);
+
   private featureToggles = inject(FeatureToggles);
 
   get isA11yCardNotificationMessageFeatureEnabled(): boolean {
@@ -70,9 +72,4 @@ export class UnitDetailsComponent {
   readonly isUpdatingUnitAllowed = this.orgUnitService
     ? this.orgUnitService.isUpdatingUnitAllowed()
     : true;
-
-  constructor(
-    protected itemService: ItemService<B2BUnit>,
-    protected orgUnitService?: OrgUnitService
-  ) {}
 }

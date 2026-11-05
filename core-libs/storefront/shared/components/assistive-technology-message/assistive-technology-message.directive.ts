@@ -9,8 +9,8 @@ import {
   ElementRef,
   HostListener,
   Input,
-  Optional,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import {
   GlobalMessageEntities,
@@ -21,16 +21,16 @@ import { take } from 'rxjs/operators';
 
 @Directive({ selector: '[cxAtMessage]' })
 export class AtMessageDirective {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected templateRef = inject<TemplateRef<HTMLElement>>(TemplateRef, {
+    optional: true,
+  });
+  protected globalMessageService = inject(GlobalMessageService);
+
   /**
    * Usage [cxAtMessage]="'translatableKey' | cxTranslate"
    */
   @Input() cxAtMessage: string | string[] | undefined;
-
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    @Optional() protected templateRef: TemplateRef<HTMLElement>,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   protected get host(): HTMLElement {
     return !!this.templateRef

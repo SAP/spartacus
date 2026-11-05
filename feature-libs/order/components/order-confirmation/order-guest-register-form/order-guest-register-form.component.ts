@@ -42,6 +42,10 @@ import { UserRegisterFacade } from '@spartacus/user/profile/root';
   ],
 })
 export class OrderGuestRegisterFormComponent {
+  protected userRegisterFacade = inject(UserRegisterFacade);
+  protected routingService = inject(RoutingService);
+  protected fb = inject(UntypedFormBuilder);
+
   private featureToggles = inject(FeatureToggles);
   protected authRedirectService = inject(AuthRedirectService);
   protected passwordValidators = this.featureToggles
@@ -67,12 +71,6 @@ export class OrderGuestRegisterFormComponent {
       ),
     }
   );
-
-  constructor(
-    protected userRegisterFacade: UserRegisterFacade,
-    protected routingService: RoutingService,
-    protected fb: UntypedFormBuilder
-  ) {}
 
   submit() {
     if (this.guestRegisterForm.valid) {

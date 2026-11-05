@@ -70,13 +70,6 @@ exports[`Workspace utils getProject should return project 1`] = `
     },
     "test": {
       "builder": "@angular/build:unit-test",
-      "options": {
-        "stylePreprocessorOptions": {
-          "includePaths": [
-            "node_modules/",
-          ],
-        },
-      },
     },
   },
   "prefix": "app",
@@ -185,13 +178,6 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
   },
   "test": {
     "builder": "@angular/build:unit-test",
-    "options": {
-      "stylePreprocessorOptions": {
-        "includePaths": [
-          "node_modules/",
-        ],
-      },
-    },
   },
 }
 `;

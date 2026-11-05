@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -36,16 +36,16 @@ import { ProductCarouselComponent } from './product-carousel.component';
   selector: 'cx-carousel',
   template: `
     cx-carousel
-    <ng-container *ngFor="let item$ of items; let i = index">
+    @for (item$ of items; track item$; let i = $index) {
       <ng-container
         *ngTemplateOutlet="
           template;
           context: { item: item$ | async, itemIndex: i }
         "
       />
-    </ng-container>
+    }
   `,
-  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
+  imports: [AsyncPipe, NgTemplateOutlet],
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -58,16 +58,16 @@ class MockCarouselComponent {
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
-    <ng-container *ngFor="let item$ of items; let i = index">
+    @for (item$ of items; track item$; let i = $index) {
       <ng-container
         *ngTemplateOutlet="
           template;
           context: { item: item$ | async, itemIndex: i }
         "
       />
-    </ng-container>
+    }
   `,
-  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
+  imports: [AsyncPipe, NgTemplateOutlet],
 })
 class MockCarouselScrollingComponent {
   @Input() title: string;
@@ -487,5 +487,18 @@ describe('ProductCarouselComponent', () => {
     const mockProduct = { code: 'test123', name: 'Test Product' };
     const result = carouselComponent.trackByFn(999, mockProduct);
     expect(result).toBe('test123');
+  });
+
+  it('should provide distinct tracking keys for lazy carousel products', async () => {
+    fixture.detectChanges();
+    const carousel = fixture.debugElement.query(
+      By.directive(MockCarouselScrollingComponent)
+    ).componentInstance;
+    const items = await firstValueFrom(component.items$);
+    const keys = items.map((item, index) => carousel.trackByFn(index, item));
+
+    expect(keys.length).toBeGreaterThan(1);
+    expect(keys.every((key) => key !== undefined && key !== null)).toBe(true);
+    expect(new Set(keys).size).toBe(items.length);
   });
 });

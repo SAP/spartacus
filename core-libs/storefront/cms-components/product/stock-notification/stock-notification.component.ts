@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +13,7 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -40,16 +41,18 @@ import { CurrentProductService } from '../current-product.service';
   selector: 'cx-stock-notification',
   templateUrl: './stock-notification.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslatePipe,
-    UrlPipe,
-  ],
+  imports: [RouterLink, SpinnerComponent, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
+  private currentProductService = inject(CurrentProductService);
+  private globalMessageService = inject(GlobalMessageService);
+  private translationService = inject(TranslationService);
+  private interestsService = inject(UserInterestsService);
+  private notificationPrefService = inject(UserNotificationPreferenceService);
+  private userIdService = inject(UserIdService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   hasProductInterests$: Observable<boolean>;
   prefsEnabled$: Observable<boolean>;
   outOfStock$: Observable<boolean>;
@@ -62,17 +65,6 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   @ViewChild('element') element: ElementRef;
-
-  constructor(
-    private currentProductService: CurrentProductService,
-    private globalMessageService: GlobalMessageService,
-    private translationService: TranslationService,
-    private interestsService: UserInterestsService,
-    private notificationPrefService: UserNotificationPreferenceService,
-    private userIdService: UserIdService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   ngOnInit() {
     this.outOfStock$ = combineLatest([

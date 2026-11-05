@@ -5,7 +5,6 @@
  */
 
 import {
-  ComponentFactoryResolver,
   ComponentRef,
   ElementRef,
   Injectable,
@@ -53,34 +52,18 @@ export class DefaultComponentHandler implements ComponentHandler {
         }
       };
 
-      const factory = this.getComponentFactory(
-        injector,
-        componentMapping.component
-      );
-
-      if (factory) {
+      if (typeof componentMapping.component === 'function') {
         componentRef = viewContainerRef.createComponent(
-          factory,
-          undefined,
-          injector,
-          undefined,
-          module
+          componentMapping.component,
+          {
+            injector,
+            ngModuleRef: module,
+          }
         );
         subscriber.next({ elementRef: componentRef.location, componentRef });
       }
 
       return dispose;
     });
-  }
-
-  protected getComponentFactory(injector: Injector, component: any): any {
-    if (!component) {
-      return null;
-    }
-    const factory = injector
-      .get(ComponentFactoryResolver)
-      .resolveComponentFactory(component);
-
-    return factory;
   }
 }

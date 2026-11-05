@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,18 +33,24 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-sidebar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorOverviewFilterComponent,
     ConfiguratorOverviewMenuComponent,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
     FeatureDirective,
   ],
 })
 export class ConfiguratorOverviewSidebarComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   /**
-   * @deprecated since 221121.23 - Prefer the `#ghostSidebar` template
+   * @deprecated since 221121.23 - Prefer the loading placeholder in the template
    * (`.cx-ghost-menu.ghost`) for loading UI. Host `class.ghost` via
    * `@HostBinding` was removed because CMS slots do not refresh host bindings
    * when sidebar data resolves. This flag is still cleared when data arrives
@@ -52,18 +58,13 @@ export class ConfiguratorOverviewSidebarComponent {
    * next major.
    */
   ghostStyle = true;
-
   @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
   @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
   showFilter: boolean = false;
 
   private featureToggles = inject(FeatureToggles);
 
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
+  constructor() {
     useFeatureStyles('productConfiguratorCPQContainer');
   }
 

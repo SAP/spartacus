@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { OpfCtaScriptsService } from './opf-cta-scripts.service';
   selector: 'cx-opf-cta-scripts',
   templateUrl: './opf-cta-scripts.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, OpfCtaElementComponent, AsyncPipe],
+  imports: [OpfCtaElementComponent, AsyncPipe],
 })
 export class OpfCtaScriptsComponent {
   protected opfCtaScriptService = inject(OpfCtaScriptsService);

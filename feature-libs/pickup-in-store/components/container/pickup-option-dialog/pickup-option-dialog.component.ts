@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -46,13 +48,21 @@ import { StoreSearchComponent } from '../store-search/store-search.component';
     IconComponent,
     StoreSearchComponent,
     StoreListComponent,
-    NgIf,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected elementRef = inject(ElementRef);
+  protected intendedPickupLocationService = inject(
+    IntendedPickupLocationFacade
+  );
+  protected launchDialogService = inject(LaunchDialogService);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected pickupOptionFacade = inject(PickupOptionFacade);
+
   productCode: string;
   entryNumber: number;
   quantity: number;
@@ -69,6 +79,8 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   /** The reason given closing the dialog window after selecting a location */
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
+  protected cd = inject(ChangeDetectorRef);
+
   get focusConfig(): FocusConfig {
     return {
       trap: false,
@@ -77,17 +89,6 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
       autofocus: 'input',
       focusOnEscape: true,
     };
-  }
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected elementRef: ElementRef,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected pickupOptionFacade: PickupOptionFacade
-  ) {
-    // Intentional empty constructor
   }
 
   @HostListener('click', ['$event'])
@@ -106,6 +107,9 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
           this.productCode = productCode;
           this.entryNumber = entryNumber;
           this.quantity = quantity;
+          // OnPush (v22 default): productCode is read by the template and set
+          // from this async subscribe, so mark for check.
+          this.cd.markForCheck();
         }
       )
     );

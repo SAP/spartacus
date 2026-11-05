@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GeoPoint, SearchConfig, TranslatePipe } from '@spartacus/core';
 import {
@@ -21,7 +27,6 @@ import { StoreFinderListComponent } from './store-finder-list/store-finder-list.
   selector: 'cx-store-finder-search-result',
   templateUrl: './store-finder-search-result.component.html',
   imports: [
-    NgIf,
     PaginationComponent,
     StoreFinderListComponent,
     SpinnerComponent,
@@ -30,6 +35,10 @@ import { StoreFinderListComponent } from './store-finder-list/store-finder-list.
   ],
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
+  private storeFinderService = inject(StoreFinderService);
+  private route = inject(ActivatedRoute);
+  protected config = inject(StoreFinderConfig);
+
   locations: any;
   subscription: Subscription;
   useMyLocation: boolean;
@@ -43,16 +52,16 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations$: Observable<any>;
   isLoading$: Observable<any>;
 
-  constructor(
-    private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute,
-    protected config: StoreFinderConfig
-  ) {}
+  protected cd = inject(ChangeDetectorRef);
 
   ngOnInit() {
-    this.subscription = this.route.queryParams.subscribe((params) =>
-      this.initialize(params)
-    );
+    this.subscription = this.route.queryParams.subscribe((params) => {
+      this.initialize(params);
+      // OnPush (v22 default): queryParams emits asynchronously and initialize()
+      // (re)assigns isLoading$/locations$ + useMyLocation read by the template,
+      // so the view must be marked for check explicitly.
+      this.cd.markForCheck();
+    });
   }
 
   ngOnDestroy() {

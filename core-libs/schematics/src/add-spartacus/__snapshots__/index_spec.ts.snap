@@ -10,10 +10,10 @@ exports[`add-spartacus on Angular app without routing app.component.ts should be
 import { StorefrontComponent } from "@spartacus/storefront";
 
 @Component({
-  selector: 'app-root',
   imports: [StorefrontComponent],
+  selector: 'app-root',
+  styleUrl: './app.component.scss',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
 })
 export class App {
   protected readonly title = signal('schematics-test');

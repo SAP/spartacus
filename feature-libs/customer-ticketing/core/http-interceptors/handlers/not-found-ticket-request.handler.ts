@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ErrorModel,
   GlobalMessageType,
@@ -13,7 +13,6 @@ import {
   HttpResponseStatus,
   Priority,
   RoutingService,
-  GlobalMessageService,
   getLastValueSync,
 } from '@spartacus/core';
 import { isNotFoundError } from '../../utils/utils';
@@ -21,15 +20,9 @@ import { isNotFoundError } from '../../utils/utils';
   providedIn: 'root',
 })
 export class NotFoundTicketRequestHandler extends HttpErrorHandler {
-  responseStatus = HttpResponseStatus.NOT_FOUND;
+  protected routingService = inject(RoutingService);
 
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId?: Object
-  ) {
-    super(globalMessageService, platformId);
-  }
+  responseStatus = HttpResponseStatus.NOT_FOUND;
 
   getPriority(): Priority {
     return Priority.NORMAL;

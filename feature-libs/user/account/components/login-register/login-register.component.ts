@@ -15,13 +15,13 @@ import { RoutingService, TranslatePipe } from '@spartacus/core';
   imports: [NgClass, TranslatePipe],
 })
 export class LoginRegisterComponent implements OnInit {
+  protected activatedRoute = inject(ActivatedRoute);
+
   loginAsGuest = false;
 
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
-
-  constructor(protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];

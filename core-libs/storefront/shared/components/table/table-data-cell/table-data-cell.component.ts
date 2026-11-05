@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+} from '@angular/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import { TableHeaderOutletContext } from '../table.model';
 
@@ -14,7 +19,8 @@ import { TableHeaderOutletContext } from '../table.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableDataCellComponent {
-  constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}
+  protected outlet =
+    inject<OutletContextData<TableHeaderOutletContext>>(OutletContextData);
 
   @HostBinding('attr.title')
   get value(): string {

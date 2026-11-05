@@ -41,6 +41,10 @@ import {
 
 @Injectable()
 export class CartEffects {
+  private actions$ = inject(Actions);
+  private cartConnector = inject(CartConnector);
+  private store = inject<Store<StateWithMultiCart>>(Store);
+
   private featureToggles = inject(FeatureToggles);
 
   private enableCartReloadOnContextChange =
@@ -463,10 +467,4 @@ export class CartEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private cartConnector: CartConnector,
-    private store: Store<StateWithMultiCart>
-  ) {}
 }

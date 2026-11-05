@@ -1,4 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
+import { ApplicationRef, Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -15,8 +15,16 @@ import {
   IconComponent,
   ICON_TYPE,
   LaunchDialogService,
+  InlineRootRenderStrategy,
 } from '@spartacus/storefront';
-import { BehaviorSubject, lastValueFrom, of, ReplaySubject } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  lastValueFrom,
+  of,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -34,6 +42,9 @@ const product: Product = { code: 'pCode' };
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
+
+@Component({ template: '' })
+class TestRootComponent {}
 
 @Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
@@ -101,7 +112,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
   beforeEach(async () => {
     createServiceMocks();
     TestBed.configureTestingModule({
-      imports: [ConfiguratorRestartDialogComponent],
+      imports: [ConfiguratorRestartDialogComponent, TestRootComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
@@ -153,6 +164,21 @@ describe('ConfiguratorRestartDialogComponent', () => {
 
   it('should query product by owner id', () => {
     expect(mockProductService.get).toHaveBeenCalledWith(owner.id);
+  });
+
+  it('uses a public product stream override when rendering and resuming', () => {
+    initialize();
+    const customerProduct: Product = { code: 'customer-product' };
+    component.product$ = of(customerProduct);
+    const resume = vi.spyOn(component, 'resume');
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css('.btn-primary'))
+      .triggerEventHandler('click');
+
+    expect(resume).toHaveBeenCalledWith(customerProduct);
+    expect(mockProductService.get).not.toHaveBeenCalled();
   });
 
   it('should render title, description and close, restart and resume buttons', () => {
@@ -302,6 +328,56 @@ describe('ConfiguratorRestartDialogComponent', () => {
       fixture.detectChanges();
 
       expectRestartDialogContentPresent();
+    });
+
+    it('captures a non-replaying product emission before the next change detection pass', () => {
+      const products = new Subject<Product>();
+      mockProductService.get.mockReturnValue(products.asObservable());
+      dialogDataSender.next({ owner });
+      products.next(product);
+      fixture.detectChanges();
+      expectRestartDialogContentPresent();
+    });
+
+    it('updates a dialog attached by InlineRootRenderStrategy without forcing its change detector', async () => {
+      const products = new Subject<Product>();
+      mockProductService.get.mockReturnValue(products.asObservable());
+      const root = TestBed.createComponent(TestRootComponent);
+      const app = TestBed.inject(ApplicationRef);
+      app.components.push(root.componentRef);
+      const strategy = TestBed.inject(InlineRootRenderStrategy);
+      const rendered = strategy.render(
+        { inlineRoot: true, component: ConfiguratorRestartDialogComponent },
+        'restart-onpush-validation'
+      );
+      expect(rendered).toBeDefined();
+      if (!rendered) {
+        throw new Error('InlineRootRenderStrategy did not render the dialog');
+      }
+      const dialog = await firstValueFrom(rendered);
+      try {
+        app.tick();
+        expect(
+          dialog.location.nativeElement.querySelector('.btn-primary')
+        ).toBeNull();
+        dialogDataSender.next({ owner });
+        products.next(product);
+        app.tick();
+        expect(
+          dialog.location.nativeElement.querySelector('.cx-dialog-title')
+        ).not.toBeNull();
+        expect(
+          dialog.location.nativeElement.querySelector('.btn-primary')
+        ).not.toBeNull();
+        expect(
+          dialog.location.nativeElement.querySelector('.btn-secondary')
+        ).not.toBeNull();
+      } finally {
+        app.detachView(dialog.hostView);
+        dialog.destroy();
+        app.components.splice(app.components.indexOf(root.componentRef), 1);
+        root.destroy();
+      }
     });
 
     it('should render title and actions when product emits after dialog payload', () => {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FeatureToggles, TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -23,9 +23,14 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configuration-conflict-and-error-messages',
   templateUrl: './configurator-conflict-and-error-messages.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, NgFor, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
   protected configuratorMessageService = inject(ConfiguratorMessageService);
   private featureToggles = inject(FeatureToggles);
@@ -72,11 +77,6 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   toggleErrors(): void {
     this.showErrors = !this.showErrors;
   }
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {}
 
   /**
    * Determines the messages to display for the given configuration, taking the

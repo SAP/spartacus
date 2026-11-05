@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,6 +13,7 @@ import {
   OnChanges,
   Output,
   TrackByFunction,
+  inject,
 } from '@angular/core';
 import { Image, ImageGroup } from '@spartacus/core';
 import {
@@ -50,9 +50,11 @@ import { MediaService } from './media.service';
   selector: 'cx-media',
   templateUrl: './media.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor],
+  imports: [],
 })
 export class MediaComponent implements OnChanges {
+  protected mediaService = inject(MediaService);
+
   /**
    * The media container can hold multiple media items, so that
    * a specific media (by format) can be used or multiple media
@@ -149,8 +151,6 @@ export class MediaComponent implements OnChanges {
 
   protected trackByMedia: TrackByFunction<HTMLSourceElement> = (_, item) =>
     item.media;
-
-  constructor(protected mediaService: MediaService) {}
 
   ngOnChanges(): void {
     this.create();

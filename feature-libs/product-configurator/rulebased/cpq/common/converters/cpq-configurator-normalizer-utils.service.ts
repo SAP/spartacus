@@ -23,10 +23,10 @@ import { Cpq } from '../cpq.models';
  */
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorNormalizerUtilsService {
+  protected languageService = inject(LanguageService);
+
   protected logger = inject(LoggerService);
   private featureToggles = inject(FeatureToggles);
-
-  constructor(protected languageService: LanguageService) {}
 
   /**
    * Converts quantity to be shown in the overview page

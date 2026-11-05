@@ -14,6 +14,7 @@ import {
   Output,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { CustomerCoupon, CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -35,6 +36,10 @@ import { MyCouponsComponentService } from '../my-coupons.component.service';
   ],
 })
 export class CouponCardComponent {
+  protected myCouponsComponentService = inject(MyCouponsComponentService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   @Input() coupon: CustomerCoupon;
   @Input() couponSubscriptionLoading$: Observable<boolean>;
 
@@ -45,12 +50,6 @@ export class CouponCardComponent {
   }>();
 
   @ViewChild('element') element: ElementRef;
-
-  constructor(
-    protected myCouponsComponentService: MyCouponsComponentService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   onSubscriptionChange(): void {
     this.notificationChanged.emit({

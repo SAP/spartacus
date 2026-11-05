@@ -10,6 +10,7 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -22,14 +23,12 @@ import { take } from 'rxjs/operators';
   imports: [TranslatePipe],
 })
 export class CustomerTicketingCreateComponent implements OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   protected subscription = new Subscription();
 
   @ViewChild('element') element: ElementRef;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   openCreateNewTicketDialog() {
     const dialog = this.launchDialogService.openDialog(

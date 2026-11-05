@@ -23,16 +23,14 @@ import { SiteContextConfig } from '../site-context-config';
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextConfigInitializer implements ConfigInitializer {
+  protected baseSiteService = inject(BaseSiteService);
+  protected javaRegExpConverter = inject(JavaRegExpConverter);
+  protected winRef = inject(WindowRef);
+
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
   protected federatedLoginService = inject(FederatedLoginService);
-
-  constructor(
-    protected baseSiteService: BaseSiteService,
-    protected javaRegExpConverter: JavaRegExpConverter,
-    protected winRef: WindowRef
-  ) {}
 
   private get currentUrl(): string {
     return this.winRef.location.href as string;

@@ -19,6 +19,10 @@ import { PersonalizationConfig } from '../config/personalization-config';
 
 @Injectable({ providedIn: 'root' })
 export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
+  private config = inject(PersonalizationConfig);
+  private occEndpoints = inject(OccEndpointsService);
+  private winRef = inject(WindowRef);
+
   private timestamp?: string | null;
   private requestHeader?: string;
   private enabled = false;
@@ -26,11 +30,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    private config: PersonalizationConfig,
-    private occEndpoints: OccEndpointsService,
-    private winRef: WindowRef
-  ) {
+  constructor() {
     if (this.winRef.isBrowser()) {
       this.enabled =
         (this.winRef.localStorage && this.config.personalization?.enabled) ||

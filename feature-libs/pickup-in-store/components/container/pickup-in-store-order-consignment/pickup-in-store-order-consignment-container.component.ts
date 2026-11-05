@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, OnInit, Optional } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { Consignment } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
@@ -20,12 +20,13 @@ export type IOutletContextData = { item: Consignment };
 @Component({
   selector: 'cx-pickup-in-store-order-consignment',
   templateUrl: './pickup-in-store-order-consignment-container.component.html',
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
-  constructor(
-    @Optional() protected outlet: OutletContextData<IOutletContextData>
-  ) {}
+  protected outlet = inject<OutletContextData<IOutletContextData>>(
+    OutletContextData,
+    { optional: true }
+  );
 
   @Input() pointOfService$: Observable<PointOfService> | undefined;
 

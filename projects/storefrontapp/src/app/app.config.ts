@@ -20,13 +20,18 @@ import {
   provideClientHydration,
   withEventReplay,
   withNoHttpTransferCache,
+  withNoIncrementalHydration,
 } from '@angular/platform-browser';
 import { AppModule } from './app.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
+    provideClientHydration(
+      withEventReplay(),
+      withNoHttpTransferCache(),
+      withNoIncrementalHydration()
+    ),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideBrowserGlobalErrorListeners(),
 

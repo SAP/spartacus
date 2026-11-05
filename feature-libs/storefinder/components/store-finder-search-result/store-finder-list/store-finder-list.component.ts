@@ -4,20 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  DOCUMENT,
-  KeyValuePipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-} from '@angular/common';
+import { DOCUMENT, KeyValuePipe, NgClass } from '@angular/common';
 import {
   Component,
   effect,
   ElementRef,
-  Inject,
   inject,
   Input,
   viewChild,
@@ -36,21 +27,20 @@ import { LocationDisplayMode } from './store-finder-list.model';
   selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
   imports: [
-    NgIf,
     StoreFinderPaginationDetailsComponent,
     IconComponent,
     StoreFinderStoreDescriptionComponent,
-    NgFor,
     NgClass,
     StoreFinderListItemComponent,
     StoreFinderMapComponent,
-    NgSwitch,
-    NgSwitchCase,
     KeyValuePipe,
     TranslatePipe,
   ],
 })
 export class StoreFinderListComponent {
+  private storeFinderService = inject(StoreFinderService);
+  private document = inject(DOCUMENT);
+
   @Input()
   locations: any;
   @Input()
@@ -68,10 +58,7 @@ export class StoreFinderListComponent {
   readonly backButton = viewChild<ElementRef<HTMLButtonElement>>('backButton');
   private featureToggles = inject(FeatureToggles);
 
-  constructor(
-    private storeFinderService: StoreFinderService,
-    @Inject(DOCUMENT) private document: any
-  ) {
+  constructor() {
     this.isDetailsModeVisible = false;
 
     if (this.featureToggles.a11yStoreFinderFocusOnBackButton) {

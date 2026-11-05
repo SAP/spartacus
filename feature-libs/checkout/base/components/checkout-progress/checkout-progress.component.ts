@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,24 +28,16 @@ import { MultiLinePipe } from './multiline-titles.pipe';
   selector: 'cx-checkout-progress',
   templateUrl: './checkout-progress.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    RouterLink,
-    AsyncPipe,
-    UrlPipe,
-    TranslatePipe,
-    MultiLinePipe,
-  ],
+  imports: [RouterLink, AsyncPipe, UrlPipe, TranslatePipe, MultiLinePipe],
 })
 export class CheckoutProgressComponent implements OnInit {
+  protected checkoutStepService = inject(CheckoutStepService);
+
   params$ = new Observable<string[]>();
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
   private currencyService = inject(CurrencyService);
   private languageService = inject(LanguageService);
-
-  constructor(protected checkoutStepService: CheckoutStepService) {}
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =

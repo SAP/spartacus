@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -31,11 +31,9 @@ import { ProductScrollComponent } from './product-scroll/product-scroll.componen
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
     ProductViewComponent,
-    NgFor,
     ProductGridItemComponent,
     ProductListItemComponent,
     ProductScrollComponent,
@@ -44,6 +42,11 @@ import { ProductScrollComponent } from './product-scroll/product-scroll.componen
   ],
 })
 export class ProductListComponent implements OnInit, OnDestroy {
+  private pageLayoutService = inject(PageLayoutService);
+  private productListComponentService = inject(ProductListComponentService);
+  private globalMessageService = inject(GlobalMessageService);
+  scrollConfig = inject(ViewConfig);
+
   private subscription = new Subscription();
 
   isInfiniteScroll: boolean | undefined;
@@ -53,13 +56,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;
-
-  constructor(
-    private pageLayoutService: PageLayoutService,
-    private productListComponentService: ProductListComponentService,
-    private globalMessageService: GlobalMessageService,
-    public scrollConfig: ViewConfig
-  ) {}
 
   ngOnInit(): void {
     this.isInfiniteScroll = this.scrollConfig.view?.infiniteScroll?.active;

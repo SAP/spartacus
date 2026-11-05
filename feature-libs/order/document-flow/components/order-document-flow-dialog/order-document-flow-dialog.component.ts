@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -55,7 +55,6 @@ import { OrderDocumentOrderEntryListComponent } from './order-document-order-ent
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
     IconComponent,
     MessageComponent,
     OrderDocumentOrderEntryListComponent,

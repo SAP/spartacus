@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -24,9 +24,13 @@ import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-l
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',
-  imports: [NgIf, CartItemListComponent, AsyncPipe, TranslatePipe],
+  imports: [CartItemListComponent, AsyncPipe, TranslatePipe],
 })
 export class SaveForLaterComponent implements OnInit {
+  protected cmsService = inject(CmsService);
+  protected cartService = inject(ActiveCartFacade);
+  protected selectiveCartService = inject(SelectiveCartFacade);
+
   saveForLater$: Observable<Cart>;
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
@@ -34,12 +38,6 @@ export class SaveForLaterComponent implements OnInit {
   data$: Observable<CmsParagraphComponent>;
   isCartEmpty$: Observable<boolean>;
   CartLocation = PromotionLocation;
-
-  constructor(
-    protected cmsService: CmsService,
-    protected cartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartFacade
-  ) {}
 
   ngOnInit() {
     this.isCartEmpty$ = this.cartService

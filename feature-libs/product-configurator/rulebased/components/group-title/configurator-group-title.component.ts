@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterContentChecked,
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
@@ -32,18 +33,30 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-group-title',
   templateUrl: './configurator-group-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, HamburgerMenuComponent, AsyncPipe],
+  imports: [HamburgerMenuComponent, AsyncPipe],
 })
 export class ConfiguratorGroupTitleComponent
   implements OnInit, OnDestroy, AfterContentChecked
 {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+  protected breakpointService = inject(BreakpointService);
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+  protected hamburgerMenuService = inject(HamburgerMenuService);
+
   protected subscription = new Subscription();
   protected readonly PRE_HEADER = '.PreHeader';
   protected readonly ADD_TO_CART_BUTTON = 'cx-configurator-add-to-cart-button';
   protected focusFirstElementInMobileGroupList = false;
 
   /**
-   * @deprecated since 221121.23 - Prefer the `#ghostGroup` template
+   * @deprecated since 221121.23 - Prefer the loading placeholder in the template
    * (`.cx-ghost-group-title.ghost`) for loading UI. Host `class.ghost` via
    * `@HostBinding` was removed because CMS slots do not refresh host bindings
    * when the group resolves. This flag is still cleared when data arrives for
@@ -64,16 +77,6 @@ export class ConfiguratorGroupTitleComponent
     );
 
   iconTypes = ICON_TYPE;
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configExpertModeService: ConfiguratorExpertModeService,
-    protected breakpointService: BreakpointService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    protected hamburgerMenuService: HamburgerMenuService
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

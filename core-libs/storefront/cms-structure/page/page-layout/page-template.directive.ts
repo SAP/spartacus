@@ -12,7 +12,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   TemplateRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -45,6 +44,13 @@ import { PageLayoutService } from './page-layout.service';
  */
 @Directive({ selector: '[cxPageTemplateStyle]' })
 export class PageTemplateDirective implements OnInit, OnDestroy {
+  protected pageLayoutService = inject(PageLayoutService);
+  protected elementRef = inject(ElementRef);
+  protected templateRef = inject<TemplateRef<HTMLElement>>(TemplateRef, {
+    optional: true,
+  });
+  protected cd = inject(ChangeDetectorRef);
+
   protected directiveStateTransferService = inject(
     DirectiveStateTransferService
   );
@@ -85,13 +91,6 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
     this.host,
     this.transferStateKey
   ) as string;
-
-  constructor(
-    protected pageLayoutService: PageLayoutService,
-    protected elementRef: ElementRef,
-    @Optional() protected templateRef: TemplateRef<HTMLElement>,
-    protected cd: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     if (!this.useTemplateFromInput) {

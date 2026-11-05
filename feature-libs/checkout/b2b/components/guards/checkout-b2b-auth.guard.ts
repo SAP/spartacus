@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -28,25 +28,14 @@ import { filter, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
-  constructor(
-    protected authService: AuthService,
-    protected authRedirectService: AuthRedirectService,
-    protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router,
-    protected userAccountFacade: UserAccountFacade,
-    protected globalMessageService: GlobalMessageService
-  ) {
-    super(
-      authService,
-      authRedirectService,
-      checkoutConfigService,
-      activeCartFacade,
-      semanticPathService,
-      router
-    );
-  }
+  protected override authService = inject(AuthService);
+  protected override authRedirectService = inject(AuthRedirectService);
+  protected override checkoutConfigService = inject(CheckoutConfigService);
+  protected override activeCartFacade = inject(ActiveCartFacade);
+  protected override semanticPathService = inject(SemanticPathService);
+  protected override router = inject(Router);
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected globalMessageService = inject(GlobalMessageService);
 
   canActivate(): Observable<GuardResult> {
     return combineLatest([

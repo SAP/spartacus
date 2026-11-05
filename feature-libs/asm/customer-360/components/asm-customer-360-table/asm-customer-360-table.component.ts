@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -16,6 +16,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   ArgsPipe,
@@ -51,8 +52,6 @@ import {
   selector: 'cx-asm-customer-360-table',
   templateUrl: './asm-customer-360-table.component.html',
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     StarRatingComponent,
     AsyncPipe,
@@ -64,6 +63,9 @@ import {
 export class AsmCustomer360TableComponent
   implements OnChanges, AfterViewChecked
 {
+  protected asmCustomer360Config = inject(AsmCustomer360Config);
+  protected directionService = inject(DirectionService);
+
   @ViewChild('table') table: ElementRef;
 
   @Input() columns: Array<CustomerTableColumn>;
@@ -97,11 +99,6 @@ export class AsmCustomer360TableComponent
   focusedTableRowIndex = 0;
 
   setFocusOnStartTableItem = false;
-
-  constructor(
-    protected asmCustomer360Config: AsmCustomer360Config,
-    protected directionService: DirectionService
-  ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.entries) {

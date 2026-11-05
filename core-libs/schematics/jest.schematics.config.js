@@ -6,6 +6,11 @@ const { esmMatchers } = require('../../jest-esm-matchers');
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
   preset: 'jest-preset-angular',
+  // jsdom under jest-preset-angular@17 / newer jsdom no longer defines the
+  // `structuredClone` global that rxjs (errorContext) and the Angular schematics
+  // rely on. Use the shared shim environment (extends jsdom, injects it).
+  testEnvironment:
+    '<rootDir>/../../tools/eslint-rules/environments/fix-jsdom-environment.ts',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/',
   }),

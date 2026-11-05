@@ -26,10 +26,10 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^21.2.23",
-    "@angular/common": "^21.2.23",
-    "@angular/core": "^21.2.23",
-    "@angular/forms": "^21.2.23",
+    "@angular-devkit/schematics": "^22.2.1",
+    "@angular/common": "^22.2.1",
+    "@angular/core": "^22.2.1",
+    "@angular/forms": "^22.2.1",
     "@spartacus/cart": "221121.22.0",
     "@spartacus/checkout": "221121.22.0",
     "@spartacus/core": "221121.22.0",
@@ -40,7 +40,7 @@
     "rxjs": "^7.8.0"
   },
   "engines": {
-    "node": "^22.22.0"
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "publishConfig": {
     "access": "public"

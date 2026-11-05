@@ -7,6 +7,7 @@
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -70,7 +71,7 @@ describe('OccOpfQuickBuyCartAdapter', () => {
         OccOpfQuickBuyCartAdapter,
         { provide: OccConfig, useValue: mockOccConfig },
         { provide: LoggerService, useClass: MockLoggerService },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

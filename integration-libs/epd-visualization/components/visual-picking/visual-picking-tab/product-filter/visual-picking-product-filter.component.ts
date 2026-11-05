@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -20,9 +25,9 @@ import { VisualPickingProductFilterService } from './visual-picking-product-filt
   imports: [FormsModule, IconComponent, TranslatePipe],
 })
 export class VisualPickingProductFilterComponent {
-  constructor(
-    protected visualPickingProductFilterService: VisualPickingProductFilterService
-  ) {}
+  protected visualPickingProductFilterService = inject(
+    VisualPickingProductFilterService
+  );
 
   /**
    * The filter input value.

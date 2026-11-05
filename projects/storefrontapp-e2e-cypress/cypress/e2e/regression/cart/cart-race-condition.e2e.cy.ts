@@ -153,8 +153,10 @@ describe('Cart slow-network resilience (CXSPA-10582)', () => {
         'exist'
       );
 
-      // Step 4: switch to /cart while POST #3 is still pending.
-      cy.visit(`${baseUrl()}/cart`);
+      // Step 4: use router navigation while POST #3 is still pending.
+      // A full-page visit would abort the request whose response is delayed.
+      cy.get('cx-mini-cart a').click();
+      cy.location('pathname').should('include', '/cart');
 
       // Step 5: settle all three add-entry POSTs.
       // All three waits use the slow timeout: cy.wait('@addEntry') consumes

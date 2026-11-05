@@ -1,10 +1,10 @@
 import {
   Component,
-  Inject,
   NgModule,
   PLATFORM_ID,
   Renderer2,
   Type,
+  inject as inject_1,
 } from '@angular/core';
 import {
   ComponentFixture,
@@ -42,11 +42,10 @@ const testText = 'test text';
   template: ` <div id="debugEl1">{{ testText }}</div> `,
 })
 class TestComponent {
+  cmsData = inject_1<CmsComponentData<CmsComponent>>(CmsComponentData);
+  testService = inject_1<any>('testService' as any);
+
   testText = testText;
-  constructor(
-    public cmsData: CmsComponentData<CmsComponent>,
-    @Inject('testService') public testService
-  ) {}
 }
 
 @NgModule({

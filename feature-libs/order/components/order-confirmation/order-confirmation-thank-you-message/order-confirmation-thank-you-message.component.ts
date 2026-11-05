@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -29,7 +30,6 @@ import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/or
   templateUrl: './order-confirmation-thank-you-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     OrderGuestRegisterFormComponent,
     AddToHomeScreenBannerComponent,
     AsyncPipe,
@@ -39,16 +39,14 @@ import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/or
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  protected orderFacade = inject(OrderFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected translationService = inject(TranslationService);
+
   order$: Observable<Order | undefined>;
 
   isGuestCustomer = false;
   orderGuid: string | undefined;
-
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected translationService: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.order$ = this.orderFacade.getOrderDetails().pipe(

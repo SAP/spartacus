@@ -239,17 +239,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product-configurator.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -482,17 +472,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product-configurator.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -704,17 +684,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product-configurator.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -892,17 +862,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product-configurator.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

@@ -27,16 +27,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   FeatureToggles,
   LoggerService,
@@ -56,27 +47,30 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
-    NgFor,
     NgClass,
-    NgSwitch,
-    NgSwitchCase,
     ConfiguratorOverviewAttributeComponent,
     ConfiguratorOverviewBundleAttributeComponent,
-    NgSwitchDefault,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewFormComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   /**
    * ID of the overview content region, the target of the overview skip link.
    */
   static readonly OVERVIEW_CONTENT_ID = 'cx-configurator-overview-content';
 
   /**
-   * @deprecated since 221121.23 - Prefer the `#ghostForm` template
+   * @deprecated since 221121.23 - Prefer the loading placeholder in the template
    * (`.cx-ghost-group.ghost`) for loading UI. Host `class.ghost` via
    * `@HostBinding` was removed because CMS slots do not refresh host bindings
    * when overview data resolves. This flag is still cleared when data arrives
@@ -182,11 +176,7 @@ export class ConfiguratorOverviewFormComponent {
       )
     );
 
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
+  constructor() {
     useFeatureStyles('productConfiguratorCPQContainer');
     if (this.isInPageNavigationEnabled) {
       this.translationService

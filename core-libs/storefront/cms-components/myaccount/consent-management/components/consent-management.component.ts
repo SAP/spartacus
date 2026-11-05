@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -52,9 +52,7 @@ import { getPageTitle } from '../../../navigation/page-header/page-title.utils';
   selector: 'cx-consent-management',
   templateUrl: './consent-management.component.html',
   imports: [
-    NgIf,
     SpinnerComponent,
-    NgFor,
     ConsentManagementFormComponent,
     AsyncPipe,
     TranslatePipe,
@@ -62,6 +60,15 @@ import { getPageTitle } from '../../../navigation/page-header/page-title.utils';
   ],
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
+  protected userConsentService = inject(UserConsentService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected anonymousConsentsConfig = inject(AnonymousConsentsConfig);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected authService = inject(AuthService);
+  protected consentManagementComponentService? = inject(
+    ConsentManagementComponentService
+  );
+
   private destroyRef = inject(DestroyRef);
   private subscriptions = new Subscription();
   private allConsentsLoading = new BehaviorSubject<boolean>(false);
@@ -77,15 +84,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   get allConsentsLoading$() {
     return this.allConsentsLoading.asObservable();
   }
-
-  constructor(
-    protected userConsentService: UserConsentService,
-    protected globalMessageService: GlobalMessageService,
-    protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected authService: AuthService,
-    protected consentManagementComponentService?: ConsentManagementComponentService
-  ) {}
 
   ngOnInit(): void {
     this.loading$ = combineLatest([

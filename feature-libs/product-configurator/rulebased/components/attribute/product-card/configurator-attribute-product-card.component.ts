@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,6 +15,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -103,8 +104,6 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   templateUrl: './configurator-attribute-product-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     MediaComponent,
     ConfiguratorShowMoreComponent,
@@ -122,6 +121,10 @@ export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected productService = inject(ProductService);
+  protected keyBoardFocus = inject(KeyboardFocusService);
+  protected translation = inject(TranslationService);
+
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
   /**
@@ -149,11 +152,7 @@ export class ConfiguratorAttributeProductCardComponent
   @Output() handleRowAction =
     new EventEmitter<Configurator.ContainerRowAction>();
 
-  constructor(
-    protected productService: ProductService,
-    protected keyBoardFocus: KeyboardFocusService,
-    protected translation: TranslationService
-  ) {
+  constructor() {
     super();
     useFeatureStyles('productConfiguratorCPQContainer');
   }

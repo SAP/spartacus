@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -28,7 +28,6 @@ import { ResetPasswordComponentService } from './reset-password-component.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form', ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -41,12 +40,12 @@ import { ResetPasswordComponentService } from './reset-password-component.servic
   ],
 })
 export class ResetPasswordComponent {
+  protected service = inject(ResetPasswordComponentService);
+
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   token$: Observable<string> = this.service.resetToken$;
-
-  constructor(protected service: ResetPasswordComponentService) {}
 
   onSubmit(token: string) {
     this.service.resetPassword(token);

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,6 +14,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  inject,
 } from '@angular/core';
 import {
   CmsService,
@@ -49,9 +49,16 @@ import { PageSlotService } from './page-slot.service';
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, OutletDirective, NgFor, ComponentWrapperDirective],
+  imports: [OutletDirective, ComponentWrapperDirective],
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
+  protected cmsService = inject(CmsService);
+  protected dynamicAttributeService = inject(DynamicAttributeService);
+  protected renderer = inject(Renderer2);
+  protected elementRef = inject(ElementRef);
+  protected cd = inject(ChangeDetectorRef);
+  protected pageSlotService = inject(PageSlotService);
+
   /**
    * The position represents the unique key for a page slot on a single page, but can
    * be reused cross pages.
@@ -112,14 +119,6 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   /** Tracks the last used position, in case the page slot is used dynamically */
   private lastPosition: string;
-  constructor(
-    protected cmsService: CmsService,
-    protected dynamicAttributeService: DynamicAttributeService,
-    protected renderer: Renderer2,
-    protected elementRef: ElementRef,
-    protected cd: ChangeDetectorRef,
-    protected pageSlotService: PageSlotService
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

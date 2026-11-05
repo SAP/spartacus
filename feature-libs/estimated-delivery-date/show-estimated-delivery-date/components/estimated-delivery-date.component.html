@@ -1,56 +1,59 @@
-<ng-container *ngIf="orderEntry$ | async as orderEntry">
-  <ng-container *ngIf="hasOrderEntryArrivalSlots(orderEntry)">
+@if (orderEntry$ | async; as orderEntry) {
+  @if (hasOrderEntryArrivalSlots(orderEntry)) {
     <div class="cx-code">
-      <div
-        *ngFor="let arrivalSlot of orderEntry.arrivalSlots; let i = index"
-        class="cx-estimated-delivery-date-info"
-        [attr.aria-describedby]="getArrivalSlotInfoId(i)"
-      >
-        <div [id]="getArrivalSlotInfoId(i)" class="cx-visually-hidden">
-          {{
-            'estimatedDeliveryDate.estimatedDeliveryDateEntryInfo'
-              | cxTranslate
-                : {
-                    quantity: arrivalSlot.quantity,
-                    date: getLongDate(arrivalSlot.at),
-                  }
-          }}
-        </div>
-        <div class="cx-value" aria-hidden="true" *ngIf="arrivalSlot?.quantity">
-          {{ 'estimatedDeliveryDate.ETA' | cxTranslate }}
-          {{ arrivalSlot?.at | cxDate: 'M/d/yyyy' }}
-        </div>
-        <ng-container *ngIf="arrivalSlot?.quantity">
-          <div class="cx-value" aria-hidden="true">
-            {{ 'estimatedDeliveryDate.quantityFull' | cxTranslate }}
-            {{ arrivalSlot?.quantity }}
+      @for (
+        arrivalSlot of orderEntry.arrivalSlots;
+        track arrivalSlot;
+        let i = $index
+      ) {
+        <div
+          class="cx-estimated-delivery-date-info"
+          [attr.aria-describedby]="getArrivalSlotInfoId(i)"
+        >
+          <div [id]="getArrivalSlotInfoId(i)" class="cx-visually-hidden">
+            {{
+              'estimatedDeliveryDate.estimatedDeliveryDateEntryInfo'
+                | cxTranslate
+                  : {
+                      quantity: arrivalSlot.quantity,
+                      date: getLongDate(arrivalSlot.at),
+                    }
+            }}
           </div>
-        </ng-container>
-      </div>
-      <div
-        class="cx-label"
-        aria-hidden="true"
-        *ngIf="!orderEntry.arrivalSlots?.at(0)?.quantity"
-      >
-        {{ 'estimatedDeliveryDate.ETA' | cxTranslate }}
-        {{ orderEntry.arrivalSlots?.at(0)?.at | cxDate: 'M/d/yyyy' }}
-      </div>
+          @if (arrivalSlot?.quantity) {
+            <div class="cx-value" aria-hidden="true">
+              {{ 'estimatedDeliveryDate.ETA' | cxTranslate }}
+              {{ arrivalSlot?.at | cxDate: 'M/d/yyyy' }}
+            </div>
+          }
+          @if (arrivalSlot?.quantity) {
+            <div class="cx-value" aria-hidden="true">
+              {{ 'estimatedDeliveryDate.quantityFull' | cxTranslate }}
+              {{ arrivalSlot?.quantity }}
+            </div>
+          }
+        </div>
+      }
+      @if (!orderEntry.arrivalSlots?.at(0)?.quantity) {
+        <div class="cx-label" aria-hidden="true">
+          {{ 'estimatedDeliveryDate.ETA' | cxTranslate }}
+          {{ orderEntry.arrivalSlots?.at(0)?.at | cxDate: 'M/d/yyyy' }}
+        </div>
+      }
     </div>
-  </ng-container>
-</ng-container>
+  }
+}
 
-<ng-container *ngIf="consignments$ | async as consignments">
-  <ng-container *ngIf="orderEntry$ | async as orderEntry">
-    <ng-container
-      *ngIf="
-        hasConsignmentEntryArrivalSlot(consignments) &&
-        !hasOrderEntryArrivalSlots(orderEntry)
-      "
-    >
+@if (consignments$ | async; as consignments) {
+  @if (orderEntry$ | async; as orderEntry) {
+    @if (
+      hasConsignmentEntryArrivalSlot(consignments) &&
+      !hasOrderEntryArrivalSlots(orderEntry)
+    ) {
       <div class="cx-code" aria-hidden="true">
         {{ 'estimatedDeliveryDate.ETA' | cxTranslate }}
         {{ consignments.arrivalSlot?.at | cxDate: 'M/d/yyyy' }}
       </div>
-    </ng-container>
-  </ng-container>
-</ng-container>
+    }
+  }
+}

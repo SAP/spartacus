@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
@@ -21,7 +21,6 @@ import { OrderAmendService } from '../../amend-order.service';
   templateUrl: './cancel-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     MessageComponent,
     NgTemplateOutlet,
     CancelOrReturnItemsComponent,
@@ -31,6 +30,8 @@ import { OrderAmendService } from '../../amend-order.service';
   ],
 })
 export class CancelOrderComponent {
+  protected orderAmendService = inject(OrderAmendService);
+
   orderCode: string;
   globalMessageType = GlobalMessageType;
 
@@ -39,6 +40,4 @@ export class CancelOrderComponent {
     .pipe(tap((form) => (this.orderCode = form.value.orderCode)));
 
   entries$: Observable<OrderEntry[]> = this.orderAmendService.getEntries();
-
-  constructor(protected orderAmendService: OrderAmendService) {}
 }

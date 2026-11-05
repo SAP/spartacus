@@ -97,15 +97,22 @@ export function completeForm(
   function fillNgSelect(input: MyCompanyRowConfig) {
     // First check if `valueKey` is defined. For example select should be omitted if `updateValue` is empty.
     if (input[valueKey]) {
-      if (input.selector) {
-        getFieldBySelector(input.selector).click();
-      } else {
-        getFieldByLabel(input).within(() => {
-          cy.get(`ng-select`).click();
-        });
-      }
-      cy.wait(1000); // Allow time for options to draw
-      cy.get('ng-dropdown-panel')
+      // `@ng-select/ng-select` v24 opens the dropdown on a left-button
+      // `mousedown`, not on `click()`. Target the `.ng-arrow-wrapper`: for a
+      // NON-searchable select whose mousedown lands on the selected `.ng-value`
+      // / `.ng-placeholder` the handler only focuses (it returns early), so
+      // triggering on the arrow (outside `.ng-value`) is what actually toggles
+      // it open. The option panel renders in a CDK overlay (sometimes via
+      // `appendTo`), OUTSIDE any `within()` scope, so it is queried from the
+      // document root with `{ withinSubject: null }`; that final `cy.get`
+      // retries for the option, which also absorbs async option loading.
+      (input.selector
+        ? getFieldBySelector(input.selector)
+        : getFieldByLabel(input).find('ng-select')
+      )
+        .find('.ng-arrow-wrapper')
+        .trigger('mousedown', { which: 1, button: 0 });
+      cy.get('ng-dropdown-panel .ng-option', { withinSubject: null })
         .contains(input[valueKey])
         .click({ force: true });
     }

@@ -170,17 +170,7 @@ exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling shou
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/asm.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

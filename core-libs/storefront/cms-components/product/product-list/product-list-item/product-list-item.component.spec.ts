@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   Directive,
   Injector,
@@ -124,7 +123,6 @@ describe('ProductListItemComponent in product-list', () => {
     })
       .overrideComponent(ProductListItemComponent, {
         add: {
-          changeDetection: ChangeDetectionStrategy.Eager,
           imports: [
             MockMediaComponent,
             MockStarRatingComponent,

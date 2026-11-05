@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectorRef, Injectable, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Injectable,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -31,12 +36,10 @@ import { VisualPickingProductListService } from './product-list/visual-picking-p
   providedIn: 'root',
 })
 export class VisualPickingTabService implements OnDestroy {
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected globalMessageService: GlobalMessageService,
-    protected changeDetectorRef: ChangeDetectorRef,
-    protected windowRef: WindowRef
-  ) {}
+  protected currentProductService = inject(CurrentProductService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+  protected windowRef = inject(WindowRef);
 
   /**
    * Initialize the service.

@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -19,12 +24,12 @@ import {
   selector: 'cx-configurator-overview-attribute',
   templateUrl: './configurator-overview-attribute.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, ConfiguratorPriceComponent, AsyncPipe, TranslatePipe],
+  imports: [ConfiguratorPriceComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorOverviewAttributeComponent {
-  @Input() attributeOverview: Configurator.AttributeOverview;
+  protected breakpointService = inject(BreakpointService);
 
-  constructor(protected breakpointService: BreakpointService) {}
+  @Input() attributeOverview: Configurator.AttributeOverview;
 
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {

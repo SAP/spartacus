@@ -34,12 +34,12 @@ const CPQ_PRODUCT_SELECTION_UI_TYPES: Record<
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration>
 {
-  private featureToggles = inject(FeatureToggles);
+  protected cpqConfiguratorNormalizerUtilsService = inject(
+    CpqConfiguratorNormalizerUtilsService
+  );
+  protected translation = inject(TranslationService);
 
-  constructor(
-    protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
-    protected translation: TranslationService
-  ) {}
+  private featureToggles = inject(FeatureToggles);
 
   /**
    * Whether CPQ container attributes and nested container-row groups are

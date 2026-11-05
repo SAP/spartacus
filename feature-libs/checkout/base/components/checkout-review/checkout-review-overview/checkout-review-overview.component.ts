@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -20,9 +20,11 @@ import { Observable, take } from 'rxjs';
   selector: 'cx-checkout-review-overview',
   templateUrl: './checkout-review-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, PromotionsComponent, AsyncPipe, TranslatePipe],
+  imports: [PromotionsComponent, AsyncPipe, TranslatePipe],
 })
 export class CheckoutReviewOverviewComponent implements AfterViewInit {
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   protected document = inject(DOCUMENT, { optional: true });
   protected translationService = inject(TranslationService, { optional: true });
 
@@ -32,8 +34,6 @@ export class CheckoutReviewOverviewComponent implements AfterViewInit {
     'cx-checkout-review-overview',
     'cx-checkout-review-shipping',
   ];
-
-  constructor(protected activeCartFacade: ActiveCartFacade) {}
 
   ngAfterViewInit(): void {
     this.wrapComponentsWithSectionEl();

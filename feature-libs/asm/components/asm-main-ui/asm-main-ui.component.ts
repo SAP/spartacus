@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -82,7 +82,6 @@ export const CART_TYPE_KEY: CartTypeKey = {
   templateUrl: './asm-main-ui.component.html',
   imports: [
     IconComponent,
-    NgIf,
     FeatureDirective,
     AsmToggleUiComponent,
     AsmSessionTimerComponent,
@@ -95,6 +94,15 @@ export const CART_TYPE_KEY: CartTypeKey = {
   ],
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {
+  protected authService = inject(AuthService);
+  protected csAgentAuthService = inject(CsAgentAuthService);
+  protected asmComponentService = inject(AsmComponentService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected routingService = inject(RoutingService);
+  protected asmService = inject(AsmService);
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+
   customerSupportAgentLoggedIn$: Observable<boolean>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User | undefined>;
@@ -127,17 +135,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
   isAsmSessionConfigured: boolean = false;
-
-  constructor(
-    protected authService: AuthService,
-    protected csAgentAuthService: CsAgentAuthService,
-    protected asmComponentService: AsmComponentService,
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    protected asmService: AsmService,
-    protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   ngOnInit(): void {
     this.isAsmCustomer360Configured =

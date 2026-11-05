@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +13,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -57,7 +58,6 @@ interface GroupValidator {
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     DatePickerComponent,
     FormErrorsComponent,
     NgSelectComponent,
@@ -69,6 +69,9 @@ interface GroupValidator {
 export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy
 {
+  protected translation = inject(TranslationService);
+  protected fb = inject(FormBuilder);
+
   @Input()
   cxNgSelectA11yAriaControls?: string;
 
@@ -92,11 +95,6 @@ export class AccountSummaryDocumentFilterComponent
 
   statusOptions: ItemType[];
   filterByOptions: ItemType[];
-
-  constructor(
-    protected translation: TranslationService,
-    protected fb: FormBuilder
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -24,16 +24,13 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-menu',
   templateUrl: './configurator-overview-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgTemplateOutlet,
-    NgFor,
-    NgClass,
-    IconComponent,
-    TranslatePipe,
-  ],
+  imports: [NgTemplateOutlet, NgClass, IconComponent, TranslatePipe],
 })
 export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   @HostBinding('style.height') height = this.getHeight();
 
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -76,10 +73,6 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     ['position', 'sticky'],
     ['top', '0'],
   ];
-
-  constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
 
   /**
    * Whether the menu acts as accessible in-page navigation: it is rendered as

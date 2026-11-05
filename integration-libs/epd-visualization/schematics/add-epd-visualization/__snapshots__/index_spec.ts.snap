@@ -232,17 +232,7 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/epd-visualization.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

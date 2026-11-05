@@ -5,7 +5,6 @@
  */
 
 import {
-  ComponentFactory,
   ComponentRef,
   Directive,
   EmbeddedViewRef,
@@ -18,6 +17,7 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
@@ -32,6 +32,12 @@ import { OutletService } from './outlet.service';
 
 @Directive({ selector: '[cxOutlet]' })
 export class OutletDirective<T = any> implements OnDestroy, OnChanges {
+  private vcr = inject(ViewContainerRef);
+  private templateRef = inject<TemplateRef<any>>(TemplateRef);
+  private outletService = inject(OutletService);
+  private deferLoaderService = inject(DeferLoaderService);
+  private outletRendererService = inject(OutletRendererService);
+
   private renderedTemplate: any[] = [];
   public renderedComponents = new Map<
     OutletPosition,
@@ -63,14 +69,6 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   >();
 
   subscription = new Subscription();
-
-  constructor(
-    private vcr: ViewContainerRef,
-    private templateRef: TemplateRef<any>,
-    private outletService: OutletService,
-    private deferLoaderService: DeferLoaderService,
-    private outletRendererService: OutletRendererService
-  ) {}
 
   /**
    * Renders view for outlet or defers it, depending on the input `cxOutletDefer`
@@ -156,25 +154,17 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   }
 
   /**
-   * Renders view based on the given template or component factory
+   * Renders view based on the given template or component class
    */
   private create(
-    tmplOrFactory: any,
+    tmplOrComponent: any,
     position: OutletPosition
   ): ComponentRef<any> | EmbeddedViewRef<any> | undefined {
-    this.renderedTemplate.push(tmplOrFactory);
+    this.renderedTemplate.push(tmplOrComponent);
 
-    if (tmplOrFactory instanceof ComponentFactory) {
-      const component = this.vcr.createComponent(
-        tmplOrFactory,
-        undefined,
-        this.getComponentInjector(position)
-      );
-      this.cxComponentRefChange.emit(component);
-      return component;
-    } else if (tmplOrFactory instanceof TemplateRef) {
+    if (tmplOrComponent instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
-        <TemplateRef<any>>tmplOrFactory,
+        <TemplateRef<any>>tmplOrComponent,
         {
           $implicit: this.cxOutletContext,
         }
@@ -186,6 +176,12 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
 
       this.cxComponentRefChange.emit(view);
       return view;
+    } else if (typeof tmplOrComponent === 'function') {
+      const component = this.vcr.createComponent(tmplOrComponent, {
+        injector: this.getComponentInjector(position),
+      });
+      this.cxComponentRefChange.emit(component);
+      return component;
     }
   }
 

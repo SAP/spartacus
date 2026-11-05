@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { ActionsSubject } from '@ngrx/store';
@@ -24,10 +24,10 @@ import { NavigationEvent } from './navigation.event';
   providedIn: 'root',
 })
 export class NavigationEventBuilder {
-  constructor(
-    protected actions: ActionsSubject,
-    protected eventService: EventService
-  ) {
+  protected actions = inject(ActionsSubject);
+  protected eventService = inject(EventService);
+
+  constructor() {
     this.register();
   }
 

@@ -7,12 +7,13 @@
 import { DOCUMENT } from '@angular/common';
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
-  Inject,
+  createComponent,
+  EnvironmentInjector,
   Injectable,
   Injector,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { LAUNCH_CALLER, LaunchInlineRootDialog } from '../config/launch-config';
@@ -20,14 +21,9 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRootRenderStrategy extends LaunchRenderStrategy {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected injector: Injector
-  ) {
-    super(document, rendererFactory);
-  }
+  protected override document = inject(DOCUMENT);
+  protected override rendererFactory = inject(RendererFactory2);
+  protected injector = inject(Injector);
 
   get hostComponent() {
     return this.injector.get(ApplicationRef)?.components?.[0];
@@ -38,14 +34,9 @@ export class InlineRootRenderStrategy extends LaunchRenderStrategy {
     caller: LAUNCH_CALLER | string
   ): Observable<ComponentRef<any>> | void {
     if (this.shouldRender(caller, config)) {
-      const componentFactory =
-        this.componentFactoryResolver.resolveComponentFactory(config.component);
-
-      const contentInjector = Injector.create({
-        providers: [],
+      const componentRef = createComponent(config.component, {
+        environmentInjector: this.injector.get(EnvironmentInjector),
       });
-
-      const componentRef = componentFactory.create(contentInjector);
 
       this.injector.get(ApplicationRef)?.attachView(componentRef.hostView);
 

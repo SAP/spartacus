@@ -21,6 +21,9 @@ import { BudgetActions, OrganizationActions } from '../actions/index';
 
 @Injectable()
 export class BudgetEffects {
+  private actions$ = inject(Actions);
+  private budgetConnector = inject(BudgetConnector);
+
   protected logger = inject(LoggerService);
 
   loadBudget$: Observable<
@@ -140,9 +143,4 @@ export class BudgetEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private budgetConnector: BudgetConnector
-  ) {}
 }

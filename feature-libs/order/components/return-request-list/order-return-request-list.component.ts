@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -27,10 +32,8 @@ import { filter, map, take, tap } from 'rxjs/operators';
   templateUrl: './order-return-request-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     AsyncPipe,
     UrlPipe,
@@ -39,10 +42,8 @@ import { filter, map, take, tap } from 'rxjs/operators';
   ],
 })
 export class OrderReturnRequestListComponent implements OnDestroy {
-  constructor(
-    private returnRequestService: OrderReturnRequestFacade,
-    private translation: TranslationService
-  ) {}
+  private returnRequestService = inject(OrderReturnRequestFacade);
+  private translation = inject(TranslationService);
 
   private PAGE_SIZE = 5;
   sortType: string;

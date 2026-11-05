@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActiveCartFacade, Cart, CartOutlets } from '@spartacus/cart/base/root';
 import { OutletDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -17,11 +17,13 @@ import { Observable } from 'rxjs';
   imports: [OutletDirective, AsyncPipe],
 })
 export class CheckoutOrderSummaryComponent {
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   cart$: Observable<Cart>;
 
   readonly cartOutlets = CartOutlets;
 
-  constructor(protected activeCartFacade: ActiveCartFacade) {
+  constructor() {
     this.cart$ = this.activeCartFacade.getActive();
   }
 }

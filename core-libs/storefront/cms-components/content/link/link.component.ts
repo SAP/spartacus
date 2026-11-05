@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { CmsLinkComponent } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -21,16 +22,17 @@ import { GenericLinkComponent } from '../../../shared/components/generic-link/ge
   selector: 'cx-link',
   templateUrl: './link.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, GenericLinkComponent, AsyncPipe],
+  imports: [GenericLinkComponent, AsyncPipe],
 })
 export class LinkComponent implements OnDestroy, OnInit {
+  protected component =
+    inject<CmsComponentData<CmsLinkComponent>>(CmsComponentData);
+
   @HostBinding('class') styleClasses: string | undefined;
 
   data$: Observable<CmsLinkComponent> = this.component.data$;
 
   protected subscriptions: Subscription = new Subscription();
-
-  constructor(protected component: CmsComponentData<CmsLinkComponent>) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

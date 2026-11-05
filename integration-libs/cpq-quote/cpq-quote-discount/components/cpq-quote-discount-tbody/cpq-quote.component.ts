@@ -4,10 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 
-import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass } from '@angular/common';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
 import { Observable, Subscription } from 'rxjs';
 import { CpqQuoteService } from '../../cpq-qute.service';
@@ -18,22 +24,24 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote',
   templateUrl: './cpq-quote.component.html',
-  imports: [NgIf, NgFor, NgClass, DecimalPipe],
+  imports: [NgClass, DecimalPipe],
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
+  protected cartItemContext = inject(CartItemContext, {
+    optional: true,
+  }) as CartItemContext;
+  private cpqQuoteService = inject(CpqQuoteService);
+
   quoteDiscountData: ExtendedOrderEntry | null;
   private subscription: Subscription;
   readonly orderEntry$: Observable<ExtendedOrderEntry> =
     this.cartItemContext?.item$;
   isFlagQuote = true;
-  constructor(
-    @Optional()
-    @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext,
-    private cpqQuoteService: CpqQuoteService
-  ) {
+  protected cd = inject(ChangeDetectorRef);
+  constructor() {
     this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag) => {
       this.isFlagQuote = isFlag;
+      this.cd.markForCheck();
     });
   }
 
@@ -41,6 +49,9 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
     if (this.cartItemContext) {
       this.subscription = this.orderEntry$.subscribe((data) => {
         this.quoteDiscountData = data;
+        // OnPush (v22 default): quoteDiscountData is read by the template and
+        // set from an async subscribe, so mark for check.
+        this.cd.markForCheck();
       });
     } else {
       this.quoteDiscountData = null;

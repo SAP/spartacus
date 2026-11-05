@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   TrackByFunction,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -31,7 +32,6 @@ import { CurrentProductService } from '../../current-product.service';
   templateUrl: './product-references.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CarouselScrollingComponent,
     RouterLink,
     MediaComponent,
@@ -40,11 +40,10 @@ import { CurrentProductService } from '../../current-product.service';
   ],
 })
 export class ProductReferencesComponent {
-  constructor(
-    protected cmsComponentData: CmsComponentData<CmsProductReferencesComponent>,
-    protected currentProductService: CurrentProductService,
-    protected productReferenceService: ProductReferenceService
-  ) {}
+  protected cmsComponentData =
+    inject<CmsComponentData<CmsProductReferencesComponent>>(CmsComponentData);
+  protected currentProductService = inject(CurrentProductService);
+  protected productReferenceService = inject(ProductReferenceService);
 
   protected get componentData$(): Observable<CmsProductReferencesComponent> {
     return this.cmsComponentData.data$.pipe(filter((data) => Boolean(data)));
@@ -105,5 +104,5 @@ export class ProductReferencesComponent {
   }
 
   trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
-    item?.code;
+    item?.code ?? item;
 }

@@ -8,5 +8,7 @@
   class="active"
   [cxFocus]="{ focusOnEscape: !tab.disableBorderFocus }"
 >
-  <ng-container *ngIf="tab.content" [ngTemplateOutlet]="tab.content" />
+  @if (tab.content) {
+    <ng-container [ngTemplateOutlet]="tab.content" />
+  }
 </div>

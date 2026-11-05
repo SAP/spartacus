@@ -13,6 +13,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import { ConverterService, LoggerService } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
@@ -79,7 +80,7 @@ describe('OpfApiQuickBuyAdapter', () => {
           provide: OpfMetadataStatePersistanceService,
           useClass: MockOpfMetadataStatePersistanceService,
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

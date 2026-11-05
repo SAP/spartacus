@@ -13,6 +13,7 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -27,16 +28,14 @@ import { MessageService } from './services/message.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageComponent implements AfterViewInit, OnDestroy {
+  protected messageService = inject(MessageService);
+  protected renderService = inject(MessageRenderService);
+
   // We use a child view container ref, as creating components will become siblings.
   // We like the message components to appear inside the `cx-org-message` instead.
   @ViewChild('vcr', { read: ViewContainerRef }) vcr: ViewContainerRef;
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected messageService: MessageService,
-    protected renderService: MessageRenderService
-  ) {}
 
   ngAfterViewInit() {
     this.subscription.add(
@@ -53,8 +52,10 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
   protected render(msg: MessageData) {
     const ref: ComponentRef<BaseMessageComponent> = this.vcr.createComponent(
       this.renderService.getComponent(msg),
-      0,
-      this.renderService.getInjector(msg, this.vcr.injector)
+      {
+        index: 0,
+        injector: this.renderService.getInjector(msg, this.vcr.injector),
+      }
     );
     ref.injector.get(ChangeDetectorRef).markForCheck();
 

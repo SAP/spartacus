@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
@@ -25,16 +25,13 @@ import { OrderAmendService } from '../amend-order.service';
   providedIn: 'root',
 })
 export class OrderCancellationService extends OrderAmendService {
+  protected override orderDetailsService = inject(OrderDetailsService);
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected routing = inject(RoutingService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   amendType = AmendOrderType.CANCEL;
 
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected routing: RoutingService,
-    protected globalMessageService: GlobalMessageService
-  ) {
-    super(orderDetailsService);
-  }
   /**
    * Return cancellable order entries.
    */

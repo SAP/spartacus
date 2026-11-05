@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -33,8 +33,6 @@ import { DpPaymentFormComponent } from './dp-payment-form/dp-payment-form.compon
   templateUrl: './dp-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     CardComponent,
     DpPaymentFormComponent,
     SpinnerComponent,
@@ -44,6 +42,17 @@ import { DpPaymentFormComponent } from './dp-payment-form/dp-payment-form.compon
   ],
 })
 export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
+  protected override userPaymentService = inject(UserPaymentService);
+  protected override checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressService
+  );
+  protected override checkoutPaymentFacade = inject(CheckoutPaymentService);
+  protected override activatedRoute = inject(ActivatedRoute);
+  protected override translationService = inject(TranslationService);
+  protected override activeCartFacade = inject(ActiveCartFacade);
+  protected override checkoutStepService = inject(CheckoutStepService);
+  protected override globalMessageService = inject(GlobalMessageService);
+
   showCallbackScreen = false;
 
   isDpCallback(): boolean {
@@ -68,27 +77,8 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
   }
 
   // TODO:#checkout - handle breaking changes
-  constructor(
-    protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressService,
-    protected checkoutPaymentFacade: CheckoutPaymentService,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService
-  ) {
-    super(
-      userPaymentService,
-      checkoutDeliveryAddressFacade,
-      checkoutPaymentFacade,
-      activatedRoute,
-      translationService,
-      activeCartFacade,
-      checkoutStepService,
-      globalMessageService
-    );
-
+  constructor() {
+    super();
     this.showCallbackScreen = this.isDpCallback();
   }
 }

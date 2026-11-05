@@ -8,6 +8,7 @@ import {
   HttpErrorResponse,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -127,7 +128,7 @@ describe('OpfApiBaseAdapter', () => {
           provide: CartAccessCodeFacade,
           useValue: { getCartAccessCode: () => of(null) },
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });
@@ -225,7 +226,7 @@ describe('OpfApiBaseAdapter - enableGetActiveConfigurationsAccessCodeHeader', ()
         { provide: UserIdService, useValue: userIdServiceMock },
         { provide: ActiveCartFacade, useValue: activeCartFacadeMock },
         { provide: CartAccessCodeFacade, useValue: cartAccessCodeFacadeMock },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

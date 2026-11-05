@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { CartItemListRowComponent } from '@spartacus/cart/base/components';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ControlContainer,
@@ -81,7 +82,8 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);
     component = fixture.componentInstance;
-    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
+    // Check from the fixture root so the component strategy is respected.
+    changeDetectorRef = fixture.changeDetectorRef;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
   });
@@ -336,8 +338,9 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         expect(getLinkComponent().disabled).toBe(false);
 
         quantityControl.disable({ emitEvent: false });
-        // Same FormControl reference: default CD must refresh [disabled] without
-        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        // CartItemListRowComponent republishes this control on quantityDisabled changes.
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        // Check from the fixture root after the context notification.
         changeDetectorRef.detectChanges();
 
         expect(getLinkComponent().disabled).toBe(true);
@@ -447,5 +450,64 @@ describe('ConfiguratorCartEntryInfoComponent without cart item context', () => {
     expect(component.orderEntry$).toBe(EMPTY);
     expect(component.quantityControl$).toBe(EMPTY);
     expect(component.readonly$).toBe(EMPTY);
+  });
+});
+
+describe('Configurator edit availability through the real cart row context', () => {
+  it('updates OnPush content when the same quantity control is disabled and enabled during loading', async () => {
+    await TestBed.configureTestingModule({
+      imports: [CartItemListRowComponent],
+      providers: [{ provide: ControlContainer }],
+    })
+      .overrideComponent(CartItemListRowComponent, {
+        set: {
+          template: '<cx-configurator-cart-entry-info />',
+          imports: [ConfiguratorCartEntryInfoComponent],
+        },
+      })
+      .overrideComponent(ConfiguratorCartEntryInfoComponent, {
+        remove: { imports: [TranslatePipe, ConfigureCartEntryComponent] },
+        add: { imports: [MockTranslatePipe, MockConfigureCartEntryComponent] },
+      })
+      .compileComponents();
+
+    const row = TestBed.createComponent(CartItemListRowComponent);
+    const control = new UntypedFormControl(1);
+    const statusEvents: string[] = [];
+    const valueEvents: number[] = [];
+    control.statusChanges.subscribe((status) => statusEvents.push(status));
+    control.valueChanges.subscribe((value) => valueEvents.push(value));
+    row.componentRef.setInput('item', {
+      entryNumber: 1,
+      product: { configurable: true },
+      configurationInfos: [
+        { status: 'SUCCESS', configuratorType: ConfiguratorType.VARIANT },
+      ],
+    });
+    row.componentRef.setInput('quantityControl', control);
+    row.componentRef.setInput('quantityDisabled', false);
+    row.componentRef.setInput('readonly', false);
+    row.componentRef.setInput(
+      'promotionLocation',
+      PromotionLocation.ActiveCart
+    );
+    row.detectChanges();
+    const editLink = () =>
+      row.debugElement.query(By.directive(MockConfigureCartEntryComponent))
+        .componentInstance;
+    expect(editLink().disabled).toBe(false);
+
+    control.disable({ emitEvent: false });
+    row.componentRef.setInput('quantityDisabled', true);
+    row.detectChanges();
+    expect(editLink().disabled).toBe(true);
+
+    control.enable({ emitEvent: false });
+    row.componentRef.setInput('quantityDisabled', false);
+    row.detectChanges();
+    expect(editLink().disabled).toBe(false);
+    expect(row.componentInstance.quantityControl).toBe(control);
+    expect(statusEvents).toEqual([]);
+    expect(valueEvents).toEqual([]);
   });
 });

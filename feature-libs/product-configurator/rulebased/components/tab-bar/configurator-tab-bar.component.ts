@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,9 +28,14 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-tab-bar',
   templateUrl: './configurator-tab-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorTabBarComponent {
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
   @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
 
@@ -40,7 +45,7 @@ export class ConfiguratorTabBarComponent {
   protected focusService = inject(KeyboardFocusService);
 
   /**
-   * @deprecated since 221121.23 - Prefer the `#ghostTabBar` template
+   * @deprecated since 221121.23 - Prefer the loading placeholder in the template
    * (`.cx-ghost-tab-bar.ghost`) for loading UI. Host `class.ghost` via
    * `@HostBinding` was removed because CMS slots do not refresh host bindings
    * when the tab bar data resolves. This flag is still cleared when data
@@ -211,9 +216,4 @@ export class ConfiguratorTabBarComponent {
       }
     }
   }
-
-  constructor(
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
 }

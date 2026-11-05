@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsmCustomer360ProductInterestList } from '@spartacus/asm/customer-360/root';
 import {
   Product,
@@ -22,20 +22,17 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-product-interests',
   templateUrl: './asm-customer-360-product-interests.component.html',
-  imports: [
-    NgIf,
-    AsmCustomer360ProductListingComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [AsmCustomer360ProductListingComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ProductInterestsComponent {
+  sectionContext = inject<
+    AsmCustomer360SectionContext<AsmCustomer360ProductInterestList>
+  >(AsmCustomer360SectionContext);
+  protected productService = inject(ProductService);
+
   products$: Observable<Array<Product>>;
 
-  constructor(
-    public sectionContext: AsmCustomer360SectionContext<AsmCustomer360ProductInterestList>,
-    protected productService: ProductService
-  ) {
+  constructor() {
     this.products$ = this.sectionContext.data$.pipe(
       concatMap((interestList) => {
         if (!interestList?.customerProductInterests?.length) {

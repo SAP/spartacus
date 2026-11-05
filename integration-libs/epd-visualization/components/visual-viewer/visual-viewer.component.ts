@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   Output,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { SpinnerComponent } from '@spartacus/storefront';
@@ -30,7 +30,6 @@ import { VisualViewerService } from './visual-viewer.service';
   providers: [VisualViewerService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     VisualViewerToolbarButtonComponent,
     VisualViewerAnimationSliderComponent,
     SpinnerComponent,
@@ -38,7 +37,7 @@ import { VisualViewerService } from './visual-viewer.service';
   ],
 })
 export class VisualViewerComponent {
-  constructor(protected visualViewerService: VisualViewerService) {}
+  protected visualViewerService = inject(VisualViewerService);
 
   /**
    * The top colour of the background gradient.

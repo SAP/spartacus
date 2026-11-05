@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -26,14 +26,15 @@ import {
   selector: 'cx-org-cell',
   templateUrl: './cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe],
+  imports: [RouterLink, NgTemplateOutlet, UrlPipe],
 })
 export class CellComponent implements OnInit {
+  protected outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
   changeDetectorRef = inject(ChangeDetectorRef);
   private featureToggles = inject(FeatureToggles);
   private destroyRef = inject(DestroyRef);
-
-  constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   ngOnInit(): void {
     if (this.featureToggles.a11yCardNotificationMessage) {

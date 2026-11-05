@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,8 +30,6 @@ import { SiteContextType } from './site-context.model';
   templateUrl: './site-context-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     IconComponent,
     AsyncPipe,
     I18nModule,
@@ -40,6 +38,8 @@ import { SiteContextType } from './site-context.model';
   ],
 })
 export class SiteContextSelectorComponent {
+  private componentService = inject(SiteContextComponentService);
+
   /**
    * @deprecated since 2011.21 removed unused property
    */
@@ -53,7 +53,7 @@ export class SiteContextSelectorComponent {
 
   protected translationService = inject(TranslationService);
 
-  constructor(private componentService: SiteContextComponentService) {
+  constructor() {
     useFeatureStyles('a11ySiteContextCaretClick');
   }
 

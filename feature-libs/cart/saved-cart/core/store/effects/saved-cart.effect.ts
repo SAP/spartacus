@@ -22,6 +22,12 @@ import { SavedCartActions } from '../actions/index';
 
 @Injectable()
 export class SavedCartEffects {
+  private actions$ = inject(Actions);
+  private savedCartConnector = inject(SavedCartConnector);
+  private activeCartService = inject(ActiveCartFacade);
+  private globalMessageService = inject(GlobalMessageService);
+  private cartConnector = inject(CartConnector);
+
   protected logger = inject(LoggerService);
 
   loadSavedCart$: Observable<
@@ -296,12 +302,4 @@ export class SavedCartEffects {
       })
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private savedCartConnector: SavedCartConnector,
-    private activeCartService: ActiveCartFacade,
-    private globalMessageService: GlobalMessageService,
-    private cartConnector: CartConnector
-  ) {}
 }

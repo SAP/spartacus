@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FeatureToggles,
@@ -54,7 +54,6 @@ interface ConfiguratorProductTitleView {
   templateUrl: './configurator-product-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorMainAriaLabelledByDirective,
     ConfiguratorTruncatePathTitleDirective,
     IconComponent,
@@ -64,6 +63,13 @@ interface ConfiguratorProductTitleView {
   ],
 })
 export class ConfiguratorProductTitleComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected productService = inject(ProductService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
   private featureToggles = inject(FeatureToggles);
 
@@ -285,12 +291,7 @@ export class ConfiguratorProductTitleComponent {
   showMore = false;
   iconTypes = ICON_TYPE;
 
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected productService: ProductService,
-    protected configExpertModeService: ConfiguratorExpertModeService
-  ) {
+  constructor() {
     useFeatureStyles('productConfiguratorCPQContainer');
   }
 

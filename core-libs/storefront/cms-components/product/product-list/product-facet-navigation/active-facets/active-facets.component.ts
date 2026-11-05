@@ -4,13 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, HostBinding, Input, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Breadcrumb, FeatureDirective, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -28,10 +23,7 @@ import { FacetService } from '../services/facet.service';
 @Component({
   selector: 'cx-active-facets',
   templateUrl: './active-facets.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     FocusDirective,
     FeatureDirective,
@@ -42,6 +34,8 @@ import { FacetService } from '../services/facet.service';
   ],
 })
 export class ActiveFacetsComponent {
+  protected facetService = inject(FacetService);
+
   @HostBinding('attr.role') role = 'group';
   @HostBinding('attr.aria-labelledby') labelledby =
     'cx-active-facets-groupName';
@@ -51,8 +45,6 @@ export class ActiveFacetsComponent {
 
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
-
-  constructor(protected facetService: FacetService) {}
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(

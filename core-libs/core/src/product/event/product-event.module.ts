@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideEnvironmentInitializer } from '@angular/core';
 import { ProductEventBuilder } from './product-event.builder';
 
-@NgModule({})
-export class ProductEventModule {
-  constructor(_productEventBuilder: ProductEventBuilder) {
-    // Intentional empty constructor
-  }
-}
+@NgModule({
+  providers: [
+    provideEnvironmentInitializer(() => {
+      inject(ProductEventBuilder);
+    }),
+  ],
+})
+export class ProductEventModule {}

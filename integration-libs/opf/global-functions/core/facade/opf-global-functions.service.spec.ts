@@ -9,6 +9,7 @@ import {
   ElementRef,
   InjectionToken,
   ViewContainerRef,
+  inject as inject_1,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, WindowRef } from '@spartacus/core';
@@ -40,7 +41,7 @@ export const WINDOW = new InjectionToken<Window>('window');
 
 @Component({ template: '' })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

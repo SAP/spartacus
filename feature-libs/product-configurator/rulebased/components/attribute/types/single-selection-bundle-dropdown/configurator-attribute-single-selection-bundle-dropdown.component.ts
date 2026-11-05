@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -32,12 +37,10 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
     './configurator-attribute-single-selection-bundle-dropdown.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     NgClass,
     ReactiveFormsModule,
     FocusDirective,
-    NgFor,
     ConfiguratorAttributeProductCardComponent,
     ConfiguratorAttributeQuantityComponent,
     ConfiguratorPriceComponent,
@@ -49,27 +52,28 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
+  protected override quantityService = inject(
+    ConfiguratorAttributeQuantityService
+  );
+  protected override translation = inject(TranslationService);
+  protected override attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected override configuratorCommonsService = inject(
+    ConfiguratorCommonsService
+  );
+  protected override configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   readonly RETRACT_VALUE_CODE = Configurator.RetractValueCode;
   attributeDropDownForm = new UntypedFormControl('');
   selectionValue?: Configurator.Value;
   group: string;
 
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
-    super(
-      quantityService,
-      translation,
-      attributeComponentContext,
-      configuratorCommonsService,
-      configuratorStorefrontUtilsService
-    );
-
-    this.group = attributeComponentContext.group.id;
+  constructor() {
+    super();
+    this.group = this.attributeComponentContext.group.id;
   }
 
   ngOnInit() {

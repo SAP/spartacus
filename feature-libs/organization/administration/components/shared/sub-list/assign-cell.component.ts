@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -26,22 +25,21 @@ import { SubListService } from './sub-list.service';
 @Component({
   selector: 'cx-org-assign-cell',
   template: `
-    <button type="button" *ngIf="hasItem" (click)="toggleAssign()" class="link">
-      {{ isAssigned ? 'unassign' : 'assign' }}
-    </button>
+    @if (hasItem) {
+      <button type="button" (click)="toggleAssign()" class="link">
+        {{ isAssigned ? 'unassign' : 'assign' }}
+      </button>
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf],
+  imports: [],
 })
 export class AssignCellComponent<T extends BaseItem> extends CellComponent {
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected organizationItemService: ItemService<T>,
-    protected messageService: MessageService,
-    protected organizationSubListService: ListService<T>
-  ) {
-    super(outlet);
-  }
+  protected override outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+  protected organizationItemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject(MessageService);
+  protected organizationSubListService = inject<ListService<T>>(ListService);
 
   get isAssigned(): boolean {
     return (this.item as any)?.selected;

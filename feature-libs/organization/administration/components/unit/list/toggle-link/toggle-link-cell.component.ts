@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,9 +36,13 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, RouterLink, IconComponent, UrlPipe, TranslatePipe],
+  imports: [AsyncPipe, RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
+  protected override outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+  protected unitTreeService = inject(UnitTreeService);
+
   @HostBinding('style.--cx-depth-level')
   get depthLevel() {
     return this.model.depthLevel;
@@ -51,13 +55,6 @@ export class ToggleLinkCellComponent extends CellComponent {
   protected readonly isLargeScreen$ = inject(BreakpointService).isUp(
     BREAKPOINT.lg
   );
-
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected unitTreeService: UnitTreeService
-  ) {
-    super(outlet);
-  }
 
   get combinedName() {
     return this.property ? `${this.property} (${this.count})` : '';

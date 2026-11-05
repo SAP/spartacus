@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Consignment } from '@spartacus/order/root';
@@ -20,7 +20,6 @@ import { OrderAmendService } from '../../amend-order.service';
   templateUrl: './return-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     CancelOrReturnItemsComponent,
     FormErrorsComponent,
@@ -29,6 +28,8 @@ import { OrderAmendService } from '../../amend-order.service';
   ],
 })
 export class ReturnOrderComponent {
+  protected orderAmendService = inject(OrderAmendService);
+
   orderCode: string;
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService
@@ -71,6 +72,4 @@ export class ReturnOrderComponent {
         );
     })
   );
-
-  constructor(protected orderAmendService: OrderAmendService) {}
 }

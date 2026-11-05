@@ -10,6 +10,7 @@ import {
   HttpHeaders,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -137,7 +138,7 @@ describe(`OpfApiPaymentAdapter`, () => {
           provide: OpfMetadataStatePersistanceService,
           useClass: MockOpfMetadataStatePersistanceService,
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

@@ -12,6 +12,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
@@ -46,6 +47,10 @@ import { SplitViewService } from '../split-view.service';
   providers: [SplitViewService],
 })
 export class SplitViewComponent implements OnInit, OnDestroy {
+  protected splitService = inject(SplitViewService);
+  protected breakpointService = inject(BreakpointService);
+  protected elementRef = inject(ElementRef);
+
   private subscription = new Subscription();
 
   /**
@@ -67,12 +72,6 @@ export class SplitViewComponent implements OnInit, OnDestroy {
   @HostBinding('style.--cx-active-view')
   @HostBinding('attr.active-view')
   lastVisibleView = 1;
-
-  constructor(
-    protected splitService: SplitViewService,
-    protected breakpointService: BreakpointService,
-    protected elementRef: ElementRef
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

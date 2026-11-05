@@ -19,6 +19,10 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserPaymentMethodsEffects {
+  private actions$ = inject(Actions);
+  private userPaymentMethodConnector = inject(UserPaymentConnector);
+  private globalMessageService = inject(GlobalMessageService);
+
   protected logger = inject(LoggerService);
 
   loadUserPaymentMethods$: Observable<Action> = createEffect(() =>
@@ -95,10 +99,4 @@ export class UserPaymentMethodsEffects {
       })
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private userPaymentMethodConnector: UserPaymentConnector,
-    private globalMessageService: GlobalMessageService
-  ) {}
 }

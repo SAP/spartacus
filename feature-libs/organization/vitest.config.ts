@@ -30,6 +30,16 @@ export default defineConfig({
       'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module.ts`,
       'core-libs/storefront/shared/components/split-view/view/view.component': `${root}/core-libs/storefront/shared/components/split-view/view/view.component.ts`,
       'core-libs/core/src/features-config/feature-toggles/testing': `${root}/core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
+      // Resolve the core/storefront barrels to source so DI tokens (e.g.
+      // FeatureToggles/FeatureConfigService) are a single class identity. Without
+      // this, a component's `@spartacus/core` `inject(FeatureToggles)` reads a
+      // prebundled token while `provideMockFeatureToggles` (imported from the
+      // `core-libs/core/src/...` testing path) overrides the source one — the
+      // tokens don't match, mocked toggles are never seen, and feature-gated
+      // code (e.g. `enableFormFieldMaxLength`, `addTitleToAddressCard`) takes the
+      // disabled path. Keep AFTER the more-specific `core-libs/*` aliases.
+      '@spartacus/core': `${root}/core-libs/core/public_api.ts`,
+      '@spartacus/storefront': `${root}/core-libs/storefront/public_api.ts`,
     },
   },
   test: {

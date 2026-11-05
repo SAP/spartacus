@@ -1,6 +1,7 @@
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -287,7 +288,7 @@ describe('VisualViewerComponent', () => {
             provide: SceneAdapter,
             useClass: StorageV1Adapter,
           },
-          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClient(withXhr(), withInterceptorsFromDi()),
           provideHttpClientTesting(),
         ],
       }).compileComponents();
@@ -324,7 +325,7 @@ describe('VisualViewerComponent', () => {
             provide: VisualViewerAnimationSliderComponent,
             useClass: MockVisualViewerAnimationSliderComponent,
           },
-          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClient(withXhr(), withInterceptorsFromDi()),
           provideHttpClientTesting(),
         ],
       }).overrideComponent(VisualViewerComponent, {
