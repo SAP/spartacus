@@ -92,7 +92,7 @@ describe('ConfigTabBarComponent', () => {
     mockRouterState.state.params.displayOnly = false;
 
     routerStateObservable = of(mockRouterState);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [RouterModule, ConfiguratorTabBarComponent],
       providers: [
         {

@@ -69,7 +69,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       ConfiguratorAttributeSingleSelectionImageComponent,
       {}
     );
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,

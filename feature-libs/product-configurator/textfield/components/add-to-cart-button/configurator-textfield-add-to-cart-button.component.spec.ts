@@ -74,7 +74,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   }
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ConfiguratorTextfieldAddToCartButtonComponent,
         RouterModule.forRoot([]),
@@ -96,6 +96,10 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
         },
         add: {
           imports: [I18nTestingModule, UrlTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
+        set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

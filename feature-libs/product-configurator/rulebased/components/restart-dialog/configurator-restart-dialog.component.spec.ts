@@ -86,7 +86,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
 
   beforeEach(async () => {
     createServiceMocks();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorRestartDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },

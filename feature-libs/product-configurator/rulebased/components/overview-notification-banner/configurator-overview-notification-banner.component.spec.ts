@@ -108,7 +108,7 @@ class MockActivatedRoute {
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [RouterModule, ConfiguratorOverviewNotificationBannerComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },

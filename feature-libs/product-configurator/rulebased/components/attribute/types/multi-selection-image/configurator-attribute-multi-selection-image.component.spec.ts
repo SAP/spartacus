@@ -93,7 +93,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         },
       }
     );
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,

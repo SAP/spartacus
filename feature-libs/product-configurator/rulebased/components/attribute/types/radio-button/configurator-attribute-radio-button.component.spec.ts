@@ -127,7 +127,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         LoggerTestingModule,

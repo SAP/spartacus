@@ -132,7 +132,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   };
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         LoggerTestingModule,
         ConfiguratorAttributeHeaderComponent,

@@ -40,7 +40,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   const userInput = 'theUserInput';
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         ConfiguratorAttributeInputFieldComponent,

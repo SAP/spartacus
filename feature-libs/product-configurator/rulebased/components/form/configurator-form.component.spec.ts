@@ -270,7 +270,7 @@ let featureToggles: MockFeatureTogglesController;
 
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgSelectModule, ConfiguratorFormComponent],
       providers: [
         {

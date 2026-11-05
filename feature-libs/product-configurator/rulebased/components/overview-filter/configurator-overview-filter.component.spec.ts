@@ -106,7 +106,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
   beforeEach(async () => {
     initTestData();
     initMocks();
-    configureTestingModule().compileComponents();
+    await configureTestingModule().compileComponents();
     initTestComponent();
   });
 

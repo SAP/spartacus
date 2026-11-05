@@ -422,7 +422,7 @@ function setDataForQuoteEntry() {
 
 describe('ConfigProductTitleComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,

@@ -16,7 +16,7 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -127,7 +127,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   };
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         ConfiguratorAttributeMultiSelectionBundleComponent,

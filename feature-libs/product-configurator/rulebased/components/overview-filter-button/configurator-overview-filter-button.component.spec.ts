@@ -89,7 +89,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
   beforeEach(async () => {
     initTestData();
     initMocks();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterButtonComponent],
       providers: [
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },

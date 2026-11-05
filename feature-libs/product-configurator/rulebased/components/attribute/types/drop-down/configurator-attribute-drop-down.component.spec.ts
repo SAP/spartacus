@@ -173,7 +173,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         LoggerTestingModule,
         ReactiveFormsModule,

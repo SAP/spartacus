@@ -92,7 +92,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: ConfiguratorAttributeCompositionContext,

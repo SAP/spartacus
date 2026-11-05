@@ -454,7 +454,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   }
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorAddToCartButtonComponent],
       providers: [
         {

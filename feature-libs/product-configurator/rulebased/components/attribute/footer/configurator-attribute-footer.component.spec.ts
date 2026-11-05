@@ -61,7 +61,7 @@ const owner = ConfiguratorModelUtils.createOwner(
 
 describe('ConfigAttributeFooterComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ConfiguratorAttributeFooterComponent,
         MockFeatureLevelDirective,

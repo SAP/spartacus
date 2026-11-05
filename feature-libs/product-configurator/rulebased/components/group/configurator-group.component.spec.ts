@@ -299,7 +299,7 @@ describe('ConfiguratorGroupComponent', () => {
       getActive: vi.fn().mockReturnValue(of('en')),
     };
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         IconTestingModule,

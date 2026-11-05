@@ -65,7 +65,7 @@ function initialize() {
 
 describe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,

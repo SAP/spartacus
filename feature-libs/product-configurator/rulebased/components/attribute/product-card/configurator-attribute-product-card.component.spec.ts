@@ -185,7 +185,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   };
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         ConfiguratorAttributeProductCardComponent,

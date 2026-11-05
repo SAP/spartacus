@@ -64,7 +64,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   }
   describe('with cart item context', () => {
     beforeEach(async () => {
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         imports: [ConfiguratorIssuesNotificationComponent],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },
@@ -355,7 +355,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
   describe('without cart item context', () => {
     beforeEach(async () => {
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         imports: [ConfiguratorIssuesNotificationComponent],
         providers: [{ provide: CartItemContext, useValue: null }],
       })

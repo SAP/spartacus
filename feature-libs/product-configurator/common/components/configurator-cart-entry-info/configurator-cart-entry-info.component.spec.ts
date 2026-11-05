@@ -48,7 +48,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   let mockCartItemContext: MockCartItemContext;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, ConfiguratorCartEntryInfoComponent],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
@@ -422,7 +422,7 @@ describe('ConfiguratorCartEntryInfoComponent without cart item context', () => {
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorCartEntryInfoComponent],
     }).compileComponents();
   });

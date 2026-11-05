@@ -189,7 +189,7 @@ class MockDirectionService implements Partial<DirectionService> {
 
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,

@@ -50,7 +50,7 @@ describe('ConfiguratorGroupsService', () => {
   let configFacadeUtilsService: ConfiguratorUtilsService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [LoggerTestingModule, StoreModule.forRoot({})],
       providers: [
         ConfiguratorGroupsService,

@@ -117,7 +117,7 @@ describe('ConfiguratorUtilsService', () => {
   let classUnderTest: ConfiguratorUtilsService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [ConfiguratorUtilsService],
     }).compileComponents();
   });

@@ -85,7 +85,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   let focusService: KeyboardFocusService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorConflictSolverDialogComponent],
       providers: [
         {

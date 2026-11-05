@@ -56,7 +56,7 @@ class MockConfiguratorOverviewFilterComponent {
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
   beforeEach(async () => {
     initializeMocks();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterDialogComponent],
       providers: [
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },

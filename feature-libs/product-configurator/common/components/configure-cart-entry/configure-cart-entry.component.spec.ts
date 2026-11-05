@@ -92,8 +92,8 @@ describe('ConfigureCartEntryComponent', () => {
   }
 
   describe('Without abstract order context', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
 
@@ -113,8 +113,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('getRoute', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
 
@@ -147,8 +147,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('getCpqContainerFragment', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
       component.readOnly = true;
       component.rowId = 'row-1';
@@ -194,8 +194,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('getDisplayOnly', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
     it('should return true in case readOnly is true', () => {
@@ -235,8 +235,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('isInCheckout', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
     it('should return false in case the url does not contain checkoutReviewOrder', async () => {
@@ -258,8 +258,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('With abstract order context', () => {
-    beforeEach(() => {
-      configureTestingModule()
+    beforeEach(async () => {
+      await configureTestingModule()
         .overrideProvider(AbstractOrderContext, {
           useValue: new MockAbstractOrderContext(),
         })
@@ -596,9 +596,9 @@ describe('ConfigureCartEntryComponent', () => {
           );
         });
 
-        it('should render CPQ container link text when productConfiguratorCPQContainer is enabled', () => {
+        it('should render CPQ container link text when productConfiguratorCPQContainer is enabled', async () => {
           TestBed.resetTestingModule();
-          configureTestingModule()
+          await configureTestingModule()
             .overrideProvider(AbstractOrderContext, {
               useValue: new MockAbstractOrderContext(),
             })

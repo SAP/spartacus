@@ -114,7 +114,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       getActive: vi.fn().mockReturnValue(of(locale)),
       setActive: vi.fn(),
     };
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         KeyboardFocusTestingModule,

@@ -94,7 +94,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
   beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     currentGroupObservable = of(group);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         IconTestingModule,
         ReactiveFormsModule,

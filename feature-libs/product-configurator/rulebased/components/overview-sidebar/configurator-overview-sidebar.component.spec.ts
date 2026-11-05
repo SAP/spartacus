@@ -203,7 +203,7 @@ function initSidebarWithCpqContainerToggle(cpqContainerEnabled: boolean): void {
 
 describe('ConfiguratorOverviewSidebarComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewSidebarComponent],
       providers: [
         {

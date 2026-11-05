@@ -143,7 +143,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ConfiguratorPreviousNextButtonsComponent,
         KeyboardFocusTestingModule,

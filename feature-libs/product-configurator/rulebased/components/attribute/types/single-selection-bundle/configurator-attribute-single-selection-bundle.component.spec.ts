@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, ProductConnector } from '@spartacus/core';
@@ -125,7 +124,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   };
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ReactiveFormsModule,

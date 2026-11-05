@@ -236,7 +236,7 @@ function initialize() {
 
 describe('ConfiguratorGroupMenuComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,

@@ -61,7 +61,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
   beforeEach(async () => {
     initTestData();
     initMocks();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterBarComponent],
       providers: [
         {

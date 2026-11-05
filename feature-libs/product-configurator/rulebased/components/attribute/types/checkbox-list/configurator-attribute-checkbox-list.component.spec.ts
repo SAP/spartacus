@@ -124,7 +124,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         LoggerTestingModule,
         ReactiveFormsModule,
