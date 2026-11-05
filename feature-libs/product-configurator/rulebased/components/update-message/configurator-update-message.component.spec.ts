@@ -6,8 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CxDatePipe,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -91,7 +89,7 @@ describe('ConfiguratorUpdateMessageComponent', () => {
         imports: [TranslatePipe, CxDatePipe, SpinnerComponent],
       },
       add: {
-        imports: [MockTranslatePipe, MockDatePipe, MockCxSpinnerComponent],
+        imports: [I18nTestingModule, MockCxSpinnerComponent],
       },
     });
   });

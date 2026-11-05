@@ -92,7 +92,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: ConfiguratorAttributeCompositionContext,
@@ -118,8 +118,10 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             MockConfiguratorPriceComponent,
             MockConfiguratorShowMoreComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
