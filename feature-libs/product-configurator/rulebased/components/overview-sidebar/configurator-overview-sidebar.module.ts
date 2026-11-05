@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorOverviewFilterModule } from '../overview-filter/configurator-overview-filter.module';
 import { ConfiguratorOverviewMenuModule } from '../overview-menu/configurator-overview-menu.module';
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
@@ -20,7 +20,7 @@ import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-si
     ConfiguratorOverviewSidebarComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorOverviewSidebar: {
           component: ConfiguratorOverviewSidebarComponent,

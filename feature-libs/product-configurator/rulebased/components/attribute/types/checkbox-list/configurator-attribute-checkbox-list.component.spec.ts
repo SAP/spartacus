@@ -14,6 +14,7 @@ import {
   CxDatePipe,
   I18nTestingModule,
   MockDatePipe,
+  LoggerTestingModule,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
@@ -74,6 +75,9 @@ class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
 }
 
 const VALUE_1 = 'val1';
@@ -127,6 +131,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorAttributeCheckBoxListComponent,
