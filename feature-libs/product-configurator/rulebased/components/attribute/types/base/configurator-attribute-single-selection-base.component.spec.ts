@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
@@ -15,7 +15,6 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
-import { provideConfiguratorMockCommonsService } from '../../../../testing';
 
 const attributeWithValuePrice: Configurator.Attribute = {
   name: 'attribute with value price',
@@ -62,6 +61,13 @@ const createTestValue = (
 
 const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
 
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoading$.asObservable();
+  }
+}
+
 @Component({
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
@@ -97,7 +103,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   const selectedValue = 'a';
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         StoreModule.forRoot({}),
@@ -110,9 +116,10 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        provideConfiguratorMockCommonsService({
-          isConfigurationLoadingSource: () => isConfigurationLoading$,
-        }),
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
       ],
     }).compileComponents();
   });

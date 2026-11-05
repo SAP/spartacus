@@ -5,10 +5,14 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
-import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
-import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
-import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
+import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -19,7 +23,6 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { GROUP_ID_1, PRODUCT_CODE } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
 let routerStateObservable: any = null;
@@ -140,9 +143,8 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ConfiguratorPreviousNextButtonsComponent,
         KeyboardFocusTestingModule,
       ],
@@ -166,9 +168,15 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe],
         },
+        add: {
+          imports: [I18nTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -240,7 +248,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   it('should display previous button as disabled if it is the first group', () => {
     vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
-      of(undefined)
+      of(null)
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
@@ -265,7 +273,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   it('should display next button as disabled if it is the last group', () => {
     vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
-      of(undefined)
+      of(null)
     );
     fixture.detectChanges();
     const lastBtn = fixture.debugElement.query(

@@ -15,10 +15,9 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorType,
-} from '../../../../common/core/model/common-configurator.model';
+} from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import type { Mock } from 'vitest';
 import { take } from 'rxjs/operators';
 import {
   ATTRIBUTE_1_CHECKBOX,
@@ -40,7 +39,6 @@ import { ConfiguratorSelectors } from '../selectors/index';
 import { getConfiguratorReducers } from './../reducers/index';
 import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 import * as fromEffects from './configurator-basic.effect';
-import { MockConfiguratorProviderService } from '../../../testing';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -178,15 +176,15 @@ const searchVariantsAction = new ConfiguratorActions.SearchVariants(
 );
 
 describe('ConfiguratorEffect', () => {
-  let createMock: Mock;
-  let readMock: Mock;
-  let updateConfigurationMock: Mock;
-  let addContainerRowMock: Mock;
-  let copyContainerRowMock: Mock;
-  let removeContainerRowMock: Mock;
-  let readPriceSummaryMock: Mock;
-  let overviewMock: Mock;
-  let updateOverviewMock: Mock;
+  let createMock: vi.Mock;
+  let readMock: vi.Mock;
+  let updateConfigurationMock: vi.Mock;
+  let addContainerRowMock: vi.Mock;
+  let copyContainerRowMock: vi.Mock;
+  let removeContainerRowMock: vi.Mock;
+  let readPriceSummaryMock: vi.Mock;
+  let overviewMock: vi.Mock;
+  let updateOverviewMock: vi.Mock;
   let configEffects: fromEffects.ConfiguratorBasicEffects;
   let configuratorBasicEffectService: ConfiguratorBasicEffectService;
 
@@ -343,10 +341,7 @@ describe('ConfiguratorEffect', () => {
       const completionFailure = new ConfiguratorActions.CreateConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: tryNormalizeHttpError(
-            errorResponse,
-            new MockConfiguratorProviderService.MockLoggerService()
-          ),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         }
       );
       actions$ = hot('-a', { a: action });
@@ -434,10 +429,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFailAction =
         new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: tryNormalizeHttpError(
-            errorResponse,
-            new MockConfiguratorProviderService.MockLoggerService()
-          ),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: readConfigurationFailAction });
@@ -488,10 +480,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFailAction =
         new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: tryNormalizeHttpError(
-            errorResponse,
-            new MockConfiguratorProviderService.MockLoggerService()
-          ),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: readConfigurationFailAction });
@@ -541,10 +530,7 @@ describe('ConfiguratorEffect', () => {
 
       const failAction = new ConfiguratorActions.GetConfigurationOverviewFail({
         ownerKey: productConfiguration.owner.key,
-        error: tryNormalizeHttpError(
-          errorResponse,
-          new MockConfiguratorProviderService.MockLoggerService()
-        ),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: overviewAction });
       const expected = cold('-b', { b: failAction });
@@ -586,10 +572,7 @@ describe('ConfiguratorEffect', () => {
       const failAction =
         new ConfiguratorActions.UpdateConfigurationOverviewFail({
           ownerKey: productConfiguration.owner.key,
-          error: tryNormalizeHttpError(
-            errorResponse,
-            new MockConfiguratorProviderService.MockLoggerService()
-          ),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = hot('-a', { a: overviewAction });
       const expected = cold('-b', { b: failAction });
@@ -628,10 +611,7 @@ describe('ConfiguratorEffect', () => {
 
       const failAction = new ConfiguratorActions.UpdateConfigurationFail({
         configuration: productConfiguration,
-        error: tryNormalizeHttpError(
-          errorResponse,
-          new MockConfiguratorProviderService.MockLoggerService()
-        ),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: failAction });
@@ -711,10 +691,7 @@ describe('ConfiguratorEffect', () => {
 
       const failAction = new ConfiguratorActions.AddContainerRowFail({
         parameters: addContainerRowParameters,
-        error: tryNormalizeHttpError(
-          errorResponse,
-          new MockConfiguratorProviderService.MockLoggerService()
-        ),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: failAction });
@@ -765,10 +742,7 @@ describe('ConfiguratorEffect', () => {
 
       const failAction = new ConfiguratorActions.CopyContainerRowFail({
         parameters: copyContainerRowParameters,
-        error: tryNormalizeHttpError(
-          errorResponse,
-          new MockConfiguratorProviderService.MockLoggerService()
-        ),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: failAction });
@@ -818,10 +792,7 @@ describe('ConfiguratorEffect', () => {
 
       const failAction = new ConfiguratorActions.RemoveContainerRowFail({
         parameters: removeContainerRowParameters,
-        error: tryNormalizeHttpError(
-          errorResponse,
-          new MockConfiguratorProviderService.MockLoggerService()
-        ),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: failAction });
@@ -852,10 +823,7 @@ describe('ConfiguratorEffect', () => {
 
       const failAction = new ConfiguratorActions.UpdatePriceSummaryFail({
         ownerKey: productConfiguration.owner.key,
-        error: tryNormalizeHttpError(
-          errorResponse,
-          new MockConfiguratorProviderService.MockLoggerService()
-        ),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: updatePriceSummaryAction });
       const expected = cold('-b', { b: failAction });
@@ -1662,10 +1630,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFail =
         new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: tryNormalizeHttpError(
-            errorResponse,
-            new MockConfiguratorProviderService.MockLoggerService()
-          ),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         });
 
       actions$ = hot('-a', { a: action });
@@ -1681,9 +1646,13 @@ describe('ConfiguratorEffect', () => {
     let entitiesInConfigurationState: {
       [id: string]: any;
     } = {};
+    let configurationState: any;
 
     beforeEach(() => {
       entitiesInConfigurationState = {};
+      configurationState = {
+        configurations: { entities: entitiesInConfigurationState },
+      };
     });
 
     it('should emit remove configuration action for configurations that are purely product bound', () => {

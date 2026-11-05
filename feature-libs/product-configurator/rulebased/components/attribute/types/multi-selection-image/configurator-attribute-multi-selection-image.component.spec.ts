@@ -1,14 +1,16 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   FocusDirective,
   ICON_TYPE,
   IconComponent,
   IconTestingModule,
   KeyboardFocusTestingModule,
+  MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -17,19 +19,53 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
-import {
-  MockConfiguratorPriceComponent,
-  MockConfiguratorProviderService,
-} from '../../../../testing';
 
 class MockGroupService {}
 
 const VALUE_NAME_3 = 'val3';
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    IconTestingModule,
+    PopoverModule,
+  ],
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
+
+class MockConfiguratorStorefrontUtilsService {
+  assembleValuesForMultiSelectAttributes(): void {}
+
+  lastSelected?: { attributeName: string; valueCode: string };
+  setLastSelected(attributeName: string, valueCode: string): void {
+    this.lastSelected = { attributeName, valueCode };
+  }
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return (
+      !!this.lastSelected &&
+      this.lastSelected.attributeName === attributeName &&
+      this.lastSelected.valueCode === valueCode
+    );
+  }
+}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -57,7 +93,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         },
       }
     );
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
@@ -67,8 +103,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       providers: [
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: ConfiguratorGroupsService,
@@ -80,8 +115,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
       ],
     })
@@ -93,10 +127,12 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
           imports: [
             KeyboardFocusTestingModule,
             MockConfiguratorPriceComponent,
-            IconTestingModule,
+            MockIconComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -228,7 +264,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     vi.spyOn(
       configuratorStorefrontUtilsService,
       'assembleValuesForMultiSelectAttributes'
-    ).mockReturnValue(component.attribute.values ?? []);
+    ).mockReturnValue(component.attribute.values);
     expect(valueToSelect.checked).toBe(false);
     valueToSelect.click();
     fixture.detectChanges();

@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
-import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
-import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
-import { LayoutConfig } from '@spartacus/storefront';
+import {
+  ConfiguratorModelUtils,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
+import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
-import { provideConfiguratorMockBreakpointService } from '../../testing';
 
 const standardRouterData: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -18,6 +19,11 @@ class MockRouterExtractorService {
   }
 }
 let isLargeResolution: boolean;
+class MockBreakpointService {
+  isUp(): Observable<boolean> {
+    return of(isLargeResolution);
+  }
+}
 const displayOnlyHeaderSlotsLargeResolution = [
   'SiteContext',
   'SiteLinks',
@@ -60,15 +66,16 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
   let classUnderTest: VariantConfiguratorPageLayoutHandler;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockRouterExtractorService,
         },
-        provideConfiguratorMockBreakpointService({
-          isUpSource: () => of(isLargeResolution),
-        }),
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
         {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,

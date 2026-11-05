@@ -14,16 +14,14 @@ import {
 } from '@spartacus/core';
 import { defaultCommonConfiguratorUISettingsConfig } from '../../components/config/default-common-configurator-ui-settings.config';
 import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
-import { CommonConfiguratorUISettingsConfig } from '../../components/config/common-configurator-ui-settings.config';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 import { ConfiguratorModelUtils } from './configurator-model-utils';
-import { MockConfiguratorProviderService } from '../../testing';
 
 const productCode = 'CONF_LAPTOP';
 const documentId = '12344';
@@ -32,6 +30,7 @@ let owner: CommonConfigurator.Owner;
 
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
+const NAMED_USER = 'NAMED_USER';
 
 const cartAnonymous: Cart = {
   code: CART_CODE,
@@ -40,6 +39,12 @@ const cartAnonymous: Cart = {
 };
 
 let cartItem: OrderEntry;
+
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of(NAMED_USER);
+  }
+}
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -76,11 +81,11 @@ describe('CommonConfiguratorUtilsService', () => {
   let mockCartItemContext: CartItemContextSource;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: UserIdService,
-          useClass: MockConfiguratorProviderService.MockUserIdService,
+          useClass: MockUserIdService,
         },
         { provide: CartItemContext, useClass: MockCartItemContext },
         provideDefaultConfig(defaultCommonConfiguratorUISettingsConfig),

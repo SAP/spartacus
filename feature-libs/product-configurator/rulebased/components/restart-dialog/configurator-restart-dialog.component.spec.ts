@@ -7,7 +7,7 @@ import {
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import {
   FocusDirective,
   IconComponent,
@@ -17,18 +17,26 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, lastValueFrom, of, ReplaySubject } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { MockConfiguratorProductService } from '../../../common/testing/services/mock-configurator-product.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
-import { MockConfiguratorProviderService } from '../../testing';
-import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
-import { MockConfiguratorRoutingService } from '../../../common/testing/services/mock-configurator-routing.service';
 import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 const product: Product = { code: 'pCode' };
+
+class MockConfiguratorCommonsService {
+  forceNewConfiguration = vi.fn();
+}
+
+class MockRoutingService {
+  go = vi.fn();
+}
+
+class MockProductService {
+  get = vi.fn();
+}
 
 describe('ConfiguratorRestartDialogComponent', () => {
   let component: ConfiguratorRestartDialogComponent;
@@ -37,35 +45,12 @@ describe('ConfiguratorRestartDialogComponent', () => {
 
   let mockLaunchDialogService: LaunchDialogService;
   let mockConfigCommonsService: MockConfiguratorCommonsService;
-  let mockRoutingService: MockConfiguratorRoutingService;
-  let mockProductService: MockConfiguratorProductService;
+  let mockRoutingService: MockRoutingService;
+  let mockProductService: MockProductService;
 
   let dialogDataSender: BehaviorSubject<
     { owner: CommonConfigurator.Owner } | undefined
   >;
-
-  class MockLaunchDialogService {
-    closeDialog(): void {}
-    get data$() {
-      return dialogDataSender;
-    }
-  }
-
-  function createServiceMocks(): void {
-    mockConfigCommonsService =
-      new MockConfiguratorProviderService.MockConfiguratorCommonsService();
-    mockRoutingService =
-      new MockConfiguratorProviderService.MockRoutingService();
-    mockProductService = new MockConfiguratorProductService();
-  }
-
-  function resetServiceMocks(): void {
-    mockConfigCommonsService.forceNewConfiguration.mockReset();
-    mockRoutingService.go.mockReset();
-    mockProductService.get.mockReset();
-    mockProductService.get.mockReturnValue(of(product));
-    mockProductService.product = product;
-  }
 
   function initialize() {
     resetServiceMocks();
@@ -79,9 +64,29 @@ describe('ConfiguratorRestartDialogComponent', () => {
     vi.spyOn(mockLaunchDialogService, 'closeDialog');
   }
 
+  class MockLaunchDialogService {
+    closeDialog(): void {}
+    get data$() {
+      return dialogDataSender;
+    }
+  }
+
+  function createServiceMocks(): void {
+    mockConfigCommonsService = new MockConfiguratorCommonsService();
+    mockRoutingService = new MockRoutingService();
+    mockProductService = new MockProductService();
+  }
+
+  function resetServiceMocks(): void {
+    mockConfigCommonsService.forceNewConfiguration.mockReset();
+    mockRoutingService.go.mockReset();
+    mockProductService.get.mockReset();
+    mockProductService.get.mockReturnValue(of(product));
+  }
+
   beforeEach(async () => {
     createServiceMocks();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorRestartDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },

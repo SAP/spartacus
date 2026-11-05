@@ -25,7 +25,7 @@ describe('ConfiguratorGroupStatusService', () => {
   let store: Store<StateWithConfigurator>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [ConfiguratorUtilsService, ConfiguratorGroupStatusService],
     }).compileComponents();
@@ -35,7 +35,7 @@ describe('ConfiguratorGroupStatusService', () => {
     classUnderTest = TestBed.inject(ConfiguratorGroupStatusService);
     store = TestBed.inject(Store);
 
-    vi.spyOn(store, 'dispatch');
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     vi.spyOn(store, 'pipe').mockReturnValue(of(productConfiguration));
   });
 

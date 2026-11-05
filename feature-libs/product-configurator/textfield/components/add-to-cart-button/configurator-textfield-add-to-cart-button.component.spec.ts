@@ -1,21 +1,23 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
+  RouterState,
   RoutingService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
-import { MockConfiguratorProviderService } from '../../../rulebased/testing';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
@@ -38,6 +40,13 @@ const mockRouterState: any = {
     queryParams: {},
   },
 };
+
+class MockRoutingService {
+  getRouterState(): Observable<RouterState> {
+    return of(mockRouterState);
+  }
+  go(): void {}
+}
 
 class MockConfiguratorTextfieldService {
   addToCart(): void {}
@@ -65,7 +74,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   }
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ConfiguratorTextfieldAddToCartButtonComponent,
         RouterModule.forRoot([]),
@@ -77,7 +86,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
         },
         {
           provide: RoutingService,
-          useClass: MockConfiguratorProviderService.MockRoutingService,
+          useClass: MockRoutingService,
         },
       ],
     })
@@ -87,6 +96,10 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
         },
         add: {
           imports: [I18nTestingModule, UrlTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
+        set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
@@ -5,30 +6,33 @@ import {
   I18nTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
-import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import {
   CommonConfigurator,
+  ConfiguratorRouter,
   ConfiguratorType,
-} from '../../../common/core/model/common-configurator.model';
+} from '@spartacus/product-configurator/common';
 import {
   FocusDirective,
+  IconComponent,
   IconTestingModule,
   KeyboardFocusService,
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, NEVER, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
-import {
-  MockConfiguratorGroupComponent,
-  MockConfiguratorProviderService,
-} from '../../testing';
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+  dismissConflictSolverDialog(): void {}
+}
 
 const mockRouterData: ConfiguratorRouter.Data = {
   owner: {
@@ -46,10 +50,29 @@ const mockData: any = {
 
 const mockDialogData$ = new BehaviorSubject<any>(mockData);
 
-class MockLaunchDialogService {
-  data$ = mockDialogData$.asObservable();
-  closeDialog = vi.fn();
-  openDialogAndSubscribe = vi.fn();
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  get data$(): Observable<any> {
+    return mockDialogData$.asObservable();
+  }
+
+  closeDialog(_reason: string): void {}
+}
+
+@Component({
+  selector: 'cx-configurator-group',
+  template: '',
+  imports: [I18nTestingModule, IconTestingModule],
+})
+class MockConfiguratorDefaultFormComponent {
+  @Input() group: Configurator.Group;
+  @Input() owner: CommonConfigurator.Owner;
+  @Input() isNavigationToGroupEnabled = true;
+}
+
+class MockConfigUtilsService {
+  scrollToConfigurationElement(): void {}
+
+  focusFirstAttribute(): void {}
 }
 
 describe('ConfiguratorConflictSolverDialogComponent', () => {
@@ -62,18 +85,16 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   let focusService: KeyboardFocusService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [IconTestingModule, ConfiguratorConflictSolverDialogComponent],
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorConflictSolverDialogComponent],
       providers: [
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
@@ -86,14 +107,16 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
             FeatureDirective,
             TranslatePipe,
             CxDatePipe,
+            IconComponent,
           ],
         },
         add: {
           imports: [
-            MockConfiguratorGroupComponent,
+            I18nTestingModule,
+            IconTestingModule,
             KeyboardFocusTestingModule,
             MockFeatureDirective,
-            I18nTestingModule,
+            MockConfiguratorDefaultFormComponent,
           ],
         },
       })
@@ -189,7 +212,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         expect,
         htmlElem,
         '.cx-msg-warning',
-        'configurator.header.conflictWarning'
+        'ERROR configurator.header.conflictWarning'
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(

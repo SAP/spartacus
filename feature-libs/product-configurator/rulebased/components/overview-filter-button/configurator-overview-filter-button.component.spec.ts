@@ -1,23 +1,21 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
-import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { NEVER, Observable, of } from 'rxjs';
+import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../core';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
-import {
-  MockConfiguratorOverviewFilterBarComponent,
-  MockConfiguratorProviderService,
-  provideConfiguratorMockCommonsService,
-  provideConfiguratorMockRouterExtractorService,
-  provideConfiguratorMockStorefrontUtilsService,
-} from '../../testing';
+import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -30,8 +28,14 @@ let fixture: ComponentFixture<ConfiguratorOverviewFilterButtonComponent>;
 let htmlElem: HTMLElement;
 
 let mockLaunchDialogService: LaunchDialogService;
+let mockConfigRouterService: ConfiguratorRouterExtractorService;
+let mockConfigCommonsService: ConfiguratorCommonsService;
+
 let ovConfig: Configurator.ConfigurationWithOverview;
-let configuration$: Observable<Configurator.Configuration>;
+
+function asSpy(f: any) {
+  return f;
+}
 
 function initTestData() {
   ovConfig = structuredClone({
@@ -50,28 +54,57 @@ function initComponent() {
   isDisplayOnlyVariant = false;
 }
 
+function initMocks() {
+  mockLaunchDialogService = { openDialogAndSubscribe: vi.fn() } as any;
+  mockConfigRouterService = { extractRouterData: vi.fn() } as any;
+  mockConfigCommonsService = { getConfiguration: vi.fn() } as any;
+  (mockConfigRouterService.extractRouterData as any).mockReturnValue(
+    of(ConfigurationTestData.mockRouterState)
+  );
+  (mockConfigCommonsService.getConfiguration as any).mockReturnValue(
+    of(ovConfig)
+  );
+  (mockLaunchDialogService.openDialogAndSubscribe as any).mockReturnValue(
+    EMPTY
+  );
+}
+
+@Component({
+  selector: 'cx-configurator-overview-filter-bar',
+  template: '',
+})
+class MockConfiguratorOverviewFilterBarComponent {
+  @Input() config: Configurator.ConfigurationWithOverview;
+}
+
 let isDisplayOnlyVariant: boolean;
+
+class MockConfiguratorStorefrontUtilsService {
+  isDisplayOnlyVariant(): Observable<boolean> {
+    return of(isDisplayOnlyVariant);
+  }
+}
 
 describe('ConfigurationOverviewFilterButtonComponent', () => {
   beforeEach(async () => {
     initTestData();
-    configuration$ = of(ovConfig);
+    initMocks();
     await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterButtonComponent],
       providers: [
+        { provide: LaunchDialogService, useValue: mockLaunchDialogService },
         {
-          provide: LaunchDialogService,
-          useClass: MockConfiguratorProviderService.MockLaunchDialogService,
+          provide: ConfiguratorRouterExtractorService,
+          useValue: mockConfigRouterService,
         },
-        provideConfiguratorMockRouterExtractorService({
-          routerDataSource: () => of(ConfigurationTestData.mockRouterState),
-        }),
-        provideConfiguratorMockCommonsService({
-          configurationSource: () => configuration$,
-        }),
-        provideConfiguratorMockStorefrontUtilsService({
-          isDisplayOnlyVariantSource: () => of(isDisplayOnlyVariant),
-        }),
+        {
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorOverviewFilterButtonComponent, {
@@ -89,16 +122,29 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-    mockLaunchDialogService = TestBed.inject(LaunchDialogService);
-    vi.mocked(
-      mockLaunchDialogService.openDialogAndSubscribe
-    ).mockImplementation(() => {});
     initComponent();
   });
 
   it('should create component', () => {
     fixture.detectChanges();
     expect(component).toBeDefined();
+  });
+
+  it('should render ghost filter button when overview configuration is not available', () => {
+    asSpy(mockConfigCommonsService.getConfiguration).mockReturnValue(NEVER);
+    initComponent();
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-config-filter-button'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-ghost-filter-button.ghost'
+    );
   });
 
   it('should open filter modal on request', () => {
@@ -135,11 +181,8 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
 
   it('should render no filter button for variant in case there is only one group', () => {
     isDisplayOnlyVariant = true;
-    ovConfig.overview.possibleGroups = (
-      ovConfig.overview.possibleGroups ??
-      ovConfig.overview.groups ??
-      []
-    ).slice(1);
+    ovConfig.overview.possibleGroups =
+      ovConfig.overview.possibleGroups?.slice(1);
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -167,23 +210,6 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       htmlElem,
       '.cx-config-filter-button',
       'configurator.button.filterOverview numAppliedFilters:0'
-    );
-  });
-
-  it('while loading should not render filter button but ghost button instead', () => {
-    configuration$ = NEVER;
-    initComponent();
-    fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-filter-button'
-    );
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-ghost-filter-button.ghost'
     );
   });
 

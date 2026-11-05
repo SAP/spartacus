@@ -172,7 +172,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         { provide: WindowRef, useClass: MockedWindowRef },
         {
           provide: ConfiguratorUISettingsConfig,
-          useValue: structuredClone(defaultConfiguratorUISettingsConfig),
+          useValue: defaultConfiguratorUISettingsConfig,
         },
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
@@ -1248,11 +1248,8 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
 
     it('should honor customer config for custom configurator types', () => {
-      const uiSettings = TestBed.inject(ConfiguratorUISettingsConfig);
-      uiSettings.productConfigurator = {
-        ...uiSettings.productConfigurator,
+      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
         overviewMenuFilterTabVisible: {
-          ...uiSettings.productConfigurator?.overviewMenuFilterTabVisible,
           MYCUSTOMTYPE: true,
         },
       };

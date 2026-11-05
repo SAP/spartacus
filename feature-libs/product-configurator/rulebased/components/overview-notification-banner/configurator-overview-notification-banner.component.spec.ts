@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { I18nTestingModule, TranslatePipe, UrlPipe } from '@spartacus/core';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
+  ConfiguratorRouterExtractorService,
   ConfiguratorType,
-} from '../../../common/core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+} from '@spartacus/product-configurator/common';
 import { IconComponent, IconTestingModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
   CONFIG_ID,
@@ -20,7 +21,6 @@ import {
   productConfigurationWithoutIssues,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
-import { provideConfiguratorMockCommonsService } from '../../testing';
 
 const productConfigurationWithDetailedIssuesCountedInOverview: Configurator.Configuration =
   {
@@ -84,6 +84,11 @@ class MockConfigRouterExtractorService {
 }
 
 let configurationObs: Observable<Configurator.Configuration>;
+class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return configurationObs;
+  }
+}
 let component: ConfiguratorOverviewNotificationBannerComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewNotificationBannerComponent>;
 let htmlElem: HTMLElement;
@@ -96,13 +101,14 @@ function initialize(router: ConfiguratorRouter.Data) {
   htmlElem = fixture.nativeElement;
   fixture.detectChanges();
 }
+
 class MockActivatedRoute {
   constructor(public snapshot: any) {}
 }
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [RouterModule, ConfiguratorOverviewNotificationBannerComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
@@ -110,9 +116,10 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockConfigRouterExtractorService,
         },
-        provideConfiguratorMockCommonsService({
-          configurationSource: () => configurationObs,
-        }),
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorOverviewNotificationBannerComponent, {

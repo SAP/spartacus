@@ -2,7 +2,6 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-
 import { TestBed } from '@angular/core/testing';
 import {
   CART_MODIFICATION_NORMALIZER,
@@ -18,10 +17,10 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
+  CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
   ConfiguratorType,
-} from '../../../common/core/model/common-configurator.model';
-import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
-import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+} from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import {
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
@@ -40,7 +39,6 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
-import { MockConfiguratorProviderService } from '../../testing';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -57,6 +55,12 @@ class MockOccEndpointsService {
 
   getEndpoint(url: string) {
     return url;
+  }
+}
+
+class MockTranslationService {
+  translate(text: string) {
+    return text;
   }
 }
 
@@ -136,10 +140,7 @@ describe('OccConfigurationVariantAdapter', () => {
       providers: [
         VariantConfiguratorOccAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-        {
-          provide: TranslationService,
-          useClass: MockConfiguratorProviderService.MockTranslationService,
-        },
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: VARIANT_CONFIGURATOR_NORMALIZER,
           useExisting: OccConfiguratorVariantNormalizer,

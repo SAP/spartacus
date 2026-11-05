@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,17 +13,12 @@ import {
   FeatureConfigService,
   FeatureToggles,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   Product,
   ProductService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusDirective,
   ICON_TYPE,
@@ -26,10 +27,11 @@ import {
   KeyboardFocusTestingModule,
   MediaComponent,
 } from '@spartacus/storefront';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
-import { ConfiguratorProductScope } from '../../../../common/core/model/configurator-product-scope';
 import {
   BehaviorSubject,
   EMPTY,
@@ -40,19 +42,20 @@ import {
 } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorPriceComponent } from '../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../price/configurator-price.component';
+import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
-import { ConfiguratorAttributeQuantityComponent } from '../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 import {
-  MockConfiguratorAttributeQuantityComponent,
-  MockConfiguratorPriceComponent,
-  MockConfiguratorProviderService,
-  provideConfiguratorMockProductService,
-} from '../../../testing';
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../quantity/configurator-attribute-quantity.component';
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
+import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 const product: Product = {
   name: 'Product Name',
@@ -86,7 +89,38 @@ const productTransformed: Product = {
   name: 'Lorem Ipsum Dolor',
 };
 
+class MockProductService {
+  get(): Observable<Product> {
+    return of(product);
+  }
+}
+
+class MockConfiguratorStorefrontUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(true);
+  }
+}
+
 let focusService: KeyboardFocusService;
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
+}
 
 function setProductBoundValueAttributes(
   component: ConfiguratorAttributeProductCardComponent,
@@ -151,7 +185,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   };
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         ConfiguratorAttributeProductCardComponent,
@@ -159,11 +193,13 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         ItemCounterComponent,
       ],
       providers: [
-        provideConfiguratorMockProductService(() => of(product)),
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         ...provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
@@ -207,15 +243,14 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
             I18nTestingModule,
             UrlTestingModule,
             MockMediaComponent,
-            MockTranslatePipe,
-            MockDatePipe,
-            MockUrlPipe,
             MockConfiguratorPriceComponent,
             KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeProductCardComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -1711,7 +1746,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         0,
         'aria-describedby',
         'cx-configurator--label--' +
-          component.productCardOptions.attribute.name,
+          component.productCardOptions.attribute?.name,
         'configurator.button.select'
       );
     });

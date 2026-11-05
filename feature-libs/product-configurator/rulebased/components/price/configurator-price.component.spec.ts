@@ -42,7 +42,7 @@ describe('ConfiguratorPriceComponent', () => {
   let directionService: DirectionService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorPriceComponent],
       providers: [
         {

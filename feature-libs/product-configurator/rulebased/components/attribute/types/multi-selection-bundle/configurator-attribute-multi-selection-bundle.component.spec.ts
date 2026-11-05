@@ -1,8 +1,13 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
 import { ActivatedRoute } from '@angular/router';
 import {
   CxDatePipe,
@@ -11,29 +16,62 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { ItemCounterComponent } from '@spartacus/storefront';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 import {
-  MockConfiguratorAttributeProductCardComponent,
-  MockConfiguratorAttributeQuantityComponent,
-  MockConfiguratorPriceComponent,
-  MockConfiguratorProviderService,
-} from '../../../../testing';
+  ConfiguratorAttributeProductCardComponent,
+  ConfiguratorAttributeProductCardComponentOptions,
+} from '../../product-card/configurator-attribute-product-card.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
+
+@Component({
+  selector: 'cx-configurator-attribute-product-card',
+  template: '',
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
+})
+class MockProductCardComponent {
+  @Input()
+  productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
+}
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
 
 function getSelected(
   component: ConfiguratorAttributeMultiSelectionBundleComponent,
@@ -41,6 +79,13 @@ function getSelected(
 ): boolean | undefined {
   const values = component.attribute.values;
   return values ? values[index].selected : false;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 class MockActivatedRoute {
@@ -82,7 +127,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   };
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         ConfiguratorAttributeMultiSelectionBundleComponent,
@@ -97,8 +142,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
@@ -139,19 +183,21 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         add: {
           imports: [
             I18nTestingModule,
-            MockUrlPipe,
-            MockConfiguratorAttributeProductCardComponent,
+            UrlTestingModule,
+            MockProductCardComponent,
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
           providers: [
             {
               provide: ConfiguratorAttributeProductCardComponent,
-              useClass: MockConfiguratorAttributeProductCardComponent,
+              useClass: MockProductCardComponent,
             },
           ],
         },
+      })
+      .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -572,9 +618,8 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     }
 
     function getRenderedProductCardOptions(): ConfiguratorAttributeProductCardComponentOptions {
-      return fixture.debugElement.query(
-        By.directive(MockConfiguratorAttributeProductCardComponent)
-      ).componentInstance.productCardOptions;
+      return fixture.debugElement.query(By.directive(MockProductCardComponent))
+        .componentInstance.productCardOptions;
     }
 
     beforeEach(() => {

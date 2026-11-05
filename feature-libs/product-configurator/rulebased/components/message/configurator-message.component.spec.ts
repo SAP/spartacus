@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE, IconTestingModule } from '@spartacus/storefront';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  IconTestingModule,
+} from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorMessageComponent } from './configurator-message.component';
 
@@ -12,17 +16,19 @@ describe('ConfiguratorMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        ConfiguratorMessageComponent,
-        I18nTestingModule,
-        IconTestingModule,
-      ],
+      imports: [ConfiguratorMessageComponent],
       providers: [],
     })
       .overrideComponent(ConfiguratorMessageComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe, IconComponent],
         },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorMessageComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -82,13 +88,13 @@ describe('ConfiguratorMessageComponent', () => {
           expect,
           htmlElem,
           '.cx-error-message',
-          'First message'
+          'ERROR First message'
         );
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
           '.cx-error-message',
-          'Second message',
+          'ERROR Second message',
           1
         );
       });

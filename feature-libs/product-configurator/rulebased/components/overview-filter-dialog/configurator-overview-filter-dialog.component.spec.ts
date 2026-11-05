@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -16,23 +17,18 @@ import {
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { NEVER, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
-import {
-  MockConfiguratorOverviewFilterComponent,
-  MockConfiguratorProviderService,
-} from '../../testing';
 import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
 
 let component: ConfiguratorOverviewFilterDialogComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterDialogComponent>;
 let htmlElem: HTMLElement;
 
-const ovConfig = ConfigurationTestData.productConfiguration;
+let mockLaunchDialogService: any;
 
-let mockLaunchDialogService: InstanceType<
-  typeof MockConfiguratorProviderService.MockLaunchDialogService
->;
+const ovConfig = ConfigurationTestData.productConfiguration;
 
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFilterDialogComponent);
@@ -41,12 +37,26 @@ function initialize() {
   fixture.detectChanges();
 }
 
+function initializeMocks() {
+  mockLaunchDialogService = {
+    closeDialog: vi.fn(),
+    data$: of(ovConfig),
+  };
+}
+
+@Component({
+  selector: 'cx-configurator-overview-filter',
+  template: '',
+})
+class MockConfiguratorOverviewFilterComponent {
+  @Input() showFilterBar: boolean = true;
+  @Input() config: Configurator.ConfigurationWithOverview;
+}
+
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
   beforeEach(async () => {
-    mockLaunchDialogService =
-      new MockConfiguratorProviderService.MockLaunchDialogService();
-    mockLaunchDialogService.data$ = of(ovConfig);
-    TestBed.configureTestingModule({
+    initializeMocks();
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterDialogComponent],
       providers: [
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },
@@ -68,8 +78,8 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
             I18nTestingModule,
             IconTestingModule,
             KeyboardFocusTestingModule,
-            MockConfiguratorOverviewFilterComponent,
             MockFeatureDirective,
+            MockConfiguratorOverviewFilterComponent,
           ],
         },
       })

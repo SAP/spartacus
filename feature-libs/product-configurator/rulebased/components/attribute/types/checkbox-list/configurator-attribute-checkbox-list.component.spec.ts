@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,11 +13,9 @@ import {
   CxDatePipe,
   I18nTestingModule,
   LoggerTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import {
   FocusDirective,
   KeyboardFocusTestingModule,
@@ -22,24 +26,80 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
-import {
-  MockConfiguratorAttributeQuantityComponent,
-  MockConfiguratorPriceComponent,
-  MockConfiguratorShowMoreComponent,
-  MockConfiguratorProviderService,
-} from '../../../../testing';
 
 class MockGroupService {}
 
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
+}
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
+}
+
 const VALUE_1 = 'val1';
 const VALUE_2 = 'val2';
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
+}
+
+class MockConfiguratorStorefrontUtilsService {
+  assembleValuesForMultiSelectAttributes(): void {}
+
+  lastSelected?: { attributeName: string; valueCode: string };
+  setLastSelected(attributeName: string, valueCode: string): void {
+    this.lastSelected = { attributeName, valueCode };
+  }
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return (
+      !!this.lastSelected &&
+      this.lastSelected.attributeName === attributeName &&
+      this.lastSelected.valueCode === valueCode
+    );
+  }
+}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -64,7 +124,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         LoggerTestingModule,
         ReactiveFormsModule,
@@ -74,8 +134,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
       providers: [
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: ConfiguratorGroupsService,
@@ -88,8 +147,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
       ],
     })
@@ -112,8 +170,10 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
             MockConfiguratorPriceComponent,
             MockConfiguratorShowMoreComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

@@ -1,10 +1,15 @@
-import { ChangeDetectionStrategy, Injectable } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injectable,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
-import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import {
   DirectionMode,
   DirectionService,
@@ -16,16 +21,55 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
-import {
-  MockConfiguratorPriceComponent,
-  MockConfiguratorShowMoreComponent,
-  MockConfiguratorProviderService,
-} from '../../../../testing';
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
+
+class MockConfiguratorStorefrontUtilsService {
+  lastSelected?: { attributeName: string; valueCode: string };
+  setLastSelected(attributeName: string, valueCode: string): void {
+    this.lastSelected = { attributeName, valueCode };
+  }
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return (
+      !!this.lastSelected &&
+      this.lastSelected.attributeName === attributeName &&
+      this.lastSelected.valueCode === valueCode
+    );
+  }
+}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -56,7 +100,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
@@ -70,13 +114,11 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: DirectionService,
@@ -85,21 +127,23 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
-        remove: {
+        add: {
           imports: [
             ConfiguratorPriceComponent,
             ConfiguratorShowMoreComponent,
             FocusDirective,
           ],
         },
-        add: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
           imports: [
             KeyboardFocusTestingModule,
             MockConfiguratorPriceComponent,
             MockConfiguratorShowMoreComponent,
           ],
         },
+      })
+      .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

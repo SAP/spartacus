@@ -5,11 +5,11 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { Configurator } from '../../../core/model/configurator.model';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Observable, of } from 'rxjs';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
-import { MockConfiguratorProviderService } from '../../../../common/testing';
 
 const ATTR_NAME = 'name of attribute';
 const attrBase: Cpq.Attribute = {
@@ -144,6 +144,18 @@ const CURRENCY = 'USD';
 
 const configurationId = '1234-56-7890';
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
+
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of('General');
+  }
+}
+
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
 
@@ -155,11 +167,11 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
         CpqConfiguratorNormalizerUtilsService,
         {
           provide: LanguageService,
-          useClass: MockConfiguratorProviderService.MockLanguageService,
+          useClass: MockLanguageService,
         },
         {
           provide: TranslationService,
-          useClass: MockConfiguratorProviderService.MockTranslationService,
+          useClass: MockTranslationService,
         },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
@@ -656,11 +668,11 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
           CpqConfiguratorNormalizerUtilsService,
           {
             provide: LanguageService,
-            useClass: MockConfiguratorProviderService.MockLanguageService,
+            useClass: MockLanguageService,
           },
           {
             provide: TranslationService,
-            useClass: MockConfiguratorProviderService.MockTranslationService,
+            useClass: MockTranslationService,
           },
           ...provideMockFeatureToggles({
             productConfiguratorCPQContainer: false,

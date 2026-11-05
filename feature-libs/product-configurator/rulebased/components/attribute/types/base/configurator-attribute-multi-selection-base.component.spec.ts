@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -10,7 +10,6 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
-import { provideConfiguratorMockCommonsService } from '../../../../testing';
 
 const createTestValue = (
   price: number | undefined,
@@ -49,12 +48,19 @@ class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAt
 }
 const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
 
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoading$.asObservable();
+  }
+}
+
 describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeMultiSelectionComponent>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ExampleConfiguratorAttributeMultiSelectionComponent,
@@ -65,9 +71,10 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        provideConfiguratorMockCommonsService({
-          isConfigurationLoadingSource: () => isConfigurationLoading$,
-        }),
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},

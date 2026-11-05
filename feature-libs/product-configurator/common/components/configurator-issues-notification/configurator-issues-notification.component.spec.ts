@@ -1,4 +1,4 @@
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -12,7 +12,6 @@ import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
-import { MockConfigureCartEntryComponent } from '../../testing/components/mock-configure-cart-entry.component';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry';
 import {
   ConfigurationInfo,
@@ -20,6 +19,17 @@ import {
   StatusSummary,
 } from './../../core/model/common-configurator.model';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
+
+@Component({
+  selector: 'cx-configure-cart-entry',
+  template: '',
+})
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
+}
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -54,7 +64,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   }
   describe('with cart item context', () => {
     beforeEach(async () => {
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         imports: [ConfiguratorIssuesNotificationComponent],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },
@@ -345,7 +355,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
   describe('without cart item context', () => {
     beforeEach(async () => {
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         imports: [ConfiguratorIssuesNotificationComponent],
         providers: [{ provide: CartItemContext, useValue: null }],
       })

@@ -1,16 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterState } from '@spartacus/core';
-import { Subscription, of } from 'rxjs';
-import {
-  MockConfiguratorProviderService,
-  provideConfiguratorMockQuantityService,
-  provideConfiguratorMockRoutingService,
-} from '../../../testing';
+import { RouterState, RoutingService } from '@spartacus/core';
+import { Observable, Subscription, of } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
-import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
 import { ConfiguratorRouterListener } from './configurator-router.listener';
+import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
 
 const QUANTITY = 99;
+class MockConfiguratorCartService {
+  removeCartBoundConfigurations() {}
+}
+
 let routerState: RouterState = {
   navigationId: 1,
   state: {
@@ -42,20 +41,43 @@ const routerStateCartRoute: RouterState = {
   },
 };
 
+class MockRoutingService {
+  getRouterState(): Observable<RouterState> {
+    return of(routerState);
+  }
+}
+
+class MockConfiguratorQuantityService {
+  getQuantity(): Observable<number> {
+    return of(QUANTITY);
+  }
+  setQuantity(): void {}
+}
+
+let mockConfiguratorCartService: MockConfiguratorCartService =
+  new MockConfiguratorCartService();
+
+let mockRoutingService: MockRoutingService = new MockRoutingService();
+
 describe('ConfiguratorRouterListener', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configuratorQuantityService: ConfiguratorQuantityService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
-        ConfiguratorRouterListener,
         {
           provide: ConfiguratorCartService,
-          useClass: MockConfiguratorProviderService.MockConfiguratorCartService,
+          useValue: mockConfiguratorCartService,
         },
-        provideConfiguratorMockRoutingService(() => of(routerState)),
-        provideConfiguratorMockQuantityService({ quantity: QUANTITY }),
+        {
+          provide: RoutingService,
+          useValue: mockRoutingService,
+        },
+        {
+          provide: ConfiguratorQuantityService,
+          useClass: MockConfiguratorQuantityService,
+        },
       ],
     }).compileComponents();
   });

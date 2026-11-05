@@ -1,26 +1,43 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
-import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
-import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product-configurator/common';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
-import {
-  provideConfiguratorMockCommonsService,
-  provideConfiguratorMockRoutingService,
-} from '../../testing';
 
 let routerStateObservable: any = null;
+class MockRoutingService {
+  getRouterState(): Observable<RouterState> {
+    return routerStateObservable;
+  }
+}
+
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 let hasPendingChanges = false;
 let waitingTime: number | undefined = 1000;
+
+class MockConfiguratorCommonsService {
+  hasPendingChanges(): Observable<boolean> {
+    return of(hasPendingChanges);
+  }
+}
 
 class MockMessageConfig {
   productConfigurator = {
@@ -50,14 +67,18 @@ describe('ConfiguratorUpdateMessageComponent', () => {
         ConfiguratorUpdateMessageComponent,
       ],
       providers: [
-        provideConfiguratorMockRoutingService(() => routerStateObservable),
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
         {
           provide: ConfiguratorMessageConfig,
           useClass: MockMessageConfig,
         },
-        provideConfiguratorMockCommonsService({
-          hasPendingChangesSource: () => of(hasPendingChanges),
-        }),
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
       ],
     }).overrideComponent(ConfiguratorUpdateMessageComponent, {
       remove: {

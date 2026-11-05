@@ -1,4 +1,3 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -22,7 +21,6 @@ import {
   ReadOnlyPostfix,
 } from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
-import { MockConfiguratorProviderService } from '../../testing';
 
 const productCode = 'CONF_LAPTOP';
 const configuratorType = ConfiguratorType.VARIANT;
@@ -62,9 +60,8 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
 }
 
 let component: ConfigureProductComponent;
@@ -84,7 +81,7 @@ function setupWithCurrentProductService(
     productListItemContextReturnsNull
   ) {
     TestBed.configureTestingModule({
-      imports: [RouterModule, ConfigureProductComponent, MockUrlPipe],
+      imports: [RouterModule, ConfigureProductComponent],
       providers: [
         {
           provide: ProductListItemContext,
@@ -96,7 +93,7 @@ function setupWithCurrentProductService(
         },
         {
           provide: RoutingService,
-          useClass: MockConfiguratorProviderService.MockRoutingService,
+          useClass: MockRoutingService,
         },
       ],
     })
@@ -107,11 +104,7 @@ function setupWithCurrentProductService(
       .compileComponents();
   } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        ConfigureProductComponent,
-        MockUrlPipe,
-      ],
+      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
       providers: [
         {
           provide: CurrentProductService,
@@ -119,7 +112,7 @@ function setupWithCurrentProductService(
         },
         {
           provide: RoutingService,
-          useClass: MockConfiguratorProviderService.MockRoutingService,
+          useClass: MockRoutingService,
         },
       ],
     })
@@ -130,11 +123,7 @@ function setupWithCurrentProductService(
       .compileComponents();
   } else {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        ConfigureProductComponent,
-        MockUrlPipe,
-      ],
+      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
       providers: [
         {
           provide: ProductListItemContext,
@@ -146,7 +135,7 @@ function setupWithCurrentProductService(
         },
         {
           provide: RoutingService,
-          useClass: MockConfiguratorProviderService.MockRoutingService,
+          useClass: MockRoutingService,
         },
       ],
     })

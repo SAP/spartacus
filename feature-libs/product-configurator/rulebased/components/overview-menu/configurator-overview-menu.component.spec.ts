@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
-import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { IconComponent, MockIconComponent } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
@@ -14,7 +14,6 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
-import { MockConfiguratorProviderService } from '../../testing';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -27,6 +26,26 @@ const CONFIGURATION: Configurator.ConfigurationWithOverview = {
   overview: ConfigurationTestData.productConfiguration
     .overview as Configurator.Overview,
 };
+
+class MockConfiguratorGroupsService {
+  setGroupStatusVisited = vi.fn();
+}
+
+class MockConfiguratorStorefrontUtilsService {
+  getElementById = vi.fn();
+  getElements = vi.fn();
+  getPrefixId = vi.fn();
+  hasScrollbar = vi.fn();
+  getClosestElement = vi.fn();
+  changeStylingOfElement = vi.fn();
+  removeStylingOfElement = vi.fn();
+  createOvGroupId = vi.fn((_idPrefix?: string, _groupId?: string) => '');
+  createOvMenuItemId = vi.fn();
+  ensureElementVisible = vi.fn();
+  getSpareViewportHeight = vi.fn();
+  getVerticallyScrolledPixels = vi.fn();
+  navigateToOverviewGroup = vi.fn();
+}
 
 let component: ConfiguratorOverviewMenuComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
@@ -46,7 +65,7 @@ function initialize() {
 
 describe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
@@ -55,13 +74,11 @@ describe('ConfigurationOverviewMenuComponent', () => {
       providers: [
         {
           provide: ConfiguratorGroupsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],

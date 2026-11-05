@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
-import { MockConfiguratorItemCounterComponent } from '../../../testing';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 const fakeDebounceTime = 750;
@@ -39,9 +38,21 @@ function initializeWithObs(disableObs: Observable<boolean>) {
   vi.spyOn(component.changeQuantity, 'emit');
   fixture.detectChanges();
 }
+@Component({
+  template: '',
+  selector: 'cx-item-counter',
+})
+class MockItemCounterComponent {
+  @Input() min: number;
+  @Input() max: number;
+  @Input() step: any;
+  @Input() control: any;
+  @Input() allowZero: boolean;
+}
+
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [I18nTestingModule, ConfiguratorAttributeQuantityComponent],
       providers: [
         {
@@ -52,7 +63,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     })
       .overrideComponent(ConfiguratorAttributeQuantityComponent, {
         remove: { imports: [ItemCounterComponent] },
-        add: { imports: [MockConfiguratorItemCounterComponent] },
+        add: { imports: [MockItemCounterComponent] },
       })
       .overrideComponent(ConfiguratorAttributeQuantityComponent, {
         set: {

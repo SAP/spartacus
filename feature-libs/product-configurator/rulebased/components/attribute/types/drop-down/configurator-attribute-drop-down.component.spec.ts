@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -8,7 +14,7 @@ import {
   I18nTestingModule,
   LoggerTestingModule,
 } from '@spartacus/core';
-import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import {
   FocusDirective,
   KeyboardFocusTestingModule,
@@ -16,23 +22,23 @@ import {
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { defaultNumericAttributeMetadata } from '../../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import {
-  MockConfiguratorAttributeQuantityComponent,
-  MockConfiguratorPriceComponent,
-  MockConfiguratorShowMoreComponent,
-  MockConfiguratorProviderService,
-  provideConfiguratorMockStorefrontUtilsService,
-} from '../../../../testing';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
 function createValue(
@@ -56,7 +62,53 @@ function createValue(
   return value;
 }
 
-let cartEntryOrGroupVisited = true;
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
+}
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
+}
+
+let showRequiredErrorMessage: boolean;
+
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(showRequiredErrorMessage);
+  }
+}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -76,9 +128,9 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   const selectedValue = 'selectedValue';
 
   function createComponentWithData(
-    visited: boolean = true
+    isCartEntryOrGroupVisited: boolean = true
   ): ConfiguratorAttributeDropDownComponent {
-    cartEntryOrGroupVisited = visited;
+    showRequiredErrorMessage = isCartEntryOrGroupVisited;
 
     fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
     htmlElem = fixture.nativeElement;
@@ -121,7 +173,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         LoggerTestingModule,
         ReactiveFormsModule,
@@ -137,12 +189,12 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
-        provideConfiguratorMockStorefrontUtilsService({
-          isCartEntryOrGroupVisitedSource: () => of(cartEntryOrGroupVisited),
-        }),
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeDropDownComponent, {
@@ -163,8 +215,10 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
             MockFeatureLevelDirective,
             MockConfiguratorShowMoreComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

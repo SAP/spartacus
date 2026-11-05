@@ -1,28 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
-import {
-  CommonConfigurator,
-  ConfiguratorType,
-} from '../../../common/core/model/common-configurator.model';
-import { CommonConfiguratorUtilsService } from '../../../common/shared/utils/common-configurator-utils.service';
-import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
-import { IconComponent, IconTestingModule } from '@spartacus/storefront';
-import { firstValueFrom, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-conflict-and-error-messages.component';
-import {
-  provideConfiguratorMockCommonsService,
-  provideConfiguratorMockRouterExtractorService,
-} from '../../testing';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '12342';
@@ -154,6 +152,18 @@ function createConfigWithContainerRows(
 
 let configuration: Configurator.Configuration;
 
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return of(mockRouterData);
+  }
+}
+
+class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return of(configuration);
+  }
+}
+
 describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   let component: ConfiguratorConflictAndErrorMessagesComponent;
   let fixture: ComponentFixture<ConfiguratorConflictAndErrorMessagesComponent>;
@@ -166,25 +176,26 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
         ConfiguratorConflictAndErrorMessagesComponent,
       ],
       providers: [
-        provideConfiguratorMockRouterExtractorService({
-          routerDataSource: () => of(mockRouterData),
-        }),
-        provideConfiguratorMockCommonsService({
-          configurationSource: () => of(configuration),
-        }),
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
       ],
     }).overrideComponent(ConfiguratorConflictAndErrorMessagesComponent, {
       remove: {
-        imports: [IconComponent],
+        imports: [IconComponent, TranslatePipe],
       },
-      add: { imports: [IconTestingModule] },
+      add: { imports: [IconTestingModule, I18nTestingModule] },
     });
   });
   beforeEach(() => {

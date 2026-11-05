@@ -15,10 +15,9 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorType,
-} from '../../../../common/core/model/common-configurator.model';
+} from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import type { Mock } from 'vitest';
 
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorCoreConfig } from '../../config/configurator-core.config';
@@ -29,7 +28,6 @@ import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import { getConfiguratorReducers } from '../reducers/index';
 import * as fromEffects from './configurator-variant.effect';
-import { MockConfiguratorProviderService } from '../../../testing';
 
 const productCode = 'CONF_LAPTOP';
 
@@ -57,7 +55,7 @@ const variants: Configurator.Variant[] = [
 let configuratorCoreConfig: ConfiguratorCoreConfig;
 
 describe('ConfiguratorVariantEffect', () => {
-  let searchVariantsMock: Mock;
+  let searchVariantsMock: vi.Mock;
 
   let configEffects: fromEffects.ConfiguratorVariantEffects;
 
@@ -170,10 +168,7 @@ describe('ConfiguratorVariantEffect', () => {
 
     const completionFailure = new ConfiguratorActions.SearchVariantsFail({
       ownerKey: productConfiguration.owner.key,
-      error: tryNormalizeHttpError(
-        errorResponse,
-        new MockConfiguratorProviderService.MockLoggerService()
-      ),
+      error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });

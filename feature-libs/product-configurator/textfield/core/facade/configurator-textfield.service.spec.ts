@@ -6,8 +6,10 @@ import {
   OCC_USER_ID_CURRENT,
   UserIdService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
@@ -16,6 +18,7 @@ import {
   StateWithConfigurationTextfield,
 } from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
+
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 const ATTRIBUTE_NAME = 'AttributeName';
@@ -124,7 +127,7 @@ describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         ConfiguratorTextfieldService,

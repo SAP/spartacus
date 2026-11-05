@@ -1,8 +1,14 @@
-import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CartItemContext,
   OrderEntry,
@@ -18,23 +24,25 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import {
+  CommonConfiguratorUtilsService,
+  ConfigurationInfo,
+  ConfiguratorCartEntryBundleInfoService,
+  ConfiguratorProductScope,
+  ConfiguratorType,
+  ConfigureCartEntryComponent,
+  LineItem,
+} from '@spartacus/product-configurator/common';
+import { BreakpointService } from '@spartacus/storefront';
+import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { LineItem } from './configurator-cart-entry-bundle-info.model';
-import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
-import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
-import {
-  ConfigurationInfo,
-  ConfiguratorType,
-} from '../../core/model/common-configurator.model';
-import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
-import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
-import { BreakpointService } from '@spartacus/storefront';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import {
   BehaviorSubject,
   EMPTY,
   firstValueFrom,
+  Observable,
   of,
   ReplaySubject,
   throwError,
@@ -43,10 +51,6 @@ import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
-import {
-  MockConfiguratorProviderService,
-  MockConfigureCartEntryComponent,
-} from '../../testing';
 
 @Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
@@ -55,11 +59,25 @@ class MockNumericPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): string {
-    return '';
+class MockProductService implements Partial<ProductService> {
+  get(): Observable<Product | undefined> {
+    return of(undefined);
   }
+}
+
+@Component({
+  selector: 'cx-configure-cart-entry',
+  template: '',
+})
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
+  @Input() isBundleOverviewLink = false;
+  @Input() rowId?: string;
+  @Input() a11yDescriptionId?: string;
+  @Input() productName?: string;
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -120,19 +138,14 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ConfiguratorCartEntryBundleInfoComponent,
-        I18nTestingModule,
         RouterModule.forRoot([]),
-        MockUrlPipe,
       ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
           provide: ControlContainer,
         },
-        {
-          provide: ProductService,
-          useClass: MockConfiguratorProviderService.MockProductService,
-        },
+        { provide: ProductService, useClass: MockProductService },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
@@ -151,9 +164,9 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         add: {
           imports: [
             I18nTestingModule,
+            UrlTestingModule,
             MockNumericPipe,
             MockConfigureCartEntryComponent,
-            MockUrlPipe,
           ],
         },
       })
@@ -1531,15 +1544,33 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent],
-      providers: [
-        {
-          provide: ProductService,
-          useClass: MockConfiguratorProviderService.MockProductService,
-        },
+    await TestBed.configureTestingModule({
+      imports: [
+        ConfiguratorCartEntryBundleInfoComponent,
+        RouterModule.forRoot([]),
       ],
-    }).compileComponents();
+      providers: [{ provide: ProductService, useClass: MockProductService }],
+    })
+      .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CxNumericPipe,
+            ConfigureCartEntryComponent,
+            UrlPipe,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            UrlTestingModule,
+            MockNumericPipe,
+            MockConfigureCartEntryComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

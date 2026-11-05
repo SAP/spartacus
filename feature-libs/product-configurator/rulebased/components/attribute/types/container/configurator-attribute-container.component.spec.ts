@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,
   IconTestingModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
@@ -23,7 +23,6 @@ import {
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeContainerComponent } from './configurator-attribute-container.component';
-import { MockConfiguratorProviderService } from '../../../../testing';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -75,6 +74,29 @@ class MockProductCardComponent {
   addAction = Configurator.ContainerRowAction.ADD;
   editAction = Configurator.ContainerRowAction.EDIT;
   copyAction = Configurator.ContainerRowAction.COPY;
+}
+
+class MockConfiguratorCommonsService {
+  configuration$ = new BehaviorSubject(
+    ConfiguratorTestUtils.createConfiguration('config-id')
+  );
+
+  addContainerRow(): void {}
+  removeContainerRow(): void {}
+  copyContainerRow(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return this.configuration$;
+  }
+}
+
+class MockConfiguratorGroupsService {
+  navigateToGroup(): void {}
+  getCurrentGroupId(): Observable<string> {
+    return of('testGroup');
+  }
 }
 
 describe('ConfiguratorAttributeContainerComponent', () => {
@@ -143,7 +165,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ConfiguratorAttributeContainerComponent],
+      imports: [ConfiguratorAttributeContainerComponent],
       providers: [
         {
           provide: ConfiguratorUISettingsConfig,
@@ -155,13 +177,11 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorGroupsService,
-          useClass:
-            MockConfiguratorProviderService.MockConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
         },
         ConfiguratorUtilsService,
         {
@@ -175,9 +195,19 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     })
       .overrideComponent(ConfiguratorAttributeContainerComponent, {
         remove: {
-          imports: [IconComponent, ConfiguratorAttributeProductCardComponent],
+          imports: [
+            IconComponent,
+            ConfiguratorAttributeProductCardComponent,
+            TranslatePipe,
+          ],
         },
-        add: { imports: [IconTestingModule, MockProductCardComponent] },
+        add: {
+          imports: [
+            IconTestingModule,
+            MockProductCardComponent,
+            I18nTestingModule,
+          ],
+        },
       })
       .compileComponents();
   });
@@ -662,8 +692,8 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       );
 
       expect(options.multiSelect).toBe(true);
-      expect(options.attribute.attrCode).toBe(1111);
-      expect(options.attribute.name).toBe('attributeName');
+      expect(options.attribute?.attrCode).toBe(1111);
+      expect(options.attribute?.name).toBe('attributeName');
       expect(options.itemCount).toBe(1);
       expect(options.itemIndex).toBe(0);
       expect(options.productBoundValue).toEqual({
@@ -736,13 +766,13 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(selectedCardOptions.containerRow?.selected).toBe(true);
       expect(firstAvailableCardOptions.containerRow?.selected).toBeFalsy();
       expect(secondAvailableCardOptions.containerRow?.selected).toBeFalsy();
-      expect(firstAvailableCardOptions.attribute.container?.rows).toBe(
+      expect(firstAvailableCardOptions.attribute?.container?.rows).toBe(
         component.attribute.container?.rows
       );
-      expect(firstAvailableCardOptions.attribute.required).toBe(
+      expect(firstAvailableCardOptions.attribute?.required).toBe(
         component.attribute.required
       );
-      expect(firstAvailableCardOptions.attribute.incomplete).toBe(
+      expect(firstAvailableCardOptions.attribute?.incomplete).toBe(
         component.attribute.incomplete
       );
     });

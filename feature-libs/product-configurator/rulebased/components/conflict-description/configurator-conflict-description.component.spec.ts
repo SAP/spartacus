@@ -12,7 +12,7 @@ describe('ConfigurationConflictDescriptionComponent', () => {
   let htmlElem: HTMLElement;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorConflictDescriptionComponent],
       providers: [],
     })
