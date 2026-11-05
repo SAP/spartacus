@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { OccConfigurator } from '../variant-configurator-occ.models';
@@ -37,7 +36,7 @@ describe('OccConfiguratorVariantAddToCartSerializer', () => {
     });
 
     occConfiguratorVariantAddToCartSerializer = TestBed.inject(
-      OccConfiguratorVariantAddToCartSerializer as Type<OccConfiguratorVariantAddToCartSerializer>
+      OccConfiguratorVariantAddToCartSerializer
     );
   });
 

@@ -1,0 +1,205 @@
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  IconTestingModule,
+} from '@spartacus/storefront';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorMessageComponent } from './configurator-message.component';
+
+describe('ConfiguratorMessageComponent', () => {
+  let component: ConfiguratorMessageComponent;
+  let fixture: ComponentFixture<ConfiguratorMessageComponent>;
+  let htmlElem: HTMLElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorMessageComponent],
+      providers: [],
+    })
+      .overrideComponent(ConfiguratorMessageComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorMessageComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ConfiguratorMessageComponent);
+    component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
+    component.messages = ['First message', 'Second message'];
+    component.messageClass = 'cx-error-message';
+    component.iconType = ICON_TYPE.ERROR;
+    component.showIcon = true;
+    component.idPrefix = 'cx-configurator--row-error-msg--888';
+    component.role = 'alert';
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('template rendering', () => {
+    describe('when messages are missing', () => {
+      it('renders no rows when messages are undefined', () => {
+        component.messages = undefined;
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'div'
+        );
+      });
+
+      it('renders no rows when messages are empty', () => {
+        component.messages = [];
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'div'
+        );
+      });
+    });
+
+    describe('when messages are provided', () => {
+      it('renders one row per message with messageClass and text', () => {
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+          expect,
+          htmlElem,
+          '.cx-error-message',
+          2
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-error-message',
+          'ERROR First message'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-error-message',
+          'ERROR Second message',
+          1
+        );
+      });
+
+      it('renders cx-icon when showIcon is true', () => {
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'cx-icon'
+        );
+      });
+
+      it('omits cx-icon when showIcon is false', () => {
+        component.showIcon = false;
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'cx-icon'
+        );
+      });
+
+      it('resolves translatable messages via the translation pipe', () => {
+        component.messages = [
+          { key: 'configurator.attribute.containerMinRows' },
+        ];
+        component.messageClass = 'container-info-message';
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.container-info-message'
+        );
+      });
+    });
+  });
+
+  describe('getMessageId', () => {
+    it('appends index to idPrefix', () => {
+      expect(component.getMessageId(0)).toBe(
+        'cx-configurator--row-error-msg--888-0'
+      );
+      expect(component.getMessageId(1)).toBe(
+        'cx-configurator--row-error-msg--888-1'
+      );
+    });
+
+    it('returns undefined without idPrefix', () => {
+      component.idPrefix = undefined;
+      expect(component.getMessageId(0)).toBeUndefined();
+    });
+  });
+
+  describe('accessibility', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('sets role and id on each row, without duplicating the announcement via aria-label, aria-live or aria-atomic', () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-error-message',
+        0,
+        'role',
+        'alert'
+      );
+      const row = htmlElem.querySelector('.cx-error-message') as HTMLElement;
+      expect(row.hasAttribute('aria-label')).toBe(false);
+      expect(row.hasAttribute('aria-live')).toBe(false);
+      expect(row.hasAttribute('aria-atomic')).toBe(false);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-error-message',
+        0,
+        'id',
+        'cx-configurator--row-error-msg--888-0'
+      );
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-error-message',
+        1,
+        'id',
+        'cx-configurator--row-error-msg--888-1'
+      );
+    });
+
+    it('uses an assertive, atomic live region for rows without role', () => {
+      fixture.componentRef.setInput('role', undefined);
+      fixture.detectChanges();
+
+      const row = htmlElem.querySelector('.cx-error-message') as HTMLElement;
+      expect(row.getAttribute('aria-live')).toBe('assertive');
+      expect(row.getAttribute('aria-atomic')).toBe('true');
+      expect(row.hasAttribute('role')).toBe(false);
+      expect(row.hasAttribute('aria-label')).toBe(false);
+    });
+  });
+});

@@ -10,7 +10,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
@@ -58,6 +58,33 @@ export class RulebasedConfiguratorConnector {
     return this.getAdapter(
       configuration.owner.configuratorType
     ).updateConfiguration(configuration);
+  }
+
+  addContainerRow(
+    parameters: Configurator.AddContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    const adapter = this.getAdapter(parameters.owner.configuratorType);
+    return adapter.addContainerRow
+      ? adapter.addContainerRow(parameters)
+      : this.notSupported('addContainerRow', parameters.owner);
+  }
+
+  copyContainerRow(
+    parameters: Configurator.CopyContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    const adapter = this.getAdapter(parameters.owner.configuratorType);
+    return adapter.copyContainerRow
+      ? adapter.copyContainerRow(parameters)
+      : this.notSupported('copyContainerRow', parameters.owner);
+  }
+
+  removeContainerRow(
+    parameters: Configurator.RemoveContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    const adapter = this.getAdapter(parameters.owner.configuratorType);
+    return adapter.removeContainerRow
+      ? adapter.removeContainerRow(parameters)
+      : this.notSupported('removeContainerRow', parameters.owner);
   }
 
   addToCart(
@@ -141,6 +168,18 @@ export class RulebasedConfiguratorConnector {
         'No adapter found for configurator type: ' + configuratorType
       );
     }
+  }
+
+  protected notSupported<T>(
+    method: string,
+    owner: CommonConfigurator.Owner
+  ): Observable<T> {
+    return throwError(
+      () =>
+        new Error(
+          `${method} is not supported for configurator type: ${owner.configuratorType}`
+        )
+    );
   }
 
   protected isAdapterMatching(

@@ -5,7 +5,12 @@
  */
 
 import { NgFor, NgIf } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -15,6 +20,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   templateUrl: './configurator-overview-filter-bar.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgFor, IconComponent, NgIf, TranslatePipe],
 })
 export class ConfiguratorOverviewFilterBarComponent {
@@ -181,9 +187,8 @@ export class ConfiguratorOverviewFilterBarComponent {
    * @param elementId - The ID of the HTML element to focus.
    */
   protected focusElementById(elementId: string): void {
-    const element = this.configuratorStorefrontUtilsService.getElement(
-      '#' + elementId
-    );
+    const element =
+      this.configuratorStorefrontUtilsService.getElementById(elementId);
     if (element) {
       element.focus();
     }

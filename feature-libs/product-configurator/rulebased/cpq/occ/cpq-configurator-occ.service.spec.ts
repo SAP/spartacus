@@ -2,7 +2,6 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CART_MODIFICATION_NORMALIZER,
@@ -182,19 +181,11 @@ describe('CpqConfigurationOccService', () => {
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-    occEnpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
-    serviceUnderTest = TestBed.inject(
-      CpqConfiguratorOccService as Type<CpqConfiguratorOccService>
-    );
+    serviceUnderTest = TestBed.inject(CpqConfiguratorOccService);
 
     vi.spyOn(occEnpointsService, 'buildUrl');
     vi.spyOn(converterService, 'pipeable');
@@ -453,6 +444,144 @@ describe('CpqConfigurationOccService', () => {
     );
   });
 
+  it('should pass rowId as query parameter when updating a nested container-row attribute', () => {
+    const rowId = '018';
+    vi.spyOn(converterService, 'convert').mockReturnValue({
+      ...updateAttribute,
+      rowId,
+    });
+    serviceUnderTest.updateAttribute(configuration).subscribe((config) => {
+      expect(config.errorMessages).toBe(errorMessages);
+    });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return req.method === 'PATCH' && req.url === 'updateCpqAttribute';
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'updateCpqAttribute',
+      {
+        urlParams: {
+          configurationId: configId,
+          attributeCode: attributeCode,
+        },
+        queryParams: {
+          tabId: tabId,
+          rowId,
+        },
+      }
+    );
+  });
+
+  it('should add a container row, retrieve configuration and call normalizer', () => {
+    const addContainerRowParams: Configurator.AddContainerRowParameters = {
+      configId: configId,
+      owner: configuration.owner,
+      stdAttrCode: 598,
+      productSystemId: productCode,
+      parentRowId: '3',
+    };
+    serviceUnderTest
+      .addContainerRow(addContainerRowParams)
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'POST' &&
+        req.url === 'createCpqContainerRow' &&
+        req.body.stdAttrCode === 598 &&
+        req.body.productSystemId === productCode &&
+        req.body.parentRowId === '3'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CPQ_CONFIGURATOR_NORMALIZER
+    );
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'createCpqContainerRow',
+      {
+        urlParams: {
+          configurationId: configId,
+        },
+      }
+    );
+  });
+
+  it('should remove a container row, retrieve configuration and call normalizer', () => {
+    const removeContainerRowParams: Configurator.RemoveContainerRowParameters =
+      {
+        configId: configId,
+        owner: configuration.owner,
+        rowId: '3',
+      };
+    serviceUnderTest
+      .removeContainerRow(removeContainerRowParams)
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return req.method === 'DELETE' && req.url === 'removeCpqContainerRow';
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CPQ_CONFIGURATOR_NORMALIZER
+    );
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'removeCpqContainerRow',
+      {
+        urlParams: {
+          configurationId: configId,
+          rowId: '3',
+        },
+      }
+    );
+  });
+
+  it('should copy a container row, retrieve configuration and call normalizer', () => {
+    const copyContainerRowParams: Configurator.CopyContainerRowParameters = {
+      configId: configId,
+      owner: configuration.owner,
+      rowId: '3',
+    };
+    serviceUnderTest
+      .copyContainerRow(copyContainerRowParams)
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'POST' &&
+        req.url === 'copyCpqContainerRow' &&
+        req.body === null
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CPQ_CONFIGURATOR_NORMALIZER
+    );
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'copyCpqContainerRow',
+      {
+        urlParams: {
+          configurationId: configId,
+          rowId: '3',
+        },
+      }
+    );
+  });
+
   it('should call serializer, update an attribute value quantity, retrieve configuration and call normalizer', () => {
     vi.spyOn(converterService, 'convert').mockReturnValue(updateValue);
     serviceUnderTest.updateValueQuantity(configuration).subscribe((config) => {
@@ -485,6 +614,39 @@ describe('CpqConfigurationOccService', () => {
         },
         queryParams: {
           tabId: tabId,
+        },
+      }
+    );
+  });
+
+  it('should pass rowId as query parameter when updating a nested container-row value quantity', () => {
+    const rowId = '018';
+    vi.spyOn(converterService, 'convert').mockReturnValue({
+      ...updateValue,
+      rowId,
+    });
+    serviceUnderTest.updateValueQuantity(configuration).subscribe((config) => {
+      expect(config.errorMessages).toBe(errorMessages);
+    });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'PATCH' && req.url === 'updateCpqAttributeValueQuantity'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'updateCpqAttributeValueQuantity',
+      {
+        urlParams: {
+          configurationId: configId,
+          attributeCode: attributeCode,
+          attributeValueId: attributeValueId,
+        },
+        queryParams: {
+          tabId: tabId,
+          rowId,
         },
       }
     );
