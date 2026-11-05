@@ -127,7 +127,7 @@ describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         ConfiguratorTextfieldService,
