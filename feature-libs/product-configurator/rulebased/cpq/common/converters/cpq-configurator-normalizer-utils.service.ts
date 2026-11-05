@@ -74,7 +74,7 @@ export class CpqConfiguratorNormalizerUtilsService {
     }
     const priceDetails: Configurator.PriceDetails = {
       currencyIso: currency,
-      value: parseFloat(price),
+      value: Number.parseFloat(price),
     };
     this.formatPriceForLocale(priceDetails, this.getLanguage());
     return priceDetails;
@@ -247,7 +247,7 @@ export class CpqConfiguratorNormalizerUtilsService {
           cpqConfiguration.responder.totalPrice.replace(currencySign, '');
         const totalPrice: Configurator.PriceDetails = {
           currencyIso: currency,
-          value: parseFloat(totalPriceAsString),
+          value: Number.parseFloat(totalPriceAsString),
         };
         this.formatPriceForLocale(totalPrice, this.getLanguage());
         priceSummary.currentTotal = totalPrice;
@@ -257,7 +257,7 @@ export class CpqConfiguratorNormalizerUtilsService {
           cpqConfiguration.responder.baseProductPrice;
         const basePrice: Configurator.PriceDetails = {
           currencyIso: currency,
-          value: parseFloat(basePriceAsString),
+          value: Number.parseFloat(basePriceAsString),
         };
         this.formatPriceForLocale(basePrice, this.getLanguage());
         priceSummary.basePrice = basePrice;
