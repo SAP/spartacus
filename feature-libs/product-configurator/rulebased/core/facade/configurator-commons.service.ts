@@ -93,17 +93,23 @@ export class ConfiguratorCommonsService {
    * available
    *
    * @param owner - Configuration owner
+   * @param configIdTemplate - Optional configuration ID of a template the new configuration is based on
+   * @param readOnly - Optional: If true, a cart entry bound configuration is read for display only, without creating a draft
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
     owner: CommonConfigurator.Owner,
-    configIdTemplate?: string
+    configIdTemplate?: string,
+    readOnly?: boolean
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
       case CommonConfigurator.OwnerType.CART_ENTRY: {
-        return this.configuratorCartService.readConfigurationForCartEntry(
-          owner
-        );
+        return readOnly
+          ? this.configuratorCartService.readConfigurationForCartEntry(
+              owner,
+              readOnly
+            )
+          : this.configuratorCartService.readConfigurationForCartEntry(owner);
       }
       case CommonConfigurator.OwnerType.ORDER_ENTRY:
       case CommonConfigurator.OwnerType.QUOTE_ENTRY:
