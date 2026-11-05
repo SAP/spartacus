@@ -215,8 +215,10 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
             MockFeatureLevelDirective,
             MockConfiguratorShowMoreComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

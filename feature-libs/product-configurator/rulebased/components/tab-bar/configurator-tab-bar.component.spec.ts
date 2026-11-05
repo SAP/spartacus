@@ -119,8 +119,10 @@ describe('ConfigTabBarComponent', () => {
         },
         add: {
           imports: [I18nTestingModule],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorTabBarComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

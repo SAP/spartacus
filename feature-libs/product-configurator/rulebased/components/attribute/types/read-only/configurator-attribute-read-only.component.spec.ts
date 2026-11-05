@@ -118,8 +118,10 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             MockConfiguratorPriceComponent,
             MockConfiguratorShowMoreComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

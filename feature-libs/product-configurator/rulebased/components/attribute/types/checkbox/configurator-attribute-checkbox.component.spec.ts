@@ -128,7 +128,6 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     })
       .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
         add: {
-          changeDetection: ChangeDetectionStrategy.Default,
           imports: [
             ConfiguratorPriceComponent,
             ConfiguratorShowMoreComponent,
@@ -142,6 +141,9 @@ describe('ConfigAttributeCheckBoxComponent', () => {
             MockConfiguratorShowMoreComponent,
           ],
         },
+      })
+      .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

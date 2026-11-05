@@ -165,7 +165,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
             MockConfiguratorPriceComponent,
             MockConfiguratorAttributeQuantityComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
           providers: [
             {
               provide: ConfiguratorAttributeProductCardComponent,
@@ -173,6 +172,9 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
             },
           ],
         },
+      })
+      .overrideComponent(ConfiguratorAttributeSingleSelectionBundleComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

@@ -129,8 +129,10 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
             MockConfiguratorPriceComponent,
             MockIconComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

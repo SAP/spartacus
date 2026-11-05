@@ -212,7 +212,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         expect,
         htmlElem,
         '.cx-msg-warning',
-        'configurator.header.conflictWarning'
+        'ERROR configurator.header.conflictWarning'
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(

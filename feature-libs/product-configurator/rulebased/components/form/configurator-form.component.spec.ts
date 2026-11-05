@@ -305,8 +305,10 @@ describe('ConfiguratorFormComponent', () => {
         },
         add: {
           imports: [MockConfiguratorGroupComponent, I18nTestingModule],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

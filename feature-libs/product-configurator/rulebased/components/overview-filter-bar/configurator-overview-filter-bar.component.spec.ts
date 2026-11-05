@@ -106,7 +106,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.byPrice'
+        'configurator.overviewFilter.byPrice CLOSE'
       );
     });
 
@@ -118,7 +118,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.mySelections'
+        'configurator.overviewFilter.mySelections CLOSE'
       );
     });
 
@@ -130,7 +130,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'Group 1',
+        'Group 1 CLOSE',
         0
       );
 
@@ -138,7 +138,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'Group 2',
+        'Group 2 CLOSE',
         1
       );
     });
@@ -152,7 +152,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.removeAll',
+        'configurator.overviewFilter.removeAll CLOSE',
         2
       );
     });

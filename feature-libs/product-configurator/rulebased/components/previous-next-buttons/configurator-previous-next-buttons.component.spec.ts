@@ -173,8 +173,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         },
         add: {
           imports: [I18nTestingModule],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

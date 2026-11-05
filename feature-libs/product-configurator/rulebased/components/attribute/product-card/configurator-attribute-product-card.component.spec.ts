@@ -247,8 +247,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
             KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeProductCardComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

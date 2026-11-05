@@ -113,7 +113,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
             KeyboardFocusTestingModule,
             MockConfiguratorPriceComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
           providers: [
             {
               provide: ConfiguratorAttributePriceChangeService,
@@ -121,6 +120,9 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
             },
           ],
         },
+      })
+      .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

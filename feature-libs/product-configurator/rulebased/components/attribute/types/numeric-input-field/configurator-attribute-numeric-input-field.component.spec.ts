@@ -153,8 +153,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         },
         add: {
           imports: [I18nTestingModule, IconTestingModule],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

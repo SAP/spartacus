@@ -25,8 +25,10 @@ describe('ConfiguratorMessageComponent', () => {
         },
         add: {
           imports: [I18nTestingModule, IconTestingModule],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorMessageComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -86,13 +88,13 @@ describe('ConfiguratorMessageComponent', () => {
           expect,
           htmlElem,
           '.cx-error-message',
-          'First message'
+          'ERROR First message'
         );
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
           htmlElem,
           '.cx-error-message',
-          'Second message',
+          'ERROR Second message',
           1
         );
       });

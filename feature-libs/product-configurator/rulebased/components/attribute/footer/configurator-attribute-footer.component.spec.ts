@@ -83,8 +83,10 @@ describe('ConfigAttributeFooterComponent', () => {
         },
         add: {
           imports: [I18nTestingModule, IconTestingModule],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeFooterComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

@@ -68,7 +68,7 @@ export class CommonConfiguratorTestUtilsService {
     } else {
       text = htmlElement.querySelectorAll(querySelector)[index]?.textContent;
     }
-    expect(text ? text.trim() : '').toContain(expectedText);
+    expect(text ? text.trim() : '').toBe(expectedText);
   }
 
   /**

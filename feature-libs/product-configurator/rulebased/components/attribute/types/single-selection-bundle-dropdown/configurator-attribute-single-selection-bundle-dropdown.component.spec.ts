@@ -263,7 +263,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
               MockFeatureLevelDirective,
               I18nTestingModule,
             ],
-            changeDetection: ChangeDetectionStrategy.Default,
             providers: [
               {
                 provide: ConfiguratorAttributeProductCardComponent,
@@ -275,6 +274,12 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
               },
             ],
           },
+        }
+      )
+      .overrideComponent(
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
         }
       )
       .compileComponents();

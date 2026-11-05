@@ -188,7 +188,6 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
           providers: [
             {
               provide: ConfiguratorAttributeProductCardComponent,
@@ -196,6 +195,9 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
             },
           ],
         },
+      })
+      .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

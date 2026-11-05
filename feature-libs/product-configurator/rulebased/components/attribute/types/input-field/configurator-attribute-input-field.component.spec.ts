@@ -71,8 +71,10 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         },
         add: {
           imports: [I18nTestingModule],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

@@ -171,8 +171,10 @@ describe('ConfigAttributeHeaderComponent', () => {
         },
         add: {
           imports: [I18nTestingModule, IconTestingModule],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -295,7 +297,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         'div.cx-hidden-msg',
-        'configurator.attribute.notVisibleAttributeMsg'
+        'WARNING configurator.attribute.notVisibleAttributeMsg'
       );
     });
 
