@@ -64,7 +64,7 @@ describe('ConfiguratorRouterListener', () => {
   let configuratorQuantityService: ConfiguratorQuantityService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: ConfiguratorCartService,

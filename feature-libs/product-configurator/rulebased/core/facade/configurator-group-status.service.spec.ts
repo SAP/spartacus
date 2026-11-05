@@ -25,7 +25,7 @@ describe('ConfiguratorGroupStatusService', () => {
   let store: Store<StateWithConfigurator>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [ConfiguratorUtilsService, ConfiguratorGroupStatusService],
     }).compileComponents();
