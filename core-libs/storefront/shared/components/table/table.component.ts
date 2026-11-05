@@ -133,6 +133,13 @@ export class TableComponent<T> {
     return this.currentItem?.value === item?.[this.currentItem?.property];
   }
 
+  get currentItemIndex(): number {
+    if (!this.data || !this.currentItem?.value) {
+      return -1;
+    }
+    return this.data.findIndex((item) => this.isCurrentItem(item));
+  }
+
   /**
    * Returns the header (th) outlet reference for the given field.
    */

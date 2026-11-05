@@ -18,24 +18,31 @@ import { config } from './utils/login';
  * secure browser behavior.
  */
 beforeEach(() => {
-  cy.intercept('GET', config.csrfUrl, (req) => {
-    const log = Cypress.log({
-      message: 'Found CSRF request',
-      name: 'CSRF global interceptor',
-      displayName: 'CSRF global interceptor',
-      autoEnd: false,
-    });
-    if (!req.headers['Origin']) {
-      log.set({
-        message: `Applying Origin: ${config.customLoginOrigin}`,
+  cy.intercept(
+    // Regex instead of `${Cypress.env('API_URL')}/authorizationserver/csrf` because
+    // the authorization server may be on a different domain than the API.
+    { method: 'GET', url: /\/authorizationserver\/csrf(?:\?|$)/ },
+    (req) => {
+      const log = Cypress.log({
+        message: 'Found CSRF request',
+        name: 'CSRF global interceptor',
+        displayName: 'CSRF global interceptor',
+        autoEnd: false,
       });
-      req.headers['Origin'] = config.customLoginOrigin;
-    } else {
-      log.set({
-        message: `Using existing Origin: ${req.headers['Origin']}`,
-      });
+      // Node.js normalizes incoming HTTP headers to lowercase, so 'origin' is used
+      // instead of 'Origin' to reliably read and set the header in Cypress interceptors.
+      if (!req.headers['origin']) {
+        log.set({
+          message: `Applying Origin: ${config.customLoginOrigin}`,
+        });
+        req.headers['origin'] = config.customLoginOrigin;
+      } else {
+        log.set({
+          message: `Using existing Origin: ${req.headers['origin']}`,
+        });
+      }
+      log.end();
+      req.continue();
     }
-    log.end();
-    req.continue();
-  });
+  );
 });

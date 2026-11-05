@@ -1,11 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
-  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,9 +21,12 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { cold } from 'jasmine-marbles';
+import {
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
+import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -40,6 +41,7 @@ import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/config
 import { ConfiguratorAttributeProductCardComponentOptions } from '../attribute/product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
 import { ConfiguratorAttributeCheckBoxComponent } from '../attribute/types/checkbox/configurator-attribute-checkbox.component';
+import { ConfiguratorAttributeContainerComponent } from '../attribute/types/container/configurator-attribute-container.component';
 import { ConfiguratorAttributeDropDownComponent } from '../attribute/types/drop-down/configurator-attribute-drop-down.component';
 import { ConfiguratorAttributeInputFieldComponent } from '../attribute/types/input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.component';
@@ -56,6 +58,9 @@ import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupComponent } from './configurator-group.component';
+
+const config: Configurator.Configuration =
+  ConfigurationTestData.productConfiguration;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -134,24 +139,14 @@ class MockConfiguratorAttributeNumericInputFieldComponent {
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 }
 
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
-
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
 
 class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return of(config);
+  }
+
   removeConfiguration(): void {}
 
   updateConfiguration(): void {}
@@ -282,6 +277,7 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
           ConfiguratorAttributeMultiSelectionBundleComponent,
         AttributeType_dropdownProduct:
           ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        AttributeType_container: ConfiguratorAttributeContainerComponent,
       },
     },
   };
@@ -303,14 +299,14 @@ describe('ConfiguratorGroupComponent', () => {
       getActive: vi.fn().mockReturnValue(of('en')),
     };
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
+        IconTestingModule,
+        KeyboardFocusTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        MockCxIconComponent,
         MockConfiguratorPriceComponent,
-        MockFocusDirective,
         MockFeatureLevelDirective,
         MockProductCardComponent,
         ConfiguratorAttributeCompositionDirective,
@@ -332,6 +328,7 @@ describe('ConfiguratorGroupComponent', () => {
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         ConfiguratorAttributeSingleSelectionBundleComponent,
         ConfiguratorAttributeMultiSelectionBundleComponent,
+        ConfiguratorAttributeContainerComponent,
       ],
       providers: [
         {
@@ -374,28 +371,18 @@ describe('ConfiguratorGroupComponent', () => {
   });
 
   beforeEach(() => {
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
 
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');
     vi.spyOn(configExpertModeService, 'setExpModeActive');
 
     configuratorUtils.setOwnerKey(OWNER);
-    storefrontUtils = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
-    );
+    storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
     isConfigurationLoadingObservable = of(false);
     conflictGroup = structuredClone(conflictGroupBase);
   });
@@ -623,6 +610,14 @@ describe('ConfiguratorGroupComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-attribute-multi-selection-bundle'
+      );
+    });
+
+    it('should support container attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-container'
       );
     });
   });

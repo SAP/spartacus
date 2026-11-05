@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './configurator-message.service';
 export * from './configurator-storefront-utils.service';

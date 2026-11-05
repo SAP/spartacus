@@ -1,16 +1,18 @@
-import { ChangeDetectionStrategy, Directive, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -76,6 +78,41 @@ const configWithSingleGroup: Configurator.Configuration = {
   flatGroups: [groups],
 };
 
+const nestedTabGroup: Configurator.Group = {
+  id: 'CONTAINER_ROW@1067@row-1@1',
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [],
+  subGroups: [],
+};
+
+const containerRowGroup: Configurator.Group = {
+  id: 'CONTAINER_ROW@1067@row-1',
+  groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+  attributes: [],
+  subGroups: [nestedTabGroup],
+};
+
+const tabWithContainer: Configurator.Group = {
+  id: GROUP_ID_1,
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [],
+  subGroups: [containerRowGroup],
+};
+
+const configWithSingleRootAndNestedGroups: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(
+    'CONFIG_ID',
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
+  productCode: PRODUCT_CODE,
+  totalNumberOfIssues: 0,
+  groups: [tabWithContainer],
+  flatGroups: [tabWithContainer, nestedTabGroup],
+};
+
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
@@ -95,11 +132,6 @@ class MockConfigUtilsService {
   focusFirstAttribute(): void {}
 }
 
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
@@ -111,11 +143,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ConfiguratorPreviousNextButtonsComponent,
-        MockFocusDirective,
+        KeyboardFocusTestingModule,
       ],
       providers: [
         {
@@ -137,9 +168,15 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe],
         },
+        add: {
+          imports: [I18nTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -152,19 +189,13 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configurationGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configurationGroupsService = TestBed.inject(ConfiguratorGroupsService);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(config.owner);
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
     vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstAttribute');
   });
@@ -182,6 +213,37 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     classUnderTest = fixture.componentInstance;
     fixture.detectChanges();
     expect(fixture.nativeElement.childElementCount).toBe(0);
+  });
+
+  it("should display 'previous' & 'next' buttons if a single root group has nested groups", () => {
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+      of(configWithSingleRootAndNestedGroups)
+    );
+    fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
+    classUnderTest = fixture.componentInstance;
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('.cx-previous'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('.cx-next'))).toBeTruthy();
+  });
+
+  describe('hasMultipleNavigableGroups', () => {
+    it('should return false if configuration has one flat group', () => {
+      expect(
+        classUnderTest.hasMultipleNavigableGroups(configWithSingleGroup)
+      ).toBe(false);
+    });
+
+    it('should return true if configuration has several flat groups', () => {
+      expect(classUnderTest.hasMultipleNavigableGroups(config)).toBe(true);
+    });
+
+    it('should return true if a single root group has nested groups in flatGroups', () => {
+      expect(
+        classUnderTest.hasMultipleNavigableGroups(
+          configWithSingleRootAndNestedGroups
+        )
+      ).toBe(true);
+    });
   });
 
   it('should display previous button as disabled if it is the first group', () => {

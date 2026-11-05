@@ -2,7 +2,6 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CART_MODIFICATION_NORMALIZER,
@@ -22,7 +21,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { firstValueFrom, of } from 'rxjs';
+import { of } from 'rxjs';
 import {
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VariantConfiguratorOccAdapter,
@@ -162,26 +161,16 @@ describe('OccConfigurationVariantAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-    occEndpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
 
     occConfiguratorVariantAdapter = TestBed.inject(
-      VariantConfiguratorOccAdapter as Type<VariantConfiguratorOccAdapter>
+      VariantConfiguratorOccAdapter
     );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(configuration.owner);
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     configExpertModeService.setExpModeRequested(expMode);
 
     vi.spyOn(converterService, 'convert');

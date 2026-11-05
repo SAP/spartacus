@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { CxEvent, EventService, LanguageSetEvent } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { Type } from '@angular/core';
 import { ConfiguratorLanguageSetEventListener } from '@spartacus/product-configurator/rulebased';
 
 const mockEventStream$ = new Subject<CxEvent>();
@@ -37,9 +36,7 @@ describe(`ConfiguratorLanguageSetEventListener`, () => {
 
     classUnderTest = TestBed.inject(ConfiguratorLanguageSetEventListener);
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
 
     vi.spyOn(configuratorCommonsService, 'removeProductBoundConfigurations');
   });

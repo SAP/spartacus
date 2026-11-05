@@ -1,21 +1,20 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule } from '@spartacus/core';
-import { FocusDirective, ItemCounterComponent } from '@spartacus/storefront';
-
+import { I18nTestingModule, LoggerTestingModule } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import {
+  FocusDirective,
+  ItemCounterComponent,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { defaultNumericAttributeMetadata } from '../../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import {
   ConfiguratorPriceComponent,
@@ -46,11 +45,6 @@ function createValue(code: string, name: string, isSelected: boolean) {
 
 class MockGroupService {}
 
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
@@ -78,6 +72,9 @@ class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
 }
 
 class MockConfiguratorCommonsService {
@@ -130,9 +127,10 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
+        LoggerTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         ConfiguratorAttributeRadioButtonComponent,
@@ -170,13 +168,15 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         },
         add: {
           imports: [
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
             MockConfiguratorShowMoreComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -442,6 +442,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       component.attribute.uiType =
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      Object.assign(component.attribute, defaultNumericAttributeMetadata);
       fixture.detectChanges();
       htmlElem = fixture.nativeElement;
       CommonConfiguratorTestUtilsService.expectElementPresent(

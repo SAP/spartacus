@@ -1,18 +1,20 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   FeaturesConfig,
   I18nTestingModule,
   LanguageService,
+  LoggerTestingModule,
+  TranslatePipe,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import {
+  IconComponent,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -26,20 +28,6 @@ import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [ReactiveFormsModule, I18nTestingModule],
-})
-class MockCxIconComponent {
-  @Input() type: any;
-}
 
 let DEBOUNCE_TIME: number;
 
@@ -126,13 +114,12 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       getActive: vi.fn().mockReturnValue(of(locale)),
       setActive: vi.fn(),
     };
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
+        KeyboardFocusTestingModule,
+        LoggerTestingModule,
         ConfiguratorAttributeNumericInputFieldComponent,
-        MockFocusDirective,
-        MockCxIconComponent,
       ],
       providers: [
         { provide: LanguageService, useValue: mockLanguageService },
@@ -161,9 +148,15 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe, IconComponent],
         },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

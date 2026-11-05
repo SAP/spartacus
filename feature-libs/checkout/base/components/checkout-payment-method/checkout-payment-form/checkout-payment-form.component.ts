@@ -42,6 +42,7 @@ import {
   TranslationService,
   UserAddressService,
   UserPaymentService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   FocusConfig,
@@ -130,6 +131,8 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   @ViewChild(forwardRef(() => FocusFirstInvalidFieldDirective))
   protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
 
+  cvvTooltipDismissed = false;
+
   paymentForm: UntypedFormGroup = this.fb.group({
     cardType: this.fb.group({
       code: [null, Validators.required],
@@ -147,6 +150,13 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
   protected elementRef = inject(ElementRef);
   protected subscription = new Subscription();
+
+  get cvvLabelId(): string | null {
+    return this.featureToggles.a11yCvvInfoIconKeyboardAccessible
+      ? 'cvvLabelText'
+      : null;
+  }
+
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -156,11 +166,34 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
     protected translationService: TranslationService
-  ) {}
+  ) {
+    useFeatureStyles('a11yCvvInfoIconKeyboardAccessible');
+  }
   /**
    * @deprecated  This property is obsolete since 2211.42
    */
   useExtractedBillingAddressComponent: boolean = true;
+
+  /**
+   * Handles Escape on the CVV info button. Adds a dismissed class to the
+   * `.cx-cvv-info` wrapper to suppress the `:focus-within` CSS rule that keeps
+   * the tooltip visible, while retaining focus on the button (WCAG 1.4.13).
+   * Propagation is stopped so the parent `[cxFocus]` trap does not redirect
+   * focus to the first page element.
+   */
+  onCvvEscape(event: KeyboardEvent): void {
+    // Only intercept while tooltip is visible; otherwise let Escape propagate so the page handles it normally (e.g. skip links).
+    if (!this.cvvTooltipDismissed) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.cvvTooltipDismissed = true;
+    }
+  }
+
+  /** Clears the dismissed state so the tooltip re-enables on next focus. */
+  onCvvBlur(): void {
+    this.cvvTooltipDismissed = false;
+  }
 
   ngOnInit(): void {
     if (this.paymentDetails) {
