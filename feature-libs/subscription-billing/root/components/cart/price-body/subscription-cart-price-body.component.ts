@@ -54,37 +54,17 @@ export class SubscriptionCartPriceBodyComponent {
     )
   );
 
-  protected isFixedDiscountAvailable(discounts?: SapAppliedDiscountData[]): boolean {
-    return !!discounts?.find(
-      (discount) => discount.code === SapAppliedDiscountCodesForSubscription.FIXED
-    );
-  }
-
-  protected isRecurringDiscountAvailable(discounts?: SapAppliedDiscountData[]): boolean {
-    return !!discounts?.find(
-      (discount) => discount.code === SapAppliedDiscountCodesForSubscription.RECURRING
-    );
-  }
-
-  protected showOneTimeCharge(
-    charge?: OneTimeCharge,
-  ): number | undefined {
+  protected showOneTimeCharge(charge?: OneTimeCharge): number | undefined {
     const originalPrice = charge?.price?.value;
-    const discount = this.discounts()?.find(
-      (discount: SapAppliedDiscountData) => discount.code === SapAppliedDiscountCodesForSubscription.FIXED
-    );
+    const discount = this.fixedDiscount();
     return discount?.value !== undefined && originalPrice !== undefined
       ? originalPrice - discount.value
       : originalPrice;
   }
 
-  protected showRecurringCharge(
-    charge?: RecurringCharge,
-  ): number | undefined {
+  protected showRecurringCharge(charge?: RecurringCharge): number | undefined {
     const originalPrice = charge?.price?.value;
-    const discount = this.discounts()?.find(
-      (discount: SapAppliedDiscountData) => discount.code === SapAppliedDiscountCodesForSubscription.RECURRING
-    );
+    const discount = this.recurringDiscount();
     return discount?.value !== undefined && originalPrice !== undefined
       ? originalPrice - discount.value
       : originalPrice;
