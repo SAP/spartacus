@@ -175,7 +175,7 @@ export class CpqConfiguratorOverviewNormalizer
       ?.filter((row) => this.isSelectedContainerRow(row))
       .forEach((row) => {
         group.attributes?.push(
-          this.convertContainerRowToAttribute(row, attribute)
+          this.convertContainerRowToAttribute(row, attribute, currency)
         );
         if (row.configuration) {
           group.subGroups ??= [];
@@ -200,7 +200,8 @@ export class CpqConfiguratorOverviewNormalizer
 
   protected convertContainerRowToAttribute(
     row: Cpq.ContainerRow,
-    attribute: Cpq.Attribute
+    attribute: Cpq.Attribute,
+    currency: string
   ): Configurator.AttributeOverview {
     return {
       attribute:
@@ -212,6 +213,10 @@ export class CpqConfiguratorOverviewNormalizer
       valueId: row.id,
       productCode: row.productSystemId,
       type: Configurator.AttributeOverviewType.BUNDLE,
+      valuePrice: this.cpqConfiguratorNormalizerUtilsService.convertPrice(
+        row.basePrice,
+        currency
+      ),
     };
   }
 
