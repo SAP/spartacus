@@ -10,9 +10,13 @@ export type ServerRuntimeEnvironment = Record<string, string>;
 /**
  * Fetches runtime environment from the /config.json endpoint for SSR.
  *
- * Called once at server boot — not per request. Returns an empty object when
- * `url` is absent (CCV2 may not yet supply `CONFIG_URL`), relying on the
- * meta-tag / build-time fallbacks to supply backend URLs instead.
+ * Called per SSR render inside the Express catch-all handler — not at server
+ * boot. This ensures config changes made by DevOps (e.g. updating OCC_BASE_URL)
+ * are picked up on the next request without restarting the server.
+ *
+ * Returns an empty object when `url` is absent (CCV2 may not yet supply
+ * `CONFIG_URL`), relying on the meta-tag / build-time fallbacks to supply
+ * backend URLs instead.
  *
  * @param options.url - Absolute URL of the /config.json endpoint.
  */

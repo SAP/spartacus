@@ -34,7 +34,14 @@ export function app(): express.Express {
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap
+      bootstrap,
+      // allowedHosts controls which request hostnames Angular's CommonEngine
+      // accepts for SSR. Without this, CommonEngine defaults to an empty set
+      // and rejects ALL hostnames — silently falling back to CSR for every
+      // request. NG_ALLOWED_HOSTS can restrict this in security-sensitive
+      // environments; the '*' default matches Angular's own renderApplication
+      // behaviour and is safe behind a reverse proxy / load balancer.
+      allowedHosts: process.env['NG_ALLOWED_HOSTS']?.split(',') ?? ['*'],
     })
   );
 

@@ -133,25 +133,53 @@ describe('updateServerTs (runtime config)', () => {
     )) as UnitTestTree;
   });
 
-  it('should add runtimeEnvironment parameter to app() and inject into ngExpressEngine', () => {
+  it('should fetch runtimeEnvironment per-request in catch-all and inject into res.render', () => {
     const serverTs = tree.readText(SERVER_TS_PATH);
-    expect(serverTs).toContain(
-      'runtimeEnvironment: ServerRuntimeEnvironment = {}'
-    );
+    // app() must have no runtimeEnvironment parameter
+    expect(serverTs).not.toContain('runtimeEnvironment: ServerRuntimeEnvironment');
     expect(serverTs).toContain('RUNTIME_ENVIRONMENT');
     expect(serverTs).toContain('useValue: runtimeEnvironment');
-    // provider should be in ngExpressEngine, not in res.render
-    expect(serverTs).not.toMatch(
-      /res\.render[\s\S]*RUNTIME_ENVIRONMENT[\s\S]*\)/
-    );
+    // RUNTIME_ENVIRONMENT must be in res.render providers
+    expect(serverTs).toMatch(/res\.render[\s\S]*RUNTIME_ENVIRONMENT[\s\S]*\)/);
+    // ngExpressEngine call must NOT contain RUNTIME_ENVIRONMENT in its options
+    expect(serverTs).not.toMatch(/ngExpressEngine\(\s*\{[^}]*RUNTIME_ENVIRONMENT/);
     expect(serverTs).toMatchSnapshot();
   });
 
-  it('should make run() async and fetch runtimeEnvironment before app(runtimeEnvironment)', () => {
+  it('should make catch-all async, fetch per-request, and call app() with no args', () => {
     const serverTs = tree.readText(SERVER_TS_PATH);
-    expect(serverTs).toContain('async function run()');
+    // run() must NOT be async — fetch moved to catch-all
+    expect(serverTs).not.toContain('async function run');
+    // catch-all callback must be async
+    expect(serverTs).toMatch(/server\.get\(\/\.\*\/,\s*async/);
     expect(serverTs).toContain('await getServerRuntimeEnvironment');
-    expect(serverTs).toContain('app(runtimeEnvironment)');
+    // app() called without arguments
+    expect(serverTs).toContain('app()');
+    expect(serverTs).not.toContain('app(runtimeEnvironment)');
+  });
+
+  it('should add /config.json proxy route before the Angular catch-all', () => {
+    const serverTs = tree.readText(SERVER_TS_PATH);
+    expect(serverTs).toContain("server.get('/config.json'");
+    const configRoutePos = serverTs.indexOf("server.get('/config.json'");
+    const catchAllPos = serverTs.indexOf('server.get(/.*/,');
+    expect(configRoutePos).toBeGreaterThan(-1);
+    expect(catchAllPos).toBeGreaterThan(-1);
+    expect(configRoutePos).toBeLessThan(catchAllPos);
+  });
+
+  it('should not use parseConfigJson in the proxy route', () => {
+    const serverTs = tree.readText(SERVER_TS_PATH);
+    expect(serverTs).not.toContain('parseConfigJson');
+    expect(serverTs).toContain("process.env['CONFIG_URL']");
+    expect(serverTs).toContain('.secret');
+  });
+
+  it('should insert /config.json route after the static asset route', () => {
+    const serverTs = tree.readText(SERVER_TS_PATH);
+    const staticPos = serverTs.indexOf('express.static(browserDistFolder');
+    const configRoutePos = serverTs.indexOf("server.get('/config.json'");
+    expect(configRoutePos).toBeGreaterThan(staticPos);
   });
 
   it('should be idempotent — not duplicate wiring if already present', async () => {

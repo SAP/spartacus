@@ -25,7 +25,6 @@ import {
 import { addProxyConf } from './add-proxy-conf';
 import { updateAppConfig } from './update-app-config';
 import { updateMainTs } from './update-main-ts';
-import { updateServerTs } from './update-server-ts';
 
 function createConfigJsonFile(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -83,7 +82,6 @@ export function addRuntimeConfig(options: SpartacusOptions): Rule {
       installPackageJsonDependencies(),
       updateMainTs(options),
       updateAppConfig(options),
-      options.ssr ? updateServerTs(options) : noop(),
       createConfigJsonFile(options),
       addProxyConf(options),
     ])(tree, context);

@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`updateServerTs (runtime config) should add runtimeEnvironment parameter to app() and inject into ngExpressEngine 1`] = `
+exports[`updateServerTs (runtime config) should fetch runtimeEnvironment per-request in catch-all and inject into res.render 1`] = `
 "import { APP_BASE_HREF } from '@angular/common';
-import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT, ServerRuntimeEnvironment } from "@spartacus/setup";
+import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT } from "@spartacus/setup";
 import {
   defaultExpressErrorHandlers,
   ngExpressEngine as engine,
@@ -17,7 +17,7 @@ import bootstrap from './main.server';
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine);
 
-export function app(runtimeEnvironment: ServerRuntimeEnvironment = {}): express.Express {
+export function app(): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -27,19 +27,42 @@ export function app(runtimeEnvironment: ServerRuntimeEnvironment = {}): express.
   server.set('trust proxy', 'loopback');
   server.use(getOriginValidationMiddleware({ allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'] }));
 
-  server.engine('html', ngExpressEngine({
-    bootstrap,
-    providers: [{ provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }]
-  }));
+  server.engine('html', ngExpressEngine({ bootstrap }));
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
   server.get(/.*\\..*/, express.static(browserDistFolder, { maxAge: '1y' }));
+  server.get('/config.json', async (_req, res) => {
+    const configUrl = process.env['CONFIG_URL'];
+    if (!configUrl) {
+      res.json({});
+      return;
+    }
+    try {
+      const response = await fetch(configUrl);
+      if (!response.ok) {
+        res.json({});
+        return;
+      }
+      const raw = await response.json();
+      const filtered = Object.fromEntries(
+        Object.entries(raw).filter(
+          ([, entry]) =>
+            !(entry && ((entry as any).secret === true || (entry as any).secret === 'true'))
+        )
+      );
+      res.json(filtered);
+    } catch {
+      res.json({});
+    }
+  });
 
-  server.get(/.*/, (req, res) => {
+  server.get(/.*/, async (req, res) => {
+    const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });
     res.render(indexHtml, {
       req,
-      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }, // IMPORTANT: per-request only — must NOT be moved to ngExpressEngine providers
+      { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }],
     });
   });
 
@@ -47,10 +70,9 @@ export function app(runtimeEnvironment: ServerRuntimeEnvironment = {}): express.
   return server;
 }
 
-async function run() {
+function run() {
   const port = process.env['PORT'] || 4000;
-  const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });
-  const server = app(runtimeEnvironment);
+  const server = app();
   server.listen(port, () => {
     console.log(\`Node Express server listening on http://localhost:\${port}\`);
   });

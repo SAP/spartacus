@@ -32,6 +32,7 @@ For the Hosting Portal's specification of how Spartacus should consume configura
 | `getServerRuntimeEnvironment` throws if `CONFIG_URL` is absent | Logs a warning and returns `{}` — SSR still starts, falls back to build-time config |
 | TransferState key `__ENV__` | Uses `cx-runtime-config` to avoid collisions with other Spartacus state |
 | Static `config.json` served by Angular DevServer | Full dev proxy (`@spartacus/setup/dev-proxy`) on port 4222 — matches production topology |
+| `getServerRuntimeEnvironment` called once at server startup | Called **per SSR render** — config changes by DevOps take effect on the next request without a server restart |
 
 ---
 
@@ -44,9 +45,10 @@ core-libs/setup/
 │   ├── parse-config-json.spec.ts
 │   ├── get-runtime-environment.ts           # CSR: pre-bootstrap fetch of /config.json
 │   ├── get-runtime-environment.spec.ts
-│   ├── get-server-runtime-environment.ts    # SSR: fetch at server boot (not per-request)
+│   ├── get-server-runtime-environment.ts    # SSR: fetch per render from CONFIG_URL (not at startup)
 │   ├── get-server-runtime-environment.spec.ts
 │   ├── provide-environment.ts               # Wires ENVIRONMENT token + TransferState handoff
+│   ├── provide-environment-server.ts        # BEFORE_APP_SERIALIZED hook — forces ENVIRONMENT injection and writes cx-runtime-config to TransferState before Angular's serializer checks isEmpty (SSR only)
 │   ├── provide-runtime-occ-config.ts        # Maps OCC_BASE_URL → OccConfig via CONFIG_INITIALIZER
 │   ├── provide-runtime-occ-config.spec.ts
 │   ├── runtime-environment.token.ts         # RUNTIME_ENVIRONMENT InjectionToken (importable standalone)
@@ -112,23 +114,82 @@ getRuntimeEnvironment().then(({ runtimeEnvironment }) => {
 
 ## SSR Boot Wiring (`server.ts`)
 
+The generated `server.ts` fetches `config.json` **once per SSR render** (inside the Express catch-all), not at server startup. This is the key design contract: DevOps must be able to change `config.json` values without restarting the Node server.
+
 ```ts
 import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT } from '@spartacus/setup';
 
-const runtimeEnvironment = await getServerRuntimeEnvironment({
-  url: process.env['CONFIG_URL'],
+// Inside the Express catch-all — called per request, not at startup.
+server.get(/.*/, async (req, res) => {
+  const runtimeEnvironment = await getServerRuntimeEnvironment({
+    url: process.env['CONFIG_URL'],
+  });
+  res.render(indexHtml, {
+    req,
+    providers: [
+      { provide: APP_BASE_HREF, useValue: req.baseUrl },
+      // IMPORTANT: per-request only — must NOT be in ngExpressEngine providers.
+      // Engine-level providers have higher DI priority (last-wins) and would
+      // freeze the value at startup, defeating the per-request design.
+      { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment },
+    ],
+  });
 });
-
-// provide runtimeEnvironment to every Angular render request:
-{ provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }
 ```
 
 `getServerRuntimeEnvironment()` behaviour:
-- Called **once at server boot**, not per-request.
-- `CONFIG_URL` must be an absolute URL (`https://...`). Relative URLs are not valid in a Node.js `fetch` call.
-- If `CONFIG_URL` is absent: logs a warning and returns `{}` — server starts normally, falls back to build-time config.
+- Called **once per SSR render**, not at server boot.
+- `CONFIG_URL` must be an absolute URL. Relative URLs fail in Node (no `window.location`).
+- If `CONFIG_URL` is absent: logs a warning and returns `{}` — server continues, falls back to build-time config.
 - On fetch error: logs a warning and returns `{}`.
-- On success: logs an info message with the URL.
+- On success: logs `[getServerRuntimeEnvironment] Successfully loaded runtime environment from <url>`.
+
+**`ngExpressEngine` must pass `allowedHosts`:**
+
+```ts
+server.engine('html', ngExpressEngine({
+  bootstrap,
+  // Without allowedHosts, Angular's CommonEngine defaults to an empty set and
+  // rejects all hostnames — silently falling back to CSR for every request.
+  // ['*'] matches Angular's own renderApplication behaviour and is safe behind
+  // a reverse proxy. Restrict via NG_ALLOWED_HOSTS in security-sensitive envs.
+  allowedHosts: process.env['NG_ALLOWED_HOSTS']?.split(',') ?? ['*'],
+}));
+```
+
+The schematics wire this automatically.
+
+---
+
+## SSR TransferState Wiring (`app.config.server.ts`)
+
+`provideEnvironmentServer()` must be the **first** provider in `app.config.server.ts`:
+
+```ts
+import { provideEnvironmentServer } from '@spartacus/setup';
+import { provideServerRendering } from '@angular/ssr';
+
+const serverConfig: ApplicationConfig = {
+  providers: [
+    // IMPORTANT: must be first — writes cx-runtime-config to TransferState before
+    // provideServerRendering's BEFORE_APP_SERIALIZED hook checks if the store is empty.
+    // Moving it after provideServerRendering() silently breaks SSR config transfer.
+    provideEnvironmentServer(),
+    provideServerRendering(),
+    importProvidersFrom(AppServerModule),
+  ],
+};
+```
+
+`provideEnvironmentServer()` registers a `BEFORE_APP_SERIALIZED` hook that forces `ENVIRONMENT` injection and writes the flat config record to `TransferState['cx-runtime-config']`. Angular's built-in serializer (from `provideServerRendering`) then includes it in `<script id="ng-state">` in the HTML response. On hydration, `getRuntimeEnvironment()` in `main.ts` detects the `ng-state` script and returns `{}` immediately — the browser never fetches `/config.json` (Path A).
+
+**Why `BEFORE_APP_SERIALIZED` and not `APP_INITIALIZER` or a regular provider?**
+
+`provideEnvironment()` (used internally by `provideRuntimeOccConfig()`) wires `ENVIRONMENT` as a lazy `useFactory` — Angular only calls the factory when something first injects `ENVIRONMENT`. `provideRuntimeOccConfig()` registers a `ConfigChunk`, which is resolved lazily when `Config` is assembled, not eagerly. There is no guarantee Angular will have injected `ENVIRONMENT` by the time it serializes TransferState.
+
+`BEFORE_APP_SERIALIZED` fires **after rendering but before serialization** — it is the only Angular hook that runs at exactly the right moment: after the app has rendered (so DI is fully initialized) but before `ng-state` is written to the HTML. Registering the hook there forces the `ENVIRONMENT` factory to run, which in turn triggers `TransferState.set('cx-runtime-config', ...)`. Angular's serializer then finds the store non-empty and includes it in `<script id="ng-state">`.
+
+**Why order matters:** `provideServerRendering`'s own `BEFORE_APP_SERIALIZED` hook (`serializeTransferStateFactory`) checks `transferStore.isEmpty` and skips writing `ng-state` entirely if the store is empty at that point. If `provideEnvironmentServer()` runs after it, the store is still empty when the check fires and `ng-state` is never written — the browser silently falls back to fetching `/config.json` on every load.
 
 ---
 
@@ -175,7 +236,8 @@ The schematics create:
 - `proxyConfig` entry in `angular.json`
 - `main.ts` wrapped with `getRuntimeEnvironment()`
 - `app.config.ts` with `provideRuntimeOccConfig()`
-- `server.ts` patched with `getServerRuntimeEnvironment()` (SSR only)
+- `server.ts` patched with per-request `getServerRuntimeEnvironment()` + `RUNTIME_ENVIRONMENT` in `res.render` providers (SSR only)
+- `app.config.server.ts` with `provideEnvironmentServer()` as the first provider (SSR only)
 
 ---
 
@@ -218,30 +280,124 @@ resolve from the consuming app's `node_modules` rather than the published packag
 
 ```
 main.ts
-  └─ getRuntimeEnvironment()         fetch /config.json (or {} on error)
+  └─ getRuntimeEnvironment()         fetch /config.json relative to window.location (or {} on error)
        └─ bootstrapApplication()
             └─ provideRuntimeOccConfig()
                  └─ ENVIRONMENT token ← RUNTIME_ENVIRONMENT
                  └─ OccConfig.backend.occ.baseUrl ← ENVIRONMENT['OCC_BASE_URL']
 ```
 
-### SSR + CSR Hydration
+### SSR Path A — TransferState reuse (zero browser config fetch)
 
 ```
-server.ts boot
-  └─ getServerRuntimeEnvironment()   fetch CONFIG_URL (or {} if absent/error)
-       └─ per-request Angular render
+Express catch-all receives request
+  └─ getServerRuntimeEnvironment({ url: CONFIG_URL })  ← fetched FRESH per render
+       └─ Angular SSR renders page
             └─ provideRuntimeOccConfig()
                  └─ ENVIRONMENT token ← RUNTIME_ENVIRONMENT
-                 └─ TransferState['cx-runtime-config'] ← ENVIRONMENT  (written by SSR)
+                 └─ provideEnvironmentServer() BEFORE_APP_SERIALIZED hook
+                      └─ TransferState['cx-runtime-config'] ← ENVIRONMENT  (written during render)
                  └─ OccConfig.backend.occ.baseUrl ← ENVIRONMENT['OCC_BASE_URL']
+       └─ HTML response with <script id="ng-state"> containing cx-runtime-config
 
 browser hydration (main.ts)
-  └─ getRuntimeEnvironment()         detects <script id="ng-state"> → returns {}
+  └─ getRuntimeEnvironment()  detects <script id="ng-state"> → returns {} immediately
        └─ bootstrapApplication()
             └─ provideRuntimeOccConfig()
                  └─ ENVIRONMENT token ← TransferState['cx-runtime-config']  (read from SSR)
                  └─ OccConfig.backend.occ.baseUrl ← ENVIRONMENT['OCC_BASE_URL']
+                 └─ no /config.json browser request
+```
+
+### SSR Path B — SSR timeout → CSR fallback (browser fetches via Express proxy)
+
+```
+Express catch-all receives request
+  └─ getServerRuntimeEnvironment()  (SSR times out or errors)
+       └─ Express returns plain CSR HTML (no ng-state)
+
+browser (main.ts)
+  └─ getRuntimeEnvironment()  no ng-state in DOM → fetches /config.json
+       └─ GET /config.json hits Express proxy route
+            └─ Express re-fetches CONFIG_URL upstream (never cached)
+            └─ returns ConfigJson format to browser
+       └─ bootstrapApplication() with runtimeEnvironment from browser fetch
+```
+
+### Environment Variables
+
+| Variable | Dev CSR | Dev SSR | Prod CSR | Prod SSR | Notes |
+|---|---|---|---|---|---|
+| `CONFIG_URL` | — | ✅ required | — | ✅ required | Absolute URL. Absent = `{}`, console.warn only |
+| `SERVER_REQUEST_ORIGIN` | — | ✅ for localhost | — | not needed | Express infers origin from request `host` header in prod |
+| `NG_ALLOWED_HOSTS` | — | not needed | — | not needed | Generated `server.ts` defaults to `['*']`; set to restrict |
+| `NODE_TLS_REJECT_UNAUTHORIZED=0` | — | only for self-signed OCC cert | — | never | **Never use in production** |
+| `PORT` | — | optional | — | optional | Express listen port, defaults to `4000` |
+
+---
+
+## Request Flow Diagrams
+
+### CSR (browser-only, no SSR)
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant S as Static Host (Caddy / Dev Proxy)
+    participant O as OCC Backend
+
+    B->>S: GET /index.html
+    S-->>B: index.html (no ng-state)
+    B->>S: GET /config.json
+    S-->>B: { OCC_BASE_URL, MEDIA_BASE_URL }
+    Note over B: getRuntimeEnvironment() parses config.json<br/>provides RUNTIME_ENVIRONMENT before bootstrapApplication()
+    B->>O: OCC API calls (using OCC_BASE_URL from config.json)
+```
+
+### SSR Path A — TransferState reuse (zero browser config fetch)
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant E as Express (Node SSR)
+    participant C as Config Endpoint (CONFIG_URL)
+    participant A as Angular SSR (CommonEngine)
+    participant O as OCC Backend
+
+    B->>E: GET /
+    Note over E: per-request: getServerRuntimeEnvironment(CONFIG_URL)
+    E->>C: GET CONFIG_URL (fresh, never cached)
+    C-->>E: { OCC_BASE_URL, MEDIA_BASE_URL }
+    E->>A: render(indexHtml, { providers: [RUNTIME_ENVIRONMENT] })
+    Note over A: provideEnvironmentServer() BEFORE_APP_SERIALIZED hook<br/>writes cx-runtime-config to TransferState
+    A->>O: OCC API calls during SSR render
+    O-->>A: data
+    A-->>E: rendered HTML + <script id="ng-state">{cx-runtime-config:...}</script>
+    E-->>B: full HTML with ng-state
+    Note over B: getRuntimeEnvironment() detects ng-state → returns {} immediately<br/>bootstrapApplication() reads ENVIRONMENT from TransferState<br/>no /config.json request ever made by browser
+    B->>O: subsequent OCC calls (OCC_BASE_URL from TransferState)
+```
+
+### SSR Path B — SSR timeout → browser fetches config via Express proxy
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant E as Express (Node SSR)
+    participant C as Config Endpoint (CONFIG_URL)
+    participant O as OCC Backend
+
+    B->>E: GET /
+    Note over E: getServerRuntimeEnvironment() called but SSR times out or errors
+    E-->>B: plain CSR HTML (no ng-state script)
+    Note over B: getRuntimeEnvironment() — no ng-state found in DOM
+    B->>E: GET /config.json (Express proxy route)
+    Note over E: proxy route re-fetches CONFIG_URL upstream on every request (never cached)
+    E->>C: GET CONFIG_URL
+    C-->>E: { OCC_BASE_URL, MEDIA_BASE_URL }
+    E-->>B: filtered config.json (secrets stripped)
+    Note over B: getRuntimeEnvironment() parses response<br/>provides RUNTIME_ENVIRONMENT before bootstrapApplication()
+    B->>O: OCC API calls (using OCC_BASE_URL from config.json)
 ```
 
 ---

@@ -27,6 +27,7 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { updateAppConfigServer as updateAppConfigServerForRuntimeConfig } from '../add-runtime-config/update-app-config-server';
 import { updateServerTs } from '../add-runtime-config/update-server-ts';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
@@ -459,6 +460,31 @@ export function addSSR(options: SpartacusOptions): Rule {
         MergeStrategy.Overwrite
       ),
       options.runtimeConfig ? updateServerTs(options) : noop(),
+      options.runtimeConfig ? updateAppConfigServerForRuntimeConfig(options) : noop(),
+      options.runtimeConfig
+        ? (_tree: Tree, context: SchematicContext) => {
+            context.logger.info(`
+✅ SSR + runtime config wiring complete.
+
+To start the SSR server locally, set these environment variables:
+
+  CONFIG_URL=http://localhost:4222/config.json \\
+  SERVER_REQUEST_ORIGIN=http://localhost:<port> \\
+  NODE_TLS_REJECT_UNAUTHORIZED=0 \\
+  npm run serve:ssr:${options.project}
+
+  CONFIG_URL          — URL the Node.js SSR process fetches config.json from
+                        (point at the Fastify dev proxy on port 4222)
+  SERVER_REQUEST_ORIGIN — required by Spartacus SSR for local dev
+  NODE_TLS_REJECT_UNAUTHORIZED=0 — only needed when OCC backend uses a
+                        self-signed TLS certificate (local/demo environments)
+
+In production, set CONFIG_URL to the real config endpoint. The generated
+server.ts already handles hostname validation (allowedHosts defaults to ['*'],
+overridable via NG_ALLOWED_HOSTS=host1,host2 to restrict in sensitive envs).
+`);
+          }
+        : noop(),
 
       disableSsrAndPrerenderingInAngularJson(options),
 

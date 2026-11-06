@@ -2,7 +2,7 @@
 
 exports[`add-ssr with runtimeConfig server.ts should wire getServerRuntimeEnvironment 1`] = `
 "import { APP_BASE_HREF } from '@angular/common';
-import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT, ServerRuntimeEnvironment } from "@spartacus/setup";
+import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT } from "@spartacus/setup";
 import {
   defaultExpressErrorHandlers,
   ngExpressEngine as engine,
@@ -18,7 +18,7 @@ import bootstrap from './main.server';
 const ngExpressEngine = NgExpressEngineDecorator.get(engine);
 
 // The Express app is exported so that it can be used by serverless Functions.
-export function app(runtimeEnvironment: ServerRuntimeEnvironment = {}): express.Express {
+export function app(): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -34,12 +34,42 @@ export function app(runtimeEnvironment: ServerRuntimeEnvironment = {}): express.
   server.use(getOriginValidationMiddleware({
     allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
   }));
+  server.get('/config.json', async (_req, res) => {
+    const configUrl = process.env['CONFIG_URL'];
+    if (!configUrl) {
+      res.json({});
+      return;
+    }
+    try {
+      const response = await fetch(configUrl);
+      if (!response.ok) {
+        res.json({});
+        return;
+      }
+      const raw = await response.json();
+      const filtered = Object.fromEntries(
+        Object.entries(raw).filter(
+          ([, entry]) =>
+            !(entry && ((entry as any).secret === true || (entry as any).secret === 'true'))
+        )
+      );
+      res.json(filtered);
+    } catch {
+      res.json({});
+    }
+  });
 
   server.engine(
     'html',
     ngExpressEngine({
       bootstrap,
-      providers: [{ provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }]
+      // allowedHosts controls which request hostnames Angular's CommonEngine
+      // accepts for SSR. Without this, CommonEngine defaults to an empty set
+      // and rejects ALL hostnames — silently falling back to CSR for every
+      // request. NG_ALLOWED_HOSTS can restrict this in security-sensitive
+      // environments; the '*' default matches Angular's own renderApplication
+      // behaviour and is safe behind a reverse proxy / load balancer.
+      allowedHosts: process.env['NG_ALLOWED_HOSTS']?.split(',') ?? ['*'],
     })
   );
 
@@ -55,10 +85,12 @@ export function app(runtimeEnvironment: ServerRuntimeEnvironment = {}): express.
   );
 
   // All regular routes use the Universal engine
-  server.get(/.*/, (req, res) => {
+  server.get(/.*/, async (req, res) => {
+    const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });
     res.render(indexHtml, {
       req,
-      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }, // IMPORTANT: per-request only — must NOT be moved to ngExpressEngine providers
+      { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }],
     });
   });
 
@@ -67,12 +99,11 @@ export function app(runtimeEnvironment: ServerRuntimeEnvironment = {}): express.
   return server;
 }
 
-async function run() {
+function run() {
   const port = process.env['PORT'] || 4000;
 
   // Start up the Node server
-  const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });
-  const server = app(runtimeEnvironment);
+  const server = app();
   server.listen(port, () => {
     console.log(\`Node Express server listening on http://localhost:\${port}\`);
   });
@@ -342,7 +373,14 @@ export function app(): express.Express {
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap
+      bootstrap,
+      // allowedHosts controls which request hostnames Angular's CommonEngine
+      // accepts for SSR. Without this, CommonEngine defaults to an empty set
+      // and rejects ALL hostnames — silently falling back to CSR for every
+      // request. NG_ALLOWED_HOSTS can restrict this in security-sensitive
+      // environments; the '*' default matches Angular's own renderApplication
+      // behaviour and is safe behind a reverse proxy / load balancer.
+      allowedHosts: process.env['NG_ALLOWED_HOSTS']?.split(',') ?? ['*'],
     })
   );
 

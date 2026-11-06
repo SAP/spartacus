@@ -313,12 +313,12 @@ function runScenarioA(outDir: string, baseName: string): ScenarioStats {
     assertFileExists(path.join(appDir, 'src', 'server.ts'))
   );
 
-  // The following 5 steps verify all 4 transformations that updateServerTs applies.
+  // The following steps verify all transformations that updateServerTs applies.
   // updateServerTs degrades silently (skips without throwing on any AST mismatch), so
-  // asserting only imports is not enough — the provider and param checks are the key
+  // asserting only imports is not enough — the catch-all and provider checks are the key
   // regression guards that distinguish "wiring applied" from "only imports added".
   step(
-    'server.ts imports getServerRuntimeEnvironment and ServerRuntimeEnvironment',
+    'server.ts imports getServerRuntimeEnvironment and RUNTIME_ENVIRONMENT',
     () => {
       assertFileContains(
         path.join(appDir, 'src', 'server.ts'),
@@ -326,36 +326,69 @@ function runScenarioA(outDir: string, baseName: string): ScenarioStats {
       );
       assertFileContains(
         path.join(appDir, 'src', 'server.ts'),
-        'ServerRuntimeEnvironment'
+        'RUNTIME_ENVIRONMENT'
       );
     }
   );
 
-  step('server.ts app() takes runtimeEnvironment param', () =>
-    assertFileContains(
+  step('server.ts app() has no runtimeEnvironment param (per-request pattern)', () =>
+    assertFileNotContains(
       path.join(appDir, 'src', 'server.ts'),
       'runtimeEnvironment: ServerRuntimeEnvironment'
     )
   );
 
-  step('server.ts registers RUNTIME_ENVIRONMENT provider', () =>
+  step('server.ts registers RUNTIME_ENVIRONMENT provider in res.render (not engine-level)', () => {
     assertFileContains(
       path.join(appDir, 'src', 'server.ts'),
       'provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment'
-    )
-  );
+    );
+    // Must NOT be in ngExpressEngine options — engine-level would override per-request value
+    assertFileNotContains(
+      path.join(appDir, 'src', 'server.ts'),
+      'ngExpressEngine({ bootstrap, providers'
+    );
+  });
 
-  step('server.ts awaits getServerRuntimeEnvironment from CONFIG_URL', () =>
+  step('server.ts catch-all is async and awaits getServerRuntimeEnvironment per-request', () => {
+    // Check for key parts — formatter may split across lines so avoid full single-line assertion
     assertFileContains(
       path.join(appDir, 'src', 'server.ts'),
-      `await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] })`
-    )
-  );
-
-  step('server.ts passes runtimeEnvironment into app()', () =>
+      'await getServerRuntimeEnvironment'
+    );
     assertFileContains(
+      path.join(appDir, 'src', 'server.ts'),
+      `process.env['CONFIG_URL']`
+    );
+    // Catch-all callback must be async — fetch is inside it, not in run()
+    assertFileContains(
+      path.join(appDir, 'src', 'server.ts'),
+      'async (req, res)'
+    );
+  });
+
+  step('server.ts run() is NOT async and app() takes no arguments', () => {
+    assertFileNotContains(
+      path.join(appDir, 'src', 'server.ts'),
+      'async function run'
+    );
+    assertFileNotContains(
       path.join(appDir, 'src', 'server.ts'),
       'app(runtimeEnvironment)'
+    );
+  });
+
+  step('server.ts has /config.json proxy route before catch-all', () =>
+    assertFileContains(
+      path.join(appDir, 'src', 'server.ts'),
+      `server.get('/config.json'`
+    )
+  );
+
+  step('app.config.server.ts has provideEnvironmentServer()', () =>
+    assertFileContains(
+      path.join(appDir, 'src', 'app', 'app.config.server.ts'),
+      'provideEnvironmentServer'
     )
   );
 

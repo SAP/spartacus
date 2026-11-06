@@ -12,6 +12,35 @@ import { createImports } from '../shared/utils/import-utils';
 import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
+// Proxy route inserted before the Angular catch-all. Keeps the { value: "..." }
+// wrapper intact so the browser's getRuntimeEnvironment() parses ConfigJson itself.
+// Flattening here (parseConfigJson) causes a double-parse bug where entry.value
+// becomes undefined and provideRuntimeOccConfig() receives no OCC URL.
+const CONFIG_JSON_PROXY_ROUTE = `server.get('/config.json', async (_req, res) => {
+    const configUrl = process.env['CONFIG_URL'];
+    if (!configUrl) {
+      res.json({});
+      return;
+    }
+    try {
+      const response = await fetch(configUrl);
+      if (!response.ok) {
+        res.json({});
+        return;
+      }
+      const raw = await response.json();
+      const filtered = Object.fromEntries(
+        Object.entries(raw).filter(
+          ([, entry]) =>
+            !(entry && ((entry as any).secret === true || (entry as any).secret === 'true'))
+        )
+      );
+      res.json(filtered);
+    } catch {
+      res.json({});
+    }
+  });`;
+
 export function updateServerTs(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
@@ -60,16 +89,11 @@ function updateServerTsLegacy(
   createImports(sourceFile, [
     {
       moduleSpecifier: '@spartacus/setup',
-      namedImports: [
-        'getServerRuntimeEnvironment',
-        'RUNTIME_ENVIRONMENT',
-        'ServerRuntimeEnvironment',
-      ],
+      namedImports: ['getServerRuntimeEnvironment', 'RUNTIME_ENVIRONMENT'],
     },
   ]);
 
-  addRuntimeEnvironmentParamToApp(sourceFile);
-  addProviderToNgExpressEngine(sourceFile);
+  addConfigJsonProxyRoute(sourceFile);
   makeRunAsyncWithFetch(sourceFile);
 
   formatFile(sourceFile);
@@ -80,7 +104,11 @@ function updateServerTsLegacy(
   }
 }
 
-function addRuntimeEnvironmentParamToApp(sourceFile: SourceFile): void {
+function addConfigJsonProxyRoute(sourceFile: SourceFile): void {
+  if (sourceFile.getFullText().includes("server.get('/config.json'")) {
+    return;
+  }
+
   const appFunction = sourceFile
     .getFunctions()
     .find((fn) => fn.getName() === 'app' && fn.isExported());
@@ -89,14 +117,36 @@ function addRuntimeEnvironmentParamToApp(sourceFile: SourceFile): void {
     return;
   }
 
-  appFunction.addParameter({
-    name: 'runtimeEnvironment',
-    type: 'ServerRuntimeEnvironment',
-    initializer: '{}',
+  const body = appFunction.getBody();
+  if (!body || !Node.isBlock(body)) {
+    return;
+  }
+
+  const statements = body.getStatements();
+  const catchAllIndex = statements.findIndex((stmt) => {
+    if (!Node.isExpressionStatement(stmt)) {
+      return false;
+    }
+    const expr = stmt.getExpression();
+    if (!Node.isCallExpression(expr)) {
+      return false;
+    }
+    if (expr.getExpression().getText() !== 'server.get') {
+      return false;
+    }
+    const firstArg = expr.getArguments()[0];
+    // Match only the all-routes regex /.*/, not the static-asset regex /.*.*/
+    return !!firstArg && firstArg.getText() === '/.*/';
   });
+
+  if (catchAllIndex === -1) {
+    return;
+  }
+
+  body.insertStatements(catchAllIndex, CONFIG_JSON_PROXY_ROUTE);
 }
 
-function addProviderToNgExpressEngine(sourceFile: SourceFile): void {
+function makeRunAsyncWithFetch(sourceFile: SourceFile): void {
   const appFunction = sourceFile
     .getFunctions()
     .find((fn) => fn.getName() === 'app' && fn.isExported());
@@ -105,23 +155,78 @@ function addProviderToNgExpressEngine(sourceFile: SourceFile): void {
     return;
   }
 
-  const engineCall = appFunction
+  const body = appFunction.getBody();
+  if (!body || !Node.isBlock(body)) {
+    return;
+  }
+
+  // Find the catch-all: server.get(/.*/, ...)
+  const catchAllStatement = body.getStatements().find((stmt) => {
+    if (!Node.isExpressionStatement(stmt)) {
+      return false;
+    }
+    const expr = stmt.getExpression();
+    if (!Node.isCallExpression(expr)) {
+      return false;
+    }
+    if (expr.getExpression().getText() !== 'server.get') {
+      return false;
+    }
+    const firstArg = expr.getArguments()[0];
+    return !!firstArg && firstArg.getText() === '/.*/';
+  });
+
+  if (!catchAllStatement || !Node.isExpressionStatement(catchAllStatement)) {
+    return;
+  }
+
+  const callExpr = catchAllStatement.getExpression();
+  if (!Node.isCallExpression(callExpr)) {
+    return;
+  }
+
+  const callbackArg = callExpr.getArguments()[1];
+  if (!callbackArg || !Node.isArrowFunction(callbackArg)) {
+    return;
+  }
+
+  // Make the catch-all callback async so we can await the per-request fetch
+  callbackArg.setIsAsync(true);
+
+  const callbackBody = callbackArg.getBody();
+  if (!callbackBody || !Node.isBlock(callbackBody)) {
+    return;
+  }
+
+  // Insert per-request config fetch as the first statement in the callback.
+  //
+  // IMPORTANT: RUNTIME_ENVIRONMENT must be provided here (res.render providers),
+  // NOT at engine level (ngExpressEngine providers). Angular's CommonEngine
+  // appends engine-level providers AFTER per-request ones — engine-level wins
+  // on conflicts (last-wins DI). If RUNTIME_ENVIRONMENT were in ngExpressEngine,
+  // it would be frozen at server startup and silently override the fresh
+  // per-request value on every subsequent render, breaking the DevOps contract
+  // that config changes take effect on the next request without a server restart.
+  callbackBody.insertStatements(
+    0,
+    `const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });`
+  );
+
+  // Add RUNTIME_ENVIRONMENT to res.render providers
+  const resRenderCall = callbackBody
     .getDescendantsOfKind(SyntaxKind.CallExpression)
-    .find((call) => {
-      const expr = call.getExpression().getText();
-      return expr === 'ngExpressEngine' || expr.endsWith('.ngExpressEngine');
-    });
+    .find((call) => call.getExpression().getText() === 'res.render');
 
-  if (!engineCall) {
+  if (!resRenderCall) {
     return;
   }
 
-  const optionsArg = engineCall.getArguments()[0];
-  if (!optionsArg || !Node.isObjectLiteralExpression(optionsArg)) {
+  const renderOptionsArg = resRenderCall.getArguments()[1];
+  if (!renderOptionsArg || !Node.isObjectLiteralExpression(renderOptionsArg)) {
     return;
   }
 
-  const providersProperty = optionsArg
+  const providersProperty = renderOptionsArg
     .getProperties()
     .find((p) => Node.isPropertyAssignment(p) && p.getName() === 'providers');
 
@@ -131,54 +236,14 @@ function addProviderToNgExpressEngine(sourceFile: SourceFile): void {
     );
     if (providersArray) {
       providersArray.addElement(
-        '{ provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }'
+        '// IMPORTANT: per-request only — must NOT be moved to ngExpressEngine providers\n        { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }'
       );
     }
   } else {
-    optionsArg.addPropertyAssignment({
+    renderOptionsArg.addPropertyAssignment({
       name: 'providers',
       initializer:
-        '[{ provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }]',
+        '[\n        { provide: APP_BASE_HREF, useValue: req.baseUrl },\n        // IMPORTANT: per-request only — must NOT be moved to ngExpressEngine providers\n        { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment },\n      ]',
     });
-  }
-}
-
-function makeRunAsyncWithFetch(sourceFile: SourceFile): void {
-  const runFunction = sourceFile
-    .getFunctions()
-    .find((fn) => fn.getName() === 'run' && !fn.isExported());
-
-  if (!runFunction) {
-    return;
-  }
-
-  runFunction.setIsAsync(true);
-
-  const serverDeclaration = runFunction
-    .getVariableDeclarations()
-    .find((decl) => decl.getName() === 'server');
-
-  if (!serverDeclaration) {
-    return;
-  }
-
-  const variableStatement = serverDeclaration.getVariableStatement();
-  if (!variableStatement) {
-    return;
-  }
-
-  const index = variableStatement.getChildIndex();
-  const body = variableStatement.getParentIfKindOrThrow(SyntaxKind.Block);
-  body.insertStatements(
-    index,
-    `const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });`
-  );
-
-  const initializer = serverDeclaration.getInitializer();
-  if (initializer && Node.isCallExpression(initializer)) {
-    const expr = initializer.getExpression().getText();
-    if (expr === 'app') {
-      initializer.addArgument('runtimeEnvironment');
-    }
   }
 }

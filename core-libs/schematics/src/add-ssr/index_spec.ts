@@ -175,9 +175,18 @@ describe('add-ssr', () => {
         expect(serverTs).toContain('RUNTIME_ENVIRONMENT');
       });
 
-      it('should make run() async', () => {
+      it('should make catch-all async for per-request config fetch', () => {
         const serverTs = appTree.readContent('src/server.ts');
-        expect(serverTs).toContain('async function run');
+        expect(serverTs).not.toContain('async function run');
+        expect(serverTs).toMatch(/server\.get\(\/\.\*\/,\s*async/);
+        expect(serverTs).toContain('await getServerRuntimeEnvironment');
+      });
+    });
+
+    describe('app.config.server.ts', () => {
+      it('should add provideEnvironmentServer() (required for SSR TransferState)', () => {
+        const content = appTree.readContent('src/app/app.config.server.ts');
+        expect(content).toContain('provideEnvironmentServer');
       });
     });
   });
