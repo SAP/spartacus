@@ -53,6 +53,10 @@ export namespace Cpq {
     maxRows?: number;
     messages?: Message[];
     rows?: ContainerRow[];
+    /** When true, the container attribute is not on any visible tab; selected rows
+     * are presented as direct sub-items of the owning product instead of rendering
+     * the container attribute. */
+    renderRowsAsSubItems?: boolean;
   }
 
   /**
