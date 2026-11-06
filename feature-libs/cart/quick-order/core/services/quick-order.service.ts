@@ -83,7 +83,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       return this.productSearchConnector
         .search(query, searchConfig)
         .pipe(
-          map((searchPage: ProductSearchPage) => searchPage.products ?? [])
+          map((searchPage: ProductSearchPage) => searchPage.products || [])
         );
     } else {
       return of([]);
@@ -131,7 +131,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Load a list of entries
    */
   updateEntryQuantity(entryIndex: number, quantity: number): void {
-    const entries = this.entries$.getValue() ?? [];
+    const entries = this.entries$.getValue() || [];
     entries[entryIndex].quantity = quantity;
 
     this.entries$.next(entries);
@@ -340,7 +340,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       return;
     }
 
-    const entries = this.entries$.getValue() ?? [];
+    const entries = this.entries$.getValue() || [];
     const entryStockLevel = entry.product?.stock?.stockLevel;
 
     if (entryStockLevel && entry.quantity && entry.quantity > entryStockLevel) {
