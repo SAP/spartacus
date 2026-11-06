@@ -73,8 +73,10 @@ export function provideEnvironmentServer(): Provider[] {
         // Injecting ENVIRONMENT here (in the DI factory context) forces the lazy
         // ENVIRONMENT factory to execute, writing the runtime config to
         // TransferState before Angular serializes it into the HTML response.
-        const _env = inject(ENVIRONMENT);
-        return () => void _env;
+        const env = inject(ENVIRONMENT);
+        return () => {
+          return env;
+        };
       },
       multi: true,
     },

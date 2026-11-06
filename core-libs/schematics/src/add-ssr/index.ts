@@ -462,15 +462,15 @@ export function addSSR(options: SpartacusOptions): Rule {
       options.runtimeConfig ? updateServerTs(options) : noop(),
       options.runtimeConfig ? updateAppConfigServerForRuntimeConfig(options) : noop(),
       options.runtimeConfig
-        ? (_tree: Tree, context: SchematicContext) => {
-            context.logger.info(`
+        ? (_tree: Tree, _ctx: SchematicContext) => {
+            _ctx.logger.info(String.raw`
 ✅ SSR + runtime config wiring complete.
 
 To start the SSR server locally, set these environment variables:
 
-  CONFIG_URL=http://localhost:4222/config.json \\
-  SERVER_REQUEST_ORIGIN=http://localhost:<port> \\
-  NODE_TLS_REJECT_UNAUTHORIZED=0 \\
+  CONFIG_URL=http://localhost:4222/config.json \
+  SERVER_REQUEST_ORIGIN=http://localhost:<port> \
+  NODE_TLS_REJECT_UNAUTHORIZED=0 \
   npm run serve:ssr:${options.project}
 
   CONFIG_URL          — URL the Node.js SSR process fetches config.json from

@@ -5,7 +5,7 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Node, SourceFile, SyntaxKind } from 'ts-morph';
+import { ArrowFunction, Node, SourceFile, SyntaxKind } from 'ts-morph';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { SERVER_TS } from '../shared/constants';
 import { createImports } from '../shared/utils/import-utils';
@@ -150,56 +150,22 @@ function makeRunAsyncWithFetch(sourceFile: SourceFile): void {
   const appFunction = sourceFile
     .getFunctions()
     .find((fn) => fn.getName() === 'app' && fn.isExported());
-
   if (!appFunction) {
     return;
   }
-
   const body = appFunction.getBody();
   if (!body || !Node.isBlock(body)) {
     return;
   }
-
-  // Find the catch-all: server.get(/.*/, ...)
-  const catchAllStatement = body.getStatements().find((stmt) => {
-    if (!Node.isExpressionStatement(stmt)) {
-      return false;
-    }
-    const expr = stmt.getExpression();
-    if (!Node.isCallExpression(expr)) {
-      return false;
-    }
-    if (expr.getExpression().getText() !== 'server.get') {
-      return false;
-    }
-    const firstArg = expr.getArguments()[0];
-    return !!firstArg && firstArg.getText() === '/.*/';
-  });
-
-  if (!catchAllStatement || !Node.isExpressionStatement(catchAllStatement)) {
+  const catchAllCallback = findCatchAllCallback(body.getStatements());
+  if (!catchAllCallback) {
     return;
   }
-
-  const callExpr = catchAllStatement.getExpression();
-  if (!Node.isCallExpression(callExpr)) {
-    return;
-  }
-
-  const callbackArg = callExpr.getArguments()[1];
-  if (!callbackArg || !Node.isArrowFunction(callbackArg)) {
-    return;
-  }
-
-  // Make the catch-all callback async so we can await the per-request fetch
-  callbackArg.setIsAsync(true);
-
-  const callbackBody = callbackArg.getBody();
+  catchAllCallback.setIsAsync(true);
+  const callbackBody = catchAllCallback.getBody();
   if (!callbackBody || !Node.isBlock(callbackBody)) {
     return;
   }
-
-  // Insert per-request config fetch as the first statement in the callback.
-  //
   // IMPORTANT: RUNTIME_ENVIRONMENT must be provided here (res.render providers),
   // NOT at engine level (ngExpressEngine providers). Angular's CommonEngine
   // appends engine-level providers AFTER per-request ones — engine-level wins
@@ -211,25 +177,44 @@ function makeRunAsyncWithFetch(sourceFile: SourceFile): void {
     0,
     `const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });`
   );
+  addRuntimeEnvironmentToResRender(callbackBody);
+}
 
-  // Add RUNTIME_ENVIRONMENT to res.render providers
+function findCatchAllCallback(statements: Node[]): ArrowFunction | undefined {
+  for (const stmt of statements) {
+    if (!Node.isExpressionStatement(stmt)) {
+      continue;
+    }
+    const expr = stmt.getExpression();
+    if (!Node.isCallExpression(expr) || expr.getExpression().getText() !== 'server.get') {
+      continue;
+    }
+    const args = expr.getArguments();
+    if (args[0]?.getText() !== '/.*/') {
+      continue;
+    }
+    const cb = args[1];
+    if (cb && Node.isArrowFunction(cb)) {
+      return cb;
+    }
+  }
+  return undefined;
+}
+
+function addRuntimeEnvironmentToResRender(callbackBody: Node): void {
   const resRenderCall = callbackBody
     .getDescendantsOfKind(SyntaxKind.CallExpression)
     .find((call) => call.getExpression().getText() === 'res.render');
-
   if (!resRenderCall) {
     return;
   }
-
   const renderOptionsArg = resRenderCall.getArguments()[1];
   if (!renderOptionsArg || !Node.isObjectLiteralExpression(renderOptionsArg)) {
     return;
   }
-
   const providersProperty = renderOptionsArg
     .getProperties()
     .find((p) => Node.isPropertyAssignment(p) && p.getName() === 'providers');
-
   if (providersProperty && Node.isPropertyAssignment(providersProperty)) {
     const providersArray = providersProperty.getInitializerIfKind(
       SyntaxKind.ArrayLiteralExpression
