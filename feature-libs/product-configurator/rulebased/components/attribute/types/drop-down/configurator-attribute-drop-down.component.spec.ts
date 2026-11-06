@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
@@ -16,7 +15,10 @@ import {
   LoggerTestingModule,
 } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
-import { FocusDirective } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -58,11 +60,6 @@ function createValue(
       : undefined,
   };
   return value;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
 }
 
 @Component({
@@ -176,7 +173,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         LoggerTestingModule,
         ReactiveFormsModule,
@@ -212,14 +209,16 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         },
         add: {
           imports: [
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
             MockFeatureLevelDirective,
             MockConfiguratorShowMoreComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

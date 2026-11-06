@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
@@ -14,8 +14,8 @@ import { ConfiguratorCommonsService } from '../../core';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
+import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -89,7 +89,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
   beforeEach(async () => {
     initTestData();
     initMocks();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterButtonComponent],
       providers: [
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },
@@ -113,7 +113,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
+            I18nTestingModule,
             MockConfiguratorOverviewFilterBarComponent,
           ],
         },
