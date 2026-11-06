@@ -6,13 +6,13 @@
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { FeatureToggles } from '../../../../features-config';
+import { Translatable } from '../../../../i18n/translatable';
 import { ErrorModel } from '../../../../model/misc.model';
 import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
-import { Translatable } from '../../../../i18n/translatable';
-import { FeatureToggles } from '../../../../features-config';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -153,7 +153,7 @@ export class BadRequestHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || []).filter(
+    return (response.error?.errors ?? []).filter(
       (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError'
     );
   }

@@ -81,6 +81,6 @@ export class FilesFormValidators {
   }
 
   protected getExtension(filename?: string): string {
-    return (filename?.match(this.extenstionRegEx) || [])[0] || '';
+    return (filename?.match(this.extenstionRegEx) ?? [])[0] || '';
   }
 }
