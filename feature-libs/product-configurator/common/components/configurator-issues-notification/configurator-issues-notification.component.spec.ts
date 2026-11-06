@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -13,8 +7,8 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
-import { IconComponent } from '@spartacus/storefront';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -25,19 +19,6 @@ import {
   StatusSummary,
 } from './../../core/model/common-configurator.model';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: any;
-}
 
 @Component({
   selector: 'cx-configure-cart-entry',
@@ -83,7 +64,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   }
   describe('with cart item context', () => {
     beforeEach(async () => {
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         imports: [ConfiguratorIssuesNotificationComponent],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },
@@ -99,8 +80,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
           },
           add: {
             imports: [
-              MockTranslatePipe,
-              MockCxIconComponent,
+              I18nTestingModule,
+              IconTestingModule,
               MockConfigureCartEntryComponent,
             ],
           },
@@ -374,7 +355,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
   describe('without cart item context', () => {
     beforeEach(async () => {
-      TestBed.configureTestingModule({
+      await TestBed.configureTestingModule({
         imports: [ConfiguratorIssuesNotificationComponent],
         providers: [{ provide: CartItemContext, useValue: null }],
       })
@@ -388,8 +369,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
           },
           add: {
             imports: [
-              MockTranslatePipe,
-              MockCxIconComponent,
+              I18nTestingModule,
+              IconTestingModule,
               MockConfigureCartEntryComponent,
             ],
           },

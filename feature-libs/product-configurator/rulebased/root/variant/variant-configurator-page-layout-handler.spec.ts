@@ -66,7 +66,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
   let classUnderTest: VariantConfiguratorPageLayoutHandler;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: ConfiguratorRouterExtractorService,

@@ -1,8 +1,7 @@
-import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  MockTranslatePipe,
+  I18nTestingModule,
   Product,
   ProductService,
   RoutingService,
@@ -10,10 +9,10 @@ import {
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import {
-  FocusConfig,
   FocusDirective,
   IconComponent,
-  ICON_TYPE,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, lastValueFrom, of, ReplaySubject } from 'rxjs';
@@ -26,19 +25,6 @@ const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 const product: Product = { code: 'pCode' };
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
-}
 
 class MockConfiguratorCommonsService {
   forceNewConfiguration = vi.fn();
@@ -100,7 +86,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
 
   beforeEach(async () => {
     createServiceMocks();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorRestartDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -124,9 +110,9 @@ describe('ConfiguratorRestartDialogComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockCxIconComponent,
-            MockKeyboadFocusDirective,
+            I18nTestingModule,
+            IconTestingModule,
+            KeyboardFocusTestingModule,
           ],
         },
       })
