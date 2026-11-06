@@ -111,5 +111,5 @@ declare module '@spartacus/core' {
 
 export enum SapAppliedDiscountCodesForSubscription {
   FIXED = 'Fixed',
-  RECURRING = 'Recurring'
+  RECURRING = 'Recurring',
 }
