@@ -215,7 +215,7 @@ export class FacetService {
       ? ''
       : this.codec
           .decodeValue(this.decodeUriComponentSafe(segment))
-          .replaceAll(/\+/g, ' ');
+          .replaceAll('+', ' ');
   }
 
   protected decodeUriComponentSafe(query: string): string {
