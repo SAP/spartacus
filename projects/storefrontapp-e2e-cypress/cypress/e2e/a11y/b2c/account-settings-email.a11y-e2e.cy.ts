@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 import * as updateEmail from '../../../helpers/update-email';
 import { generateMail, randomString } from '../../../helpers/user';
 import { standardUser } from '../../../sample-data/shared-users';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 export function fillUpdateEmailForm({
   email,
@@ -44,6 +45,7 @@ describe(
   'Account Settings / Email Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
     });

@@ -3,56 +3,55 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { LoginAsGuestGuard } from './login-as-guest.guard';
-
-const mockFeatureConfigService = {
-  isEnabled: jasmine.createSpy().and.returnValue(true),
-};
-
-const mockWindowRef = {
-  localStorage: {
-    getItem: jasmine.createSpy().and.returnValue('true'),
-    removeItem: jasmine.createSpy(),
-  },
-};
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { firstValueFrom } from 'rxjs';
 
 const mockSemanticPathService = {
-  get: jasmine.createSpy().and.returnValue('loginForm'),
+  get: vi.fn().mockReturnValue('loginForm'),
 };
 
 describe('LoginAsGuestGuard', () => {
   let guard: LoginAsGuestGuard;
   let windowRef: WindowRef;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         Router,
-        {
-          provide: FeatureConfigService,
-          useValue: mockFeatureConfigService,
-        },
+        provideMockFeatureToggles({
+          authorizationCodeFlowByDefault: true,
+        }),
         {
           provide: SemanticPathService,
           useValue: mockSemanticPathService,
         },
         {
           provide: WindowRef,
-          useValue: mockWindowRef,
+          useClass: MockWinRef,
         },
       ],
     });
     guard = TestBed.inject(LoginAsGuestGuard);
     windowRef = TestBed.inject(WindowRef);
+    featureToggles = TestBed.inject(FeatureToggles);
   });
 
   beforeEach(() => {
-    mockWindowRef.localStorage.removeItem.calls.reset();
+    (
+      windowRef.localStorage?.removeItem as ReturnType<typeof vi.fn>
+    ).mockClear();
+    (windowRef.localStorage?.getItem as any).mockReturnValue('true');
   });
 
   it('should be created', () => {
@@ -60,20 +59,17 @@ describe('LoginAsGuestGuard', () => {
   });
 
   describe('when authorizationCodeFlowByDefault feature flag is not enabled', () => {
-    it('should return true', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(false);
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-      });
+    it('should return true', async () => {
+      featureToggles.authorizationCodeFlowByDefault = false;
+      const result = await firstValueFrom(guard.canActivate());
+      expect(result).toBe(true);
     });
   });
 
   describe('when authorizationCodeFlowByDefault feature flag is enabled', () => {
-    it('should return url to login with `forced` query param when IS_GUEST_USER_CHECKOUT_KEY is set to true', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(true);
-      guard.canActivate().subscribe((result) => {
-        expect(result.toString()).toBe('/loginForm?forced=true');
-      });
+    it('should return url to login with `forced` query param when IS_GUEST_USER_CHECKOUT_KEY is set to true', async () => {
+      const activationResult = await firstValueFrom(guard.canActivate());
+      expect(activationResult.toString()).toBe('/loginForm?forced=true');
       expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
         IS_GUEST_USER_CHECKOUT_KEY
       );
@@ -82,28 +78,23 @@ describe('LoginAsGuestGuard', () => {
       );
     });
 
-    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set to true', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(true);
-      (mockWindowRef.localStorage?.getItem as jasmine.Spy).and.returnValue(
-        'false'
-      );
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-      });
+    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set to true', async () => {
+      featureToggles.authorizationCodeFlowByDefault = true;
+      (windowRef.localStorage?.getItem as any).mockReturnValue('false');
+      const result = await firstValueFrom(guard.canActivate());
+      expect(result).toBe(true);
       expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
         IS_GUEST_USER_CHECKOUT_KEY
       );
       expect(windowRef.localStorage?.removeItem).not.toHaveBeenCalled();
     });
 
-    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(true);
-      (mockWindowRef.localStorage?.getItem as jasmine.Spy).and.returnValue(
-        null
-      );
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-      });
+    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set', async () => {
+      featureToggles.authorizationCodeFlowByDefault = true;
+      (windowRef.localStorage?.getItem as any).mockReturnValue(null);
+      const result = await firstValueFrom(guard.canActivate());
+
+      expect(result).toBe(true);
       expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
         IS_GUEST_USER_CHECKOUT_KEY
       );

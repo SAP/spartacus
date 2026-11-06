@@ -6,91 +6,100 @@ import {
   OCC_USER_ID_CURRENT,
 } from '@spartacus/core';
 import { SubscriptionBillingConnector } from '../connector';
-import createSpy = jasmine.createSpy;
-import { of, take } from 'rxjs';
+import { firstValueFrom, of, take, tap } from 'rxjs';
 import {
-  SubscriptionDetail,
-  SubscriptionList,
+  SubscriptionBill,
+  SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockRouteState = {
   state: {
-    url: 'powertools-spa/en/USD/my-account/subscription/01',
+    url: 'powertools-spa/en/USD/my-account/subscription-bill/01',
     queryParams: {},
     params: {},
     context: {
-      id: '/my-account/subscription/01',
+      id: '/my-account/subscription-bill/01',
       type: 'ContentPage',
     },
     cmsRequired: true,
   },
   navigationId: 6,
 };
-const mockDetail: SubscriptionDetail = {
+const mockDetail: SubscriptionBill = {
+  billAt: '2026-04-11T00:00:00+0000',
+  documentNumber: '5776',
   id: '01',
-  documentNumber: '2081',
-  name: 'Mobile 2020 Plan',
-  orderCode: '0005210258',
-  productCode: 'Mobile_2020_Plan_cpq',
-  status: 'Active',
-};
-const mockList: SubscriptionList = {
-  pagination: {
-    currentPage: 0,
-    pageSize: 2,
-    sort: 'byDocumentNumberDesc',
-    totalPages: 233,
-    totalResults: 1162,
-  },
-  results: [
+  items: [
     {
-      documentNumber: '2081',
-      id: '019985A4-8221-4596-82AF-7C4A9728119E',
-      name: 'Mobile 2020 Plan',
-      orderCode: '0005210258',
-      productCode: 'Mobile_2020_Plan_cpq',
-      status: 'Active',
-    },
-    {
-      documentNumber: '2080',
-      id: '0199806E-395A-4B04-8B9C-27C5B5E2FB8E',
-      name: 'Mobile 2020 Plan',
-      orderCode: '0005212095',
-      productCode: 'Mobile_2020_Plan_cpq',
-      status: 'Active',
+      netAmount: 'USD0.00',
+      productCode: 'SAPCPQ_EDITRATIO_FORMAT_TIERS_cpq',
+      productName: 'SAPCPQ_EDITRATIO_FORMAT_TIERS',
+      subscriptionDocumentNumber: '807',
+      subscriptionId: '86B01278-B670-4812-B69C-55E41439D59E',
+      usageCharges: [
+        {
+          netAmount: 'USD185.00',
+          typeName: 'Charge',
+        },
+      ],
     },
   ],
+  netAmount: 'USD0.00',
+  numberOfSubscriptions: 1,
+  periodEndAt: '2026-04-09T00:00:00+0000',
+  periodStartAt: '2026-01-09T00:00:00+0000',
+};
+const mockList: SubscriptionBillsList = {
+  pagination: {
+    currentPage: 0,
+    pageSize: 1,
+    sort: 'byBillingDateDesc',
+    totalPages: 410,
+    totalResults: 2047,
+  },
+  results: [mockDetail],
   sorts: [
     {
       code: 'byDocumentNumberDesc',
-      name: 'Document Number (desc)',
-      selected: true,
+      name: 'Bill ID (desc)',
+      selected: false,
     },
     {
       code: 'byDocumentNumberAsc',
-      name: 'Document Number (asc)',
+      name: 'Bill ID (asc)',
       selected: false,
     },
-    { code: 'byDateDesc', name: 'Date (desc)', selected: false },
-    { code: 'byDateAsc', name: 'Date (asc)', selected: false },
+    {
+      code: 'byBillingDateDesc',
+      name: 'Bill Date (desc)',
+      selected: true,
+    },
+    {
+      code: 'byBillingDateAsc',
+      name: 'Bill Date (asc)',
+      selected: false,
+    },
   ],
 };
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId = createSpy().and.returnValue(of(mockUserId));
+  getUserId() {
+    return of(mockUserId);
+  }
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(of(mockRouteState));
+  getRouterState = vi.fn().mockReturnValue(of(mockRouteState));
 }
-class MockSubscriptionBillingConnector
+class MockSubscriptionConnector
   implements Partial<SubscriptionBillingConnector>
 {
-  getSubscriptionByCode = createSpy().and.returnValue(of(mockDetail));
-  getSubscriptionList = createSpy().and.returnValue(of(mockList));
+  getSubscriptionBillByCode = vi.fn().mockReturnValue(of(mockDetail));
+  getSubscriptionBillsList = vi.fn().mockReturnValue(of(mockList));
 }
 describe('SubscriptionBillingService', () => {
   let service: SubscriptionBillingService;
   let connector: SubscriptionBillingConnector;
+  let userIdServiceSpy: UserIdService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -99,12 +108,13 @@ describe('SubscriptionBillingService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         {
           provide: SubscriptionBillingConnector,
-          useClass: MockSubscriptionBillingConnector,
+          useClass: MockSubscriptionConnector,
         },
       ],
     });
     service = TestBed.inject(SubscriptionBillingService);
     connector = TestBed.inject(SubscriptionBillingConnector);
+    userIdServiceSpy = TestBed.inject(UserIdService);
   });
   it('should inject SubscriptionBillingService', inject(
     [SubscriptionBillingService],
@@ -112,82 +122,94 @@ describe('SubscriptionBillingService', () => {
       expect(service).toBeTruthy();
     }
   ));
-  describe('getSubscriptionList', () => {
+  describe('getSubscriptionBillsList', () => {
     const mockCurrentPage = 1;
     const mockPageSize = 5;
-    const mockSort = 'byId';
+    const mockSort = 'byBillingDateDesc';
 
-    it('should call connector.getSubscriptionList', (done) => {
-      service
-        .getSubscriptionList(mockCurrentPage, mockPageSize, mockSort)
-        .pipe(take(1))
-        .subscribe((data) => {
-          expect(connector.getSubscriptionList).toHaveBeenCalledWith(
-            mockUserId,
-            mockCurrentPage,
-            mockPageSize,
-            mockSort
-          );
-          expect(data).toEqual(mockList);
-          done();
-        });
+    it('should call connectors getSubscriptionBillsList', async () => {
+      const data = await firstValueFrom(
+        service.getSubscriptionBillsList(
+          mockPageSize,
+          mockCurrentPage,
+          mockSort
+        )
+      );
+      expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
+        mockUserId,
+        mockPageSize,
+        mockCurrentPage,
+        mockSort,
+        undefined
+      );
+      expect(data).toEqual(mockList);
     });
 
-    it('should contain the query state', (done) => {
+    it('should contain the query state', async () => {
       const mockCurrentPage = 1;
       const mockPageSize = 5;
-      const mockSort = 'byId';
+      const mockSort = 'byBillingDateDesc';
 
-      service
-        .getSubscriptionListState(mockCurrentPage, mockPageSize, mockSort)
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getSubscriptionList).toHaveBeenCalledWith(
-            mockUserId,
-            mockCurrentPage,
-            mockPageSize,
-            mockSort
-          );
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockList,
-          });
-          done();
-        });
+      const state = await firstValueFrom(
+        service.getSubscriptionBillsListState(
+          mockCurrentPage,
+          mockPageSize,
+          mockSort,
+          undefined
+        )
+      );
+      expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
+        mockUserId,
+        mockCurrentPage,
+        mockPageSize,
+        mockSort,
+        undefined
+      );
+      expect(state).toEqual({
+        loading: false,
+        error: false,
+        data: mockList,
+      });
     });
   });
-  describe('getSubscriptionByCode', () => {
-    it('should call connector.getSubscriptionByCode', (done) => {
-      service
-        .getSubscriptionByCode()
-        .pipe(take(1))
-        .subscribe((data) => {
-          expect(connector.getSubscriptionByCode).toHaveBeenCalledWith(
-            mockUserId,
-            '01'
-          );
-          expect(data).toEqual(mockDetail);
-          done();
-        });
+  describe('getSubscriptionBillList with empty userId', () => {
+    const mockCurrentPage = 1;
+    const mockPageSize = 5;
+    const mockSort = 'byBillingDateDesc';
+    it('should return error observable because of no userId', async () => {
+      vi.spyOn(userIdServiceSpy, 'getUserId').mockReturnValue(of(''));
+      service = TestBed.inject(SubscriptionBillingService);
+      connector = TestBed.inject(SubscriptionBillingConnector);
+
+      await firstValueFrom(
+        service
+          .getSubscriptionBillsListState(
+            mockPageSize,
+            mockCurrentPage,
+            mockSort,
+            undefined
+          )
+          .pipe(
+            tap(() => {
+              expect(connector.getSubscriptionBillsList).not.toHaveBeenCalled();
+            })
+          )
+      );
     });
 
-    it('should contain the query state', (done) => {
-      service
-        .getSubscriptionByCodeState()
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getSubscriptionByCode).toHaveBeenCalledWith(
-            mockUserId,
-            '01'
-          );
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockDetail,
-          });
-          done();
-        });
+    it('should contain the query state', async () => {
+      const state = await firstValueFrom(
+        service.getSubscriptionBillByCodeState()
+      );
+      expect(connector.getSubscriptionBillByCode).toHaveBeenCalledWith(
+        mockUserId,
+        '01'
+      );
+      expect(state).toEqual({
+        loading: false,
+        error: false,
+        data: mockDetail,
+      });
     });
   });
 });

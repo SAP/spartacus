@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -64,7 +64,7 @@ export class OpfQuickBuyService implements OpfQuickBuyFacade {
       }),
       filter((response) => Boolean(response?.accessCode)),
       take(1),
-      concatMap(({ accessCode: accessCode }) => {
+      concatMap(({ accessCode }) => {
         return this.opfQuickBuyConnector.getApplePayWebSession(
           payload.applePayWebSessionRequest,
           accessCode

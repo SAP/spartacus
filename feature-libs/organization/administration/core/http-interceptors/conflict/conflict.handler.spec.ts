@@ -65,6 +65,17 @@ const MockUnitConflictResponse = {
   },
 } as HttpErrorResponse;
 
+const MockCostCenterConflictResponse = {
+  error: {
+    errors: [
+      {
+        message: 'Cost center with code [CC123] already exists',
+        type: 'AlreadyExistsError',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 describe('OrganizationConflictHandler', () => {
   let service: OrganizationConflictHandler;
   let globalMessageService: GlobalMessageService;
@@ -92,7 +103,7 @@ describe('OrganizationConflictHandler', () => {
   });
 
   it('should handle budget conflict', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockBudgetConflictResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -105,7 +116,7 @@ describe('OrganizationConflictHandler', () => {
   });
 
   it('should handle user conflict', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockUpdateUserRequest, MockUserConflictResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -118,7 +129,7 @@ describe('OrganizationConflictHandler', () => {
   });
 
   it('should handle user group conflict', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(
       MockUpdateUserGroupRequest,
       MockUserGroupConflictResponse
@@ -134,7 +145,7 @@ describe('OrganizationConflictHandler', () => {
   });
 
   it('should handle unit conflict', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockUnitConflictResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -146,8 +157,21 @@ describe('OrganizationConflictHandler', () => {
     );
   });
 
+  it('should handle cost center conflict', () => {
+    vi.spyOn(globalMessageService, 'add');
+    service.handleError(MockRequest, MockCostCenterConflictResponse);
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'organization.httpHandlers.conflict.costCenter',
+        params: { code: 'CC123' },
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
   it('should not handle conflict if error response does not have enough info', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, {
       error: {},
     } as HttpErrorResponse);

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { ConfiguratorExpertModeService } from './configurator-expert-mode.service';
 
 describe('ConfiguratorExpertModeService', () => {
@@ -24,16 +24,11 @@ describe('ConfiguratorExpertModeService', () => {
       expect(result).toBeUndefined();
     });
 
-    it('should return value that was set with setExpModeRequested', (done) => {
+    it('should return value that was set with setExpModeRequested', async () => {
       const expMode = true;
       classUnderTest.setExpModeRequested(expMode);
-      classUnderTest
-        .getExpModeRequested()
-        .pipe(take(1))
-        .subscribe((userId) => {
-          expect(userId).toBe(expMode);
-          done();
-        });
+      const userId = await firstValueFrom(classUnderTest.getExpModeRequested());
+      expect(userId).toBe(expMode);
     });
   });
 
@@ -49,16 +44,11 @@ describe('ConfiguratorExpertModeService', () => {
       expect(result).toBeUndefined();
     });
 
-    it('should return value that was set with setExpModeActive', (done) => {
+    it('should return value that was set with setExpModeActive', async () => {
       const expMode = true;
       classUnderTest.setExpModeActive(expMode);
-      classUnderTest
-        .getExpModeActive()
-        .pipe(take(1))
-        .subscribe((userId) => {
-          expect(userId).toBe(expMode);
-          done();
-        });
+      const userId = await firstValueFrom(classUnderTest.getExpModeActive());
+      expect(userId).toBe(expMode);
     });
   });
 });

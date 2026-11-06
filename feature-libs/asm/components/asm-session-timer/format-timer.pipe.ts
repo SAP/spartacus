@@ -1,15 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'formatTimer',
-  standalone: false,
-})
+@Pipe({ name: 'formatTimer' })
 export class FormatTimerPipe implements PipeTransform {
   transform(totalSeconds: number): string {
     if (totalSeconds < 0) {

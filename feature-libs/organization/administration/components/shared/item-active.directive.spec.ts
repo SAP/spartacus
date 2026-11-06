@@ -6,20 +6,18 @@ import { ItemActiveDirective } from './item-active.directive';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 
-import createSpy = jasmine.createSpy;
-
 const mockCode = 'mc1';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-host',
   template: `<div cxOrgItemActive>TEST</div>`,
-  standalone: false,
+  imports: [ItemActiveDirective],
 })
 class TestComponent {}
 
 class MockMessageService {
-  add = createSpy('add').and.returnValue(new Subject());
+  add = vi.fn().mockReturnValue(new Subject());
   clear() {}
   close() {}
 }
@@ -34,14 +32,14 @@ const itemStubInactive = {
 
 class MockItemServiceActive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
   current$ = of(itemStubActive);
 }
 
 class MockItemServiceInactive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
   current$ = of(itemStubInactive);
 }
@@ -61,7 +59,7 @@ describe('ItemActiveDirective', () => {
 
   function configureTestingModule(itemService) {
     TestBed.configureTestingModule({
-      declarations: [ItemActiveDirective, TestComponent],
+      imports: [TestComponent],
       providers: [
         {
           provide: ItemService,

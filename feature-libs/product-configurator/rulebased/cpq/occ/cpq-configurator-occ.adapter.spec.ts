@@ -1,5 +1,4 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -83,69 +82,84 @@ const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderE
     owner: owner,
   };
 
-const asSpy = (f: any) => <jasmine.Spy>f;
+const asSpy = (f: any) => f;
 
 describe('CpqConfiguratorOccAdapter', () => {
   let adapterUnderTest: CpqConfiguratorOccAdapter;
   let mockedOccService: CpqConfiguratorOccService;
 
   beforeEach(() => {
-    mockedOccService = jasmine.createSpyObj('mockedOccService', [
-      'addToCart',
-      'getConfigIdForCartEntry',
-      'getConfigIdForOrderEntry',
-      'updateCartEntry',
-      'createConfiguration',
-      'readConfiguration',
-      'updateAttribute',
-      'updateValueQuantity',
-      'readConfigurationOverview',
-      'readConfigurationForCartEntry',
-      'readConfigurationForOrderEntry',
-      'readConfigurationForQuoteEntry',
-    ]);
+    mockedOccService = {
+      addToCart: vi.fn(),
+      getConfigIdForCartEntry: vi.fn(),
+      getConfigIdForOrderEntry: vi.fn(),
+      updateCartEntry: vi.fn(),
+      createConfiguration: vi.fn(),
+      readConfiguration: vi.fn(),
+      updateAttribute: vi.fn(),
+      updateValueQuantity: vi.fn(),
+      readConfigurationOverview: vi.fn(),
+      readConfigurationForCartEntry: vi.fn(),
+      readConfigurationForOrderEntry: vi.fn(),
+      readConfigurationForQuoteEntry: vi.fn(),
+      addContainerRow: vi.fn(),
+      copyContainerRow: vi.fn(),
+      removeContainerRow: vi.fn(),
+    } as any;
 
-    asSpy(mockedOccService.createConfiguration).and.callFake(() => {
+    asSpy(mockedOccService.createConfiguration).mockImplementation(() => {
       return of(productConfiguration);
     });
 
-    asSpy(mockedOccService.readConfiguration).and.callFake(() => {
+    asSpy(mockedOccService.readConfiguration).mockImplementation(() => {
       return of(productConfiguration);
     });
 
-    asSpy(mockedOccService.updateAttribute).and.callFake(() => {
+    asSpy(mockedOccService.updateAttribute).mockImplementation(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedOccService.updateValueQuantity).and.callFake(() => {
+    asSpy(mockedOccService.updateValueQuantity).mockImplementation(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedOccService.readConfigurationOverview).and.callFake(() => {
+    asSpy(mockedOccService.readConfigurationOverview).mockImplementation(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedOccService.addToCart).and.callFake(() => {
+    asSpy(mockedOccService.addToCart).mockImplementation(() => {
       return of(cartResponse);
     });
-    asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
+    asSpy(mockedOccService.getConfigIdForCartEntry).mockImplementation(() => {
       return of(productConfiguration.configId);
     });
-    asSpy(mockedOccService.getConfigIdForOrderEntry).and.callFake(() => {
+    asSpy(mockedOccService.getConfigIdForOrderEntry).mockImplementation(() => {
       return of(productConfiguration.configId);
     });
-    asSpy(mockedOccService.updateCartEntry).and.callFake(() => {
+    asSpy(mockedOccService.updateCartEntry).mockImplementation(() => {
       return of(cartResponse);
     });
-    asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
+    asSpy(mockedOccService.getConfigIdForCartEntry).mockImplementation(() => {
       return of(productConfiguration.configId);
     });
-    asSpy(mockedOccService.readConfigurationForCartEntry).and.callFake(() => {
+    asSpy(mockedOccService.readConfigurationForCartEntry).mockImplementation(
+      () => {
+        return of(productConfiguration);
+      }
+    );
+    asSpy(mockedOccService.readConfigurationForOrderEntry).mockImplementation(
+      () => {
+        return of(productConfiguration);
+      }
+    );
+    asSpy(mockedOccService.addContainerRow).mockImplementation(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedOccService.readConfigurationForOrderEntry).and.callFake(() => {
+    asSpy(mockedOccService.copyContainerRow).mockImplementation(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.removeContainerRow).mockImplementation(() => {
       return of(productConfiguration);
     });
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CpqConfiguratorOccAdapter,
         {
@@ -157,9 +171,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       ],
     });
 
-    adapterUnderTest = TestBed.inject(
-      CpqConfiguratorOccAdapter as Type<CpqConfiguratorOccAdapter>
-    );
+    adapterUnderTest = TestBed.inject(CpqConfiguratorOccAdapter);
 
     inputForUpdateConfiguration.updateType = Configurator.UpdateType.ATTRIBUTE;
   });
@@ -191,6 +203,18 @@ describe('CpqConfiguratorOccAdapter', () => {
       });
   });
 
+  it('should pass only the CPQ tab ID to OCC service when reading a tab of a nested configuration', () => {
+    const nestedTabGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@c7764679-8b9c@57`;
+    adapterUnderTest
+      .readConfiguration(productConfiguration.configId, nestedTabGroupId, owner)
+      .subscribe(() => {
+        expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
+          productConfiguration.configId,
+          '57'
+        );
+      });
+  });
+
   // this ensures that there is a dummy response until the API is implemented,
   // otherwise this leads to an NPE on the UI
   it('should always return same configuration for price summary', () => {
@@ -213,7 +237,7 @@ describe('CpqConfiguratorOccAdapter', () => {
   });
 
   it('should throw error in case overview is to be updated', () => {
-    expect(() => adapterUnderTest.updateConfigurationOverview()).toThrowError();
+    expect(() => adapterUnderTest.updateConfigurationOverview()).toThrow();
   });
 
   it('should delegate update value quantity to OCC service and map owner', () => {
@@ -241,7 +265,49 @@ describe('CpqConfiguratorOccAdapter', () => {
   });
 
   it('should throw exception if variant search is attempted', () => {
-    expect(() => adapterUnderTest.searchVariants()).toThrowError();
+    expect(() => adapterUnderTest.searchVariants()).toThrow();
+  });
+
+  it('should delegate addContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.AddContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      stdAttrCode: 598,
+      productSystemId: productCode,
+      parentRowId: '3',
+    };
+    adapterUnderTest.addContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.addContainerRow).toHaveBeenCalledWith(parameters);
+    });
+  });
+
+  it('should delegate copyContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.CopyContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      rowId: '3',
+    };
+    adapterUnderTest.copyContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.copyContainerRow).toHaveBeenCalledWith(
+        parameters
+      );
+    });
+  });
+
+  it('should delegate removeContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.RemoveContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      rowId: '3',
+    };
+    adapterUnderTest.removeContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.removeContainerRow).toHaveBeenCalledWith(
+        parameters
+      );
+    });
   });
 
   it('should delegate addToCart to OCC service', () => {

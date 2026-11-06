@@ -37,7 +37,6 @@ describe('BlobErrorInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         FileReaderService,
         {
@@ -55,8 +54,8 @@ describe('BlobErrorInterceptor', () => {
     windowRef = TestBed.inject(WindowRef);
   });
 
-  it(`Should extract json from errors wrapped in blob`, (done) => {
-    spyOn(windowRef, 'isBrowser').and.returnValue(true);
+  it(`Should extract json from errors wrapped in blob`, async () => {
+    vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
 
     http
       .get('/occ', { responseType: 'blob' as 'json' })
@@ -78,11 +77,10 @@ describe('BlobErrorInterceptor', () => {
     });
 
     expect(windowRef.isBrowser).toHaveBeenCalled();
-    done();
   });
 
-  it(`Should extract json from errors wrapped in blob`, (done) => {
-    spyOn(windowRef, 'isBrowser').and.returnValue(false);
+  it(`Should extract json from errors wrapped in blob`, async () => {
+    vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
 
     http
       .get('/occ', { responseType: 'blob' as 'json' })
@@ -96,6 +94,5 @@ describe('BlobErrorInterceptor', () => {
     mockReq.flush(error);
 
     expect(windowRef.isBrowser).not.toHaveBeenCalled();
-    done();
   });
 });

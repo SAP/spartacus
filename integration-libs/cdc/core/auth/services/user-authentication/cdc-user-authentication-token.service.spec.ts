@@ -47,7 +47,6 @@ describe('CdcUserAuthenticationTokenService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CdcUserAuthenticationTokenService,
         {
@@ -62,9 +61,9 @@ describe('CdcUserAuthenticationTokenService', () => {
     authTokenService = TestBed.inject(CdcUserAuthenticationTokenService);
     httpMock = TestBed.inject(HttpTestingController);
     authConfigService = TestBed.inject(AuthConfigService);
-    spyOn(authConfigService, 'getTokenEndpoint').and.callThrough();
-    spyOn(authConfigService, 'getClientId').and.callThrough();
-    spyOn(authConfigService, 'getClientSecret').and.callThrough();
+    vi.spyOn(authConfigService, 'getTokenEndpoint');
+    vi.spyOn(authConfigService, 'getClientId');
+    vi.spyOn(authConfigService, 'getClientSecret');
   });
 
   afterEach(() => {

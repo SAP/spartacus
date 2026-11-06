@@ -35,7 +35,7 @@
           [attr.aria-label]="'common.close' | cxTranslate"
         >
           <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+            <cx-icon [type]="iconTypes.CLOSE" />
           </span>
         </button>
       </div>
@@ -88,11 +88,8 @@
             </div>
 
             <div class="cx-saved-cart-values-container">
-              <div *cxFeature="'a11yQTY2Quantity'" class="cx-saved-cart-label">
+              <div class="cx-saved-cart-label">
                 {{ 'savedCartDialog.quantityFull' | cxTranslate }}
-              </div>
-              <div *cxFeature="'!a11yQTY2Quantity'" class="cx-saved-cart-label">
-                {{ 'savedCartDialog.quantity' | cxTranslate }}
               </div>
               <div class="cx-saved-cart-value">
                 {{ cart?.totalUnitCount }}
@@ -221,7 +218,7 @@
                     label: 'savedCartDialog.savedCartName' | cxTranslate,
                   }"
                   [control]="form.get('name')"
-                ></cx-form-errors>
+                />
               </label>
             </ng-container>
           </div>
@@ -252,7 +249,7 @@
                   label: 'savedCartDialog.savedCartDescription' | cxTranslate,
                 }"
                 [control]="form.get('description')"
-              ></cx-form-errors>
+              />
 
               <p class="cx-saved-carts-input-hint">
                 {{

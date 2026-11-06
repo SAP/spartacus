@@ -92,8 +92,11 @@ describe('DpPaymentMethodComponent', () => {
   let fixture: ComponentFixture<DpPaymentMethodComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DpPaymentMethodComponent],
-      imports: [StoreModule.forRoot({}), RouterModule.forRoot([])],
+      imports: [
+        StoreModule.forRoot({}),
+        RouterModule.forRoot([]),
+        DpPaymentMethodComponent,
+      ],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
@@ -136,8 +139,8 @@ describe('DpPaymentMethodComponent', () => {
     expect(result).toEqual(true);
   });
   it('should call paymentDetailsAdded', () => {
-    spyOn<any>(component, 'savePaymentMethod').and.callThrough();
-    spyOn(component, 'next').and.callThrough();
+    vi.spyOn(component as any, 'savePaymentMethod');
+    vi.spyOn(component, 'next');
     component.paymentDetailsAdded(mockPaymentDetails);
     expect(component['savePaymentMethod']).toHaveBeenCalledWith(
       mockPaymentDetails

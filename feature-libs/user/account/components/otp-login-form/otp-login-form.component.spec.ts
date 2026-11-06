@@ -1,17 +1,26 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService, WindowRef } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+  WindowRef,
+} from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import {
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { of, throwError } from 'rxjs';
+import { OTP_LOGIN_STATE_STORAGE_KEY } from '../user-account-constants';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
-import { HttpErrorResponse } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
@@ -19,20 +28,18 @@ const verificationTokenCreation: VerificationTokenCreation = {
   password: '1234',
 };
 
-class MockWinRef {
-  get nativeWindow(): Window {
+class LocalMockWinRef extends MockWinRef {
+  override sessionStorage: any = undefined;
+  override get nativeWindow(): Window {
     return {} as Window;
   }
 }
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -45,21 +52,31 @@ describe('OneTimePasswordLoginFormComponent', () => {
   let winRef: WindowRef;
   let mockRoutingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
+        OneTimePasswordLoginFormComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
-      declarations: [OneTimePasswordLoginFormComponent, MockUrlPipe],
       providers: [
-        { provide: WindowRef, useClass: MockWinRef },
+        { provide: WindowRef, useClass: LocalMockWinRef },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(OneTimePasswordLoginFormComponent, {
+        remove: {
+          imports: [UrlPipe, TranslatePipe],
+        },
+        add: {
+          imports: [MockUrlPipe, MockTranslatePipe],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     winRef = TestBed.inject(WindowRef);
@@ -75,6 +92,62 @@ describe('OneTimePasswordLoginFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    it('should restore form values from sessionStorage', () => {
+      const storageSpy = {
+        getItem: vi.fn(),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+      };
+      storageSpy.getItem.mockImplementation((key) =>
+        key === OTP_LOGIN_STATE_STORAGE_KEY
+          ? JSON.stringify({ loginId: 'test@email.com' })
+          : null
+      );
+      vi.spyOn(winRef, 'sessionStorage', 'get').mockReturnValue(
+        storageSpy as any
+      );
+      component.ngOnInit();
+      expect(component.form.value.userId).toEqual('test@email.com');
+      expect(component.form.value.password).toEqual('');
+    });
+
+    it('should not patch form when sessionStorage has no credentials', () => {
+      const storageSpy = {
+        getItem: vi.fn(),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+      };
+      storageSpy.getItem.mockReturnValue(null);
+      vi.spyOn(winRef, 'sessionStorage', 'get').mockReturnValue(
+        storageSpy as any
+      );
+      component.ngOnInit();
+      expect(component.form.value.userId).toEqual('');
+      expect(component.form.value.password).toEqual('');
+    });
+
+    it('should clear sessionStorage after reading', () => {
+      const storageSpy = {
+        getItem: vi.fn(),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+      };
+      storageSpy.getItem.mockImplementation((key) =>
+        key === OTP_LOGIN_STATE_STORAGE_KEY
+          ? JSON.stringify({ loginId: 'test@email.com' })
+          : null
+      );
+      vi.spyOn(winRef, 'sessionStorage', 'get').mockReturnValue(
+        storageSpy as any
+      );
+      component.ngOnInit();
+      expect(storageSpy.removeItem).toHaveBeenCalledWith(
+        OTP_LOGIN_STATE_STORAGE_KEY
+      );
+    });
+  });
+
   describe('create OTP', () => {
     it('should not patch user id', () => {
       component.isUpdating$.subscribe().unsubscribe();
@@ -82,7 +155,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
     });
 
     it('should patch user id', () => {
-      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
+      vi.spyOn(winRef, 'nativeWindow', 'get').mockReturnValue({
         history: { state: { newUid: verificationTokenCreation.loginId } },
       } as Window);
       component.isUpdating$.subscribe().unsubscribe();
@@ -100,7 +173,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
       });
 
       it('should request email', () => {
-        spyOn(service, 'createVerificationToken').and.returnValue(
+        vi.spyOn(service, 'createVerificationToken').mockReturnValue(
           of({
             expiresIn: '300',
             tokenId: 'mockTokenId',
@@ -113,13 +186,13 @@ describe('OneTimePasswordLoginFormComponent', () => {
       });
 
       it('should reset the form', () => {
-        spyOn(service, 'createVerificationToken').and.returnValue(
+        vi.spyOn(service, 'createVerificationToken').mockReturnValue(
           of({
             expiresIn: '300',
             tokenId: 'mockTokenId',
           })
         );
-        spyOn(component.form, 'reset').and.stub();
+        vi.spyOn(component.form, 'reset').mockImplementation(() => {});
         component.onSubmit();
         expect(component.form.reset).toHaveBeenCalled();
       });
@@ -134,7 +207,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
       });
 
       it('should not create OTP', () => {
-        spyOn(service, 'createVerificationToken').and.returnValue(
+        vi.spyOn(service, 'createVerificationToken').mockReturnValue(
           of({
             expiresIn: '300',
             tokenId: 'mockTokenId',
@@ -145,7 +218,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
       });
 
       it('should not reset the form', () => {
-        spyOn(component.form, 'reset').and.stub();
+        vi.spyOn(component.form, 'reset').mockImplementation(() => {});
         component.onSubmit();
         expect(component.form.reset).not.toHaveBeenCalled();
       });
@@ -188,14 +261,14 @@ describe('OneTimePasswordLoginFormComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
     });
 
     it('should call the service method on submit', () => {
-      spyOn(service, 'createVerificationToken').and.returnValue(
+      vi.spyOn(service, 'createVerificationToken').mockReturnValue(
         of({
           expiresIn: '300',
           tokenId: 'mockTokenId',
@@ -223,7 +296,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
         status: 400,
         url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
       });
-      spyOn(service, 'createVerificationToken').and.returnValue(
+      vi.spyOn(service, 'createVerificationToken').mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       component.onSubmit();

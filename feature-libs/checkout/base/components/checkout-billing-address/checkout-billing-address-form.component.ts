@@ -1,27 +1,40 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   Address,
   AddressValidation,
   Country,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   Region,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
   Card,
+  CardComponent,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  NgSelectA11yDirective,
   getAddressNumbers,
 } from '@spartacus/storefront';
 import {
@@ -31,6 +44,7 @@ import {
   combineLatest,
   filter,
   map,
+  of,
   switchMap,
   tap,
 } from 'rxjs';
@@ -39,12 +53,26 @@ import { CheckoutBillingAddressFormService } from './checkout-billing-address-fo
 @Component({
   selector: 'cx-checkout-billing-address-form',
   templateUrl: './checkout-billing-address-form.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    CardComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class CheckoutBillingAddressFormComponent implements OnInit {
   showSameAsDeliveryAddressCheckbox$: Observable<boolean>;
   sameAsDeliveryAddress = true;
   deliveryAddress$: Observable<Address | undefined>;
+  billingAddressCardContent$: Observable<Card | undefined>;
   countries$: Observable<Country[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -59,6 +87,7 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
   protected billingAddressFormService = inject(
     CheckoutBillingAddressFormService
   );
+
   ngOnInit(): void {
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {
@@ -79,6 +108,11 @@ export class CheckoutBillingAddressFormComponent implements OnInit {
           return state.data;
         })
       );
+    this.billingAddressCardContent$ = this.deliveryAddress$.pipe(
+      switchMap((address) =>
+        address ? this.getAddressCardContent(address) : of(undefined)
+      )
+    );
     this.showSameAsDeliveryAddressCheckbox$ = combineLatest([
       this.countries$,
       this.deliveryAddress$,

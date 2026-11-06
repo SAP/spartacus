@@ -44,7 +44,6 @@ describe('OpfApiQuickBuyAdapter', () => {
 
   const applePaySessionRequest: ApplePaySessionVerificationRequest = {
     validationUrl: 'https://example.com',
-    cartId: 'test',
     initiative: 'web',
     initiativeContext: 'test',
   };
@@ -70,7 +69,6 @@ describe('OpfApiQuickBuyAdapter', () => {
     mockOpfConfig = { opf: { commerceCloudPublicKey: 'public-key' } };
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OpfApiQuickBuyAdapter,
         { provide: ConverterService, useValue: mockConverter },

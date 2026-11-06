@@ -10,6 +10,7 @@ import {
 } from '@spartacus/asm/core';
 import {
   AsmConfig,
+  AsmSessionCreationOptions,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -22,8 +23,10 @@ import {
   OccEndpointsService,
   User,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { OccAsmAdapter } from './occ-asm.adapter';
 import {
   provideHttpClient,
@@ -70,6 +73,12 @@ class MockBaseSiteService {
   }
 }
 
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of('test-user-id');
+  }
+}
+
 class MockOccEndpointsService implements Partial<OccEndpointsService> {
   buildUrl(
     endpoint: string,
@@ -88,12 +97,12 @@ describe('OccAsmAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccAsmAdapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: AsmConfig, useValue: MockAsmConfig },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: UserIdService, useClass: MockUserIdService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -103,8 +112,8 @@ describe('OccAsmAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   it('should be created', () => {
@@ -334,13 +343,10 @@ describe('OccAsmAdapter', () => {
     );
   });
 
-  it('should bind an anonymous cart to a registered user', (done) => {
-    occAsmAdapter
-      .bindCart({ cartId: 'cart001', customerId: 'customer001' })
-      .subscribe((response) => {
-        expect(response).toBeFalsy();
-        done();
-      });
+  it('should bind an anonymous cart to a registered user', async () => {
+    const resultPromise = firstValueFrom(
+      occAsmAdapter.bindCart({ cartId: 'cart001', customerId: 'customer001' })
+    );
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return (
@@ -353,5 +359,27 @@ describe('OccAsmAdapter', () => {
     });
 
     mockReq.flush(null);
+
+    expect(await resultPromise).toBeFalsy();
+  });
+
+  it('should create ASM session event with minimal payload', async () => {
+    const payload: AsmSessionCreationOptions = {
+      eventType: 'ASSISTED_SESSION_CREATION',
+    };
+
+    const resultPromise = firstValueFrom(
+      occAsmAdapter.createAsmSessionEvent(payload)
+    );
+
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'POST';
+    });
+
+    expect(mockReq.request.body).toEqual(payload);
+
+    mockReq.flush(null);
+
+    expect(await resultPromise).toBeNull();
   });
 });

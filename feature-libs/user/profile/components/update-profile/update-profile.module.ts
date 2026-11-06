@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -57,8 +57,9 @@ const myAccountV2ProfileMapping: CmsConfig = {
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    UpdateProfileComponent,
+    MyAccountV2ProfileComponent,
   ],
-  declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

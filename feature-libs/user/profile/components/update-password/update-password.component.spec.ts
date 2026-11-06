@@ -3,29 +3,47 @@ import {
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  FeatureDirective,
+  I18nTestingModule,
+  MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { BehaviorSubject } from 'rxjs';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { BehaviorSubject, of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    I18nTestingModule,
+    FormErrorsModule,
+    UrlTestingModule,
+    PasswordVisibilityToggleModule,
+  ],
 })
 class MockCxSpinnerComponent {}
 
@@ -39,12 +57,20 @@ class MockUpdatePasswordService
     newPasswordConfirm: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updatePassword = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  updatePassword = vi.fn().mockImplementation(() => {});
+  resetForm = vi.fn().mockImplementation(() => {});
 }
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
+}
+
+const mockPageMeta: PageMeta = {
+  title: 'Update Password',
+  heading: 'Update Password',
+};
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
 }
 
 describe('UpdatePasswordComponent', () => {
@@ -54,7 +80,7 @@ describe('UpdatePasswordComponent', () => {
   let routingService: RoutingService;
   let service: UpdatePasswordComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -62,11 +88,8 @@ describe('UpdatePasswordComponent', () => {
         FormErrorsModule,
         UrlTestingModule,
         PasswordVisibilityToggleModule,
-      ],
-      declarations: [
         UpdatePasswordComponent,
         MockCxSpinnerComponent,
-        MockFeatureDirective,
       ],
       providers: [
         {
@@ -74,13 +97,25 @@ describe('UpdatePasswordComponent', () => {
           useClass: MockUpdatePasswordService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(UpdatePasswordComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockFeatureDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdatePasswordComponent);
@@ -130,7 +165,7 @@ describe('UpdatePasswordComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -142,10 +177,53 @@ describe('UpdatePasswordComponent', () => {
     });
 
     it('should navigate to home on cancel', () => {
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const cancelBtn = el.query(By.css('button.btn-secondary'));
-      cancelBtn.triggerEventHandler('click');
+      cancelBtn.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    });
+
+    it('should not submit the form on cancel', () => {
+      vi.spyOn(component, 'onSubmit');
+
+      const cancelBtn = el.query(By.css('button.btn-secondary'));
+      cancelBtn.nativeElement.click();
+
+      expect(component.onSubmit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset with a visually-hidden legend from page title', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toBe(
+          mockPageMeta.heading
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+      });
     });
   });
 });

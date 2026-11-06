@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   PunchoutFacade,
   PunchOutLevel,
@@ -8,7 +9,6 @@ import {
 } from '@spartacus/punchout/root';
 import { of } from 'rxjs';
 import { PunchoutSessionComponent } from './punchout-session.component';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 class mockActivatedRoute implements Partial<ActivatedRoute> {
   queryParams = of({ sid: '123abc' });
@@ -41,7 +41,7 @@ describe('PunchoutSessionComponent', () => {
       'remove',
     ]);
     TestBed.configureTestingModule({
-      declarations: [PunchoutSessionComponent],
+      imports: [PunchoutSessionComponent],
       providers: [
         { provide: ActivatedRoute, useClass: mockActivatedRoute },
         { provide: PunchoutFacade, useValue: punchoutFacadeMock },

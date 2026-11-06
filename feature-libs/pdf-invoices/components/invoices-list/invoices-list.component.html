@@ -28,7 +28,7 @@
               placeholder="{{ 'pdfInvoices.sortBy' | cxTranslate }}"
               [ariaLabel]="'pdfInvoices.sortInvoices' | cxTranslate"
               ariaControls="cx-invoices-list-table"
-            ></cx-sorting>
+            />
           </label>
           <div
             class="cx-invoices-list-pagination"
@@ -42,7 +42,7 @@
               [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-top"
-            ></cx-pagination>
+            />
           </div>
         </div>
 
@@ -54,36 +54,7 @@
             'pdfInvoices.invoicesTable.label' | cxTranslate
           }}"
         >
-          <thead
-            *cxFeature="'!a11yTableHeaderReadout'"
-            class="cx-invoices-list-thead-mobile"
-          >
-            <th scope="col">
-              {{ 'pdfInvoices.invoicesTable.invoiceId' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'pdfInvoices.invoicesTable.createdAt' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'pdfInvoices.invoicesTable.netAmount' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'pdfInvoices.invoicesTable.totalAmount' | cxTranslate }}
-            </th>
-            <th scope="col">
-              <cx-icon
-                [type]="ICON_TYPE.DOWNLOAD"
-                class="cx-invoices-list-attachment-icon"
-                title="{{
-                  'pdfInvoices.invoicesTable.attachment' | cxTranslate
-                }}"
-              ></cx-icon>
-            </th>
-          </thead>
-          <thead
-            *cxFeature="'a11yTableHeaderReadout'"
-            class="cx-invoices-list-thead-mobile"
-          >
+          <thead class="cx-invoices-list-thead-mobile">
             <tr>
               <th scope="col">
                 {{ 'pdfInvoices.invoicesTable.invoiceId' | cxTranslate }}
@@ -104,7 +75,7 @@
                   title="{{
                     'pdfInvoices.invoicesTable.attachment' | cxTranslate
                   }}"
-                ></cx-icon>
+                />
               </th>
             </tr>
           </thead>
@@ -185,8 +156,7 @@
                       title="{{
                         'pdfInvoices.invoicesTable.download' | cxTranslate
                       }}"
-                    >
-                    </cx-icon>
+                    />
                     <span
                       class="cx-invoices-list-attachment-text"
                       [innerText]="
@@ -215,7 +185,7 @@
               [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-bottom"
-            ></cx-pagination>
+            />
           </div>
         </div>
       </div>

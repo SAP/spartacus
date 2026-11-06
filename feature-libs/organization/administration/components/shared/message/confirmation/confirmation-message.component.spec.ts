@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
-import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { KeyboardFocusTestingModule } from 'core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module';
+import { PaginationTestingModule } from 'core-libs/storefront/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { Subject } from 'rxjs';
 import { MessageData } from '../message.model';
 import { MessageService } from '../services/message.service';
@@ -33,9 +33,8 @@ describe('ConfirmationMessageComponent', () => {
         KeyboardFocusTestingModule,
         I18nTestingModule,
         IconTestingModule,
+        ConfirmationMessageComponent,
       ],
-      declarations: [ConfirmationMessageComponent],
-
       providers: [
         {
           provide: MessageData,
@@ -55,7 +54,11 @@ describe('ConfirmationMessageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create component', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -63,7 +66,7 @@ describe('ConfirmationMessageComponent', () => {
     const messageEl: HTMLElement = fixture.debugElement.query(
       By.css('.message p')
     ).nativeElement;
-    expect(messageEl.innerText).toEqual('Raw mock message');
+    expect(messageEl.textContent?.trim()).toEqual('Raw mock message');
   });
 
   it('should have confirm button', () => {
@@ -81,7 +84,7 @@ describe('ConfirmationMessageComponent', () => {
   });
 
   it('should emit confirm event', () => {
-    const nextEvent = spyOn(messageData.events, 'next');
+    const nextEvent = vi.spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
       By.css('button.confirm')
     ).nativeElement;
@@ -94,7 +97,7 @@ describe('ConfirmationMessageComponent', () => {
   });
 
   it('should not emit confirm event', () => {
-    const nextEvent = spyOn(messageData.events, 'next');
+    const nextEvent = vi.spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
       By.css('button.cancel')
     ).nativeElement;

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   ActivatedRoute,
@@ -8,17 +8,18 @@ import {
 import { Store } from '@ngrx/store';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
+  AuthMultisiteIsolationService,
   AuthService,
+  FederatedLoginService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
 import { LoginFormComponentService } from '@spartacus/user/account/components';
-import { FormErrorsModule } from 'projects/storefrontlib/shared';
-import { of, throwError } from 'rxjs';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { Observable, of, throwError } from 'rxjs';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
-import createSpy = jasmine.createSpy;
 
 class MockWinRef {
   get nativeWindow(): Window {
@@ -27,9 +28,9 @@ class MockWinRef {
 }
 
 class MockAuthService implements Partial<AuthService> {
-  loginWithCredentials = createSpy().and.returnValue(of({}));
-  isUserLoggedIn = createSpy().and.returnValue(of(true));
-  getCsrfToken = createSpy().and.returnValue(
+  loginWithCredentials = vi.fn().mockReturnValue(of({}));
+  isUserLoggedIn = vi.fn().mockReturnValue(of(true));
+  getCsrfToken = vi.fn().mockReturnValue(
     of({
       headerName: 'CSFR',
       parameterName: '_csfr',
@@ -39,22 +40,25 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
-  remove = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
+  remove = vi.fn().mockImplementation(() => {});
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  didLoad = createSpy().and.returnValues(of(true), of(false));
-  registerUserWithoutScreenSet = createSpy().and.callFake(() =>
-    of({ status: 'OK' })
-  );
-  loginUserWithoutScreenSet = createSpy().and.returnValues(of(true));
+  didLoad = vi
+    .fn()
+    .mockReturnValueOnce(of(true))
+    .mockReturnValueOnce(of(false));
+  registerUserWithoutScreenSet = vi
+    .fn()
+    .mockImplementation(() => of({ status: 'OK' }));
+  loginUserWithoutScreenSet = vi.fn().mockReturnValueOnce(of(true));
 }
 
 class MockLoginFormComponentService
   implements Partial<LoginFormComponentService>
 {
-  login = createSpy();
+  login = vi.fn();
 }
 
 class MockActivatedRoute implements Partial<ActivatedRoute> {
@@ -66,7 +70,19 @@ class MockActivatedRoute implements Partial<ActivatedRoute> {
 }
 
 class MockRouter implements Partial<Router> {
-  navigate = createSpy().and.stub();
+  navigate = vi.fn().mockImplementation(() => {});
+}
+
+class MockFederatedLoginService implements Partial<FederatedLoginService> {
+  isLoginDomain?: boolean | undefined = false;
+}
+
+class MockAuthMultisiteIsolationService
+  implements Partial<AuthMultisiteIsolationService>
+{
+  decorateUserId(userId: string): Observable<string> {
+    return of(userId);
+  }
 }
 
 describe('CdcLoginComponentService', () => {
@@ -74,7 +90,7 @@ describe('CdcLoginComponentService', () => {
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
@@ -97,9 +113,14 @@ describe('CdcLoginComponentService', () => {
           provide: Router,
           useClass: MockRouter,
         },
+        { provide: FederatedLoginService, useClass: MockFederatedLoginService },
+        {
+          provide: AuthMultisiteIsolationService,
+          useClass: MockAuthMultisiteIsolationService,
+        },
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     cdcLoginService = TestBed.inject(CdcLoginFormComponentService);
@@ -130,8 +151,8 @@ describe('CdcLoginComponentService', () => {
     });
 
     it('should handle a failed request through CDC SDK', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(true));
-      (cdcJsService.loginUserWithoutScreenSet as jasmine.Spy).and.returnValue(
+      cdcJsService.didLoad = vi.fn().mockReturnValue(of(true));
+      (cdcJsService.loginUserWithoutScreenSet as any).mockReturnValue(
         throwError(() => 'test error: such email does not exist!')
       );
       cdcLoginService.login();
@@ -143,7 +164,7 @@ describe('CdcLoginComponentService', () => {
         userId: userId,
         password: password,
       });
-      cdcJsService.didLoad = createSpy().and.returnValue(of(false));
+      cdcJsService.didLoad = vi.fn().mockReturnValue(of(false));
       cdcLoginService.login();
       expect(cdcJsService.loginUserWithoutScreenSet).not.toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -170,7 +191,7 @@ describe('CdcLoginComponentService', () => {
       });
 
       it('should not reset the form', () => {
-        spyOn(cdcLoginService.form, 'reset').and.stub();
+        vi.spyOn(cdcLoginService.form, 'reset').mockImplementation(() => {});
         cdcLoginService.login();
         expect(cdcLoginService.form.reset).not.toHaveBeenCalled();
       });

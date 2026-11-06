@@ -1,21 +1,25 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
-import { Observable, of } from 'rxjs';
-import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -24,12 +28,15 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
 }
 
 const priceDetails: Configurator.PriceDetails = {
@@ -74,7 +81,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   let htmlElem: HTMLElement;
   let configuratorPriceComponentOptions: ConfiguratorPriceComponentOptions;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
       set: {
         providers: [
@@ -85,12 +92,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeReadOnlyComponent,
-        MockConfiguratorPriceComponent,
-        MockConfiguratorShowMoreComponent,
-      ],
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: ConfiguratorAttributeCompositionContext,
@@ -101,15 +103,28 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           useValue: {},
         },
       ],
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        ConfiguratorAttributeReadOnlyComponent,
+      ],
     })
       .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [ConfiguratorPriceComponent, ConfiguratorShowMoreComponent],
+        },
+        add: {
+          imports: [
+            MockConfiguratorPriceComponent,
+            MockConfiguratorShowMoreComponent,
+          ],
         },
       })
+      .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeReadOnlyComponent);
@@ -123,7 +138,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       selectedSingleValue: 'selectedValue',
       quantity: 1,
     };
-    fixture.detectChanges();
     myValues = structuredClone(allValues);
     configuratorPriceComponentOptions = {
       quantity: myValues[0].quantity,
@@ -134,6 +148,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   });
 
   it('should create component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -205,10 +220,13 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   describe('no static Domain', () => {
     beforeEach(() => {
       component.attribute.selectedSingleValue = myValues[1].valueCode;
-      fixture.detectChanges();
     });
 
     describe('should display selectedSingleValue', () => {
+      beforeEach(() => {
+        fixture.detectChanges();
+      });
+
       it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -277,6 +295,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
 
   describe('rendering description at value level', () => {
     it('should not render description in case no desciption present on model', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,

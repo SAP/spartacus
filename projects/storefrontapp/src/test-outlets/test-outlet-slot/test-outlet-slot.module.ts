@@ -1,18 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
-import {
-  PageLayoutModule,
-  OutletRefModule,
-  CmsPageGuard,
-} from '@spartacus/storefront';
 import { CommonModule } from '@angular/common';
-import { TestOutletSlotComponent } from './test-outlet-slot.component';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import {
+  CmsPageGuard,
+  OutletRefModule,
+  PageLayoutModule,
+} from '@spartacus/storefront';
+import { TestOutletSlotComponent } from './test-outlet-slot.component';
 
 @NgModule({
   imports: [
@@ -26,7 +26,7 @@ import { RouterModule } from '@angular/router';
         canActivate: [CmsPageGuard],
       },
     ]),
+    TestOutletSlotComponent,
   ],
-  declarations: [TestOutletSlotComponent],
 })
 export class TestOutletSlotModule {}

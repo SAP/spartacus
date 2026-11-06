@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,9 @@ context('Password Visibility', () => {
         visitLoginPage();
         cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
-        cy.get('button[aria-label="Show password"]').should('be.visible');
+        cy.get('cx-password-visibility-toggle [aria-pressed="false"]').should(
+          'be.visible'
+        );
 
         //type password and assert
         cy.get('input[aria-label="Enter Your Password"]').should(
@@ -36,7 +38,7 @@ context('Password Visibility', () => {
           'abc'
         );
 
-        cy.get('button[aria-label="Show password"]').click();
+        cy.get('cx-password-visibility-toggle button').click();
         cy.get('input[aria-label="Enter Your Password"]').should(
           'have.attr',
           'type',
@@ -46,7 +48,9 @@ context('Password Visibility', () => {
           'have.value',
           'abc'
         );
-        cy.get('button[aria-label="Hide password"]').should('be.visible');
+        cy.get('cx-password-visibility-toggle [aria-pressed="true"]').should(
+          'be.visible'
+        );
       });
     });
 
@@ -55,7 +59,7 @@ context('Password Visibility', () => {
       cy.visit('/login/register');
       cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
 
-      cy.get('button[aria-label="Show password"]').should('have.length', 2);
+      cy.get('cx-password-visibility-toggle button').should('have.length', 2);
     });
 
     it('should verify password is hidden by default on my account password page', () => {
@@ -69,7 +73,7 @@ context('Password Visibility', () => {
         .its('response.statusCode')
         .should('eq', 200);
 
-      cy.get('button[aria-label="Show password"]').should('have.length', 3);
+      cy.get('cx-password-visibility-toggle button').should('have.length', 3);
     });
   });
 });

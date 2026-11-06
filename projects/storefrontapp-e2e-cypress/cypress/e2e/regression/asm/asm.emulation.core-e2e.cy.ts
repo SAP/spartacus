@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,6 @@ import { getErrorAlert } from '../../../helpers/global-message';
 import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { getB2CAgent } from '../../../sample-data/asm-flow';
-import { getSampleUser } from '../../../sample-data/checkout-flow';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { visitLoginPage } from '../../../support/utils/login';
 
 const b2cAgent = getB2CAgent();
@@ -22,10 +20,7 @@ context('Assisted Service Module', () => {
     asm.testCustomerEmulation();
 
     it('should checkout as customer (CXSPA-7026)', () => {
-      const customer = getSampleUser();
-      cy.log('--> Register user');
-      checkout.visitHomePage();
-      checkout.registerUser(false, customer);
+      const customer = asm.registerUser();
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
@@ -45,6 +40,8 @@ context('Assisted Service Module', () => {
 
       cy.log('--> Add product to cart and go to checkout');
       checkout.goToCheapProductDetailsPage();
+      cy.log('Waiting for SSR timeout to pass (8s)');
+      cy.wait(8000);
       checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
 
       cy.log('--> Go through delivery form');
@@ -64,14 +61,12 @@ context('Assisted Service Module', () => {
       cy.get('.cx-page-title').then((el) => {
         const orderNumber = el.text().match(/\d+/)[0];
         cy.log('--> End session');
-        // const homepage = waitForPage('homepage', 'getHomePage');
+        const homepage = waitForPage('homepage', 'getHomePage');
         cy.get('cx-customer-emulation')
           .findByText(/End Session/i)
           .click();
         // Make sure homepage is visible
-        cy.whenJDK17(() => {
-          cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
-        });
+        cy.wait(`@${homepage}`).its('response.statusCode').should('eq', 200);
         cy.get('cx-global-message div').should(
           'contain',
           'You have successfully signed out.'
@@ -83,17 +78,8 @@ context('Assisted Service Module', () => {
   });
 
   describe('When a customer session and an asm agent session are both active', () => {
-    let customer;
-
-    before(() => {
-      clearAllStorage();
-      checkout.visitHomePage();
-
-      customer = getSampleUser();
-      checkout.registerUser(false, customer);
-    });
-
     it('Customer should not be able to login when there is an active CS agent session (CXSPA-10932)', () => {
+      const customer = asm.registerUser();
       cy.whenJDK17(() => {
         const loginPage = waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
@@ -116,6 +102,7 @@ context('Assisted Service Module', () => {
 
     // TODO(#3974): fix the bug to enable e2e test for this scenario
     it('agent login when user is logged in should start this user emulation', () => {
+      const customer = asm.registerUser();
       cy.whenJDK17(() => {
         visitLoginPage();
       });
@@ -124,7 +111,7 @@ context('Assisted Service Module', () => {
         cy.get('button.close[title="Close ASM"]').click();
         cy.get('a[role="link"]').contains('Sign In / Register').click();
       });
-      login(customer.email, customer.password);
+      login(customer.email, customer.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
       checkout.visitHomePage('asm=true');
 
@@ -148,6 +135,7 @@ context('Assisted Service Module', () => {
 
     // TODO(#7221): enable this case
     it('agent logout when user was logged and emulated should restore the session', () => {
+      const customer = asm.registerUser();
       checkout.visitHomePage('asm=true');
 
       cy.get('cx-asm-main-ui').should('exist');
@@ -198,9 +186,7 @@ context('Assisted Service Module', () => {
         },
       });
 
-      const customer = getSampleUser();
-      checkout.visitHomePage();
-      checkout.registerUser(false, customer);
+      const customer = asm.registerUser();
 
       cy.visit('/', { qs: { asm: true } });
 

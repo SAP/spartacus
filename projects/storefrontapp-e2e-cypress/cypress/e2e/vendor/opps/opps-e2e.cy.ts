@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ import { OppsConfig } from '@spartacus/core';
 import { loginUser, signOutUser } from '../../../helpers/checkout-flow';
 import { interceptGet } from '../../../support/utils/intercept';
 import { visitLoginPage } from '../../../support/utils/login';
+import { cmsEndpoints } from '../../../helpers/cms-endpoints';
 
 const APPAREL_BASESITE = 'apparel-uk-spa';
 const APPAREL_CURRENCY = 'GBP';
@@ -44,7 +45,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
   });
   describe('OPPS Coupon Codes', () => {
     it('should fetch appropriate banner customization based on coupon codes', () => {
-      interceptGet('couponCodesApi', '/cms/pages*');
+      interceptGet('couponCodesApi', `${cmsEndpoints.pages}*`);
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
           'BASE_CURRENCY'
@@ -62,7 +63,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/cms/pages?pageType=ProductPage**`,
+        )}/${cmsEndpoints.pages}?pageType=ProductPage**`,
       }).as('productPage');
     });
     it('should continue to PDP if user is already logged in', () => {
@@ -101,7 +102,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/cms/pages?pageType=ProductPage**`,
+        )}/${cmsEndpoints.pages}?pageType=ProductPage**`,
       }).as('productPage');
     });
     it('should fetch appropriate banner customization based on coupon codes & show login page if user is not logged in', () => {

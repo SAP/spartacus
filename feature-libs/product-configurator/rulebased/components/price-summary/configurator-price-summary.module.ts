@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,13 +7,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
 
 @NgModule({
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, I18nModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    ConfiguratorPriceSummaryComponent,
+  ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorPriceSummary: {
           component: ConfiguratorPriceSummaryComponent,
@@ -21,7 +27,6 @@ import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.
       },
     }),
   ],
-  declarations: [ConfiguratorPriceSummaryComponent],
   exports: [ConfiguratorPriceSummaryComponent],
 })
 export class ConfiguratorPriceSummaryModule {}

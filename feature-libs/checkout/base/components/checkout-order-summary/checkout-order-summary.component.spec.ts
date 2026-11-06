@@ -1,18 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  AppliedCouponsComponent,
-  OrderSummaryComponent,
-} from '@spartacus/cart/base/components';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { PromotionsComponent } from '@spartacus/storefront';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import {
+  FeatureLevelDirective,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { MockFeatureLevelDirective } from '@spartacus/storefront/testing/mock-feature-level-directive';
 import { of } from 'rxjs';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
-import createSpy = jasmine.createSpy;
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  getActive = createSpy().and.returnValue(
+  getActive = vi.fn().mockReturnValue(
     of(<Partial<Cart>>{
       totalItems: 5141,
       subTotal: { formattedValue: '11119' },
@@ -24,21 +22,23 @@ describe('CheckoutOrderSummaryComponent', () => {
   let component: CheckoutOrderSummaryComponent;
   let fixture: ComponentFixture<CheckoutOrderSummaryComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CheckoutOrderSummaryComponent,
-        OrderSummaryComponent,
-        PromotionsComponent,
-        AppliedCouponsComponent,
-        MockFeatureLevelDirective,
-      ],
+      imports: [CheckoutOrderSummaryComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(CheckoutOrderSummaryComponent, {
+        remove: {
+          imports: [TranslatePipe, FeatureLevelDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockFeatureLevelDirective],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutOrderSummaryComponent);

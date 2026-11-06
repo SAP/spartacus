@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ import { standardUser } from '../sample-data/shared-users';
 import { visitLoginPage } from '../support/utils/login';
 import { login, register } from './auth-forms';
 import { clickHamburger } from './checkout-flow';
+import { cmsEndpoints } from './cms-endpoints';
 import { PRODUCT_LISTING } from './data-configuration';
 import { checkBanner } from './homepage';
 import { userGreetSelector } from './login';
@@ -117,7 +118,7 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
       .should('eq', id);
 
     cy.get('cx-searchbox')
-      .get('.results .products .name')
+      .get('.results .products .cx-product-name')
       .first()
       .click({ force: true });
   }
@@ -130,7 +131,11 @@ function checkMiniCartCount(expectedCount) {
 }
 
 export function clickAddToCart() {
-  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
+  cy.get('cx-add-to-cart button[type=submit]', { timeout: 15000 })
+    .scrollIntoView()
+    .should('be.visible')
+    .first()
+    .click({ force: true });
 }
 
 /**
@@ -146,11 +151,15 @@ export function addProductFromPdp(productCode: string = products[0].code) {
   // Add product from PDP directly
   cy.visit(pdpUrl);
 
+  cy.get('.ProductDetailsPageTemplate').should('be.visible');
+  cy.wait(8000); // wait for SSR timeout to pass (8s)
   clickAddToCart();
 
   cy.whenJDK17(() => {
     cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
   });
+
+  checkAddedToCartDialog();
 
   closeAddedToCartDialog();
 
@@ -232,7 +241,7 @@ function getBaseUrlPrefix() {
 export function registerCartPageRoute() {
   cy.intercept(
     'GET',
-    `${getOccUrlPrefix()}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/${cmsEndpoints.pages}?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as('cart_page');
 }
 

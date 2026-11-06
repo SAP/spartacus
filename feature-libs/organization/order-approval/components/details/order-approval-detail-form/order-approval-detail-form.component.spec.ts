@@ -8,8 +8,18 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { FormErrorsComponent, SpinnerComponent } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   OrderApproval,
@@ -46,7 +56,7 @@ class MockOrderApprovalDetailService {
 @Component({
   selector: 'cx-form-errors',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockFormErrorsComponent {
   @Input() control: UntypedFormControl;
@@ -57,14 +67,11 @@ class MockFormErrorsComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -91,13 +98,11 @@ describe('OrderApprovalDetailFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
         OrderApprovalDetailFormComponent,
-        MockFormErrorsComponent,
-        MockSpinnerComponent,
-        MockUrlPipe,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -106,7 +111,30 @@ describe('OrderApprovalDetailFormComponent', () => {
         },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderApprovalDetailFormComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            FormErrorsComponent,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+            MockFormErrorsComponent,
+            MockSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     makeDecisionResultLoading$.next(false);
     orderApprovalLoading$.next(false);
@@ -147,16 +175,16 @@ describe('OrderApprovalDetailFormComponent', () => {
 
   it('should have comment as optional for approval.', () => {
     displayDecisionForm(APPROVE);
-    expect(component.approvalForm.valid).toBeTrue();
+    expect(component.approvalForm.valid).toBe(true);
   });
 
   it('should have comment as optional for rejection.', () => {
     displayDecisionForm(REJECT);
-    expect(component.approvalForm.valid).toBeFalse();
+    expect(component.approvalForm.valid).toBe(false);
   });
 
   it('should not submit rejection without comment.', () => {
-    spyOn(orderApprovalService, 'makeDecision').and.stub();
+    vi.spyOn(orderApprovalService, 'makeDecision').mockImplementation(() => {});
     displayDecisionForm(REJECT);
     clickButton('orderApprovalDetails.form.submit_' + REJECT);
     expect(orderApprovalService.makeDecision).not.toHaveBeenCalled();
@@ -207,7 +235,7 @@ describe('OrderApprovalDetailFormComponent', () => {
   }
 
   function submitDecisionForm(decision: OrderApprovalDecisionValue) {
-    spyOn(orderApprovalService, 'makeDecision').and.stub();
+    vi.spyOn(orderApprovalService, 'makeDecision').mockImplementation(() => {});
     const testComment = 'Decision comment ' + decision;
     component.approvalForm.controls.comment.setValue(testComment);
     clickButton('orderApprovalDetails.form.submit_' + decision);

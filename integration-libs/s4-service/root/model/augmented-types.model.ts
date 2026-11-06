@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,9 +49,6 @@ declare module '@spartacus/checkout/base/root' {
 declare module '@spartacus/core' {
   interface OccEndpoints extends CheckoutServiceOrderOccEndpoints {}
   interface BaseStore extends ServiceOrderConfiguration {}
-  interface Product {
-    productTypes?: string;
-  }
 }
 
 @Injectable({

@@ -1,13 +1,23 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  FeatureStylesService,
+  MockDatePipe,
+  MockTranslatePipe,
+  MockTranslationService,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
-import createSpy = jasmine.createSpy;
 
 const mockLocation = {
   isoCode: 'US',
@@ -15,11 +25,9 @@ const mockLocation = {
   count: 50,
 };
 class MockStoreFinderService implements Partial<StoreFinderService> {
-  viewAllStores = createSpy('viewAllStores');
-  getViewAllStoresEntities = createSpy(
-    'getViewAllStoresEntities'
-  ).and.returnValue(of([mockLocation]));
-  getViewAllStoresLoading = createSpy('getViewAllStoresLoading');
+  viewAllStores = vi.fn();
+  getViewAllStoresEntities = vi.fn().mockReturnValue(of([mockLocation]));
+  getViewAllStoresLoading = vi.fn();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -32,11 +40,15 @@ describe('StoreFinderStoresCountComponent', () => {
   let el: DebugElement;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, I18nTestingModule],
-      declarations: [StoreFinderStoresCountComponent, MockFeatureDirective],
+      imports: [
+        SpinnerModule,
+        StoreFinderStoresCountComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: StoreFinderService,
           useClass: MockStoreFinderService,
@@ -46,8 +58,17 @@ describe('StoreFinderStoresCountComponent', () => {
           useClass: MockRoutingService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(StoreFinderStoresCountComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderStoresCountComponent);
@@ -56,7 +77,7 @@ describe('StoreFinderStoresCountComponent', () => {
     routingService = TestBed.inject(RoutingService);
     fixture.detectChanges();
 
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
   });
 
   it('should create', () => {
@@ -72,7 +93,7 @@ describe('StoreFinderStoresCountComponent', () => {
   });
 
   it('should handle space key to navigate to country from keyboard', () => {
-    spyOn(component, 'navigateToLocation').and.callThrough();
+    vi.spyOn(component, 'navigateToLocation');
     const countryBtn = el.query(
       By.css('.btn-link[aria-label="United States(50)"]')
     );
@@ -80,7 +101,7 @@ describe('StoreFinderStoresCountComponent', () => {
     const event = new KeyboardEvent('keydown', {
       key: ' ',
     });
-    spyOn(event, 'preventDefault');
+    vi.spyOn(event, 'preventDefault');
     countryBtn.nativeElement.dispatchEvent(event);
     expect(component.navigateToLocation).toHaveBeenCalledWith('US', event);
     expect(routingService.go).toHaveBeenCalledWith([
@@ -88,5 +109,35 @@ describe('StoreFinderStoresCountComponent', () => {
       'US',
     ]);
     expect(event.preventDefault).toHaveBeenCalled();
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('StoreFinderStoresCountComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterModule.forRoot([]), StoreFinderStoresCountComponent],
+      providers: [
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(StoreFinderStoresCountComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

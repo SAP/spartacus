@@ -6,8 +6,15 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorModel } from '@spartacus/core';
+import {
+  FeatureToggles,
+  HttpErrorModel,
+  MockTranslatePipe,
+  TranslatePipe,
+  WindowRef,
+} from '@spartacus/core';
 import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
 import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
@@ -15,7 +22,6 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -24,6 +30,8 @@ describe('OpfPaymentVerificationComponent', () => {
   let fixture: ComponentFixture<OpfPaymentVerificationComponent>;
   let routeMock: jasmine.SpyObj<ActivatedRoute>;
   let opfPaymentVerificationServiceMock: jasmine.SpyObj<OpfPaymentVerificationService>;
+  let windowRefMock: jasmine.SpyObj<WindowRef>;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     routeMock = jasmine.createSpyObj('ActivatedRoute', [], {
@@ -36,22 +44,48 @@ describe('OpfPaymentVerificationComponent', () => {
         'verifyResultUrl',
         'goToPage',
         'displayError',
+        'clearPaymentSessionForReinitiation',
         'removeResourcesAndGlobalFunctions',
         'runHostedFieldsPattern',
         'runHostedPagePattern',
       ]
     );
+    const mockNativeWindow = {
+      top: null,
+      location: { href: 'test-url' },
+      document: { location: { href: 'test-url' } },
+    } as any;
+    windowRefMock = jasmine.createSpyObj('WindowRef', [], {
+      nativeWindow: mockNativeWindow,
+    });
+    featureToggles = {
+      opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
+    };
 
     TestBed.configureTestingModule({
-      declarations: [OpfPaymentVerificationComponent, MockSpinnerComponent],
+      imports: [OpfPaymentVerificationComponent],
       providers: [
         { provide: ActivatedRoute, useValue: routeMock },
         {
           provide: OpfPaymentVerificationService,
           useValue: opfPaymentVerificationServiceMock,
         },
+        {
+          provide: FeatureToggles,
+          useValue: featureToggles,
+        },
+        { provide: WindowRef, useValue: windowRefMock },
       ],
-    });
+    })
+      .overrideComponent(OpfPaymentVerificationComponent, {
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockSpinnerComponent],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(OpfPaymentVerificationComponent);
     component = fixture.componentInstance;
@@ -62,13 +96,13 @@ describe('OpfPaymentVerificationComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call checkIfProcessingCartIdExist', () => {
+    it('should not call checkIfProcessingCartIdExist on init success path', () => {
       opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(of());
 
       component.ngOnInit();
       expect(
         opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
-      ).toHaveBeenCalled();
+      ).not.toHaveBeenCalled();
     });
 
     it('should handle success scenario', () => {
@@ -118,13 +152,16 @@ describe('OpfPaymentVerificationComponent', () => {
         of(mockVerifyResult)
       );
       opfPaymentVerificationServiceMock.runHostedPagePattern.and.returnValue(
-        throwError(mockError)
+        throwError(() => mockError)
       );
 
       spyOn(component, 'onError');
 
       component.ngOnInit();
 
+      expect(
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
+      ).toHaveBeenCalled();
       expect(component.onError).toHaveBeenCalledWith(mockError);
     });
 
@@ -171,6 +208,42 @@ describe('OpfPaymentVerificationComponent', () => {
         opfPaymentVerificationServiceMock.runHostedPagePattern
       ).not.toHaveBeenCalled();
     });
+
+    it('should call checkIfProcessingCartIdExist on init when feature toggle is disabled', () => {
+      featureToggles.opfPaymentVerificationCheckProcessingCartOnErrorOnly =
+        false;
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(of());
+
+      component.ngOnInit();
+
+      expect(
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
+      ).toHaveBeenCalled();
+    });
+
+    it('should not call checkIfProcessingCartIdExist in error path when feature toggle is disabled', () => {
+      featureToggles.opfPaymentVerificationCheckProcessingCartOnErrorOnly =
+        false;
+      const mockError: HttpErrorModel = { status: 500, message: 'Error' };
+      const mockVerifyResult = {
+        paymentSessionId: '1',
+        paramsMap: [],
+        afterRedirectScriptFlag: 'false',
+      };
+
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(
+        of(mockVerifyResult)
+      );
+      opfPaymentVerificationServiceMock.runHostedPagePattern.and.returnValue(
+        throwError(() => mockError)
+      );
+
+      component.ngOnInit();
+
+      expect(
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
+      ).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('onError', () => {
@@ -182,9 +255,36 @@ describe('OpfPaymentVerificationComponent', () => {
       expect(
         opfPaymentVerificationServiceMock.displayError
       ).toHaveBeenCalledWith(mockError);
+      expect(
+        opfPaymentVerificationServiceMock.clearPaymentSessionForReinitiation
+      ).toHaveBeenCalled();
       expect(opfPaymentVerificationServiceMock.goToPage).toHaveBeenCalledWith(
         OpfPage.CHECKOUT_REVIEW_PAGE
       );
+    });
+  });
+
+  describe('breakOutOfIframeIfNeeded', () => {
+    it('should not break out when not in iframe', () => {
+      const mockNativeWindow = windowRefMock.nativeWindow as any;
+      mockNativeWindow.top = mockNativeWindow;
+
+      component['breakOutOfIframeIfNeeded']();
+
+      expect(mockNativeWindow.top.location.href).toBe('test-url');
+    });
+
+    it('should break out when in iframe', () => {
+      const mockTopWindow = {
+        location: { href: 'top-url' },
+      };
+      const mockNativeWindow = windowRefMock.nativeWindow as any;
+      mockNativeWindow.top = mockTopWindow;
+      mockNativeWindow.document.location.href = 'current-url';
+
+      component['breakOutOfIframeIfNeeded']();
+
+      expect(mockTopWindow.location.href).toBe('current-url');
     });
   });
 

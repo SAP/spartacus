@@ -7,7 +7,9 @@ shopt -s extglob dotglob
 
 # Build all the libraries and generate the dist folders to use when releasing
 function build_libs {
-    npm ci && npm run build:libs
+    npm ci
+    source "$(dirname "$0")/npm-commands.sh"
+    build_libs_ci
 }
 
 # Configure the project to move everything into a sub-folder to keep root clean for publishing
@@ -38,12 +40,14 @@ function pack {
         echo "Package cannot be empty"
         exit 1
     elif [[ $PACKAGE == 'styles' ]]; then
-        cp -r projects/storefrontstyles/* ../.
+        cp -r core-libs/styles/* ../.
     elif [[ $PACKAGE == 'schematics' ]]; then
-        cp -r projects/schematics/* ../.
+        cp -r core-libs/schematics/* ../.
+    elif [[ $PACKAGE == 'skills' ]]; then
+        cp -r core-libs/skills/* ../.
     elif [[ $PACKAGE == 'storefront' ]]; then
-        append_npmignore "dist/storefrontlib" "$CONTENT"
-        cp -r dist/storefrontlib/* ../.
+        append_npmignore "dist/storefront" "$CONTENT"
+        cp -r dist/storefront/* ../.
     else
         append_npmignore "dist/$PACKAGE/" "$CONTENT"
         cp -r dist/$PACKAGE/* ../.

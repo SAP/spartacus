@@ -1,17 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -22,9 +28,24 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
   useFeatureStyles,
 } from '@spartacus/core';
-import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
+import {
+  CaptchaComponent,
+  CustomFormValidators,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  NgSelectA11yDirective,
+  sortTitles,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import {
+  VerificationToken,
+  VerificationTokenCreation,
+  VerificationTokenFacade,
+} from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';
 import {
   BehaviorSubject,
@@ -34,20 +55,28 @@ import {
   Observable,
   Subscription,
 } from 'rxjs';
-
-import { HttpErrorResponse } from '@angular/common/http';
-import {
-  VerificationToken,
-  VerificationTokenCreation,
-  VerificationTokenFacade,
-} from '@spartacus/user/account/root';
 import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 
 @Component({
   selector: 'cx-otp-register-form',
   templateUrl: './otp-login-register.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgFor,
+    RouterLink,
+    CaptchaComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
   protected globalMessageService = inject(GlobalMessageService);
@@ -63,6 +92,10 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
   protected registrationVerificationTokenFacade = inject(
     VerificationTokenFacade
   );
+
+  constructor() {
+    useFeatureStyles('a11yRegistrationTermsAsteriskMargin');
+  }
 
   titles$: Observable<Title[]>;
 
@@ -105,16 +138,26 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
     this.registerForm.value.additionalConsents[index] = checked;
   }
 
-  constructor() {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
-
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
       map((titles: Title[]) => {
         return titles.sort(sortTitles);
       })
     );
+
+    const state = history.state;
+    if (state?.['email']) {
+      this.registerForm.patchValue({
+        titleCode: state['titleCode'] ?? null,
+        firstName: state['firstName'] ?? '',
+        lastName: state['lastName'] ?? '',
+        email: state['email'] ?? '',
+      });
+      history.replaceState(
+        { titleCode: '', firstName: '', lastName: '', email: '' },
+        ''
+      );
+    }
 
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.subscription.add(
@@ -264,8 +307,7 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
       this.anonymousConsentsConfig?.anonymousConsents?.registerConsent;
 
     if (registerConsent) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      if (Boolean(this.registerForm.get('newsletter')?.value)) {
+      if (this.registerForm.get('newsletter')?.value) {
         this.anonymousConsentsService.giveConsent(registerConsent);
       } else {
         this.anonymousConsentsService.withdrawConsent(registerConsent);

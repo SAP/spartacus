@@ -1,11 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, inject } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { NgFor, NgIf } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -13,7 +20,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   templateUrl: './configurator-overview-filter-bar.component.html',
-  standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgFor, IconComponent, NgIf, TranslatePipe],
 })
 export class ConfiguratorOverviewFilterBarComponent {
   readonly PREFIX_ID = 'cx-overview-filter-applied-';
@@ -179,9 +187,8 @@ export class ConfiguratorOverviewFilterBarComponent {
    * @param elementId - The ID of the HTML element to focus.
    */
   protected focusElementById(elementId: string): void {
-    const element = this.configuratorStorefrontUtilsService.getElement(
-      '#' + elementId
-    );
+    const element =
+      this.configuratorStorefrontUtilsService.getElementById(elementId);
     if (element) {
       element.focus();
     }

@@ -6,12 +6,19 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   B2BUserRight,
   B2BUserRole,
+  CxDatePipe,
+  FeatureDirective,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Title,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -20,9 +27,10 @@ import {
 } from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { FormComponent } from '../../shared';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserFormComponent } from './user-form.component';
@@ -83,16 +91,12 @@ describe('UserFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        FormTestingModule,
-      ],
-      declarations: [
         UserFormComponent,
         FormErrorsComponent,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -100,17 +104,38 @@ describe('UserFormComponent', () => {
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
         { provide: B2BUserService, useClass: MockB2BUserService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserFormComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            FormComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+            FormTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
 
     b2bUnitService = TestBed.inject(OrgUnitService);
 
-    spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
-    spyOn(b2bUnitService, 'loadList').and.callThrough();
+    vi.spyOn(b2bUnitService, 'getActiveUnitList');
+    vi.spyOn(b2bUnitService, 'loadList');
 
     b2bUserService = TestBed.inject(B2BUserService);
 
-    spyOn(b2bUserService, 'getAllRights').and.callThrough();
-    spyOn(b2bUserService, 'getAllRoles').and.callThrough();
+    vi.spyOn(b2bUserService, 'getAllRights');
+    vi.spyOn(b2bUserService, 'getAllRoles');
   });
 
   beforeEach(() => {

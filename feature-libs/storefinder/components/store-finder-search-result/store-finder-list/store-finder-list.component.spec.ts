@@ -4,9 +4,16 @@ import {
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, PointOfService } from '@spartacus/core';
+import {
+  FeatureToggles,
+  MockTranslatePipe,
+  MockTranslationService,
+  PointOfService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   GoogleMapRendererService,
   StoreFinderService,
@@ -16,7 +23,7 @@ import { EMPTY } from 'rxjs';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
 import { LocationDisplayMode } from './store-finder-list.model';
-import createSpy = jasmine.createSpy;
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const location: PointOfService = {
   displayName: 'Test Store',
@@ -26,13 +33,15 @@ const locations = { stores: stores, pagination: { currentPage: 0 } };
 const displayModes = LocationDisplayMode;
 
 class StoreFinderServiceMock implements Partial<StoreFinderService> {
-  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    EMPTY
-  );
-  getStoresLoading = createSpy('getStoresLoading');
-  callFindStoresAction = createSpy('callFindStoresAction');
+  getFindStoresEntities = vi.fn().mockReturnValue(EMPTY);
+  getStoresLoading = vi.fn();
+  callFindStoresAction = vi.fn();
   getStoreLatitude(_location: any): number {
     return 35.528984;
+  }
+
+  getDirections(_location: PointOfService): string {
+    return 'testDirections';
   }
 
   getStoreLongitude(_location: any): number {
@@ -45,29 +54,43 @@ class GoogleMapRendererServiceMock {
   renderMap() {}
 }
 
-describe('StoreFinderDisplayListComponent', () => {
+const mockFeatureToggles: FeatureToggles = {
+  a11yStoreFinderFocusOnBackButton: true,
+};
+
+describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
   let storeMapComponent: StoreFinderMapComponent;
   let storeFinderService: StoreFinderService;
   let googleMapRendererService: GoogleMapRendererService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [StoreFinderListComponent, StoreFinderMapComponent],
-      imports: [SpinnerModule, I18nTestingModule],
+      imports: [
+        SpinnerModule,
+        StoreFinderListComponent,
+        StoreFinderMapComponent,
+      ],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: GoogleMapRendererService,
           useClass: GoogleMapRendererServiceMock,
         },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(StoreFinderListComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
@@ -75,14 +98,17 @@ describe('StoreFinderDisplayListComponent', () => {
     storeFinderService = TestBed.inject(StoreFinderService);
     googleMapRendererService = TestBed.inject(GoogleMapRendererService);
 
-    spyOn(storeFinderService, 'getStoreLatitude');
-    spyOn(storeFinderService, 'getStoreLongitude');
-    spyOn(googleMapRendererService, 'centerMap');
+    vi.spyOn(storeFinderService, 'getStoreLatitude');
+    vi.spyOn(storeFinderService, 'getStoreLongitude');
+    vi.spyOn(googleMapRendererService, 'centerMap');
+  });
 
-    fixture.detectChanges();
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -92,7 +118,7 @@ describe('StoreFinderDisplayListComponent', () => {
     storeMapComponent = fixture.debugElement.query(
       By.css('cx-store-finder-map')
     ).componentInstance;
-    spyOn(storeMapComponent, 'centerMap').and.callThrough();
+    vi.spyOn(storeMapComponent, 'centerMap');
 
     component.centerStoreOnMapByIndex(0, location);
 
@@ -102,10 +128,13 @@ describe('StoreFinderDisplayListComponent', () => {
   });
 
   it('should select store from list', () => {
+    fixture.detectChanges();
     const itemNumber = 4;
     const storeListItemMock = { scrollIntoView: function () {} };
-    spyOn(document, 'getElementById').and.returnValue(storeListItemMock as any);
-    spyOn(storeListItemMock, 'scrollIntoView');
+    vi.spyOn(document, 'getElementById').mockReturnValue(
+      storeListItemMock as any
+    );
+    vi.spyOn(storeListItemMock, 'scrollIntoView');
 
     component.selectStoreItemList(itemNumber);
 
@@ -115,21 +144,22 @@ describe('StoreFinderDisplayListComponent', () => {
 
   it('should show store details', () => {
     component.locations = locations;
+    component.storeDetails = location; // initialize binding to avoid NG0100
     fixture.detectChanges();
+    component.storeDetails = undefined;
     expect(component.isDetailsModeVisible).toBe(false);
 
     component.centerStoreOnMapByIndex(0, location);
-    fixture.detectChanges();
     expect(component.isDetailsModeVisible).toBe(true);
     expect(component.storeDetails).not.toBe(null);
   });
 
   it('should close store details', () => {
     component.locations = locations;
+    component.storeDetails = location; // initialize binding to avoid NG0100
     fixture.detectChanges();
 
     component.centerStoreOnMapByIndex(0, location);
-    fixture.detectChanges();
     expect(component.isDetailsModeVisible).toBe(true);
 
     component.hideStoreDetails();
@@ -137,15 +167,30 @@ describe('StoreFinderDisplayListComponent', () => {
   });
 
   it('should "setDisplayMode" switch active display mode', () => {
+    fixture.detectChanges();
     expect(component.activeDisplayMode).toBe(displayModes.LIST_VIEW);
     component.setDisplayMode(displayModes.MAP_VIEW);
     expect(component.activeDisplayMode).toBe(displayModes.MAP_VIEW);
   });
 
   it('should "isDisplayModeActive" return valid boolean flag', () => {
+    fixture.detectChanges();
     component.setDisplayMode(displayModes.MAP_VIEW);
 
     expect(component.isDisplayModeActive(displayModes.MAP_VIEW)).toBeTruthy();
     expect(component.isDisplayModeActive(displayModes.LIST_VIEW)).toBeFalsy();
+  });
+
+  it('should focus the back button when store details are shown', () => {
+    component.locations = locations;
+
+    component.showStoreDetails(location);
+    fixture.detectChanges();
+
+    const backButton = fixture.debugElement.query(
+      By.css('.cx-back')
+    )?.nativeElement;
+    expect(backButton).toBeDefined();
+    expect(document.activeElement).toContain(backButton);
   });
 });

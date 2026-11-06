@@ -1,16 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, Input } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
+import { PaginationModel, TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-pagination-details',
   templateUrl: './store-finder-pagination-details.component.html',
-  standalone: false,
+  imports: [TranslatePipe],
 })
 export class StoreFinderPaginationDetailsComponent {
   @Input()

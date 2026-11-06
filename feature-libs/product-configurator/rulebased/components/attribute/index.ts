@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ export * from './show-options/index';
 export * from './types/base/index';
 export * from './types/checkbox-list/index';
 export * from './types/checkbox/index';
+export * from './types/container/index';
 export * from './types/drop-down/index';
 export * from './types/input-field/index';
 export * from './types/multi-selection-bundle/index';

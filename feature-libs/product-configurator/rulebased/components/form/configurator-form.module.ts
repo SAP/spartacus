@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,14 +7,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorFormComponent } from './configurator-form.component';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorGroupModule } from '../group/configurator-group.module';
+import { ConfiguratorFormComponent } from './configurator-form.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, NgSelectModule, ConfiguratorGroupModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    NgSelectModule,
+    ConfiguratorGroupModule,
+    ConfiguratorFormComponent,
+  ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorForm: {
           component: ConfiguratorFormComponent,
@@ -22,7 +28,6 @@ import { ConfiguratorGroupModule } from '../group/configurator-group.module';
       },
     }),
   ],
-  declarations: [ConfiguratorFormComponent],
   exports: [ConfiguratorFormComponent],
 })
 export class ConfiguratorFormModule {}

@@ -1,7 +1,7 @@
 <div class="cx-store">
   <div class="cx-store-address">
     <div class="cx-store-full-address">
-      <cx-store-address [storeDetails]="storeDetails"></cx-store-address>
+      <cx-store-address [storeDetails]="storeDetails" />
 
       <div>
         <div>
@@ -22,18 +22,19 @@
                 [type]="
                   openHoursOpen ? ICON_TYPE.CARET_UP : ICON_TYPE.CARET_DOWN
                 "
-              ></cx-icon
-            ></span>
+            /></span>
           </button>
         </div>
-        <cx-store-schedule *ngIf="openHoursOpen" [storeDetails]="storeDetails">
-        </cx-store-schedule>
+        <cx-store-schedule
+          *ngIf="openHoursOpen"
+          [storeDetails]="storeDetails"
+        />
         <cx-set-preferred-store
           [pointOfServiceName]="{
             name: storeDetails?.name,
             displayName: storeDetails?.displayName,
           }"
-        ></cx-set-preferred-store>
+        />
       </div>
     </div>
   </div>
@@ -45,7 +46,7 @@
         aria-hidden="true"
         *ngIf="isInStock"
         [type]="ICON_TYPE.CHECK"
-      ></cx-icon>
+      />
       <span
         class="cx-stock-level"
         [ngClass]="{

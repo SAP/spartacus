@@ -8,7 +8,6 @@ import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { LoggerService, ProductConnector } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { QuickOrderOrderEntriesContext } from './quick-order-order-entries.context';
-import createSpy = jasmine.createSpy;
 
 const unhandledItemErrorId = 'UnhandledItemErrorId';
 
@@ -62,9 +61,9 @@ class MockProductConnector implements Partial<ProductConnector> {
 }
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
-  addProduct = createSpy().and.callThrough();
-  getEntries = createSpy().and.returnValue(of(mockEntries));
-  canAdd = createSpy().and.returnValue(canAdd$.asObservable());
+  addProduct = vi.fn();
+  getEntries = vi.fn().mockReturnValue(of(mockEntries));
+  canAdd = vi.fn().mockReturnValue(canAdd$.asObservable());
 }
 
 describe('QuickOrderOrderEntriesContext', () => {
@@ -108,9 +107,9 @@ describe('QuickOrderOrderEntriesContext', () => {
   describe('addEntries', () => {
     it('should try add entries to quick order', () => {
       canAdd$.next(true);
-      productConnector.get = createSpy().and.callFake((code) =>
-        of(products[code])
-      );
+      productConnector.get = vi
+        .fn()
+        .mockImplementation((code) => of(products[code]));
       const results = [];
 
       service
@@ -164,9 +163,9 @@ describe('QuickOrderOrderEntriesContext', () => {
 
     it('should not add entries due to limit', () => {
       canAdd$.next(false);
-      productConnector.get = createSpy().and.callFake((code) =>
-        of(products[code])
-      );
+      productConnector.get = vi
+        .fn()
+        .mockImplementation((code) => of(products[code]));
       const results = [];
 
       service
@@ -203,7 +202,7 @@ describe('QuickOrderOrderEntriesContext', () => {
 
     it('should catch unknown identifier error', () => {
       canAdd$.next(true);
-      productConnector.get = createSpy().and.returnValue(
+      productConnector.get = vi.fn().mockReturnValue(
         throwError(() => ({
           error: {
             errors: [{ type: 'UnknownIdentifierError' }],
@@ -240,15 +239,13 @@ describe('QuickOrderOrderEntriesContext', () => {
 
     it('should catch unknown errors', () => {
       canAdd$.next(true);
-      productConnector.get = createSpy().and.returnValue(
-        throwError(() => ({}))
-      );
+      productConnector.get = vi.fn().mockReturnValue(throwError(() => ({})));
 
       const unableToAddProductsData: ProductData[] = [
         { productCode: unhandledItemErrorId, quantity: 1 },
       ];
       const results = [];
-      spyOn(logger, 'warn').and.stub();
+      vi.spyOn(logger, 'warn').mockImplementation(() => {});
 
       service
         .addEntries(unableToAddProductsData)

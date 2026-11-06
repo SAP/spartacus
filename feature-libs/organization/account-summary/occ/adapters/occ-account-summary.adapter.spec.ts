@@ -46,7 +46,6 @@ describe('OccAccountSummaryAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccAccountSummaryAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
@@ -60,8 +59,8 @@ describe('OccAccountSummaryAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEndpointService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(occEndpointService, 'buildUrl');
   });
 
   afterEach(() => {

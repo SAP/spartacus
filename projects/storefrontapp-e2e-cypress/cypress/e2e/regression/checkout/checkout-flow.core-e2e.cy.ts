@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,9 +26,9 @@ context('Checkout flow', () => {
 
       checkout.clickHamburger();
 
-      checkout.registerUser(false, user);
+      checkout.registerUser(false, user, true);
       checkout.goToCheapProductDetailsPage();
-      checkout.addCheapProductToCartAndLogin(user);
+      checkout.addCheapProductToCartAndLogin(user, undefined, true);
       checkout.checkSummaryAmount();
       checkout.proceedWithEmptyShippingAdressForm();
       checkout.proceedWithIncorrectShippingAddressForm({
@@ -53,12 +53,12 @@ context('Checkout flow', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
       checkout.clickHamburger();
-      checkout.registerUser(false, user);
+      checkout.registerUser(false, user, true);
       cy.onMobile(() => {
         clickSearchIcon();
       });
       searchForProduct(product.name);
-      checkout.checkoutFirstDisplayedProduct(user);
+      checkout.checkoutFirstDisplayedProduct(user, true);
     });
   });
 });

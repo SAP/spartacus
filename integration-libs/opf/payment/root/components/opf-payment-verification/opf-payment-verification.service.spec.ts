@@ -10,7 +10,9 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  RoutingConfigService,
   RoutingService,
+  WindowRef,
 } from '@spartacus/core';
 import {
   OpfDynamicScript,
@@ -19,7 +21,7 @@ import {
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
@@ -39,6 +41,9 @@ describe('OpfPaymentVerificationService', () => {
   let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
   let opfResourceLoaderServiceMock: jasmine.SpyObj<OpfResourceLoaderService>;
   let globalFunctionsServiceMock: jasmine.SpyObj<OpfGlobalFunctionsFacade>;
+  let windowRefMock: jasmine.SpyObj<WindowRef>;
+  let sessionStorageMock: jasmine.SpyObj<Storage>;
+  let routingConfigServiceMock: jasmine.SpyObj<RoutingConfigService>;
 
   beforeEach(() => {
     orderFacadeMock = jasmine.createSpyObj('OrderFacade', [
@@ -51,11 +56,23 @@ describe('OpfPaymentVerificationService', () => {
     opfPaymentServiceMock = jasmine.createSpyObj('OpfPaymentFacade', [
       'verifyPayment',
       'getAfterRedirectScripts',
+      'submitCompletePayment',
     ]);
+    const defaultMetadata: OpfMetadataModel = {
+      termsAndConditionsChecked: false,
+      selectedPaymentOptionId: undefined,
+      isPaymentInProgress: false,
+      opfPaymentSessionId: undefined,
+      isTermsAndConditionsAlertClosed: false,
+      is3DSRedirect: false,
+      opf3DSRedirectReturnPath: undefined,
+    };
     opfMetadataStoreServiceMock = jasmine.createSpyObj(
       'OpfMetadataStoreService',
-      ['getOpfMetadataState']
+      ['getOpfMetadataState', 'updateOpfMetadata', 'clearOpfMetadata']
     );
+    opfMetadataStoreServiceMock.opfMetadataState =
+      new BehaviorSubject<OpfMetadataModel>(defaultMetadata);
     opfResourceLoaderServiceMock = jasmine.createSpyObj(
       'OpfResourceLoaderService',
       ['clearAllResources', 'executeScriptFromHtml', 'loadResources']
@@ -64,6 +81,33 @@ describe('OpfPaymentVerificationService', () => {
     globalFunctionsServiceMock = jasmine.createSpyObj(
       'OpfGlobalFunctionsFacade',
       ['registerGlobalFunctions', 'unregisterGlobalFunctions']
+    );
+    sessionStorageMock = jasmine.createSpyObj('sessionStorage', [
+      'getItem',
+      'setItem',
+      'removeItem',
+    ]);
+    windowRefMock = jasmine.createSpyObj('WindowRef', ['isBrowser'], {
+      location: {
+        search: '',
+        pathname: '/opf/payment-verification-redirect/result',
+      },
+      sessionStorage: sessionStorageMock,
+    });
+    windowRefMock.isBrowser.and.returnValue(true);
+    routingConfigServiceMock = jasmine.createSpyObj('RoutingConfigService', [
+      'getRouteConfig',
+    ]);
+    routingConfigServiceMock.getRouteConfig.and.callFake(
+      (routeName: string) => {
+        if (routeName === 'paymentVerificationResult') {
+          return { paths: ['opf/payment-verification-redirect/result'] };
+        }
+        if (routeName === 'paymentVerificationCancel') {
+          return { paths: ['opf/payment-verification-redirect/cancel'] };
+        }
+        return undefined;
+      }
     );
 
     TestBed.configureTestingModule({
@@ -85,6 +129,11 @@ describe('OpfPaymentVerificationService', () => {
           provide: OpfGlobalFunctionsFacade,
           useValue: globalFunctionsServiceMock,
         },
+        { provide: WindowRef, useValue: windowRefMock },
+        {
+          provide: RoutingConfigService,
+          useValue: routingConfigServiceMock,
+        },
       ],
     });
 
@@ -95,12 +144,67 @@ describe('OpfPaymentVerificationService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('captureRedirectQueryString', () => {
+    it('should capture query string when pathname matches configured route path', () => {
+      windowRefMock.location.pathname =
+        '/electronics-spa/en/USD/opf/payment-verification-redirect/result';
+      windowRefMock.location.search = '?score_rcode=1';
+
+      service.captureRedirectQueryString();
+
+      expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
+        'opfPaymentVerificationQuerySearch',
+        '?score_rcode=1'
+      );
+    });
+
+    it('should capture query string when route path is customized in config', () => {
+      routingConfigServiceMock.getRouteConfig.and.callFake(
+        (routeName: string) => {
+          if (routeName === 'paymentVerificationResult') {
+            return { paths: ['custom-payment-verify/result'] };
+          }
+          return undefined;
+        }
+      );
+      windowRefMock.location.pathname =
+        '/electronics-spa/en/USD/custom-payment-verify/result';
+      windowRefMock.location.search = '?score_rcode=1';
+
+      service.captureRedirectQueryString();
+
+      expect(sessionStorageMock.setItem).toHaveBeenCalled();
+    });
+
+    it('should not capture when pathname does not match configured route path', () => {
+      windowRefMock.location.pathname = '/cart';
+      windowRefMock.location.search = '?score_rcode=1';
+
+      service.captureRedirectQueryString();
+
+      expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
+    });
+  });
+
   describe('goToPage', () => {
     it('should call routingService.go with the provided cxRoute', () => {
       service.goToPage('orderConfirmation');
 
       expect(routingServiceMock.go).toHaveBeenCalledWith({
         cxRoute: 'orderConfirmation',
+      });
+    });
+  });
+
+  describe('clearPaymentSessionForReinitiation', () => {
+    it('should clear stored payment session metadata', () => {
+      service.clearPaymentSessionForReinitiation();
+
+      expect(
+        opfMetadataStoreServiceMock.updateOpfMetadata
+      ).toHaveBeenCalledWith({
+        opfPaymentSessionId: undefined,
+        opfPaymentSessionConfigurationId: undefined,
       });
     });
   });
@@ -119,6 +223,14 @@ describe('OpfPaymentVerificationService', () => {
       }),
     } as unknown as ActivatedRoute;
 
+    beforeEach(() => {
+      windowRefMock.isBrowser.and.returnValue(true);
+      windowRefMock.location.search = `?opfPaymentSessionId=${mockPaymentSessionId}&keyMock=valueMock`;
+      sessionStorageMock.getItem.and.returnValue(
+        `?opfPaymentSessionId=${mockPaymentSessionId}&keyMock=valueMock`
+      );
+    });
+
     it('should verify the result URL and return the response map without opfPaymentSessionId if the route cxRoute is "paymentVerificationResult"', (done) => {
       service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
         expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
@@ -127,6 +239,26 @@ describe('OpfPaymentVerificationService', () => {
             key: 'keyMock',
             value: 'valueMock',
           },
+        ]);
+        done();
+      });
+    });
+
+    it('should preserve payment redirect params from captured query string', (done) => {
+      const originalSearch =
+        '?opfPaymentSessionId=sessionId&score_rcode=1&score_ip_state=sc&decision_rcode=1&req_bill_to_address_state=CA&auth_code=831000';
+
+      sessionStorageMock.getItem.and.returnValue(originalSearch);
+      windowRefMock.location.search =
+        '?opfPaymentSessionId=sessionId&score_r&decision_rcode=1&score_ip_&req_bill_to_address_state=CA&auth_code=831000';
+
+      service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
+        expect(result.paramsMap).toEqual([
+          { key: 'score_rcode', value: '1' },
+          { key: 'score_ip_state', value: 'sc' },
+          { key: 'decision_rcode', value: '1' },
+          { key: 'req_bill_to_address_state', value: 'CA' },
+          { key: 'auth_code', value: '831000' },
         ]);
         done();
       });
@@ -145,6 +277,11 @@ describe('OpfPaymentVerificationService', () => {
             'true',
         }),
       } as unknown as ActivatedRoute;
+
+      windowRefMock.location.search = `?${OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG}=true`;
+      sessionStorageMock.getItem.and.returnValue(
+        `?${OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG}=true`
+      );
 
       const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: true,
@@ -189,6 +326,8 @@ describe('OpfPaymentVerificationService', () => {
     });
 
     it('should throw an error if queryParams is undefined and paymentSessionId not in local storage', (done) => {
+      windowRefMock.isBrowser.and.returnValue(false);
+
       const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: true,
         selectedPaymentOptionId: 111,
@@ -221,6 +360,9 @@ describe('OpfPaymentVerificationService', () => {
     });
 
     it('should throw an error if paymentSessionId is missing in url params and local storage', (done) => {
+      windowRefMock.location.search = '?mockKey=testKey';
+      sessionStorageMock.getItem.and.returnValue('?mockKey=testKey');
+
       const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: true,
         selectedPaymentOptionId: 111,
@@ -389,7 +531,7 @@ describe('OpfPaymentVerificationService', () => {
         });
     });
 
-    it('should not executeScriptFromHtml when no html snippet', (done) => {
+    it('should not executeScriptFromHtml when no html snippet but still resolve true', (done) => {
       opfPaymentServiceMock.getAfterRedirectScripts.and.returnValue(
         of({ afterRedirectScript: { dynamicScriptMock, html: undefined } })
       );
@@ -411,7 +553,7 @@ describe('OpfPaymentVerificationService', () => {
           expect(
             opfResourceLoaderServiceMock.executeScriptFromHtml
           ).not.toHaveBeenCalled();
-          expect(result).toBeFalsy();
+          expect(result).toBeTruthy();
           done();
         });
     });
@@ -553,6 +695,75 @@ describe('OpfPaymentVerificationService', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
       expect(routingServiceMock.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
+    });
+  });
+
+  describe('3DS Redirect Support', () => {
+    const mockPaymentSessionId = '3ds-session-id';
+    const mockReturnPath = '/checkout/payment-result';
+
+    describe('get3DSRedirectState', () => {
+      it('should return state when 3DS redirect is active', () => {
+        opfMetadataStoreServiceMock.opfMetadataState.next({
+          ...opfMetadataStoreServiceMock.opfMetadataState.value,
+          is3DSRedirect: true,
+          opfPaymentSessionId: mockPaymentSessionId,
+          opf3DSRedirectReturnPath: mockReturnPath,
+        });
+
+        const result = (service as any).get3DSRedirectState();
+        expect(result).toEqual({
+          paymentSessionId: mockPaymentSessionId,
+          returnPath: mockReturnPath,
+        });
+      });
+
+      it('should return null when is3DSRedirect is false', () => {
+        opfMetadataStoreServiceMock.opfMetadataState.next({
+          ...opfMetadataStoreServiceMock.opfMetadataState.value,
+          is3DSRedirect: false,
+        });
+
+        const result = (service as any).get3DSRedirectState();
+        expect(result).toBeNull();
+      });
+
+      it('should return null when paymentSessionId is missing', () => {
+        opfMetadataStoreServiceMock.opfMetadataState.next({
+          ...opfMetadataStoreServiceMock.opfMetadataState.value,
+          is3DSRedirect: true,
+          opfPaymentSessionId: undefined,
+        });
+
+        const result = (service as any).get3DSRedirectState();
+        expect(result).toBeNull();
+      });
+    });
+
+    describe('verifyResultUrl with 3DS redirect', () => {
+      it('should use stored payment session ID when 3DS redirect is active', (done) => {
+        opfMetadataStoreServiceMock.opfMetadataState.next({
+          ...opfMetadataStoreServiceMock.opfMetadataState.value,
+          is3DSRedirect: true,
+          opfPaymentSessionId: mockPaymentSessionId,
+          opf3DSRedirectReturnPath: mockReturnPath,
+        });
+
+        const mockRouteSnapshot: ActivatedRoute = {
+          routeConfig: {
+            data: {
+              cxRoute: 'paymentVerificationResult',
+            },
+          },
+          queryParams: of({}),
+        } as unknown as ActivatedRoute;
+
+        service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
+          expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
+          expect(result.is3DSRedirect).toBe(true);
+          done();
+        });
+      });
     });
   });
 });

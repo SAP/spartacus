@@ -1,0 +1,70 @@
+import { inject, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
+import { ProductSearchPage } from '../../model/product-search.model';
+import { SearchConfig } from '../model/search-config';
+import { ProductActions } from '../store/actions/index';
+import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
+import * as fromStoreReducers from '../store/reducers/index';
+import { ProductSearchService } from './product-search.service';
+
+describe('ProductSearchService', () => {
+  let service: ProductSearchService;
+  let store: Store<StateWithProduct>;
+  const mockSearchResults: ProductSearchPage = {
+    products: [{ code: '1' }, { code: '2' }, { code: '3' }],
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(
+          PRODUCT_FEATURE,
+          fromStoreReducers.getReducers()
+        ),
+      ],
+      providers: [ProductSearchService],
+    });
+    store = TestBed.inject(Store);
+    service = TestBed.inject(ProductSearchService);
+    vi.spyOn(service, 'search');
+    vi.spyOn(store, 'dispatch');
+  });
+
+  it('should ProductSearchService is injected', inject(
+    [ProductSearchService],
+    (productSearchService: ProductSearchService) => {
+      expect(productSearchService).toBeTruthy();
+    }
+  ));
+
+  it('should be able to get search results', async () => {
+    store.dispatch(new ProductActions.SearchProductsSuccess(mockSearchResults));
+    const result = await firstValueFrom(service.getResults());
+    expect(result).toEqual(mockSearchResults);
+  });
+
+  it('should be able to clear search results', () => {
+    service.clearResults();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ProductActions.ClearProductSearchResult({
+        clearPageResults: true,
+      })
+    );
+  });
+
+  describe('search(query, searchConfig)', () => {
+    it('should be able to search products', () => {
+      const searchConfig: SearchConfig = {};
+
+      service.search('test query', searchConfig);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ProductActions.SearchProducts({
+          queryText: 'test query',
+          searchConfig: searchConfig,
+        })
+      );
+    });
+  });
+});

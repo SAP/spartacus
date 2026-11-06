@@ -4,30 +4,27 @@ import { GlobalMessageService } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
 import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
-import createSpy = jasmine.createSpy;
 const reconsentIdsWithStatus = [
   { id: 'consent.survey', isConsentGranted: true },
 ];
-const reconsentIds = ['consent.survey'];
 const userParams = {
   user: 'sample@user.com',
   password: 'password',
   regToken: '45rytthysc2w',
 };
 class mockedGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
-  remove = createSpy();
+  add = vi.fn();
+  remove = vi.fn();
 }
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog = createSpy();
+  closeDialog = vi.fn();
 }
 class MockCdcUserConsentService implements Partial<CdcUserConsentService> {
-  updateCdcUserPreferences = createSpy();
-  updateCdcConsent = createSpy();
+  updateCdcUserPreferences = vi.fn();
 }
 class MockCdcJsService implements Partial<CdcJsService> {
-  didLoad = createSpy();
-  loginUserWithoutScreenSet = createSpy();
+  didLoad = vi.fn();
+  loginUserWithoutScreenSet = vi.fn();
 }
 describe('CdcReconsentComponentService', () => {
   let service: CdcReconsentComponentService;
@@ -37,7 +34,6 @@ describe('CdcReconsentComponentService', () => {
   let launchDialogService: LaunchDialogService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CdcJsService,
         GlobalMessageService,
@@ -58,67 +54,18 @@ describe('CdcReconsentComponentService', () => {
   it('should create service', () => {
     expect(service).toBeTruthy();
   });
-  describe('saveConsentAndLogin', () => {
-    it('on successful save of re-consent and re-login', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(true));
-      cdcUserConsentService.updateCdcConsent = createSpy().and.returnValue(
-        of({ errorCode: 0, errorMessage: '' })
-      );
-      cdcJsService.loginUserWithoutScreenSet = createSpy().and.returnValue(
-        of({ status: 'OK' })
-      );
-      spyOn(service, 'handleReconsentUpdateError').and.stub();
-      service.saveConsentAndLogin(reconsentIds, userParams);
-      expect(cdcJsService.didLoad).toHaveBeenCalled();
-      expect(cdcJsService.loginUserWithoutScreenSet).toHaveBeenCalledWith(
-        userParams.user,
-        userParams.password
-      );
-      expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalled();
-      expect(service.handleReconsentUpdateError).not.toHaveBeenCalled();
-    });
-    it('on error during save of re-consent', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(true));
-      cdcUserConsentService.updateCdcConsent = createSpy().and.returnValue(
-        throwError({ errorCode: 404, errorMessage: 'error during process' })
-      );
-      cdcJsService.loginUserWithoutScreenSet = createSpy().and.returnValue(
-        of({ status: 'OK' })
-      );
-      launchDialogService.closeDialog = createSpy().and.stub();
-      spyOn(service, 'handleReconsentUpdateError').and.stub();
-      service.saveConsentAndLogin(reconsentIds, userParams);
-      expect(cdcJsService.didLoad).toHaveBeenCalled();
-      expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalled();
-      expect(cdcJsService.loginUserWithoutScreenSet).not.toHaveBeenCalled();
-      expect(service.handleReconsentUpdateError).toHaveBeenCalled();
-    });
-    it('should stop processing in case of cdc load failure', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(false));
-      cdcJsService.loginUserWithoutScreenSet = createSpy().and.returnValue(
-        of({ status: 'ok' })
-      );
-      cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(
-          of({ errorCode: 404, errorMessage: 'error during process' })
-        );
-      globalMessageService.add = createSpy().and.stub();
-      service.saveConsentAndLogin(reconsentIds, userParams);
-      expect(cdcJsService.didLoad).toHaveBeenCalled();
-      expect(cdcJsService.loginUserWithoutScreenSet).not.toHaveBeenCalled();
-      expect(cdcUserConsentService.updateCdcConsent).not.toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalled();
-    });
-  });
   describe('savePreferencesAndLogin', () => {
     it('on successful save of re-consent and re-login', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(true));
-      cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(of({ errorCode: 0, errorMessage: '' }));
-      cdcJsService.loginUserWithoutScreenSet = createSpy().and.returnValue(
-        of({ status: 'OK' })
+      cdcJsService.didLoad = vi.fn().mockReturnValue(of(true));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(of({ errorCode: 0, errorMessage: '' }));
+      cdcJsService.loginUserWithoutScreenSet = vi
+        .fn()
+        .mockReturnValue(of({ status: 'OK' }));
+      vi.spyOn(service, 'handleReconsentUpdateError').mockImplementation(
+        () => {}
       );
-      spyOn(service, 'handleReconsentUpdateError').and.stub();
       service.savePreferencesAndLogin(reconsentIdsWithStatus, userParams);
       expect(cdcJsService.didLoad).toHaveBeenCalled();
       expect(cdcJsService.loginUserWithoutScreenSet).toHaveBeenCalledWith(
@@ -129,16 +76,19 @@ describe('CdcReconsentComponentService', () => {
       expect(service.handleReconsentUpdateError).not.toHaveBeenCalled();
     });
     it('on error during save of re-consent', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(true));
-      cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(
+      cdcJsService.didLoad = vi.fn().mockReturnValue(of(true));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(
           throwError({ errorCode: 404, errorMessage: 'error during process' })
         );
-      cdcJsService.loginUserWithoutScreenSet = createSpy().and.returnValue(
-        of({ status: 'OK' })
+      cdcJsService.loginUserWithoutScreenSet = vi
+        .fn()
+        .mockReturnValue(of({ status: 'OK' }));
+      launchDialogService.closeDialog = vi.fn().mockImplementation(() => {});
+      vi.spyOn(service, 'handleReconsentUpdateError').mockImplementation(
+        () => {}
       );
-      launchDialogService.closeDialog = createSpy().and.stub();
-      spyOn(service, 'handleReconsentUpdateError').and.stub();
       service.savePreferencesAndLogin(reconsentIdsWithStatus, userParams);
       expect(cdcJsService.didLoad).toHaveBeenCalled();
       expect(cdcUserConsentService.updateCdcUserPreferences).toHaveBeenCalled();
@@ -146,15 +96,16 @@ describe('CdcReconsentComponentService', () => {
       expect(service.handleReconsentUpdateError).toHaveBeenCalled();
     });
     it('should stop processing in case of cdc load failure', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(false));
-      cdcJsService.loginUserWithoutScreenSet = createSpy().and.returnValue(
-        of({ status: 'ok' })
-      );
-      cdcUserConsentService.updateCdcUserPreferences =
-        createSpy().and.returnValue(
+      cdcJsService.didLoad = vi.fn().mockReturnValue(of(false));
+      cdcJsService.loginUserWithoutScreenSet = vi
+        .fn()
+        .mockReturnValue(of({ status: 'ok' }));
+      cdcUserConsentService.updateCdcUserPreferences = vi
+        .fn()
+        .mockReturnValue(
           of({ errorCode: 404, errorMessage: 'error during process' })
         );
-      globalMessageService.add = createSpy().and.stub();
+      globalMessageService.add = vi.fn().mockImplementation(() => {});
       service.savePreferencesAndLogin(reconsentIdsWithStatus, userParams);
       expect(cdcJsService.didLoad).toHaveBeenCalled();
       expect(cdcJsService.loginUserWithoutScreenSet).not.toHaveBeenCalled();
@@ -166,8 +117,8 @@ describe('CdcReconsentComponentService', () => {
   });
   describe('handleReconsentUpdateError', () => {
     it('should close dialog and raise error', () => {
-      launchDialogService.closeDialog = createSpy().and.stub();
-      globalMessageService.add = createSpy().and.stub();
+      launchDialogService.closeDialog = vi.fn().mockImplementation(() => {});
+      globalMessageService.add = vi.fn().mockImplementation(() => {});
       service.handleReconsentUpdateError(
         'Error During Reconsent Update',
         'error message'
@@ -180,7 +131,7 @@ describe('CdcReconsentComponentService', () => {
   });
   describe('ngOnDestroy', () => {
     it('should unsubscribe from any subscriptions when destroyed', () => {
-      spyOn(service['subscription'], 'unsubscribe');
+      vi.spyOn(service['subscription'], 'unsubscribe');
       service.ngOnDestroy();
       expect(service['subscription'].unsubscribe).toHaveBeenCalled();
     });

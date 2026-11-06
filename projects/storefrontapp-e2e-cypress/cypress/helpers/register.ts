@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { cmsEndpoints } from './cms-endpoints';
 import * as alerts from './global-message';
 
 export function signOut() {
@@ -11,7 +12,7 @@ export function signOut() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageLabelOrId: '/logout',
     },
@@ -24,20 +25,14 @@ export function signOut() {
 }
 
 export function verifyGlobalMessageAfterRegistration() {
-  const alert = alerts.getSuccessAlert();
-
-  alert.should(
-    'contain',
-    'Your account has been successfully created! Please log in with provided credentials'
-  );
   cy.whenJDK17(() => {
-    cy.location().should((location) => {
-      expect(location.pathname).to.match(/\/login$/);
-    });
+    const alert = alerts.getSuccessAlert();
+    alert.should(
+      'contain',
+      'Your account has been successfully created! Please log in with provided credentials'
+    );
   });
-  cy.whenJDK21(() => {
-    cy.location().should((location) => {
-      expect(location.pathname).to.match(/\/homepage$/);
-    });
+  cy.location().should((location) => {
+    expect(location.pathname).to.match(/\/login$/);
   });
 }

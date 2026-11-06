@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,7 +35,7 @@ describe('checkout using digital-payments with billing address', () => {
     interceptDigitalPaymentsResponse();
     cy.visit('/electronics-spa/en/USD/login');
     loginUser(my_user);
-    cy.wait(3000);
+    cy.wait(1000);
     goToCheapProductDetailsPage();
     addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
     checkoutShippingAddress();
@@ -57,7 +57,7 @@ describe('checkout using digital-payments with billing address', () => {
     interceptDigitalPaymentsRequest();
     cy.visit('/electronics-spa/en/USD/login');
     loginUser(my_user);
-    cy.wait(3000);
+    cy.wait(1000);
     goToCheapProductDetailsPage();
     addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
     checkoutShippingAddress();

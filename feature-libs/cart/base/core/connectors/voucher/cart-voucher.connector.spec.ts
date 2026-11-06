@@ -2,12 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CartVoucherAdapter } from './cart-voucher.adapter';
 import { CartVoucherConnector } from './cart-voucher.connector';
-import createSpy = jasmine.createSpy;
 
 describe('CartVoucherConnector', () => {
   class MockCartVoucherAdapter implements CartVoucherAdapter {
-    add = createSpy().and.returnValue(of({}));
-    remove = createSpy().and.returnValue(of({}));
+    add = vi.fn().mockReturnValue(of({}));
+    remove = vi.fn().mockReturnValue(of({}));
   }
 
   let service: CartVoucherConnector;

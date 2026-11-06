@@ -1,17 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { InjectionToken, Provider } from '@angular/core';
+import { inject, InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
-import { AuthActions, StateUtils } from '@spartacus/core';
+import { AuthActions, FeatureToggles, StateUtils } from '@spartacus/core';
 import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
 import {
-  cartEntitiesReducer,
   cartTypeIndexReducer,
+  createCartEntitiesReducer,
 } from './multi-cart.reducer';
 
 export function clearMultiCartState(
@@ -32,10 +32,16 @@ export const multiCartReducerToken: InjectionToken<
 > = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
 
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState, any> {
+  let enabled = false;
+  try {
+    enabled = !!inject(FeatureToggles).enableCartSlowNetworkResilience;
+  } catch {
+    enabled = false;
+  }
   return {
     carts: StateUtils.entityProcessesLoaderReducer<Cart | undefined>(
       MULTI_CART_DATA,
-      cartEntitiesReducer
+      createCartEntitiesReducer(enabled)
     ),
     index: cartTypeIndexReducer,
   };

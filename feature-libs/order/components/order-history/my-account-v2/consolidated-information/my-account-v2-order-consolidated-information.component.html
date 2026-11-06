@@ -23,12 +23,12 @@
               ),
             }
           "
-        ></ng-container>
+        />
       </div>
       <cx-my-account-v2-consignment-entries
         [orderCode]="order.code ?? ''"
         [consignments]="getPickupConsignments(order.consignments ?? [])"
-      ></cx-my-account-v2-consignment-entries>
+      />
     </div>
 
     <!-- delivery consigned entries
@@ -56,12 +56,12 @@
               ),
             }
           "
-        ></ng-container>
+        />
       </div>
       <cx-my-account-v2-consignment-entries
         [orderCode]="order.code ?? ''"
         [consignments]="getDeliveryConsignments(order.consignments ?? [])"
-      ></cx-my-account-v2-consignment-entries>
+      />
     </div>
 
     <!-- unconsigned entries 
@@ -82,7 +82,7 @@
               showManyItems;
               context: { count: getOrderEntriesCount(order.unconsignedEntries) }
             "
-          ></ng-container>
+          />
         </div>
         <ng-template #nonCritical>
           <div class="cx-order-status">
@@ -97,7 +97,7 @@
                   count: getOrderEntriesCount(order.unconsignedEntries),
                 }
               "
-            ></ng-container>
+            />
           </div>
         </ng-template>
       </div>
@@ -125,7 +125,7 @@
               ),
             }
           "
-        ></ng-container>
+        />
       </div>
 
       <!-- pickup unconsigned entries, b2b does not have pickup items
@@ -151,7 +151,7 @@
               ),
             }
           "
-        ></ng-container>
+        />
       </div>
     </div>
 
@@ -197,7 +197,7 @@
           class="cx-order-img"
           format="thumbnail"
           role="presentation"
-        ></cx-media>
+        />
       </ng-container>
     </ng-container>
   </div>

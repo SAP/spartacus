@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 import { product } from '../sample-data/checkout-flow';
 import { addProductToCart as addToCart } from './applied-promotions';
 import { verifyReviewOrderPage } from './checkout-flow';
+import { cmsEndpoints } from './cms-endpoints';
 
 export const username = 'test-user-with-orders@sap.cx.com';
 export const password = 'pw4all';
@@ -23,7 +24,7 @@ export function loginSuccessfully() {
 export function addShippingAddress() {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/test-user-with-orders@sap.cx.com/addresses?lang=en&curr=USD`,
     headers: {
@@ -79,7 +80,7 @@ export function addPaymentMethod() {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}/${Cypress.env(
+        url: `${Cypress.env('API_URL')}${Cypress.env(
           'OCC_PREFIX'
         )}/${Cypress.env(
           'BASE_SITE'
@@ -120,7 +121,7 @@ export function selectShippingAddress() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageLabelOrId: '/checkout/delivery-address',
     },
@@ -140,7 +141,7 @@ export function selectShippingAddress() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageLabelOrId: '/checkout/delivery-mode',
     },
@@ -161,7 +162,7 @@ export function selectDeliveryMethod() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageLabelOrId: '/checkout/payment-details',
     },

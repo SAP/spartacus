@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -28,6 +29,7 @@ import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
     StoreModule,
     CardModule,
     MediaModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig({
       cmsComponents: {
         OrderConfirmationPickUpComponent: {
@@ -53,8 +55,8 @@ import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
         },
       },
     } as CmsConfig),
+    PickUpItemsDetailsComponent,
   ],
-  declarations: [PickUpItemsDetailsComponent],
   exports: [PickUpItemsDetailsComponent],
 })
 export class PickUpItemsDetailsModule {}

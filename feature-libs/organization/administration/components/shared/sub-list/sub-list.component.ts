@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,10 +12,16 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
-import { TableStructure } from '@spartacus/storefront';
+import { EntitiesModel, TranslatePipe } from '@spartacus/core';
+import {
+  FocusDirective,
+  PaginationComponent,
+  TableComponent,
+  TableStructure,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+import { CardComponent } from '../card/card.component';
 import { ListComponent } from '../list/list.component';
 import { MessageService } from '../message/services/message.service';
 
@@ -23,7 +30,15 @@ import { MessageService } from '../message/services/message.service';
   templateUrl: './sub-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
-  standalone: false,
+  imports: [
+    CardComponent,
+    FocusDirective,
+    NgIf,
+    TableComponent,
+    PaginationComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class SubListComponent extends ListComponent {
   hostClass = '';

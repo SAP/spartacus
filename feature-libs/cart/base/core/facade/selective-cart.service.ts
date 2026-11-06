@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,7 +54,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
         distinctUntilChanged(),
         tap(([selectiveId, user, userId, activeBaseSite]) => {
           if (
-            !Boolean(selectiveId) &&
+            !selectiveId &&
             userId !== OCC_USER_ID_ANONYMOUS &&
             user?.customerId
           ) {

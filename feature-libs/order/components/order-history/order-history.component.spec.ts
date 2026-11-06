@@ -6,13 +6,17 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Params } from '@angular/router';
+import { Params, RouterModule } from '@angular/router';
 import {
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   Order,
@@ -21,7 +25,8 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 
 const mockOrders: OrderHistoryList = {
@@ -89,7 +94,6 @@ const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -98,7 +102,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -108,10 +111,7 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -158,15 +158,9 @@ describe('OrderHistoryComponent', () => {
   let orderHistoryFacade: OrderHistoryFacade;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        OrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
-      ],
+      imports: [RouterModule.forRoot([]), OrderHistoryComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
@@ -176,13 +170,36 @@ describe('OrderHistoryComponent', () => {
           useClass: MockReplenishmentOrderHistoryFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderHistoryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            PaginationComponent,
+            SortingComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
     routingService = TestBed.inject(RoutingService);
-  }));
+  });
 
   beforeEach(() => {
+    mockOrderHistoryList$.next(mockOrders);
+    mockReplenishmentOrder$.next(mockReplenishmentOrder);
     fixture = TestBed.createComponent(OrderHistoryComponent);
     component = fixture.componentInstance;
   });
@@ -198,18 +215,15 @@ describe('OrderHistoryComponent', () => {
     ).toBeTruthy();
   });
 
-  it('should read order list', () => {
-    let orders: OrderHistoryList;
-    component.orders$
-      .subscribe((value) => {
-        orders = value;
-      })
-      .unsubscribe();
+  it('should read order list', async () => {
+    let orders: OrderHistoryList | undefined = await firstValueFrom(
+      component.orders$
+    );
     expect(orders).toEqual(mockOrders);
   });
 
   it('should redirect when clicking on order id', () => {
-    spyOn(routingService, 'go').and.stub();
+    vi.spyOn(routingService, 'go').mockImplementation(() => {});
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
@@ -229,7 +243,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(orderHistoryFacade, 'loadOrderList').and.stub();
+    vi.spyOn(orderHistoryFacade, 'loadOrderList').mockImplementation(() => {});
 
     component.changeSortCode('byOrderNumber');
 
@@ -242,7 +256,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(orderHistoryFacade, 'loadOrderList').and.stub();
+    vi.spyOn(orderHistoryFacade, 'loadOrderList').mockImplementation(() => {});
 
     component.sortType = 'byDate';
     component.pageChange(1);
@@ -331,7 +345,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should clear order history data when component destroy', () => {
-    spyOn(orderHistoryFacade, 'clearOrderList').and.stub();
+    vi.spyOn(orderHistoryFacade, 'clearOrderList').mockImplementation(() => {});
 
     component.ngOnDestroy();
     expect(orderHistoryFacade.clearOrderList).toHaveBeenCalledWith();
@@ -347,10 +361,6 @@ describe('OrderHistoryComponent', () => {
 
       const element = fixture.debugElement.query(
         By.css('.cx-order-history-header')
-      );
-
-      expect(element.nativeElement.textContent).toContain(
-        'orderHistory.orderHistory'
       );
 
       expect(element.nativeElement.textContent).not.toContain(

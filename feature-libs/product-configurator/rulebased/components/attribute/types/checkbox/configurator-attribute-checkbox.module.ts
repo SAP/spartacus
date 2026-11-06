@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,10 +9,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
-import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
+import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
 @NgModule({
   imports: [
@@ -23,9 +22,10 @@ import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show
     I18nModule,
     ConfiguratorPriceModule,
     ConfiguratorShowMoreModule,
+    ConfiguratorAttributeCheckBoxComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,
@@ -33,7 +33,6 @@ import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeCheckBoxComponent],
   exports: [ConfiguratorAttributeCheckBoxComponent],
 })
 export class ConfiguratorAttributeCheckboxModule {}

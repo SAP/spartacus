@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -16,7 +17,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  FeatureToggles,
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslatePipe,
+} from '@spartacus/core';
 import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 import {
   Quote,
@@ -43,7 +49,7 @@ import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.m
 @Component({
   selector: 'cx-quote-summary-actions',
   templateUrl: './quote-summary-actions.component.html',
-  standalone: false,
+  imports: [NgIf, NgClass, NgFor, AsyncPipe, TranslatePipe],
 })
 export class QuoteSummaryActionsComponent
   implements AfterViewInit, OnInit, OnDestroy
@@ -74,6 +80,7 @@ export class QuoteSummaryActionsComponent
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
   protected readonly BOTTOM = 'bottom';
+  private featureToggles = inject(FeatureToggles);
 
   @HostListener('window:resize')
   handleResize(): void {
@@ -210,6 +217,12 @@ export class QuoteSummaryActionsComponent
    * @returns true, only of the action shall be disabled
    */
   mustDisableAction(type: string, quote: Quote): boolean {
+    if (this.featureToggles.showWarningMessageOnRequoteButtonClick) {
+      return (
+        (type === QuoteActionType.SUBMIT || type === QuoteActionType.REQUOTE) &&
+        !this.isThresholdReached(quote)
+      );
+    }
     return type === QuoteActionType.SUBMIT && !this.isThresholdReached(quote);
   }
 

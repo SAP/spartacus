@@ -1,13 +1,19 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureDirective,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
@@ -21,39 +27,48 @@ describe('CSAgentLoginFormComponent', () => {
   const validUserId = 'asagent';
   const validPassword = 'testPass123!';
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         PasswordVisibilityToggleModule,
-      ],
-      declarations: [
         CSAgentLoginFormComponent,
         DotSpinnerComponent,
-        MockFeatureDirective,
       ],
-    }).compileComponents();
-  }));
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    })
+      .overrideComponent(CSAgentLoginFormComponent, {
+        remove: { imports: [TranslatePipe, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CSAgentLoginFormComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    fixture.detectChanges();
-
-    userIdFormControl = component.csAgentLoginForm.controls['userId'];
-    passwordFormControl = component.csAgentLoginForm.controls['password'];
   });
 
   it('should create', () => {
+    fixture.detectChanges();
+    userIdFormControl = component.csAgentLoginForm.controls['userId'];
+    passwordFormControl = component.csAgentLoginForm.controls['password'];
     expect(component).toBeTruthy();
   });
 
   describe('onSubmit() ', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+      userIdFormControl = component.csAgentLoginForm.controls['userId'];
+      passwordFormControl = component.csAgentLoginForm.controls['password'];
+    });
+
     it('should be called when submit button is clicked', () => {
-      spyOn(component, 'onSubmit').and.stub();
+      vi.spyOn(component, 'onSubmit').mockImplementation(() => {});
 
       const submitBtn = fixture.debugElement.query(
         By.css('button[type="submit"]')
@@ -64,8 +79,8 @@ describe('CSAgentLoginFormComponent', () => {
     });
 
     it('should not emit submitted event if the form is not valid', () => {
-      spyOn(component, 'onSubmit').and.stub();
-      spyOn(component.submitEvent, 'emit').and.stub();
+      vi.spyOn(component, 'onSubmit').mockImplementation(() => {});
+      vi.spyOn(component.submitEvent, 'emit').mockImplementation(() => {});
 
       component.onSubmit();
 
@@ -75,7 +90,7 @@ describe('CSAgentLoginFormComponent', () => {
     });
 
     it('should emit submitted event when the form is valid', () => {
-      spyOn(component.submitEvent, 'emit').and.stub();
+      vi.spyOn(component.submitEvent, 'emit').mockImplementation(() => {});
 
       userIdFormControl.setValue(validUserId);
       passwordFormControl.setValue(validPassword);
@@ -89,15 +104,14 @@ describe('CSAgentLoginFormComponent', () => {
 
   it('should display spinner when login is running', () => {
     component.csAgentTokenLoading = true;
-    component.ngOnInit();
     fixture.detectChanges();
 
     expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeFalsy();
   });
+
   it('should not display spinner when login is not running', () => {
     component.csAgentTokenLoading = false;
-    component.ngOnInit();
     fixture.detectChanges();
 
     expect(el.query(By.css('div.spinner'))).toBeFalsy();

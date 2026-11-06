@@ -23,6 +23,7 @@ import {
   TicketList,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
+import { firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCustomerTicketingAdapter } from './occ-customer-ticketing.adapter';
 import {
@@ -60,7 +61,6 @@ describe('OccCustomerTicketingAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCustomerTicketingAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
@@ -72,8 +72,8 @@ describe('OccCustomerTicketingAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'convert').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(converter, 'convert');
   });
 
   afterEach(() => {
@@ -81,19 +81,17 @@ describe('OccCustomerTicketingAdapter', () => {
   });
 
   describe('getTicket', () => {
-    it('should get ticket details for the given ticket id', (done) => {
+    it('should get ticket details for the given ticket id', async () => {
       const mockTicketDetails: TicketDetails = {
         id: '1',
         subject: 'mockTicket',
       };
 
+      let result: TicketDetails | undefined;
       service
         .getTicket(mockCustomerId, mockTicketId)
         .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockTicketDetails);
-          done();
-        });
+        .subscribe((r) => (result = r));
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -104,11 +102,13 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockTicketDetails);
+
+      expect(result).toEqual(mockTicketDetails);
     });
   });
 
   describe('createTicketEvent', () => {
-    it('should create ticket event for the given ticket id', (done) => {
+    it('should create ticket event for the given ticket id', () => {
       const mockCreatedEvent: TicketEvent = {
         message: 'mock message',
         code: 'mockCode',
@@ -118,13 +118,11 @@ describe('OccCustomerTicketingAdapter', () => {
         message: 'mock message',
       };
 
+      let result: TicketEvent | undefined;
       service
         .createTicketEvent(mockCustomerId, mockTicketId, mockTicketEvent)
         .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockCreatedEvent);
-          done();
-        });
+        .subscribe((r) => (result = r));
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -135,6 +133,8 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockCreatedEvent);
+
+      expect(result).toEqual(mockCreatedEvent);
       expect(converter.pipeable).toHaveBeenCalledWith(
         CUSTOMER_TICKETING_EVENT_NORMALIZER
       );
@@ -142,7 +142,7 @@ describe('OccCustomerTicketingAdapter', () => {
   });
 
   describe('getTickets', () => {
-    it('should get tickets for the given customer id', (done) => {
+    it('should get tickets for the given customer id', async () => {
       const mockTicketList: TicketList = {
         pagination: {
           currentPage: 0,
@@ -225,13 +225,11 @@ describe('OccCustomerTicketingAdapter', () => {
       const currentPage = 1;
       const sort = 'byId';
 
+      let result: TicketList | undefined;
       service
         .getTickets(mockCustomerId, PAGE_SIZE, currentPage, sort)
         .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockTicketList);
-          done();
-        });
+        .subscribe((r) => (result = r));
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -244,16 +242,19 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockTicketList);
+
+      expect(result).toEqual(mockTicketList);
     });
   });
 
   describe('uploadAttachment', () => {
-    it('should uoload attachment for the given event code and ticket id', (done) => {
+    it('should uoload attachment for the given event code and ticket id', async () => {
       const attachmentResponse = {
         id: 'mockId',
       };
       const mockEventCode = 'mockEventCode';
 
+      let result: any;
       service
         .uploadAttachment(
           mockCustomerId,
@@ -262,10 +263,7 @@ describe('OccCustomerTicketingAdapter', () => {
           '' as unknown as File
         )
         .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(attachmentResponse);
-          done();
-        });
+        .subscribe((r) => (result = r));
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -277,6 +275,8 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(attachmentResponse);
+
+      expect(result).toEqual(attachmentResponse);
       expect(converter.pipeable).toHaveBeenCalledWith(
         CUSTOMER_TICKETING_FILE_NORMALIZER
       );
@@ -284,11 +284,12 @@ describe('OccCustomerTicketingAdapter', () => {
   });
 
   describe('downloadAttachment', () => {
-    it('should download attachment for the given event code and ticket id', (done) => {
+    it('should download attachment for the given event code and ticket id', async () => {
       const attachmentResponse = new Blob();
       const mockEventCode = 'mockEventCode';
       const mockAttachmentId = 'mockAttachmentId';
 
+      let result: any;
       service
         .downloadAttachment(
           mockCustomerId,
@@ -297,10 +298,7 @@ describe('OccCustomerTicketingAdapter', () => {
           mockAttachmentId
         )
         .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(attachmentResponse);
-          done();
-        });
+        .subscribe((r) => (result = r));
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -312,6 +310,8 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('blob');
       mockReq.flush(attachmentResponse);
+
+      expect(result).toEqual(attachmentResponse);
       expect(converter.pipeable).toHaveBeenCalledWith(
         CUSTOMER_TICKETING_FILE_NORMALIZER
       );
@@ -319,7 +319,7 @@ describe('OccCustomerTicketingAdapter', () => {
   });
 
   describe('createTicket', () => {
-    it('should create ticket', (done) => {
+    it('should create ticket', async () => {
       const mockTicketStarter: TicketStarter = {
         message: 'Test',
         subject: 'Test',
@@ -358,13 +358,11 @@ describe('OccCustomerTicketingAdapter', () => {
         ],
       };
 
+      let result: any;
       service
         .createTicket(mockCustomerId, mockTicketStarter)
         .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockCreatedTicketResponse);
-          done();
-        });
+        .subscribe((r) => (result = r));
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -374,6 +372,8 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockCreatedTicketResponse);
+
+      expect(result).toEqual(mockCreatedTicketResponse);
       expect(converter.pipeable).toHaveBeenCalledWith(
         CUSTOMER_TICKETING_CREATE_NORMALIZER
       );

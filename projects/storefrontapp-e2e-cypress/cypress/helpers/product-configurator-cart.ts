@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,14 +66,14 @@ function locateCartConfiguratorElement(cartItemIndex: number): void {
  * @param {number} cartItemIndex - Index of cart item
  */
 export function clickOnRemoveLink(cartItemIndex: number): void {
+  cy.log('One cart item will be removed under index: ' + cartItemIndex);
   cy.get('cx-cart-item-list .cx-item-list-row')
     .eq(cartItemIndex)
-    .not('disabled')
-    .find('.cx-remove-btn')
-    .within(() => {
-      cy.log('One cart item will be removed under index: ' + cartItemIndex);
-      cy.get('button:contains("Remove")').click();
-    });
+    // The cart list row renders the remove button itself, the cart item card
+    // wraps it in a container.
+    .find('button.cx-remove-btn, .cx-remove-btn button')
+    .should('be.enabled')
+    .click();
 }
 
 /**

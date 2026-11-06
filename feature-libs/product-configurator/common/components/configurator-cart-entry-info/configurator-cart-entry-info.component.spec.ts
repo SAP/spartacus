@@ -1,19 +1,21 @@
-import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ControlContainer,
   ReactiveFormsModule,
   UntypedFormControl,
 } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import {
   CartItemContext,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
+import { ConfigureCartEntryComponent } from '../configure-cart-entry';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
@@ -29,7 +31,7 @@ class MockCartItemContext implements Partial<CartItemContext> {
 @Component({
   selector: 'cx-configure-cart-entry',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -41,62 +43,68 @@ class MockConfigureCartEntryComponent {
 describe('ConfiguratorCartEntryInfoComponent', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
+  let changeDetectorRef: ChangeDetectorRef;
   let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [
-        ConfiguratorCartEntryInfoComponent,
-        MockConfigureCartEntryComponent,
-      ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, ConfiguratorCartEntryInfoComponent],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
           provide: ControlContainer,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ConfiguratorCartEntryInfoComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, ConfigureCartEntryComponent],
+        },
+        add: {
+          imports: [I18nTestingModule, MockConfigureCartEntryComponent],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);
     component = fixture.componentInstance;
+    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should expose orderEntry$', (done) => {
+  it('should expose orderEntry$', async () => {
+    fixture.detectChanges();
     const orderEntry: OrderEntry = { orderCode: '123' };
     component.orderEntry$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(orderEntry);
-      done();
     });
 
     mockCartItemContext.item$.next(orderEntry);
   });
 
-  it('should expose quantityControl$', (done) => {
+  it('should expose quantityControl$', async () => {
+    fixture.detectChanges();
     const quantityControl = new UntypedFormControl();
     component.quantityControl$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(quantityControl);
-      done();
     });
 
     mockCartItemContext.quantityControl$.next(quantityControl);
   });
 
-  it('should expose readonly$', (done) => {
+  it('should expose readonly$', async () => {
+    fixture.detectChanges();
     component.readonly$.pipe(take(2), toArray()).subscribe((values) => {
       expect(values).toEqual([true, false]);
-      done();
     });
     mockCartItemContext.readonly$.next(true);
     mockCartItemContext.readonly$.next(false);
@@ -110,6 +118,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       });
       mockCartItemContext.readonly$.next(false);
 
+      fixture.detectChanges();
       const htmlElementAfterChanges = fixture.nativeElement;
       expect(
         htmlElementAfterChanges.querySelectorAll('.cx-configuration-info')
@@ -161,6 +170,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
     describe('hasStatus', () => {
       it('should be true if first entry of status summary is in error status and has a definition of the configurator type', () => {
+        fixture.detectChanges();
         const entry: OrderEntry = {
           configurationInfos: [
             { status: 'ERROR', configuratorType: ConfiguratorType.VARIANT },
@@ -170,16 +180,19 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       });
 
       it('should be false if first entry of status summary carries no status', () => {
+        fixture.detectChanges();
         const entry: OrderEntry = { configurationInfos: [{ status: 'NONE' }] };
         expect(component.hasStatus(entry)).toBe(false);
       });
 
       it('should be false if no configuration infos are present', () => {
+        fixture.detectChanges();
         const entry: OrderEntry = {};
         expect(component.hasStatus(entry)).toBe(false);
       });
 
       it('should be false if configuration infos are empty', () => {
+        fixture.detectChanges();
         const entry: OrderEntry = { configurationInfos: [] };
         expect(component.hasStatus(entry)).toBe(false);
       });
@@ -187,6 +200,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
     describe('isAttributeBasedConfigurator', () => {
       it('should return true if for CCP based configurator', () => {
+        fixture.detectChanges();
         const entry: OrderEntry = {
           configurationInfos: [
             { status: 'ERROR', configuratorType: ConfiguratorType.VARIANT },
@@ -195,6 +209,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         expect(component.isAttributeBasedConfigurator(entry)).toBe(true);
       });
       it('should return false if no configurationInfos are provided', () => {
+        fixture.detectChanges();
         const entry: OrderEntry = {};
         expect(component.isAttributeBasedConfigurator(entry)).toBe(false);
       });
@@ -222,51 +237,51 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         });
 
         it('should expose readonly$ as false in case readonly$ is undefined', () => {
-          mockCartItemContext.readonly$?.next(undefined);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(undefined);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
-          mockCartItemContext.readonly$?.next(null);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(null);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is false', () => {
           mockCartItemContext.readonly$?.next(false);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as true in case readonly$ is true', () => {
           mockCartItemContext.readonly$?.next(true);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('true');
+          expect(component.readOnly).toBe(true);
         });
       });
 
@@ -283,7 +298,11 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
       it('should allow the rendering of "edit configuration" if context is active cart', () => {
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
-        mockCartItemContext.readonly$.next(null);
+        (
+          mockCartItemContext.readonly$ as ReplaySubject<
+            boolean | null | undefined
+          >
+        ).next(null);
         fixture.detectChanges();
 
         const htmlElementAfterChanges = fixture.nativeElement;
@@ -291,6 +310,27 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
             .length
         ).toBe(1);
+      });
+
+      it('should disable the edit configuration link when the quantity control is disabled after render', () => {
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(false);
+        const quantityControl = new UntypedFormControl();
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        fixture.detectChanges();
+
+        const getLinkComponent = () =>
+          fixture.debugElement.query(By.css('cx-configure-cart-entry'))
+            .componentInstance;
+
+        expect(getLinkComponent().disabled).toBe(false);
+
+        quantityControl.disable({ emitEvent: false });
+        // Same FormControl reference: default CD must refresh [disabled] without
+        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        changeDetectorRef.detectChanges();
+
+        expect(getLinkComponent().disabled).toBe(true);
       });
     });
 
@@ -381,11 +421,11 @@ describe('ConfiguratorCartEntryInfoComponent without cart item context', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ConfiguratorCartEntryInfoComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorCartEntryInfoComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);

@@ -1,19 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isolateTests } from '../../../support/utils/test-isolation';
 import * as siteTheme from '../../../helpers/site-theme';
-import { FeaturesConfig } from '@spartacus/core';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
 context('Site Theme', { testIsolation: false }, () => {
   isolateTests();
   before(() => {
-    cy.visit('/');
     // TODO: (CXSPA-8363) Remove the manual addition of the Theme component in e2e test when sample data is available
     siteTheme.interceptToAddThemeCompnent();
+    cy.visit('/');
+    cy.wait('@baseSitesNoTheme');
+    cy.wait('@modifiedRequest');
   });
 
   it('should display theme switcher', () => {
@@ -36,36 +37,31 @@ context('Site Theme', { testIsolation: false }, () => {
     cy.get('cx-site-theme-switcher select')
       .select('HC-Dark')
       .should('have.value', 'cx-theme-high-contrast-dark');
-    cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
 
     cy.get('cx-site-theme-switcher select')
       .select('HC-Light')
       .should('have.value', 'cx-theme-high-contrast-light');
-    cy.get('cx-storefront').should(
-      'have.class',
-      'cx-theme-high-contrast-light'
-    );
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-light');
 
     cy.get('cx-site-theme-switcher select')
       .select('Default')
       .should('have.value', '');
-    cy.get('cx-storefront').should(
-      'not.have.class',
-      'cx-theme-high-contrast-light'
-    );
+    cy.get('app-root').should('not.have.class', 'cx-theme-high-contrast-light');
   });
 
   it('should keep selected theme after reload the page', () => {
     cy.get('cx-site-theme-switcher select')
       .select('HC-Dark')
       .should('have.value', 'cx-theme-high-contrast-dark');
-    cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
-
-    cy.reload();
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
 
     siteTheme.interceptToAddThemeCompnent();
+    cy.reload();
+    cy.wait('@baseSitesNoTheme');
+    cy.wait('@modifiedRequest');
 
-    cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
     cy.get('cx-site-theme-switcher select').then(($select) => {
       const selectedOption = $select.find('option:selected');
       cy.wrap(selectedOption).should(
@@ -78,5 +74,43 @@ context('Site Theme', { testIsolation: false }, () => {
         'cx-theme-high-contrast-dark'
       );
     });
+  });
+});
+
+context('Site Theme - CMS theme', { testIsolation: false }, () => {
+  isolateTests();
+  before(() => {
+    siteTheme.interceptToSetBaseSiteTheme('lambda');
+    siteTheme.interceptToAddThemeCompnentWithoutBaseSiteIntercept();
+    cy.visit('/');
+    cy.wait('@baseSitesWithTheme');
+    cy.wait('@modifiedRequest');
+  });
+
+  it('should apply CMS theme as default', () => {
+    cy.get('cx-site-theme-switcher select').then(($select) => {
+      const selectedOption = $select.find('option:selected');
+      cy.wrap(selectedOption).should(
+        'have.attr',
+        'aria-label',
+        'Default, 1 of 3'
+      );
+      cy.wrap(selectedOption).should('have.value', 'lambda');
+    });
+    cy.get('app-root').should('have.class', 'lambda');
+  });
+
+  it('should allow switching to optional theme over CMS default', () => {
+    cy.get('cx-site-theme-switcher select')
+      .select('HC-Dark')
+      .should('have.value', 'cx-theme-high-contrast-dark');
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
+  });
+
+  it('should restore CMS default theme when selecting Default', () => {
+    cy.get('cx-site-theme-switcher select')
+      .select('Default')
+      .should('have.value', 'lambda');
+    cy.get('app-root').should('have.class', 'lambda');
   });
 });

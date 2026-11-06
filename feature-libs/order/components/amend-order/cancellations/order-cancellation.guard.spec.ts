@@ -9,6 +9,7 @@ import { SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderCancellationGuard } from './order-cancellation.guard';
 import { OrderCancellationService } from './order-cancellation.service';
+import { firstValueFrom } from 'rxjs';
 
 const mockControl = new UntypedFormControl(10, {
   validators: [Validators.min(100)],
@@ -52,25 +53,22 @@ describe(`OrderCancellationGuard`, () => {
     guard = TestBed.inject(OrderCancellationGuard);
     service = TestBed.inject(OrderCancellationService);
 
-    spyOn(service, 'getForm').and.returnValue(of(mockForm));
+    vi.spyOn(service, 'getForm').mockReturnValue(of(mockForm));
+
+    //prevent test leakages by resetting common values in beforeEach
+    mockControl.setValue(10);
   });
 
-  it(`should redirect to the order detail page`, () => {
-    let result: boolean | UrlTree | RedirectCommand | undefined;
-    guard
-      .canActivate()
-      .subscribe((r) => (result = r))
-      .unsubscribe();
+  it(`should redirect to the order detail page`, async () => {
+    let result: boolean | UrlTree | RedirectCommand | undefined =
+      await firstValueFrom(guard.canActivate());
     expect(result?.toString()).toEqual('/orders');
   });
 
-  it(`should return true when the form data is valid`, () => {
+  it(`should return true when the form data is valid`, async () => {
     mockControl.setValue(100);
-    let result: boolean | UrlTree | RedirectCommand | undefined;
-    guard
-      .canActivate()
-      .subscribe((r) => (result = r))
-      .unsubscribe();
+    let result: boolean | UrlTree | RedirectCommand | undefined =
+      await firstValueFrom(guard.canActivate());
     expect(result).toBeTruthy();
   });
 });

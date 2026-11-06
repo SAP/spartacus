@@ -135,10 +135,10 @@ describe('Multi Cart effect', () => {
       });
 
       const multiCartEffectsService = TestBed.inject(MultiCartEffectsService);
-      spyOn(
+      vi.spyOn(
         multiCartEffectsService,
         'getActiveCartTypeOnLoadSuccess'
-      ).and.returnValue(setActiveCartIdAction);
+      ).mockReturnValue(setActiveCartIdAction);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: setActiveCartIdAction });
@@ -162,10 +162,10 @@ describe('Multi Cart effect', () => {
         cartId: '',
       });
       const multiCartEffectsService = TestBed.inject(MultiCartEffectsService);
-      spyOn(
+      vi.spyOn(
         multiCartEffectsService,
         'getActiveCartTypeOnLoadSuccess'
-      ).and.returnValue(setActiveCartIdAction);
+      ).mockReturnValue(setActiveCartIdAction);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: setActiveCartIdAction });

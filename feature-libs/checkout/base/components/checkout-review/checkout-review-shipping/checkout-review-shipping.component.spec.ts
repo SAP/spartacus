@@ -5,10 +5,19 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
+import {
+  Address,
+  Country,
+  FeatureToggles,
+  I18nTestingModule,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  IconTestingModule,
+  MockIconComponent,
+} from '@spartacus/storefront/testing/icon-testing-module';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { firstValueFrom, of } from 'rxjs';
 
 import {
   ChangeDetectorRef,
@@ -17,12 +26,18 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   ActiveCartFacade,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Card, OutletModule } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  IconComponent,
+  OutletModule,
+} from '@spartacus/storefront';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
@@ -62,18 +77,18 @@ const mockEntries: OrderEntry[] = [
 class MockCheckoutDeliveryAddressService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: mockAddress })
-  );
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: mockAddress }));
 }
 
 class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSupportedDeliveryModesState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: [] })
-  );
-  getSelectedDeliveryModeState = createSpy().and.returnValue(
+  getSupportedDeliveryModesState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: [] }));
+  getSelectedDeliveryModeState = vi.fn().mockReturnValue(
     of({
       loading: false,
       error: false,
@@ -97,19 +112,14 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.DELIVERY_MODE],
     },
   ]);
-  getCheckoutStepRoute = createSpy().and.returnValue(
-    mockCheckoutStep.routeName
-  );
+  getCheckoutStepRoute = vi.fn().mockReturnValue(mockCheckoutStep.routeName);
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  getDeliveryEntries = createSpy().and.returnValue(of(mockEntries));
+  getDeliveryEntries = vi.fn().mockReturnValue(of(mockEntries));
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -117,7 +127,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, IconTestingModule, OutletModule],
 })
 class MockCardComponent {
   @Input()
@@ -136,11 +146,11 @@ describe('CheckoutReviewShippingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule, OutletModule],
-      declarations: [
+      imports: [
+        RouterModule.forRoot([]),
+        IconTestingModule,
+        OutletModule,
         CheckoutReviewShippingComponent,
-        MockUrlPipe,
-        MockCardComponent,
       ],
       providers: [
         {
@@ -158,10 +168,19 @@ describe('CheckoutReviewShippingComponent', () => {
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
+          useValue: { markForCheck: vi.fn() },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutReviewShippingComponent, {
+        remove: {
+          imports: [CardComponent, UrlPipe, IconComponent],
+        },
+        add: {
+          imports: [MockUrlPipe, MockCardComponent, MockIconComponent],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(CheckoutReviewShippingComponent);
     component = fixture.componentInstance;
@@ -235,5 +254,95 @@ describe('CheckoutReviewShippingComponent', () => {
     expect(component.deliveryAddressStepRoute).toEqual(
       mockCheckoutStep.routeName
     );
+  });
+});
+
+describe('CheckoutReviewShippingComponent - addTitleToAddressCard feature toggle', () => {
+  let component: CheckoutReviewShippingComponent;
+  let fixture: ComponentFixture<CheckoutReviewShippingComponent>;
+
+  const mockAddressWithTitle: Address = {
+    ...mockAddress,
+    title: 'Mr.',
+  };
+  const mockAddressWithoutTitle: Address = {
+    ...mockAddress,
+    title: undefined,
+  };
+
+  async function configure(addTitleToAddressCard: boolean) {
+    await TestBed.configureTestingModule({
+      imports: [
+        RouterModule.forRoot([]),
+        IconTestingModule,
+        OutletModule,
+        CheckoutReviewShippingComponent,
+      ],
+      providers: [
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressService,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesService,
+        },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: ChangeDetectorRef,
+          useValue: { markForCheck: vi.fn() },
+        },
+        provideMockFeatureToggles({ addTitleToAddressCard }),
+      ],
+    })
+      .overrideComponent(CheckoutReviewShippingComponent, {
+        remove: {
+          imports: [CardComponent, UrlPipe, IconComponent],
+        },
+        add: {
+          imports: [MockUrlPipe, MockCardComponent, MockIconComponent],
+        },
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(CheckoutReviewShippingComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }
+
+  it('should NOT prepend the title to the name when the toggle is OFF', async () => {
+    await configure(false);
+    const card = await firstValueFrom(
+      component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+    );
+
+    expect(card?.textBold).toEqual('John Doe');
+  });
+
+  it('should prepend the title to the name when the toggle is ON and a title is present', async () => {
+    await configure(true);
+    const card = await firstValueFrom(
+      component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+    );
+
+    expect(card?.textBold).toEqual('Mr. John Doe');
+  });
+
+  it('should NOT prepend the title to the name when the toggle is ON but no title is present', async () => {
+    await configure(true);
+    const card = await firstValueFrom(
+      component.getDeliveryAddressCard(mockAddressWithoutTitle, 'Canada')
+    );
+
+    expect(card?.textBold).toEqual('John Doe');
+  });
+
+  it('should reflect the toggle value read from the injected FeatureToggles', async () => {
+    await configure(true);
+    expect(TestBed.inject(FeatureToggles).addTitleToAddressCard).toBe(true);
   });
 });

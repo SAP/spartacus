@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -18,22 +19,30 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
+  CartConfig,
   CartItemComponentOptions,
+  CartItemQuantityService,
   CartOutlets,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import {
   CmsAddToCartComponent,
   EventService,
-  FeatureConfigService,
-  FeatureToggles,
   Product,
   ProductAvailabilityService,
+  ProductCatalogService,
   ProductScope,
+  ProductTypes,
+  TranslatePipe,
   isNotNullable,
   useFeatureStyles,
 } from '@spartacus/core';
@@ -41,16 +50,29 @@ import {
   CmsComponentData,
   CurrentProductService,
   ICON_TYPE,
+  IconComponent,
+  ItemCounterComponent,
+  OutletDirective,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, startWith, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    ItemCounterComponent,
+    OutletDirective,
+    NgClass,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
@@ -79,6 +101,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   showInventory$: Observable<boolean | undefined> | undefined =
     this.component?.data$.pipe(map((data) => data.inventoryDisplay));
+  unavailable: boolean = false;
 
   quantity = 1;
 
@@ -94,9 +117,11 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
 
-  private featureConfigService = inject(FeatureConfigService);
-  private featureToggles = inject(FeatureToggles);
   private productAvailabilityService = inject(ProductAvailabilityService);
+  protected productCatalogService = inject(ProductCatalogService);
+  protected cartItemQuantityService = inject(CartItemQuantityService);
+  protected realTimeStockEnabled =
+    !!inject(CartConfig).cart?.showRealTimeStockInPDP?.enabled;
 
   /**
    * We disable the dialog launch on quantity input,
@@ -121,13 +146,18 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {
-    useFeatureStyles('a11yQTY2Quantity');
+    useFeatureStyles('a11yInStockInfoTextContrast');
   }
 
   ngOnInit() {
+    this.subscribeToQuantityChanges();
+
     if (this.product) {
       this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
+      this.unavailable = !this.productCatalogService.isProductInCatalog(
+        this.product
+      );
     } else if (this.productCode) {
       // force hasStock and quantity for the time being, as we do not have more info:
       this.quantity = 1;
@@ -137,7 +167,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       let product$: Observable<Product | null>;
       if (this.productListItemContext) {
         product$ = this.productListItemContext.product$;
-      } else if (this.featureToggles.showRealTimeStockInPDP) {
+      } else if (this.realTimeStockEnabled) {
         product$ = this.currentProductService.getProduct([
           ProductScope.UNIT,
           ProductScope.DETAILS,
@@ -150,9 +180,24 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.productCode = product.code ?? '';
           this.product = product;
           this.setStockInfo(product);
+          this.unavailable =
+            !this.productCatalogService.isProductInCatalog(product);
         })
       );
     }
+  }
+
+  protected subscribeToQuantityChanges(): void {
+    this.subscription.add(
+      this.addToCartForm
+        .get('quantity')
+        ?.valueChanges.pipe(
+          startWith(this.addToCartForm.get('quantity')?.value)
+        )
+        .subscribe((quantity) =>
+          this.cartItemQuantityService.setQuantity(quantity ?? 1)
+        )
+    );
   }
 
   protected setStockInfo(product: Product): void {
@@ -164,14 +209,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.showQuantity = false;
     }
 
-    /**
-     * When removing the feature toggle in the future, let's leave the if-else block.
-     * In case of absent sapUnit we want to fallback to the stock info from the product object.
-     */
-    if (
-      this.featureToggles.showRealTimeStockInPDP &&
-      product.sapUnit?.sapCode
-    ) {
+    if (this.realTimeStockEnabled && product.sapUnit?.sapCode) {
       this.productAvailabilityService
         .getRealTimeStock(this.productCode, product.sapUnit?.sapCode)
         .pipe(take(1))
@@ -196,7 +234,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * When out of stock, display no numerical value.
    */
   getInventory(): string {
-    if (this.hasStock) {
+    if (
+      this.hasStock &&
+      this.product.productTypes !== ProductTypes.SUBSCRIPTION
+    ) {
       const quantityDisplay = this.maxQuantity
         ? this.maxQuantity.toString()
         : '';
@@ -277,10 +318,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   onPickupOptionsCompLoaded() {
-    if (
-      this.featureConfigService.isEnabled('a11yPickupOptionsTabs') &&
-      this.pickupOptionCompRef instanceof ComponentRef
-    ) {
+    if (this.pickupOptionCompRef instanceof ComponentRef) {
       this.subscription.add(
         this.pickupOptionCompRef.instance.intendedPickupChange.subscribe(
           (

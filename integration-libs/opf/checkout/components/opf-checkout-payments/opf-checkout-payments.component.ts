@@ -1,27 +1,42 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DestroyRef,
   EventEmitter,
-  inject,
   Input,
   OnDestroy,
   OnInit,
   Output,
   TemplateRef,
+  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   PaginationModel,
   QueryState,
+  TranslatePipe,
   TranslationService,
+  UserPaymentService,
 } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  OutletModule,
+  PaginationComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { Observable, Subject, Subscription } from 'rxjs';
 import {
   OpfActiveConfiguration,
   OpfActiveConfigurationsPagination,
@@ -30,16 +45,32 @@ import {
   OpfConfig,
   OpfMetadataModel,
   OpfMetadataStoreService,
+  OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
+import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
+import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
+import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/root';
 import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
   templateUrl: './opf-checkout-payments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    IconComponent,
+    NgTemplateOutlet,
+    OpfCheckoutPaymentWrapperComponent,
+    PaginationComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    OutletModule,
+  ],
 })
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected opfBaseService = inject(OpfBaseFacade);
@@ -47,11 +78,18 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected translation = inject(TranslationService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected globalMessageService = inject(GlobalMessageService);
+  protected opfCheckoutBillingAddressFormService = inject(
+    OpfCheckoutBillingAddressFormService
+  );
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
+  protected userPaymentService = inject(UserPaymentService);
+  protected destroyRef = inject(DestroyRef);
+  private featureToggles = inject(FeatureToggles);
+  protected cdr = inject(ChangeDetectorRef);
 
   protected subscription = new Subscription();
 
   protected paginationIndex = 0;
-
   @Input()
   isHeadingDisplayed? = true;
 
@@ -77,6 +115,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   onlyPaymentWrapperMode? = false;
 
   @Input()
+  showBeforePaymentOptionsOutlet? = true;
+
+  @Input()
   customPaymentTemplate?: TemplateRef<any>;
 
   @Input()
@@ -94,6 +135,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   noRenderPaymentWrapperMessage?: string;
 
+  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
+
+  protected outletContext$ = new Subject<any>();
+
   selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;
@@ -109,6 +154,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
   protected paginationModel: PaginationModel | undefined;
+  protected paymentDisabled$ =
+    this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
 
   protected isStateEmpty(
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
@@ -145,7 +192,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
   ): boolean {
     return (
-      state.data?.value?.length === 1 && state.data?.page?.totalPages === 1
+      state.data?.value?.length === 1 &&
+      (state.data?.page?.totalPages ?? 1) === 1
     );
   }
 
@@ -168,6 +216,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
             if (state.data?.value && !state.error && !state.loading) {
               this.paginationModel = this.getPaginationModel(state.data?.page);
+
+              state.data.value = state.data?.value.filter(
+                (x) =>
+                  x.providerType !== OpfPaymentProviderType.STORED_VALUE_PAYMENT
+              );
 
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
                 state.data.value = state.data.value.filter(
@@ -213,30 +266,59 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
    */
   protected preselectPaymentOption(): void {
     let isPreselected = false;
-    this.subscription.add(
+    const metadataSubscription = (state: OpfMetadataModel) => {
+      if (this.shouldResolvePreselection(state, isPreselected)) {
+        const resolvedId =
+          state.selectedPaymentOptionId ?? state.defaultSelectedPaymentOptionId;
+
+        if (resolvedId !== undefined) {
+          isPreselected = true;
+        }
+
+        this.selectedPaymentId = resolvedId;
+        if (
+          resolvedId !== undefined &&
+          resolvedId !== state.selectedPaymentOptionId
+        ) {
+          this.opfMetadataStoreService.updateOpfMetadata({
+            selectedPaymentOptionId: resolvedId,
+          });
+        }
+        this.emitOutletContext();
+      } else if (
+        !state.termsAndConditionsChecked &&
+        this.explicitTermsAndConditions
+      ) {
+        isPreselected = false;
+        this.selectedPaymentId = undefined;
+        this.emitOutletContext();
+      } else if (isPreselected) {
+        this.selectedPaymentId = state.selectedPaymentOptionId;
+        this.emitOutletContext();
+      }
+    };
+
+    if (this.featureToggles.opfUseDestroyRef) {
       this.opfMetadataStoreService
         .getOpfMetadataState()
-        .subscribe((state: OpfMetadataModel) => {
-          if (
-            !isPreselected &&
-            (state.termsAndConditionsChecked ||
-              !this.explicitTermsAndConditions)
-          ) {
-            isPreselected = true;
-            this.selectedPaymentId = !state.selectedPaymentOptionId
-              ? state.defaultSelectedPaymentOptionId
-              : state.selectedPaymentOptionId;
-            this.opfMetadataStoreService.updateOpfMetadata({
-              selectedPaymentOptionId: this.selectedPaymentId,
-            });
-          } else if (
-            !state.termsAndConditionsChecked &&
-            this.explicitTermsAndConditions
-          ) {
-            isPreselected = false;
-            this.selectedPaymentId = undefined;
-          }
-        })
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(metadataSubscription);
+    } else {
+      this.subscription.add(
+        this.opfMetadataStoreService
+          .getOpfMetadataState()
+          .subscribe(metadataSubscription)
+      );
+    }
+  }
+
+  protected shouldResolvePreselection(
+    state: OpfMetadataModel,
+    isPreselected: boolean
+  ): boolean {
+    return (
+      !isPreselected &&
+      (state.termsAndConditionsChecked || !this.explicitTermsAndConditions)
     );
   }
 
@@ -247,11 +329,31 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     );
   }
 
+  protected emitOutletContext(): void {
+    this.outletContext$.next({
+      selectedPaymentId: this.selectedPaymentId,
+      savedCardsId: SAVED_CARDS_ID,
+      showSavedCardsList: this.selectedPaymentId === SAVED_CARDS_ID,
+      disabled: this.disabled && this.explicitTermsAndConditions,
+      savedCardsSelected: this.onSavedCardsSelected.bind(this),
+    });
+    this.cdr.markForCheck();
+  }
+
+  onSavedCardsSelected(): void {
+    this.selectedPaymentId = SAVED_CARDS_ID;
+    this.opfMetadataStoreService.updateOpfMetadata({
+      selectedPaymentOptionId: SAVED_CARDS_ID,
+    });
+    this.emitOutletContext();
+  }
+
   changePayment(payment: OpfActiveConfiguration): void {
     this.selectedPaymentId = payment.id;
     this.opfMetadataStoreService.updateOpfMetadata({
       selectedPaymentOptionId: this.selectedPaymentId,
     });
+    this.emitOutletContext();
     this.paymentChange.emit(payment);
   }
 
@@ -276,8 +378,15 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.userPaymentService.loadPaymentMethods();
     this.updateActiveConfiguration();
     this.preselectPaymentOption();
+    this.emitOutletContext();
+    this.subscription.add(
+      this.opfPaymentEventsService.refreshActiveConfigurationsEvent$.subscribe(
+        () => this.updateActiveConfiguration()
+      )
+    );
   }
 
   ngOnDestroy(): void {

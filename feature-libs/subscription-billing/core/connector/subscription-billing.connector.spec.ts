@@ -1,100 +1,184 @@
 import { TestBed } from '@angular/core/testing';
+import { firstValueFrom, of, throwError } from 'rxjs';
 import { SubscriptionBillingAdapter } from './subscription-billing.adapter';
 import { SubscriptionBillingConnector } from './subscription-billing.connector';
-import createSpy = jasmine.createSpy;
 import {
-  SubscriptionDetail,
-  SubscriptionList,
+  SubscriptionBill,
+  SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
-import { of, take } from 'rxjs';
-const mockDetail: SubscriptionDetail = {
-  id: '01',
-  documentNumber: '2081',
-  name: 'Mobile 2020 Plan',
-  orderCode: '0005210258',
-  productCode: 'Mobile_2020_Plan_cpq',
-  status: 'Active',
+
+const mockBillData: SubscriptionBill = {
+  billAt: '2026-04-11T00:00:00+0000',
+  documentNumber: '5776',
+  id: '019B9D0C-D5AC-70ED-A3FC-A7B88D1B2015',
+  items: [
+    {
+      netAmount: 'USD0.00',
+      productCode: 'SAPCPQ_EDITRATIO_FORMAT_TIERS_cpq',
+      productName: 'SAPCPQ_EDITRATIO_FORMAT_TIERS',
+      subscriptionDocumentNumber: '807',
+      subscriptionId: '86B01278-B670-4812-B69C-55E41439D59E',
+      usageCharges: [
+        {
+          netAmount: 'USD185.00',
+          typeName: 'Charge',
+        },
+      ],
+    },
+  ],
+  netAmount: 'USD0.00',
+  numberOfSubscriptions: 1,
+  periodEndAt: '2026-04-09T00:00:00+0000',
+  periodStartAt: '2026-01-09T00:00:00+0000',
 };
-const mockList: SubscriptionList = {
+
+const listWithData: SubscriptionBillsList = {
   pagination: {
     currentPage: 0,
-    pageSize: 2,
-    sort: 'byDocumentNumberDesc',
-    totalPages: 233,
-    totalResults: 1162,
+    pageSize: 1,
+    sort: 'byBillingDateDesc',
+    totalPages: 410,
+    totalResults: 2047,
   },
   results: [
     {
-      documentNumber: '2081',
-      id: '019985A4-8221-4596-82AF-7C4A9728119E',
-      name: 'Mobile 2020 Plan',
-      orderCode: '0005210258',
-      productCode: 'Mobile_2020_Plan_cpq',
-      status: 'Active',
-    },
-    {
-      documentNumber: '2080',
-      id: '0199806E-395A-4B04-8B9C-27C5B5E2FB8E',
-      name: 'Mobile 2020 Plan',
-      orderCode: '0005212095',
-      productCode: 'Mobile_2020_Plan_cpq',
-      status: 'Active',
+      billAt: '2026-04-11T00:00:00+0000',
+      documentNumber: '5776',
+      id: '019B9D0C-D5AC-70ED-A3FC-A7B88D1B2015',
+      items: [
+        {
+          netAmount: 'USD0.00',
+          productCode: 'SAPCPQ_EDITRATIO_FORMAT_TIERS_cpq',
+          productName: 'SAPCPQ_EDITRATIO_FORMAT_TIERS',
+          subscriptionDocumentNumber: '807',
+          subscriptionId: '86B01278-B670-4812-B69C-55E41439D59E',
+          usageCharges: [
+            {
+              netAmount: 'USD185.00',
+              typeName: 'Charge',
+            },
+          ],
+        },
+      ],
+      netAmount: 'USD0.00',
+      numberOfSubscriptions: 1,
+      periodEndAt: '2026-04-09T00:00:00+0000',
+      periodStartAt: '2026-01-09T00:00:00+0000',
     },
   ],
   sorts: [
     {
       code: 'byDocumentNumberDesc',
-      name: 'Document Number (desc)',
-      selected: true,
+      name: 'Bill ID (desc)',
+      selected: false,
     },
     {
       code: 'byDocumentNumberAsc',
-      name: 'Document Number (asc)',
+      name: 'Bill ID (asc)',
       selected: false,
     },
-    { code: 'byDateDesc', name: 'Date (desc)', selected: false },
-    { code: 'byDateAsc', name: 'Date (asc)', selected: false },
+    {
+      code: 'byBillingDateDesc',
+      name: 'Bill Date (desc)',
+      selected: true,
+    },
+    {
+      code: 'byBillingDateAsc',
+      name: 'Bill Date (asc)',
+      selected: false,
+    },
   ],
 };
-class MockSubscriptionBillingAdapter
-  implements Partial<SubscriptionBillingAdapter>
-{
-  getSubscriptionByCode = createSpy().and.returnValue(of(mockDetail));
-  getSubscriptionList = createSpy().and.returnValue(of(mockList));
-}
+
 describe('SubscriptionBillingConnector', () => {
-  let service: SubscriptionBillingConnector;
-  let adapter: SubscriptionBillingAdapter;
+  let connector: SubscriptionBillingConnector;
+  let adapter: any;
+
   beforeEach(() => {
+    const adapterSpy = {
+      getSubscriptionBillsList: vi.fn(),
+      getSubscriptionBillByCode: vi.fn(),
+    };
+
     TestBed.configureTestingModule({
       providers: [
         SubscriptionBillingConnector,
-        {
-          provide: SubscriptionBillingAdapter,
-          useClass: MockSubscriptionBillingAdapter,
-        },
+        { provide: SubscriptionBillingAdapter, useValue: adapterSpy },
       ],
     });
-    adapter = TestBed.inject(SubscriptionBillingAdapter);
-    service = TestBed.inject(SubscriptionBillingConnector);
+
+    connector = TestBed.inject(SubscriptionBillingConnector);
+    adapter = TestBed.inject(SubscriptionBillingAdapter) as any;
   });
-  it('should create', () => {
-    expect(service).toBeTruthy();
+
+  it('should be created', () => {
+    expect(connector).toBeTruthy();
   });
-  it('should call getSubscriptionByCode adapter', () => {
-    service.getSubscriptionByCode('current', '1').pipe(take(1)).subscribe();
-    expect(adapter.getSubscriptionByCode).toHaveBeenCalledWith('current', '1');
+
+  describe('getSubscriptionBillsList', () => {
+    it('should delegate to adapter', () => {
+      const userId = 'current';
+      const expectedResponse = of(listWithData);
+
+      adapter.getSubscriptionBillsList.mockReturnValue(expectedResponse);
+
+      const result = connector.getSubscriptionBillsList(userId, 5, 1);
+      expect(adapter.getSubscriptionBillsList).toHaveBeenCalledWith(
+        userId,
+        5,
+        1,
+        undefined,
+        undefined
+      );
+      expect(result).toBe(expectedResponse);
+    });
+
+    it('should handle errors', async () => {
+      const userId = 'current';
+      const error = new Error('Cancel error');
+
+      adapter.getSubscriptionBillsList.mockReturnValue(throwError(() => error));
+
+      await expect(
+        firstValueFrom(connector.getSubscriptionBillsList(userId, 5, 1))
+      ).rejects.toBe(error);
+    });
   });
-  it('should call getSubscriptionList adapter', () => {
-    service
-      .getSubscriptionList('current', 0, 0, 'id')
-      .pipe(take(1))
-      .subscribe();
-    expect(adapter.getSubscriptionList).toHaveBeenCalledWith(
-      'current',
-      0,
-      0,
-      'id'
-    );
+
+  describe('getSubscriptionBillByCode', () => {
+    it('should delegate to adapter', () => {
+      const userId = 'current';
+      const expectedResponse = of(mockBillData);
+
+      adapter.getSubscriptionBillByCode.mockReturnValue(expectedResponse);
+
+      const result = connector.getSubscriptionBillByCode(
+        userId,
+        mockBillData.documentNumber ?? ''
+      );
+      expect(adapter.getSubscriptionBillByCode).toHaveBeenCalledWith(
+        userId,
+        mockBillData.documentNumber ?? ''
+      );
+      expect(result).toBe(expectedResponse);
+    });
+
+    it('should handle errors', async () => {
+      const userId = 'current';
+      const error = new Error('Cancel error');
+
+      adapter.getSubscriptionBillByCode.mockReturnValue(
+        throwError(() => error)
+      );
+
+      await expect(
+        firstValueFrom(
+          connector.getSubscriptionBillByCode(
+            userId,
+            mockBillData.documentNumber ?? ''
+          )
+        )
+      ).rejects.toBe(error);
+    });
   });
 });

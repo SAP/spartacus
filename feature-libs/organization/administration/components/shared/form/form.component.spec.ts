@@ -1,8 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
-import { MessageService } from '@spartacus/organization/administration/components';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  CardComponent,
+  MessageService,
+} from '@spartacus/organization/administration/components';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
@@ -32,13 +40,7 @@ describe('FormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        I18nTestingModule,
-        ReactiveFormsModule,
-        CardTestingModule,
-      ],
-      declarations: [FormComponent],
+      imports: [CommonModule, ReactiveFormsModule, FormComponent],
       providers: [
         {
           provide: ItemService,
@@ -46,7 +48,12 @@ describe('FormComponent', () => {
         },
         MessageService,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(FormComponent, {
+        remove: { imports: [CardComponent, TranslatePipe, CxDatePipe] },
+        add: { imports: [CardTestingModule, MockTranslatePipe, MockDatePipe] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(FormComponent);
     organizationItemService = TestBed.inject(ItemService);
@@ -65,9 +72,9 @@ describe('FormComponent', () => {
 
   it('should save an updated item and notify', () => {
     const form = new UntypedFormGroup({});
-    spyOn(organizationItemService, 'save').and.callThrough();
-    spyOn(messageService, 'add').and.callThrough();
-    spyOn(organizationItemService, 'launchDetails').and.callThrough();
+    vi.spyOn(organizationItemService, 'save');
+    vi.spyOn(messageService, 'add');
+    vi.spyOn(organizationItemService, 'launchDetails');
 
     key$.next('key');
     component.save(form);
@@ -86,9 +93,9 @@ describe('FormComponent', () => {
 
   it('should save an created item and notify', () => {
     const form = new UntypedFormGroup({});
-    spyOn(organizationItemService, 'save').and.callThrough();
-    spyOn(messageService, 'add').and.callThrough();
-    spyOn(organizationItemService, 'launchDetails').and.callThrough();
+    vi.spyOn(organizationItemService, 'save');
+    vi.spyOn(messageService, 'add');
+    vi.spyOn(organizationItemService, 'launchDetails');
 
     key$.next(undefined);
     component.save(form);
@@ -107,11 +114,11 @@ describe('FormComponent', () => {
 
   describe('when loading of the created item has failed', () => {
     beforeEach(() => {
-      spyOn(organizationItemService, 'save').and.returnValue(
+      vi.spyOn(organizationItemService, 'save').mockReturnValue(
         of({ status: LoadStatus.ERROR, item: mockItem })
       );
-      spyOn(messageService, 'add').and.callThrough();
-      spyOn(organizationItemService, 'launchDetails').and.callThrough();
+      vi.spyOn(messageService, 'add');
+      vi.spyOn(organizationItemService, 'launchDetails');
     });
 
     it('should not launch details for not created item', () => {
@@ -133,11 +140,11 @@ describe('FormComponent', () => {
 
   describe('when loading of the updated item has failed', () => {
     beforeEach(() => {
-      spyOn(organizationItemService, 'save').and.returnValue(
+      vi.spyOn(organizationItemService, 'save').mockReturnValue(
         of({ status: LoadStatus.ERROR, item: mockItem })
       );
-      spyOn(messageService, 'add').and.callThrough();
-      spyOn(organizationItemService, 'launchDetails').and.callThrough();
+      vi.spyOn(messageService, 'add');
+      vi.spyOn(organizationItemService, 'launchDetails');
     });
 
     it('should not launch details for not updated item', () => {

@@ -34,8 +34,7 @@ describe('OpfPaymentMethodDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OpfPaymentMethodDetailsComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, OpfPaymentMethodDetailsComponent],
       providers: [
         { provide: TranslationService, useValue: translationServiceMock },
         {
@@ -104,11 +103,5 @@ describe('OpfPaymentMethodDetailsComponent', () => {
     const result = component.isPaymentMethodDetailsInfoPresent(order);
 
     expect(result).toBeFalsy();
-  });
-
-  it('should unsubscribe from subscription on component destruction', () => {
-    spyOn(component['subscription'], 'unsubscribe');
-    component.ngOnDestroy();
-    expect(component['subscription'].unsubscribe).toHaveBeenCalled();
   });
 });

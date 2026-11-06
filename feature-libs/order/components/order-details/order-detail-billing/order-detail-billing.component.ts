@@ -1,17 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { PaymentDetails, TranslationService } from '@spartacus/core';
 import {
   Order,
   billingAddressCard,
   paymentMethodCard,
 } from '@spartacus/order/root';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent, OutletModule } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
@@ -20,12 +22,12 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-detail-billing',
   templateUrl: './order-detail-billing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, CardComponent, AsyncPipe, OutletModule],
 })
 export class OrderDetailBillingComponent {
   order$: Observable<Order | undefined> =
     this.orderDetailsService.getOrderDetails();
-
+  readonly cartOutlets = CartOutlets;
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected translationService: TranslationService

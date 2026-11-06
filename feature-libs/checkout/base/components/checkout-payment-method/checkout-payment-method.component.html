@@ -1,14 +1,4 @@
-<section
-  *ngIf="
-    featureConfigService?.isEnabled('a11yCheckoutStepsLandmarks');
-    else content
-  "
-  [attr.aria-label]="'paymentForm.payment' | cxTranslate"
->
-  <ng-template [ngTemplateOutlet]="content"></ng-template>
-</section>
-
-<ng-template #content>
+<section [attr.aria-label]="'paymentForm.payment' | cxTranslate">
   <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'paymentForm.payment' | cxTranslate }}
   </h2>
@@ -20,8 +10,7 @@
           then hasExistingPaymentMethods;
           else newPaymentForm
         "
-      >
-      </ng-container>
+      />
     </ng-container>
 
     <ng-template #hasExistingPaymentMethods>
@@ -31,6 +20,15 @@
 
       <div class="cx-checkout-btns cx-checkout-btns-top">
         <button
+          *cxFeature="'a11yImproveCheckoutFocus'"
+          [cxFocus]="{ autofocus: true }"
+          class="btn btn-block btn-secondary"
+          (click)="showNewPaymentForm()"
+        >
+          {{ 'paymentForm.addNewPayment' | cxTranslate }}
+        </button>
+        <button
+          *cxFeature="'!a11yImproveCheckoutFocus'"
           class="btn btn-block btn-secondary"
           (click)="showNewPaymentForm()"
         >
@@ -53,7 +51,7 @@
               [content]="card.content"
               [index]="i"
               (sendCard)="selectPaymentMethod(card.paymentMethod)"
-            ></cx-card>
+            />
           </div>
         </div>
       </div>
@@ -92,15 +90,15 @@
         (goBack)="back()"
         [paymentMethodsCount]="cards?.length || 0"
         [setAsDefaultField]="!isGuestCheckout && !!cards?.length"
-        [loading]="isUpdating$ | async"
+        [loading]="(isUpdating$ | async) ?? false"
         [paymentDetails]="paymentDetails"
-      ></cx-payment-form>
+      />
     </ng-template>
   </ng-container>
-</ng-template>
+</section>
 
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>

@@ -1,17 +1,29 @@
-import { Component, Input } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { DeliveryMode } from '@spartacus/cart/base/root';
-import { Address, Country, I18nTestingModule } from '@spartacus/core';
+import {
+  Address,
+  Country,
+  CxDatePipe,
+  FeatureToggles,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
   Card,
+  CardComponent,
   OutletContextData,
   OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
-import createSpy = jasmine.createSpy;
+
+// Mock pipes
 
 const mockCountry: Country = {
   isocode: 'JP',
@@ -30,7 +42,7 @@ const mockAddress: Address = {
 };
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  getOrderDetails = createSpy().and.returnValue(
+  getOrderDetails = vi.fn().mockReturnValue(
     of({
       entries: [
         {
@@ -47,7 +59,7 @@ class MockOrderFacade implements Partial<OrderFacade> {
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, PromotionsModule, OutletModule],
 })
 class MockCardComponent {
   @Input()
@@ -60,15 +72,35 @@ class MockCardComponent {
   index: number;
 }
 
+@Directive({
+  selector: '[cxAbstractOrderContext]',
+})
+class MockAbstractOrderContextDirective {}
+
 describe('OrderConfirmationShippingComponent', () => {
   let component: OrderConfirmationShippingComponent;
   let fixture: ComponentFixture<OrderConfirmationShippingComponent>;
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule, OutletModule],
-      declarations: [OrderConfirmationShippingComponent, MockCardComponent],
       providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+    }).overrideComponent(OrderConfirmationShippingComponent, {
+      remove: {
+        imports: [
+          TranslatePipe,
+          CxDatePipe,
+          CardComponent,
+          AbstractOrderContextDirective,
+        ],
+      },
+      add: {
+        imports: [
+          MockTranslatePipe,
+          MockDatePipe,
+          MockCardComponent,
+          MockAbstractOrderContextDirective,
+        ],
+      },
     });
   }
 
@@ -128,7 +160,7 @@ describe('OrderConfirmationShippingComponent', () => {
 
   describe('use Order with different deliveryPointOfService value', () => {
     class MockOrderFacade implements Partial<OrderFacade> {
-      getOrderDetails = createSpy().and.returnValue(
+      getOrderDetails = vi.fn().mockReturnValue(
         of({
           entries: [
             {
@@ -144,9 +176,29 @@ describe('OrderConfirmationShippingComponent', () => {
     }
     function configureTestingModule(): TestBed {
       return TestBed.configureTestingModule({
-        imports: [I18nTestingModule, PromotionsModule, OutletModule],
-        declarations: [OrderConfirmationShippingComponent, MockCardComponent],
+        imports: [
+          PromotionsModule,
+          OutletModule,
+          OrderConfirmationShippingComponent,
+        ],
         providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+      }).overrideComponent(OrderConfirmationShippingComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CardComponent,
+            AbstractOrderContextDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCardComponent,
+            MockAbstractOrderContextDirective,
+          ],
+        },
       });
     }
     beforeEach(() => {
@@ -166,9 +218,18 @@ describe('OrderConfirmationShippingComponent', () => {
     });
 
     beforeEach(() => {
-      configureTestingModule().overrideProvider(OutletContextData, {
-        useValue: { context$ },
-      });
+      configureTestingModule()
+        .overrideComponent(OrderConfirmationShippingComponent, {
+          remove: {
+            imports: [TranslatePipe, CxDatePipe, CardComponent],
+          },
+          add: {
+            imports: [MockTranslatePipe, MockDatePipe, MockCardComponent],
+          },
+        })
+        .overrideProvider(OutletContextData, {
+          useValue: { context$ },
+        });
       TestBed.compileComponents();
       stubSeviceAndCreateComponent();
     });
@@ -181,6 +242,48 @@ describe('OrderConfirmationShippingComponent', () => {
       component.order$.subscribe((value) =>
         expect(value).toEqual({ code: 'test' })
       );
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    const mockFeatureToggles: Partial<FeatureToggles> = {
+      addTitleToAddressCard: false,
+    };
+    const mockAddressWithTitle: Address = {
+      ...mockAddress,
+      title: 'Dr.',
+    };
+
+    beforeEach(() => {
+      mockFeatureToggles.addTitleToAddressCard = false;
+      configureTestingModule().overrideProvider(FeatureToggles, {
+        useValue: mockFeatureToggles,
+      });
+      stubSeviceAndCreateComponent();
+    });
+
+    it('should not prefix the title when the toggle is OFF', async () => {
+      mockFeatureToggles.addTitleToAddressCard = false;
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+      );
+      expect(card.textBold).toEqual('John Doe');
+    });
+
+    it('should prefix the title when the toggle is ON and the address has a title', async () => {
+      mockFeatureToggles.addTitleToAddressCard = true;
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockAddressWithTitle, 'Canada')
+      );
+      expect(card.textBold).toEqual('Dr. John Doe');
+    });
+
+    it('should not prefix the title when the toggle is ON but the address has no title', async () => {
+      mockFeatureToggles.addTitleToAddressCard = true;
+      const card = await firstValueFrom(
+        component.getDeliveryAddressCard(mockAddress, 'Canada')
+      );
+      expect(card.textBold).toEqual('John Doe');
     });
   });
 });

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -125,7 +125,6 @@ function verifyCarouselItemRendered(
 function verifyCarouselItemsRendered(
   $merchandisingCarousel: JQuery<HTMLElement>
 ): void {
-  cy.wait(5000);
   cy.wrap($merchandisingCarousel)
     .get('.item')
     .should('have.length', STRATEGY_RESPONSE.products.length)

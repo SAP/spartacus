@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 import { testProductListUrl, verifyTabbingOrder } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
 import { TabElement } from '../tabbing-order.model';
+import { cmsEndpoints } from '../../cms-endpoints';
 
 const containerSelector = '.ProductListPageTemplate';
 
@@ -28,7 +29,7 @@ export function productListTabbingOrderMobile(config: TabElement[]) {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/${cmsEndpoints.components}`,
   }).as('getComponents');
 
   cy.visit(testProductListUrl);
@@ -49,7 +50,7 @@ export function productListTabbingOrderMobileFilters(config: TabElement[]) {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/${cmsEndpoints.components}`,
   }).as('getComponents');
 
   cy.visit(testProductListUrl);

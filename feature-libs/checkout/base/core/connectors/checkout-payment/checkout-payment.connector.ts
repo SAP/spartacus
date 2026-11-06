@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,13 @@ export class CheckoutPaymentConnector {
     paymentDetailsId: string
   ): Observable<unknown> {
     return this.adapter.setPaymentDetails(userId, cartId, paymentDetailsId);
+  }
+
+  public deletePaymentDetails(
+    userId: string,
+    cartId: string
+  ): Observable<unknown> {
+    return this.adapter.deletePaymentDetails(userId, cartId);
   }
 
   getPaymentCardTypes(): Observable<CardType[]> {

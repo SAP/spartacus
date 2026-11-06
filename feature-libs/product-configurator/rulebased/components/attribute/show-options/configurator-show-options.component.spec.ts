@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ConfiguratorShowOptionsComponent } from './configurator-show-options.component';
-import { I18nTestingModule } from '@spartacus/core';
-import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
-import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { By } from '@angular/platform-browser';
+import { I18nTestingModule } from '@spartacus/core';
 import { getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorShowOptionsComponent } from './configurator-show-options.component';
 
 class MockConfiguratorCommonsService {
   readAttributeDomain() {}
@@ -19,6 +19,9 @@ class MockConfiguratorCommonsService {
 class MockConfiguratorStorefrontUtilsService {
   focusFirstActiveElement() {}
   createAttributeUiKey() {}
+  idSelector(id: string): string {
+    return '#' + id;
+  }
 }
 
 describe('ConfiguratorShowOptionsComponent', () => {
@@ -30,8 +33,7 @@ describe('ConfiguratorShowOptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ConfiguratorShowOptionsComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, ConfiguratorShowOptionsComponent],
       providers: [
         {
           provide: ConfiguratorCommonsService,
@@ -48,7 +50,7 @@ describe('ConfiguratorShowOptionsComponent', () => {
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
     );
-    spyOn(configuratorCommonsService, 'readAttributeDomain');
+    vi.spyOn(configuratorCommonsService, 'readAttributeDomain');
     fixture = TestBed.createComponent(ConfiguratorShowOptionsComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -88,14 +90,11 @@ describe('ConfiguratorShowOptionsComponent', () => {
           a: false,
           b: true,
         });
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(configurationLoading);
-        spyOn(
-          configuratorStorefrontUtilsService,
-          'focusFirstActiveElement'
-        ).and.callThrough();
+        ).mockReturnValue(configurationLoading);
+        vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
         component['focusFirstValue']();
         flush();
         expect(

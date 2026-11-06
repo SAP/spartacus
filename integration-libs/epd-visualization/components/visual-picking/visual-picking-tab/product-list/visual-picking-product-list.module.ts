@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,9 @@ import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-car
 import { PagedListModule } from './paged-list/paged-list.module';
 import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -30,8 +33,8 @@ import { VisualPickingProductListComponent } from './visual-picking-product-list
     UrlModule,
     I18nModule,
     CompactAddToCartModule,
+    VisualPickingProductListComponent,
   ],
-  declarations: [VisualPickingProductListComponent],
   exports: [VisualPickingProductListComponent],
 })
 export class VisualPickingProductListModule {}

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,6 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
   isNotUndefined,
   StateUtils,
   UserIdService,
@@ -33,7 +32,6 @@ import { MultiCartSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class MultiCartService implements MultiCartFacade {
-  private featureConfigService = inject(FeatureConfigService);
   protected windowRef = inject(WindowRef);
 
   constructor(
@@ -157,30 +155,14 @@ export class MultiCartService implements MultiCartFacade {
     };
   }) {
     const tempCartId = this.generateTempCartId();
-    if (
-      this.featureConfigService.isEnabled(
-        'incrementProcessesCountForMergeCart'
-      ) ||
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
-    ) {
-      this.store.dispatch(
-        new CartActions.MergeCartAndIncrementProcessesCount({
-          userId,
-          cartId,
-          extraData,
-          tempCartId,
-        })
-      );
-    } else {
-      this.store.dispatch(
-        new CartActions.MergeCart({
-          userId,
-          cartId,
-          extraData,
-          tempCartId,
-        })
-      );
-    }
+    this.store.dispatch(
+      new CartActions.MergeCartAndIncrementProcessesCount({
+        userId,
+        cartId,
+        extraData,
+        tempCartId,
+      })
+    );
   }
 
   /**

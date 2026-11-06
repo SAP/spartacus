@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ export function getApparelCheckoutUser() {
     firstName: 'Cypress',
     lastName: 'Customer',
     fullName: 'Cypress Customer',
+    addressName: 'Mr. Cypress Customer',
     password: 'Pw4al!l.',
     email: generateMail(randomString(), true),
     phone: '44 7911 123456',

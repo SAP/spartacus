@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,19 +12,19 @@ import {
   inject,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
+import { PromotionsComponent } from '@spartacus/storefront';
 import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'cx-checkout-review-overview',
   templateUrl: './checkout-review-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, PromotionsComponent, AsyncPipe, TranslatePipe],
 })
 export class CheckoutReviewOverviewComponent implements AfterViewInit {
   protected document = inject(DOCUMENT, { optional: true });
   protected translationService = inject(TranslationService, { optional: true });
-  private featureService = inject(FeatureConfigService, { optional: true });
 
   // These are the components that we need to wrap with section element.
   protected readonly CHECKOUT_COMPONENTS = [
@@ -52,11 +52,7 @@ export class CheckoutReviewOverviewComponent implements AfterViewInit {
    * CMS-driven (ie. by page slot).
    */
   protected wrapComponentsWithSectionEl() {
-    if (
-      this.document &&
-      this.translationService &&
-      this.featureService?.isEnabled('a11yWrapReviewOrderInSection')
-    ) {
+    if (this.document && this.translationService) {
       this.translationService
         .translate('checkoutReview.reviewOrder')
         .pipe(take(1))

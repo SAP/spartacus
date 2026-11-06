@@ -1,15 +1,16 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  CxNumericPipe,
+  I18nTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorPriceComponent } from './configurator-price.component';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorPriceComponent } from './configurator-price.component';
 
-@Pipe({
-  name: 'cxNumeric',
-  standalone: false,
-})
+@Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
@@ -40,27 +41,33 @@ describe('ConfiguratorPriceComponent', () => {
   let htmlElem: HTMLElement;
   let directionService: DirectionService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ConfiguratorPriceComponent, MockNumericPipe],
-      imports: [I18nTestingModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorPriceComponent],
       providers: [
         {
           provide: DirectionService,
           useClass: MockDirectionService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ConfiguratorPriceComponent, {
+        remove: {
+          imports: [CxNumericPipe, TranslatePipe],
+        },
+        add: {
+          imports: [MockNumericPipe, I18nTestingModule],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPriceComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
-    directionService = TestBed.inject(
-      DirectionService as Type<DirectionService>
-    );
+    directionService = TestBed.inject(DirectionService);
   });
 
   it('should be created', () => {
@@ -69,7 +76,7 @@ describe('ConfiguratorPriceComponent', () => {
 
   describe('Display quantity', () => {
     beforeEach(() => {
-      spyOn(directionService, 'getDirection').and.returnValue(
+      vi.spyOn(directionService, 'getDirection').mockReturnValue(
         DirectionMode.LTR
       );
     });
@@ -101,7 +108,7 @@ describe('ConfiguratorPriceComponent', () => {
 
   describe('Display value price', () => {
     beforeEach(() => {
-      spyOn(directionService, 'getDirection').and.returnValue(
+      vi.spyOn(directionService, 'getDirection').mockReturnValue(
         DirectionMode.LTR
       );
     });
@@ -190,7 +197,7 @@ describe('ConfiguratorPriceComponent', () => {
 
   describe('Display total price', () => {
     beforeEach(() => {
-      spyOn(directionService, 'getDirection').and.returnValue(
+      vi.spyOn(directionService, 'getDirection').mockReturnValue(
         DirectionMode.LTR
       );
     });
@@ -255,7 +262,7 @@ describe('ConfiguratorPriceComponent', () => {
 
   describe('isPriceLightedUp', () => {
     beforeEach(() => {
-      spyOn(directionService, 'getDirection').and.returnValue(
+      vi.spyOn(directionService, 'getDirection').mockReturnValue(
         DirectionMode.LTR
       );
     });
@@ -279,7 +286,7 @@ describe('ConfiguratorPriceComponent', () => {
 
   describe('LTR direction', () => {
     beforeEach(() => {
-      spyOn(directionService, 'getDirection').and.returnValue(
+      vi.spyOn(directionService, 'getDirection').mockReturnValue(
         DirectionMode.LTR
       );
     });
@@ -315,7 +322,7 @@ describe('ConfiguratorPriceComponent', () => {
 
   describe('RTL direction', () => {
     beforeEach(() => {
-      spyOn(directionService, 'getDirection').and.returnValue(
+      vi.spyOn(directionService, 'getDirection').mockReturnValue(
         DirectionMode.RTL
       );
     });
@@ -367,7 +374,7 @@ describe('ConfiguratorPriceComponent', () => {
 
   describe('Accessibility', () => {
     beforeEach(() => {
-      spyOn(directionService, 'getDirection').and.returnValue(
+      vi.spyOn(directionService, 'getDirection').mockReturnValue(
         DirectionMode.LTR
       );
     });

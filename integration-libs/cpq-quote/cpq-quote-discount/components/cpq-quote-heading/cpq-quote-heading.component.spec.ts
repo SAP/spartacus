@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CpqQuoteHeadingComponent } from './cpq-quote-heading.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
+import { CpqQuoteHeadingComponent } from './cpq-quote-heading.component';
 
 describe('CpqQuoteHeadingComponent', () => {
   let component: CpqQuoteHeadingComponent;
@@ -10,11 +10,11 @@ describe('CpqQuoteHeadingComponent', () => {
   let mockOutletContextData: BehaviorSubject<any[]>;
   let translationService: TranslationService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockOutletContextData = new BehaviorSubject<any[]>([]);
 
     TestBed.configureTestingModule({
-      declarations: [CpqQuoteHeadingComponent],
+      imports: [CpqQuoteHeadingComponent],
       providers: [
         {
           provide: TranslationService,
@@ -26,7 +26,7 @@ describe('CpqQuoteHeadingComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteHeadingComponent);
@@ -60,14 +60,17 @@ describe('CpqQuoteHeadingComponent', () => {
   });
 
   it('should unsubscribe from subscriptions on ngOnDestroy', () => {
-    spyOn(component, 'ngOnDestroy').and.callThrough();
+    vi.spyOn(component, 'ngOnDestroy');
     component.ngOnDestroy();
     expect(component['subscription'].closed).toBe(true);
   });
 
   it('should set flag in cpqQuoteService based on cpqDiscounts availability', () => {
     // Mock cpqQuoteService
-    const cpqQuoteServiceSpy = spyOn(component['cpqQuoteService'], 'setFlag');
+    const cpqQuoteServiceSpy = vi.spyOn(
+      component['cpqQuoteService'],
+      'setFlag'
+    );
     mockOutletContextData.next([{ cpqDiscounts: ['discount1', 'discount2'] }]);
     expect(cpqQuoteServiceSpy).toHaveBeenCalledWith(false);
     mockOutletContextData.next([]);

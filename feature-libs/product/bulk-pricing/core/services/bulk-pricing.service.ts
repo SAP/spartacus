@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,7 +70,7 @@ export class BulkPricingService {
     const tierPrice: number | undefined = bulkPriceTemplate.value;
 
     if (tierPrice && basePrice) {
-      const discount = Math.round(100.0 - (tierPrice / basePrice) * 100);
+      const discount = Math.round(100 - (tierPrice / basePrice) * 100);
       const formatted = discount === 0 ? `${discount}%` : `-${discount}%`;
       bulkPrice.formattedDiscount = formatted;
       bulkPrice.discount = discount;

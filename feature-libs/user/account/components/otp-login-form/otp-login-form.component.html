@@ -1,7 +1,6 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async" />
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <cx-form-required-legend />
   <label>
     <span class="label-content">
@@ -19,10 +18,7 @@
       "
       [attr.aria-errormessage]="'userIdError'"
     />
-    <cx-form-errors
-      id="userIdError"
-      [control]="form.get('userId')"
-    ></cx-form-errors>
+    <cx-form-errors id="userIdError" [control]="form.get('userId')" />
   </label>
 
   <label>
@@ -43,10 +39,7 @@
       [attr.aria-errormessage]="'passwordError'"
       cxPasswordVisibilitySwitch
     />
-    <cx-form-errors
-      id="passwordError"
-      [control]="form.get('password')"
-    ></cx-form-errors>
+    <cx-form-errors id="passwordError" [control]="form.get('password')" />
   </label>
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">

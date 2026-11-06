@@ -6,23 +6,19 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { PaginationModel } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { PaginationModel, TranslatePipe } from '@spartacus/core';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+} from '@spartacus/storefront';
 import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history-filter.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -30,7 +26,7 @@ class MockTranslatePipe implements PipeTransform {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
+  imports: [ReactiveFormsModule],
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -40,7 +36,7 @@ class MockPaginationComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -64,21 +60,28 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     filters: '',
   };
 
-  beforeEach(fakeAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [
-        UnitLevelOrderHistoryFilterComponent,
-        MockTranslatePipe,
-        MockPaginationComponent,
-        MockCxIconComponent,
-      ],
-      imports: [ReactiveFormsModule],
-    }).compileComponents();
+      imports: [ReactiveFormsModule, UnitLevelOrderHistoryFilterComponent],
+    })
+      .overrideComponent(UnitLevelOrderHistoryFilterComponent, {
+        remove: {
+          imports: [TranslatePipe, PaginationComponent, IconComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockPaginationComponent,
+            MockCxIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UnitLevelOrderHistoryFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -86,8 +89,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
   describe('desktop view', () => {
     it('should emit buyer when filtered by buyer', () => {
-      const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
-      spyOn(component.filterListEvent, 'emit');
+      const spy = vi.spyOn(component, 'searchUnitLevelOrders');
+      vi.spyOn(component.filterListEvent, 'emit');
 
       const searchBtn = fixture.debugElement.query(
         By.css('#searchUnitLevelOrdersBtn')
@@ -117,8 +120,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should emit unit when filtered by unit', () => {
-      const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
-      spyOn(component.filterListEvent, 'emit');
+      const spy = vi.spyOn(component, 'searchUnitLevelOrders');
+      vi.spyOn(component.filterListEvent, 'emit');
 
       const searchBtn = fixture.debugElement.query(
         By.css('#searchUnitLevelOrdersBtn')
@@ -148,8 +151,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should emit a buyer and a unit when filtered by buyer and unit', () => {
-      const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
-      spyOn(component.filterListEvent, 'emit');
+      const spy = vi.spyOn(component, 'searchUnitLevelOrders');
+      vi.spyOn(component.filterListEvent, 'emit');
 
       const searchBtn = fixture.debugElement.query(
         By.css('#searchUnitLevelOrdersBtn')
@@ -179,7 +182,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should clear all of the filtered values when clearAll button is clicked', () => {
-      const spy = spyOn(component, 'clearAll').and.callThrough();
+      const spy = vi.spyOn(component, 'clearAll');
       const clearbtn = fixture.debugElement.query(By.css('#clearAllBtn'));
       const form = component.filterForm;
       form.patchValue({
@@ -194,8 +197,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should clear the unit value when x button in the unit-input field is clicked', () => {
-      const spy = spyOn(component, 'clearUnit').and.callThrough();
-      spyOn(component.filterListEvent, 'emit');
+      const spy = vi.spyOn(component, 'clearUnit');
+      vi.spyOn(component.filterListEvent, 'emit');
 
       const form = component.filterForm;
       form.patchValue({
@@ -223,8 +226,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should clear the buyer value when x button in the buyer-input field is clicked', () => {
-      const spy = spyOn(component, 'clearBuyer').and.callThrough();
-      spyOn(component.filterListEvent, 'emit');
+      const spy = vi.spyOn(component, 'clearBuyer');
+      vi.spyOn(component.filterListEvent, 'emit');
 
       const form = component.filterForm;
       form.patchValue({
@@ -252,7 +255,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should emit the filter event', () => {
-      spyOn(component.filterListEvent, 'emit');
+      vi.spyOn(component.filterListEvent, 'emit');
 
       component.emitFilterEvent(GI, SERVICES);
       fixture.detectChanges();
@@ -265,11 +268,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
   describe('mobile view', () => {
     it('should emit a buyer value when filtered by a buyer', () => {
-      const spy = spyOn(
-        component,
-        'searchUnitLevelOrdersForMobile'
-      ).and.callThrough();
-      spyOn(component.filterListEvent, 'emit');
+      const spy = vi.spyOn(component, 'searchUnitLevelOrdersForMobile');
+      vi.spyOn(component.filterListEvent, 'emit');
 
       const form = component.filterFormMobile;
       form.patchValue({
@@ -296,11 +296,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should emit a unit value when filtered by a unit', () => {
-      const spy = spyOn(
-        component,
-        'searchUnitLevelOrdersForMobile'
-      ).and.callThrough();
-      spyOn(component.filterListEvent, 'emit');
+      const spy = vi.spyOn(component, 'searchUnitLevelOrdersForMobile');
+      vi.spyOn(component.filterListEvent, 'emit');
 
       const form = component.filterFormMobile;
       form.patchValue({
@@ -326,11 +323,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should emit a buyer and a unit value when filtered by buyer and unit', () => {
-      const spy = spyOn(
-        component,
-        'searchUnitLevelOrdersForMobile'
-      ).and.callThrough();
-      spyOn(component.filterListEvent, 'emit');
+      const spy = vi.spyOn(component, 'searchUnitLevelOrdersForMobile');
+      vi.spyOn(component.filterListEvent, 'emit');
 
       const form = component.filterFormMobile;
       form.patchValue({
@@ -356,32 +350,34 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should remove all of the filtered values when clicked on Remove Applied Filter button', () => {
-      const form = component.filterFormMobile;
-      form.patchValue({
-        buyerFilterMobile: GI,
-        unitFilterMobile: SERVICES,
-      });
-      spyOn(component, 'searchUnitLevelOrdersForMobile').and.callThrough();
-      component.searchUnitLevelOrdersForMobile();
-      fixture.detectChanges();
+      // Create a fresh fixture so buyerFilterMobileValue starts as 'gi' before
+      // the first detectChanges, avoiding NG0100 (value changed between cycles)
+      const freshFixture = TestBed.createComponent(
+        UnitLevelOrderHistoryFilterComponent
+      );
+      const freshComponent = freshFixture.componentInstance;
+      freshComponent['buyerFilterMobileValue'] = GI;
+      freshComponent['unitFilterMobileValue'] = SERVICES;
+      freshFixture.detectChanges();
 
-      const spy = spyOn(component, 'clearAll').and.callThrough();
-      fixture.debugElement
+      const spy = vi.spyOn(freshComponent, 'clearAll');
+      freshFixture.debugElement
         .query(By.css('#removeAppliedFiltersBtn'))
         .nativeElement.click();
 
-      fixture.detectChanges();
+      freshFixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(component.buyerFilterMobileId.nativeElement.value).toBe(
+      expect(freshComponent.buyerFilterMobileId.nativeElement.value).toBe(
         EMPTY_STRING
       );
-      expect(component.unitFilterMobileId.nativeElement.value).toBe(
+      expect(freshComponent.unitFilterMobileId.nativeElement.value).toBe(
         EMPTY_STRING
       );
     });
 
-    it('should clear unit value when clicked on x button in the searchByUnit field', fakeAsync(() => {
-      const spy = spyOn(component, 'clearUnitMobile').and.callThrough();
+    it('should clear unit value when clicked on x button in the searchByUnit field', async () => {
+      vi.useFakeTimers();
+      const spy = vi.spyOn(component, 'clearUnitMobile');
       const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: GI,
@@ -396,14 +392,16 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       );
 
       fixture.detectChanges();
-      tick();
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
       expect(spy).toHaveBeenCalled();
       expect(form.get(BUYER_FILTER_MOBILE)?.value).toBe(GI);
       expect(form.get(UNIT_FILTER_MOBILE)?.value).toBeNull();
-    }));
+    });
 
-    it('should clear buyer value when clicked on x button in the searchByBuyer field', fakeAsync(() => {
-      const spy = spyOn(component, 'clearBuyerMobile').and.callThrough();
+    it('should clear buyer value when clicked on x button in the searchByBuyer field', async () => {
+      vi.useFakeTimers();
+      const spy = vi.spyOn(component, 'clearBuyerMobile');
       const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: GI,
@@ -418,14 +416,15 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       );
 
       fixture.detectChanges();
-      tick();
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
       expect(spy).toHaveBeenCalled();
       expect(form.get(BUYER_FILTER_MOBILE)?.value).toBeNull();
       expect(form.get(UNIT_FILTER_MOBILE)?.value).toBe(SERVICES);
-    }));
+    });
 
     it('should call launchMobileFilters when filterBy button is clicked', () => {
-      const spy = spyOn(component, 'launchMobileFilters').and.callThrough();
+      const spy = vi.spyOn(component, 'launchMobileFilters');
       fixture.detectChanges();
       const filterByBtn = fixture.debugElement.query(By.css('#filterByBtn'));
       filterByBtn.nativeElement.click();
@@ -433,7 +432,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should call closeFilterNav when close button is clicked on nav', () => {
-      const spy = spyOn(component, 'closeFilterNav').and.callThrough();
+      const spy = vi.spyOn(component, 'closeFilterNav');
       fixture.detectChanges();
       const closeFilterNavBtn = fixture.debugElement.query(
         By.css('#closeFilterNavBtn')

@@ -1,0 +1,182 @@
+body.modal-open {
+  overflow: hidden;
+}
+
+%cx-dialog {
+  z-index: 11;
+  // could also be absolute
+  position: fixed;
+
+  > .inner {
+    background-color: var(--cx-color-background);
+    transition: transform 0.3s ease-in-out;
+  }
+  &.active {
+    > .inner {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
+%cx-modal {
+  @extend %cx-dialog;
+
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  transition: background-color 0.3s ease-in-out;
+  &.active {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > .inner {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+%cx-overlay {
+  @extend %cx-modal;
+  justify-content: start;
+  > .inner {
+    height: 100vh;
+    width: 50vw;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+%cx-facet-list {
+  .inner {
+    @include media-breakpoint-down(md) {
+      max-height: 100vh;
+      overflow: scroll;
+    }
+
+    padding-top: 0;
+    padding-inline-end: 10px;
+    padding-bottom: 10px;
+    padding-inline-start: 10px;
+
+    h4 {
+      position: sticky;
+      top: 0;
+      background: var(--cx-color-background);
+
+      padding: 0.4rem;
+      padding-top: 10px;
+
+      .close {
+        opacity: 1;
+        &:hover {
+          color: var(--cx-color-primary);
+        }
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      h4 {
+        display: none;
+      }
+    }
+
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.625rem 0.4rem 0 0.4rem;
+      h4 {
+        padding: 0;
+      }
+      .close {
+        opacity: 1;
+        &:hover {
+          color: var(--cx-color-primary);
+        }
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      .list-header {
+        display: none;
+      }
+
+      @include forFeature('a11yFacetFilterByLabel') {
+        .list-header {
+          display: flex;
+          h4 {
+            display: block;
+          }
+          button.close {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .cx-facet-list-footer {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    cx-tab {
+      .tab-btn {
+        @include type('6');
+        background: none;
+
+        &:after {
+          display: none;
+        }
+        border-bottom: 1px solid var(--cx-color-medium);
+        border-top: none;
+        padding-top: 1rem;
+        height: unset;
+
+        &:hover,
+        &:focus {
+          color: var(--cx-color-primary);
+          .tab-icon {
+            color: var(--cx-color-primary);
+          }
+        }
+
+        .tab-icon {
+          font-size: 25px;
+          font-weight: normal;
+          bottom: 6px;
+        }
+      }
+
+      .accordian {
+        div {
+          padding: 0;
+        }
+
+        cx-tab-panel {
+          .active {
+            padding: 8px 0;
+          }
+        }
+      }
+    }
+  }
+
+  &.dialog {
+    @extend %cx-modal;
+    > .inner {
+      width: 95vw;
+      height: 95%;
+    }
+  }
+
+  @include cx-highContrastTheme-dark {
+    .inner cx-tab .tab-btn {
+      color: var(--cx-color-text);
+    }
+  }
+}

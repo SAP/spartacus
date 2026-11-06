@@ -1,0 +1,48 @@
+%cx-global-message {
+  position: sticky;
+  display: block;
+  top: 0;
+  z-index: 2;
+
+  @include cx-highContrastTheme {
+    .alert-danger,
+    .alert-warning,
+    .alert-info,
+    .alert-success {
+      border: 1px solid var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+    .close {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+  }
+
+  @include forFeature('a11yIncreaseContastGlobalMessageCloseButton') {
+    .close {
+      opacity: 1;
+    }
+  }
+
+  @include forFeature('globalMessageCloseButtonPadding') {
+    .alert {
+      justify-content: space-between;
+      text-align: start;
+      padding-block-start: 1rem;
+      padding-block-end: 1rem;
+      padding-inline-start: 2.5rem;
+      padding-inline-end: 2.5rem;
+
+      .close {
+        position: static;
+        margin-inline-start: 1.5rem;
+        flex: 0 0 auto;
+        align-self: center;
+
+        &::before {
+          content: none;
+        }
+      }
+    }
+  }
+}

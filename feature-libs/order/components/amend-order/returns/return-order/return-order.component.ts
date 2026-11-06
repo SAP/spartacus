@@ -1,22 +1,32 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Observable, combineLatest } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-import { OrderAmendService } from '../../amend-order.service';
 import { Consignment } from '@spartacus/order/root';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { Observable, combineLatest, map, tap } from 'rxjs';
+import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
+import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
+import { OrderAmendService } from '../../amend-order.service';
 
 @Component({
   selector: 'cx-return-order',
   templateUrl: './return-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    CancelOrReturnItemsComponent,
+    FormErrorsComponent,
+    AmendOrderActionsComponent,
+    AsyncPipe,
+  ],
 })
 export class ReturnOrderComponent {
   orderCode: string;
@@ -36,7 +46,7 @@ export class ReturnOrderComponent {
     map(([entries, consignments]) => {
       // Flatten all consignment entries
       const consignmentEntries = consignments.flatMap(
-        (consignment) => consignment.entries || []
+        (consignment) => consignment.entries ?? []
       );
       return entries
         .map<OrderEntry | null>((entry) => {
@@ -48,7 +58,10 @@ export class ReturnOrderComponent {
           return consignmentEntry
             ? {
                 ...entry,
-                returnableQuantity: consignmentEntry.shippedQuantity ?? 0,
+                returnableQuantity:
+                  consignmentEntry.shippedQuantity ??
+                  entry.returnableQuantity ??
+                  0,
               }
             : null;
         })

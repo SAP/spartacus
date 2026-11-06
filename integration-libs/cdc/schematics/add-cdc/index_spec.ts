@@ -8,7 +8,6 @@ import {
   CDC_FEATURE_NAME,
   cdcFeatureModulePath,
   generateDefaultWorkspace,
-  LibraryOptions as SpartacusCdcOptions,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
   organizationAdministrationWrapperModulePath,
@@ -17,12 +16,14 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
+  LibraryOptions as SpartacusCdcOptions,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
   userAccountWrapperModulePath,
   userProfileWrapperModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
+import semver from 'semver';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -132,14 +133,18 @@ describe('Spartacus CDC schematics: ng-add', () => {
           ) {
             continue;
           }
-          // CXSPA-4872: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
-          // const expectedVersion = (peerDependencies as Record<
-          //   string,
-          //   string
-          // >)[toAdd];
-          const expectedDependency = dependencies[toAdd];
-          expect(expectedDependency).toBeTruthy();
-          // expect(expectedDependency).toEqual(expectedVersion);
+          const requiredVersion = (peerDependencies as Record<string, string>)[
+            toAdd
+          ]; // from `peerDependencies` in `integration-libs/cdc/package.json`
+          const installedVersion = dependencies[toAdd]; // version that `ng-add` schematic wrote into test app's package.json
+          expect(installedVersion).toBeTruthy();
+          const minRequiredVersion =
+            semver.minVersion(requiredVersion)?.version ?? '';
+          expect(
+            semver.intersects(minRequiredVersion, installedVersion, {
+              includePrerelease: true,
+            })
+          ).toEqual(true);
         }
       });
       it('should add the feature using the lazy loading syntax', async () => {

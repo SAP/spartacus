@@ -26,7 +26,7 @@
               placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
               [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
               ariaControls="replenishment-order-history-table"
-            ></cx-sorting>
+            />
           </label>
           <div
             class="cx-replenishment-order-history-pagination"
@@ -36,7 +36,7 @@
               [pagination]="replenishmentOrders.pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-top"
-            ></cx-pagination>
+            />
           </div>
         </div>
         <!-- TABLE -->
@@ -50,50 +50,7 @@
               'orderHistory.orderHistory' | cxTranslate
             }}
           </caption>
-          <thead
-            *cxFeature="'!a11yTableHeaderReadout'"
-            class="cx-replenishment-order-history-thead-mobile"
-          >
-            <th scope="col">
-              <span class="cx-replenishment-order-history-ellipses">
-                {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
-              </span>
-            </th>
-            <th scope="col">
-              <span class="cx-replenishment-order-history-ellipses">
-                {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
-              </span>
-            </th>
-            <th scope="col">
-              <span class="cx-replenishment-order-history-ellipses">
-                {{ 'orderHistory.startOn' | cxTranslate }}
-              </span>
-            </th>
-            <th scope="col">
-              <span class="cx-replenishment-order-history-ellipses">
-                {{ 'orderHistory.frequency' | cxTranslate }}
-              </span>
-            </th>
-            <th scope="col">
-              <span class="cx-replenishment-order-history-ellipses">
-                {{ 'orderHistory.nextOrderDate' | cxTranslate }}
-              </span>
-            </th>
-            <th scope="col" class="cx-replenishment-order-history-total">
-              <span class="cx-replenishment-order-history-ellipses">
-                {{ 'orderHistory.total' | cxTranslate }}
-              </span>
-            </th>
-            <th scope="col">
-              <span class="cx-replenishment-order-history-ellipses">
-                {{ 'orderHistory.actions' | cxTranslate }}
-              </span>
-            </th>
-          </thead>
-          <thead
-            *cxFeature="'a11yTableHeaderReadout'"
-            class="cx-replenishment-order-history-thead-mobile"
-          >
+          <thead class="cx-replenishment-order-history-thead-mobile">
             <tr>
               <th role="columnheader" scope="col" aria-sort="none">
                 <span class="cx-replenishment-order-history-ellipses">
@@ -276,7 +233,7 @@
               (viewPageEvent)="pageChange($event)"
               *ngIf="replenishmentOrders.pagination.totalPages > 1"
               paginationID="pagination-bottom"
-            ></cx-pagination>
+            />
           </div>
         </div>
       </ng-container>

@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,16 +12,33 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { MediaComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { CompactAddToCartComponent } from './compact-add-to-cart/compact-add-to-cart.component';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
+import { PagedListComponent } from './paged-list/paged-list.component';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-product-list',
   templateUrl: './visual-picking-product-list.component.html',
   providers: [VisualPickingProductListService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    PagedListComponent,
+    NgIf,
+    MediaComponent,
+    RouterLink,
+    CompactAddToCartComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class VisualPickingProductListComponent implements OnInit {
   constructor(
@@ -30,7 +48,7 @@ export class VisualPickingProductListComponent implements OnInit {
   @Input() title: string;
   @Input() singleSelection = true;
 
-  @Input('selectedProductCodes')
+  @Input()
   set selectedProductCodes(selectedProductCodes: string[]) {
     this.visualPickingProductListService.selectedProductCodes =
       selectedProductCodes;

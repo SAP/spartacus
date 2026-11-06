@@ -1,12 +1,12 @@
-import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import {
-  IconTestingModule,
-  KeyboardFocusTestingModule,
+  FocusDirective,
+  IconComponent,
+  MockIconComponent,
+  MockKeyboardFocusDirective,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import { ClearCartDialogComponent } from './clear-cart-dialog.component';
 
@@ -24,20 +24,25 @@ describe('ClearCartDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        I18nTestingModule,
-        KeyboardFocusTestingModule,
-        IconTestingModule,
-      ],
-      declarations: [ClearCartDialogComponent, MockFeatureDirective],
+      imports: [ClearCartDialogComponent],
       providers: [
         {
           provide: ClearCartDialogComponentService,
           useClass: MockClearCartService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ClearCartDialogComponent, {
+        remove: { imports: [TranslatePipe, FocusDirective, IconComponent] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockKeyboardFocusDirective,
+            MockIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     clearCartService = TestBed.inject(ClearCartDialogComponentService);
   });
@@ -53,7 +58,7 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should trigger clear cart', () => {
-    spyOn(clearCartService, 'deleteActiveCart');
+    vi.spyOn(clearCartService, 'deleteActiveCart');
 
     const clearBtn = fixture.debugElement.query(
       By.css('.btn-primary')
@@ -65,7 +70,7 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should close dialog on cancel', () => {
-    spyOn(clearCartService, 'closeDialog');
+    vi.spyOn(clearCartService, 'closeDialog');
     const clearBtn = fixture.debugElement.query(
       By.css('.btn-secondary')
     ).nativeElement;
@@ -76,7 +81,7 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should close dialog on cross click', () => {
-    spyOn(clearCartService, 'closeDialog');
+    vi.spyOn(clearCartService, 'closeDialog');
     const clearBtn = fixture.debugElement.query(By.css('.close')).nativeElement;
 
     clearBtn.click();

@@ -13,6 +13,9 @@ It can also:
 - Install Spartacus in SSR mode
 
 ## Preparing setup
+
+> **Note:** If you only need to test already-published npm libraries, skip to [Installing with the latest npm libraries](#installing-with-the-latest-npm-libraries).
+
 - Install verdaccio `$ npm i -g verdaccio@4` (only for the first time)
 - Run it: `$ verdaccio` in one terminal
 - Create an npm user in another terminal (when verdaccio is running): `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once.

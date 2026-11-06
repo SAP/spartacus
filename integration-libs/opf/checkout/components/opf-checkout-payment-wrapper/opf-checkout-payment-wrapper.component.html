@@ -7,8 +7,7 @@
       !paymentLink?.isLoading ? paymentData : noPaymentData;
       context: { paymentLink: paymentLink }
     "
-  >
-  </ng-container>
+  />
 </div>
 
 <ng-template #paymentData let-paymentLink="paymentLink">
@@ -39,6 +38,9 @@
       >
         <iframe
           class="cx-payment-iframe"
+          [cxOpfSandbox]="
+            getIframeSandbox(paymentLink?.paymentOptionId || selectedPaymentId)
+          "
           [src]="bypassSecurityTrustResourceUrl(paymentLink.destination?.url)"
         ></iframe>
       </ng-container>
@@ -46,10 +48,24 @@
         *ngIf="paymentLink?.destination?.form?.length"
         class="cx-payment-link"
       >
+        <iframe
+          *ngIf="paymentLink.renderType === RENDER_PATTERN.IFRAME"
+          class="cx-payment-iframe"
+          name="cx-payment-iframe"
+          [cxOpfSandbox]="
+            getIframeSandbox(paymentLink?.paymentOptionId || selectedPaymentId)
+          "
+        ></iframe>
         <form
           [action]="paymentLink.destination?.url"
           [method]="paymentLink.destination?.method"
           [enctype]="paymentLink.destination?.contentType"
+          [target]="
+            paymentLink.renderType === RENDER_PATTERN.FULL_PAGE
+              ? '_self'
+              : this.PAYMENT_IFRAME_NAME
+          "
+          #paymentForm
         >
           <fieldset>
             <input
@@ -60,6 +76,7 @@
             />
           </fieldset>
           <input
+            *ngIf="paymentLink.renderType === RENDER_PATTERN.FULL_PAGE"
             class="btn btn-primary"
             type="submit"
             [value]="'opfCheckout.proceedPayment' | cxTranslate"
@@ -91,6 +108,6 @@
   </ng-container>
 
   <ng-template #loading>
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </ng-template>
 </ng-template>

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,7 +51,7 @@ Cypress.Commands.add(
       if (Cypress.env('OCC_PREFIX_USER_ENDPOINT') !== 'users') {
         return cy.request({
           method: 'POST',
-          url: `${Cypress.env('API_URL')}/${Cypress.env(
+          url: `${Cypress.env('API_URL')}${Cypress.env(
             'OCC_PREFIX'
           )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
             'OCC_PREFIX_USER_ENDPOINT'

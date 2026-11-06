@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 import * as configuration from './product-configurator';
 import * as common from './common';
 import { registerCartRefreshRoute, removeCartItem } from './cart';
+import { cmsEndpoints } from './cms-endpoints';
 
 const addToCartButtonSelector =
   'cx-configurator-add-to-cart-button button.cx-add-to-cart-btn';
@@ -14,7 +15,10 @@ const addToCartButtonSelector =
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
   'cx-configurator-group-menu .cx-menu-conflict';
-
+/**
+ * Alias used for reading CMS pages
+ */
+export const CMS_PAGES_ALIAS = '@cmsPages';
 /**
  * Alias used for updating the config
  */
@@ -47,9 +51,11 @@ export function goToConfigurationPage(
   productId: string,
   isPricingEnabled?: boolean
 ) {
+  registerCMSPagesRoute();
   registerCreateConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
+  waitForRequest(CMS_PAGES_ALIAS);
   waitForRequest(CREATE_CONFIG_ALIAS, isPricingEnabled);
   this.checkConfigPageDisplayed();
 }
@@ -69,6 +75,18 @@ export function navigateToOverviewPage() {
         );
       });
   });
+}
+
+/**
+ * Register CMS pages route.
+ */
+export function registerCMSPagesRoute() {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/${cmsEndpoints.pages}*`,
+  }).as(CMS_PAGES_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
@@ -680,17 +698,26 @@ export function registerConfigurationPricingRoute() {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
+ * @param {boolean} isPricingEnabled - will wait for pricing request in case pricing is enabled
+ * @param {boolean} waitForUpdateMsg - will wait for update message to disappear
+ * @param {boolean} force - will click with { force: true } (see configuration.selectAttribute)
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  isPricingEnabled: boolean = true
+  isPricingEnabled: boolean = true,
+  waitForUpdateMsg: boolean = true,
+  force: boolean = false
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, false);
+  configuration.selectAttribute(
+    attributeName,
+    uiType,
+    valueName,
+    waitForUpdateMsg,
+    force
+  );
   waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
-  checkGhostAnimationNotDisplayed();
 }
 
 /**
@@ -726,7 +753,9 @@ export function clickOnNextBtnAndWait(
 ): void {
   configuration.clickOnNextBtn(nextGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
-  checkGhostAnimationNotDisplayed();
+  if (nextGroup) {
+    checkGhostAnimationNotDisplayed();
+  }
 }
 
 /**

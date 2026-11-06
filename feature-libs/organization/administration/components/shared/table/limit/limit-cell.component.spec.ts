@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { LimitCellComponent } from '..';
 
 describe('LimitCellComponent', () => {
@@ -12,8 +12,7 @@ describe('LimitCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LimitCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule, LimitCellComponent],
       providers: [
         {
           provide: OutletContextData,
@@ -46,6 +45,8 @@ describe('LimitCellComponent', () => {
     const el: HTMLElement = fixture.debugElement.query(
       By.css('span.text')
     ).nativeNode;
-    expect(el.innerText).toEqual('10000 $ orgPurchaseLimit.per.QUARTER');
+    expect(el.textContent?.trim()).toEqual(
+      '10000 $ orgPurchaseLimit.per.QUARTER'
+    );
   });
 });

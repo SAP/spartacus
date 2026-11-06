@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,7 @@ import { AddToCartComponent } from './add-to-cart.component';
     ItemCounterModule,
     OutletModule,
     FeaturesConfigModule,
+    AddToCartComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -42,7 +43,6 @@ import { AddToCartComponent } from './add-to-cart.component';
       },
     }),
   ],
-  declarations: [AddToCartComponent],
   exports: [AddToCartComponent],
 })
 export class AddToCartModule {}

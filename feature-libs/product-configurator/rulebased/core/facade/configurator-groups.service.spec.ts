@@ -1,9 +1,9 @@
-import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { LoggerTestingModule } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of, Subject } from 'rxjs';
 import {
   CONFIG_ID,
   GROUP_ID_1,
@@ -49,9 +49,9 @@ describe('ConfiguratorGroupsService', () => {
   let configGroupStatusService: ConfiguratorGroupStatusService;
   let configFacadeUtilsService: ConfiguratorUtilsService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [LoggerTestingModule, StoreModule.forRoot({})],
       providers: [
         ConfiguratorGroupsService,
         ConfiguratorCommonsService,
@@ -67,42 +67,34 @@ describe('ConfiguratorGroupsService', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configGroupStatusService = TestBed.inject(
-      ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
-    );
-    configFacadeUtilsService = TestBed.inject(
-      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
-    );
+    classUnderTest = TestBed.inject(ConfiguratorGroupsService);
+    store = TestBed.inject(Store);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configGroupStatusService = TestBed.inject(ConfiguratorGroupStatusService);
+    configFacadeUtilsService = TestBed.inject(ConfiguratorUtilsService);
 
-    spyOn(store, 'dispatch').and.stub();
-    spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    vi.spyOn(store, 'pipe').mockReturnValue(of(productConfiguration));
 
-    spyOn(configGroupStatusService, 'setGroupStatusVisited').and.callThrough();
-    spyOn(configGroupStatusService, 'isGroupVisited').and.callThrough();
-    spyOn(configFacadeUtilsService, 'getParentGroup').and.callThrough();
-    spyOn(configFacadeUtilsService, 'hasSubGroups').and.callThrough();
-    spyOn(configFacadeUtilsService, 'getGroupById').and.callThrough();
+    vi.spyOn(configGroupStatusService, 'setGroupStatusVisited');
+    vi.spyOn(configGroupStatusService, 'isGroupVisited');
+    vi.spyOn(configFacadeUtilsService, 'getParentGroup');
+    vi.spyOn(configFacadeUtilsService, 'hasSubGroups');
+    vi.spyOn(configFacadeUtilsService, 'getGroupById');
   });
 
   it('should create service', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
       of(productConfiguration)
     );
     expect(classUnderTest).toBeDefined();
   });
 
   describe('getCurrentGroupId', () => {
-    it('should return a current group ID from state', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should return a current group ID from state', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       const currentGroup = classUnderTest.getCurrentGroupId(
@@ -110,14 +102,12 @@ describe('ConfiguratorGroupsService', () => {
       );
 
       expect(currentGroup).toBeDefined();
-      currentGroup.subscribe((groupId) => {
-        expect(groupId).toBe(GROUP_ID_2);
-        done();
-      });
+      const groupId = await firstValueFrom(currentGroup);
+      expect(groupId).toBe(GROUP_ID_2);
     });
 
-    it('should return a current group ID from configuration', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should return a current group ID from configuration', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of({
           ...productConfiguration,
           interactionState: { currentGroup: null },
@@ -128,36 +118,32 @@ describe('ConfiguratorGroupsService', () => {
       );
 
       expect(currentGroup).toBeDefined();
-      currentGroup.subscribe((groupId) => {
-        expect(groupId).toBe(GROUP_ID_1);
-        done();
-      });
+      const groupId = await firstValueFrom(currentGroup);
+      expect(groupId).toBe(GROUP_ID_1);
     });
 
-    it('should return undefined if no group exist', (done) => {
+    it('should return undefined if no group exist', async () => {
       const configNoGroups: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           'abc',
           ConfiguratorModelUtils.createInitialOwner()
         ),
       };
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configNoGroups)
       );
 
       const currentGroupId = classUnderTest.getCurrentGroupId(
         productConfiguration.owner
       );
-      currentGroupId.subscribe((groupId) => {
-        expect(groupId).toBeUndefined();
-        done();
-      });
+      const groupId = await firstValueFrom(currentGroupId);
+      expect(groupId).toBeUndefined();
     });
   });
 
   describe('getMenuParentGroup', () => {
-    it('should get the parentGroup from uiState', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should get the parentGroup from uiState', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       const parentGroup = classUnderTest.getMenuParentGroup(
@@ -165,19 +151,17 @@ describe('ConfiguratorGroupsService', () => {
       );
 
       expect(parentGroup).toBeDefined();
-      parentGroup.subscribe((group) => {
-        expect(group).toBe(productConfiguration.groups[2]);
-        done();
-      });
+      const group = await firstValueFrom(parentGroup);
+      expect(group).toBe(productConfiguration.groups[2]);
     });
 
-    it('should return undefined if menu parent group is not availaible in uiState', (done) => {
+    it('should return undefined if menu parent group is not availaible in uiState', async () => {
       const configurationWoMenuParentGroup =
         ConfiguratorTestUtils.createConfiguration(
           CONFIG_ID,
           ConfiguratorModelUtils.createInitialOwner()
         );
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configurationWoMenuParentGroup)
       );
       const parentGroup = classUnderTest.getMenuParentGroup(
@@ -185,13 +169,11 @@ describe('ConfiguratorGroupsService', () => {
       );
 
       expect(parentGroup).toBeDefined();
-      parentGroup.subscribe((group) => {
-        expect(group).toBeUndefined();
-        done();
-      });
+      const group = await firstValueFrom(parentGroup);
+      expect(group).toBeUndefined();
     });
 
-    it('should return undefined if menu parent group cannot be found', (done) => {
+    it('should return undefined if menu parent group cannot be found', async () => {
       const configurationWoMenuParentGroup: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           CONFIG_ID,
@@ -201,7 +183,7 @@ describe('ConfiguratorGroupsService', () => {
           menuParentGroup: 'Conflict header group that is gone',
         },
       };
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configurationWoMenuParentGroup)
       );
       const parentGroup = classUnderTest.getMenuParentGroup(
@@ -209,16 +191,14 @@ describe('ConfiguratorGroupsService', () => {
       );
 
       expect(parentGroup).toBeDefined();
-      parentGroup.subscribe((group) => {
-        expect(group).toBeUndefined();
-        done();
-      });
+      const group = await firstValueFrom(parentGroup);
+      expect(group).toBeUndefined();
     });
   });
 
   describe('getNextGroupId', () => {
-    it('should return a next group', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should return a next group', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       const currentGroup = classUnderTest.getNextGroupId(
@@ -226,10 +206,8 @@ describe('ConfiguratorGroupsService', () => {
       );
 
       expect(currentGroup).toBeDefined();
-      currentGroup.subscribe((groupId) => {
-        expect(groupId).toBe(GROUP_ID_4);
-        done();
-      });
+      const groupId = await firstValueFrom(currentGroup);
+      expect(groupId).toBe(GROUP_ID_4);
     });
   });
 
@@ -254,22 +232,20 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('getNextGroupDescription', () => {
-    it('should return description of next group', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should return description of next group', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       const nextGroupDescription =
         classUnderTest.getNextGroupDescription(productConfiguration);
 
       expect(nextGroupDescription).toBeDefined();
-      nextGroupDescription.subscribe((description) => {
-        expect(description).toBe(DESCRIPTION_FOR + GROUP_ID_4);
-        done();
-      });
+      const description = await firstValueFrom(nextGroupDescription);
+      expect(description).toBe(DESCRIPTION_FOR + GROUP_ID_4);
     });
 
-    it('should return empty string if no next group exists', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should return empty string if no next group exists', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       productConfiguration.interactionState.currentGroup = GROUP_ID_10;
@@ -277,17 +253,15 @@ describe('ConfiguratorGroupsService', () => {
         classUnderTest.getNextGroupDescription(productConfiguration);
 
       expect(nextGroupDescription).toBeDefined();
-      nextGroupDescription.subscribe((description) => {
-        expect(description).toBe('');
-        done();
-      });
+      const description = await firstValueFrom(nextGroupDescription);
+      expect(description).toBe('');
       productConfiguration.interactionState.currentGroup = GROUP_ID_2;
     });
   });
 
   describe('getPreviousGroupId', () => {
-    it('should return a previous group ID', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should return a previous group ID', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       const currentGroup = classUnderTest.getPreviousGroupId(
@@ -295,19 +269,17 @@ describe('ConfiguratorGroupsService', () => {
       );
 
       expect(currentGroup).toBeDefined();
-      currentGroup.subscribe((groupId) => {
-        expect(groupId).toBe(GROUP_ID_1);
-        done();
-      });
+      const groupId = await firstValueFrom(currentGroup);
+      expect(groupId).toBe(GROUP_ID_1);
     });
 
-    it('should return null in case configuration is in immediate conflict resolution and previous group is a conflict one', (done) => {
+    it('should return null in case configuration is in immediate conflict resolution and previous group is a conflict one', async () => {
       let configurationWithConflicts = structuredClone(
         productConfigurationWithConflicts
       );
       configurationWithConflicts.immediateConflictResolution = true;
 
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configurationWithConflicts)
       );
       const currentGroup = classUnderTest.getPreviousGroupId(
@@ -315,13 +287,11 @@ describe('ConfiguratorGroupsService', () => {
       );
 
       expect(currentGroup).toBeDefined();
-      currentGroup.subscribe((groupId) => {
-        expect(groupId).toBeUndefined();
-        done();
-      });
+      const groupId = await firstValueFrom(currentGroup);
+      expect(groupId).toBeUndefined();
     });
 
-    it('should return a previous group ID in case configuration is in immediate conflict resolution and previous group not is a conflict one', (done) => {
+    it('should return a previous group ID in case configuration is in immediate conflict resolution and previous group not is a conflict one', async () => {
       let configurationWithConflicts = structuredClone(
         productConfigurationWithConflicts
       );
@@ -329,7 +299,7 @@ describe('ConfiguratorGroupsService', () => {
       configurationWithConflicts.interactionState.currentGroup = GROUP_ID_2;
       configurationWithConflicts.interactionState.menuParentGroup = GROUP_ID_3;
 
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configurationWithConflicts)
       );
       const currentGroup = classUnderTest.getPreviousGroupId(
@@ -337,30 +307,26 @@ describe('ConfiguratorGroupsService', () => {
       );
 
       expect(currentGroup).toBeDefined();
-      currentGroup.subscribe((groupId) => {
-        expect(groupId).toBe(GROUP_ID_1);
-        done();
-      });
+      const groupId = await firstValueFrom(currentGroup);
+      expect(groupId).toBe(GROUP_ID_1);
     });
   });
 
   describe('getPreviousGroupDescription', () => {
-    it('should return description of previous group', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should return description of previous group', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       const previousGroupDescription =
         classUnderTest.getPreviousGroupDescription(productConfiguration);
 
       expect(previousGroupDescription).toBeDefined();
-      previousGroupDescription.subscribe((description) => {
-        expect(description).toBe(DESCRIPTION_FOR + GROUP_ID_1);
-        done();
-      });
+      const description = await firstValueFrom(previousGroupDescription);
+      expect(description).toBe(DESCRIPTION_FOR + GROUP_ID_1);
     });
 
-    it('should return empty string if no previous group exists', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should return empty string if no previous group exists', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       productConfiguration.interactionState.currentGroup = GROUP_ID_1;
@@ -368,17 +334,15 @@ describe('ConfiguratorGroupsService', () => {
         classUnderTest.getPreviousGroupDescription(productConfiguration);
 
       expect(previousGroupDescription).toBeDefined();
-      previousGroupDescription.subscribe((description) => {
-        expect(description).toBe('');
-        done();
-      });
+      const description = await firstValueFrom(previousGroupDescription);
+      expect(description).toBe('');
       productConfiguration.interactionState.currentGroup = GROUP_ID_2;
     });
   });
 
   describe('setGroupStatusVisited', () => {
     it('should call setGroupStatusVisited of groupStatusService', () => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       classUnderTest.setGroupStatusVisited(
@@ -391,7 +355,7 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   it('should delegate setting the parent group to the store', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
       of(productConfiguration)
     );
     classUnderTest.setMenuParentGroup(productConfiguration.owner, GROUP_ID_1);
@@ -403,7 +367,7 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   it('should call group status in navigate to different group', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
       of(productConfiguration)
     );
     classUnderTest.navigateToGroup(
@@ -437,7 +401,7 @@ describe('ConfiguratorGroupsService', () => {
 
   describe('navigateToConflictSolver', () => {
     it('should trigger change group action in case conflict group deviates from current one', () => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfigurationWithConflicts)
       );
       classUnderTest.navigateToConflictSolver(
@@ -454,7 +418,7 @@ describe('ConfiguratorGroupsService', () => {
       );
     });
     it('should also trigger change group action in case current group is already the first conflict group because group menu component relies on interactionState.issueNavigationDone', () => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT)
       );
       classUnderTest.navigateToConflictSolver(
@@ -473,7 +437,7 @@ describe('ConfiguratorGroupsService', () => {
     it('should not navigate in case no conflict group is present', () => {
       const consistentConfiguration =
         ConfiguratorTestUtils.createConfiguration('1');
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(consistentConfiguration)
       );
       classUnderTest.navigateToConflictSolver(consistentConfiguration.owner);
@@ -481,9 +445,104 @@ describe('ConfiguratorGroupsService', () => {
     });
   });
 
+  describe('navigateToContainerRow', () => {
+    const nestedTabId = 'CONTAINER_ROW@1067@row-1@1';
+    const rowGroupId = 'CONTAINER_ROW@1067@row-1';
+    let nestedTab: Configurator.Group;
+    let rowGroup: Configurator.Group;
+    let parentTab: Configurator.Group;
+
+    function createConfiguration(
+      flatGroups: Configurator.Group[]
+    ): Configurator.Configuration {
+      return {
+        ...ConfiguratorTestUtils.createConfiguration('1'),
+        groups: [parentTab],
+        flatGroups,
+      };
+    }
+
+    beforeEach(() => {
+      nestedTab = {
+        ...ConfiguratorTestUtils.createGroup(nestedTabId),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      };
+      rowGroup = {
+        ...ConfiguratorTestUtils.createGroup(rowGroupId),
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        subGroups: [nestedTab],
+      };
+      parentTab = {
+        ...ConfiguratorTestUtils.createGroup('parent-tab'),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [rowGroup],
+      };
+    });
+
+    it('should navigate to the nested tab of a bundle line item container row', () => {
+      const configuration = createConfiguration([parentTab, nestedTab]);
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToContainerRow(configuration.owner, 'row-1');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: configuration,
+          groupId: nestedTabId,
+          parentGroupId: rowGroupId,
+          conflictResolutionMode: false,
+        })
+      );
+    });
+
+    it('should wait until the configuration provides groups', () => {
+      const configuration = createConfiguration([parentTab, nestedTab]);
+      const configurationWithoutGroups: Configurator.Configuration = {
+        ...configuration,
+        groups: [],
+      };
+      const configuration$ = new Subject<Configurator.Configuration>();
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        configuration$
+      );
+
+      classUnderTest.navigateToContainerRow(configuration.owner, 'row-1');
+      configuration$.next(configurationWithoutGroups);
+      expect(store.dispatch).not.toHaveBeenCalled();
+
+      configuration$.next(configuration);
+      configuration$.next(configuration);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not navigate if no container row group matches the row id', () => {
+      const configuration = createConfiguration([parentTab, nestedTab]);
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToContainerRow(configuration.owner, 'unknown-row');
+
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate if the container row group has no navigable target', () => {
+      const configuration = createConfiguration([parentTab]);
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToContainerRow(configuration.owner, 'row-1');
+
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
+  });
+
   describe('navigateToFirstIncompleteGroup', () => {
     it('should go to first incomplete group', () => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
@@ -500,12 +559,86 @@ describe('ConfiguratorGroupsService', () => {
     it('should not navigate in case no incomplete group is present', () => {
       const completeConfiguration =
         ConfiguratorTestUtils.createConfiguration('1');
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(completeConfiguration)
       );
       classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
 
       expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+    it('should not navigate when only root typed messages exist and all groups are complete', () => {
+      const firstTabId = 'root-tab-1';
+      const firstTab: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup(firstTabId),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        complete: true,
+      };
+      const configuration: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration('1'),
+        groups: [firstTab],
+        flatGroups: [firstTab],
+        messages: [
+          {
+            message: 'Clean-Up services are needed in addition',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+      };
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToFirstIncompleteGroup(configuration.owner);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should navigate to the nested tab of an incomplete container row group', () => {
+      const nestedTabId = 'CONTAINER_ROW@1067@row-1@1';
+      const rowGroupId = 'CONTAINER_ROW@1067@row-1';
+      const parentTabId = 'parent-tab';
+      const nestedTab: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup(nestedTabId),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        complete: true,
+      };
+      const rowGroup: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup(rowGroupId),
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        complete: false,
+        messages: [
+          {
+            message: 'Check zoom range',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+        subGroups: [nestedTab],
+      };
+      const parentTab: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup(parentTabId),
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        complete: true,
+        subGroups: [rowGroup],
+      };
+      const configuration: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration('1'),
+        groups: [parentTab],
+        flatGroups: [parentTab, nestedTab],
+      };
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+        of(configuration)
+      );
+
+      classUnderTest.navigateToFirstIncompleteGroup(configuration.owner);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: configuration,
+          groupId: nestedTabId,
+          parentGroupId: rowGroupId,
+          conflictResolutionMode: false,
+        })
+      );
     });
   });
 
@@ -543,8 +676,8 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('getConflictGroupForImmediateConflictResolution', () => {
-    it('should not return any conflict group because showConflictSolverDialog is not defined', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('should not return any conflict group because showConflictSolverDialog is not defined', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(productConfiguration)
       );
       const conflictGroups =
@@ -553,19 +686,17 @@ describe('ConfiguratorGroupsService', () => {
         );
 
       expect(conflictGroups).toBeDefined();
-      conflictGroups.subscribe((group) => {
-        expect(group).toBeUndefined();
-        done();
-      });
+      const group = await firstValueFrom(conflictGroups);
+      expect(group).toBeUndefined();
     });
 
-    it('should not return any conflict group because showConflictSolverDialog is set to false', (done) => {
+    it('should not return any conflict group because showConflictSolverDialog is set to false', async () => {
       let configurationWithConflicts = structuredClone(
         productConfigurationWithConflicts
       );
       configurationWithConflicts.interactionState.showConflictSolverDialog =
         false;
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configurationWithConflicts)
       );
       const conflictGroups =
@@ -574,19 +705,17 @@ describe('ConfiguratorGroupsService', () => {
         );
 
       expect(conflictGroups).toBeDefined();
-      conflictGroups.subscribe((group) => {
-        expect(group).toBeUndefined();
-        done();
-      });
+      const group = await firstValueFrom(conflictGroups);
+      expect(group).toBeUndefined();
     });
 
-    it('should return a conflict group', (done) => {
+    it('should return a conflict group', async () => {
       let configurationWithConflicts = structuredClone(
         productConfigurationWithConflicts
       );
       configurationWithConflicts.interactionState.showConflictSolverDialog =
         true;
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configurationWithConflicts)
       );
       const conflictGroups =
@@ -595,11 +724,9 @@ describe('ConfiguratorGroupsService', () => {
         );
 
       expect(conflictGroups).toBeDefined();
-      conflictGroups.subscribe((group) => {
-        expect(group).not.toBeUndefined();
-        expect(group?.id).toEqual(GROUP_ID_CONFLICT_3);
-        done();
-      });
+      const group = await firstValueFrom(conflictGroups);
+      expect(group).not.toBeUndefined();
+      expect(group?.id).toEqual(GROUP_ID_CONFLICT_3);
     });
   });
 

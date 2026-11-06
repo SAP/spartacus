@@ -1,16 +1,34 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
+import {
+  FeatureDirective,
+  PageMetaService,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+  TruncationTooltipDirective,
+  getPageTitle,
+} from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
@@ -20,10 +38,25 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
   selector: 'cx-my-account-v2-profile',
   templateUrl: './my-account-v2-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    NgFor,
+    NgOptionComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    TruncationTooltipDirective,
+    FeatureDirective,
+  ],
 })
 export class MyAccountV2ProfileComponent implements OnInit {
   protected service = inject(UpdateProfileComponentService);
+  protected pageMetaService = inject(PageMetaService);
   ngOnInit(): void {
     this.isEditing = false;
   }
@@ -34,6 +67,7 @@ export class MyAccountV2ProfileComponent implements OnInit {
   user$: Observable<User> = this.service.user$;
   isEditing: boolean;
   originalEditValue: User;
+  pageTitle$ = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.updateProfile();

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,19 +8,31 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import { concatMap, filter, map, take } from 'rxjs/operators';
 
-import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   AsmCustomer360SavedCart,
   CustomerCart,
 } from '@spartacus/asm/customer-360/root';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
+import {
+  Product,
+  ProductScope,
+  ProductService,
+  TranslatePipe,
+} from '@spartacus/core';
+import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
+import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   selector: 'cx-asm-customer-360-saved-cart',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './asm-customer-360-saved-cart.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    AsmCustomer360ProductListingComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AsmCustomer360SavedCartComponent {
   savedCart$: Observable<CustomerCart | undefined>;

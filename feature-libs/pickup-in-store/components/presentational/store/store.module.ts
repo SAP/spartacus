@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,8 +20,10 @@ import { StoreComponent } from './store.component';
     IconModule,
     SpinnerModule,
     SetPreferredStoreModule,
+    StoreComponent,
+    StoreScheduleComponent,
+    StoreAddressComponent,
   ],
   exports: [StoreComponent, StoreScheduleComponent, StoreAddressComponent],
-  declarations: [StoreComponent, StoreScheduleComponent, StoreAddressComponent],
 })
 export class StoreModule {}

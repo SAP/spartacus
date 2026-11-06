@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Price } from '@spartacus/core';
+import { Price, ProductScope } from '@spartacus/core';
 
 export enum UsageChargeType {
   BLOCK = 'block_usage_charge',
@@ -61,6 +61,8 @@ export interface UsageCharge {
   blockSize?: number;
   tierUsageChargeEntries?: TierUsageChargeEntry[];
   overageUsageChargeEntries?: OverageUsageChargeEntry[];
+  typeName?: string;
+  netAmount?: string;
 }
 
 export interface PerUnitUsageCharge extends UsageCharge {
@@ -104,7 +106,5 @@ declare module '@spartacus/core' {
   enum ProductScope {
     SUBSCRIPTION = 'subscription',
   }
-  interface Product {
-    productTypes?: string;
-  }
 }
+(ProductScope as any)['SUBSCRIPTION'] = 'subscription';

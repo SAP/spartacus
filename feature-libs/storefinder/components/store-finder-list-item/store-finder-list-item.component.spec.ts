@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { provideLocationMocks } from '@angular/common/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeatureStylesService, I18nTestingModule } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { OutletModule } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
-import createSpy = jasmine.createSpy;
 
 const weekday = {
   closingTime: {
@@ -88,21 +87,19 @@ const sampleStore: any = {
 };
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
-  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    EMPTY
-  );
-  getStoresLoading = createSpy('getStoresLoading');
-  callFindStoresAction = createSpy('callFindStoresAction');
-  getStoreLatitude = createSpy('getStoreLatitude');
-  getStoreLongitude = createSpy('getStoreLongitude');
-  getDirections = createSpy('getDirections');
+  getFindStoresEntities = vi.fn().mockReturnValue(EMPTY);
+  getStoresLoading = vi.fn();
+  callFindStoresAction = vi.fn();
+  getStoreLatitude = vi.fn();
+  getStoreLongitude = vi.fn();
+  getDirections = vi.fn();
 }
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -110,14 +107,14 @@ describe('StoreFinderListItemComponent', () => {
         I18nTestingModule,
         RouterModule.forRoot([]),
         OutletModule,
+        StoreFinderListItemComponent,
       ],
-      declarations: [StoreFinderListItemComponent],
       providers: [
         provideLocationMocks(),
         { provide: StoreFinderService, useClass: MockStoreFinderService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListItemComponent);
@@ -132,7 +129,7 @@ describe('StoreFinderListItemComponent', () => {
   });
 
   it('should emit item index', () => {
-    spyOn(component.storeItemClick, 'emit');
+    vi.spyOn(component.storeItemClick, 'emit');
     component.handleStoreItemClick();
     fixture.detectChanges();
     expect(component.storeItemClick.emit).toHaveBeenCalledWith(1);
@@ -143,8 +140,43 @@ describe('StoreFinderListItemComponent', () => {
     const encodedName = name.replace(' ', '%20');
     const link = fixture.debugElement
       .queryAll(By.css('.cx-store-name'))
-      .find((el) => el.nativeElement.innerText === displayName).nativeElement;
+      .find(
+        (el) => el.nativeElement.textContent?.trim() === displayName
+      )?.nativeElement;
     expect(link.getAttribute('href')).toEqual(`/${encodedName}`);
-    expect(link.getAttribute('ng-reflect-router-link')).toEqual(name);
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('StoreFinderListItemComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        CommonModule,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
+        StoreFinderListItemComponent,
+      ],
+      providers: [
+        provideLocationMocks(),
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(StoreFinderListItemComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

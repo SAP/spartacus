@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,16 +10,19 @@ import { ListService } from '../list/list.service';
 @Component({
   selector: 'cx-org-sub-list',
   template: '',
-  standalone: false,
 })
 class MockSubListComponent {
   @Input() i18nRoot;
 }
 
-class MockListService {}
+class MockListService {
+  getMinSearchCharacters(): number {
+    return 3;
+  }
+}
 
 @NgModule({
-  declarations: [MockSubListComponent],
+  imports: [MockSubListComponent],
   exports: [MockSubListComponent],
   providers: [
     {

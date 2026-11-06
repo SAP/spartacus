@@ -1,20 +1,19 @@
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import {
+  CxDatePipe,
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
@@ -54,14 +53,6 @@ class MockConfiguratorTextfieldService {
   updateCartEntry(): void {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 describe('ConfigTextfieldAddToCartButtonComponent', () => {
   let classUnderTest: ConfiguratorTextfieldAddToCartButtonComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldAddToCartButtonComponent>;
@@ -82,12 +73,11 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     expect(seenText).toBe(buttonText);
   }
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
         ConfiguratorTextfieldAddToCartButtonComponent,
-        MockUrlPipe,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -101,12 +91,20 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [I18nTestingModule, UrlTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -115,9 +113,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     classUnderTest = fixture.componentInstance;
     classUnderTest.configuration = configurationTextField;
     htmlElem = fixture.nativeElement;
-    textfieldService = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
-    );
+    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
 
     OWNER.type = CommonConfigurator.OwnerType.PRODUCT;
     mockRouterState.state.params.ownerType =
@@ -140,7 +136,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   });
 
   it('should navigate to cart and call addToCart on core service when onAddToCart was triggered ', () => {
-    spyOn(textfieldService, 'addToCart').and.callThrough();
+    vi.spyOn(textfieldService, 'addToCart');
 
     classUnderTest.onAddToCart();
 
@@ -153,7 +149,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   it('should navigate to cart when onAddToCart was triggered and owner points to cart entry ', () => {
     OWNER.type = CommonConfigurator.OwnerType.CART_ENTRY;
 
-    spyOn(textfieldService, 'updateCartEntry').and.callThrough();
+    vi.spyOn(textfieldService, 'updateCartEntry');
 
     classUnderTest.onAddToCart();
     expect(textfieldService.updateCartEntry).toHaveBeenCalledWith(

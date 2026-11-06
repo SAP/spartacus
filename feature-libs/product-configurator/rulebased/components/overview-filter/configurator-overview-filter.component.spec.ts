@@ -1,17 +1,18 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
 import { ConfiguratorOverviewFilterComponent } from './configurator-overview-filter.component';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
-import { Observable, of } from 'rxjs';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -45,9 +46,7 @@ function initTestData() {
 }
 
 function initMocks() {
-  mockConfigCommonsService = jasmine.createSpyObj([
-    'updateConfigurationOverview',
-  ]);
+  mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
 }
 
 function initTestComponent() {
@@ -57,13 +56,12 @@ function initTestComponent() {
   component.config = overview;
   isDisplayOnlyVariant = false;
   component.ngOnChanges();
-  fixture.detectChanges();
 }
 
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule],
 })
 class MockConfiguratorOverviewFilterBarComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -81,11 +79,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     mockRouterState.state.params.displayOnly = false;
 
     return TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [
-        ConfiguratorOverviewFilterComponent,
-        MockConfiguratorOverviewFilterBarComponent,
-      ],
+      imports: [ReactiveFormsModule, ConfiguratorOverviewFilterComponent],
       providers: [
         {
           provide: ConfiguratorCommonsService,
@@ -96,22 +90,34 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
+    }).overrideComponent(ConfiguratorOverviewFilterComponent, {
+      remove: {
+        imports: [TranslatePipe, ConfiguratorOverviewFilterBarComponent],
+      },
+      add: {
+        imports: [
+          I18nTestingModule,
+          MockConfiguratorOverviewFilterBarComponent,
+        ],
+      },
     });
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initTestData();
     initMocks();
-    configureTestingModule().compileComponents();
+    await configureTestingModule().compileComponents();
     initTestComponent();
-  }));
+  });
 
   describe('in a component test environment', () => {
     it('should create component', () => {
+      fixture.detectChanges();
       expect(component).toBeDefined();
     });
 
     it('should render filter options', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
@@ -121,6 +127,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render both filter headers', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
@@ -183,6 +190,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render filter bar by default', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -201,6 +209,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should update overview on change of filter option', () => {
+      fixture.detectChanges();
       fixture.debugElement
         .queryAll(By.css('.cx-overview-filter-option input'))
         .forEach((element) => {
@@ -214,6 +223,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
     describe('to support A11Y', () => {
       it('price filter label should be linked to checkbox', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -224,6 +234,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('price filter label should have a11y text', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -234,6 +245,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('my selections filter label should be linked to checkbox', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -245,6 +257,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('my selections filter label should have a11y text', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -255,6 +268,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('group filter label should be linked to checkbox', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -266,6 +280,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
 
       it('group filter label should have a11y text', () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,

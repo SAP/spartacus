@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -57,7 +57,10 @@ export class ConfiguratorRouterExtractorService {
               : ConfiguratorRouter.PageType.CONFIGURATION,
           navigateToCheckout:
             routingData.state.queryParams?.navigateToCheckout === 'true',
+          isBundleOverview:
+            routingData.state.queryParams?.isBundleOverview === 'true',
           productCode: routingData.state.queryParams?.productCode,
+          rowId: routingData.state.queryParams?.rowId,
         };
 
         return routerData;

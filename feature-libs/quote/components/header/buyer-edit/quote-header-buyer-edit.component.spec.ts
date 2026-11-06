@@ -1,8 +1,6 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import {
   EditCard,
@@ -12,17 +10,9 @@ import {
 const mockCard: EditCard = {
   name: 'Quote name',
   description: 'Here you could enter a long description for the current quote',
+  purchaseOrderNumber: 'PO12345',
   charactersLimit: 255,
 };
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
 
 describe('QuoteHeaderBuyerEditComponent', () => {
   let fixture: ComponentFixture<QuoteHeaderBuyerEditComponent>;
@@ -31,9 +21,13 @@ describe('QuoteHeaderBuyerEditComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [QuoteHeaderBuyerEditComponent, MockCxIconComponent],
-    }).compileComponents();
+      imports: [ReactiveFormsModule, QuoteHeaderBuyerEditComponent],
+    })
+      .overrideComponent(QuoteHeaderBuyerEditComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -41,13 +35,14 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.content = mockCard;
-    fixture.detectChanges();
+    // No detectChanges() here — tests that mutate form state call it themselves
 
-    spyOn(component.saveCard, 'emit').and.callThrough();
-    spyOn(component.cancelCard, 'emit').and.callThrough();
+    vi.spyOn(component.saveCard, 'emit');
+    vi.spyOn(component.cancelCard, 'emit');
   });
 
   it('should create and render component accordingly', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
 
     CommonQuoteTestUtilsService.expectElementPresent(
@@ -85,28 +80,28 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       expect,
       htmlElem,
       '.cx-card-paragraph',
-      2
+      3
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.cx-card-paragraph-title',
-      2
+      3
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.form-group',
-      2
+      3
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       'input',
-      1
+      2
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
@@ -122,6 +117,13 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       '.cx-card-paragraph-title',
       'quote.header.overview.description',
       1
+    );
+
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '#cx-quote-header-buyer-edit-purchase-order-number',
+      'quote.header.overview.purchaseOrderNumber'
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
@@ -163,6 +165,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
 
   describe('handle action events', () => {
     it('should emit cancel event', () => {
+      fixture.detectChanges();
       const cancelButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
         'button.btn-tertiary'
@@ -172,6 +175,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     });
 
     it('should emit edit event for disabling edit mode', () => {
+      fixture.detectChanges();
       const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
         'button.btn-secondary'
@@ -182,6 +186,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
 
     it('should emit edit event with an edited name and disabling edit mode', () => {
       const newTextForTitle1: any = 'New title for name';
+      fixture.detectChanges();
       component.editForm.get('name')?.setValue(newTextForTitle1);
       component.editForm.get('name')?.markAsDirty();
       fixture.detectChanges();
@@ -191,18 +196,21 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       );
       saveButton.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
-      let arg: any = (component.saveCard.emit as any).calls.mostRecent()
-        .args[0];
+      const arg: any = (component.saveCard.emit as any).mock.lastCall[0];
       expect(arg.name).toEqual(newTextForTitle1);
     });
 
     it('should emit edit event with an edited name, description and disabling edit mode', () => {
       const newTextForTitle1: any = 'New title for name';
       const newTextForTitle2: any = 'Here could be found a long description';
+      const newPoNumber: any = 'PO67890';
+      fixture.detectChanges();
       component.editForm.get('name')?.setValue(newTextForTitle1);
       component.editForm.get('name')?.markAsDirty();
       component.editForm.get('description')?.setValue(newTextForTitle2);
       component.editForm.get('description')?.markAsDirty();
+      component.editForm.get('purchaseOrderNumber')?.setValue(newPoNumber);
+      component.editForm.get('purchaseOrderNumber')?.markAsDirty();
       fixture.detectChanges();
       const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
@@ -210,10 +218,10 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       );
       saveButton.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
-      let arg: any = (component.saveCard.emit as any).calls.mostRecent()
-        .args[0];
+      const arg: any = (component.saveCard.emit as any).mock.lastCall[0];
       expect(arg.name).toEqual(newTextForTitle1);
       expect(arg.description).toEqual(newTextForTitle2);
+      expect(arg.purchaseOrderNumber).toEqual(newPoNumber);
     });
   });
 

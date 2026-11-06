@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,13 +12,14 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
+import { IconComponent, MessageComponent } from '@spartacus/storefront';
 import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-promotion-listing',
   templateUrl: './asm-customer-360-promotion-listing.component.html',
-  standalone: false,
+  imports: [NgIf, MessageComponent, NgFor, IconComponent, TranslatePipe],
 })
 export class AsmCustomer360PromotionListingComponent {
   @Input() headerText: string;

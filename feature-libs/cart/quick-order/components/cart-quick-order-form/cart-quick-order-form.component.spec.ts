@@ -7,15 +7,21 @@ import {
   CartAddEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
+  CxDatePipe,
   EventService,
-  FeatureConfigService,
+  FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  MockTranslationService,
   Translatable,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 
@@ -94,17 +100,16 @@ describe('CartQuickOrderFormComponent', () => {
   let activeCartService: ActiveCartFacade;
   let eventService: EventService;
   let globalMessageService: GlobalMessageService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         FormErrorsModule,
-        I18nTestingModule,
         ReactiveFormsModule,
+        CartQuickOrderFormComponent,
       ],
-      declarations: [CartQuickOrderFormComponent, MockFeatureDirective],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
@@ -112,8 +117,16 @@ describe('CartQuickOrderFormComponent', () => {
           useClass: MockEventService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartQuickOrderFormComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, FeatureDirective] },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(CartQuickOrderFormComponent);
     component = fixture.componentInstance;
@@ -121,7 +134,7 @@ describe('CartQuickOrderFormComponent', () => {
     activeCartService = TestBed.inject(ActiveCartFacade);
     eventService = TestBed.inject(EventService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
 
     fixture.detectChanges();
   });
@@ -136,14 +149,14 @@ describe('CartQuickOrderFormComponent', () => {
   });
 
   it('should do nothing on applyQuickOrder if form is invalid', () => {
-    spyOn(activeCartService, 'addEntry').and.callThrough();
+    vi.spyOn(activeCartService, 'addEntry');
     component.quickOrderForm.setErrors({ invalid: true });
     component.applyQuickOrder();
     expect(activeCartService.addEntry).not.toHaveBeenCalled();
   });
 
   it('should add entry on form submit', () => {
-    spyOn(activeCartService, 'addEntry').and.callThrough();
+    vi.spyOn(activeCartService, 'addEntry');
 
     component.quickOrderForm.controls['productCode'].setValue('test');
     component.applyQuickOrder();
@@ -161,8 +174,8 @@ describe('CartQuickOrderFormComponent', () => {
 
   describe('should show global confirmation message on add entry success event', () => {
     beforeEach(() => {
-      spyOn(globalMessageService, 'add').and.callThrough();
-      spyOn(eventService, 'get').and.callThrough();
+      vi.spyOn(globalMessageService, 'add');
+      vi.spyOn(eventService, 'get');
 
       component.ngOnInit();
       component.quickOrderForm.controls['productCode'].setValue('test');
@@ -204,10 +217,10 @@ describe('CartQuickOrderFormComponent', () => {
 
   describe('global error message', () => {
     it('should not show global error message on add entry fail event', () => {
-      spyOn(globalMessageService, 'add').and.callThrough();
+      vi.spyOn(globalMessageService, 'add');
       component.ngOnInit();
       component.quickOrderForm.controls['productCode'].setValue('test');
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      featureToggles.a11yCartQuickOrderFormEnableSubmitAndAddValidation = true;
 
       component.applyQuickOrder();
       expect(globalMessageService.add).not.toHaveBeenCalled();

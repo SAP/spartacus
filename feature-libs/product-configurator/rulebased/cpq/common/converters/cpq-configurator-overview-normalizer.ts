@@ -1,11 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Converter, TranslationService } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import {
+  Converter,
+  FeatureToggles,
+  LoggerService,
+  TranslationService,
+} from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
 import { Cpq } from '../cpq.models';
@@ -18,11 +23,21 @@ export class CpqConfiguratorOverviewNormalizer
   implements Converter<Cpq.Configuration, Configurator.Overview>
 {
   protected readonly NO_OPTION_SELECTED = 0;
+  protected logger: LoggerService = inject(LoggerService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
   ) {}
+
+  /**
+   * Whether CPQ container rows are included in the configuration overview
+   * (`productConfiguratorCPQContainer`).
+   */
+  private isCpqContainerFeatureEnabled(): boolean {
+    return !!this.featureToggles.productConfiguratorCPQContainer;
+  }
 
   convert(
     source: Cpq.Configuration,
@@ -34,9 +49,17 @@ export class CpqConfiguratorOverviewNormalizer
       productCode: source.productSystemId,
       priceSummary:
         this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(source),
-      groups: source.tabs
-        ?.flatMap((tab) => this.convertTab(tab, source.currencyISOCode))
-        .filter((tab) => tab.attributes && tab.attributes.length > 0),
+      groups: [
+        ...(source.tabs
+          ?.flatMap((tab) =>
+            this.convertTab(tab, source.currencyISOCode, source.sapContainers)
+          )
+          .filter((group) => this.hasOverviewContent(group)) ?? []),
+        ...this.convertSubItemRows(
+          source.sapContainers,
+          source.currencyISOCode
+        ),
+      ],
       totalNumberOfIssues: this.calculateTotalNumberOfIssues(source),
     };
     return resultTarget;
@@ -44,18 +67,22 @@ export class CpqConfiguratorOverviewNormalizer
 
   protected convertTab(
     tab: Cpq.Tab,
-    currency: string
+    currency: string,
+    containers?: Cpq.Container[],
+    parentRowGroupId?: string
   ): Configurator.GroupOverview {
-    let ovAttributes: Configurator.AttributeOverview[] = [];
-    tab.attributes?.forEach((attr) => {
-      ovAttributes = ovAttributes.concat(this.convertAttribute(attr, currency));
-    });
     const groupOverview: Configurator.GroupOverview = {
-      id: tab.id.toString(),
+      id: this.createTabGroupId(tab.id, parentRowGroupId),
       groupDescription: tab.displayName,
-      attributes: ovAttributes,
+      attributes: [],
     };
-    if (groupOverview.id === '0') {
+    tab.attributes?.forEach((attribute) => {
+      groupOverview.attributes?.push(
+        ...this.convertAttribute(attribute, currency)
+      );
+      this.attachContainer(groupOverview, attribute, containers, currency);
+    });
+    if (tab.id === 0) {
       this.translation
         .translate('configurator.group.general')
         .pipe(take(1))
@@ -102,10 +129,9 @@ export class CpqConfiguratorOverviewNormalizer
             ovValues.push(this.extractValueUserInput(attr, currency));
           }
         } else {
-          ovValues.push({
-            attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
-            value: 'NOT_IMPLEMENTED',
-          });
+          this.logger.warn(
+            `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden from overview.`
+          );
         }
         break;
       case Cpq.DisplayAs.RADIO_BUTTON:
@@ -125,12 +151,148 @@ export class CpqConfiguratorOverviewNormalizer
           });
         break;
       default:
-        ovValues.push({
-          attribute: INITIAL_OV_VALUE_ATTRIBUTE_NAME,
-          value: 'NOT_IMPLEMENTED',
-        });
+        this.logUnsupportedAttributeIfNeeded(attr);
     }
     return ovValues;
+  }
+
+  protected createTabGroupId(tabId: number, parentRowGroupId?: string): string {
+    return parentRowGroupId ? `${parentRowGroupId}@${tabId}` : tabId.toString();
+  }
+
+  protected attachContainer(
+    group: Configurator.GroupOverview,
+    attribute: Cpq.Attribute,
+    containers: Cpq.Container[] | undefined,
+    currency: string
+  ): void {
+    if (
+      !this.isCpqContainerFeatureEnabled() ||
+      attribute.displayAs !== Cpq.DisplayAs.CONTAINER ||
+      !containers?.length
+    ) {
+      return;
+    }
+
+    const container = containers.find(
+      (entry) => entry.stdAttrCode === attribute.stdAttrCode
+    );
+    if (container?.renderRowsAsSubItems) {
+      return;
+    }
+    container?.rows
+      ?.filter((row) =>
+        this.cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow(row)
+      )
+      .forEach((row) => {
+        group.attributes?.push(
+          this.convertContainerRowToAttribute(row, attribute)
+        );
+        if (row.configuration) {
+          group.subGroups ??= [];
+          group.subGroups.push(
+            this.convertNestedConfiguration(
+              row.configuration,
+              row,
+              attribute.stdAttrCode,
+              currency
+            )
+          );
+        }
+      });
+  }
+
+  protected convertContainerRowToAttribute(
+    row: Cpq.ContainerRow,
+    attribute: Cpq.Attribute
+  ): Configurator.AttributeOverview {
+    return {
+      attribute:
+        this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
+          attribute
+        ),
+      attributeId: attribute.stdAttrCode.toString(),
+      value: row.productName ?? row.productSystemId ?? row.id,
+      valueId: row.id,
+      productCode: row.productSystemId,
+      type: Configurator.AttributeOverviewType.BUNDLE,
+    };
+  }
+
+  protected convertNestedConfiguration(
+    source: Cpq.NestedProductConfiguration,
+    row: Cpq.ContainerRow,
+    attrCode: number,
+    currency: string
+  ): Configurator.GroupOverview {
+    const rowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${attrCode}@${row.id}`;
+    const nestedGroups = (source.tabs ?? [])
+      .map((tab) =>
+        this.convertTab(tab, currency, source.containers, rowGroupId)
+      )
+      .filter((group) => this.hasOverviewContent(group));
+    const singleNestedGroup =
+      nestedGroups.length === 1 ? nestedGroups[0] : undefined;
+    const subItemGroups = this.convertSubItemRows(source.containers, currency);
+
+    return {
+      id: rowGroupId,
+      groupDescription: row.productName ?? row.productSystemId,
+      attributes: singleNestedGroup?.attributes ?? [],
+      subGroups: singleNestedGroup
+        ? [...(singleNestedGroup.subGroups ?? []), ...subItemGroups]
+        : [...nestedGroups, ...subItemGroups],
+    };
+  }
+
+  /**
+   * Turns selected rows of containers flagged with {@link Cpq.Container.renderRowsAsSubItems}
+   * into overview row groups (siblings of tabs at root level, or sub-groups of a parent row).
+   */
+  protected convertSubItemRows(
+    containers: Cpq.Container[] | undefined,
+    currency: string
+  ): Configurator.GroupOverview[] {
+    if (!this.isCpqContainerFeatureEnabled() || !containers?.length) {
+      return [];
+    }
+
+    return containers
+      .filter((container) => container.renderRowsAsSubItems)
+      .flatMap((container) =>
+        (container.rows ?? [])
+          .filter(
+            (row) =>
+              this.cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow(
+                row
+              ) && !!row.configuration
+          )
+          .map((row) =>
+            this.convertNestedConfiguration(
+              row.configuration as Cpq.NestedProductConfiguration,
+              row,
+              container.stdAttrCode,
+              currency
+            )
+          )
+          .filter((group) => this.hasOverviewContent(group))
+      );
+  }
+
+  protected hasOverviewContent(group: Configurator.GroupOverview): boolean {
+    return !!group.attributes?.length || !!group.subGroups?.length;
+  }
+
+  protected logUnsupportedAttribute(attr: Cpq.Attribute): void {
+    this.logger.warn(
+      `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden from overview.`
+    );
+  }
+
+  protected logUnsupportedAttributeIfNeeded(attr: Cpq.Attribute): void {
+    if (attr.displayAs !== Cpq.DisplayAs.CONTAINER) {
+      this.logUnsupportedAttribute(attr);
+    }
   }
 
   protected extractValue(
@@ -187,12 +349,8 @@ export class CpqConfiguratorOverviewNormalizer
   }
 
   protected calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    const numberOfIssues: number =
-      (source.incompleteAttributes?.length ?? 0) +
-      (source.incompleteMessages?.length ?? 0) +
-      (source.invalidMessages?.length ?? 0) +
-      (source.failedValidations?.length ?? 0) +
-      (source.errorMessages?.length ?? 0);
-    return numberOfIssues;
+    return this.cpqConfiguratorNormalizerUtilsService.calculateTotalNumberOfIssues(
+      source
+    );
   }
 }

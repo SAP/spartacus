@@ -1,17 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
+  CxDatePipe,
   EntitiesModel,
+  FeatureDirective,
   RoutingService,
   SearchConfig,
+  TranslatePipe,
   TranslationService,
-  useFeatureStyles,
+  UrlPipe,
 } from '@spartacus/core';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderApproval } from '../../core/model/order-approval.model';
@@ -21,16 +27,25 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
   selector: 'cx-order-approval-list',
   templateUrl: './order-approval-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    NgFor,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+    FeatureDirective,
+  ],
 })
 export class OrderApprovalListComponent implements OnInit {
   constructor(
     protected routing: RoutingService,
     protected orderApprovalService: OrderApprovalService,
     protected translation: TranslationService
-  ) {
-    useFeatureStyles('a11yShowLabelOfSelect');
-  }
+  ) {}
 
   sortLabels$: Observable<{ byDate: string; byOrderNumber: string }>;
   protected PAGE_SIZE = 5;

@@ -7,10 +7,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutQueryService } from './checkout-query.service';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -21,16 +20,16 @@ const mockCheckoutState: CheckoutState = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockCheckoutConnector implements Partial<CheckoutConnector> {
-  getCheckoutDetails = createSpy().and.returnValue(of(mockCheckoutState));
+  getCheckoutDetails = vi.fn().mockReturnValue(of(mockCheckoutState));
 }
 
 describe(`CheckoutQueryService`, () => {
@@ -62,22 +61,17 @@ describe(`CheckoutQueryService`, () => {
   ));
 
   describe(`getCheckoutDetailsState`, () => {
-    it(`should checkoutConnector.getCheckoutDetails`, (done) => {
-      service
-        .getCheckoutDetailsState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(connector.getCheckoutDetails).toHaveBeenCalledWith(
-            mockUserId,
-            mockCartId
-          );
-          expect(result).toEqual(<QueryState<CheckoutState | undefined>>{
-            loading: false,
-            error: false,
-            data: mockCheckoutState,
-          });
-          done();
-        });
+    it(`should checkoutConnector.getCheckoutDetails`, async () => {
+      const result = await firstValueFrom(service.getCheckoutDetailsState());
+      expect(connector.getCheckoutDetails).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId
+      );
+      expect(result).toEqual(<QueryState<CheckoutState | undefined>>{
+        loading: false,
+        error: false,
+        data: mockCheckoutState,
+      });
     });
   });
 });

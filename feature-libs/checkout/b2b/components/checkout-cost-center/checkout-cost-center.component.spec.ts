@@ -10,7 +10,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutCostCenterComponent } from './checkout-cost-center.component';
-import createSpy = jasmine.createSpy;
 
 const mockCostCenters: CostCenter[] = [
   {
@@ -26,11 +25,13 @@ const mockCostCenters: CostCenter[] = [
 class MockCheckoutCostCenterService
   implements Partial<CheckoutCostCenterFacade>
 {
-  getCostCenterState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: mockCostCenters[0] })
-  );
+  getCostCenterState = vi
+    .fn()
+    .mockReturnValue(
+      of({ loading: false, error: false, data: mockCostCenters[0] })
+    );
 
-  setCostCenter = createSpy().and.returnValue(of({}));
+  setCostCenter = vi.fn().mockReturnValue(of({}));
 }
 
 const accountPayment$ = new BehaviorSubject<boolean>(false);
@@ -55,8 +56,7 @@ describe('CheckoutCostCenterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CheckoutCostCenterComponent],
+      imports: [I18nTestingModule, CheckoutCostCenterComponent],
       providers: [
         {
           provide: UserCostCenterService,
@@ -131,9 +131,9 @@ describe('CheckoutCostCenterComponent', () => {
   });
 
   it('should set default if the cart does NOT contain a cost center', () => {
-    checkoutCostCenterService.getCostCenterState = createSpy().and.returnValue(
-      of({ loading: false, error: false, data: undefined })
-    );
+    checkoutCostCenterService.getCostCenterState = vi
+      .fn()
+      .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 
     component.ngOnInit();
     fixture.detectChanges();

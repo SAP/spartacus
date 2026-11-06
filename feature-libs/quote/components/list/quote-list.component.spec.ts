@@ -7,12 +7,17 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import {
+  FeatureDirective,
   I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
   PaginationModel,
   QueryState,
   SortModel,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   Quote,
@@ -20,14 +25,19 @@ import {
   QuoteList,
   QuoteState,
 } from '@spartacus/quote/root';
-import { BreakpointService, ICON_TYPE } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import {
+  BreakpointService,
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteListComponentService } from './quote-list-component.service';
 import { QuoteListComponent } from './quote-list.component';
-import createSpy = jasmine.createSpy;
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 const mockCartId = '1234';
 const mockPagination: PaginationModel = {
@@ -67,7 +77,6 @@ const mockQuoteListState$ = new BehaviorSubject(mockQuoteListState);
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -77,7 +86,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: SortModel[];
@@ -87,10 +95,7 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -98,7 +103,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -117,8 +121,8 @@ class MockCommerceQuotesListComponentService
   quotesState$ = mockQuoteListState$.asObservable();
   sort = new BehaviorSubject('byCode');
   currentPage = new BehaviorSubject(0);
-  setSorting = createSpy();
-  setPage = createSpy();
+  setSorting = vi.fn();
+  setPage = vi.fn();
 }
 
 class MockLanguageService {
@@ -141,14 +145,10 @@ describe('QuoteListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         QuoteListComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockCxIconComponent,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -161,7 +161,30 @@ describe('QuoteListComponent', () => {
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteListComponent, {
+        remove: {
+          imports: [
+            UrlPipe,
+            PaginationComponent,
+            SortingComponent,
+            IconComponent,
+            FeatureDirective,
+            TranslatePipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -652,13 +675,20 @@ describe('QuoteListComponent', () => {
   });
 
   describe('isPaginationEnabled', () => {
+    beforeEach(() => {
+      //reset mock
+      mockPagination.currentPage = 0;
+      mockPagination.pageSize = 5;
+      mockPagination.sort = 'byCode';
+    });
     it('should not render pagination', () => {
       expect(component['isPaginationEnabled'](mockPagination)).toBe(false);
     });
 
     it('should  render pagination', () => {
-      mockPagination.totalPages = 3;
-      expect(component['isPaginationEnabled'](mockPagination)).toBe(true);
+      expect(
+        component['isPaginationEnabled']({ ...mockPagination, totalPages: 3 })
+      ).toBe(true);
     });
   });
 

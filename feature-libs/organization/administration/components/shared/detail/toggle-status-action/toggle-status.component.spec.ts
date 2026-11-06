@@ -11,7 +11,6 @@ import { ItemService } from '../../item.service';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
 import { ToggleStatusComponent } from './toggle-status.component';
-import createSpy = jasmine.createSpy;
 
 class MockMessageService {
   add() {
@@ -36,9 +35,7 @@ describe('ToggleStatusComponent', () => {
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule],
-      declarations: [ToggleStatusComponent],
-
+      imports: [CommonModule, I18nTestingModule, ToggleStatusComponent],
       providers: [
         {
           provide: MessageService,
@@ -96,7 +93,7 @@ describe('ToggleStatusComponent', () => {
     });
 
     it('should enable inactive items right away', () => {
-      spyOn(organizationItemService, 'update').and.returnValue(EMPTY);
+      vi.spyOn(organizationItemService, 'update').mockReturnValue(EMPTY);
       const mockItem = { code: 'b1', active: false };
       component.toggle(mockItem);
       expect(organizationItemService.update).toHaveBeenCalledWith(
@@ -109,7 +106,7 @@ describe('ToggleStatusComponent', () => {
     });
 
     it('should only patch code and active flag', () => {
-      spyOn(organizationItemService, 'update').and.returnValue(EMPTY);
+      vi.spyOn(organizationItemService, 'update').mockReturnValue(EMPTY);
       const mockItem = { code: 'b1', active: false, foo: 'bar' };
       component.toggle(mockItem);
       expect(organizationItemService.update).toHaveBeenCalledWith(
@@ -124,8 +121,8 @@ describe('ToggleStatusComponent', () => {
     it('should display confirmation for enabled item', () => {
       const mockItem = { code: 'b1', active: false };
       const updatedItem = { code: 'b1', active: true };
-      spyOn(messageService, 'add').and.returnValue(new Subject());
-      spyOn(organizationItemService, 'update').and.returnValue(
+      vi.spyOn(messageService, 'add').mockReturnValue(new Subject());
+      vi.spyOn(organizationItemService, 'update').mockReturnValue(
         of({ status: LoadStatus.SUCCESS, item: updatedItem })
       );
       component.toggle(mockItem);
@@ -143,7 +140,7 @@ describe('ToggleStatusComponent', () => {
       organizationItemService = TestBed.inject(ItemService);
       messageService = TestBed.inject(MessageService);
 
-      spyOn(organizationItemService, 'update').and.returnValue(EMPTY);
+      vi.spyOn(organizationItemService, 'update').mockReturnValue(EMPTY);
     });
 
     it('should not enable active items right away', () => {
@@ -153,7 +150,7 @@ describe('ToggleStatusComponent', () => {
     });
 
     it('should prompt a disable confirmation prompt', () => {
-      spyOn(messageService, 'add').and.returnValue(new Subject());
+      vi.spyOn(messageService, 'add').mockReturnValue(new Subject());
       const mockItem = { code: 'b2', active: true };
       component.toggle(mockItem);
       expect(messageService.add).toHaveBeenCalledWith({
@@ -175,7 +172,7 @@ describe('ToggleStatusComponent', () => {
 
     it('should confirm disabling', () => {
       const eventData: Subject<ConfirmationMessageData> = new Subject();
-      spyOn(messageService, 'add').and.returnValue(eventData);
+      vi.spyOn(messageService, 'add').mockReturnValue(eventData);
       const mockItem = { code: 'b2', active: true };
       component.toggle(mockItem);
       eventData.next({ confirm: true });
@@ -192,10 +189,10 @@ describe('ToggleStatusComponent', () => {
       const eventData: Subject<ConfirmationMessageData> = new Subject();
       const mockItem = { code: 'b2', active: true };
       const updatedItem = { code: 'b1', active: false };
-      spyOn(messageService, 'add').and.returnValue(eventData);
-      organizationItemService.update = createSpy().and.returnValue(
-        of({ status: LoadStatus.SUCCESS, item: updatedItem })
-      );
+      vi.spyOn(messageService, 'add').mockReturnValue(eventData);
+      organizationItemService.update = vi
+        .fn()
+        .mockReturnValue(of({ status: LoadStatus.SUCCESS, item: updatedItem }));
       component.toggle(mockItem);
       eventData.next({ confirm: true });
       expect(messageService.add).toHaveBeenCalledWith({
@@ -208,7 +205,7 @@ describe('ToggleStatusComponent', () => {
 
     it('should cancel disabling', () => {
       const eventData: Subject<ConfirmationMessageData> = new Subject();
-      spyOn(messageService, 'add').and.returnValue(eventData);
+      vi.spyOn(messageService, 'add').mockReturnValue(eventData);
       const mockItem = { code: 'b2', active: true };
       component.toggle(mockItem);
       eventData.next({ close: true });

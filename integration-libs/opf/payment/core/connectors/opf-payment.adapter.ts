@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import {
   OpfPaymentSubmitCompleteResponse,
   OpfPaymentSubmitRequest,
   OpfPaymentSubmitResponse,
+  OpfPaymentUpdateConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
@@ -64,5 +65,13 @@ export abstract class OpfPaymentAdapter {
    */
   abstract initiatePayment(
     paymentConfig: OpfPaymentInitiationConfig
+  ): Observable<OpfPaymentSessionData>;
+
+  /**
+   * Abstract method used to update an existing payment transaction/session.
+   *
+   */
+  abstract updatePaymentTransaction(
+    updatePaymentConfig: OpfPaymentUpdateConfig
   ): Observable<OpfPaymentSessionData>;
 }

@@ -1,5 +1,4 @@
-import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
   RouterState,
@@ -29,8 +28,8 @@ class MockRoutingService {
 describe('ConfigRouterExtractorService', () => {
   let serviceUnderTest: ConfiguratorRouterExtractorService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
         {
@@ -39,11 +38,9 @@ describe('ConfigRouterExtractorService', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
-    serviceUnderTest = TestBed.inject(
-      ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>
-    );
+    serviceUnderTest = TestBed.inject(ConfiguratorRouterExtractorService);
 
     mockRouterState = {
       state: {
@@ -162,7 +159,7 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
-    it('should tell from the URL if we need to resolve issues without ignoring conflicts of a configuration', (done) => {
+    it('should tell from the URL if we need to resolve issues without ignoring conflicts of a configuration', async () => {
       mockRouterState.state.queryParams = { resolveIssues: 'true' };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
@@ -171,12 +168,11 @@ describe('ConfigRouterExtractorService', () => {
           routerData = data;
           expect(routerData.resolveIssues).toBe(true);
           expect(routerData.skipConflicts).toBe(false);
-          done();
         })
         .unsubscribe();
     });
 
-    it('should tell from the URL if we need to skip conflicts while resolving issues of a configuration', (done) => {
+    it('should tell from the URL if we need to skip conflicts while resolving issues of a configuration', async () => {
       mockRouterState.state.queryParams = {
         resolveIssues: 'true',
         skipConflicts: 'true',
@@ -188,7 +184,6 @@ describe('ConfigRouterExtractorService', () => {
           routerData = data;
           expect(routerData.resolveIssues).toBe(true);
           expect(routerData.skipConflicts).toBe(true);
-          done();
         })
         .unsubscribe();
     });
@@ -315,6 +310,34 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
+    it('should tell from the URL if navigation to the cart from bundle overview is relevant', () => {
+      mockRouterState.state.queryParams = {
+        isBundleOverview: 'true',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.isBundleOverview).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if navigation to the cart from bundle overview is not relevant', () => {
+      mockRouterState.state.queryParams = {
+        isBundleOverview: 'false',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.isBundleOverview).toBe(false);
+        })
+        .unsubscribe();
+    });
+
     it('should tell from the URL that a product code has been passed', () => {
       mockRouterState.state.queryParams = {
         productCode: PRODUCT_CODE,
@@ -337,6 +360,20 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.productCode).toBe(undefined);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL that a row id has been passed', () => {
+      mockRouterState.state.queryParams = {
+        rowId: 'row-abc',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.rowId).toBe('row-abc');
         })
         .unsubscribe();
     });
@@ -376,7 +413,7 @@ describe('ConfigRouterExtractorService', () => {
     it('should throw error if semantic route is empty', () => {
       expect(() =>
         serviceUnderTest['getConfiguratorTypeFromSemanticRoute']('')
-      ).toThrowError();
+      ).toThrow();
     });
 
     it('should throw error if semantic route is not configuration neither OV page', () => {
@@ -384,7 +421,7 @@ describe('ConfigRouterExtractorService', () => {
         serviceUnderTest['getConfiguratorTypeFromSemanticRoute'](
           'isNoKnownRoute'
         )
-      ).toThrowError();
+      ).toThrow();
     });
   });
 });

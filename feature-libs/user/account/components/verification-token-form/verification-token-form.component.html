@@ -1,4 +1,4 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async" />
 
 <form
   (ngSubmit)="onSubmit()"
@@ -23,7 +23,7 @@
       "
       aria-describedby="tokenInputHint"
     />
-    <cx-form-errors [control]="form.get('tokenCode')"></cx-form-errors>
+    <cx-form-errors [control]="form.get('tokenCode')" />
     <div class="rate-limit-error-display" *ngIf="upToRateLimit">
       {{
         'register.rateLimitForRegistrationMessage'
@@ -97,7 +97,8 @@
       {{ 'verificationTokenForm.verify' | cxTranslate }}
     </button>
     <button
-      [routerLink]="{ cxRoute: 'login' } | cxUrl"
+      type="button"
+      (click)="goBack()"
       class="btn btn-block btn-secondary btn-register"
     >
       {{ 'verificationTokenForm.back' | cxTranslate }}

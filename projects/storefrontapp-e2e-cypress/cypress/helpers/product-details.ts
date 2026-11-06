@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { addProductToCart as addToCart } from './applied-promotions';
+import { cmsEndpoints } from './cms-endpoints';
 
 export const summaryContainer = `cx-product-summary`;
 export const infoContainer = `cx-product-intro`;
@@ -36,7 +37,7 @@ export function verifyProductDetails() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/${cmsEndpoints.components}`,
   }).as('getComponents');
   cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
   cy.get(`${breadcrumbContainer} h1`).should('contain', PRODUCT_NAME);
@@ -254,7 +255,7 @@ export function configureDefaultProduct() {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?pageType=ProductPage**`,
+    )}/${cmsEndpoints.pages}?pageType=ProductPage**`,
   }).as('productPage');
 
   cy.visit('/product/266685');

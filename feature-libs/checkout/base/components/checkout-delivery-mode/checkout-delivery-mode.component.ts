@@ -1,11 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -13,7 +16,18 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  FeatureDirective,
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FocusDirective,
+  InnerComponentsHostDirective,
+  OutletDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -30,7 +44,19 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   selector: 'cx-delivery-mode',
   templateUrl: './checkout-delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    OutletDirective,
+    SpinnerComponent,
+    InnerComponentsHostDirective,
+    AsyncPipe,
+    TranslatePipe,
+    FocusDirective,
+    FeatureDirective,
+  ],
 })
 export class CheckoutDeliveryModeComponent {
   protected globalMessageService = inject(GlobalMessageService);

@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { products } from '../sample-data/apparel-checkout-flow';
 import {
+  buildCheckoutDetailsAfterPaymentMock,
   cart,
   cartWithCheapProduct,
   cheapProduct,
@@ -24,6 +25,7 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { cmsEndpoints } from './cms-endpoints';
 import { DeepPartial } from './form';
 import { waitForPage } from './navigation';
 import { productItemSelector } from './product-search';
@@ -35,14 +37,18 @@ export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
 export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+  const alias = newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+  const url = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    'BASE_SITE'
+  )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`;
 
-  return newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+  if (alias === 'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP_MOCK') {
+    cy.intercept('GET', url, buildCheckoutDetailsAfterPaymentMock()).as(alias);
+  } else {
+    cy.intercept('GET', url).as(alias);
+  }
+
+  return alias;
 }
 
 /**
@@ -54,12 +60,16 @@ export function clickHamburger() {
   });
 }
 
-export function waitForProductPage(productCode: string, alias: string): string {
+export function waitForProductPage(
+  productCode: string,
+  alias: string,
+  user: 'anonymous' | 'current' = 'anonymous'
+): string {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageType: 'ProductPage',
       code: productCode,
@@ -104,7 +114,8 @@ export function signOut() {
  */
 export function registerUser(
   giveRegistrationConsent: boolean = false,
-  sampleUser: SampleUser = user
+  sampleUser: SampleUser = user,
+  waitForCsrFallback = false
 ) {
   cy.whenJDK17(() => {
     cy.getLoginRegisterLink({ clickAndWait: true });
@@ -119,15 +130,18 @@ export function registerUser(
     cy.wait(`@${registerPage}`);
   });
 
-  register(sampleUser, giveRegistrationConsent);
+  register(sampleUser, giveRegistrationConsent, undefined, waitForCsrFallback);
 
   cy.get('cx-breadcrumb').contains('Login');
   return sampleUser;
 }
 
-export function signInUser(sampleUser: SampleUser = user) {
+export function signInUser(
+  sampleUser: SampleUser = user,
+  waitForCsrFallback = false
+) {
   cy.getLoginRegisterLink({ clickAndWait: true });
-  login(sampleUser.email, sampleUser.password);
+  login(sampleUser.email, sampleUser.password, waitForCsrFallback);
 }
 
 export function signOutUser() {
@@ -166,13 +180,16 @@ export function addProductToCart() {
  * - wait for successful /token response
  * @param sampleUser
  */
-export function loginUser(sampleUser: SampleUser = user) {
+export function loginUser(
+  sampleUser: SampleUser = user,
+  waitForCsrFallback = false
+) {
   const succsesfulLogin = interceptPost(
     'succsesfulLogin',
     '/authorizationserver/oauth/token',
     false
   );
-  login(sampleUser.email, sampleUser.password);
+  login(sampleUser.email, sampleUser.password, waitForCsrFallback);
   cy.wait(succsesfulLogin).its('response.statusCode').should('eq', 200);
 }
 
@@ -254,7 +271,7 @@ export function placeOrder() {
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .within(() => {
-      cy.findByText(user.fullName);
+      cy.findByText(user.addressName);
       cy.findByText(user.address.line1);
       cy.findByText(user.address.line2);
     });
@@ -288,7 +305,7 @@ export function viewOrderHistory() {
   cy.selectUserMenuOption({
     option: 'Order History',
   });
-  cy.get('cx-order-history h2').should('contain', 'Order history');
+  cy.get('cx-breadcrumb h1').should('contain', 'Order History');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
@@ -332,7 +349,8 @@ export function clickCheapProductDetailsFromHomePage(
 
 export function addCheapProductToCartAndLogin(
   sampleUser: SampleUser = user,
-  sampleProduct: SampleProduct = cheapProduct
+  sampleProduct: SampleProduct = cheapProduct,
+  waitForCsrFallback = false
 ) {
   addCheapProductToCart(sampleProduct);
 
@@ -349,7 +367,7 @@ export function addCheapProductToCartAndLogin(
     '/checkout/delivery-address',
     'getDeliveryPage'
   );
-  loginUser(sampleUser);
+  loginUser(sampleUser, waitForCsrFallback);
   // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
   cy.wait(`@${deliveryAddressPage}`, { timeout: 30000 })
     .its('response.statusCode')
@@ -469,6 +487,47 @@ export function proceedWithIncorrectPaymentForm(
   cy.get('cx-form-errors').should('exist');
 }
 
+export function fillPaymentFormWithCheapProductWithMock(
+  paymentDetailsData: DeepPartial<PaymentDetails> = user,
+  billingAddress?: AddressData,
+  isExpressCheckout?: boolean
+) {
+  cy.log('🛒 Filling payment method form');
+  cy.get('.cx-checkout-title').should('contain', 'Payment');
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
+    .find('.cx-summary-amount')
+    .should('not.be.empty');
+
+  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/payment/sop/response*`,
+  }).as('submitPayment');
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint(
+    'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP_MOCK'
+  );
+
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+  cy.wait('@submitPayment');
+  cy.wait(`@${reviewPage}`);
+
+  if (isExpressCheckout) return;
+
+  cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
+    const response = xhr.response;
+    cy.log(`Checkout details after payment step`);
+
+    expect(response.statusCode).to.equal(200);
+
+    expect(response.body).to.have.property('deliveryAddress');
+    expect(response.body).to.have.property('deliveryMode');
+    expect(response.body).to.have.property('paymentInfo');
+  });
+}
+
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: DeepPartial<PaymentDetails> = user,
   billingAddress?: AddressData,
@@ -500,13 +559,7 @@ export function fillPaymentFormWithCheapProduct(
 
   cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
     const response = xhr.response;
-    cy.log(
-      `Checkout details after payment step: ${JSON.stringify(
-        response.body,
-        null,
-        2
-      )}`
-    );
+    cy.log(`Checkout details after payment step`);
 
     expect(response.statusCode).to.equal(200);
 
@@ -528,7 +581,7 @@ export function placeOrderWithCheapProduct(
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .within(() => {
-      cy.findByText(sampleUser.fullName);
+      cy.findByText(sampleUser.addressName);
       cy.findByText(sampleUser.address.line1);
       cy.findByText(sampleUser.address.line2);
     });
@@ -580,7 +633,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 
     cy.get('.cx-review-summary-card-container')
       .eq(0)
-      .should('contain', sampleUser.fullName);
+      .should('contain', sampleUser.addressName);
     cy.get('.cx-review-summary-card-container')
       .eq(0)
       .should('contain', sampleUser.address.line1);
@@ -625,14 +678,17 @@ export function viewOrderHistoryWithCheapProduct() {
     option: 'Order History',
   });
   cy.wait(`@${orderHistoryPage}`).its('response.statusCode').should('eq', 200);
-  cy.get('cx-order-history h2').should('contain', 'Order history');
+  cy.get('cx-breadcrumb h1').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
     .should('not.be.empty');
 }
 
-export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
+export function addFirstResultToCartFromSearchAndLogin(
+  sampleUser: SampleUser,
+  waitForCsrFallback = false
+) {
   addToCart();
   cy.whenJDK17(() => {
     const loginPage = waitForPage('/login', 'getLoginPage');
@@ -646,13 +702,16 @@ export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
     '/checkout/delivery-address',
     'getDeliveryAddressPage'
   );
-  loginUser(sampleUser);
+  loginUser(sampleUser, waitForCsrFallback);
   cy.wait(`@${deliveryAddressPage}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
 }
 
-export function checkoutFirstDisplayedProduct(user: SampleUser) {
+export function checkoutFirstDisplayedProduct(
+  user: SampleUser,
+  waitForCsrFallback = false
+) {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -667,7 +726,7 @@ export function checkoutFirstDisplayedProduct(user: SampleUser) {
     )}/users/current/carts?fields*`
   ).as('carts');
 
-  addFirstResultToCartFromSearchAndLogin(user);
+  addFirstResultToCartFromSearchAndLogin(user, waitForCsrFallback);
 
   cy.wait('@addToCart').its('response.statusCode').should('eq', 200);
   cy.wait('@carts').its('response.statusCode').should('eq', 201);

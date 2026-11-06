@@ -56,7 +56,7 @@ describe('PickupLocationEffect', () => {
   });
 
   it('should call the connection on the GET_STORE_DETAILS action and create SetStoreDetailsSuccess action', () => {
-    spyOn(pickupLocationConnector, 'getStoreDetails').and.callThrough();
+    vi.spyOn(pickupLocationConnector, 'getStoreDetails');
     const action = GetStoreDetailsById({ payload: 'storeId' });
     const actionSuccess = SetStoreDetailsSuccess({ payload: {} });
     actions$ = hot('-a', { a: action });
@@ -90,7 +90,7 @@ describe('PickupLocationEffect with Error', () => {
   });
 
   it('should call the connection on the GET_STORE_DETAILS action and create SetStoreDetailsFailure action', () => {
-    spyOn(pickupLocationConnector, 'getStoreDetails').and.callThrough();
+    vi.spyOn(pickupLocationConnector, 'getStoreDetails');
     const action = GetStoreDetailsById({ payload: 'storeId' });
     const error = new HttpErrorResponse({ error: 'error' });
 

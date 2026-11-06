@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -13,6 +13,7 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   OAUTH_REDIRECT_FLOW_KEY,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -27,6 +28,7 @@ import { Observable, Subscription, combineLatest, of, using } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
+  finalize,
   map,
   pairwise,
   shareReplay,
@@ -35,6 +37,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { ActiveCartStatePersistenceService } from '../services/active-cart-state-persistence.service';
 import {
   getCartIdByUserId,
   isEmail,
@@ -45,6 +48,10 @@ import {
 
 @Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
+  private featureToggles = inject(FeatureToggles);
+  protected activeCartStatePersistenceService = inject(
+    ActiveCartStatePersistenceService
+  );
   protected activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
 
@@ -76,6 +83,12 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   ) {
     this.initActiveCart();
     this.detectUserChange();
+    if (
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.featureToggles.mergeGuestCartOnCodeFlowLogin
+    ) {
+      this.persistGuestCartForCodeFlowMerge();
+    }
   }
 
   protected initActiveCart() {
@@ -283,7 +296,16 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           active: true,
         },
       });
-    } else if (Boolean(getLastValueSync(this.isGuestCart()))) {
+    } else if (
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.featureToggles.mergeGuestCartOnCodeFlowLogin &&
+      this.activeCartStatePersistenceService.readGuestCartState()
+    ) {
+      // Authorization-code flow: the SPA was re-bootstrapped on login, so the
+      // in-memory guest cart (and thus `isGuestCart()`) is gone. Fall back to
+      // the entries we persisted before the redirect.
+      this.guestCartMerge(cartId);
+    } else if (getLastValueSync(this.isGuestCart())) {
       this.guestCartMerge(cartId);
     } else {
       // We have particular cart locally, but we logged in, so we need to combine this with current cart or make it ours.
@@ -303,6 +325,20 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * This is for an edge case
    */
   protected guestCartMerge(cartId: string): void {
+    // Authorization-code flow: entries were persisted before the login redirect
+    // because in-memory state does not survive the SPA re-bootstrap, and the
+    // guest cart can no longer be read/deleted with the user token.
+    const pendingMerge =
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.featureToggles.mergeGuestCartOnCodeFlowLogin
+        ? this.activeCartStatePersistenceService.readGuestCartState()
+        : undefined;
+    if (pendingMerge) {
+      this.activeCartStatePersistenceService.clearGuestCartState();
+      this.addEntriesGuestMerge(pendingMerge);
+      return;
+    }
+
     this.getEntries()
       .pipe(take(1))
       .subscribe((entries) => {
@@ -330,6 +366,27 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       });
   }
 
+  /**
+   * Persists the active guest cart entries so they can be merged into the user
+   * cart after an OAuth 2.1 authorization-code login. The login redirect
+   * re-bootstraps the SPA and wipes in-memory state, and the guest cart can no
+   * longer be read with the user token afterwards, so the entries must be
+   * captured beforehand while the guest cart is still the active cart.
+   *
+   * Persistence is delegated to `ActiveCartStatePersistenceService`.
+   *
+   * Only enabled when both the `authorizationCodeFlowByDefault` and
+   * `mergeGuestCartOnCodeFlowLogin` feature toggles are on.
+   */
+  protected persistGuestCartForCodeFlowMerge(): void {
+    this.activeCartStatePersistenceService.initSync(
+      this.getActive().pipe(
+        filter((cart) => this.isCartUserGuest(cart)),
+        map((cart) => cart.entries ?? [])
+      )
+    );
+  }
+
   protected isCartCreating(
     cartState: StateUtils.ProcessesLoaderState<Cart | undefined>,
     cartId: string
@@ -353,7 +410,63 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // When the function `requireLoadedCart` is first called, the init cart loading for login user may not be done
   private checkInitLoad: boolean | undefined = undefined;
 
+  /**
+   * Cached observable for in-flight cart loading/creation.
+   * Prevents race conditions when multiple addEntry() calls happen rapidly
+   * before the cart is created - they all share the same cart creation flow.
+   * Only used when `enableCartSlowNetworkResilience` is enabled.
+   */
+  protected loadedCart$: Observable<Cart> | null = null;
+
   requireLoadedCart(forGuestMerge = false): Observable<Cart> {
+    // When the slow-network resilience toggle is OFF, fall back to the
+    // pre-CXSPA-10582 codepath that builds the pipeline fresh on every
+    // call. Extending clients that overrode requireLoadedCart will see
+    // identical behaviour to develop.
+    if (!this.featureToggles.enableCartSlowNetworkResilience) {
+      return this.buildRequireLoadedCartPipeline(forGuestMerge);
+    }
+
+    // For guest merge, don't use caching as it has special filtering requirements
+    // For normal flow, return cached observable if cart creation is in-flight
+    if (!forGuestMerge && this.loadedCart$) {
+      return this.loadedCart$;
+    }
+
+    const cart$ = this.buildRequireLoadedCartPipeline(forGuestMerge).pipe(
+      // Clear cache immediately after successful cart emission
+      // This allows new calls to get a fresh pipeline while concurrent
+      // subscribers still receive the same cart via shareReplay
+      tap(() => {
+        if (!forGuestMerge) {
+          this.loadedCart$ = null;
+        }
+      }),
+      // Share the same observable for all concurrent subscribers
+      shareReplay({ bufferSize: 1, refCount: true }),
+      // Clear cache on error or unsubscribe for cleanup
+      finalize(() => {
+        if (!forGuestMerge) {
+          this.loadedCart$ = null;
+        }
+      })
+    );
+
+    // Cache the observable for non-guest-merge flows
+    if (!forGuestMerge) {
+      this.loadedCart$ = cart$;
+    }
+
+    return cart$;
+  }
+
+  /**
+   * Internal method containing the cart loading/creation pipeline logic.
+   * Extracted to support caching in requireLoadedCart().
+   */
+  protected buildRequireLoadedCartPipeline(
+    forGuestMerge: boolean
+  ): Observable<Cart> {
     this.checkInitLoad = this.checkInitLoad === undefined;
 
     // For guest cart merge we want to filter guest cart in the whole stream
@@ -361,7 +474,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     const cartSelector$ = (
       forGuestMerge
         ? this.cartEntity$.pipe(
-            filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
+            filter(() => !getLastValueSync(this.isGuestCart()))
           )
         : this.cartEntity$
     ).pipe(filter((cartState) => !cartState.loading || !!this.checkInitLoad));

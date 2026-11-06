@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,6 +51,18 @@ declare module '@spartacus/core' {
      * Endpoint for update a CPQ attribute value quantity over OCC
      */
     updateCpqAttributeValueQuantity?: string | OccEndpoint;
+    /**
+     * Endpoint for adding a new container row to a CPQ configuration over OCC
+     */
+    createCpqContainerRow?: string | OccEndpoint;
+    /**
+     * Endpoint for copying a container row of a CPQ configuration over OCC
+     */
+    copyCpqContainerRow?: string | OccEndpoint;
+    /**
+     * Endpoint for deleting a container row from a CPQ configuration over OCC
+     */
+    removeCpqContainerRow?: string | OccEndpoint;
     /**
      * Endpoint for reading a CPQ configuration attached to the given cart entry over OCC
      */

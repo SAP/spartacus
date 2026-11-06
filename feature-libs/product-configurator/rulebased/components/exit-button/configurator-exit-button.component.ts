@@ -1,15 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { AsyncPipe, Location, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Product,
   ProductService,
   RoutingService,
+  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
 import {
@@ -26,7 +27,8 @@ import { Configurator } from '../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-exit-button',
   templateUrl: './configurator-exit-button.component.html',
-  standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorExitButtonComponent {
   container$: Observable<{

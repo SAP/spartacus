@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,9 +20,10 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
   WindowRef,
@@ -29,9 +31,12 @@ import {
 } from '@spartacus/core';
 import {
   Card,
+  CardComponent,
   SelectFocusUtility,
+  SpinnerComponent,
   getAddressNumbers,
 } from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -53,13 +58,19 @@ export interface CardWithAddress {
   selector: 'cx-delivery-address',
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    CardComponent,
+    AddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected checkoutConfigService = inject(CheckoutConfigService);
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureToggles = inject(FeatureToggles);
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   cards$: Observable<CardWithAddress[]>;
@@ -124,12 +135,12 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     const numbers = getAddressNumbers(address, textPhone, textMobile);
     const isSelected: boolean = selected && selected.id === address.id;
 
-    const role = this.getCardRole(isSelected);
+    const role = isSelected ? 'region' : 'group';
 
     return {
       role,
       title: address.defaultAddress ? textDefaultDeliveryAddress : '',
-      textBold: address.firstName + ' ' + address.lastName,
+      textBold: this.getCardName(address),
       text: [
         address.line1,
         address.line2,
@@ -147,6 +158,13 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     } as Card;
   }
 
+  protected getCardName(address: Address): string {
+    const fullName = address.firstName + ' ' + address.lastName;
+    return this.featureToggles.addTitleToAddressCard && !!address.title
+      ? address.title + ' ' + fullName
+      : fullName;
+  }
+
   selectAddress(address: Address): void {
     if (address?.id === getLastValueSync(this.selectedAddress$)?.id) {
       return;
@@ -160,9 +178,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
 
     this.setAddress(address);
-    if (this.featureConfigService?.isEnabled('a11yFocusOnCardAfterSelecting')) {
-      this.focusCardAfterSelecting();
-    }
+    this.focusCardAfterSelecting();
   }
 
   /**
@@ -264,11 +280,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         'checkoutAddress.defaultDeliveryAddress'
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
-      this.featureConfigService?.isEnabled(
-        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
-      )
-        ? this.translationService.translate('addressCard.selectedAddress')
-        : this.translationService.translate('addressCard.selected'),
+      this.translationService.translate('addressCard.selectedAddress'),
       this.translationService.translate('addressCard.phoneNumber'),
       this.translationService.translate('addressCard.mobileNumber'),
     ]);
@@ -373,11 +385,15 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return !!this.checkoutConfigService?.shouldUseAddressSavedInCart();
   }
 
+  /**
+   * @deprecated since 221121.8. No longer used internally.
+   * The role logic is now inlined in `getCardContent()` method.
+   * This method will be removed in a future major version.
+   */
   protected getCardRole(isCardSelected: boolean): 'button' | 'application' {
-    const isButtonRole =
-      this.featureConfigService?.isEnabled(
-        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
-      ) && !isCardSelected;
-    return isButtonRole ? 'button' : 'application';
+    const role: 'button' | 'application' = !isCardSelected
+      ? 'button'
+      : 'application';
+    return role;
   }
 }

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -13,8 +12,6 @@ import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
-
-import createSpy = jasmine.createSpy;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
@@ -62,48 +59,79 @@ const cartModification: CartModification = {};
 class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   public configuratorType: string;
 
-  readConfigurationForCartEntry = createSpy().and.callFake(() =>
-    of(productConfiguration)
-  );
-  readConfigurationForOrderEntry = createSpy().and.callFake(() =>
-    of(productConfiguration)
-  );
-  updateConfigurationForCartEntry = createSpy().and.callFake(() =>
-    of(cartModification)
-  );
-  getConfigurationOverview = createSpy().and.callFake((configId: string) =>
-    of('getConfigurationOverview' + configId)
-  );
+  readConfigurationForCartEntry = vi
+    .fn()
+    .mockImplementation(() => of(productConfiguration));
+  readConfigurationForOrderEntry = vi
+    .fn()
+    .mockImplementation(() => of(productConfiguration));
+  updateConfigurationForCartEntry = vi
+    .fn()
+    .mockImplementation(() => of(cartModification));
+  getConfigurationOverview = vi
+    .fn()
+    .mockImplementation((configId: string) =>
+      of('getConfigurationOverview' + configId)
+    );
 
-  searchVariants = createSpy().and.callFake((configId: string) =>
-    of([{ productCode: PRODUCT_CODE + configId }])
-  );
+  searchVariants = vi
+    .fn()
+    .mockImplementation((configId: string) =>
+      of([{ productCode: PRODUCT_CODE + configId }])
+    );
 
-  readPriceSummary = createSpy().and.callFake((configId: string) =>
-    of('readPriceSummary' + configId)
-  );
+  readPriceSummary = vi
+    .fn()
+    .mockImplementation((configId: string) =>
+      of('readPriceSummary' + configId)
+    );
 
-  readConfiguration = createSpy().and.callFake((configId: string) =>
-    of('readConfiguration' + configId)
-  );
+  readConfiguration = vi
+    .fn()
+    .mockImplementation((configId: string) =>
+      of('readConfiguration' + configId)
+    );
 
-  updateConfiguration = createSpy().and.callFake(
-    (configuration: Configurator.Configuration) =>
+  updateConfiguration = vi
+    .fn()
+    .mockImplementation((configuration: Configurator.Configuration) =>
       of('updateConfiguration' + configuration.configId)
-  );
+    );
 
-  updateConfigurationOverview = createSpy().and.callFake(
-    (ovInput: Configurator.Overview) =>
+  addContainerRow = vi
+    .fn()
+    .mockImplementation((parameters: Configurator.AddContainerRowParameters) =>
+      of('addContainerRow' + parameters.configId)
+    );
+
+  copyContainerRow = vi
+    .fn()
+    .mockImplementation((parameters: Configurator.CopyContainerRowParameters) =>
+      of('copyContainerRow' + parameters.configId)
+    );
+
+  removeContainerRow = vi
+    .fn()
+    .mockImplementation(
+      (parameters: Configurator.RemoveContainerRowParameters) =>
+        of('removeContainerRow' + parameters.configId)
+    );
+
+  updateConfigurationOverview = vi
+    .fn()
+    .mockImplementation((ovInput: Configurator.Overview) =>
       of('updateConfigurationOverview' + ovInput.configId)
-  );
+    );
 
-  createConfiguration = createSpy().and.callFake(
-    (owner: CommonConfigurator.Owner) => of('createConfiguration' + owner)
-  );
+  createConfiguration = vi
+    .fn()
+    .mockImplementation((owner: CommonConfigurator.Owner) =>
+      of('createConfiguration' + owner)
+    );
 
-  addToCart = createSpy().and.callFake((configId: string) =>
-    of('addToCart' + configId)
-  );
+  addToCart = vi
+    .fn()
+    .mockImplementation((configId: string) => of('addToCart' + configId));
   getConfiguratorType(): string {
     return this.configuratorType ?? CONFIGURATOR_TYPE;
   }
@@ -148,12 +176,8 @@ describe('RulebasedConfiguratorConnector', () => {
         },
       ],
     });
-    service = TestBed.inject(
-      RulebasedConfiguratorConnector as Type<RulebasedConfiguratorConnector>
-    );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    service = TestBed.inject(RulebasedConfiguratorConnector);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     adapter = TestBed.inject(
       RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST
     );
@@ -304,6 +328,100 @@ describe('RulebasedConfiguratorConnector', () => {
     expect(adapter[0].updateConfiguration).toHaveBeenCalledWith(
       productConfiguration
     );
+  });
+
+  it('should call adapter on addContainerRow', () => {
+    const parameters: Configurator.AddContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: productConfiguration.owner,
+      stdAttrCode: 598,
+      productSystemId: PRODUCT_CODE,
+      parentRowId: '3',
+    };
+    let result;
+    service.addContainerRow(parameters).subscribe((res) => (result = res));
+    expect(result).toBe('addContainerRow' + CONFIG_ID);
+    expect(adapter[0].addContainerRow).toHaveBeenCalledWith(parameters);
+  });
+
+  it('should call adapter on copyContainerRow', () => {
+    const parameters: Configurator.CopyContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: productConfiguration.owner,
+      rowId: '3',
+    };
+    let result;
+    service.copyContainerRow(parameters).subscribe((res) => (result = res));
+    expect(result).toBe('copyContainerRow' + CONFIG_ID);
+    expect(adapter[0].copyContainerRow).toHaveBeenCalledWith(parameters);
+  });
+
+  it('should call adapter on removeContainerRow', () => {
+    const parameters: Configurator.RemoveContainerRowParameters = {
+      configId: CONFIG_ID,
+      owner: productConfiguration.owner,
+      rowId: '3',
+    };
+    let result;
+    service.removeContainerRow(parameters).subscribe((res) => (result = res));
+    expect(result).toBe('removeContainerRow' + CONFIG_ID);
+    expect(adapter[0].removeContainerRow).toHaveBeenCalledWith(parameters);
+  });
+
+  describe('container row methods for an adapter without container support', () => {
+    beforeEach(() => {
+      const mockAdapter =
+        adapter[0] as Partial<MockRulebasedConfiguratorAdapter>;
+      delete mockAdapter.addContainerRow;
+      delete mockAdapter.copyContainerRow;
+      delete mockAdapter.removeContainerRow;
+    });
+
+    it('should emit an error on addContainerRow', () => {
+      let error: Error | undefined;
+      service
+        .addContainerRow({
+          configId: CONFIG_ID,
+          owner: productConfiguration.owner,
+          stdAttrCode: 598,
+          productSystemId: PRODUCT_CODE,
+        })
+        .subscribe({ error: (e) => (error = e) });
+      expect(error?.message).toBe(
+        'addContainerRow is not supported for configurator type: ' +
+          CONFIGURATOR_TYPE
+      );
+    });
+
+    it('should emit an error on copyContainerRow', () => {
+      let error: Error | undefined;
+      service
+        .copyContainerRow({
+          configId: CONFIG_ID,
+          owner: productConfiguration.owner,
+          rowId: '3',
+        })
+        .subscribe({ error: (e) => (error = e) });
+      expect(error?.message).toBe(
+        'copyContainerRow is not supported for configurator type: ' +
+          CONFIGURATOR_TYPE
+      );
+    });
+
+    it('should emit an error on removeContainerRow', () => {
+      let error: Error | undefined;
+      service
+        .removeContainerRow({
+          configId: CONFIG_ID,
+          owner: productConfiguration.owner,
+          rowId: '3',
+        })
+        .subscribe({ error: (e) => (error = e) });
+      expect(error?.message).toBe(
+        'removeContainerRow is not supported for configurator type: ' +
+          CONFIGURATOR_TYPE
+      );
+    });
   });
 
   it('should call adapter on readConfigurationPrice', () => {

@@ -1,0 +1,772 @@
+import { Component, DebugElement, ElementRef, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  FeatureToggles,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  WindowRef,
+} from '@spartacus/core';
+import { GenericLinkComponent, IconComponent } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { BreakpointService } from '../../../layout';
+import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { NavigationNode } from './navigation-node.model';
+import { NavigationUIComponent } from './navigation-ui.component';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockIconComponent {
+  @Input() type: string;
+}
+
+@Component({
+  selector: 'cx-generic-link',
+  template: '<a href={{url}}>{{title}}</a>',
+})
+class MockGenericLinkComponent {
+  @Input() url: string | any[];
+  @Input() target: string;
+  @Input() title: string;
+}
+
+class MockHamburgerMenuService {
+  isExpanded = of(true);
+  toggle(_forceCollapse?: boolean): void {}
+}
+
+const mockFeatureToggles: FeatureToggles = {
+  a11yNavigationSpaceKeyOnKeyUp: true,
+};
+
+class MockBreakpointService {
+  isUp() {
+    return of(true);
+  }
+}
+
+const mockWinRef: WindowRef = {
+  nativeWindow: {
+    location: { href: '/sub-sub-child-1a' },
+  },
+} as WindowRef;
+
+const childLength = 9;
+
+const mockNode: NavigationNode = {
+  title: 'test',
+  children: [
+    {
+      title: 'Root 1',
+      url: '/root-1',
+      children: [
+        {
+          title: 'Child 1',
+          children: [
+            {
+              title: 'Sub child 1',
+              children: [
+                {
+                  title: 'Sub sub child 1a',
+                  url: '/sub-sub-child-1a',
+                },
+                {
+                  title: 'Sub sub child 1b',
+                  url: '/sub-sub-child-1b',
+                },
+                {
+                  title: 'Sub sub child 1c',
+                  url: '/sub-sub-child-1c',
+                },
+                {
+                  title: 'Sub sub child 1d',
+                  url: '/sub-sub-child-1d',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          title: 'Child 2',
+          url: '/child-2',
+        },
+      ],
+    },
+    {
+      title: 'Root 2',
+      url: '/root-2',
+    },
+  ],
+};
+
+describe('Navigation UI Component', () => {
+  let fixture: ComponentFixture<NavigationUIComponent>;
+  let navigationComponent: NavigationUIComponent;
+  let hamburgerMenuService: HamburgerMenuService;
+  let element: DebugElement;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [NavigationUIComponent, RouterModule.forRoot([])],
+      providers: [
+        {
+          provide: HamburgerMenuService,
+          useClass: MockHamburgerMenuService,
+        },
+        {
+          provide: WindowRef,
+          useValue: mockWinRef,
+        },
+        {
+          provide: FeatureToggles,
+          useValue: mockFeatureToggles,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+      ],
+    })
+      .overrideComponent(NavigationUIComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            GenericLinkComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockGenericLinkComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(NavigationUIComponent);
+    hamburgerMenuService = TestBed.inject(HamburgerMenuService);
+    navigationComponent = fixture.debugElement.componentInstance;
+    element = fixture.debugElement;
+
+    navigationComponent.node = mockNode;
+    navigationComponent['resetMenuOnClose'] = false;
+  });
+
+  describe('calculate columns', () => {
+    beforeEach(() => {
+      navigationComponent.wrapAfter = 5;
+    });
+
+    it('should return 2 for 10', () => {
+      expect(navigationComponent.getColumnCount(10)).toEqual(2);
+    });
+
+    it('should return 2 for 11', () => {
+      expect(navigationComponent.getColumnCount(11)).toEqual(3);
+    });
+
+    it('should return 2 for 12', () => {
+      expect(navigationComponent.getColumnCount(12)).toEqual(3);
+    });
+
+    it('should return 3 for 13', () => {
+      expect(navigationComponent.getColumnCount(13)).toEqual(3);
+    });
+
+    it('should return column count of 3 for 14 items', () => {
+      expect(navigationComponent.getColumnCount(14)).toEqual(3);
+    });
+
+    it('should return column count of 3 for 15 items', () => {
+      expect(navigationComponent.getColumnCount(15)).toEqual(3);
+    });
+  });
+
+  describe('UI tests', () => {
+    it('should be created', () => {
+      expect(navigationComponent).toBeTruthy();
+    });
+
+    it('should render back button for flyout navigation', () => {
+      fixture.detectChanges();
+      const backButton: ElementRef = element.query(By.css('.back'));
+      const link: HTMLLinkElement = backButton.nativeElement;
+
+      expect(link).toBeDefined();
+    });
+
+    it('should not render back button for non-flyout navigation', () => {
+      navigationComponent.flyout = false;
+      fixture.detectChanges();
+      const backButton: ElementRef = element.query(By.css('.back'));
+
+      expect(backButton).toBeFalsy();
+    });
+
+    it('should render cx-icon element for a nav node with children in flyout mode', () => {
+      fixture.detectChanges();
+      const icon: ElementRef = element.query(By.css('button > cx-icon'));
+      const link: HTMLLinkElement = icon.nativeElement;
+
+      expect(link).toBeDefined();
+    });
+
+    it('should not render cx-icon element for a nav node with children not in flyout mode', () => {
+      navigationComponent.flyout = false;
+      fixture.detectChanges();
+      const icon: ElementRef = element.query(By.css('a > cx-icon'));
+
+      expect(icon).toBeFalsy();
+    });
+
+    it('should render all link for root', () => {
+      fixture.detectChanges();
+      const allLink: ElementRef[] = element.queryAll(
+        By.css('nav > ul > li > cx-generic-link')
+      );
+      expect(allLink.length).toEqual(2);
+    });
+
+    it('should render ' + childLength + ' nav elements', () => {
+      navigationComponent.flyout = false;
+      fixture.detectChanges();
+      const nav: ElementRef[] = element.queryAll(By.css('li'));
+      expect(nav.length).toEqual(childLength);
+    });
+
+    it('should render a tag for nav nodes without a URL', () => {
+      fixture.detectChanges();
+      const navs: ElementRef[] = element.queryAll(
+        By.css('nav > ul > li > button')
+      );
+      const back: HTMLElement = navs[0].nativeElement;
+      const root1: HTMLElement = navs[1].nativeElement;
+      expect(navs.length).toBe(2);
+      expect(back.textContent?.trim()).toEqual('common.back');
+      expect(root1.textContent).toEqual('');
+    });
+
+    it('should render link for nav nodes with a URL', () => {
+      fixture.detectChanges();
+
+      const nav: ElementRef = element.query(
+        By.css('nav > ul > li > cx-generic-link')
+      );
+      const el: HTMLElement = nav.nativeElement;
+      expect(el).toBeTruthy();
+    });
+
+    it('should render a wrapper container for nav nodes with childs', () => {
+      fixture.detectChanges();
+
+      const wrapper: ElementRef[] = element.queryAll(By.css('nav .wrapper'));
+      expect(wrapper.length).toEqual(3);
+    });
+
+    it('should render a childs container for nav nodes with childs', () => {
+      fixture.detectChanges();
+
+      const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
+      expect(child.length).toEqual(3);
+    });
+
+    it('should render a depth attribute on child containers indicating the depth of the navigation ', () => {
+      fixture.detectChanges();
+
+      const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
+      const first: HTMLElement = child[0].nativeElement;
+      const second: HTMLElement = child[1].nativeElement;
+      const third: HTMLElement = child[2].nativeElement;
+      expect(first.attributes.getNamedItem('depth').value).toEqual('3');
+      expect(second.attributes.getNamedItem('depth').value).toEqual('2');
+      expect(third.attributes.getNamedItem('depth').value).toEqual('1');
+    });
+
+    it('should render child element in the childs container for nav nodes with childs', () => {
+      fixture.detectChanges();
+
+      const child: ElementRef[] = element.queryAll(By.css('nav .childs li'));
+      expect(child.length).toEqual(7);
+    });
+
+    it('should reinitialize menu, when menu is expanded', () => {
+      navigationComponent['resetMenuOnClose'] = true;
+      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(
+        () => {}
+      );
+      fixture.detectChanges();
+      expect(navigationComponent.reinitializeMenu).toHaveBeenCalled();
+    });
+
+    it('should NOT reinitialize menu, when menu is expanded if config is false', () => {
+      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(
+        () => {}
+      );
+      fixture.detectChanges();
+      expect(navigationComponent.reinitializeMenu).not.toHaveBeenCalled();
+    });
+
+    it('should close hamburger and every LI element when click on link to current route', () => {
+      vi.spyOn(navigationComponent, 'closeIfClickedTheSameLink');
+      vi.spyOn(navigationComponent, 'reinitializeMenu');
+      vi.spyOn(hamburgerMenuService, 'toggle').mockImplementation(() => {});
+
+      navigationComponent.isDesktop$ = of(false);
+      fixture.detectChanges();
+
+      const makeClickEvent = (el: HTMLElement) => ({
+        currentTarget: el,
+        type: 'click',
+        stopImmediatePropagation: () => {},
+        stopPropagation: () => {},
+      });
+
+      const btn1 = element.query(By.css('nav > ul > li:nth-child(2) > button'));
+      btn1.triggerEventHandler('click', makeClickEvent(btn1.nativeElement));
+      fixture.detectChanges();
+      const btn2 = element.query(By.css('button[aria-controls="Child-1"]'));
+      btn2.triggerEventHandler('click', makeClickEvent(btn2.nativeElement));
+      fixture.detectChanges();
+      const btn3 = element.query(By.css('button[aria-controls="Sub-child-1"]'));
+      btn3.triggerEventHandler('click', makeClickEvent(btn3.nativeElement));
+      fixture.detectChanges();
+
+      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
+      expect(element.queryAll(By.css('li.is-opened')).length).toBe(2);
+
+      const links = element.queryAll(By.css('cx-generic-link'));
+      const targetLink = links.find(
+        (link) => link.componentInstance.url === '/sub-sub-child-1a'
+      );
+      targetLink?.nativeElement.click();
+      expect(
+        navigationComponent.closeIfClickedTheSameLink
+      ).toHaveBeenCalledWith({
+        title: 'Sub sub child 1a',
+        url: '/sub-sub-child-1a',
+      });
+      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(0);
+      expect(element.queryAll(By.css('li.is-opened')).length).toBe(0);
+
+      expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
+      expect(hamburgerMenuService.toggle).toHaveBeenCalledWith(true);
+    });
+
+    it('should remove topmost semantic list roles for non-flyout navigation', () => {
+      navigationComponent.flyout = false;
+      fixture.detectChanges();
+      const firstListElement: HTMLElement = element.query(
+        By.css('ul')
+      ).nativeElement;
+      const secondListElement: HTMLElement = element.query(
+        By.css('[depth="1"]')
+      ).nativeElement;
+
+      expect(firstListElement.getAttribute('role')).toBe('presentation');
+      Array.from(firstListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('presentation');
+      });
+
+      Array.from(secondListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('listitem');
+      });
+    });
+
+    it('on desktop, display headings for nested nodes instead of dropdown triggers', () => {
+      fixture.detectChanges();
+      const nestedNodeHeading = fixture.debugElement.query(
+        By.css('#Root-1 h4')
+      ).nativeElement;
+      const rootTriggerButton = fixture.debugElement.query(
+        By.css('button[aria-controls="Root-1"]')
+      ).nativeElement;
+
+      expect(nestedNodeHeading.tagName).toEqual('H4');
+      expect(rootTriggerButton.tagName).toEqual('BUTTON');
+    });
+  });
+
+  describe('Keyboard navigation', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should restore default tabbing order for non flyout navigation', () => {
+      const childNode = {
+        title: 'Child',
+        url: '/child',
+      };
+      navigationComponent.flyout = true;
+      expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(-1);
+
+      navigationComponent.flyout = false;
+      expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(0);
+    });
+
+    it('return focus to node header after navigating back', () => {
+      vi.useFakeTimers();
+      const mockNode = document.createElement('li');
+      const mockHeader = document.createElement('a');
+      mockHeader.setAttribute('aria-haspopup', 'true');
+      mockNode.appendChild(mockHeader);
+      navigationComponent['openNodes'] = [mockNode];
+      const focusSpy = vi.spyOn(mockHeader, 'focus');
+
+      navigationComponent.back();
+      vi.runAllTimers();
+
+      expect(mockHeader.focus).toHaveBeenCalled();
+    });
+
+    it('should move focus to the opened node', () => {
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const spy = vi.spyOn(firstChild.nativeElement, 'focus');
+      const spaceEvent = new KeyboardEvent('keyup', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('[depth="2"] h4')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+
+      navigationComponent.focusOnNode(spaceEvent);
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should move focus inside node on up/down arrow press', () => {
+      const originalToggleOpen =
+        navigationComponent.toggleOpen.bind(navigationComponent);
+      navigationComponent.toggleOpen = () => {};
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const secondChild = element.query(By.css('[href="/sub-sub-child-1b"]'));
+      const arrowDownEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+      });
+      const arrowUpEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+      const spaceEvent = new KeyboardEvent('keyup', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('[depth="2"] h4')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+      Object.defineProperty(arrowDownEvent, 'target', {
+        value: firstChild.nativeElement,
+      });
+      Object.defineProperty(arrowUpEvent, 'target', {
+        value: secondChild.nativeElement,
+      });
+
+      navigationComponent.onSpace(spaceEvent);
+
+      navigationComponent['arrowControls'].next(arrowDownEvent);
+      expect(document.activeElement).toEqual(secondChild.nativeElement);
+      navigationComponent['arrowControls'].next(arrowUpEvent);
+      expect(document.activeElement).toEqual(firstChild.nativeElement);
+
+      navigationComponent.toggleOpen = originalToggleOpen;
+    });
+
+    describe('onSpace — toggle a11yNavigationSpaceKeyOnKeyUp ON', () => {
+      beforeEach(() => {
+        navigationComponent['featureToggles'] = {
+          ...navigationComponent['featureToggles'],
+          a11yNavigationSpaceKeyOnKeyUp: true,
+        };
+      });
+
+      it('should call toggleOpen on keyup', () => {
+        const spy = vi
+          .spyOn(navigationComponent, 'toggleOpen')
+          .mockImplementation(() => {});
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keyupEvent, 'target', { value: dropDownButton });
+
+        navigationComponent.onSpace(keyupEvent);
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      it('should suppress action and only call preventDefault on keydown', () => {
+        const toggleSpy = vi.spyOn(navigationComponent, 'toggleOpen');
+        const keydownEvent = new KeyboardEvent('keydown', {
+          code: 'Space',
+          cancelable: true,
+        });
+        vi.spyOn(keydownEvent, 'preventDefault');
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keydownEvent, 'target', {
+          value: dropDownButton,
+        });
+
+        navigationComponent.onSpace(keydownEvent);
+
+        expect(keydownEvent.preventDefault).toHaveBeenCalled();
+        expect(toggleSpy).not.toHaveBeenCalled();
+      });
+
+      it('should not move focus or set up arrow controls on keydown', () => {
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
+        const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
+
+        navigationComponent.onSpace(keydownEvent);
+
+        expect(focusSpy).not.toHaveBeenCalled();
+        expect(arrowSpy).not.toHaveBeenCalled();
+      });
+
+      it('should move focus and set up arrow controls on keyup', () => {
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
+        vi.spyOn(navigationComponent, 'toggleOpen').mockImplementation(
+          () => {}
+        );
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keyupEvent, 'target', { value: dropDownButton });
+
+        navigationComponent.onSpace(keyupEvent);
+
+        expect(focusSpy).toHaveBeenCalled();
+        expect(arrowSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('onSpace — toggle a11yNavigationSpaceKeyOnKeyUp OFF', () => {
+      beforeEach(() => {
+        navigationComponent['featureToggles'] = {
+          ...navigationComponent['featureToggles'],
+          a11yNavigationSpaceKeyOnKeyUp: false,
+        };
+      });
+
+      it('should call toggleOpen on keydown', () => {
+        const spy = vi
+          .spyOn(navigationComponent, 'toggleOpen')
+          .mockImplementation(() => {});
+        const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keydownEvent, 'target', {
+          value: dropDownButton,
+        });
+
+        navigationComponent.onSpace(keydownEvent);
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      it('should ignore keyup and not call toggleOpen', () => {
+        const spy = vi.spyOn(navigationComponent, 'toggleOpen');
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+
+        navigationComponent.onSpace(keyupEvent);
+
+        expect(spy).not.toHaveBeenCalled();
+      });
+
+      it('should not move focus or set up arrow controls on keyup', () => {
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+
+        navigationComponent.onSpace(keyupEvent);
+
+        expect(focusSpy).not.toHaveBeenCalled();
+        expect(arrowSpy).not.toHaveBeenCalled();
+      });
+
+      it('should move focus and set up arrow controls on keydown', () => {
+        const focusSpy = vi.spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = vi.spyOn(navigationComponent, 'setupArrowControls');
+        vi.spyOn(navigationComponent, 'toggleOpen').mockImplementation(
+          () => {}
+        );
+        const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keydownEvent, 'target', {
+          value: dropDownButton,
+        });
+
+        navigationComponent.onSpace(keydownEvent);
+
+        expect(focusSpy).toHaveBeenCalled();
+        expect(arrowSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('toggleOpen — toggle a11yNavigationSpaceKeyOnKeyUp ON', () => {
+      let parentNode: HTMLElement;
+      let triggerButton: HTMLElement;
+
+      beforeEach(() => {
+        navigationComponent['featureToggles'] = {
+          ...navigationComponent['featureToggles'],
+          a11yNavigationSpaceKeyOnKeyUp: true,
+        };
+        triggerButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        parentNode = triggerButton.parentElement as HTMLElement;
+      });
+
+      it('should open node on keyup', () => {
+        const keyupEvent = new KeyboardEvent('keyup', {
+          code: 'Space',
+          cancelable: true,
+        });
+        Object.defineProperty(keyupEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keyupEvent);
+
+        expect(navigationComponent['openNodes']).toContain(parentNode);
+      });
+
+      it('should call preventDefault and not open node on keydown', () => {
+        const keydownEvent = new KeyboardEvent('keydown', {
+          code: 'Space',
+          cancelable: true,
+        });
+        vi.spyOn(keydownEvent, 'preventDefault');
+        Object.defineProperty(keydownEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keydownEvent);
+
+        expect(keydownEvent.preventDefault).toHaveBeenCalled();
+        expect(navigationComponent['openNodes']).not.toContain(parentNode);
+      });
+
+      it('should call back() when keyup fires on an already-open node', () => {
+        const backSpy = vi.spyOn(navigationComponent, 'back');
+        navigationComponent['openNodes'] = [parentNode];
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+        Object.defineProperty(keyupEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keyupEvent);
+
+        expect(backSpy).toHaveBeenCalled();
+      });
+
+      it('should open node on click regardless of toggle', () => {
+        const clickEvent = new MouseEvent('click');
+        Object.defineProperty(clickEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(clickEvent);
+
+        expect(navigationComponent['openNodes']).toContain(parentNode);
+      });
+    });
+
+    describe('toggleOpen — toggle a11yNavigationSpaceKeyOnKeyUp OFF', () => {
+      let parentNode: HTMLElement;
+      let triggerButton: HTMLElement;
+
+      beforeEach(() => {
+        navigationComponent['featureToggles'] = {
+          ...navigationComponent['featureToggles'],
+          a11yNavigationSpaceKeyOnKeyUp: false,
+        };
+        triggerButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        parentNode = triggerButton.parentElement as HTMLElement;
+      });
+
+      it('should open node on keydown', () => {
+        const keydownEvent = new KeyboardEvent('keydown', {
+          code: 'Space',
+          cancelable: true,
+        });
+        Object.defineProperty(keydownEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keydownEvent);
+
+        expect(navigationComponent['openNodes']).toContain(parentNode);
+      });
+
+      it('should ignore keyup and not open node', () => {
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+        Object.defineProperty(keyupEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keyupEvent);
+
+        expect(navigationComponent['openNodes']).not.toContain(parentNode);
+      });
+
+      it('should call back() when keydown fires on an already-open node', () => {
+        const backSpy = vi.spyOn(navigationComponent, 'back');
+        navigationComponent['openNodes'] = [parentNode];
+        const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
+        Object.defineProperty(keydownEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keydownEvent);
+
+        expect(backSpy).toHaveBeenCalled();
+      });
+
+      it('should open node on click regardless of toggle', () => {
+        const clickEvent = new MouseEvent('click');
+        Object.defineProperty(clickEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(clickEvent);
+
+        expect(navigationComponent['openNodes']).toContain(parentNode);
+      });
+    });
+  });
+
+  describe('transformIntoValidID', () => {
+    it('should replace invalid characters and provide a valid ID', () => {
+      const invalidIDs = [
+        { input: 'Invalid ID', expected: 'Invalid-ID' },
+        { input: 'Inv@lid$Char!', expected: 'Inv-lid-Char-' },
+        { input: 'ValidId', expected: 'ValidId' },
+      ];
+
+      invalidIDs.forEach(({ input, expected }) => {
+        expect(navigationComponent.transformIntoValidID(input)).toEqual(
+          expected
+        );
+      });
+    });
+  });
+});

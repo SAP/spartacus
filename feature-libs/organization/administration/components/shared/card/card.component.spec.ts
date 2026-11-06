@@ -1,23 +1,36 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
-import { PopoverModule, SplitViewService } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  GlobalMessageService,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  IconComponent,
+  PopoverModule,
+  SplitViewService,
+} from '@spartacus/storefront';
+import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { ViewComponent } from 'core-libs/storefront/shared/components/split-view/view/view.component';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { ItemService } from '../item.service';
+import { MessageComponent } from '../message/message.component';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { CardComponent } from './card.component';
-import createSpy = jasmine.createSpy;
 
 const mockItem = { foo: 'bar' };
 
 class MockItemService {
   key$ = of('key');
   current$ = of(mockItem);
-  launchDetails = createSpy('launchDetails');
+  launchDetails = vi.fn();
 }
 
 class MockGlobalMessageService {
@@ -33,22 +46,42 @@ describe('CardComponent', () => {
       imports: [
         CommonModule,
         // SplitViewTestingModule,
-        IconTestingModule,
-        I18nTestingModule,
-        MessageTestingModule,
         PopoverModule,
+        CardComponent,
+        ViewComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
-      declarations: [CardComponent, ViewComponent, MockFeatureDirective],
       providers: [
         {
           provide: ItemService,
           useClass: MockItemService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-
         SplitViewService,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CardComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            FeatureDirective,
+            IconComponent,
+            MessageComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockFeatureDirective,
+            IconTestingModule,
+            MessageTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -80,14 +113,16 @@ describe('CardComponent', () => {
         const el: HTMLElement = fixture.debugElement.query(
           By.css('.title h3')
         ).nativeElement;
-        expect(el.innerText).toContain('organization.budget.title');
+        expect(el.textContent?.trim()).toContain('organization.budget.title');
       });
 
       it('should have localized h4 subtitle', () => {
         const el: HTMLElement = fixture.debugElement.query(
           By.css('.title h4')
         ).nativeElement;
-        expect(el.innerText).toContain('organization.budget.subtitle');
+        expect(el.textContent?.trim()).toContain(
+          'organization.budget.subtitle'
+        );
       });
 
       it('should have back button by default', () => {
@@ -112,7 +147,7 @@ describe('CardComponent', () => {
         const el: HTMLElement = fixture.debugElement.query(
           By.css('button.close')
         ).nativeElement;
-        expect(el.innerText).toContain('organization.assign');
+        expect(el.textContent?.trim()).toContain('organization.assign');
       });
     });
   });
@@ -123,7 +158,7 @@ describe('CardComponent', () => {
       const ev = {
         stopPropagation: () => {},
       };
-      spyOn(component.view, 'toggle');
+      vi.spyOn(component.view, 'toggle');
       component.closeView(ev as MouseEvent);
       expect(component.view.toggle).toHaveBeenCalledWith(true);
     });
@@ -142,14 +177,16 @@ describe('CardComponent', () => {
 
     it('should display hint after click info button', () => {
       const infoButton = fixture.debugElement.query(
-        By.css('button[ng-reflect-cx-popover]')
-      ).nativeElement;
+        By.css('.title h3 button cx-icon')
+      ).parent?.nativeElement;
       infoButton.click();
       const el = fixture.debugElement.query(
         By.css('cx-popover > .popover-body > p')
       );
       expect(el).toBeTruthy();
-      expect(el.nativeElement.innerText).toBe('organization.budget.hint');
+      expect(el.nativeElement.textContent?.trim()).toBe(
+        'organization.budget.hint'
+      );
     });
   });
 });

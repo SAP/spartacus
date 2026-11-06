@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,5 +11,6 @@ import { OpfApiCtaModule } from '@spartacus/opf/cta/opf-api';
 
 @NgModule({
   imports: [OpfCtaCoreModule, OpfApiCtaModule, OpfCtaComponentsModule],
+  exports: [OpfCtaComponentsModule],
 })
 export class OpfCtaModule {}

@@ -8,7 +8,6 @@ import {
 } from '@spartacus/order/root';
 import { Subject } from 'rxjs';
 import { CheckoutScheduledReplenishmentEventListener } from './checkout-scheduled-replenishment-event.listener';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = 'test-user-id';
 const mockCartId = 'test-cart-id';
@@ -18,8 +17,8 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 
 const mockEventStream$ = new Subject<CxEvent>();
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 describe(`CheckoutScheduledReplenishmentEventListener`, () => {

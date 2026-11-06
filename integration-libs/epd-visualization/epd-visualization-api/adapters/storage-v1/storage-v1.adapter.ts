@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,8 @@ import { catchError } from 'rxjs/operators';
  * since multiple microservice APIs are being combined into a single namespace.
  * A new adapter implementation will be added and this one will be deprecated
  * when the new endpoint is available.
+ *
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @Injectable()
 export class StorageV1Adapter implements SceneAdapter {

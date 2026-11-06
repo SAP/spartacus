@@ -1,0 +1,14 @@
+<ng-container *ngIf="cart$ | async as cart">
+  <div
+    class="cx-opf-gift-card-place-order-container"
+    *ngIf="cart.opfGiftCardSummary?.giftCardsCoverFullAmount"
+  >
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="placeOrderWithGiftCard()"
+    >
+      {{ 'opfGiftCard.proceedPayment' | cxTranslate }}
+    </button>
+  </div>
+</ng-container>

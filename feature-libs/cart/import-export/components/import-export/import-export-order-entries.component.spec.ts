@@ -11,8 +11,9 @@ import {
 } from '@spartacus/cart/base/root';
 import { ContextService, PageComponentModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
+import { ExportOrderEntriesComponent } from '../export-entries';
+import { ImportOrderEntriesComponent } from '../import-to-cart';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
-import createSpy = jasmine.createSpy;
 
 const mockLoadProduct: ProductImportInfo = {
   productCode: '123456',
@@ -45,13 +46,13 @@ const importExportContext = new BehaviorSubject<
 >(new MockImportExportContext());
 
 class MockContextService implements Partial<ContextService> {
-  get = createSpy().and.returnValue(importExportContext.asObservable());
+  get = vi.fn().mockReturnValue(importExportContext.asObservable());
 }
 
 @Component({
   selector: 'cx-import-order-entries',
   template: '',
-  standalone: false,
+  imports: [PageComponentModule],
 })
 export class MockImportOrderEntriesComponent {
   @ViewChild('open') element: ElementRef;
@@ -63,7 +64,7 @@ export class MockImportOrderEntriesComponent {
 @Component({
   selector: 'cx-export-order-entries',
   template: '',
-  standalone: false,
+  imports: [PageComponentModule],
 })
 export class MockExportOrderEntriesComponent {
   @Input()
@@ -76,14 +77,21 @@ describe('ImportExportComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PageComponentModule],
+      imports: [PageComponentModule, ImportExportOrderEntriesComponent],
       providers: [{ provide: ContextService, useClass: MockContextService }],
-      declarations: [
-        ImportExportOrderEntriesComponent,
-        MockExportOrderEntriesComponent,
-        MockImportOrderEntriesComponent,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(ImportExportOrderEntriesComponent, {
+        remove: {
+          imports: [ExportOrderEntriesComponent, ImportOrderEntriesComponent],
+        },
+        add: {
+          imports: [
+            MockExportOrderEntriesComponent,
+            MockImportOrderEntriesComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

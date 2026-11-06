@@ -1,14 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
+import { Address } from '@spartacus/core';
 import {
   OpfDynamicScript,
   OpfErrorDialogOptions,
   OpfKeyValueMap,
 } from '@spartacus/opf/base/root';
+import {
+  OpfPaymentVerificationPayload,
+  OpfPaymentVerificationResponse,
+} from './opf-payment-verification.model';
 
 export type OpfPaymentMerchantCallback = (
   response?: OpfPaymentSubmitResponse | OpfPaymentSubmitCompleteResponse
@@ -17,32 +23,74 @@ export type OpfPaymentMerchantCallback = (
 export interface OpfPaymentGlobalMethods {
   getRedirectParams?(): Array<OpfKeyValueMap>;
   submit?(options: {
-    cartId: string;
+    /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
+    cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;
     submitFailure: OpfPaymentMerchantCallback;
+    submitCancel?: OpfPaymentMerchantCallback;
     paymentMethod: OpfPaymentMethod;
+    paymentSessionId?: string;
   }): Promise<boolean>;
   submitComplete?(options: {
-    cartId: string;
+    /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
+    cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;
     submitFailure: OpfPaymentMerchantCallback;
+    submitCancel?: OpfPaymentMerchantCallback;
+    paymentSessionId?: string;
   }): Promise<boolean>;
   submitCompleteRedirect?(options: {
-    cartId: string;
+    /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
+    cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;
     submitFailure: OpfPaymentMerchantCallback;
+    submitCancel?: OpfPaymentMerchantCallback;
+    savePaymentMethod?: boolean;
   }): Promise<boolean>;
   throwPaymentError?(errorOptions?: OpfErrorDialogOptions): void;
   startLoadIndicator?(): void;
   stopLoadIndicator?(): void;
   scriptReady?(scriptIdentifier: string): void;
   reinitiatePaymentForm?(paymentOptionId?: number): Promise<boolean>;
+  getCart?(cartId?: string): Promise<Cart | undefined>;
+  setBillingAddress?(address: Address): Promise<unknown>;
+  getBillingAddress?(): Promise<Address | undefined>;
+  setDeliveryAddress?(address: Address): Promise<string>;
+  getDeliveryAddress?(): Promise<Address | undefined>;
+  setDeliveryMode?(mode: string): Promise<DeliveryMode | undefined>;
+  getDeliveryMode?(): Promise<DeliveryMode | undefined>;
+  deleteAddress?(addressId: string): Promise<void>;
+  /**
+   * Starts a new payment session for a configuration.
+   *
+   * Should be used when no payment session exists yet,
+   * or when they intentionally want to bootstrap a fresh session.
+   */
+  initiatePayment?(
+    configurationIdOrPaymentConfig: string | number | OpfPaymentConfig
+  ): Promise<OpfPaymentSessionData>;
+  /**
+   * Updates an existing payment transaction/session.
+   *
+   * Should be used for subsequent updates once a
+   * payment session ID is available.
+   */
+  updatePaymentTransaction?(
+    updatePaymentConfig: OpfPaymentUpdateConfig
+  ): Promise<OpfPaymentSessionData>;
+  verifyPayment?(
+    paymentSessionId: string,
+    paymentVerificationPayload: OpfPaymentVerificationPayload
+  ): Promise<OpfPaymentVerificationResponse>;
+  updateCartGuestUserEmail?(email: string): Promise<boolean>;
+  createCartGuestUser?(): Promise<boolean>;
+  handle3DSRedirect?(threeDsURL: string): Promise<void>;
 }
 
 export interface OpfPaymentBrowserInfo {
@@ -65,6 +113,7 @@ export interface OpfPaymentSubmitRequest {
   encryptedToken?: string;
   channel?: string;
   additionalData?: Array<OpfKeyValueMap>;
+  savePaymentMethod?: boolean;
 }
 
 export interface OpfPaymentSubmitInput {
@@ -78,6 +127,16 @@ export interface OpfPaymentSubmitInput {
   returnPath?: string;
   paymentMethod: OpfPaymentMethod;
   encryptedToken?: string;
+  savePaymentMethod?: boolean;
+  /**
+   * Optional cart ID used to resolve the cart access code.
+   * When omitted, the active cart ID is used.
+   */
+  cartId?: string;
+}
+
+export enum OpfPaymentChannel {
+  BROWSER = 'BROWSER',
 }
 
 export enum OpfPaymentSubmitStatus {
@@ -110,6 +169,7 @@ export interface OpfPaymentSubmitCompleteResponse {
 export interface OpfPaymentSubmitCompleteRequest {
   paymentSessionId?: string;
   additionalData?: Array<OpfKeyValueMap>;
+  savePaymentMethod?: boolean;
 }
 export interface OpfPaymentSubmitCompleteInput {
   additionalData: Array<OpfKeyValueMap>;
@@ -120,6 +180,12 @@ export interface OpfPaymentSubmitCompleteInput {
     onFailure: OpfPaymentMerchantCallback;
   };
   returnPath?: string;
+  savePaymentMethod?: boolean;
+  /**
+   * Optional cart ID used to resolve the cart access code.
+   * When omitted, the active cart ID is used.
+   */
+  cartId?: string;
 }
 
 export interface OpfPaymentAfterRedirectScriptResponse {
@@ -131,8 +197,24 @@ export interface OpfPaymentInitiationConfig {
   config?: OpfPaymentConfig;
 }
 
+export interface OpfPaymentUpdateConfig {
+  paymentSessionId: string;
+  otpKey?: string;
+  config?: OpfPaymentUpdatePayload;
+}
+
+export interface OpfPaymentUpdatePayload {
+  configurationId?: string;
+  channel?: string;
+  browserInfo?: OpfPaymentBrowserInfo;
+  additionalData?: Array<OpfKeyValueMap>;
+  resultURL?: string;
+  cancelURL?: string;
+}
+
 export interface OpfPaymentConfig {
   configurationId?: string;
+  /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
   cartId?: string;
   resultURL?: string;
   cancelURL?: string;
@@ -177,6 +259,7 @@ export interface OpfPaymentRenderMethodEvent {
   renderType?: OpfPaymentRenderPattern;
   html?: string | null;
   destination?: OpfPaymentDestination;
+  paymentOptionId?: number;
 }
 
 export interface OpfPaymentMethodDetails {

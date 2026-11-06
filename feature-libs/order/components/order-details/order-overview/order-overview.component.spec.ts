@@ -1,34 +1,36 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
-  I18nTestingModule,
+  CxDatePipe,
+  FeatureToggles,
+  MockDatePipe,
+  MockTranslatePipe,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { Order, OrderConfig, ReplenishmentOrder } from '@spartacus/order/root';
-import { Card, CmsComponentData } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Card, CardComponent, CmsComponentData } from '@spartacus/storefront';
+import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderOverviewComponent } from './order-overview.component';
 import { OrderOverviewComponentService } from './order-overview-component.service';
+import { OrderOverviewComponent } from './order-overview.component';
 
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
 })
 class MockCardComponent {
   @Input()
   content: Card;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -163,8 +165,7 @@ describe('OrderOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderOverviewComponent, MockCardComponent, MockUrlPipe],
+      imports: [OrderOverviewComponent, RouterModule.forRoot([])],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
@@ -175,7 +176,21 @@ describe('OrderOverviewComponent', () => {
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: OrderConfig, useValue: mockOrderConfig },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderOverviewComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, CardComponent, UrlPipe],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCardComponent,
+            MockUrlPipe,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -192,14 +207,14 @@ describe('OrderOverviewComponent', () => {
 
   describe('when replenishment order code is defined', () => {
     beforeEach(() => {
-      spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      vi.spyOn(orderDetailsService, 'getOrderDetails').mockReturnValue(
         of(mockReplenishmentOrder)
       );
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getReplenishmentCodeCardContent(orderCode: string)', () => {
-      spyOn(component, 'getReplenishmentCodeCardContent').and.callThrough();
+      vi.spyOn(component, 'getReplenishmentCodeCardContent');
 
       component
         .getReplenishmentCodeCardContent(
@@ -220,7 +235,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getReplenishmentActiveCardContent(active: boolean)', () => {
-      spyOn(component, 'getReplenishmentActiveCardContent').and.callThrough();
+      vi.spyOn(component, 'getReplenishmentActiveCardContent');
 
       component
         .getReplenishmentActiveCardContent(mockReplenishmentOrder.active)
@@ -237,7 +252,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getReplenishmentStartOnCardContent(isoDate: string)', () => {
-      spyOn(component, 'getReplenishmentStartOnCardContent').and.callThrough();
+      vi.spyOn(component, 'getReplenishmentStartOnCardContent');
 
       const date = mockReplenishmentOrder.firstDate;
 
@@ -256,10 +271,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getReplenishmentFrequencyCardContent(frequency: string)', () => {
-      spyOn(
-        component,
-        'getReplenishmentFrequencyCardContent'
-      ).and.callThrough();
+      vi.spyOn(component, 'getReplenishmentFrequencyCardContent');
 
       component
         .getReplenishmentFrequencyCardContent(
@@ -280,7 +292,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getReplenishmentNextDateCardContent(isoDate: string)', () => {
-      spyOn(component, 'getReplenishmentNextDateCardContent').and.callThrough();
+      vi.spyOn(component, 'getReplenishmentNextDateCardContent');
 
       const date = mockReplenishmentOrder.trigger.activationTime;
 
@@ -301,11 +313,11 @@ describe('OrderOverviewComponent', () => {
 
   describe('when replenishment is NOT defined', () => {
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getOrderCodeCardContent(orderCode: string)', () => {
-      spyOn(component, 'getOrderCodeCardContent').and.callThrough();
+      vi.spyOn(component, 'getOrderCodeCardContent');
 
       component
         .getOrderCodeCardContent(mockOrder.code)
@@ -322,7 +334,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getOrderCurrentDateCardContent(isoDate: string)', () => {
-      spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
+      vi.spyOn(component, 'getOrderCurrentDateCardContent');
 
       const date = mockOrder.created.toDateString();
 
@@ -339,7 +351,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getOrderStatusCardContent(status: string)', () => {
-      spyOn(component, 'getOrderStatusCardContent').and.callThrough();
+      vi.spyOn(component, 'getOrderStatusCardContent');
 
       component
         .getOrderStatusCardContent(mockOrder.statusDisplay)
@@ -358,11 +370,11 @@ describe('OrderOverviewComponent', () => {
 
   describe('when purchase order number is defined', () => {
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getPurchaseOrderNumber(poNumber: string)', () => {
-      spyOn(component, 'getPurchaseOrderNumber').and.callThrough();
+      vi.spyOn(component, 'getPurchaseOrderNumber');
 
       component
         .getPurchaseOrderNumber(mockOrder.purchaseOrderNumber)
@@ -379,7 +391,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getMethodOfPaymentCardContent(hasPaymentInfo: PaymentDetails)', () => {
-      spyOn(component, 'getMethodOfPaymentCardContent').and.callThrough();
+      vi.spyOn(component, 'getMethodOfPaymentCardContent');
 
       component
         .getMethodOfPaymentCardContent(mockOrder.paymentInfo)
@@ -396,7 +408,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getCostCenterCardContent(costCenter: CostCenter)', () => {
-      spyOn(component, 'getCostCenterCardContent').and.callThrough();
+      vi.spyOn(component, 'getCostCenterCardContent');
 
       component
         .getCostCenterCardContent(mockOrder.costCenter)
@@ -416,11 +428,11 @@ describe('OrderOverviewComponent', () => {
 
   describe('when paymentInfo is defined', () => {
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {
-      spyOn(component, 'getPaymentInfoCardContent').and.callThrough();
+      vi.spyOn(component, 'getPaymentInfoCardContent');
 
       component
         .getPaymentInfoCardContent(mockOrder.paymentInfo)
@@ -451,7 +463,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
-      spyOn(component, 'getBillingAddressCardContent').and.callThrough();
+      vi.spyOn(component, 'getBillingAddressCardContent');
 
       const billingAddress = mockOrder.paymentInfo.billingAddress;
 
@@ -478,11 +490,11 @@ describe('OrderOverviewComponent', () => {
 
   describe('common column in all types of order', () => {
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getAddressCardContent(deliveryAddress: Address)', () => {
-      spyOn(component, 'getAddressCardContent').and.callThrough();
+      vi.spyOn(component, 'getAddressCardContent');
 
       const deliveryAddress = mockOrder.deliveryAddress;
 
@@ -507,7 +519,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getDeliveryModeCardContent(deliveryMode: DeliveryMode)', () => {
-      spyOn(component, 'getDeliveryModeCardContent').and.callThrough();
+      vi.spyOn(component, 'getDeliveryModeCardContent');
 
       component
         .getDeliveryModeCardContent(mockOrder.deliveryMode)
@@ -547,7 +559,9 @@ describe('OrderOverviewComponent', () => {
 
   describe('show delivery mode in order summary', () => {
     it('should show delivery mode card in order summary', () => {
-      spyOn(componentService, 'shouldShowDeliveryMode').and.returnValue(true);
+      vi.spyOn(componentService, 'shouldShowDeliveryMode').mockReturnValue(
+        true
+      );
       const result = component.shouldShowDeliveryMode(mockDeliveryMode);
       expect(result).toEqual(true);
       expect(componentService.shouldShowDeliveryMode).toHaveBeenCalledWith(
@@ -555,12 +569,84 @@ describe('OrderOverviewComponent', () => {
       );
     });
     it('should not show delivery mode card in order summary', () => {
-      spyOn(componentService, 'shouldShowDeliveryMode').and.returnValue(false);
+      vi.spyOn(componentService, 'shouldShowDeliveryMode').mockReturnValue(
+        false
+      );
       const result = component.shouldShowDeliveryMode(undefined);
       expect(result).toEqual(false);
       expect(componentService.shouldShowDeliveryMode).toHaveBeenCalledWith(
         undefined
       );
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    let featureToggles: FeatureToggles;
+    const mockDeliveryAddressWithTitle: Address = {
+      ...mockDeliveryAddress,
+      title: 'Dr.',
+    };
+    const mockBillingAddressWithTitle: Address = {
+      ...mockBillingAddress,
+      title: 'Dr.',
+    };
+
+    beforeEach(() => {
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
+      featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.addTitleToAddressCard = false;
+    });
+
+    describe('getAddressCardContent (delivery address)', () => {
+      it('should not prefix the title when the toggle is OFF', async () => {
+        featureToggles.addTitleToAddressCard = false;
+        const card = await firstValueFrom(
+          component.getAddressCardContent(mockDeliveryAddressWithTitle)
+        );
+        expect(card.textBold).toEqual('John Smith');
+      });
+
+      it('should prefix the title when the toggle is ON and the address has a title', async () => {
+        featureToggles.addTitleToAddressCard = true;
+        const card = await firstValueFrom(
+          component.getAddressCardContent(mockDeliveryAddressWithTitle)
+        );
+        expect(card.textBold).toEqual('Dr. John Smith');
+      });
+
+      it('should not prefix the title when the toggle is ON but the address has no title', async () => {
+        featureToggles.addTitleToAddressCard = true;
+        const card = await firstValueFrom(
+          component.getAddressCardContent(mockDeliveryAddress)
+        );
+        expect(card.textBold).toEqual('John Smith');
+      });
+    });
+
+    describe('getBillingAddressCardContent (billing address)', () => {
+      it('should not prefix the title when the toggle is OFF', async () => {
+        featureToggles.addTitleToAddressCard = false;
+        const card = await firstValueFrom(
+          component.getBillingAddressCardContent(mockBillingAddressWithTitle)
+        );
+        expect(card.textBold).toEqual('John Smith');
+      });
+
+      it('should prefix the title when the toggle is ON and the address has a title', async () => {
+        featureToggles.addTitleToAddressCard = true;
+        const card = await firstValueFrom(
+          component.getBillingAddressCardContent(mockBillingAddressWithTitle)
+        );
+        expect(card.textBold).toEqual('Dr. John Smith');
+      });
+
+      it('should not prefix the title when the toggle is ON but the address has no title', async () => {
+        featureToggles.addTitleToAddressCard = true;
+        const card = await firstValueFrom(
+          component.getBillingAddressCardContent(mockBillingAddress)
+        );
+        expect(card.textBold).toEqual('John Smith');
+      });
     });
   });
 
@@ -573,7 +659,7 @@ describe('OrderOverviewComponent', () => {
     const quoteTemplate = quoteContainer.querySelector('.cx-card-title');
     expect(quoteTemplate.textContent).toContain('12345');
     const quoteLink = quoteContainer.querySelector('.cx-card-actions');
-    expect(quoteLink.innerText).toEqual('orderDetails.quoteDetail');
+    expect(quoteLink.textContent?.trim()).toEqual('orderDetails.quoteDetail');
   });
 
   it('should not render quote code in UI', () => {

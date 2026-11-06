@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,12 +33,6 @@ export class RenderingCacheSizeManager {
    * In case of invalid options, it will log an error using the configured logger.
    */
   private validateOptions(): void {
-    if (!this.options?.ssrFeatureToggles?.limitCacheByMemory) {
-      this.options?.logger?.error?.(
-        'Cannot use `RenderingCacheSizeManager` when `ssrFeatureToggles.limitCacheByMemory` is false!',
-        {}
-      );
-    }
     if (
       typeof this.options?.cacheEntrySizeCalculator?.calculateSize !==
       'function'

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,7 +30,7 @@ export class OppsLoginRequiredGuard {
     route: CmsActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<GuardResult> {
-    const navigation = this.router.getCurrentNavigation();
+    const navigation = this.router.currentNavigation();
     return this.authService.isUserLoggedIn().pipe(
       take(1),
       switchMap((isUserLoggedIn) => {

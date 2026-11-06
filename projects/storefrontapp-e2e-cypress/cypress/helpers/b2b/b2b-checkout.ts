@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -75,7 +75,7 @@ export function loginB2bUser() {
 export function addB2bUser(access_token: string, user: any) {
   return cy.request({
     method: 'POST',
-    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/current/orgCustomers?lang=en&curr=USD`,
     headers: {
@@ -101,7 +101,7 @@ export function setB2bPassword(
 ) {
   return cy.request({
     method: 'PATCH',
-    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/current/orgCustomers/${customerId}?lang=en&curr=USD`,
     headers: {
@@ -132,6 +132,7 @@ export function addB2bProductToCartAndCheckout() {
     cy.get('h1').should('contain', products[0].name);
   });
 
+  cy.wait(8000);
   addCheapProductToCart(products[0]);
 
   const paymentTypePage = waitForPage(
@@ -233,7 +234,6 @@ export function selectCreditCardPayment() {
 }
 
 export function selectAccountShippingAddress() {
-  selectAccountCostCenter();
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryAddressStub,
     b2bDeliveryAddress.id
@@ -275,21 +275,6 @@ export function selectAccountShippingAddress() {
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
-}
-
-export function selectAccountCostCenter() {
-  cy.get('cx-cost-center').within(() => {
-    cy.get('select').then((select) => {
-      if (select.find(`option:contains("${costCenter}")`).length) {
-        cy.get('select').select(costCenter, { force: true });
-      } else {
-        cy.get('select').select(0);
-      }
-    });
-  });
-  // need to wait the Selected Address being visible on UI with bold border style.
-  // No other alternative found.
-  cy.wait(4000);
 }
 
 export function selectAccountDeliveryMode() {
@@ -372,7 +357,7 @@ export function reviewB2bReviewOrderPage(
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .within(() => {
-      cy.findByText(sampleUser.fullName);
+      cy.findByText(sampleUser.addressName);
       cy.findByText(sampleUser.address.line1);
     });
 
@@ -438,16 +423,21 @@ export function completeReplenishmentForm(replenishmentPeriod: string) {
     .select(replenishmentPeriod)
     .should('have.value', replenishmentPeriod);
 
-  if (
-    replenishmentPeriod === recurrencePeriod.DAILY ||
-    replenishmentPeriod === recurrencePeriod.WEEKLY
-  ) {
+  if (replenishmentPeriod === recurrencePeriod.DAILY) {
     cy.get('cx-schedule-replenishment-order .cx-days select')
       .select(replenishmentDay)
       .should('have.value', replenishmentDay);
   }
 
   if (replenishmentPeriod === recurrencePeriod.WEEKLY) {
+    // ensure the WEEKLY period was selected by verifying the days container is visible
+    cy.get('cx-schedule-replenishment-order .cx-repeat-days-container').should(
+      'be.visible'
+    );
+    cy.get('cx-schedule-replenishment-order .cx-days select')
+      .select(replenishmentDay)
+      .should('have.value', replenishmentDay);
+
     cy.get(
       'cx-schedule-replenishment-order .cx-repeat-days-container [type="checkbox"]'
     ).check();
@@ -472,7 +462,7 @@ export function placeOrder(orderUrl: string) {
 
   cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
   // temporary solution for very slow backend response while placing order
-  cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
+  cy.wait(`@${orderConfirmationPage}`, { timeout: 120000 })
     .its('response.statusCode')
     .should('eq', 200);
 }
@@ -604,14 +594,25 @@ export function interceptPaymentTypesEndpoint(): string {
 
 export function interceptCostCenterEndpoint() {
   const alias = 'getCostCenters';
-
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/costcenters?fields=DEFAULT*`,
-  }).as(alias);
-
+    (req) => {
+      req.reply((res) => {
+        // Modify the response body
+        const costCenters = res.body.costCenters;
+        // Rustic_Global should be the default CostCenter, so it is moved to the first position in the select box.
+        const index = costCenters.findIndex((c) => c.code === 'Rustic_Global');
+        if (index > 0) {
+          const [RusticGlobalCostCenter] = costCenters.splice(index, 1);
+          costCenters.unshift(RusticGlobalCostCenter);
+        }
+        res.send({ ...res.body, costCenters });
+      });
+    }
+  ).as(alias);
   return alias;
 }
 

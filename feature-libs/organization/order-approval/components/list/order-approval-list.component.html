@@ -12,10 +12,7 @@
       <div
         class="cx-order-approval-form-group form-group col-sm-12 col-md-4 col-lg-4"
       >
-        <label
-          *cxFeature="'a11yShowLabelOfSelect'"
-          class="cx-order-approval-form-group-label"
-        >
+        <label class="cx-order-approval-form-group-label">
           <span>{{ 'orderHistory.sortBy' | cxTranslate }}</span>
           <cx-sorting
             [sortOptions]="orderApprovals.sorts"
@@ -24,23 +21,7 @@
             [selectedOption]="orderApprovals.pagination.sort"
             [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
             ariaControls="order-approval-table"
-          ></cx-sorting>
-        </label>
-        <label
-          *cxFeature="'!a11yShowLabelOfSelect'"
-          class="cx-order-approval-form-group-label"
-        >
-          <span class="cx-visually-hidden">{{
-            'orderHistory.sortOrders' | cxTranslate
-          }}</span>
-          <cx-sorting
-            [sortOptions]="orderApprovals.sorts"
-            [sortLabels]="sortLabels$ | async"
-            (sortListEvent)="changeSortCode($event)"
-            [selectedOption]="orderApprovals.pagination.sort"
-            [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
-            ariaControls="order-approval-table"
-          ></cx-sorting>
+          />
         </label>
       </div>
       <div class="cx-order-approval-pagination">
@@ -48,7 +29,7 @@
           [pagination]="orderApprovals.pagination"
           (viewPageEvent)="pageChange($event)"
           paginationID="pagination-top"
-        ></cx-pagination>
+        />
       </div>
     </div>
     <!-- TABLE -->
@@ -62,25 +43,7 @@
           'orderApprovalList.orderApprovalList' | cxTranslate
         }}
       </caption>
-      <thead
-        *cxFeature="'!a11yTableHeaderReadout'"
-        class="cx-order-approval-thead-mobile"
-      >
-        <th scope="col">
-          {{ 'orderApprovalList.orderCode' | cxTranslate }}
-        </th>
-        <th scope="col">{{ 'orderApprovalList.POCode' | cxTranslate }}</th>
-        <th scope="col">{{ 'orderApprovalList.placedBy' | cxTranslate }}</th>
-        <th scope="col">{{ 'orderApprovalList.date' | cxTranslate }}</th>
-        <th scope="col">
-          {{ 'orderApprovalList.status' | cxTranslate }}
-        </th>
-        <th scope="col">{{ 'orderApprovalList.total' | cxTranslate }}</th>
-      </thead>
-      <thead
-        *cxFeature="'a11yTableHeaderReadout'"
-        class="cx-order-approval-thead-mobile"
-      >
+      <thead class="cx-order-approval-thead-mobile">
         <tr>
           <th scope="col">
             {{ 'orderApprovalList.orderCode' | cxTranslate }}
@@ -209,8 +172,8 @@
         class="cx-order-approval-form-group form-group col-sm-12 col-md-4 col-lg-4"
       >
         <label
-          *cxFeature="'a11yShowLabelOfSelect'"
           class="cx-order-approval-form-group-label"
+          *cxFeature="'showSortFieldsOnlyAtTop'"
         >
           <span>{{ 'orderHistory.sortBy' | cxTranslate }}</span>
           <cx-sorting
@@ -220,20 +183,7 @@
             [selectedOption]="orderApprovals.pagination.sort"
             [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
             ariaControls="order-approval-table"
-          ></cx-sorting>
-        </label>
-        <label *cxFeature="'!a11yShowLabelOfSelect'">
-          <span class="cx-visually-hidden">{{
-            'orderHistory.sortOrders' | cxTranslate
-          }}</span>
-          <cx-sorting
-            [sortOptions]="orderApprovals.sorts"
-            [sortLabels]="sortLabels$ | async"
-            (sortListEvent)="changeSortCode($event)"
-            [selectedOption]="orderApprovals.pagination.sort"
-            [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
-            ariaControls="order-approval-table"
-          ></cx-sorting>
+          />
         </label>
       </div>
       <div class="cx-order-approval-pagination">
@@ -241,7 +191,7 @@
           [pagination]="orderApprovals.pagination"
           (viewPageEvent)="pageChange($event)"
           paginationID="pagination-bottom"
-        ></cx-pagination>
+        />
       </div>
     </div>
   </ng-container>

@@ -1,5 +1,4 @@
-import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
@@ -66,8 +65,8 @@ const sectionContent = 'content';
 describe('VariantConfiguratorPageLayoutHandler', () => {
   let classUnderTest: VariantConfiguratorPageLayoutHandler;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: ConfiguratorRouterExtractorService,
@@ -83,11 +82,9 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      VariantConfiguratorPageLayoutHandler as Type<VariantConfiguratorPageLayoutHandler>
-    );
+    classUnderTest = TestBed.inject(VariantConfiguratorPageLayoutHandler);
   });
 
   it('should create service', () => {

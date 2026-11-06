@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -83,6 +83,8 @@ export function updateEmailV2(): String {
   cy.get('[formcontrolname="confirmEmail"]').type(newUid);
   cy.get('[formcontrolname="password"]').type(password);
   cy.get('button').contains('Save').click();
+
+  cy.wait(2000);
   loginWithOTP(newUid, password, 1);
 
   return newUid;

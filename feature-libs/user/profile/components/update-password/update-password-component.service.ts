@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import {
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -28,17 +28,16 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
-  // CXSPA-10916: Remove service with toggle
-  private featureConfigService = inject(FeatureConfigService);
-
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'enableSecurePasswordValidation'
-  )
-    ? CustomFormValidators.securePasswordValidators
-    : [
-        ...CustomFormValidators.passwordValidators,
-        CustomFormValidators.noConsecutiveCharacters,
-      ];
+  // TODO: Delete FeatureToggles injection
+  // When: upon removing feature toogle: useEnhancedSecurePasswordValidators and service is not used anywhere else
+  private featureToggles = inject(FeatureToggles);
+  protected passwordValidators = this.featureToggles
+    .useEnhancedSecurePasswordValidators
+    ? [
+        ...CustomFormValidators.securePasswordValidators,
+        CustomFormValidators.mustEndWithLegalCharacter,
+      ]
+    : CustomFormValidators.securePasswordValidators;
 
   constructor(
     protected userPasswordService: UserPasswordFacade,

@@ -1,0 +1,77 @@
+%ProductDetailsPageTemplate {
+  padding: var(--cx-padding, 2.5rem 0 0);
+
+  .cx-tab-paragraph-content {
+    background-color: var(--cx-color-background);
+  }
+
+  cx-page-slot {
+    &.Summary {
+      @extend .container !optional;
+      margin-bottom: 40px;
+
+      @include media-breakpoint-up(lg) {
+        display: grid;
+        grid-column-gap: 20px;
+        grid-row-gap: 0px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(6, auto) 1fr;
+
+        cx-product-images {
+          grid-column: 1;
+          grid-row: 1 / span 7;
+        }
+
+        cx-product-intro {
+          grid-column: 2;
+        }
+
+        cx-product-summary {
+          grid-column: 2;
+        }
+
+        cx-product-variants {
+          grid-column: 2;
+          grid-row: 3;
+        }
+
+        cx-add-to-cart {
+          grid-column: 2;
+          grid-row: unset;
+          padding-top: 20px;
+          padding-inline-end: 20px;
+          padding-bottom: 0px;
+          padding-inline-start: 20px;
+        }
+
+        cx-stock-notification {
+          grid-column: 2;
+          grid-row: 3 / 4;
+          padding-top: 20%;
+          padding-inline-end: 20px;
+          padding-bottom: 20px;
+          padding-inline-start: 20px;
+        }
+
+        cx-stock-notification:empty {
+          display: none;
+        }
+      }
+    }
+    &.AddToCart {
+      max-width: 50%;
+    }
+    &.UpSelling,
+    &.CrossSelling {
+      max-width: var(--cx-page-width-max);
+      margin: auto;
+    }
+    &.Tabs {
+      @extend .container !optional;
+    }
+  }
+
+  .tab-delivery {
+    @extend .container !optional;
+  }
+}

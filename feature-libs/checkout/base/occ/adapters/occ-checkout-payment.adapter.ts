@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -123,6 +123,26 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       urlParams: { userId, cartId },
       queryParams: { paymentDetailsId },
     });
+  }
+
+  public deletePaymentDetails(
+    userId: string,
+    cartId: string
+  ): Observable<unknown> {
+    return this.http
+      .delete(
+        this.occEndpoints.buildUrl('setCartPaymentDetails', {
+          urlParams: { userId, cartId },
+        })
+      )
+      .pipe(
+        catchError((error) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        }),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
   }
 
   getPaymentCardTypes(): Observable<CardType[]> {

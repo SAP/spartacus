@@ -1,12 +1,16 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   StoreFinderConfig,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
@@ -22,9 +26,9 @@ class ActivatedRouteMock {
 const queryText = 'query-text';
 
 const mockStoreFinderService = {
-  getStoresLoading: jasmine.createSpy(),
-  getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
-  findStoresAction: jasmine.createSpy().and.returnValue(of({})),
+  getStoresLoading: vi.fn(),
+  getFindStoresEntities: vi.fn().mockReturnValue(of(Observable)),
+  findStoresAction: vi.fn().mockReturnValue(of({})),
 };
 
 const mockStoreFinderConfig = {
@@ -39,18 +43,23 @@ describe('StoreFinderListComponent', () => {
   let storeFinderService: StoreFinderService;
   let activatedRoute: ActivatedRoute | ActivatedRouteMock;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [StoreFinderSearchResultComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [StoreFinderSearchResultComponent, MockFeatureDirective],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         { provide: StoreFinderService, useValue: mockStoreFinderService },
         { provide: ActivatedRoute, useClass: ActivatedRouteMock },
         { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(StoreFinderSearchResultComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchResultComponent);

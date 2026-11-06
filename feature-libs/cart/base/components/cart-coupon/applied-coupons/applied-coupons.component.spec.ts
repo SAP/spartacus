@@ -1,9 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  CxDatePipe,
+  FeaturesConfig,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { AppliedCouponsComponent } from './applied-coupons.component';
 
 const coupon1: Voucher = { code: 'coupon1', voucherCode: 'coupon1' };
@@ -12,7 +19,6 @@ const coupon2: Voucher = { code: 'coupon2', voucherCode: 'coupon2' };
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -24,10 +30,9 @@ class MockCxIconComponent {
       [vouchers]="coupons"
       [cartIsLoading]="cartIsLoading"
       [isReadOnly]="isReadOnly"
-    >
-    </cx-applied-coupons>
+    />
   `,
-  standalone: false,
+  imports: [I18nTestingModule, AppliedCouponsComponent],
 })
 class MockedCartCouponComponent {
   coupons = [coupon2, coupon1];
@@ -39,16 +44,13 @@ describe('AppliedCouponsComponent', () => {
   let component: MockedCartCouponComponent;
   let fixture: ComponentFixture<MockedCartCouponComponent>;
 
-  const mockCartVoucherService = jasmine.createSpyObj('CartVoucherService', [
-    'removeVoucher',
-  ]);
+  const mockCartVoucherService = { removeVoucher: vi.fn() };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         AppliedCouponsComponent,
-        MockCxIconComponent,
         MockedCartCouponComponent,
       ],
       providers: [
@@ -60,13 +62,22 @@ describe('AppliedCouponsComponent', () => {
           },
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(AppliedCouponsComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockedCartCouponComponent);
     component = fixture.componentInstance;
-    mockCartVoucherService.removeVoucher.and.stub();
+    mockCartVoucherService.removeVoucher.mockImplementation(() => {});
   });
 
   it('should create', () => {
@@ -95,15 +106,19 @@ describe('AppliedCouponsComponent', () => {
     it('should show coupon tile and coupon when coupon applied', () => {
       component.coupons = [coupon2, coupon1];
       fixture.detectChanges();
-      const couponTitle = fixture.debugElement.query(
-        By.css('.cx-applied-coupon-title')
-      ).nativeElement.innerText;
+      const couponTitle = fixture.debugElement
+        .query(By.css('.cx-applied-coupon-title'))
+        .nativeElement.textContent?.trim();
       const elValue = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-code')
       );
       expect(couponTitle).toContain('voucher.vouchersApplied');
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
-      expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
+      expect(elValue[0].nativeElement.textContent?.trim()).toContain(
+        coupon1.voucherCode
+      );
+      expect(elValue[1].nativeElement.textContent?.trim()).toContain(
+        coupon2.voucherCode
+      );
     });
   });
 
@@ -133,8 +148,12 @@ describe('AppliedCouponsComponent', () => {
 
       expect(elButton.length).toBe(2);
       expect(elValue.length).toBe(2);
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
-      expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
+      expect(elValue[0].nativeElement.textContent?.trim()).toContain(
+        coupon1.voucherCode
+      );
+      expect(elValue[1].nativeElement.textContent?.trim()).toContain(
+        coupon2.voucherCode
+      );
     });
 
     it('should remove applied coupon', () => {
@@ -156,8 +175,12 @@ describe('AppliedCouponsComponent', () => {
       );
 
       expect(elValue.length).toBe(2);
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
-      expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
+      expect(elValue[0].nativeElement.textContent?.trim()).toContain(
+        coupon1.voucherCode
+      );
+      expect(elValue[1].nativeElement.textContent?.trim()).toContain(
+        coupon2.voucherCode
+      );
     });
   });
 });

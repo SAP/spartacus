@@ -1,6 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { Component, DebugElement, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+  Directive,
+  Input,
+} from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -9,29 +14,38 @@ import {
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeaturesConfig,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
+  PageMeta,
+  PageMetaService,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
+  FeatureDirective,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import {
+  FormErrorsModule,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+  TruncationTooltipDirective,
+} from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  standalone: false,
+  imports: [],
 })
 class MockCxSpinnerComponent {}
 
-@Directive({
-  selector: '[cxNgSelectA11y]',
-  standalone: false,
-})
+@Directive({ selector: '[cxNgSelectA11y]' })
 class MockNgSelectA11yDirective {
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
 }
@@ -49,11 +63,19 @@ class MockUpdateProfileService
     lastName: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updateProfile = createSpy().and.stub();
+  updateProfile = vi.fn().mockImplementation(() => {});
 }
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
+}
+
+const mockPageMeta: PageMeta = {
+  title: 'Update Profile',
+  heading: 'Update Profile',
+};
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
 }
 
 describe('UpdateProfileComponent', () => {
@@ -64,37 +86,42 @@ describe('UpdateProfileComponent', () => {
 
   let service: UpdateProfileComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        I18nTestingModule,
-        FormErrorsModule,
-        UrlTestingModule,
-        NgSelectModule,
-      ],
-      declarations: [
-        UpdateProfileComponent,
-        MockCxSpinnerComponent,
-        MockNgSelectA11yDirective,
-        MockFeatureDirective,
-      ],
+      imports: [ReactiveFormsModule, FormErrorsModule, UpdateProfileComponent],
       providers: [
         {
           provide: UpdateProfileComponentService,
           useClass: MockUpdateProfileService,
         },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.2' },
-          },
-        },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(UpdateProfileComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            NgSelectA11yDirective,
+            TruncationTooltipDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockNgSelectA11yDirective,
+            MockFeatureDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateProfileComponent);
@@ -145,7 +172,7 @@ describe('UpdateProfileComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -157,10 +184,44 @@ describe('UpdateProfileComponent', () => {
     });
 
     it('should navigate to home on cancel', () => {
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset with a visually-hidden legend from page title', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toBe(
+          mockPageMeta.heading
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+      });
     });
   });
 });

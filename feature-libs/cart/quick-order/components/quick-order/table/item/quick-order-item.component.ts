@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,16 +14,25 @@ import {
   OnInit,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { useFeatureStyles } from '@spartacus/core';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { ItemCounterComponent, MediaComponent } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: '[cx-quick-order-item], cx-quick-order-item',
   templateUrl: './quick-order-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgClass,
+    RouterLink,
+    MediaComponent,
+    ItemCounterComponent,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
   quantityControl: UntypedFormControl;
@@ -31,7 +41,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
     return this._entry;
   }
 
-  @Input('entry') set entry(value: OrderEntry) {
+  @Input() set entry(value: OrderEntry) {
     this._entry = value;
     this.quantityControl = new UntypedFormControl(this.entry.quantity, {
       updateOn: 'blur',
@@ -50,9 +60,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
   constructor(
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade
-  ) {
-    useFeatureStyles('a11yQTY2Quantity');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

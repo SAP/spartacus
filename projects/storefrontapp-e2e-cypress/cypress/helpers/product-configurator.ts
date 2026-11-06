@@ -1,16 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SampleUser } from '../sample-data/checkout-flow';
-import * as authForm from './auth-forms';
 import * as common from './common';
 import * as login from './login';
 import * as configurationCart from './product-configurator-cart';
 import * as configurationCartVc from './product-configurator-cart-vc';
 import * as productSearch from './product-search';
+import * as authentication from './auth-forms';
+import { SampleUser } from '../sample-data/checkout-flow';
 import { verifyGlobalMessageAfterRegistration } from './register';
 
 const nextBtnSelector =
@@ -22,6 +22,9 @@ const quantityStepperSelector =
   '.cx-add-to-cart-btn-container .cx-quantity cx-item-counter';
 
 const quantitySelector = '.cx-add-to-cart-btn-container .cx-quantity-value';
+
+const pdpQuantityStepperSelector =
+  '.ProductDetailsPageTemplate cx-add-to-cart cx-item-counter';
 
 const variantCarouselSelector = '.cx-variant-carousel-container';
 
@@ -37,12 +40,36 @@ export type uiType =
   | 'input'
   | 'dropdownProduct'
   | 'radioGroupProduct'
-  | 'checkBoxListProduct';
+  | 'checkBoxListProduct'
+  | 'container';
 
+/**
+ * Registers intercepts for create/update/read of a configuration.
+ * Trailing `/**` globs also match container row URLs (`.../rows`, `.../rows/...`);
+ * those are excluded so container row intercepts can observe them.
+ *
+ * @param {string} backendUrl - OCC configurator URL glob, e.g. `/occ/v2/powertools-spa/cpqconfigurator/**`
+ */
 export function defineAliases(backendUrl: string) {
-  cy.intercept('POST', backendUrl).as('createConfig');
-  cy.intercept('PATCH', backendUrl).as('updateConfig');
-  cy.intercept('GET', backendUrl).as('readConfig');
+  const path = toPathMatcherExcludingRows(backendUrl);
+  cy.intercept({ method: 'POST', path }).as('createConfig');
+  cy.intercept({ method: 'PATCH', path }).as('updateConfig');
+  cy.intercept({ method: 'GET', path }).as('readConfig');
+}
+
+/**
+ * Converts a configurator URL glob into a matcher that does not include `/rows` endpoints.
+ *
+ * @param {string} backendUrl - OCC configurator URL glob
+ * @return {string | RegExp} - Glob as-is, or a regex when `backendUrl` ends with `/**`
+ */
+function toPathMatcherExcludingRows(backendUrl: string): string | RegExp {
+  if (!backendUrl.endsWith('/**')) {
+    return backendUrl;
+  }
+  const prefix = backendUrl.slice(0, -3);
+  const escaped = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`^${escaped}(?!/[^/?]+/rows(?:/|\\?|$))`);
 }
 
 /**
@@ -87,6 +114,31 @@ export function checkCurrentGroupActive(currentGroup: string): void {
 }
 
 /**
+ * Verifies whether the group title displays the given group.
+ *
+ * @param {string} groupName - Expected group title
+ */
+export function checkGroupTitle(groupName: string): void {
+  checkUpdatingMessageNotDisplayed();
+  cy.get('cx-configurator-group-title')
+    .should('be.visible')
+    .and('contain.text', groupName);
+}
+
+/**
+ * Verifies whether the given entry is the active one in the group menu.
+ * Unlike `checkCurrentGroupActive`, the entry may differ from the group title,
+ * e.g. for a nested product of a container.
+ *
+ * @param {string} menuItemName - Name of the active group menu entry
+ */
+export function checkActiveGroupMenuItem(menuItemName: string): void {
+  const activeMenuItemSelector = `cx-configurator-group-menu:visible button.active:contains(${menuItemName})`;
+  cy.get(activeMenuItemSelector).scrollIntoView();
+  cy.get(activeMenuItemSelector).should('be.visible');
+}
+
+/**
  * Clicks on 'previous' or 'next' button.
  *
  * @param {string} btnSelector - Button selector
@@ -98,7 +150,8 @@ function clickOnPreviousOrNextBtn(
 ): void {
   cy.get(btnSelector)
     .should('be.visible')
-    .click()
+    .should('have.length', 1) // This waits until exactly one matching element is found. This guarantees the click happens only when a single visible element is present
+    .click() // is performed only when a single, unambiguous element is available, helping to avoid flaky tests caused by duplicate or missing elements
     .then(() => {
       checkUpdatingMessageNotDisplayed();
       if (activeGroup) {
@@ -300,33 +353,50 @@ export function getAttributeLabelId(attributeName: string): string {
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  * @param {boolean} waitForUpdateMsg - optional, default is true. if set to false, will not wait for update message to disappear
+ * @param {boolean} force - optional, default is false. if true, clicks with { force: true } and skips scrollIntoView
+ *   (useful in modals where Angular re-renders can detach the element during actionability checks)
  */
 export function selectAttribute(
   attributeName: string,
   uiType: uiType,
   valueName: string,
-  waitForUpdateMsg: boolean = true
+  waitForUpdateMsg: boolean = true,
+  force: boolean = false
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.log('attributeId: ' + attributeId);
   let valueId = `${attributeId}--${valueName}`;
   valueId = this.maskCharacter(valueId, '#');
   cy.log('valueId: ' + valueId);
+  const clickOptions = force ? { force: true } : undefined;
 
   switch (uiType) {
     case 'radioGroup':
     case 'checkBoxList':
     case 'multi_selection_image':
-      cy.get(`#${valueId}`).scrollIntoView();
-      cy.get(`#${valueId}`).should('be.visible').click();
+      // Break get → assert → click into separate commands so Cypress re-queries
+      // after Angular re-renders (avoids "detached from DOM" on the subject).
+      if (!force) {
+        cy.get(`#${valueId}`).scrollIntoView();
+      }
+      cy.get(`#${valueId}`).should('be.visible');
+      cy.get(`#${valueId}`)
+        .click(clickOptions)
+        .then(() => {
+          if (waitForUpdateMsg) {
+            checkUpdatingMessageNotDisplayed();
+          }
+        });
       break;
     case 'single_selection_image':
       const labelId = `cx-configurator--label--${attributeName}--${valueName}`;
       cy.log('labelId: ' + labelId);
-      cy.get(`#${labelId}`).scrollIntoView();
+      if (!force) {
+        cy.get(`#${labelId}`).scrollIntoView();
+      }
+      cy.get(`#${labelId}`).should('be.visible');
       cy.get(`#${labelId}`)
-        .should('be.visible')
-        .click()
+        .click(clickOptions)
         .then(() => {
           if (waitForUpdateMsg) {
             checkUpdatingMessageNotDisplayed();
@@ -334,7 +404,7 @@ export function selectAttribute(
         });
       break;
     case 'dropdown':
-      cy.get(`#${attributeId} ng-select`).ngSelect(valueName);
+      cy.get(`select#${attributeId}`).select(valueName);
       break;
     case 'input':
       cy.get(`#${valueId}`).clear().type(valueName);
@@ -346,10 +416,12 @@ export function selectAttribute(
     case 'checkBoxListProduct':
       const btnLoc = `#${valueId} .cx-product-card-action button`;
       cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
-      cy.get(btnLoc).scrollIntoView();
+      if (!force) {
+        cy.get(btnLoc).scrollIntoView();
+      }
+      cy.get(btnLoc).should('be.visible');
       cy.get(btnLoc)
-        .should('be.visible')
-        .click()
+        .click(clickOptions)
         .then(() => {
           if (waitForUpdateMsg) {
             checkUpdatingMessageNotDisplayed();
@@ -384,19 +456,21 @@ export function checkValueSelected(
   const attributeId = getAttributeId(attributeName, uiType);
   let valueId = `${attributeId}--${valueName}`;
   if (uiType === 'radioGroupProduct' || uiType === 'checkBoxListProduct') {
-    cy.get(`#${valueId} .cx-product-card`).should(
+    cy.get(`#${valueId} .cx-product-card-container`).should(
       'have.class',
-      'cx-product-card-selected'
+      'cx-product-card-container-selected'
     );
+  } else if (uiType === 'dropdown') {
+    cy.get(`select#${attributeId}`).should('have.value', valueName);
   } else {
     if (uiType === 'dropdownProduct') {
       if (valueName.includes('RETRACT_VALUE_CODE')) {
         // No product card for 'No option selected'
         // The RETRACT_VALUE_CODE constant contains special sing, namely `#`, that should be masked accordingly `\\#`
         const newValueId = valueId.replaceAll('#', '\\#');
-        cy.get(`#${newValueId} .cx-product-card`).should('not.exist');
+        cy.get(`#${newValueId} .cx-product-card-container`).should('not.exist');
       } else {
-        cy.get(`#${valueId} .cx-product-card`).should('be.visible');
+        cy.get(`#${valueId} .cx-product-card-container`).should('be.visible');
       }
     }
     if (uiType.startsWith('dropdown')) {
@@ -493,11 +567,45 @@ export function navigateToOverviewPage(): void {
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroupByGroupIndex(groupIndex: number): void {
+  cy.log('clickOnGroupByGroupIndex');
   cy.get('cx-configurator-group-menu .cx-menu-item')
     .not('.cx-menu-conflict')
     .eq(groupIndex)
     .should('be.visible')
     .click();
+}
+
+const GROUP_MENU_BACK_SELECTOR =
+  'cx-configurator-group-menu:visible .cx-menu-back';
+
+/**
+ * Verifies that the group-menu Back control is displayed.
+ */
+export function checkGroupMenuBackDisplayed(): void {
+  cy.get(GROUP_MENU_BACK_SELECTOR).should('be.visible');
+}
+
+/**
+ * Clicks the group-menu Back control.
+ */
+export function clickGroupMenuBack(): void {
+  cy.get(GROUP_MENU_BACK_SELECTOR).should('be.visible').click();
+  checkUpdatingMessageNotDisplayed();
+}
+
+/**
+ * Clicks a group-menu item by its visible name.
+ * The item may appear more than once; the first match is clicked.
+ *
+ * @param {string} groupName - Group name shown in the menu
+ */
+export function clickGroupMenuItem(groupName: string): void {
+  cy.get('cx-configurator-group-menu:visible .cx-menu-item')
+    .not('.cx-menu-conflict')
+    .contains(groupName)
+    .should('be.visible')
+    .click();
+  checkUpdatingMessageNotDisplayed();
 }
 
 /**
@@ -572,12 +680,19 @@ export function completeOrderProcess(
   productName: string,
   navigateToOrderDetails: boolean = false
 ): void {
+  // Navigate to the registry page to register a new user
+  cy.visit('/login/register');
   const user: SampleUser = login.registerUser(true);
   verifyGlobalMessageAfterRegistration();
   const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
-  authForm.login(user.email, user.password);
+  // Login via authentication service
+  authentication.login(user.email, user.password);
   cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
-  login.checkUserIsSignedIn(user);
+  // Verify whether the user logged in successfully,
+  // namely the logged-in user should be greeted
+  cy.get('.cx-login-greet').should('contain', user.fullName);
+  cy.getLoginRegisterLink().should('not.contain', 'Sign In');
+
   this.searchForProduct(productName);
   common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
@@ -587,6 +702,7 @@ export function completeOrderProcess(
   }
   //don't check the order history aspect because this part is flaky
   // configurationCart.selectOrderByOrderNumberAlias();
+
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);
@@ -667,4 +783,29 @@ export function enterQuantityValue(quantity: number) {
   cy.get(quantityStepperSelector + ' input').type(
     `{selectall}${quantity.toString()}{enter}`
   );
+}
+
+/**
+ * Verifies the quantity stepper value on the product details page.
+ *
+ * @param expectedValue - expected quantity value
+ */
+export function checkPdpQuantityStepper(expectedValue: number) {
+  cy.get(pdpQuantityStepperSelector + ' input').should(
+    'have.value',
+    expectedValue.toString()
+  );
+}
+
+function changePdpQuantityValue(sign: string) {
+  cy.get(pdpQuantityStepperSelector + ' button')
+    .contains(sign)
+    .click();
+}
+
+/**
+ * Increases the quantity on the product details page add-to-cart counter.
+ */
+export function increasePdpQuantity() {
+  changePdpQuantityValue('+');
 }

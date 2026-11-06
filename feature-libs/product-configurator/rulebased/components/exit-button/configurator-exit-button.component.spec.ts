@@ -1,8 +1,6 @@
-import { Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { BreakpointService } from '@spartacus/storefront';
 import {
   I18nTestingModule,
   Product,
@@ -16,12 +14,13 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { BreakpointService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '001+1';
@@ -87,7 +86,6 @@ function initialize() {
   fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
-  fixture.detectChanges();
 }
 
 function setRouterTestDataCartEntry() {
@@ -108,10 +106,14 @@ describe('ConfiguratorExitButton', () => {
   let routingService: RoutingService;
   let breakpointService: BreakpointService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorExitButtonComponent],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorExitButtonComponent,
+      ],
       providers: [
         {
           provide: ConfiguratorRouterExtractorService,
@@ -135,28 +137,25 @@ describe('ConfiguratorExitButton', () => {
         },
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
-    component = fixture.componentInstance;
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
-    htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
+    routingService = TestBed.inject(RoutingService);
+    breakpointService = TestBed.inject(BreakpointService);
   });
 
   it('should create component', () => {
+    initialize();
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   describe('exit a configuration', () => {
     it('should navigate to product detail page', () => {
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       component.exitConfiguration();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
@@ -165,9 +164,10 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should navigate back to cart', () => {
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       component.exitConfiguration();
       expect(routingService.go).toHaveBeenCalledWith('cart');
     });
@@ -175,10 +175,11 @@ describe('ConfiguratorExitButton', () => {
 
   describe('rendering tests', () => {
     it('should render short text in mobile mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -188,10 +189,11 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text tooltip in mobile mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -204,10 +206,11 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text in desktop mode', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -217,10 +220,11 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text tooltip in desktop mode', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -230,10 +234,11 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render short text  when navigate from cart', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -243,10 +248,11 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text tooltip when navigate from cart in mobile mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -259,10 +265,11 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text  when navigate from cart', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -272,10 +279,11 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text tooltip when navigate from cart in desktop mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
       setRouterTestDataCartEntry();
       initialize();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

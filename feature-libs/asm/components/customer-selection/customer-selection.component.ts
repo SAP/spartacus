@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,9 +14,13 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-  inject,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { AsmService } from '@spartacus/asm/core';
 import {
   AsmConfig,
@@ -24,15 +28,18 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 
-import { FeatureConfigService, User } from '@spartacus/core';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { TranslatePipe, User } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 
 @Component({
   selector: 'cx-customer-selection',
@@ -40,7 +47,16 @@ import { debounceTime } from 'rxjs/operators';
   host: {
     '(document:click)': 'onDocumentClick($event)',
   },
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    IconComponent,
+    NgFor,
+    DotSpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
   customerSelectionForm: UntypedFormGroup;
@@ -53,8 +69,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
 
   activeFocusedButtonIndex = -1;
-
-  protected featureConfig = inject(FeatureConfigService);
 
   @Output()
   submitEvent = new EventEmitter<{
@@ -124,7 +138,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     ) {
       this.selectedCustomer = undefined;
     }
-    if (Boolean(this.selectedCustomer)) {
+    if (this.selectedCustomer) {
       return;
     }
     this.asmService.customerSearchReset();
@@ -138,10 +152,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   protected handleSearchByCustomer(searchTermValue: string) {
-    if (!!this.selectedCustomer) {
+    if (this.selectedCustomer) {
       this.selectedCustomer = undefined;
     }
-    if (!!this.customerSelectionForm.controls.searchOrder.value) {
+    if (this.customerSelectionForm.controls.searchOrder.value) {
       this.customerSelectionForm.controls.searchOrder.setValue(undefined, {
         emitEvent: false,
       });
@@ -158,10 +172,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   protected handleSearchByOrder(searchOrderValue: string) {
-    if (!!this.selectedCustomer) {
+    if (this.selectedCustomer) {
       this.selectedCustomer = undefined;
     }
-    if (!!this.customerSelectionForm.controls.searchTerm.value) {
+    if (this.customerSelectionForm.controls.searchTerm.value) {
       this.customerSelectionForm.controls.searchTerm.setValue(undefined, {
         emitEvent: false,
       });
@@ -205,7 +219,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (!!this.selectedCustomer) {
+    if (this.selectedCustomer) {
       this.submitEvent.emit({
         customerId: this.selectedCustomer.customerId,
         parameters: {
@@ -218,7 +232,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   onDocumentClick(event: UIEvent) {
-    if (Boolean(this.resultList)) {
+    if (this.resultList) {
       if (
         this.resultList.nativeElement.contains(event.target) ||
         this.searchTerm.nativeElement.contains(event.target)

@@ -3,8 +3,7 @@
     <span class="label-content">
       {{ 'verificationTokenForm.verificationCode.label' | cxTranslate }}
       <cx-form-required-asterisks />
-      ></span
-    >
+    </span>
     <input
       required="true"
       class="form-control"
@@ -13,7 +12,7 @@
         'verificationTokenForm.verificationCode.placeholder' | cxTranslate
       }}"
     />
-    <cx-form-errors [control]="registerForm.get('tokenCode')"></cx-form-errors>
+    <cx-form-errors [control]="registerForm.get('tokenCode')" />
     <div class="rate-limit-error-display" *ngIf="upToRateLimit">
       {{
         'register.rateLimitForRegistrationMessage'
@@ -65,9 +64,8 @@
     <label>
       <span class="label-content"
         >{{ 'register.password.label' | cxTranslate }}
-        <cx-form-required-asterisks />
-        ></span
-      >
+        <cx-form-required-asterisks
+      /></span>
       <input
         required="true"
         class="form-control"
@@ -88,7 +86,7 @@
           label: 'register.password.label' | cxTranslate,
         }"
         [control]="registerForm.get('password')"
-      ></cx-form-errors>
+      />
     </label>
   </div>
 
@@ -96,9 +94,8 @@
     <label>
       <span class="label-content"
         >{{ 'register.confirmPassword.label' | cxTranslate }}
-        <cx-form-required-asterisks />
-        ></span
-      >
+        <cx-form-required-asterisks
+      /></span>
       <input
         required="true"
         class="form-control"
@@ -115,7 +112,7 @@
           label: 'register.confirmPassword.label' | cxTranslate,
         }"
         [control]="registerForm.get('passwordconf')"
-      ></cx-form-errors>
+      />
     </label>
   </div>
 
@@ -128,7 +125,8 @@
       {{ 'register.register' | cxTranslate }}
     </button>
     <button
-      [routerLink]="{ cxRoute: 'register' } | cxUrl"
+      type="button"
+      (click)="goBack()"
       class="btn btn-block btn-secondary btn-register"
     >
       {{ 'verificationTokenForm.back' | cxTranslate }}
@@ -137,5 +135,5 @@
 </form>
 
 <ng-template #loading>
-  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-spinner"><cx-spinner /></div>
 </ng-template>

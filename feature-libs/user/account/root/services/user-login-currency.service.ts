@@ -1,0 +1,80 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import {
+  CurrencyService,
+  EventService,
+  LoginEvent,
+  LogoutEvent,
+  User,
+} from '@spartacus/core';
+import { Subscription } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs/operators';
+import { UserAccountConfig } from '../config/user-account-config';
+import { UserAccountFacade } from '../facade/user-account.facade';
+import { UserLoginCurrencyPersistenceService } from './user-login-currency-persistence.service';
+
+type UserWithCurrency = User & { currency?: { isocode?: string } };
+@Injectable({
+  providedIn: 'root',
+})
+export class UserLoginCurrencyService implements OnDestroy {
+  protected eventService = inject(EventService);
+  protected currencyService = inject(CurrencyService);
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected userAccountConfig = inject(UserAccountConfig);
+  protected currencyPersistence = inject(UserLoginCurrencyPersistenceService);
+
+  protected subscription = new Subscription();
+
+  constructor() {
+    this.onLoginAndLogout();
+  }
+
+  protected onLoginAndLogout(): void {
+    if (!this.userAccountConfig.userAccount?.enableUserCurrencySync) {
+      return;
+    }
+
+    this.subscription.add(
+      this.eventService
+        .get(LoginEvent)
+        .pipe(
+          switchMap(() => this.currencyService.getActive().pipe(take(1))),
+          switchMap((preLoginCurrency) => {
+            this.currencyPersistence.savePreLoginCurrency(preLoginCurrency);
+            return this.userAccountFacade.get().pipe(
+              filter((user) => {
+                const isocode = (user as UserWithCurrency)?.currency?.isocode;
+                return !!isocode && isocode !== preLoginCurrency;
+              }),
+              take(1)
+            );
+          })
+        )
+        .subscribe((user) => {
+          this.currencyService.setActive(
+            (user as UserWithCurrency).currency?.isocode as string
+          );
+        })
+    );
+
+    this.subscription.add(
+      this.eventService.get(LogoutEvent).subscribe(() => {
+        const isocode = this.currencyPersistence.getPreLoginCurrency();
+        if (isocode) {
+          this.currencyService.setActive(isocode);
+        }
+        this.currencyPersistence.clearPreLoginCurrency();
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+}

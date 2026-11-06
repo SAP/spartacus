@@ -1,0 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export * from './user-consent.connector';
+export * from './user-consent.adapter';
+export * from './converters';

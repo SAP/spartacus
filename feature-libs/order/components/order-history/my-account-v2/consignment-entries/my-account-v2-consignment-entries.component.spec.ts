@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nModule,
@@ -43,10 +43,7 @@ const mockConsignments: ConsignmentView[] = [
     ],
   },
 ];
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -67,20 +64,20 @@ describe('MyAccountV2ConsignmentEntriesComponent', () => {
   let fixture: ComponentFixture<MyAccountV2ConsignmentEntriesComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nModule],
-      providers: [
-        { provide: TranslationService, useClass: MockTranslationService },
-        { provide: LanguageService, useClass: MockLanguageService },
-      ],
-      declarations: [
+      imports: [
+        I18nModule,
         MyAccountV2ConsignmentEntriesComponent,
         MockUrlPipe,
         MockDatePipe,
       ],
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2ConsignmentEntriesComponent);

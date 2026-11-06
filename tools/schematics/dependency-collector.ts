@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,7 @@ export type ProgramOptions = {
   compare?: boolean;
 };
 
-const fileName = 'projects/schematics/src/dependencies.json';
+const fileName = 'core-libs/schematics/src/dependencies.json';
 const tempFileName = `${fileName.substring(0, fileName.length - 5)}-temp.json`;
 
 const packageJsonDirectories: string[] = [

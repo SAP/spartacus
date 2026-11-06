@@ -1,0 +1,113 @@
+%cx-carousel-scrolling {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0;
+
+  > h2 {
+    @include type('3');
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    @include media-breakpoint-up(xl) {
+      margin-bottom: 3rem;
+    }
+  }
+
+  .carousel-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .carousel-items {
+    display: flex;
+    width: 100%;
+
+    // Leave space for the forward/backward buttons:
+    max-width: calc(100vw - 112px);
+
+    min-width: 0;
+    box-sizing: border-box;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+
+    // Hide scrollbar for all browsers:
+    overflow-x: auto;
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // old IE/Edge
+    &::-webkit-scrollbar {
+      // WebKit browsers
+      display: none;
+    }
+
+    .item {
+      scroll-snap-align: start;
+
+      a {
+        margin: 4px 4px 0 4px; // show visual focus outline, even when container has overflow-x: auto
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1/1;
+        object-fit: scale-down;
+      }
+    }
+
+    // Dummy elements for detecting scroll start/end position with the Intersection Observer:
+    .carousel-items-start,
+    .carousel-items-end {
+      display: block;
+      flex: 0 0 0px;
+    }
+  }
+
+  button {
+    color: var(--cx-color-inverse);
+
+    &[aria-disabled='false'] {
+      cursor: pointer;
+    }
+  }
+
+  .previous,
+  .next {
+    visibility: hidden;
+
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+
+    color: var(--cx-color-primary);
+
+    &[aria-disabled='true'] {
+      opacity: 0.5;
+    }
+
+    &[aria-disabled='false']:hover {
+      color: var(--cx-color-primary-accent);
+    }
+
+    min-width: 48px;
+  }
+
+  // On touch devices, show next/previous buttons: always
+  @media (hover: none) {
+    .scroll-possible {
+      visibility: visible;
+    }
+  }
+  // On non-touch devices, show next/previous buttons: only when hovering or focusing the carousel
+  &:hover,
+  &:focus-within {
+    .scroll-possible {
+      visibility: visible;
+    }
+  }
+}

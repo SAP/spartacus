@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
+import { OpfCtaElementComponent } from '../opf-cta-element';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 import createSpy = jasmine.createSpy;
@@ -19,7 +22,6 @@ const ctaElementSelector = 'cx-opf-cta-element';
 @Component({
   selector: 'cx-opf-cta-element',
   template: '',
-  standalone: false,
 })
 export class MockOpfCtaElementComponent {
   @Input() ctaScriptHtml: string;
@@ -28,7 +30,6 @@ export class MockOpfCtaElementComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -47,15 +48,24 @@ describe('OpfCtaScriptsComponent', () => {
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [
-        OpfCtaScriptsComponent,
-        MockOpfCtaElementComponent,
-        MockSpinnerComponent,
-      ],
+      imports: [OpfCtaScriptsComponent],
       providers: [
         { provide: OpfCtaScriptsService, useValue: opfCtaScriptsService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCtaScriptsComponent, {
+        remove: {
+          imports: [OpfCtaElementComponent, SpinnerComponent, TranslatePipe],
+        },
+        add: {
+          imports: [
+            MockOpfCtaElementComponent,
+            MockSpinnerComponent,
+            MockTranslatePipe,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

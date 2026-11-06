@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,9 +21,7 @@ context('Textfield Configuration', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
-    });
-
-    before(() => {
+      cy.viewport(1280, 1500);
       cy.visit('/');
       clickAllowAllFromBanner();
     });

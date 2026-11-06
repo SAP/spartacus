@@ -1,30 +1,36 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AsmCustomer360ReviewList } from '@spartacus/asm/customer-360/root';
-import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  Product,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import {
   CustomerTableColumn,
   CustomerTableTextAlign,
   TableEntry,
 } from '../../asm-customer-360-table/asm-customer-360-table.model';
+import { AsmCustomer360Config } from '../../config/asm-customer-360-config';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { ReviewEntry } from './asm-customer-360-product-reviews.model';
-import { AsmCustomer360Config } from '../../config/asm-customer-360-config';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-product-reviews',
   templateUrl: './asm-customer-360-product-reviews.component.html',
   providers: [CxDatePipe],
-  standalone: false,
+  imports: [AsmCustomer360TableComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ProductReviewsComponent implements OnInit {
   reviewColumns: Array<CustomerTableColumn> = [

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -65,7 +65,7 @@ context('B2B - Assisted Service Module', () => {
 
       cy.findByText(/Continue/i).click();
 
-      cy.wait('@getCostCenters');
+      cy.wait('@getCostCenters').its('response.statusCode').should('eq', 200);
     });
   });
 });

@@ -8,7 +8,6 @@ import {
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   RoutingService,
   SemanticPathService,
@@ -51,7 +50,6 @@ describe('OpfCheckoutAuthGuard', () => {
   >;
   let semanticPathService: jasmine.SpyObj<SemanticPathService>;
   let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
-  let featureConfig: jasmine.SpyObj<FeatureConfigService>;
 
   beforeEach(() => {
     const checkoutAuthGuardSpy = jasmine.createSpyObj('CheckoutAuthGuard', [
@@ -63,10 +61,6 @@ describe('OpfCheckoutAuthGuard', () => {
     const userIdServiceSpy = jasmine.createSpyObj('UserIdService', [
       'getUserId',
     ]);
-    const featureConfigServiceSpy = jasmine.createSpyObj(
-      'FeatureConfigService',
-      ['isEnabled']
-    );
     const opfCartUserEmailCheckerSpy = jasmine.createSpyObj(
       'OpfCartUserEmailCheckerService',
       ['isCartUserHasEmail']
@@ -84,10 +78,6 @@ describe('OpfCheckoutAuthGuard', () => {
         {
           provide: OpfCartUserEmailCheckerService,
           useValue: opfCartUserEmailCheckerSpy,
-        },
-        {
-          provide: FeatureConfigService,
-          useValue: featureConfigServiceSpy,
         },
         { provide: RoutingService, useValue: routingServiceSpy },
         { provide: SemanticPathService, useValue: semanticPathServiceSpy },
@@ -130,24 +120,6 @@ describe('OpfCheckoutAuthGuard', () => {
     activeCartFacade = TestBed.inject(
       ActiveCartFacade
     ) as jasmine.SpyObj<ActiveCartFacade>;
-    featureConfig = TestBed.inject(
-      FeatureConfigService
-    ) as jasmine.SpyObj<FeatureConfigService>;
-
-    featureConfig.isEnabled.and.returnValue(true);
-  });
-
-  it('should call super.canActivate() if opfEnablePreventingFromCheckoutWithoutEmail feature toggle is not enabled', (done) => {
-    featureConfig.isEnabled.and.returnValue(false);
-    const superCanActivateSpy = spyOn(
-      CheckoutAuthGuard.prototype,
-      'canActivate'
-    ).and.returnValue(of(true));
-
-    guard.canActivate().subscribe(() => {
-      expect(superCanActivateSpy).toHaveBeenCalled();
-      done();
-    });
   });
 
   it('should not call isCartUserHasEmail if not guest user', () => {

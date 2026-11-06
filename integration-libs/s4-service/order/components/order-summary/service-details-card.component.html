@@ -1,5 +1,3 @@
 <ng-container *ngIf="showServiceDetails()">
-  <cx-card
-    [content]="getServiceDetailsCard(order.servicedAt) | async"
-  ></cx-card>
+  <cx-card [content]="getServiceDetailsCard(order.servicedAt) | async" />
 </ng-container>

@@ -1,14 +1,16 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  I18nTestingModule,
+  MockTranslatePipe,
   RoutingService,
   Translatable,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -20,15 +22,15 @@ import {
 import {
   FileUploadModule,
   FocusConfig,
+  FocusDirective,
   FormErrorsModule,
+  IconComponent,
   ICON_TYPE,
   LaunchDialogService,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
-import createSpy = jasmine.createSpy;
-import { NgSelectModule } from '@ng-select/ng-select';
 
 const mockCategories = [
   {
@@ -68,13 +70,13 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
-  createTicket = createSpy().and.returnValue(EMPTY);
-  getCreateTicketPayload = createSpy().and.returnValue(of(mockTicketStarter));
-  getTicketCategories = createSpy().and.returnValue(of(mockCategories));
-  getTicketAssociatedObjects = createSpy().and.returnValue(
-    of(mockTicketAssociatedObjects)
-  );
-  uploadAttachment = createSpy().and.returnValue(EMPTY);
+  createTicket = vi.fn().mockReturnValue(EMPTY);
+  getCreateTicketPayload = vi.fn().mockReturnValue(of(mockTicketStarter));
+  getTicketCategories = vi.fn().mockReturnValue(of(mockCategories));
+  getTicketAssociatedObjects = vi
+    .fn()
+    .mockReturnValue(of(mockTicketAssociatedObjects));
+  uploadAttachment = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -96,16 +98,12 @@ class MockTranslationService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -119,17 +117,12 @@ describe('CustomerTicketingCreateDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
         FileUploadModule,
         NgSelectModule,
         NgSelectA11yModule,
-      ],
-      declarations: [
         CustomerTicketingCreateDialogComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -141,11 +134,22 @@ describe('CustomerTicketingCreateDialogComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingCreateDialogComponent, {
+        remove: { imports: [TranslatePipe, IconComponent, FocusDirective] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockKeyboadFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, 'add').and.callThrough();
+    vi.spyOn(globalMessageService, 'add');
   });
 
   beforeEach(() => {
@@ -206,7 +210,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
           ],
         };
 
-        (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
+        (customerTicketingFacade.createTicket as any).mockReturnValue(
           of(mockTicketDetails)
         );
 
@@ -216,8 +220,8 @@ describe('CustomerTicketingCreateDialogComponent', () => {
       });
 
       it('should close if there is an error creating the ticket', () => {
-        spyOn(component, 'close').and.callThrough();
-        (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
+        vi.spyOn(component, 'close');
+        (customerTicketingFacade.createTicket as any).mockReturnValue(
           throwError(() => 'error')
         );
 
@@ -237,9 +241,9 @@ describe('CustomerTicketingCreateDialogComponent', () => {
       const expectedErrorMessage = 'mock-error-message';
       const error = new HttpErrorModel();
       error.details = [{ message: expectedErrorMessage }];
-      customerTicketingFacade.createTicket = createSpy().and.returnValue(
-        throwError(error)
-      );
+      customerTicketingFacade.createTicket = vi
+        .fn()
+        .mockReturnValue(throwError(error));
       component.form.get('message')?.setValue(mockTicketStarter.message);
       component.form.get('subject')?.setValue(mockTicketStarter.subject);
       component.form.get('ticketCategory')?.setValue(mockCategories);
@@ -254,9 +258,9 @@ describe('CustomerTicketingCreateDialogComponent', () => {
 
     it('should handle other error correctly when creating a ticket', () => {
       const expectedErrorMessage = 'error';
-      customerTicketingFacade.createTicket = createSpy().and.returnValue(
-        throwError(expectedErrorMessage)
-      );
+      customerTicketingFacade.createTicket = vi
+        .fn()
+        .mockReturnValue(throwError(expectedErrorMessage));
       component.form.get('message')?.setValue(mockTicketStarter.message);
       component.form.get('subject')?.setValue(mockTicketStarter.subject);
       component.form.get('ticketCategory')?.setValue(mockCategories);

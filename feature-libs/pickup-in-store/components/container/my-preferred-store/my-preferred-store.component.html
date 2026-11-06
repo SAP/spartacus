@@ -30,9 +30,7 @@
       >
         <div label_container_bottom>
           <div class="info-location">
-            <cx-store-address
-              [storeDetails]="preferredStore$ | async"
-            ></cx-store-address>
+            <cx-store-address [storeDetails]="preferredStore$ | async" />
           </div>
           <div *ngIf="!isStoreFinder">
             <button
@@ -47,15 +45,14 @@
                   [type]="
                     openHoursOpen ? ICON_TYPE.CARET_UP : ICON_TYPE.CARET_DOWN
                   "
-                ></cx-icon
-              ></span>
+              /></span>
             </button>
           </div>
           <div class="store-hours" *ngIf="!isStoreFinder">
             <cx-store-schedule
               *ngIf="openHoursOpen"
               [storeDetails]="preferredStore$ | async"
-            ></cx-store-schedule>
+            />
           </div>
         </div>
       </cx-card>

@@ -1,19 +1,24 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
   Translatable,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import {
+  FocusDirective,
+  ICON_TYPE,
+  IconComponent,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import { MockKeyboardFocusDirective } from '@spartacus/storefront/keyboard-focus/testing';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
@@ -27,7 +32,6 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -73,14 +77,9 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
-      declarations: [
-        ReplenishmentOrderCancellationDialogComponent,
-        MockCxIconComponent,
-        MockFeatureLevelDirective,
-      ],
+      imports: [ReplenishmentOrderCancellationDialogComponent],
       providers: [
         {
           provide: ReplenishmentOrderHistoryFacade,
@@ -89,8 +88,19 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ReplenishmentOrderCancellationDialogComponent, {
+        remove: { imports: [FocusDirective, TranslatePipe, IconComponent] },
+        add: {
+          imports: [
+            MockKeyboardFocusDirective,
+            MockTranslatePipe,
+            MockCxIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -123,16 +133,16 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should redirect to same page and add global message on successful cancellation ', () => {
-    spyOn(
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'cancelReplenishmentOrder'
-    ).and.stub();
-    spyOn(
+    ).mockImplementation(() => {});
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'clearCancelReplenishmentOrderProcessState'
-    ).and.stub();
-    spyOn(globalMessageService, 'add').and.stub();
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    ).mockImplementation(() => {});
+    vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
 
     component.onSuccess(true);
 
@@ -156,7 +166,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
 
     const mockCloseReason = 'test-close';
 
@@ -168,10 +178,10 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the cancel replenishment', () => {
-    spyOn(
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'cancelReplenishmentOrder'
-    ).and.stub();
+    ).mockImplementation(() => {});
 
     component.cancelReplenishment();
 
@@ -181,7 +191,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
     el.query(By.css('.close')).nativeElement.click();
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith('Cross click');
   });

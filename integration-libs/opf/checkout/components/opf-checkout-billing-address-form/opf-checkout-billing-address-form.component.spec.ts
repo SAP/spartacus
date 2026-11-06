@@ -3,10 +3,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Address, Country } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import {
+  Address,
+  BaseSiteService,
+  Country,
+  MockTranslatePipe,
+  TranslatePipe,
+  UserAddressAdapter,
+} from '@spartacus/core';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
@@ -14,6 +24,7 @@ class Service {
   billingAddress$ = new BehaviorSubject<Address | undefined>(undefined);
   isLoadingAddress$ = new BehaviorSubject<boolean>(false);
   isSameAsDelivery$ = new BehaviorSubject<boolean>(true);
+  pickupNoDefaultAddress$ = new Subject<void>();
 
   getCountries(): Observable<Country[]> {
     return EMPTY;
@@ -38,14 +49,7 @@ class Service {
   setIsSameAsDeliveryValue(value: boolean): void {
     this.isSameAsDelivery$.next(value);
   }
-}
-
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
+  setDefaultBillingAddress(): void {}
 }
 
 describe('OpfCheckoutBillingAddressFormComponent', () => {
@@ -55,14 +59,34 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OpfCheckoutBillingAddressFormComponent, MockTranslatePipe],
+      imports: [OpfCheckoutBillingAddressFormComponent],
       providers: [
         {
           provide: OpfCheckoutBillingAddressFormService,
           useClass: Service,
         },
+        {
+          provide: ActiveCartFacade,
+          useValue: {
+            getActive: () => of({ code: '123', totalItems: 2 }),
+          },
+        },
+        { provide: Store, useValue: {} },
+        { provide: UserAddressAdapter, useValue: {} },
+        { provide: CheckoutStepService, useValue: {} },
+        { provide: BaseSiteService, useValue: {} },
+        { provide: ActivatedRoute, useValue: { params: of({}) } },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutBillingAddressFormComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .compileComponents();
 
     service = TestBed.inject(OpfCheckoutBillingAddressFormService);
     fixture = TestBed.createComponent(OpfCheckoutBillingAddressFormComponent);
@@ -78,12 +102,14 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
     const countries = [{ id: '1', name: 'Country 1' }];
     spyOn(service, 'getCountries').and.returnValue(of(countries));
     spyOn(service, 'getAddresses');
+    spyOn(service, 'setDefaultBillingAddress');
 
     component.ngOnInit();
 
     expect(component.countries$).toBeDefined();
     expect(service.getCountries).toHaveBeenCalled();
     expect(service.getAddresses).toHaveBeenCalled();
+    expect(service.setDefaultBillingAddress).toHaveBeenCalled();
   });
 
   it('should cancel and hide form on cancelAndHideForm', () => {
@@ -136,12 +162,17 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
 
   it('should reset flags and call setBillingAddress on onSubmitAddress', () => {
     spyOn(service, 'setBillingAddress').and.returnValue(of());
+    const setIsSameAsDeliveryValueSpy = spyOn(
+      service,
+      'setIsSameAsDeliveryValue'
+    );
     const address = { id: '1', streetName: '456 Elm St' };
 
     component.onSubmitAddress(address);
 
     expect(component.isEditBillingAddress).toBe(false);
     expect(component.isAddingBillingAddressInProgress).toBe(false);
+    expect(setIsSameAsDeliveryValueSpy).toHaveBeenCalledWith(false);
     expect(service.setBillingAddress).toHaveBeenCalledWith(address);
   });
 

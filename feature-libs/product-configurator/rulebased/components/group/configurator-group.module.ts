@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,12 +8,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorAttributeCompositionModule } from '../attribute/composition/configurator-attribute-composition.module';
 import { ConfiguratorAttributeFooterModule } from '../attribute/footer/configurator-attribute-footer.module';
 import { ConfiguratorAttributeHeaderModule } from '../attribute/header/configurator-attribute-header.module';
 import { ConfiguratorAttributeCheckboxListModule } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.module';
 import { ConfiguratorAttributeCheckboxModule } from '../attribute/types/checkbox/configurator-attribute-checkbox.module';
+import { ConfiguratorAttributeContainerModule } from '../attribute/types/container/configurator-attribute-container.module';
 import { ConfiguratorAttributeDropDownModule } from '../attribute/types/drop-down/configurator-attribute-drop-down.module';
 import { ConfiguratorAttributeInputFieldModule } from '../attribute/types/input-field/configurator-attribute-input-field.module';
 import { ConfiguratorAttributeMultiSelectionBundleModule } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.module';
@@ -49,14 +50,16 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
     ConfiguratorAttributeSingleSelectionBundleDropdownModule,
     ConfiguratorAttributeCheckboxModule,
     ConfiguratorAttributeCheckboxListModule,
+    ConfiguratorAttributeContainerModule,
     ConfiguratorAttributeDropDownModule,
     ConfiguratorAttributeMultiSelectionImageModule,
     ConfiguratorConflictDescriptionModule,
     ConfiguratorConflictSuggestionModule,
     ConfiguratorAttributeCompositionModule,
+    ConfiguratorGroupComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorForm: {
           component: ConfiguratorGroupComponent,
@@ -64,7 +67,6 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
       },
     }),
   ],
-  declarations: [ConfiguratorGroupComponent],
   exports: [ConfiguratorGroupComponent],
 })
 export class ConfiguratorGroupModule {}

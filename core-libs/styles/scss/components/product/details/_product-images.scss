@@ -1,0 +1,95 @@
+$spinWhileLoading: false !default;
+$spinWhileWaiting: false !default;
+$overlayWhileLoading: false !default;
+$zoomThumbOnHover: false !default;
+$zoomOutWhileLoading: false !default;
+
+$productThumbSize: 75px !default;
+
+%cx-product-images {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+
+  height: 100%;
+  > cx-media {
+    height: 100%;
+    width: 100%; // required to support horizontal layouts
+    position: relative;
+    img {
+      object-fit: scale-down;
+    }
+  }
+
+  cx-media {
+    outline: none;
+    text-align: center;
+    cursor: zoom-in;
+
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: scale-down;
+
+    &.is-missing {
+      min-height: 30vh;
+    }
+
+    @if $zoomOutWhileLoading == true {
+      &.is-initialized.is-loading {
+        --cx-zoom: 0.5;
+      }
+    }
+
+    @if $spinWhileLoading == true OR $spinWhileWaiting == true {
+      &:after {
+        @extend %spinner !optional;
+      }
+      &:not(.is-loading):after {
+        animation-play-state: paused;
+      }
+    }
+
+    // the effects run always, but are made visible only when loading or waiting
+    // this is done so we can slowly fadein/out the effect
+    @if $spinWhileLoading == true {
+      &.is-loading:after {
+        --cx-opacity: 1;
+      }
+    }
+    @if $spinWhileWaiting == true {
+      &.is-waiting:after {
+        --cx-opacity: 1;
+      }
+    }
+  }
+
+  .thumbs {
+    cx-media {
+      margin: 0.5vw;
+      padding: 0.5vw;
+
+      width: 120px;
+
+      cursor: pointer;
+
+      &.is-missing {
+        min-height: 80px;
+      }
+
+      border: 2px solid var(--cx-color-light);
+
+      &.is-active,
+      &:hover {
+        border-color: var(--cx-color-primary);
+      }
+
+      &.is-active {
+        border-style: dotted;
+      }
+      &:hover {
+        border-style: dashed;
+      }
+    }
+  }
+}

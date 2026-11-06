@@ -7,7 +7,7 @@ describe('QualtricsEmbeddedFeedbackComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [QualtricsEmbeddedFeedbackComponent],
+      imports: [QualtricsEmbeddedFeedbackComponent],
     }).compileComponents();
   });
 

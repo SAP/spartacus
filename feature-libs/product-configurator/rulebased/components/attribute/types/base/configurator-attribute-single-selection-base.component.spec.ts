@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
@@ -59,15 +59,19 @@ const createTestValue = (
   },
 });
 
+const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoading$.asObservable();
+  }
 }
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
   providers: [ConfiguratorAttributePriceChangeService],
-  standalone: false,
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   constructor(
@@ -98,13 +102,13 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   const attributeQuantity = 4;
   const selectedValue = 'a';
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ExampleConfiguratorAttributeSingleSelectionComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ExampleConfiguratorAttributeSingleSelectionComponent,
       ],
       providers: [
         ConfiguratorAttributeQuantityService,
@@ -118,23 +122,18 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
+    isConfigurationLoading$.next(false);
     fixture = TestBed.createComponent(
       ExampleConfiguratorAttributeSingleSelectionComponent
     );
     configuratorAttributeQuantityService = TestBed.inject(
       ConfiguratorAttributeQuantityService
     );
-    spyOn(
-      configuratorAttributeQuantityService,
-      'withQuantity'
-    ).and.callThrough();
-    spyOn(
-      configuratorAttributeQuantityService,
-      'disableQuantityActions'
-    ).and.callThrough();
+    vi.spyOn(configuratorAttributeQuantityService, 'withQuantity');
+    vi.spyOn(configuratorAttributeQuantityService, 'disableQuantityActions');
 
     component = fixture.componentInstance;
 
@@ -147,19 +146,45 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       key: 'attrKey',
     };
     component.ownerKey = ownerKey;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  describe('resetLoadingOnConfigurationUpdate', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should reset loading$ once the configuration update round trip finished, even if the attribute did not change', () => {
+      component.loading$.next(true);
+      expect(component.loading$.value).toBe(true);
+
+      isConfigurationLoading$.next(false);
+      expect(component.loading$.value).toBe(false);
+    });
+
+    it('should keep loading$ untouched while the configuration is still loading', () => {
+      component.loading$.next(true);
+
+      isConfigurationLoading$.next(true);
+      expect(component.loading$.value).toBe(true);
+    });
+
+    it('should stop resetting loading$ after component destruction', () => {
+      component.ngOnDestroy();
+      component.loading$.next(true);
+
+      isConfigurationLoading$.next(false);
+      expect(component.loading$.value).toBe(true);
+    });
   });
 
   describe('onSelect', () => {
     it('should call emit of selectionChange onSelect', () => {
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onSelect(changedSelectedValue);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -182,10 +207,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should not call emit of selectionChange in case no user input is present', () => {
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onSelectAdditionalValue(configFormUpdateEvent);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -195,10 +217,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     it('should call facade update in case user input is present', () => {
       configFormUpdateEvent.changedAttribute.userInput = 'userInput';
 
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onSelectAdditionalValue(configFormUpdateEvent);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -213,10 +232,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   describe('onHandleQuantity', () => {
     it('should call facade update onHandleQuantity', () => {
       const quantity = 2;
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onHandleQuantity(quantity);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -230,10 +246,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
   describe('onChangeQuantity', () => {
     it('should call emit of onSelect(empty)', () => {
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onChangeQuantity(undefined);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -246,17 +259,14 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
     it('should call form setValue with zero', () => {
       const form = new UntypedFormControl('');
-      spyOn(form, 'setValue').and.callThrough();
+      vi.spyOn(form, 'setValue');
       component.onChangeQuantity(undefined, form);
       expect(form.setValue).toHaveBeenCalledWith('0');
     });
 
     it('should call facade update onChangeQuantity', () => {
       const quantity = 10;
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.onChangeQuantity(quantity);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -439,6 +449,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
   describe('disableQuantityActions', () => {
     it('should allow quantity actions', () => {
+      fixture.detectChanges();
       expect(component.disableQuantityActions).toBe(false);
     });
   });
@@ -472,6 +483,24 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NONE;
       expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+    });
+    it('should include "SAP_DATE" validation type for uitypes dropdown or radio group with additional input', () => {
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+    });
+    it('should exclude "NUMERIC" validation type for uitypes dropdown or radio group with additional input', () => {
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(false);
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(false);
     });
   });
   describe('getAriaLabel', () => {

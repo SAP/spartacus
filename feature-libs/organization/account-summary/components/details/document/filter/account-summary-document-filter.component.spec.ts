@@ -4,15 +4,22 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   DocumentQueryParams,
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { DatePickerComponent, FormErrorsModule } from '@spartacus/storefront';
 
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 
 const mockQueryParams: DocumentQueryParams = {
@@ -23,7 +30,12 @@ const mockQueryParams: DocumentQueryParams = {
 @Component({
   selector: 'cx-date-picker',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    I18nTestingModule,
+    FormErrorsModule,
+    NgSelectModule,
+  ],
 })
 class MockDatePickerComponent {
   @Input() control: any;
@@ -39,18 +51,32 @@ describe('AccountSummaryDocumentFilterComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,
-      ],
-      declarations: [
         AccountSummaryDocumentFilterComponent,
-        MockDatePickerComponent,
-        MockFeatureDirective,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [],
-    }).compileComponents();
+    })
+      .overrideComponent(AccountSummaryDocumentFilterComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            FeatureDirective,
+            DatePickerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockDatePickerComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -123,21 +149,21 @@ describe('AccountSummaryDocumentFilterComponent', () => {
   });
 
   it('should test Filter By selector', () => {
-    const eventSpy = spyOn(component.filterListEvent, 'emit');
-    const resetSpy = spyOn<any>(component, 'resetForm').and.callThrough();
+    const eventSpy = vi.spyOn(component.filterListEvent, 'emit');
+    const resetSpy = vi.spyOn<any, any>(component, 'resetForm');
 
     let filterByValue: string | undefined;
     let startRange: string | undefined;
     let endRange: string | undefined;
 
     const pressSearch = () => {
-      eventSpy.calls.reset();
+      eventSpy.mockClear();
       const searchButton = fixture.debugElement.query(By.css('.btn-primary'));
       searchButton?.nativeElement.click();
       fixture.detectChanges();
     };
     const pressClear = () => {
-      eventSpy.calls.reset();
+      eventSpy.mockClear();
       const clearButton = fixture.debugElement.query(By.css('.clear-btn'));
       clearButton?.nativeElement.click();
       fixture.detectChanges();
@@ -402,7 +428,7 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
     // Press clear button and expect default values and search to be triggered
     expect(resetSpy).toHaveBeenCalledTimes(6);
-    resetSpy.calls.reset();
+    resetSpy.mockClear();
     pressClear();
     expect(resetSpy).toHaveBeenCalledWith(true);
     formItems = filterFormItems();

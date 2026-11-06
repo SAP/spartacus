@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,8 +12,20 @@ import {
   HostBinding,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 
@@ -20,8 +33,22 @@ import { LoginFormComponentService } from './login-form-component.service';
   selector: 'cx-login-form',
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
   host: { ngSkipHydration: 'true' },
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    PasswordVisibilityToggleDirective,
+    FeatureDirective,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class LoginFormComponent {
   @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
@@ -31,9 +58,9 @@ export class LoginFormComponent {
   csrf = this.service.csrf;
   action = this.service.action;
   method = this.service.method;
+  showResetPassword = this.service.showResetPassword;
 
   constructor(protected service: LoginFormComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
     this.service.handleCustomLoginError();
   }
 

@@ -1,8 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import { cmsEndpoints } from '../../../helpers/cms-endpoints';
 
 export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'GBP';
@@ -18,7 +20,7 @@ describe('Promotions in PDP', () => {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/cms/pages?pageType=ProductPage**`,
+      )}/${cmsEndpoints.pages}?pageType=ProductPage**`,
     }).as('productPage');
   });
   it('should show promotions in Product Details Page', () => {

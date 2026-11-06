@@ -1,23 +1,15 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AuthService,
-  I18nTestingModule,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteRequestButtonComponent } from './quote-request-button.component';
-import createSpy = jasmine.createSpy;
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
 const quoteCode = 'quote1';
 const mockCreatedQuote: Quote = {
   ...createEmptyQuote(),
@@ -25,7 +17,7 @@ const mockCreatedQuote: Quote = {
   code: quoteCode,
 };
 class MockQuoteFacade implements Partial<QuoteFacade> {
-  createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
+  createQuote = vi.fn().mockReturnValue(of(mockCreatedQuote));
 }
 
 const loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
@@ -38,12 +30,11 @@ describe('QuoteRequestButtonComponent', () => {
   let fixture: ComponentFixture<QuoteRequestButtonComponent>;
   let component: QuoteRequestButtonComponent;
   let quoteFacade: QuoteFacade;
-  const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
+  const mockRoutingService = { go: vi.fn() };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [QuoteRequestButtonComponent, MockUrlPipe],
-      imports: [I18nTestingModule],
+      imports: [QuoteRequestButtonComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -55,7 +46,12 @@ describe('QuoteRequestButtonComponent', () => {
         },
         { provide: RoutingService, useValue: mockRoutingService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteRequestButtonComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
 
     quoteFacade = TestBed.inject(QuoteFacade);
   });

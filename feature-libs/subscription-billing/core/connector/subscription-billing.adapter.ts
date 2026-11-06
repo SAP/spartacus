@@ -1,24 +1,26 @@
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
-  SubscriptionList,
-  SubscriptionDetail,
+  SubscriptionBill,
+  SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
 import { Observable } from 'rxjs';
 
 export abstract class SubscriptionBillingAdapter {
-  abstract getSubscriptionByCode(
-    userId: string,
-    subscriptionCode: string
-  ): Observable<SubscriptionDetail>;
-  abstract getSubscriptionList(
+  abstract getSubscriptionBillsList(
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
-  ): Observable<SubscriptionList>;
+    sort?: string,
+    filters?: string
+  ): Observable<SubscriptionBillsList>;
+  abstract getSubscriptionBillByCode(
+    userId: string,
+    billId: string
+  ): Observable<SubscriptionBill>;
 }

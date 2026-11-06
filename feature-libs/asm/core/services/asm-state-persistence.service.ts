@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AsmAuthStorageService, AsmUi, TokenTarget } from '@spartacus/asm/root';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
 
@@ -67,7 +67,7 @@ export class AsmStatePersistenceService implements OnDestroy {
         filter((store) => !!store.asm),
         select(AsmSelectors.getAsmUi)
       ),
-      of(this.authStorageService.getEmulatedUserToken()),
+      this.authStorageService.getEmulatedUserTokenState(),
       this.authStorageService.getTokenTarget(),
     ]).pipe(
       map(([ui, emulatedUserToken, tokenTarget]) => {

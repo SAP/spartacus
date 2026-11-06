@@ -2,7 +2,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { CartModificationList } from '@spartacus/cart/base/root';
 import {
   ConverterService,
@@ -10,7 +10,7 @@ import {
   OCC_USER_ID_CURRENT,
 } from '@spartacus/core';
 import { REORDER_ORDER_NORMALIZER } from '@spartacus/order/root';
-import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { MockOccEndpointsService } from '@spartacus/core/occ/testing';
 import { OccReorderOrderAdapter } from './occ-reorder-order.adapter';
 import {
   provideHttpClient,
@@ -30,9 +30,8 @@ describe(`OccReorderOrderAdapter`, () => {
   let converter: ConverterService;
   let occEndpointService: OccEndpointsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccReorderOrderAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
@@ -40,7 +39,7 @@ describe(`OccReorderOrderAdapter`, () => {
         provideHttpClientTesting(),
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     occAdapter = TestBed.inject(OccReorderOrderAdapter);
@@ -48,8 +47,8 @@ describe(`OccReorderOrderAdapter`, () => {
     converter = TestBed.inject(ConverterService);
     occEndpointService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(occEndpointService, 'buildUrl');
   });
 
   afterEach(() => {

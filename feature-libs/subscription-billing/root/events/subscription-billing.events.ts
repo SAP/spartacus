@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,4 +12,12 @@ export class GetSubscriptionByCodeReloadEvent extends CxEvent {
 
 export class GetSubscriptionListReloadEvent extends CxEvent {
   static readonly type = 'GetSubscriptionListReloadEvent';
+}
+
+export class GetSubscriptionBillsListReloadEvent extends CxEvent {
+  static readonly type = 'GetSubscriptionBillsListReloadEvent';
+}
+
+export class GetSubscriptionBillByCodeReloadEvent extends CxEvent {
+  static readonly type = 'GetSubscriptionBillByCodeReloadEvent';
 }

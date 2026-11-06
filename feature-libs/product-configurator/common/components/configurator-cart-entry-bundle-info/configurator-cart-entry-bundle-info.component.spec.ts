@@ -4,49 +4,80 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Type,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CartItemContext,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  CxNumericPipe,
+  I18nTestingModule,
+  Product,
+  ProductService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
+  ConfiguratorProductScope,
   ConfiguratorType,
+  ConfigureCartEntryComponent,
   LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, of, ReplaySubject } from 'rxjs';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  BehaviorSubject,
+  EMPTY,
+  firstValueFrom,
+  Observable,
+  of,
+  ReplaySubject,
+  throwError,
+} from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
+import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
-@Pipe({
-  name: 'cxNumeric',
-  standalone: false,
-})
+@Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
   }
 }
 
+class MockProductService implements Partial<ProductService> {
+  get(): Observable<Product | undefined> {
+    return of(undefined);
+  }
+}
+
 @Component({
   selector: 'cx-configure-cart-entry',
   template: '',
-  standalone: false,
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
   @Input() readOnly: boolean;
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
+  @Input() isBundleOverviewLink = false;
+  @Input() rowId?: string;
+  @Input() a11yDescriptionId?: string;
+  @Input() productName?: string;
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -105,79 +136,90 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
         ConfiguratorCartEntryBundleInfoComponent,
-        MockNumericPipe,
-        MockConfigureCartEntryComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
           provide: ControlContainer,
         },
+        { provide: ProductService, useClass: MockProductService },
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CxNumericPipe,
+            ConfigureCartEntryComponent,
+            UrlPipe,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            UrlTestingModule,
+            MockNumericPipe,
+            MockConfigureCartEntryComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
-    commonConfigUtilsService = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    commonConfigUtilsService = TestBed.inject(CommonConfiguratorUtilsService);
     configCartEntryBundleInfoService = TestBed.inject(
-      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
+      ConfiguratorCartEntryBundleInfoService
     );
 
-    spyOn(
-      commonConfigUtilsService,
-      'isBundleBasedConfigurator'
-    ).and.callThrough();
-    spyOn(
-      configCartEntryBundleInfoService,
-      'retrieveLineItems'
-    ).and.callThrough();
+    vi.spyOn(commonConfigUtilsService, 'isBundleBasedConfigurator');
+    vi.spyOn(configCartEntryBundleInfoService, 'retrieveLineItems');
 
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
+    breakpointService = TestBed.inject(BreakpointService);
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
     changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should expose orderEntry$', (done) => {
+  it('should expose orderEntry$', async () => {
+    fixture.detectChanges();
     const orderEntry: OrderEntry = { orderCode: '123' };
     component.orderEntry$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(orderEntry);
-      done();
     });
 
     mockCartItemContext.item$.next(orderEntry);
   });
 
-  it('should expose quantityControl$', (done) => {
+  it('should expose quantityControl$', async () => {
+    fixture.detectChanges();
     const quantityControl = new UntypedFormControl();
     component.quantityControl$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(quantityControl);
-      done();
     });
 
     mockCartItemContext.quantityControl$.next(quantityControl);
   });
 
-  it('should expose readonly$', (done) => {
+  it('should expose readonly$', async () => {
+    fixture.detectChanges();
     component.readonly$.pipe(take(2), toArray()).subscribe((values) => {
       expect(values).toEqual([true, false]);
-      done();
     });
 
     mockCartItemContext.readonly$.next(true);
@@ -251,11 +293,29 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   describe('toggleItems', () => {
     it('should return corresponding state after toggling the link show / hide items', () => {
+      fixture.detectChanges();
       expect(component.hideItems).toBe(true);
       component.toggleItems();
       expect(component.hideItems).toBe(false);
       component.toggleItems();
       expect(component.hideItems).toBe(true);
+    });
+
+    it('should retain focus on the toggle button after expanding and collapsing', async () => {
+      const button = document.createElement('button');
+      document.body.appendChild(button);
+      button.focus();
+      component['toggleItemsButton'] = { nativeElement: button };
+
+      component.toggleItems();
+      await Promise.resolve();
+      expect(document.activeElement).toBe(button);
+
+      component.toggleItems();
+      await Promise.resolve();
+      expect(document.activeElement).toBe(button);
+
+      document.body.removeChild(button);
     });
   });
 
@@ -350,10 +410,9 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should display number of bundle items', (done) => {
+      it('should display number of bundle items', async () => {
         component.numberOfLineItems$.subscribe((numberOfItems) => {
           expect(numberOfItems).toBe(3);
-          done();
         });
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -398,6 +457,23 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
+      it('should mark line items as inert and aria-hidden while collapsed', () => {
+        const itemInfos = htmlElem.querySelector('.cx-item-infos');
+
+        expect(itemInfos?.getAttribute('inert')).not.toBeNull();
+        expect(itemInfos?.getAttribute('aria-hidden')).toBe('true');
+      });
+
+      it('should expose line items to keyboard focus when expanded', () => {
+        component.toggleItems();
+        changeDetectorRef.detectChanges();
+
+        const itemInfos = htmlElem.querySelector('.cx-item-infos');
+
+        expect(itemInfos?.hasAttribute('inert')).toBe(false);
+        expect(itemInfos?.hasAttribute('aria-hidden')).toBe(false);
+      });
+
       it('should display Edit Configuration link', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -430,7 +506,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it('should display', () => {
-        spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+        vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -526,7 +602,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
 
       it('should display', () => {
-        spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+        vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
@@ -607,51 +683,51 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         });
 
         it('should expose readonly$ as false in case readonly$ is undefined', () => {
-          mockCartItemContext.readonly$?.next(undefined);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(undefined);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
-          mockCartItemContext.readonly$?.next(null);
+          (
+            mockCartItemContext.readonly$ as ReplaySubject<
+              boolean | null | undefined
+            >
+          ).next(null);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is false', () => {
           mockCartItemContext.readonly$?.next(false);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as true in case readonly$ is true', () => {
           mockCartItemContext.readonly$?.next(true);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('true');
+          expect(component.readOnly).toBe(true);
         });
       });
 
@@ -677,6 +753,27 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             .length
         ).toBe(1);
       });
+
+      it('should disable the edit configuration link when the quantity control is disabled after render', () => {
+        mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$?.next(false);
+        const quantityControl = new UntypedFormControl();
+        mockCartItemContext.quantityControl$?.next(quantityControl);
+        fixture.detectChanges();
+
+        const getLinkComponent = () =>
+          fixture.debugElement.query(By.css('cx-configure-cart-entry'))
+            .componentInstance;
+
+        expect(getLinkComponent().disabled).toBe(false);
+
+        quantityControl.disable({ emitEvent: false });
+        // Same FormControl reference: default CD must refresh [disabled] without
+        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        changeDetectorRef.detectChanges();
+
+        expect(getLinkComponent().disabled).toBe(true);
+      });
     });
 
     describe('getButtonText', () => {
@@ -699,26 +796,29 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     describe('getItemsMsg', () => {
       it("should return 'configurator.a11y.cartEntryBundleInfo' if there is only one line item", () => {
+        fixture.detectChanges();
         let numberOfItems: number = 1;
         expect(
           component
             .getItemsMsg(numberOfItems)
-            .indexOf('configurator.a11y.cartEntryBundleInfo items:1')
+            .indexOf('configurator.a11y.cartEntryBundleInfo count:1 items:1')
         ).toBe(0);
       });
 
       it("should return 'configurator.a11y.cartEntryBundleInfo_other' if there are more than one line item", () => {
+        fixture.detectChanges();
         let numberOfItems: number = 4;
         expect(
           component
             .getItemsMsg(numberOfItems)
-            .indexOf('configurator.a11y.cartEntryBundleInfo items:4')
+            .indexOf('configurator.a11y.cartEntryBundleInfo count:4 items:4')
         ).toBe(0);
       });
     });
 
     describe('getHiddenItemInfo', () => {
-      it("should return 'configurator.a11y.cartEntryBundleInfo' if the item name, price and quantity are defined", () => {
+      it("should return 'configurator.a11y.cartEntryBundlePriceAndQuantity' if the item price and quantity are defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedPrice: '$1,000.00',
@@ -727,11 +827,12 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundle')
+            .indexOf('configurator.a11y.cartEntryBundlePriceAndQuantity')
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleNameWithPrice' if the item name and price are defined", () => {
+      it("should return 'configurator.a11y.cartEntryBundlePrice' if only the item price is defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedPrice: '$1,000.00',
@@ -739,11 +840,12 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleNameWithPrice')
+            .indexOf('configurator.a11y.cartEntryBundlePrice')
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleNameWithQuantity' if the item name and quantity are defined", () => {
+      it("should return 'configurator.a11y.cartEntryBundleQuantity' if only the item quantity is defined", () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedQuantity: '5',
@@ -751,25 +853,35 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleNameWithQuantity')
+            .indexOf('configurator.a11y.cartEntryBundleQuantity')
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleName' if only item name is defined", () => {
+      it('should not repeat the item name, which is rendered as visible text', () => {
+        fixture.detectChanges();
+        let lineItem: LineItem = {
+          name: 'Canon ABC',
+          formattedPrice: '$1,000.00',
+          formattedQuantity: '5',
+        };
+        expect(component.getHiddenItemInfo(lineItem)).not.toContain(
+          'Canon ABC'
+        );
+      });
+
+      it('should return an empty text if neither price nor quantity is defined', () => {
+        fixture.detectChanges();
         let lineItem: LineItem = {
           name: 'Canon ABC',
         };
-        expect(
-          component
-            .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleName')
-        ).toBe(0);
+        expect(component.getHiddenItemInfo(lineItem)).toBe('');
       });
     });
 
     describe('Accessibility', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
+          entryNumber: 1,
           statusSummaryList: undefined,
           configurationInfos: [
             {
@@ -786,7 +898,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         mockCartItemContext.readonly$.next(false);
         mockCartItemContext.quantityControl$.next(new UntypedFormControl());
         component.hideItems = false;
-        spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+        vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
         fixture.detectChanges();
       });
 
@@ -811,7 +923,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           'aria-label',
-          'configurator.a11y.cartEntryBundleInfo items:1configurator.header.hide'
+          'configurator.a11y.cartEntryBundleInfo count:1 items:1configurator.header.hide'
         );
 
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -847,19 +959,25 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           undefined,
-          'configurator.a11y.cartEntryBundle'
+          'configurator.a11y.cartEntryBundlePriceAndQuantity'
         );
       });
 
-      it("should contain div element with class name 'cx-item-name' and aria-hidden attribute that displays an item name", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+      it("should contain div element with class name 'cx-item-name' that displays an item name when no product is available", () => {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          'div',
-          'cx-item-name',
-          undefined,
-          'aria-hidden',
-          'true',
+          '.cx-item-name'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-name a'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-name',
           'Canon ABC'
         );
       });
@@ -915,11 +1033,507 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
     });
 
+    describe('navigation to the configuration overview', () => {
+      const TOGGLE_LINK = '.cx-toggle-hide-items cx-configure-cart-entry';
+
+      let featureToggles: MockFeatureTogglesController;
+
+      function emitCartEntry(location: PromotionLocation) {
+        mockCartItemContext.item$.next({
+          entryNumber: 3,
+          statusSummaryList: undefined,
+          configurationInfos: configurationInfos,
+          product: {
+            configurable: true,
+          },
+        });
+        mockCartItemContext.location$.next(location);
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(new UntypedFormControl());
+        fixture.detectChanges();
+      }
+
+      beforeEach(() => {
+        featureToggles = TestBed.inject(MockFeatureTogglesController);
+        featureToggles.set('productConfiguratorCPQContainer', true);
+        vi.spyOn(
+          component as any,
+          'getCartEntryBundleLineItemsThreshold'
+        ).mockReturnValue(2);
+      });
+
+      it('should render a link to the overview instead of the toggle button if the threshold is exceeded', () => {
+        emitCartEntry(PromotionLocation.ActiveCart);
+
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-number-items'
+        );
+      });
+
+      it('should render the overview link with display bundle configuration text', () => {
+        emitCartEntry(PromotionLocation.ActiveCart);
+
+        const linkComponent = fixture.debugElement.query(
+          By.css(TOGGLE_LINK)
+        ).componentInstance;
+
+        expect(linkComponent.readOnly).toBe(true);
+        expect(linkComponent.msgBanner).toBe(false);
+        expect(linkComponent.disabled).toBe(false);
+        expect(linkComponent.isBundleOverviewLink).toBe(true);
+        expect(linkComponent.a11yDescriptionId).toBe('cx-item-list-info-3');
+      });
+
+      it('should hide the show/hide link if the threshold is exceeded in read-only mode', () => {
+        emitCartEntry(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(true);
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'cx-configure-cart-entry'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-number-items'
+        );
+      });
+
+      it('should render the toggle button if the threshold is not exceeded', () => {
+        vi.mocked(
+          component['getCartEntryBundleLineItemsThreshold']
+        ).mockReturnValue(3);
+        emitCartEntry(PromotionLocation.ActiveCart);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-number-items'
+        );
+      });
+
+      it('should render the toggle button if the feature toggle is not active', () => {
+        featureToggles.set('productConfiguratorCPQContainer', false);
+        emitCartEntry(PromotionLocation.ActiveCart);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+      });
+
+      it('should render the toggle button for a saved cart, as no navigation to the overview is possible there', () => {
+        emitCartEntry(PromotionLocation.SavedCart);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+      });
+
+      it('should render the toggle button for save for later, as no navigation to the overview is possible there', () => {
+        emitCartEntry(PromotionLocation.SaveForLater);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          TOGGLE_LINK
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'button'
+        );
+      });
+    });
+
+    describe('getCartEntryBundleLineItemsThreshold', () => {
+      it('should return the default threshold if nothing is configured', () => {
+        expect(component['getCartEntryBundleLineItemsThreshold']()).toBe(10);
+      });
+
+      it('should return the configured threshold', () => {
+        TestBed.inject(CommonConfiguratorUISettingsConfig).productConfigurator =
+          {
+            cartEntryBundleLineItemsThreshold: 25,
+          };
+        expect(component['getCartEntryBundleLineItemsThreshold']()).toBe(25);
+      });
+    });
+
+    describe('getItemsLinkMsg', () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfo' with the number of items", () => {
+        expect(component.getItemsLinkMsg(4)).toBe(
+          'configurator.a11y.cartEntryBundleInfo count:4 items:4'
+        );
+      });
+    });
+
+    describe('getItemsLinkMsgId', () => {
+      it('should return an ID that is unique per cart entry', () => {
+        expect(component.getItemsLinkMsgId({ entryNumber: 4 })).toBe(
+          'cx-item-list-info-4'
+        );
+      });
+    });
+
     describe('getHiddenItemInfoId', () => {
-      it("should return 'cx-item-hidden-info-4' ID for a corresponding line item", () => {
+      it('should return an ID based on the line item index', () => {
+        expect(component.getHiddenItemInfoId(2)).toBe('cx-item-hidden-info-2');
+      });
+    });
+
+    describe('getHiddenItemInfoIdForEntry', () => {
+      it('should return a stable ID per cart entry and line item', () => {
+        fixture.detectChanges();
         expect(
-          component.getHiddenItemInfoId(4).indexOf('cx-item-hidden-info-4')
-        ).toBe(0);
+          component.getHiddenItemInfoIdForEntry(4, { rowId: 'row-abc' }, 0)
+        ).toBe('cx-item-hidden-info-4-row-abc');
+      });
+    });
+  });
+
+  describe('bundle line items', () => {
+    const product: Product = { code: 'PRODUCT_1', name: 'Product 1' };
+    const configurableLineItem: LineItem = {
+      name: 'Configurable item',
+      productCode: 'PRODUCT_1',
+      rowId: 'row-1',
+      configurable: true,
+    };
+    const plainLineItem: LineItem = { name: 'Plain item' };
+    let productService: ProductService;
+
+    function emitCartEntry(
+      lineItems: LineItem[],
+      location = PromotionLocation.ActiveCart
+    ) {
+      vi.mocked(
+        configCartEntryBundleInfoService.retrieveLineItems
+      ).mockReturnValue(lineItems);
+      mockCartItemContext.item$.next({
+        entryNumber: 1,
+        configurationInfos: configurationInfos,
+      });
+      mockCartItemContext.location$.next(location);
+      mockCartItemContext.readonly$.next(false);
+      mockCartItemContext.quantityControl$.next(new UntypedFormControl());
+      fixture.detectChanges();
+    }
+
+    function getNestedConfigureLinks() {
+      return fixture.debugElement.queryAll(
+        By.css('.cx-item-link cx-configure-cart-entry')
+      );
+    }
+
+    beforeEach(() => {
+      productService = TestBed.inject(ProductService);
+      vi.spyOn(productService, 'get').mockReturnValue(of(product));
+      TestBed.inject(MockFeatureTogglesController).set(
+        'productConfiguratorCPQContainer',
+        true
+      );
+    });
+
+    describe('lineItems$', () => {
+      it('should emit the line items without loading products', async () => {
+        emitCartEntry([configurableLineItem, plainLineItem]);
+        const lineItems = await firstValueFrom(component.lineItems$);
+        expect(lineItems).toEqual([configurableLineItem, plainLineItem]);
+        expect(productService.get).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('lineItemsWithProducts$', () => {
+      it('should not load products while the list is collapsed', async () => {
+        emitCartEntry([configurableLineItem, plainLineItem]);
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
+        expect(lineItems).toEqual([configurableLineItem, plainLineItem]);
+        expect(productService.get).not.toHaveBeenCalled();
+      });
+
+      it('should enrich line items with their products once the list is expanded', async () => {
+        emitCartEntry([configurableLineItem, plainLineItem]);
+        component.toggleItems();
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
+        expect(lineItems).toEqual([
+          { ...configurableLineItem, product },
+          plainLineItem,
+        ]);
+      });
+
+      it('should keep the loaded products when the list is collapsed again', async () => {
+        emitCartEntry([configurableLineItem, plainLineItem]);
+        component.toggleItems();
+        component.toggleItems();
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
+        expect(lineItems).toEqual([
+          { ...configurableLineItem, product },
+          plainLineItem,
+        ]);
+      });
+
+      it('should emit an empty array without loading products if there are no line items', async () => {
+        emitCartEntry([]);
+        component.toggleItems();
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
+        expect(lineItems).toEqual([]);
+        expect(productService.get).not.toHaveBeenCalled();
+      });
+
+      it('should not load products if no line item has a product code', async () => {
+        emitCartEntry([plainLineItem]);
+        component.toggleItems();
+        const lineItems = await firstValueFrom(
+          component.lineItemsWithProducts$
+        );
+        expect(lineItems).toEqual([plainLineItem]);
+        expect(productService.get).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('enrichWithProduct', () => {
+      it('should return the line item unchanged if it has no product code', async () => {
+        const lineItem = await firstValueFrom(
+          component['enrichWithProduct'](plainLineItem)
+        );
+        expect(lineItem).toBe(plainLineItem);
+        expect(productService.get).not.toHaveBeenCalled();
+      });
+
+      it('should load the product with configurator product card scope', async () => {
+        const lineItem = await firstValueFrom(
+          component['enrichWithProduct'](configurableLineItem)
+        );
+        expect(productService.get).toHaveBeenCalledWith(
+          'PRODUCT_1',
+          ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+        );
+        expect(lineItem).toEqual({ ...configurableLineItem, product });
+      });
+
+      it('should leave the product undefined if loading fails', async () => {
+        vi.mocked(productService.get).mockReturnValue(
+          throwError(() => new Error('not found'))
+        );
+        const lineItem = await firstValueFrom(
+          component['enrichWithProduct'](configurableLineItem)
+        );
+        expect(lineItem).toEqual({
+          ...configurableLineItem,
+          product: undefined,
+        });
+      });
+    });
+
+    describe('productConfiguratorCPQContainer feature toggle', () => {
+      beforeEach(() => {
+        TestBed.inject(MockFeatureTogglesController).set(
+          'productConfiguratorCPQContainer',
+          false
+        );
+        component.hideItems = false;
+      });
+
+      it('should render line item markup and omit CPQ-only configure links', () => {
+        emitCartEntry([configurableLineItem]);
+
+        expect(
+          htmlElem
+            .querySelector('.cx-item-info')
+            ?.getAttribute('aria-describedby')
+        ).toBe('cx-item-hidden-info-0');
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-link'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-name a.cx-link'
+        );
+      });
+    });
+
+    describe('rendering', () => {
+      beforeEach(() => {
+        // the list must be expanded, otherwise the products are not loaded
+        component.hideItems = false;
+      });
+
+      it('should render the name as link to the product details page if product data is available', () => {
+        emitCartEntry([configurableLineItem]);
+
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'a',
+          'cx-link',
+          undefined,
+          undefined,
+          undefined,
+          'Configurable item'
+        );
+      });
+
+      it('should render the name as plain text if no product data is available', () => {
+        emitCartEntry([plainLineItem]);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-name a'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-name',
+          'Plain item'
+        );
+      });
+
+      it('should not render the name container if the line item has no name', () => {
+        emitCartEntry([{ formattedPrice: '$1.00' }]);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-item-name'
+        );
+      });
+
+      it('should render the edit link for a configurable line item with a row id', () => {
+        const quantityControl = new UntypedFormControl();
+        quantityControl.disable();
+        emitCartEntry([configurableLineItem]);
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        fixture.detectChanges();
+
+        const links = getNestedConfigureLinks();
+        expect(links.length).toBe(1);
+        const linkComponent = links[0].componentInstance;
+        expect(linkComponent.cartEntry.entryNumber).toBe(1);
+        expect(linkComponent.readOnly).toBe(false);
+        expect(linkComponent.msgBanner).toBe(false);
+        expect(linkComponent.disabled).toBe(true);
+        expect(linkComponent.rowId).toBe('row-1');
+        expect(linkComponent.productName).toBe('Configurable item');
+      });
+
+      it('should disable the nested edit link when the quantity control is disabled after render', () => {
+        const quantityControl = new UntypedFormControl();
+        vi.mocked(
+          configCartEntryBundleInfoService.retrieveLineItems
+        ).mockReturnValue([configurableLineItem]);
+        mockCartItemContext.item$.next({
+          entryNumber: 1,
+          configurationInfos: configurationInfos,
+        });
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        fixture.detectChanges();
+
+        expect(getNestedConfigureLinks()[0].componentInstance.disabled).toBe(
+          false
+        );
+
+        quantityControl.disable({ emitEvent: false });
+        // See shouldShowButton regression test for why not fixture.detectChanges().
+        changeDetectorRef.detectChanges();
+
+        expect(getNestedConfigureLinks()[0].componentInstance.disabled).toBe(
+          true
+        );
+      });
+
+      it('should not render the edit link for a non-configurable line item', () => {
+        emitCartEntry([{ ...configurableLineItem, configurable: false }]);
+
+        expect(getNestedConfigureLinks().length).toBe(0);
+      });
+
+      it('should not render the edit link for a line item without row id', () => {
+        emitCartEntry([{ ...configurableLineItem, rowId: undefined }]);
+
+        expect(getNestedConfigureLinks().length).toBe(0);
+      });
+
+      it('should not render the edit link outside of the active cart', () => {
+        emitCartEntry([configurableLineItem], PromotionLocation.SavedCart);
+
+        expect(getNestedConfigureLinks().length).toBe(0);
       });
     });
   });
@@ -929,12 +1543,35 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConfiguratorCartEntryBundleInfoComponent],
-    }).compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        ConfiguratorCartEntryBundleInfoComponent,
+        RouterModule.forRoot([]),
+      ],
+      providers: [{ provide: ProductService, useClass: MockProductService }],
+    })
+      .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CxNumericPipe,
+            ConfigureCartEntryComponent,
+            UrlPipe,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            UrlTestingModule,
+            MockNumericPipe,
+            MockConfigureCartEntryComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ export interface OccQuote {
   sapQuoteDiscountsType?: QuoteDiscountType;
   sapAttachments?: QuoteAttachment[];
   state: QuoteState;
+  sapSubtotalExcludingOrderLevelDiscount?: Price;
   subTotalWithDiscounts?: Price;
   threshold?: number;
   totalItems?: number;
@@ -34,6 +35,7 @@ export interface OccQuote {
   updatedTime?: Date;
   version?: number;
   sapOrderCode?: string;
+  sapPurchaseOrderNumber?: string;
 }
 
 export type Quote = Omit<OccQuote, 'allowedActions'> & {
@@ -122,6 +124,7 @@ export interface QuoteMetadata {
   // 2023-08-26T09:13:00+02:00
   expirationTime?: string;
   name?: string;
+  purchaseOrderNumber?: string;
 }
 
 export interface QuoteStarter {

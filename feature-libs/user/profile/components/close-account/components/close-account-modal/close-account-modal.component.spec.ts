@@ -1,23 +1,30 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AuthService,
   GlobalMessageService,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, throwError } from 'rxjs';
 import { CloseAccountModalComponent } from './close-account-modal.component';
-import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  close = createSpy().and.returnValue(of(undefined));
+  close = vi.fn().mockReturnValue(of(undefined));
 }
 
 class MockAuthService implements Partial<AuthService> {
@@ -25,7 +32,7 @@ class MockAuthService implements Partial<AuthService> {
     return of(true);
   }
 
-  coreLogout = createSpy().and.returnValue(Promise.resolve());
+  coreLogout = vi.fn().mockReturnValue(Promise.resolve());
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -33,13 +40,12 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog = createSpy();
+  closeDialog = vi.fn();
 }
 
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -48,7 +54,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
@@ -59,14 +64,9 @@ describe('CloseAccountModalComponent', () => {
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CloseAccountModalComponent,
-        MockCxSpinnerComponent,
-        MockCxIconComponent,
-      ],
+      imports: [CloseAccountModalComponent],
       providers: [
         {
           provide: UserProfileFacade,
@@ -88,9 +88,24 @@ describe('CloseAccountModalComponent', () => {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(CloseAccountModalComponent, {
+        remove: { imports: [TranslatePipe, IconComponent, SpinnerComponent] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockCxSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountModalComponent);
@@ -111,8 +126,8 @@ describe('CloseAccountModalComponent', () => {
   });
 
   it('should navigate away and dismiss modal when account is closed', () => {
-    spyOn(component, 'onSuccess').and.callThrough();
-    // spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    vi.spyOn(component, 'onSuccess');
+    // vi.spyOn(launchDialogService, 'closeDialog');
 
     component.ngOnInit();
     component.closeAccount();
@@ -123,9 +138,9 @@ describe('CloseAccountModalComponent', () => {
   });
 
   it('should dismiss modal when account failed to close', () => {
-    spyOn(component, 'onError').and.callThrough();
-    // spyOn(launchDialogService, 'closeDialog').and.callThrough();
-    (userFacade.close as any).and.returnValue(throwError(() => undefined));
+    vi.spyOn(component, 'onError');
+    // vi.spyOn(launchDialogService, 'closeDialog');
+    (userFacade.close as any).mockReturnValue(throwError(() => undefined));
 
     component.ngOnInit();
     component.closeAccount();
@@ -137,7 +152,7 @@ describe('CloseAccountModalComponent', () => {
 
   it('should closeModal when user click outside', () => {
     const el = fixture.debugElement.nativeElement;
-    spyOn(component, 'dismissModal');
+    vi.spyOn(component, 'dismissModal');
 
     el.click();
     expect(component.dismissModal).toHaveBeenCalledWith('Cross click');

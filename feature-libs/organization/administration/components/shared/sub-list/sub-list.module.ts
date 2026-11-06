@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,8 +26,9 @@ import { SubListComponent } from './sub-list.component';
     PaginationModule,
     MessageModule,
     KeyboardFocusModule,
+    SubListComponent,
+    AssignCellComponent,
   ],
-  declarations: [SubListComponent, AssignCellComponent],
   exports: [SubListComponent],
 })
 export class SubListModule {}

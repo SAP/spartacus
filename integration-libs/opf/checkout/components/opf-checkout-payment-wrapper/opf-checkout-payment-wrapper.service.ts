@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -23,6 +24,7 @@ import {
 } from '@spartacus/core';
 
 import {
+  OpfHtmlContentMode,
   OpfMetadataStoreService,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
@@ -30,12 +32,14 @@ import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/r
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
   OpfPaymentBrowserInfo,
+  OpfPaymentChannel,
+  OpfPaymentConfig,
   OpfPaymentFacade,
   OpfPaymentRenderMethodEvent,
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
-import { OrderFacade } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import {
   BehaviorSubject,
   Observable,
@@ -57,6 +61,7 @@ export class OpfCheckoutPaymentWrapperService {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
   protected winRef = inject(WindowRef);
+  private readonly featureToggles = inject(FeatureToggles);
 
   protected lastPaymentOptionId?: number;
 
@@ -91,9 +96,16 @@ export class OpfCheckoutPaymentWrapperService {
     return this.renderPaymentMethodEvent$.asObservable();
   }
 
+  removePaymentProviderResources(): void {
+    this.opfResourceLoaderService.clearAllResources();
+  }
+
   initiatePayment(
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
+    const useUpdatePaymentTransaction =
+      this.featureToggles.opfCheckoutUseUpdatePaymentTransaction;
+
     this.lastPaymentOptionId = paymentOptionId;
     this.renderPaymentMethodEvent$.next({
       isLoading: true,
@@ -115,7 +127,6 @@ export class OpfCheckoutPaymentWrapperService {
           filter((response) => Boolean(response?.accessCode)),
           map(({ accessCode: otpKey }) =>
             this.getPaymentInitiationConfig(
-              cartId,
               otpKey,
               paymentOptionId,
               getBrowserInfo(this.winRef?.nativeWindow)
@@ -123,10 +134,45 @@ export class OpfCheckoutPaymentWrapperService {
           )
         )
       ),
-      switchMap((params) => this.opfPaymentFacade.initiatePayment(params)),
+      switchMap((params) => {
+        if (useUpdatePaymentTransaction) {
+          const paymentSessionId = this.getStoredPaymentSessionId(
+            params.config?.configurationId
+          );
+
+          if (paymentSessionId) {
+            return this.opfPaymentFacade
+              .updatePaymentTransaction({
+                paymentSessionId,
+                otpKey: params.otpKey,
+                config: {
+                  configurationId: params.config?.configurationId,
+                  browserInfo: params.config?.browserInfo,
+                  channel: params.config?.channel,
+                  resultURL: params.config?.resultURL,
+                  cancelURL: params.config?.cancelURL,
+                },
+              })
+              .pipe(
+                catchError((err: HttpErrorModel) => {
+                  if (Number(err.status) === HttpResponseStatus.CONFLICT) {
+                    return this.opfPaymentFacade.initiatePayment(params);
+                  }
+                  return throwError(() => err);
+                })
+              );
+          }
+        }
+
+        return this.opfPaymentFacade.initiatePayment(params);
+      }),
       tap((paymentOptionConfig: OpfPaymentSessionData | Error) => {
         if (!(paymentOptionConfig instanceof Error)) {
-          this.storePaymentSessionId(paymentOptionConfig);
+          this.storePaymentSessionId(
+            paymentOptionConfig,
+            useUpdatePaymentTransaction,
+            String(paymentOptionId)
+          );
           this.renderPaymentGateway(paymentOptionConfig);
         }
       }),
@@ -143,14 +189,80 @@ export class OpfCheckoutPaymentWrapperService {
     );
   }
 
-  protected storePaymentSessionId(paymentOptionConfig: OpfPaymentSessionData) {
-    const paymentSessionId =
-      paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
-      paymentOptionConfig.paymentSessionId
-        ? paymentOptionConfig.paymentSessionId
-        : undefined;
+  protected storePaymentSessionId(
+    paymentOptionConfig: OpfPaymentSessionData,
+    useUpdatePaymentTransaction = false,
+    paymentConfigurationId?: string
+  ): void {
+    let paymentSessionId: string | undefined;
+
+    if (
+      useUpdatePaymentTransaction ||
+      (paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
+        paymentOptionConfig.paymentSessionId)
+    ) {
+      paymentSessionId = paymentOptionConfig.paymentSessionId;
+    }
+
+    this.updatePaymentSessionMetadata(paymentSessionId, paymentConfigurationId);
+  }
+
+  protected getOrCreatePaymentSessionId(paymentConfig: {
+    otpKey?: string;
+    config?: OpfPaymentConfig;
+  }): Observable<string> {
+    const paymentSessionId = this.getStoredPaymentSessionId(
+      paymentConfig.config?.configurationId
+    );
+
+    if (paymentSessionId) {
+      return of(paymentSessionId);
+    }
+
+    return this.opfPaymentFacade.initiatePayment(paymentConfig).pipe(
+      map((response) => response?.paymentSessionId),
+      switchMap((generatedPaymentSessionId) => {
+        if (!generatedPaymentSessionId) {
+          return throwError(() => new Error('Missing payment session ID'));
+        }
+
+        this.updatePaymentSessionMetadata(
+          generatedPaymentSessionId,
+          paymentConfig.config?.configurationId
+        );
+
+        return of(generatedPaymentSessionId);
+      })
+    );
+  }
+
+  protected getStoredPaymentSessionId(
+    paymentConfigurationId?: string
+  ): string | undefined {
+    const metadata = this.opfMetadataStoreService.opfMetadataState.value;
+
+    if (!metadata?.opfPaymentSessionId) {
+      return undefined;
+    }
+
+    if (!paymentConfigurationId) {
+      return undefined;
+    }
+
+    return metadata.opfPaymentSessionConfigurationId === paymentConfigurationId
+      ? metadata.opfPaymentSessionId
+      : undefined;
+  }
+
+  protected updatePaymentSessionMetadata(
+    paymentSessionId?: string,
+    paymentConfigurationId?: string
+  ): void {
     this.opfMetadataStoreService.updateOpfMetadata({
       opfPaymentSessionId: paymentSessionId,
+      opfPaymentSessionConfigurationId: paymentSessionId
+        ? paymentConfigurationId
+        : undefined,
     });
   }
 
@@ -173,13 +285,15 @@ export class OpfCheckoutPaymentWrapperService {
     if (config?.dynamicScript) {
       const html = config?.dynamicScript?.html;
 
-      const paymentOptionId = this.lastPaymentOptionId;
+      const paymentOptionId =
+        config?.paymentOptionId ?? this.lastPaymentOptionId;
 
       this.opfResourceLoaderService
         .loadResources(
           config.dynamicScript.jsUrls,
           config.dynamicScript.cssUrls,
-          paymentOptionId
+          paymentOptionId,
+          config.dynamicScript
         )
         .then(() => {
           this.renderPaymentMethodEvent$.next({
@@ -187,9 +301,14 @@ export class OpfCheckoutPaymentWrapperService {
             isError: false,
             renderType: config?.pattern,
             html,
+            paymentOptionId,
           });
 
-          if (html) {
+          if (
+            html &&
+            config?.dynamicScript?.htmlContentMode !==
+              OpfHtmlContentMode.SEPARATE
+          ) {
             this.executeScriptFromHtml(html);
           }
         })
@@ -204,6 +323,7 @@ export class OpfCheckoutPaymentWrapperService {
         isError: false,
         renderType: config?.pattern,
         destination: config?.destination,
+        paymentOptionId: config?.paymentOptionId ?? this.lastPaymentOptionId,
       });
       return;
     }
@@ -214,7 +334,7 @@ export class OpfCheckoutPaymentWrapperService {
     err: HttpErrorModel
   ): Observable<Error> {
     if (isAuthorizationError(err)) {
-      return throwError(() => err);
+      return this.handleGeneralPaymentError();
     }
 
     return Number(err.status) === HttpResponseStatus.CONFLICT
@@ -223,7 +343,7 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected handlePaymentAlreadyDoneError(): Observable<Error> {
-    return this.orderFacade.placePaymentAuthorizedOrder(true).pipe(
+    return this.placeOrder().pipe(
       catchError(() => {
         this.onPlaceOrderError();
 
@@ -236,6 +356,10 @@ export class OpfCheckoutPaymentWrapperService {
         return throwError(() => 'Payment already done');
       })
     );
+  }
+
+  protected placeOrder(cartId?: string): Observable<Order> {
+    return this.orderFacade.placePaymentAuthorizedOrder(true, cartId);
   }
 
   protected onPlaceOrderSuccess(): void {
@@ -260,7 +384,7 @@ export class OpfCheckoutPaymentWrapperService {
 
     this.showErrorMessage('opfPayment.errors.proceedPayment');
 
-    return throwError('Payment failed');
+    return throwError(() => 'Payment failed');
   }
 
   protected showErrorMessage(errorMessage: string): void {
@@ -273,7 +397,6 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected getPaymentInitiationConfig(
-    cartId: string,
     otpKey: string,
     paymentOptionId: number,
     browserInfo?: OpfPaymentBrowserInfo
@@ -281,8 +404,8 @@ export class OpfCheckoutPaymentWrapperService {
     return {
       otpKey,
       config: {
-        cartId,
         browserInfo,
+        channel: OpfPaymentChannel.BROWSER,
         configurationId: String(paymentOptionId),
         resultURL: this.routingService.getFullUrl({
           cxRoute: 'paymentVerificationResult',

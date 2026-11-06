@@ -1,13 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
-  SubscriptionBillingFacade,
+  PaginationComponent,
+  SortingComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import {
+  SubscriptionFacade,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { switchMap } from 'rxjs';
@@ -15,10 +23,21 @@ import { switchMap } from 'rxjs';
 @Component({
   selector: 'cx-subscription-list',
   templateUrl: './subscription-list.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgClass,
+    SortingComponent,
+    NgFor,
+    RouterLink,
+    PaginationComponent,
+    SpinnerComponent,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+  ],
 })
 export class SubscriptionListComponent {
-  protected subscriptionBillingFacade = inject(SubscriptionBillingFacade);
+  protected subscriptionFacade = inject(SubscriptionFacade);
 
   PAGE_SIZE = 5;
 
@@ -32,7 +51,7 @@ export class SubscriptionListComponent {
 
   subscriptions$ = toObservable(this.listParams).pipe(
     switchMap((params) =>
-      this.subscriptionBillingFacade.getSubscriptionList(
+      this.subscriptionFacade.getSubscriptionList(
         this.PAGE_SIZE,
         params.currentPage,
         params.sortCode

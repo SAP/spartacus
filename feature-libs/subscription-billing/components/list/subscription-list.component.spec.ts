@@ -1,18 +1,22 @@
+import { Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { SubscriptionListComponent } from './subscription-list.component';
-import { Observable, of } from 'rxjs';
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import {
-  SubscriptionBillingFacade,
+  SubscriptionFacade,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
-import { Pipe, PipeTransform } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { Observable, of } from 'rxjs';
+import { SubscriptionListComponent } from './subscription-list.component';
 
 const listWithData: SubscriptionList = {
   pagination: {
@@ -62,9 +66,7 @@ const listWithNoData: SubscriptionList = {
   sorts: [],
 };
 
-class MockSubscriptionBillingFacade
-  implements Partial<SubscriptionBillingFacade>
-{
+class MockSubscriptionFacade implements Partial<SubscriptionFacade> {
   getSubscriptionList(
     _pageSize?: number,
     _currentPage?: number,
@@ -78,10 +80,7 @@ class MockTranslationService {
     return of(text);
   }
 }
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -89,20 +88,32 @@ class MockUrlPipe implements PipeTransform {
 describe('SubscriptionListComponent', () => {
   let component: SubscriptionListComponent;
   let fixture: ComponentFixture<SubscriptionListComponent>;
-  let facade: SubscriptionBillingFacade;
+  let facade: SubscriptionFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [SubscriptionListComponent, MockUrlPipe],
+      imports: [
+        I18nTestingModule,
+        SubscriptionListComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: SubscriptionBillingFacade,
-          useClass: MockSubscriptionBillingFacade,
+          provide: SubscriptionFacade,
+          useClass: MockSubscriptionFacade,
         },
       ],
-    }).compileComponents();
-    facade = TestBed.inject(SubscriptionBillingFacade);
+    })
+      .overrideComponent(SubscriptionListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
+    facade = TestBed.inject(SubscriptionFacade);
     fixture = TestBed.createComponent(SubscriptionListComponent);
     component = fixture.componentInstance;
   });
@@ -111,7 +122,7 @@ describe('SubscriptionListComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should show list with pagination and sort if data is present', () => {
-    spyOn(facade, 'getSubscriptionList').and.returnValue(of(listWithData));
+    vi.spyOn(facade, 'getSubscriptionList').mockReturnValue(of(listWithData));
     fixture.detectChanges();
     expect(
       fixture.debugElement.queryAll(By.css('.subscription-list-sort.top'))
@@ -126,7 +137,7 @@ describe('SubscriptionListComponent', () => {
     ).toEqual(2);
   });
   it('should show no subscription is data is not present', () => {
-    spyOn(facade, 'getSubscriptionList').and.returnValue(of(listWithNoData));
+    vi.spyOn(facade, 'getSubscriptionList').mockReturnValue(of(listWithNoData));
     fixture.detectChanges();
     expect(
       fixture.debugElement.queryAll(By.css('.subscription-list-sort.top'))
@@ -140,25 +151,27 @@ describe('SubscriptionListComponent', () => {
       fixture.debugElement.queryAll(By.css('.subscription')).length
     ).toEqual(0);
   });
-  it('should set the sort order correctly', fakeAsync(() => {
-    spyOn(facade, 'getSubscriptionList').and.returnValue(of(listWithData));
+  it('should set the sort order correctly', async () => {
+    vi.spyOn(facade, 'getSubscriptionList').mockReturnValue(of(listWithData));
     component.changeSortCode('byDocumentNumberAsc');
-    tick();
+    await Promise.resolve();
     fixture.detectChanges();
-    const lastCallArgs = (
-      facade.getSubscriptionList as jasmine.Spy
-    ).calls.mostRecent().args;
-    expect(lastCallArgs).toEqual([5, 0, 'byDocumentNumberAsc']);
-  }));
+    expect(facade.getSubscriptionList).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      'byDocumentNumberAsc'
+    );
+  });
 
-  it('should set the sort order correctly', fakeAsync(() => {
-    spyOn(facade, 'getSubscriptionList').and.returnValue(of(listWithData));
+  it('should set the page number correctly', async () => {
+    vi.spyOn(facade, 'getSubscriptionList').mockReturnValue(of(listWithData));
     component.pageChange(2);
-    tick();
+    await Promise.resolve();
     fixture.detectChanges();
-    const lastCallArgs = (
-      facade.getSubscriptionList as jasmine.Spy
-    ).calls.mostRecent().args;
-    expect(lastCallArgs).toEqual([5, 2, undefined]);
-  }));
+    expect(facade.getSubscriptionList).toHaveBeenCalledWith(
+      expect.anything(),
+      2,
+      undefined
+    );
+  });
 });

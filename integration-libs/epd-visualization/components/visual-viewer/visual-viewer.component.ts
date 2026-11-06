@@ -1,27 +1,41 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   Output,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { NavigationMode } from './models/navigation-mode';
 import { SelectionMode } from './models/selection-mode';
 import { VisualizationLoadInfo } from './models/visualization-load-info';
+import { VisualViewerAnimationSliderComponent } from './toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.component';
+import { VisualViewerToolbarButtonComponent } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.component';
 import { VisualViewerService } from './visual-viewer.service';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-viewer',
   templateUrl: './visual-viewer.component.html',
   providers: [VisualViewerService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    VisualViewerToolbarButtonComponent,
+    VisualViewerAnimationSliderComponent,
+    SpinnerComponent,
+    TranslatePipe,
+  ],
 })
 export class VisualViewerComponent {
   constructor(protected visualViewerService: VisualViewerService) {}

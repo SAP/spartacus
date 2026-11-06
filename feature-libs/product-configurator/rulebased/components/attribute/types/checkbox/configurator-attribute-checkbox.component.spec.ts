@@ -1,37 +1,39 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
+  Injectable,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import {
+  DirectionMode,
+  DirectionService,
+  FocusDirective,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
-
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -40,12 +42,15 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
 }
 
 class MockConfiguratorCommonsService {
@@ -72,12 +77,19 @@ class MockConfiguratorAttributePriceChangeService {
   }
 }
 
+@Injectable()
+class MockDirectionService implements Partial<DirectionService> {
+  getDirection(): DirectionMode {
+    return DirectionMode.LTR;
+  }
+}
+
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
       set: {
         providers: [
@@ -88,14 +100,13 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
-      declarations: [
+    await TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
         ConfiguratorAttributeCheckBoxComponent,
-        MockFocusDirective,
-        MockConfiguratorPriceComponent,
-        MockConfiguratorShowMoreComponent,
+        I18nTestingModule,
       ],
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       providers: [
         {
           provide: ConfiguratorAttributeCompositionContext,
@@ -109,15 +120,33 @@ describe('ConfigAttributeCheckBoxComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        add: {
+          imports: [
+            ConfiguratorPriceComponent,
+            ConfiguratorShowMoreComponent,
+            FocusDirective,
+          ],
+        },
+        remove: {
+          imports: [
+            KeyboardFocusTestingModule,
+            MockConfiguratorPriceComponent,
+            MockConfiguratorShowMoreComponent,
+          ],
         },
       })
+      .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
-  }));
+  });
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
@@ -144,7 +173,6 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       uiType: Configurator.UiType.CHECKBOX,
       values: values,
     };
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -167,6 +195,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   });
 
   it('should select and deselect a checkbox value', () => {
+    fixture.detectChanges();
     const checkboxId =
       '#cx-configurator--checkBox--' +
       component.attribute.name +
@@ -220,6 +249,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -235,6 +265,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     });
 
     it("should contain input element with class name 'form-check-input' and 'aria-describedby' that indicates the IDs of the elements that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -247,6 +278,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     });
 
     it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that removes label from the accessibility tree", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

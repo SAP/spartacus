@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
@@ -6,13 +6,12 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslationService,
   Product,
   RoutingService,
   Translatable,
+  TranslationService,
 } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';
@@ -80,10 +79,9 @@ describe('SavedCartDetailsItemsComponent', () => {
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), I18nTestingModule, OutletModule],
-      declarations: [SavedCartDetailsItemsComponent, MockFeatureDirective],
+      imports: [StoreModule.forRoot({}), SavedCartDetailsItemsComponent],
       providers: [
         {
           provide: SavedCartFacade,
@@ -99,6 +97,7 @@ describe('SavedCartDetailsItemsComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
 
@@ -110,22 +109,22 @@ describe('SavedCartDetailsItemsComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
 
-    spyOn(routingService, 'go').and.callThrough();
-    spyOn(globalMessageService, 'add').and.callThrough();
-    spyOn(savedCartFacade, 'deleteSavedCart').and.callThrough();
+    vi.spyOn(routingService, 'go');
+    vi.spyOn(globalMessageService, 'add');
+    vi.spyOn(savedCartFacade, 'deleteSavedCart');
 
     cart$.next(mockSavedCart);
 
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should trigger onDeleteComplete when there was a successful deleted cart', () => {
-    spyOn(component, 'onDeleteComplete').and.stub();
-    spyOn(eventService, 'get').and.returnValue(of(mockDeleteSavedCartEvent));
+    vi.spyOn(component, 'onDeleteComplete').mockImplementation(() => {});
+    vi.spyOn(eventService, 'get').mockReturnValue(of(mockDeleteSavedCartEvent));
 
     component.ngOnInit();
     expect(component.onDeleteComplete).toHaveBeenCalled();

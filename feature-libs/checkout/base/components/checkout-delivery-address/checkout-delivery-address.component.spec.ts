@@ -1,11 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -15,53 +9,58 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
+  CxDatePipe,
   FeaturesConfig,
+  FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   UserAddressService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
+import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutFlowOrchestratorService } from '../services/checkout-flow-orchestrator.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
-import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getAddresses = createSpy().and.returnValue(of(mockAddresses));
-  getAddressesLoading = createSpy().and.returnValue(of(false));
-  loadAddresses = createSpy();
+  getAddresses = vi.fn().mockReturnValue(of(mockAddresses));
+  getAddressesLoading = vi.fn().mockReturnValue(of(false));
+  loadAddresses = vi.fn();
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  isGuestCart = createSpy().and.returnValue(of(false));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  createAndSetAddress = createSpy().and.returnValue(of({}));
-  setDeliveryAddress = createSpy().and.returnValue(EMPTY);
-  getDeliveryAddressState = createSpy().and.returnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  createAndSetAddress = vi.fn().mockReturnValue(of({}));
+  setDeliveryAddress = vi.fn().mockReturnValue(EMPTY);
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
-  next = createSpy();
-  back = createSpy();
-  getBackBntText = createSpy().and.returnValue('common.back');
+  next = vi.fn();
+  back = vi.fn();
+  getBackBntText = vi.fn().mockReturnValue('common.back');
 }
 
 class MockCheckoutFlowOrchestratorService
   implements Partial<CheckoutFlowOrchestratorService>
 {
-  getCheckoutFlow = createSpy();
+  getCheckoutFlow = vi.fn();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 const mockAddress1: Address = {
@@ -100,7 +99,6 @@ const mockActivatedRoute = {
 @Component({
   selector: 'cx-address-form',
   template: '',
-  standalone: false,
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
@@ -112,14 +110,12 @@ class MockAddressFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
 })
 class MockCardComponent {
   @Input()
@@ -130,18 +126,14 @@ class MockCardComponent {
   fitToContainer: boolean;
   @Input()
   index: number;
+  @Input()
+  role: string;
 }
 
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
-}
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
+  clearCheckoutDeliveryMode = vi.fn().mockReturnValue(EMPTY);
 }
 
 describe('CheckoutDeliveryAddressComponent', () => {
@@ -153,17 +145,11 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
-  let featureConfig: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CheckoutDeliveryAddressComponent,
-        MockAddressFormComponent,
-        MockCardComponent,
-        MockSpinnerComponent,
-      ],
+      imports: [I18nTestingModule, CheckoutDeliveryAddressComponent],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -188,14 +174,29 @@ describe('CheckoutDeliveryAddressComponent', () => {
           provide: CheckoutFlowOrchestratorService,
           useClass: MockCheckoutFlowOrchestratorService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ addTitleToAddressCard: false }),
       ],
     })
       .overrideComponent(CheckoutDeliveryAddressComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AddressFormComponent,
+            CardComponent,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAddressFormComponent,
+            MockCardComponent,
+            MockSpinnerComponent,
+          ],
+        },
       })
       .compileComponents();
 
@@ -209,17 +210,16 @@ describe('CheckoutDeliveryAddressComponent', () => {
     userAddressService = TestBed.inject(UserAddressService);
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    featureConfig = TestBed.inject(FeatureConfigService);
-  }));
+    featureToggles = TestBed.inject(FeatureToggles);
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutDeliveryAddressComponent);
     component = fixture.componentInstance;
 
-    spyOn(component, 'addAddress').and.callThrough();
-    spyOn(component, 'selectAddress').and.callThrough();
-    spyOn<any>(component, 'setAddress').and.callThrough();
-    spyOn<any>(component, 'getCardRole').and.callThrough();
+    vi.spyOn(component, 'addAddress');
+    vi.spyOn(component, 'selectAddress');
+    vi.spyOn(component, 'setAddress');
   });
 
   it('should be created', () => {
@@ -232,7 +232,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
   describe('should call ngOnInit', () => {
     it('for guest user, should not load user addresses', () => {
-      activeCartFacade.isGuestCart = createSpy().and.returnValue(of(true));
+      activeCartFacade.isGuestCart = vi.fn().mockReturnValue(of(true));
 
       component.ngOnInit();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
@@ -255,7 +255,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
     component.hideNewAddressForm();
     expect(component.addressFormOpened).toEqual(false);
 
-    spyOn(component, 'back');
+    vi.spyOn(component, 'back');
     component.hideNewAddressForm(true);
     expect(component.back).toHaveBeenCalled();
   });
@@ -275,6 +275,8 @@ describe('CheckoutDeliveryAddressComponent', () => {
   });
 
   it('should be able to select address', () => {
+    fixture.detectChanges();
+
     component.selectAddress(mockAddress1);
 
     expect(
@@ -285,10 +287,13 @@ describe('CheckoutDeliveryAddressComponent', () => {
   });
 
   it('should NOT be able to select address if the selection is the same as the currently set delivery address', () => {
-    checkoutDeliveryAddressFacade.getDeliveryAddressState =
-      createSpy().and.returnValue(
+    checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+      .fn()
+      .mockReturnValue(
         of({ loading: false, error: false, data: mockAddress2 })
       );
+
+    fixture.detectChanges();
 
     component.selectAddress(mockAddress2);
 
@@ -352,10 +357,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
 
     describe('role', () => {
-      beforeEach(() => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
-      });
-      it('should be set to "application" for selected address', () => {
+      it('should be set to "region" for selected address', () => {
         expect(
           component.getCardContent(
             mockAddress1,
@@ -366,11 +368,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
             'P',
             'M'
           ).role
-        ).toEqual('application');
-        expect(component['getCardRole']).toHaveBeenCalledWith(true);
+        ).toEqual('region');
       });
 
-      it('should be set to "button" for all non selected addresses', () => {
+      it('should be set to "group" for all non selected addresses', () => {
         expect(
           component.getCardContent(
             mockAddress1,
@@ -381,9 +382,103 @@ describe('CheckoutDeliveryAddressComponent', () => {
             'P',
             'M'
           ).role
-        ).toEqual('button');
-        expect(component['getCardRole']).toHaveBeenCalledWith(false);
+        ).toEqual('group');
       });
+    });
+
+    describe('role in template', () => {
+      it('should pass "region" role to cx-card for selected address', () => {
+        checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+          .fn()
+          .mockReturnValue(
+            of({ loading: false, error: false, data: mockAddress1 })
+          );
+        fixture.detectChanges();
+
+        const cards = fixture.debugElement.queryAll(By.css('cx-card'));
+        const selectedCard = cards.find(
+          (card) => card.componentInstance.content?.role === 'region'
+        );
+        expect(selectedCard).toBeTruthy();
+        expect(selectedCard?.componentInstance.role).toEqual('region');
+      });
+
+      it('should pass "group" role to cx-card for non-selected addresses', () => {
+        checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+          .fn()
+          .mockReturnValue(
+            of({ loading: false, error: false, data: mockAddress1 })
+          );
+        fixture.detectChanges();
+
+        const cards = fixture.debugElement.queryAll(By.css('cx-card'));
+        const nonSelectedCards = cards.filter(
+          (card) => card.componentInstance.content?.role === 'group'
+        );
+        expect(nonSelectedCards.length).toBeGreaterThan(0);
+        nonSelectedCards.forEach((card) => {
+          expect(card.componentInstance.role).toEqual('group');
+        });
+      });
+    });
+  });
+
+  describe('addTitleToAddressCard feature toggle', () => {
+    const addressWithTitle: Address = {
+      ...mockAddress1,
+      title: 'Mr.',
+    };
+    const addressWithoutTitle: Address = {
+      ...mockAddress1,
+      title: undefined,
+    };
+
+    it('should not prepend the title when the toggle is OFF', () => {
+      featureToggles.addTitleToAddressCard = false;
+
+      const card = component.getCardContent(
+        addressWithTitle,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+
+      expect(card.textBold).toEqual('John Doe');
+    });
+
+    it('should prepend the title when the toggle is ON and the address has a title', () => {
+      featureToggles.addTitleToAddressCard = true;
+
+      const card = component.getCardContent(
+        addressWithTitle,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+
+      expect(card.textBold).toEqual('Mr. John Doe');
+    });
+
+    it('should not prepend the title when the toggle is ON but the address has no title', () => {
+      featureToggles.addTitleToAddressCard = true;
+
+      const card = component.getCardContent(
+        addressWithoutTitle,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+
+      expect(card.textBold).toEqual('John Doe');
     });
   });
 
@@ -397,8 +492,9 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
 
     it('should be enabled when address is selected', () => {
-      checkoutDeliveryAddressFacade.getDeliveryAddressState =
-        createSpy().and.returnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockAddress1 })
         );
 
@@ -407,11 +503,12 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
 
     it('should call "next" function after being clicked', () => {
-      checkoutDeliveryAddressFacade.getDeliveryAddressState =
-        createSpy().and.returnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockAddress1 })
         );
-      spyOn(component, 'next');
+      vi.spyOn(component, 'next');
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
@@ -423,10 +520,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-secondary'))
-        .find((el) => el.nativeElement.innerText === 'common.back');
+        .find((el) => el.nativeElement.textContent?.trim() === 'common.back');
 
     it('should call "back" function after being clicked', () => {
-      spyOn(component, 'back').and.callThrough();
+      vi.spyOn(component, 'back');
       fixture.detectChanges();
       getBackBtn()?.nativeElement.click();
       expect(component.back).toHaveBeenCalled();
@@ -442,14 +539,14 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
 
     it('should not display if there are no existng addresses', () => {
-      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
+      userAddressService.getAddresses = vi.fn().mockReturnValue(of([]));
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
 
     it('should not display if existing addresses are loading', () => {
       component.isUpdating$ = of(true);
-      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
+      userAddressService.getAddresses = vi.fn().mockReturnValue(of([]));
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
@@ -460,18 +557,20 @@ describe('CheckoutDeliveryAddressComponent', () => {
       fixture.debugElement
         .queryAll(By.css('.btn-secondary'))
         .find(
-          (el) => el.nativeElement.innerText === 'checkoutAddress.addNewAddress'
+          (el) =>
+            el.nativeElement.textContent?.trim() ===
+            'checkoutAddress.addNewAddress'
         );
     const getNewAddressForm = () =>
       fixture.debugElement.query(By.css('cx-address-form'));
 
     it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
-      userAddressService.getAddressesLoading = createSpy().and.returnValue(
-        of(false)
-      );
-      userAddressService.getAddresses = createSpy().and.returnValue(
-        of(mockAddresses)
-      );
+      userAddressService.getAddressesLoading = vi
+        .fn()
+        .mockReturnValue(of(false));
+      userAddressService.getAddresses = vi
+        .fn()
+        .mockReturnValue(of(mockAddresses));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
@@ -482,22 +581,22 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
 
     it('should render on init if there are no existing addresses', () => {
-      userAddressService.getAddressesLoading = createSpy().and.returnValue(
-        of(false)
-      );
-      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
+      userAddressService.getAddressesLoading = vi
+        .fn()
+        .mockReturnValue(of(false));
+      userAddressService.getAddresses = vi.fn().mockReturnValue(of([]));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeTruthy();
     });
 
     it('should not render on init if there are some existing addresses', () => {
-      userAddressService.getAddressesLoading = createSpy().and.returnValue(
-        of(false)
-      );
-      userAddressService.getAddresses = createSpy().and.returnValue(
-        of(mockAddresses)
-      );
+      userAddressService.getAddressesLoading = vi
+        .fn()
+        .mockReturnValue(of(false));
+      userAddressService.getAddresses = vi
+        .fn()
+        .mockReturnValue(of(mockAddresses));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
@@ -505,11 +604,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
     it('should not render when existing addresses are loading', () => {
       component.isUpdating$ = of(true);
-      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
-      checkoutDeliveryAddressFacade.getDeliveryAddressState =
-        createSpy().and.returnValue(
-          of({ loading: true, error: false, data: undefined })
-        );
+      userAddressService.getAddresses = vi.fn().mockReturnValue(of([]));
+      checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(of({ loading: true, error: false, data: undefined }));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
@@ -520,8 +618,8 @@ describe('CheckoutDeliveryAddressComponent', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing addresses are loading', () => {
-      spyOn<any>(component, 'createIsUpdating').and.returnValue(of(true));
-      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
+      vi.spyOn(component, 'createIsUpdating').mockReturnValue(of(true));
+      userAddressService.getAddresses = vi.fn().mockReturnValue(of([]));
       component.ngOnInit();
 
       fixture.detectChanges();
@@ -529,12 +627,12 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
 
     it('should NOT render when existing addresses are NOT loading', () => {
-      userAddressService.getAddressesLoading = createSpy().and.returnValue(
-        of(false)
-      );
-      userAddressService.getAddresses = createSpy().and.returnValue(
-        of(mockAddresses)
-      );
+      userAddressService.getAddressesLoading = vi
+        .fn()
+        .mockReturnValue(of(false));
+      userAddressService.getAddresses = vi
+        .fn()
+        .mockReturnValue(of(mockAddresses));
 
       fixture.detectChanges();
       expect(getSpinner()).toBeFalsy();
@@ -542,7 +640,8 @@ describe('CheckoutDeliveryAddressComponent', () => {
   });
 
   describe('focusCardAfterSelecting', () => {
-    it('should refocus the selected card after updating', fakeAsync(() => {
+    it('should refocus the selected card after updating', async () => {
+      vi.useFakeTimers();
       const card = document.createElement('cx-card');
       const selectButton = document.createElement('button');
       card.appendChild(selectButton);
@@ -550,15 +649,16 @@ describe('CheckoutDeliveryAddressComponent', () => {
       document.body.appendChild(card);
       selectButton.focus();
       component['isUpdating$'] = of(false);
-      spyOn(card, 'focus');
-      spyOn(component['focusService'], 'findFirstFocusable').and.returnValue(
+      vi.spyOn(card, 'focus');
+      vi.spyOn(component['focusService'], 'findFirstFocusable').mockReturnValue(
         card
       );
 
       component.focusCardAfterSelecting();
-      tick(16); // Wait for requestAnimationFrame
+      await vi.advanceTimersByTimeAsync(16); // Wait for requestAnimationFrame
 
       expect(card.focus).toHaveBeenCalled();
-    }));
+      vi.useRealTimers();
+    });
   });
 });

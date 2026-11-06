@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,10 +8,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule, MediaModule } from '@spartacus/storefront';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-title.directive';
+import { ConfiguratorTruncatePathTitleDirective } from './configurator-truncate-path-title.directive';
 
 @NgModule({
   imports: [
@@ -23,9 +24,11 @@ import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-
     IconModule,
     MediaModule,
     ConfiguratorMainAriaLabelledByDirective,
+    ConfiguratorTruncatePathTitleDirective,
+    ConfiguratorProductTitleComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorProductTitle: {
           component: ConfiguratorProductTitleComponent,
@@ -33,7 +36,6 @@ import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-
       },
     }),
   ],
-  declarations: [ConfiguratorProductTitleComponent],
   exports: [ConfiguratorProductTitleComponent],
 })
 export class ConfiguratorProductTitleModule {}

@@ -40,7 +40,10 @@
           "OPF-Payment",
           "OPF-Cta",
           "OPF-Global-Functions",
-          "OPF-Quick-Buy"
+          "OPF-Quick-Buy",
+          "OPF-Quick-Buy-Pickup-In-Store",
+          "OPF-Gift-Card",
+          "OPF-Tokenisation"
         ],
         "type": "string"
       },
@@ -82,6 +85,21 @@
             "value": "OPF-Quick-Buy",
             "label": "OPF Quick Buy",
             "checked": true
+          },
+          {
+            "value": "OPF-Quick-Buy-Pickup-In-Store",
+            "label": "OPF Quick Buy Pickup In Store",
+            "checked": false
+          },
+          {
+            "value": "OPF-Tokenisation",
+            "label": "OPF Tokenisation",
+            "checked": false
+          },
+          {
+            "value": "OPF-Gift-Card",
+            "label": "OPF Gift Card",
+            "checked": false
           }
         ]
       }
@@ -94,6 +112,11 @@
     "commerceCloudPublicKey": {
       "type": "string",
       "description": "Commerce Clould public key required for authentication between OPF Cloud Commerce Adapter and Spartacus"
+    },
+    "enableGetActiveConfigurationsAccessCodeHeader": {
+      "type": "boolean",
+      "description": "When enabled, a cart access code is generated and sent as the sap-commerce-cloud-access-code header on the getActiveConfigurations request. This is required for Intelligent Routing.",
+      "default": true
     }
   },
   "required": []

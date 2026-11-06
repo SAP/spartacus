@@ -1,34 +1,59 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
-import { Product, ProductService, TranslationService } from '@spartacus/core';
+import {
+  FeatureDirective,
+  Product,
+  ProductService,
+  TranslatePipe,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   KeyboardFocusService,
+  MediaComponent,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { catchError, map, take, tap } from 'rxjs/operators';
+import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorMessageComponent } from '../../message/configurator-message.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../price/configurator-price.component';
+import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
-  /** If set to `true`, all action buttons will be disabled.  */
+  /**
+   * If set to `true`, all action buttons will be disabled.
+   */
   disableAllButtons?: boolean;
   /** If set to `true`, the remove/deselect button won't be available. Useful for required attributes,
    *  where a deselect/remove of last value shall not be possible.  */
@@ -36,26 +61,62 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   fallbackFocusId?: string;
   multiSelect?: boolean;
   productBoundValue: Configurator.Value;
+  /**
+   * Configurator attribute. Prefer this over the deprecated {@link attributeId},
+   * {@link attributeLabel}, and {@link attributeName} fields.
+   */
+  attribute?: Configurator.Attribute;
   singleDropdown?: boolean;
   withQuantity?: boolean;
   /**
    * Used to indicate loading state, for example in case a request triggered by parent component to CPQ is currently in progress.
    * Component will react on it and disable all controls that could cause a request.
-   * This prevents the user from triggering concurrent requests with potential conflicting content that might cause unexpected behaviour.
+   * This prevents the user from triggering concurrent requests with potential conflicting content that might cause unexpected behavior.
    */
   loading$?: Observable<boolean>;
+  messages?: ConfiguratorMessageGroup[];
+  /**
+   * @deprecated since 221121.23 - Use `this.getAttributeCode(this.attribute)` instead which will be
+   * used in the components. This property remains for backward
+   * compatibility and will be removed in a future major version.
+   */
   attributeId: number;
+  /**
+   * @deprecated since 221121.23 - Use `attribute.label` instead which will be
+   * used in the components. This property remains for backward
+   * compatibility and will be removed in a future major version.
+   */
   attributeLabel?: string;
+  /**
+   * @deprecated since 221121.23 - Use `attribute.name` instead which will be
+   * used in the components. This property remains for backward
+   * compatibility and will be removed in a future major version.
+   */
   attributeName: string;
   itemCount: number;
   itemIndex: number;
+  containerRow?: Configurator.ContainerRow;
 }
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   templateUrl: './configurator-attribute-product-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    MediaComponent,
+    ConfiguratorShowMoreComponent,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorPriceComponent,
+    ConfiguratorMessageComponent,
+    FocusDirective,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
@@ -63,7 +124,21 @@ export class ConfiguratorAttributeProductCardComponent
 {
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
+  /**
+   * Emits `true` while either the product data is being fetched (local
+   * `loading$`) or the parent component signals that a configuration update
+   * round trip is in progress (`productCardOptions.loading$`). Used to disable
+   * the action buttons and the quantity control.
+   */
+  disableActions$: Observable<boolean>;
   showDeselectionNotPossible = false;
+  /**
+   * Whether the container-row overflow menu is currently open.
+   */
+  isActionsMenuOpen = false;
+
+  @ViewChild('actionsMenu')
+  actionsMenu?: ElementRef<HTMLElement>;
 
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -71,6 +146,8 @@ export class ConfiguratorAttributeProductCardComponent
   @Output() handleDeselect = new EventEmitter<string>();
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
   @Output() handleSelect = new EventEmitter<string>();
+  @Output() handleRowAction =
+    new EventEmitter<Configurator.ContainerRowAction>();
 
   constructor(
     protected productService: ProductService,
@@ -78,6 +155,7 @@ export class ConfiguratorAttributeProductCardComponent
     protected translation: TranslationService
   ) {
     super();
+    useFeatureStyles('productConfiguratorCPQContainer');
   }
   iconType = ICON_TYPE;
 
@@ -88,19 +166,32 @@ export class ConfiguratorAttributeProductCardComponent
 
     this.product$ = this.productService
       .get(
-        productSystemId ? productSystemId : '',
+        productSystemId || '',
         ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
       )
       .pipe(
-        map((respProduct) => {
-          return respProduct
-            ? respProduct
-            : this.transformToProductType(
-                this.productCardOptions.productBoundValue
-              );
-        }),
+        map((respProduct) =>
+          this.mergeProductWithConfiguratorValue(
+            respProduct,
+            this.productCardOptions.productBoundValue
+          )
+        ),
+        catchError(() =>
+          of(
+            this.mergeProductWithConfiguratorValue(
+              undefined,
+              this.productCardOptions.productBoundValue
+            )
+          )
+        ),
         tap(() => this.loading$.next(false))
       );
+
+    this.disableActions$ = this.productCardOptions.loading$
+      ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
+          map(([localLoading, parentLoading]) => localLoading || parentLoading)
+        )
+      : this.loading$;
   }
 
   get showQuantity(): boolean {
@@ -112,18 +203,86 @@ export class ConfiguratorAttributeProductCardComponent
     );
   }
 
+  /**
+   * Verifies whether the card should render the overflow menu. The menu is shown
+   * only for selected products that define container-row actions. When the card
+   * is in container context but no actions are defined, neither the menu nor
+   * the default add/remove/select buttons are shown.
+   *
+   * @returns - overflow menu visible?
+   */
+  get hasContainerRowActions(): boolean {
+    return (
+      !!this.productCardOptions.productBoundValue?.selected &&
+      !!this.productCardOptions.containerRow?.actions?.length
+    );
+  }
+
+  /**
+   * Whether to render ADD, REMOVE, or SELECT. These buttons are used outside
+   * the container context. Available (unselected) container products keep the
+   * add button. Selected container products never fall back to these buttons.
+   *
+   * @returns - default action buttons visible?
+   */
+  get showDefaultActions(): boolean {
+    if (!this.productCardOptions.containerRow) {
+      return true;
+    }
+    return !this.productCardOptions.productBoundValue?.selected;
+  }
+
+  /**
+   * Actions defined on the bound container row.
+   *
+   * @returns - row actions
+   */
+  get containerRowActions(): Configurator.ContainerRowAction[] {
+    return this.productCardOptions.containerRow?.actions ?? [];
+  }
+
+  /**
+   * Attribute label for a11y and show-more. Prefers {@link ConfiguratorAttributeProductCardComponentOptions.attribute}.
+   */
+  get productCardAttributeLabel(): string {
+    return (
+      this.productCardOptions.attribute?.label ??
+      this.productCardOptions.attributeLabel ??
+      ''
+    );
+  }
+
+  /**
+   * Attribute name for UI keys and a11y. Prefers {@link ConfiguratorAttributeProductCardComponentOptions.attribute}.
+   */
+  get productCardAttributeName(): string {
+    return (
+      this.productCardOptions.attribute?.name ??
+      this.productCardOptions.attributeName
+    );
+  }
+
   get focusConfig(): FocusConfig {
-    const focusConfig = {
+    return {
       key: this.createFocusId(
-        this.productCardOptions.attributeId.toString(),
+        this.getProductCardAttributeFocusKey(),
         this.productCardOptions.productBoundValue.valueCode
       ),
     };
-    return focusConfig;
+  }
+
+  /**
+   * Focus key segment derived from attribute code or deprecated {@link ConfiguratorAttributeProductCardComponentOptions.attributeId}.
+   */
+  protected getProductCardAttributeFocusKey(): string {
+    const attribute = this.productCardOptions.attribute;
+    if (attribute?.attrCode) {
+      return this.getAttributeCode(attribute).toString();
+    }
+    return this.productCardOptions.attributeId.toString();
   }
 
   onHandleSelect(): void {
-    this.loading$.next(true);
     if (
       this.productCardOptions.hideRemoveButton &&
       this.productCardOptions.fallbackFocusId
@@ -142,7 +301,6 @@ export class ConfiguratorAttributeProductCardComponent
         this.showDeselectionNotPossibleMessage();
         return;
       }
-      this.loading$.next(true);
       this.handleDeselect.emit(
         this.productCardOptions.productBoundValue.valueCode
       );
@@ -159,7 +317,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   /**
    * Verifies whether the product card refers to a selected value
-   * @return {boolean} - Selected?
+   * @return - Selected?
    */
   isProductCardSelected(): boolean {
     const isProductCardSelected =
@@ -174,21 +332,20 @@ export class ConfiguratorAttributeProductCardComponent
    * Checks if price needs to be displayed. This is the
    * case if either value price, quantity or value price total
    * are present
-   * @return {boolean} - Price display?
+   * @return - Price display?
    */
   hasPriceDisplay(): boolean {
     const productPrice =
       this.productCardOptions.productBoundValue.valuePrice ||
       this.productCardOptions.productBoundValue.quantity ||
       this.productCardOptions.productBoundValue.valuePriceTotal;
-
-    return productPrice ? true : false;
+    return !!productPrice;
   }
 
   /**
    * Extract corresponding price formula parameters
    *
-   *  @return {ConfiguratorPriceComponentOptions} - New price formula
+   *  @return - New price formula
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     if (!this.productCardOptions.multiSelect) {
@@ -208,39 +365,47 @@ export class ConfiguratorAttributeProductCardComponent
   /**
    *  Extract corresponding quantity parameters
    *
-   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
+   * @return - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
     const quantityFromOptions =
       this.productCardOptions.productBoundValue.quantity;
 
-    const mergedLoading = this.productCardOptions.loading$
-      ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
-          map((values) => {
-            return values[0] || values[1];
-          })
-        )
-      : this.loading$;
-
     return {
-      allowZero: !this.productCardOptions.hideRemoveButton,
+      allowZero: true,
       initialQuantity: quantityFromOptions ? quantityFromOptions : 0,
-      disableQuantityActions$: mergedLoading,
+      disableQuantityActions$: this.disableActions$,
+      resetToInitialQuantityOnZero:
+        (this.productCardOptions.productBoundValue.selected &&
+          this.productCardOptions.hideRemoveButton) ??
+        false,
     };
   }
 
   /**
    * Verifies whether the value code is defined.
    *
-   * @param {string} valueCode - Value code
-   * @return {boolean} - 'true' if the value code is defined, otherwise 'false'
+   * @param valueCode - Value code
+   * @return - 'true' if the value code is defined, otherwise 'false'
    */
   isValueCodeDefined(valueCode: string | null | undefined): boolean {
-    return valueCode && valueCode !== Configurator.RetractValueCode
-      ? true
-      : false;
+    return !!(valueCode && valueCode !== Configurator.RetractValueCode);
   }
 
+  /**
+   * Converts a configurator value into a minimal product for the card.
+   *
+   * Used as the fallback when the catalog product is missing, incomplete,
+   * or cannot be loaded. The mapping is:
+   * - `code`: value `productSystemId`
+   * - `name`: value `valueDisplay`
+   * - `description`: value `description`
+   * - `images`: always an empty object; value images are not mapped
+   *
+   * @param value - Configurator value bound to the card, if any
+   * @returns Product built from the configurator value; fields are
+   *   `undefined` if `value` or the source field is missing
+   */
   protected transformToProductType(
     value: Configurator.Value | undefined
   ): Product {
@@ -252,9 +417,48 @@ export class ConfiguratorAttributeProductCardComponent
     };
   }
 
-  protected onHandleQuantity(quantity: number): void {
-    this.loading$.next(true);
+  /**
+   * Builds the product shown on the card by merging catalog product data
+   * with the bound configurator value.
+   *
+   * The configurator value provides the fallback (see
+   * {@link transformToProductType}); catalog fields take precedence over it.
+   * The configurator product-card OCC scope can return a partial product,
+   * so the following fields fall back to the configurator value:
+   * - `code`: falls back to `productSystemId` if the catalog code is missing.
+   * - `name`: falls back to `valueDisplay` if the catalog name is missing,
+   *   empty, or whitespace only.
+   * - `description`: falls back to the value description if the catalog
+   *   description is missing.
+   *
+   * All other catalog fields, such as `images` and `price`, override the
+   * fallback when present. If `respProduct` is undefined (not found or
+   * lookup failed), the result is based on the configurator value only.
+   *
+   * @param respProduct - Product from {@link ProductService}, or `undefined`
+   *   if the lookup returned nothing or failed
+   * @param value - Configurator value bound to the card
+   * @returns Merged product for the card template
+   * @protected
+   */
+  protected mergeProductWithConfiguratorValue(
+    respProduct: Product | undefined,
+    value: Configurator.Value
+  ): Product {
+    const fallback = this.transformToProductType(value);
+    if (!respProduct) {
+      return fallback;
+    }
+    return {
+      ...fallback,
+      ...respProduct,
+      code: respProduct.code ?? fallback.code,
+      name: respProduct.name?.trim() ? respProduct.name : fallback.name,
+      description: respProduct.description ?? fallback.description,
+    };
+  }
 
+  protected onHandleQuantity(quantity: number): void {
     this.handleQuantity.emit({
       quantity,
       valueCode: this.productCardOptions.productBoundValue.valueCode,
@@ -263,6 +467,99 @@ export class ConfiguratorAttributeProductCardComponent
 
   showDeselectionNotPossibleMessage() {
     this.showDeselectionNotPossible = true;
+  }
+
+  /**
+   * Opens or closes the container-row overflow menu.
+   */
+  toggleActionsMenu(): void {
+    this.isActionsMenuOpen = !this.isActionsMenuOpen;
+  }
+
+  /**
+   * Emits the selected container-row action and closes the overflow menu.
+   *
+   * @param action - Selected row action
+   */
+  onHandleRowAction(action: Configurator.ContainerRowAction): void {
+    this.closeActionsMenu();
+    this.handleRowAction.emit(action);
+  }
+
+  /**
+   * Resolves the i18n key for a container-row action.
+   * Falls back to the action name when no translation is defined.
+   *
+   * @param action - Row action
+   * @returns - Translation key, or the action name if none is defined
+   */
+  getContainerRowActionLabel(action: Configurator.ContainerRowAction): string {
+    switch (action) {
+      case Configurator.ContainerRowAction.DELETE:
+        return 'configurator.button.remove';
+      case Configurator.ContainerRowAction.EDIT:
+        return 'configurator.button.edit';
+      case Configurator.ContainerRowAction.COPY:
+        return 'configurator.button.duplicate';
+      case Configurator.ContainerRowAction.ADD:
+        return 'configurator.button.add';
+      default:
+        return action;
+    }
+  }
+
+  /**
+   * Resolves the i18n key for the accessible name of a container-row action,
+   * which includes the product the action applies to.
+   *
+   * @param action - Row action
+   * @returns - Translation key, or `undefined` if none is defined
+   */
+  getContainerRowActionAriaLabel(
+    action: Configurator.ContainerRowAction
+  ): string | undefined {
+    switch (action) {
+      case Configurator.ContainerRowAction.DELETE:
+        return 'configurator.a11y.containerRowActionRemove';
+      case Configurator.ContainerRowAction.EDIT:
+        return 'configurator.a11y.containerRowActionEdit';
+      case Configurator.ContainerRowAction.COPY:
+        return 'configurator.a11y.containerRowActionDuplicate';
+      case Configurator.ContainerRowAction.ADD:
+        return 'configurator.a11y.containerRowActionAdd';
+      default:
+        return undefined;
+    }
+  }
+
+  /**
+   * Closes the container-row overflow menu. Bound to document click
+   * and the Escape key.
+   *
+   * @param event - Document click; ignored when the click target is inside
+   *   this card's overflow menu (toggle or list)
+   */
+  @HostListener('document:click', ['$event'])
+  @HostListener('document:keydown.escape')
+  closeActionsMenu(event?: Event): void {
+    if (
+      event instanceof MouseEvent &&
+      this.isClickInsideActionsMenu(event.target)
+    ) {
+      return;
+    }
+    this.isActionsMenuOpen = false;
+  }
+
+  /**
+   * @param target - Event target node
+   * @returns Whether the click occurred inside this card's overflow menu
+   */
+  protected isClickInsideActionsMenu(target: EventTarget | null): boolean {
+    if (!(target instanceof Node)) {
+      return false;
+    }
+    return this.actionsMenu?.nativeElement.contains(target) ?? false;
   }
 
   getAriaLabelSingleUnselected(product: Product): string {
@@ -279,8 +576,8 @@ export class ConfiguratorAttributeProductCardComponent
       ) {
         this.translation
           .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
-            item: product.code,
-            attribute: this.productCardOptions?.attributeLabel,
+            item: product.name || product.code,
+            attribute: this.productCardAttributeLabel,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
             price:
@@ -292,8 +589,8 @@ export class ConfiguratorAttributeProductCardComponent
       } else {
         this.translation
           .translate('configurator.a11y.itemOfAttributeUnselected', {
-            item: product.code,
-            attribute: this.productCardOptions?.attributeLabel,
+            item: product.name || product.code,
+            attribute: this.productCardAttributeLabel,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
           })
@@ -303,7 +600,7 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.selectNoItemOfAttribute', {
-          attribute: this.productCardOptions?.attributeLabel,
+          attribute: this.productCardAttributeLabel,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })
@@ -324,8 +621,8 @@ export class ConfiguratorAttributeProductCardComponent
         .translate(
           'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
           {
-            item: product.code,
-            attribute: this.productCardOptions?.attributeLabel,
+            item: product.name || product.code,
+            attribute: this.productCardAttributeLabel,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
             price:
@@ -338,8 +635,8 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
-          item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          item: product.name || product.code,
+          attribute: this.productCardAttributeLabel,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })
@@ -359,8 +656,8 @@ export class ConfiguratorAttributeProductCardComponent
     ) {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedWithPrice', {
-          item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          item: product.name || product.code,
+          attribute: this.productCardAttributeLabel,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
           price:
@@ -372,8 +669,8 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelected', {
-          item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          item: product.name || product.code,
+          attribute: this.productCardAttributeLabel,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })
@@ -395,8 +692,8 @@ export class ConfiguratorAttributeProductCardComponent
         .translate(
           'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
           {
-            item: product.code,
-            attribute: this.productCardOptions?.attributeLabel,
+            item: product.name || product.code,
+            attribute: this.productCardAttributeLabel,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
             price:
@@ -409,8 +706,8 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
-          item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          item: product.name || product.code,
+          attribute: this.productCardAttributeLabel,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })
@@ -430,8 +727,8 @@ export class ConfiguratorAttributeProductCardComponent
     ) {
       this.translation
         .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
-          item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          item: product.name || product.code,
+          attribute: this.productCardAttributeLabel,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
           price:
@@ -443,8 +740,8 @@ export class ConfiguratorAttributeProductCardComponent
     } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeUnselected', {
-          item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
+          item: product.name || product.code,
+          attribute: this.productCardAttributeLabel,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
         })

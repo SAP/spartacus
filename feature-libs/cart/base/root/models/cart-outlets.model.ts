@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ export enum CartOutlets {
   LIST_ITEM = 'cx-cart-item-list-row',
   ITEM_DETAILS = 'cx-cart-item.details',
   ITEM_CONFIGURATOR_ISSUES = 'cx-configurator-issues-notification',
+  ITEM_VALIDATION_QUANTITY_HINT = 'cx-cart-item-validation-quantity-hint',
   ITEM_BUNDLE_DETAILS = 'cx-cart-item.bundle-details',
   ITEM_DELIVERY_DETAILS = 'cx-cart-item.delivery-details',
   ORDER_SUMMARY = 'cx-order-summary',
@@ -24,4 +25,7 @@ export enum CartOutlets {
   CPQ_QUOTE_MODULE = 'cx-cpq-quote',
   CPQ_QUOTE_HEADING = 'cx-cpq-quote-heading',
   CPQ_QUOTE = 'cx-cpq-quote-offer',
+  SUBSCRIPTION_PRICE_HEADING = 'cx-subscription-cart-price-heading',
+  SUBSCRIPTION_PRICE_BODY = 'cx-subscription-cart-price-body',
+  ORDER_DETAILS_AFTER_PAYMENT_METHOD = 'cx-order-details-payment-method-details',
 }

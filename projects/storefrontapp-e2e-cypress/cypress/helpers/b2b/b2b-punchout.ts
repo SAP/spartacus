@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -135,7 +135,7 @@ export function deleteStaleCart(punchoutSession) {
   // this is needed to delete the stale cart, single user is used for all tests, thus high carts volume expected.
   cy.request({
     method: 'DELETE',
-    url: `${Cypress.env('API_URL')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env(
       'OCC_PREFIX'
     )}/${Cypress.env('BASE_SITE')}/users/current/carts/${punchoutSession.cartId}?lang=en&curr=USD`,
     headers: {

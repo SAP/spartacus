@@ -1,40 +1,68 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
-import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { RoutingService } from '@spartacus/core';
 import {
-  OrderFacade,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
+import {
+  FeatureDirective,
+  FeatureToggles,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
   ORDER_TYPE,
+  OrderFacade,
   recurrencePeriod,
   ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, merge, Subscription } from 'rxjs';
+import {
+  AtMessageDirective,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import { BehaviorSubject, merge, Subscription, take } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 
 @Component({
   selector: 'cx-place-order',
   templateUrl: './checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    AtMessageDirective,
+    FeatureDirective,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class CheckoutScheduledReplenishmentPlaceOrderComponent
   extends CheckoutPlaceOrderComponent
   implements OnInit, OnDestroy
 {
+  private featureTogglesService = inject(FeatureToggles);
+
   protected subscriptions = new Subscription();
 
   currentOrderType: ORDER_TYPE;
@@ -55,40 +83,54 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   }
 
   submitForm(): void {
-    if (this.checkoutSubmitForm.valid && !!this.currentOrderType) {
-      this.placedOrder = this.launchDialogService.launch(
-        LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-        this.vcr
-      );
-      merge(
-        this.currentOrderType === ORDER_TYPE.PLACE_ORDER
-          ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
-          : this.scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder(
-              this.scheduleReplenishmentFormData,
-              this.checkoutSubmitForm.valid
-            )
-      ).subscribe({
-        error: () => {
-          if (this.placedOrder) {
-            this.placedOrder
-              .subscribe((component) => {
-                this.launchDialogService.clear(
-                  LAUNCH_CALLER.PLACE_ORDER_SPINNER
-                );
-                if (component) {
-                  component.destroy();
-                }
-              })
-              .unsubscribe();
-          }
-        },
-        next: () => {
-          this.onSuccess();
-        },
-      });
-    } else {
+    if (!this.checkoutSubmitForm.valid || !this.currentOrderType) {
       this.checkoutSubmitForm.markAllAsTouched();
+      return;
     }
+    if (!this.featureTogglesService.enableCartSlowNetworkResilience) {
+      this.launchScheduledReplenishmentOrder();
+      return;
+    }
+    this.activeCartFacade
+      .isStable()
+      .pipe(take(1))
+      .subscribe((isStable) => {
+        if (!isStable) {
+          return;
+        }
+        this.launchScheduledReplenishmentOrder();
+      });
+  }
+
+  protected launchScheduledReplenishmentOrder(): void {
+    this.placedOrder = this.launchDialogService.launch(
+      LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+      this.vcr
+    );
+    merge(
+      this.currentOrderType === ORDER_TYPE.PLACE_ORDER
+        ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
+        : this.scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder(
+            this.scheduleReplenishmentFormData,
+            this.checkoutSubmitForm.valid
+          )
+    ).subscribe({
+      error: () => {
+        if (this.placedOrder) {
+          this.placedOrder
+            .subscribe((component) => {
+              this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
+              if (component) {
+                component.destroy();
+              }
+            })
+            .unsubscribe();
+        }
+      },
+      next: () => {
+        this.onSuccess();
+      },
+    });
   }
 
   ngOnInit(): void {

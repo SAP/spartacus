@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,23 +15,55 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { FeatureConfigService, RoutingService } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import {
+  FeatureDirective,
+  FeatureToggles,
+  RoutingService,
+  TranslatePipe,
+  WindowRef,
+} from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { VerificationToken } from '@spartacus/user/account/root';
-import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
+import { Observable } from 'rxjs';
+import {
+  ONE_TIME_PASSWORD_LOGIN_PURPOSE,
+  OTP_LOGIN_STATE_STORAGE_KEY,
+} from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 
 @Component({
   selector: 'cx-verification-token-form',
   templateUrl: './verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    FeatureDirective,
+    NgClass,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class VerificationTokenFormComponent implements OnInit {
   constructor() {}
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected service: VerificationTokenFormComponentService = inject(
     VerificationTokenFormComponentService
   );
@@ -38,6 +71,7 @@ export class VerificationTokenFormComponent implements OnInit {
     inject(LaunchDialogService);
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   protected routingService: RoutingService = inject(RoutingService);
+  protected winRef: WindowRef = inject(WindowRef);
 
   waitTime: number = 60;
 
@@ -74,7 +108,7 @@ export class VerificationTokenFormComponent implements OnInit {
   method = this.service.method;
 
   ngOnInit() {
-    if (!!history.state) {
+    if (history.state) {
       this.tokenId = history.state['tokenId'];
       this.password = history.state['password'];
       this.target = history.state['loginId'];
@@ -99,7 +133,7 @@ export class VerificationTokenFormComponent implements OnInit {
         );
 
         this.routingService.go(
-          this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+          this.featureToggles.authorizationCodeFlowByDefault
             ? { cxRoute: 'login' }
             : ['/login']
         );
@@ -177,5 +211,13 @@ export class VerificationTokenFormComponent implements OnInit {
         this.cdr.detectChanges();
       }
     }, 1000);
+  }
+
+  goBack(): void {
+    this.winRef.sessionStorage?.setItem(
+      OTP_LOGIN_STATE_STORAGE_KEY,
+      JSON.stringify({ loginId: this.target })
+    );
+    this.routingService.go({ cxRoute: 'login' });
   }
 }

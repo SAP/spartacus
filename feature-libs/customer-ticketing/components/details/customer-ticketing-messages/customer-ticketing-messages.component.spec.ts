@@ -1,18 +1,32 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EventService, I18nTestingModule } from '@spartacus/core';
+import {
+  EventService,
+  FeatureToggles,
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
+  DATE_FORMAT,
   STATUS_NAME,
   TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
-import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
+import {
+  MessageEvent,
+  MessagingComponent,
+  MessagingConfigs,
+} from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from '@spartacus/core/testing/mock-feature-toggles';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
-import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
-import createSpy = jasmine.createSpy;
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
+import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;
@@ -33,9 +47,9 @@ describe('CustomerTicketMessagesComponent', () => {
     implements Partial<CustomerTicketingFacade>
   {
     createTicketEvent = () => createTicketResponse$;
-    getTicket = createSpy().and.returnValue(getTicket$.asObservable());
-    downloadAttachment = createSpy().and.returnValue(EMPTY);
-    uploadAttachment = createSpy().and.returnValue(EMPTY);
+    getTicket = vi.fn().mockReturnValue(getTicket$.asObservable());
+    downloadAttachment = vi.fn().mockReturnValue(EMPTY);
+    uploadAttachment = vi.fn().mockReturnValue(EMPTY);
   }
 
   class MockEventService implements Partial<EventService> {
@@ -45,7 +59,6 @@ describe('CustomerTicketMessagesComponent', () => {
   @Component({
     selector: 'cx-messaging',
     template: '',
-    standalone: false,
   })
   class MockCxMessagingComponent {
     @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -55,20 +68,29 @@ describe('CustomerTicketMessagesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CustomerTicketingMessagesComponent,
-        MockCxMessagingComponent,
-      ],
+      imports: [I18nTestingModule, CustomerTicketingMessagesComponent],
       providers: [
         CustomerTicketingMessagesComponentService,
+        ...provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
         {
           provide: CustomerTicketingFacade,
           useClass: MockCustomerTicketingFacade,
         },
         { provide: EventService, useClass: MockEventService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingMessagesComponent, {
+        remove: {
+          imports: [TranslatePipe, MessagingComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockCxMessagingComponent],
+        },
+      })
+      .overrideProvider(FeatureToggles, {
+        useFactory: () => TestBed.inject(MockFeatureTogglesController),
+      })
+      .compileComponents();
 
     createTicketResponse$.next(mockResponse);
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
@@ -86,7 +108,7 @@ describe('CustomerTicketMessagesComponent', () => {
 
   it('should call createTicketEvent on send', () => {
     const mustWaitForAttachment = false;
-    spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
+    vi.spyOn(customerTicketingFacade, 'createTicketEvent');
     component.onSend(mockSendEvent);
 
     expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
@@ -109,7 +131,7 @@ describe('CustomerTicketMessagesComponent', () => {
       },
     } as unknown as FileList;
 
-    spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
+    vi.spyOn(customerTicketingFacade, 'createTicketEvent');
     mockSendEvent.files = fileList;
     component.onSend(mockSendEvent);
 
@@ -131,7 +153,7 @@ describe('CustomerTicketMessagesComponent', () => {
       },
     } as unknown as FileList;
 
-    spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
+    vi.spyOn(customerTicketingFacade, 'createTicketEvent');
     mockSendEvent.files = fileList;
     component.onSend(mockSendEvent);
 
@@ -205,6 +227,37 @@ describe('CustomerTicketMessagesComponent', () => {
         customerTicketingConfig.customerTicketing?.inputCharactersLimit
       );
       expect(actual.enableFileUploadOption).toBe(true);
+      expect(actual.dateFormat).toBeUndefined();
+    });
+  });
+
+  describe('a11yMessagingListKeyboardFocus feature toggle', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when toggle is OFF (default)', () => {
+      it('should not set dateFormat in messagingConfigs', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', false);
+        fixture = TestBed.createComponent(CustomerTicketingMessagesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+
+        expect(component.messagingConfigs.dateFormat).toBeUndefined();
+      });
+    });
+
+    describe('when toggle is ON', () => {
+      it('should set dateFormat to DATE_FORMAT in messagingConfigs', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', true);
+        fixture = TestBed.createComponent(CustomerTicketingMessagesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+
+        expect(component.messagingConfigs.dateFormat).toBe(DATE_FORMAT);
+      });
     });
   });
 });

@@ -1,18 +1,26 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
-import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
 class MockLoginFormComponentService
@@ -23,13 +31,11 @@ class MockLoginFormComponentService
     password: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  login = createSpy().and.stub();
-  handleCustomLoginError = createSpy().and.stub();
+  login = vi.fn().mockImplementation(() => {});
+  handleCustomLoginError = vi.fn().mockImplementation(() => {});
+  showResetPassword = true;
 }
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -40,23 +46,38 @@ describe('LoginFormComponent', () => {
   let el: DebugElement;
   let service: LoginFormComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
+        LoginFormComponent,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
       ],
-      declarations: [LoginFormComponent, MockUrlPipe, MockFeatureDirective],
       providers: [
         {
           provide: LoginFormComponentService,
           useClass: MockLoginFormComponentService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(LoginFormComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
@@ -106,9 +127,26 @@ describe('LoginFormComponent', () => {
     });
   });
 
+  describe('showResetPassword', () => {
+    it('should show the forgot password link when showResetPassword is true', () => {
+      expect(el.query(By.css('a.btn-link'))).toBeTruthy();
+    });
+
+    it('should hide the forgot password link when showResetPassword is false', () => {
+      service.showResetPassword = false;
+
+      fixture = TestBed.createComponent(LoginFormComponent);
+      component = fixture.componentInstance;
+      el = fixture.debugElement;
+      fixture.detectChanges();
+
+      expect(el.query(By.css('a.btn-link'))).toBeNull();
+    });
+  });
+
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();

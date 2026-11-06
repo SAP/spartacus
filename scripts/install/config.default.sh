@@ -18,9 +18,9 @@ URL_PARAMETERS="baseSite,language,currency"
 CURRENCY="USD,EUR"
 
 SPARTACUS_PROJECTS=(
-        "dist/core:projects/core"
-        "dist/storefrontlib:projects/storefrontlib"
-        "dist/assets:projects/assets"
+        "dist/core:core-libs/core"
+        "dist/storefront:core-libs/storefront"
+        "dist/assets:core-libs/assets"
         "dist/checkout:feature-libs/checkout"
         "dist/product:feature-libs/product"
         "dist/setup:core-libs/setup"
@@ -48,8 +48,9 @@ SPARTACUS_PROJECTS=(
         "dist/pickup-in-store:feature-libs/pickup-in-store"
         "dist/pdf-invoices:feature-libs/pdf-invoices"
         "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
-        "projects/storefrontstyles:projects/storefrontstyles"
-        "projects/schematics:projects/schematics"
+        "core-libs/styles:core-libs/styles"
+        "core-libs/schematics:core-libs/schematics"
+        "core-libs/skills:core-libs/skills"
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
@@ -63,12 +64,20 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^19.0.4'
+ANGULAR_CLI_VERSION='^21.1.0'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
+
+# Comma-separated list of hostnames allowed by the SSR engine (maps to CommonEngine allowedHosts)
+# e.g. SSR_ALLOWED_HOSTS="localhost,my-host.eastus.cloudapp.azure.com"
+# If empty, defaults to "localhost"
+SSR_ALLOWED_HOSTS=
+
+SSL_CERT_PATH=
+SSL_KEY_PATH=
 
 CSR_APP_NAME="csr"
 SSR_APP_NAME="ssr"
@@ -85,6 +94,8 @@ ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
 # config.opf.sh contains default values to use in your config.sh when ADD_OPF is true.
 ADD_OPF=false
+ADD_OPF_TOKENISATION=false
+ADD_OPF_GIFT_CARD=false
 ADD_CPQ_QUOTE=false
 ADD_S4_SERVICE=false
 ADD_PRODUCT_MULTI_DIMENSIONAL=false
@@ -96,6 +107,7 @@ EPD_VISUALIZATION_BASE_URL=
 # The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
 OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
+OPF_ACCESS_CODE_HEADER_ENABLED=true
 
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char

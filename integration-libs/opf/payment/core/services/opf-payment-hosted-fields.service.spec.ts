@@ -275,6 +275,29 @@ describe('OpfPaymentHostedFieldsService', () => {
       });
     }));
 
+    it('should pass cartId to placePaymentAuthorizedOrder', fakeAsync(() => {
+      const response: OpfPaymentSubmitResponse = {
+        ...mockSubmitResponse,
+        status: OpfPaymentSubmitStatus.ACCEPTED,
+      };
+
+      service['paymentResponseHandler'](
+        response,
+        {
+          onSuccess: mockSubmitSuccess,
+          onPending: mockSubmitPending,
+          onFailure: mockSubmitFailure,
+        },
+        'quick-buy-cart-id'
+      ).subscribe(() => {
+        expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+          true,
+          'quick-buy-cart-id'
+        );
+        flush();
+      });
+    }));
+
     it('should handle pending payment response', fakeAsync(() => {
       const response: OpfPaymentSubmitResponse = {
         ...mockSubmitResponse,
@@ -336,5 +359,36 @@ describe('OpfPaymentHostedFieldsService', () => {
         },
       });
     }));
+  });
+
+  describe('placeOrder', () => {
+    it('should delegate to orderFacade with correct arguments', fakeAsync(() => {
+      service['placeOrder']('my-cart-id').subscribe(() => {
+        expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+          true,
+          'my-cart-id'
+        );
+        flush();
+      });
+    }));
+
+    it('should work without a cartId', fakeAsync(() => {
+      service['placeOrder']().subscribe(() => {
+        expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+          true,
+          undefined
+        );
+        flush();
+      });
+    }));
+  });
+
+  describe('onPaymentSuccess', () => {
+    it('should navigate to orderConfirmation', () => {
+      service['onPaymentSuccess']({ id: 'testOrder' } as Order);
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'orderConfirmation',
+      });
+    });
   });
 });

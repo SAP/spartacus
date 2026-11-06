@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,6 +36,13 @@ export const ATTRIBUTE_1_CHECKBOX = 'ATTRIBUTE_1_CHECKBOX';
 export const VALUE_01 = 'VALUE_01';
 export const VALUE_02 = 'VALUE_02';
 export const VALUE_03 = 'VALUE_03';
+
+/** Numeric metadata used by OCC-backed configurators; avoids dev-mode logger warnings in tests. */
+export const defaultNumericAttributeMetadata = {
+  numDecimalPlaces: 2,
+  numTotalLength: 6,
+  negativeAllowed: false,
+};
 
 export const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 export const DESCRIPTION_FOR = 'Description for ';
@@ -157,6 +164,7 @@ export const attributeRadioButtonsWithNumericAdditionalInput: Configurator.Attri
     required: false,
     incomplete: false,
     validationType: Configurator.ValidationType.NUMERIC,
+    ...defaultNumericAttributeMetadata,
     values: [
       {
         name: VALUE_01,
@@ -274,6 +282,7 @@ export const attributeDropDownWithNumericAdditionalInput: Configurator.Attribute
     required: false,
     incomplete: false,
     validationType: Configurator.ValidationType.NUMERIC,
+    ...defaultNumericAttributeMetadata,
     values: [
       {
         name: VALUE_01,
@@ -387,6 +396,30 @@ export const attributeDropdownSelectionBundle: Configurator.Attribute = {
       images: [],
     },
   ],
+};
+
+export const attributeContainer: Configurator.Attribute = {
+  name: 'ATTRIBUTE_2_CONTAINER',
+  uiType: Configurator.UiType.CONTAINER,
+  visible: true,
+  required: false,
+  incomplete: false,
+  groupId: groupId,
+  attrCode: attrCode,
+  container: {
+    rows: [
+      {
+        id: 'row-1',
+        productName: 'Product A',
+        selected: true,
+      },
+      {
+        id: 'row-2',
+        productName: 'Product B',
+        selected: false,
+      },
+    ],
+  },
 };
 
 export const attributeMultiSelectionBundle: Configurator.Attribute = {
@@ -552,6 +585,7 @@ export const attributeNumericInputField: Configurator.Attribute = {
   incomplete: false,
   groupId: groupId,
   attrCode: attrCode,
+  ...defaultNumericAttributeMetadata,
   values: [],
 };
 
@@ -833,6 +867,7 @@ export const productConfiguration: Configurator.Configuration = {
         attributeSingleSelectionBundle,
         attributeDropdownSelectionBundle,
         attributeMultiSelectionBundle,
+        attributeContainer,
       ],
       subGroups: [],
     },

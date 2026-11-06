@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,84 @@
 import { Configurator } from '../model/configurator.model';
 
 export class ConfiguratorStateUtils {
+  /**
+   * Merges the groups already held in the store (`existingGroups`) with the
+   * groups from a server response (`incomingGroups`), producing a fresh group
+   * tree in which the incoming data is authoritative.
+   *
+   * The merge exists because backends differ in how much they return per call:
+   * - Variant Configuration (VC) and CPQ V1 return attributes for only one
+   *   group at a time (the requested / selected group). The other groups still
+   *   appear in the response but without attributes, so merging preserves the
+   *   attributes that were loaded for them earlier instead of wiping them from
+   *   the store.
+   * - CPQ V2 returns attributes for all groups in every response. Here the
+   *   incoming tree is already complete, so the incoming data always wins and
+   *   the merge effectively behaves like a replacement.
+   *
+   * For a matching group the incoming attributes win when present; an empty or
+   * undefined incoming attribute list is treated as "not part of this response"
+   * (VC / CPQ V1), so the existing attributes are kept.
+   *
+   * @param existingGroups - groups currently in the store
+   * @param incomingGroups - groups from the latest server response
+   * @returns the merged group tree
+   */
+  static mergeConfigurationGroups(
+    existingGroups: Configurator.Group[],
+    incomingGroups: Configurator.Group[]
+  ): Configurator.Group[] {
+    if (!incomingGroups?.length) {
+      return existingGroups;
+    }
+    if (!existingGroups?.length) {
+      return incomingGroups;
+    }
+
+    return incomingGroups.map((incomingGroup) => {
+      const existingGroup = this.findGroupById(
+        existingGroups,
+        incomingGroup.id
+      );
+      if (!existingGroup) {
+        return incomingGroup;
+      }
+
+      return {
+        ...existingGroup,
+        ...incomingGroup,
+        attributes: incomingGroup.attributes?.length
+          ? incomingGroup.attributes
+          : existingGroup.attributes,
+        subGroups: this.mergeConfigurationGroups(
+          existingGroup.subGroups ?? [],
+          incomingGroup.subGroups ?? []
+        ),
+      };
+    });
+  }
+
+  protected static findGroupById(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group | undefined {
+    const group = groups.find((g) => g.id === groupId);
+    if (group) {
+      return group;
+    }
+
+    for (const g of groups) {
+      if (g.subGroups?.length) {
+        const subgroups = this.findGroupById(g.subGroups, groupId);
+        if (subgroups) {
+          return subgroups;
+        }
+      }
+    }
+
+    return undefined;
+  }
+
   static mergeGroupsWithSupplements(
     groups: Configurator.Group[],
     attributeSupplements: Configurator.AttributeSupplement[]
@@ -123,16 +201,15 @@ export class ConfiguratorStateUtils {
     projection: (value: T, index: number) => T
   ): T[] | undefined {
     if (array) {
-      const index = array.findIndex(predicate);
+      const index = array.findIndex((v, i, obj) => predicate(v, i, obj));
       if (index === -1) {
         return array;
       }
-      const value = array[index];
-      const newValue = projection(value, index);
       const newArray = [...array];
-      newArray[index] = newValue;
+      newArray[index] = projection(array[index], index);
       return newArray;
     }
+    return undefined;
   }
 
   protected static getAttributeName(attributeUiKey: string): string {

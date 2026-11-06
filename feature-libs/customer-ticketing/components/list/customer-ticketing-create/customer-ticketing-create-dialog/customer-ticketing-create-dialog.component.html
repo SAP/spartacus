@@ -21,7 +21,7 @@
         title="{{ 'common.close' | cxTranslate }}"
       >
         <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          <cx-icon [type]="iconTypes.CLOSE" />
         </span>
       </button>
     </div>
@@ -46,10 +46,7 @@
             [attr.aria-errormessage]="'subjectError'"
           ></textarea>
 
-          <cx-form-errors
-            id="subjectError"
-            [control]="form.get('subject')"
-          ></cx-form-errors>
+          <cx-form-errors id="subjectError" [control]="form.get('subject')" />
           <p class="cx-customer-ticket-input-hint">
             {{
               'customerTicketing.charactersLeft'
@@ -63,28 +60,7 @@
             {{ 'createCustomerTicket.category' | cxTranslate }}
             <cx-form-required-asterisks />
           </span>
-          <select
-            *cxFeature="
-              '!a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-            "
-            class="form-control"
-            formControlName="ticketCategory"
-          >
-            <option value="" disabled selected>
-              {{ 'createCustomerTicket.selectCategory' | cxTranslate }}
-            </option>
-            <option
-              *ngFor="let category of ticketCategories"
-              [ngValue]="category"
-              [selected]="category.id === selectedCategory?.id"
-            >
-              {{ category.name }}
-            </option>
-          </select>
           <ng-select
-            *cxFeature="
-              'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-            "
             [inputAttrs]="{ required: 'true' }"
             class="ticket-category-select"
             id="ticket-category-select"
@@ -94,19 +70,21 @@
             [placeholder]="'createCustomerTicket.selectCategory' | cxTranslate"
             bindLabel="name"
             formControlName="ticketCategory"
+            ariaLabelDropdown="{{
+              'common.ngSelectDropdownOptionsList' | cxTranslate
+            }}"
             [cxNgSelectA11y]="{}"
             [attr.aria-invalid]="
               form.get('ticketCategory')?.touched &&
               form.get('ticketCategory')?.invalid
             "
             [attr.aria-errormessage]="'ticketCategoryError'"
-          >
-          </ng-select>
+          />
 
           <cx-form-errors
             id="ticketCategoryError"
             [control]="form.get('ticketCategory')"
-          ></cx-form-errors>
+          />
         </label>
 
         <ng-container
@@ -116,34 +94,7 @@
             <span class="cx-customer-ticket-label label-content">
               {{ 'createCustomerTicket.associateTo' | cxTranslate }}
             </span>
-            <select
-              *cxFeature="
-                '!a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-              "
-              class="form-control"
-              formControlName="associatedTo"
-            >
-              <option value="" disabled selected>
-                {{
-                  'createCustomerTicket.optionallySelectAssociatedObject'
-                    | cxTranslate
-                }}
-              </option>
-              <option
-                *ngFor="let associatedObject of ticketAssociatedObjects"
-                [ngValue]="associatedObject"
-                [selected]="
-                  associatedObject.code === selectedAssociatedObject?.code
-                "
-              >
-                {{ associatedObject.type }}
-                {{ associatedObject.code }}
-              </option>
-            </select>
             <ng-select
-              *cxFeature="
-                'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-              "
               [clearable]="false"
               [items]="ticketAssociatedObjects"
               [placeholder]="
@@ -153,6 +104,9 @@
               [searchable]="false"
               formControlName="associatedTo"
               id="associated-to-select"
+              ariaLabelDropdown="{{
+                'common.ngSelectDropdownOptionsList' | cxTranslate
+              }}"
               [cxNgSelectA11y]="{}"
             >
               <ng-template
@@ -184,10 +138,7 @@
             [attr.aria-errormessage]="'messageError'"
           ></textarea>
 
-          <cx-form-errors
-            id="messageError"
-            [control]="form.get('message')"
-          ></cx-form-errors>
+          <cx-form-errors id="messageError" [control]="form.get('message')" />
 
           <p class="cx-customer-ticket-input-hint">
             {{
@@ -203,7 +154,7 @@
             [accept]="allowedTypes"
           >
             <ng-template>
-              <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
+              <cx-icon [type]="iconTypes.UPLOAD" />
               <span class="cx-message-footer-text">{{
                 'customerTicketing.uploadFile' | cxTranslate
               }}</span>
@@ -223,7 +174,7 @@
           <cx-form-errors
             [control]="form.get('file')"
             prefix="formErrors.file"
-          ></cx-form-errors>
+          />
         </div>
       </div>
 

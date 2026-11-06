@@ -12,14 +12,10 @@ cx-page-slot {
     %cx-configure-product {
       @include media-breakpoint-up(lg) {
         grid-column: 2;
-        grid-row: 4;
+        grid-row: unset;
         padding-inline-start: 20px;
         padding-inline-end: 20px;
         padding-block-end: 0px;
-
-        @include forFeature('a11yPdpGridArrangement') {
-          grid-row: unset;
-        }
       }
     }
   }

@@ -101,7 +101,7 @@
         >
           <ng-container
             *ngIf="column.navigatable; then linkTemplate; else starRating"
-          ></ng-container>
+          />
 
           <ng-template #linkTemplate>
             <button
@@ -126,7 +126,7 @@
               tabindex="-1"
               *ngIf="column.renderAsStarRating; else dateCell"
               [rating]="entry[column.property]"
-            ></cx-star-rating>
+            />
           </ng-template>
 
           <ng-template #dateCell>

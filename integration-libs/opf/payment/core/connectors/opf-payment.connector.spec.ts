@@ -15,6 +15,7 @@ import {
   OpfPaymentSubmitRequest,
   OpfPaymentSubmitResponse,
   OpfPaymentSubmitStatus,
+  OpfPaymentUpdateConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
@@ -64,6 +65,11 @@ const mockInitiatePayment: OpfPaymentSessionData = {
   paymentSessionId: 'test',
 };
 
+const mockUpdatePaymentConfig: OpfPaymentUpdateConfig = {
+  paymentSessionId: 'test',
+  config: {},
+};
+
 const mockAfterRedirectScriptsResponse: OpfPaymentAfterRedirectScriptResponse =
   {
     afterRedirectScript: {},
@@ -81,6 +87,9 @@ class MockOpfPaymentAdapter implements OpfPaymentAdapter {
   );
   initiatePayment = createSpy('initiatePayment').and.callFake(() =>
     of(mockInitiatePayment)
+  );
+  updatePaymentTransaction = createSpy('updatePaymentTransaction').and.callFake(
+    () => of(mockInitiatePayment)
   );
   getAfterRedirectScripts = createSpy('getAfterRedirectScripts').and.callFake(
     () => of(mockAfterRedirectScriptsResponse)
@@ -157,6 +166,17 @@ describe('OpfPaymentConnector', () => {
       mockSubmitCompleteRequest,
       'accessCode',
       'paymentSessionId'
+    );
+  });
+
+  it('updatePaymentTransaction should call adapter', () => {
+    let result;
+    service
+      .updatePaymentTransaction(mockUpdatePaymentConfig)
+      .subscribe((res) => (result = res));
+    expect(result).toEqual(mockInitiatePayment);
+    expect(adapter.updatePaymentTransaction).toHaveBeenCalledWith(
+      mockUpdatePaymentConfig
     );
   });
 

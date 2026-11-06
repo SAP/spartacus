@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { RolesCellComponent } from '..';
 
 describe('RolesCellComponent', () => {
@@ -11,8 +11,7 @@ describe('RolesCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RolesCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule, RolesCellComponent],
       providers: [
         {
           provide: OutletContextData,
@@ -39,7 +38,6 @@ describe('RolesCellComponent', () => {
   it('should render roles', () => {
     const el = fixture.debugElement.queryAll(By.css('ul.text li'));
     expect(el.length).toEqual(2);
-
     expect((el[0].nativeElement as HTMLElement).innerText).toEqual(
       'organization.userRoles.approver'
     );

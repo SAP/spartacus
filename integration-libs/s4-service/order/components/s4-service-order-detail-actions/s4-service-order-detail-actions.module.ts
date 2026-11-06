@@ -1,29 +1,29 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { RouterModule } from '@angular/router';
 import { BtnLikeLinkModule } from '@spartacus/storefront';
+import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
 
 @NgModule({
-  declarations: [S4ServiceOrderDetailActionsComponent],
   imports: [
     CommonModule,
     I18nModule,
     RouterModule,
     UrlModule,
     BtnLikeLinkModule,
+    S4ServiceOrderDetailActionsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

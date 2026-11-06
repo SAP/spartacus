@@ -12,7 +12,7 @@ describe('OccReturnRequestNormalizer', () => {
     });
     normalizer = TestBed.inject(OccReturnRequestNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(
+    vi.spyOn(converter, 'convert').mockImplementation(
       (product) =>
         ({
           ...product,

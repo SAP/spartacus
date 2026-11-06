@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -91,7 +91,7 @@ context('OPF B2B - Account Checkout flow', () => {
     });
 
     // Select shipping address
-    cy.wait(3000);
+    cy.wait(1000);
     cy.findByText('Continue').click();
 
     // Select delivery mode

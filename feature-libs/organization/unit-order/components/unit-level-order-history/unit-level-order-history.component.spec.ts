@@ -9,15 +9,27 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   PaginationModel,
   RoutingService,
   SortModel,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+  TotalComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryQueryParams } from '../../core/model/unit-order.model';
 import { UnitOrderFacade } from '../../root/facade';
@@ -66,7 +78,7 @@ const mockEmptyOrderList: OrderHistoryList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -76,7 +88,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockSortingComponent {
   @Input() sortOptions: SortModel;
@@ -86,10 +98,7 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -142,7 +151,7 @@ class MockTranslationService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -151,7 +160,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-total',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockTotalComponent {
   @Input() pagination: any;
@@ -166,22 +175,44 @@ describe('UnitLevelOrderHistoryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
         UnitLevelOrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
         UnitLevelOrderHistoryFilterComponent,
-        MockCxIconComponent,
-        MockTotalComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitOrderFacade, useClass: MockUnitLevelOrdersFacade },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitLevelOrderHistoryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            PaginationComponent,
+            SortingComponent,
+            IconComponent,
+            TotalComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockCxIconComponent,
+            MockTotalComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     unitOrderFacade = TestBed.inject(UnitOrderFacade);
     mockUnitLevelOrdersFacade = unitOrderFacade as MockUnitLevelOrdersFacade;
@@ -205,7 +236,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should redirect when clicking on order id', () => {
-    spyOn(routingService, 'go').and.stub();
+    vi.spyOn(routingService, 'go').mockImplementation(() => {});
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
@@ -221,7 +252,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(unitOrderFacade, 'loadOrderList').and.stub();
+    vi.spyOn(unitOrderFacade, 'loadOrderList').mockImplementation(() => {});
 
     component.changeSortCode('byOrderNumber');
 
@@ -235,7 +266,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(unitOrderFacade, 'loadOrderList').and.stub();
+    vi.spyOn(unitOrderFacade, 'loadOrderList').mockImplementation(() => {});
 
     component.changeSortCode('byDate');
     component.pageChange(1);
@@ -301,7 +332,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should clear order history data when component destroy', () => {
-    spyOn(unitOrderFacade, 'clearOrderList').and.stub();
+    vi.spyOn(unitOrderFacade, 'clearOrderList').mockImplementation(() => {});
 
     component.ngOnDestroy();
     expect(unitOrderFacade.clearOrderList).toHaveBeenCalledWith();
@@ -321,7 +352,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
   });
 
   it('should set correct filters', () => {
-    spyOn(unitOrderFacade, 'loadOrderList').and.stub();
+    vi.spyOn(unitOrderFacade, 'loadOrderList').mockImplementation(() => {});
 
     let orderHistoryQueryParam: OrderHistoryQueryParams = {
       currentPage: 0,

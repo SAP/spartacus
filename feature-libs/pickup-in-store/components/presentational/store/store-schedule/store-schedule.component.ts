@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { PointOfService, TranslatePipe } from '@spartacus/core';
 
 type OpeningTime = {
   weekDay?: string;
@@ -19,7 +20,7 @@ type OpeningTime = {
 @Component({
   selector: 'cx-store-schedule',
   templateUrl: 'store-schedule.component.html',
-  standalone: false,
+  imports: [NgFor, NgIf, TranslatePipe],
 })
 export class StoreScheduleComponent implements OnChanges {
   /** The details of the store */

@@ -12,6 +12,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService, WindowRef } from '@spartacus/core';
 import { PersonalizationConfig } from '../config/personalization-config';
 import { OccPersonalizationTimeInterceptor } from './occ-personalization-time.interceptor';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
@@ -22,10 +23,10 @@ const mockPersonalizationConfig: PersonalizationConfig = {
     },
   },
 };
-const store = {};
-const MockWindowRef = {
-  localStorage: {
-    getItem: (key: string): string => {
+const store: Record<string, string | undefined> = {};
+class MockWindowRef extends MockWinRef {
+  override localStorage: any = {
+    getItem: (key: string): string | undefined => {
       return key in store ? store[key] : null;
     },
     setItem: (key: string, value: string) => {
@@ -36,11 +37,8 @@ const MockWindowRef = {
         store[key] = undefined;
       }
     },
-  },
-  isBrowser(): boolean {
-    return true;
-  },
-};
+  };
+}
 const endpoint = '/test';
 class OccEndpointsServiceMock {
   getBaseUrl(): string {
@@ -53,10 +51,9 @@ describe('OccPersonalizationTimeInterceptor with personalization enabled', () =>
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: PersonalizationConfig, useValue: mockPersonalizationConfig },
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: HTTP_INTERCEPTORS,
@@ -127,7 +124,6 @@ describe('OccPersonalizationTimeInterceptor with personalization disabled', () =
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: PersonalizationConfig,
@@ -137,7 +133,7 @@ describe('OccPersonalizationTimeInterceptor with personalization disabled', () =
             },
           },
         },
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: HTTP_INTERCEPTORS,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,6 +36,7 @@ export function registerUserFromLoginPage(uniqueUser?: boolean) {
 
   cy.whenJDK21(() => {
     const registerPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.visit('/login/register');
     cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
   });
 

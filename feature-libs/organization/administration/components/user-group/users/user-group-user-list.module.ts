@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +13,11 @@ import { UserGroupAssignedUserListComponent } from './assigned/user-group-assign
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, RouterModule, SubListModule],
-  declarations: [
+  imports: [
+    CommonModule,
+    I18nModule,
+    RouterModule,
+    SubListModule,
     UserGroupAssignedUserListComponent,
     UserGroupUserListComponent,
   ],

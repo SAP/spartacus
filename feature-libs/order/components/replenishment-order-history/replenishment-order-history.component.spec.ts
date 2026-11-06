@@ -9,14 +9,28 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 
@@ -58,7 +72,6 @@ const replenishmentOrderHistory = new BehaviorSubject<ReplenishmentOrderList>(
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -67,7 +80,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -77,10 +89,7 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -124,14 +133,12 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   let launchDialogService: LaunchDialogService;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
         ReplenishmentOrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
       ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
@@ -144,16 +151,38 @@ describe('ReplenishmentOrderHistoryComponent', () => {
           useClass: MockLaunchDialogService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ReplenishmentOrderHistoryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            PaginationComponent,
+            SortingComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     replenishmentOrderHistoryFacade = TestBed.inject(
       ReplenishmentOrderHistoryFacade
     );
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-  }));
+  });
 
   beforeEach(() => {
+    replenishmentOrderHistory.next(mockReplenishmentOrders);
     fixture = TestBed.createComponent(ReplenishmentOrderHistoryComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
@@ -175,7 +204,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should redirect when clicking on replenishment order row', () => {
-    spyOn(routingService, 'go').and.stub();
+    vi.spyOn(routingService, 'go').mockImplementation(() => {});
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
@@ -207,13 +236,12 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'loadReplenishmentOrderList'
-    ).and.stub();
+    ).mockImplementation(() => {});
 
     component.changeSortCode('byReplenishmentNumber');
-
     expect(component.sortType).toBe('byReplenishmentNumber');
     expect(
       replenishmentOrderHistoryFacade.loadReplenishmentOrderList
@@ -221,10 +249,10 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'loadReplenishmentOrderList'
-    ).and.stub();
+    ).mockImplementation(() => {});
 
     component.sortType = 'byDate';
     component.pageChange(1);
@@ -235,7 +263,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should be able to call the open dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
     replenishmentOrderHistory.next(mockReplenishmentOrders);
 
@@ -308,10 +336,10 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should clear replenishment order history data when component destroy', () => {
-    spyOn(
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'clearReplenishmentOrderList'
-    ).and.stub();
+    ).mockImplementation(() => {});
 
     component.ngOnDestroy();
 

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,18 +68,13 @@ context('Assisted Service Module', () => {
               $body.find('.cx-asm-customer-360-promotion-listing-remove-button')
                 .length > 0
             ) {
-              cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
+              cy.intercept('POST', '**/removeVoucher').as('removeCoupon');
               cy.wrap($body).contains('Remove').click();
             } else {
               cy.log('Remove button is not visible');
             }
           });
           cy.intercept('POST', /\.*\/vouchers\?voucherId=.*/).as('applyCoupon');
-          cy.whenJDK21(() => {
-            cy.get('button').contains('Remove').should('be.visible');
-            cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
-            cy.get('button').contains('Remove').click();
-          });
           cy.get('button').contains('Apply to Cart').click();
           cy.whenJDK17(() => {
             cy.wait('@applyCoupon')
@@ -88,7 +83,7 @@ context('Assisted Service Module', () => {
           });
           cy.get('button').should('not.contain', 'Apply to Cart');
           cy.get('button').contains('Remove').should('be.visible');
-          cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
+          cy.intercept('POST', '**/removeVoucher').as('removeCoupon');
           cy.get('button').contains('Remove').click();
           cy.whenJDK17(() => {
             cy.wait('@removeCoupon')
@@ -163,7 +158,7 @@ context('Assisted Service Module', () => {
     it('should be able to sent customer coupon for customer coupon (CXSPA-3945)', () => {
       interceptPost(
         'claim_customer_coupon',
-        '/users/*/customercoupons/*/claim?*' //TODO check '/users/*/customercoupons/claim?*' instead when enable 'enableClaimCustomerCouponWithCodeInRequestBody' with the new Occ endpoint is available since Commerce 2211.28
+        '/users/*/customercoupons/claim?*'
       );
       cy.get('.cx-asm-customer-360-promotion-listing-row')
         .contains(customer_coupon.name)

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,8 @@ export const config = {
   tokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/token`,
   revokeTokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/revoke`,
   customLoginOrigin: Cypress.config('baseUrl'),
-  returnUri: `${Cypress.config('baseUrl')}/cy`,
-  newUserUrl: `${Cypress.env('API_URL')}/${Cypress.env(
+  returnUri: Cypress.config('baseUrl'),
+  newUserUrl: `${Cypress.env('API_URL')}${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/users?lang=en&curr=${Cypress.env(
     'BASE_CURRENCY'

@@ -1,19 +1,24 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { Address, I18nTestingModule } from '@spartacus/core';
+import {
+  Address,
+  CxDatePipe,
+  FeatureDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, of } from 'rxjs';
 
 import {
-  FocusDirective,
+  IconComponent,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
-import createSpy = jasmine.createSpy;
 
 const mockData = {
   enteredAddress: {},
@@ -23,14 +28,13 @@ const mockData = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog = createSpy();
+  closeDialog = vi.fn();
 
   data$ = of(mockData);
 }
@@ -41,20 +45,28 @@ describe('SuggestedAddressDialogComponent', () => {
 
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, I18nTestingModule],
+      imports: [FormsModule, SuggestedAddressDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-      declarations: [
-        SuggestedAddressDialogComponent,
-        MockCxIconComponent,
-        FocusDirective,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(SuggestedAddressDialogComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuggestedAddressDialogComponent);
@@ -74,12 +86,11 @@ describe('SuggestedAddressDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(reason);
   });
 
-  it('should call setSelectedData when component constructed', () => {
-    spyOn(component, 'setSelectedAddress');
+  it('should call setSelectedData when component constructed', async () => {
+    vi.spyOn(component, 'setSelectedAddress');
 
-    component.data$.pipe(take(1)).subscribe((result) => {
-      expect(result).toEqual(mockData);
-    });
+    const result = await firstValueFrom(component.data$);
+    expect(result).toEqual(mockData);
   });
 
   it('should set suggested address as selected if defined', () => {
@@ -102,7 +113,7 @@ describe('SuggestedAddressDialogComponent', () => {
 
   it('should closeModal when user click outside', () => {
     const el = fixture.debugElement.nativeElement;
-    spyOn(component, 'closeModal');
+    vi.spyOn(component, 'closeModal');
 
     el.click();
     expect(component.closeModal).toHaveBeenCalledWith('Cross click');

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ export function defaultOpfCtaCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [OPF_CTA_FEATURE]: {
-        cmsComponents: ['OpfCtaScriptsComponent'],
+        cmsComponents: ['OpfCtaScriptsComponent', 'OpfCtaQuickBuyButtons'],
       },
     },
   };

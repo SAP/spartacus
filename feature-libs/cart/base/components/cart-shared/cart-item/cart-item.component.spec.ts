@@ -8,40 +8,43 @@ import {
   PipeTransform,
   SimpleChange,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ControlContainer,
   ReactiveFormsModule,
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
-import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import {
+  CxDatePipe,
+  FeatureLevelDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  AtMessageDirective,
+  ItemCounterComponent,
+  MediaComponent,
+  OutletModule,
+  PromotionsComponent,
+} from '@spartacus/storefront';
+import { MockFeatureLevelDirective } from '@spartacus/storefront/testing/mock-feature-level-directive';
+import { CartItemValidationWarningComponent } from '../../validation/cart-item-warning/cart-item-validation-warning.component';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
-}
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
-class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
 }
 
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container;
@@ -51,7 +54,6 @@ class MockMediaComponent {
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() control;
@@ -63,7 +65,6 @@ class MockItemCounterComponent {
 @Component({
   template: '',
   selector: 'cx-promotions',
-  standalone: false,
 })
 class MockPromotionsComponent {
   @Input() promotions;
@@ -94,16 +95,12 @@ const mockProduct = {
 @Component({
   selector: 'cx-cart-item-validation-warning',
   template: '',
-  standalone: false,
 })
 class MockCartItemValidationWarningComponent {
   @Input() code: string;
 }
 
-@Directive({
-  selector: '[cxAtMessage]',
-  standalone: false,
-})
+@Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
@@ -114,32 +111,50 @@ describe('CartItemComponent', () => {
   let fixture: ComponentFixture<CartItemComponent>;
   let el: DebugElement;
 
-  const featureConfig = jasmine.createSpyObj('FeatureConfigService', [
-    'isEnabled',
-    'isLevel',
-  ]);
-
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        OutletModule,
         CartItemComponent,
-        MockMediaComponent,
-        MockItemCounterComponent,
-        MockPromotionsComponent,
-        MockUrlPipe,
-        MockFeatureLevelDirective,
-        MockOutletDirective,
-        MockCartItemValidationWarningComponent,
-        MockAtMessageDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
           provide: ControlContainer,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(CartItemComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            ItemCounterComponent,
+            PromotionsComponent,
+            FeatureLevelDirective,
+            CartItemValidationWarningComponent,
+            AtMessageDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockMediaComponent,
+            MockItemCounterComponent,
+            MockPromotionsComponent,
+            MockFeatureLevelDirective,
+            MockCartItemValidationWarningComponent,
+            MockAtMessageDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
@@ -152,7 +167,7 @@ describe('CartItemComponent', () => {
     };
     cartItemComponent.quantityControl = new UntypedFormControl('1');
     cartItemComponent.quantityControl.markAsPristine();
-    spyOn(cartItemComponent, 'removeItem').and.callThrough();
+    vi.spyOn(cartItemComponent, 'removeItem');
     fixture.detectChanges();
     el = fixture.debugElement;
   });
@@ -179,7 +194,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "compact" to context', () => {
-      spyOn(cartItemContextSource.compact$, 'next');
+      vi.spyOn(cartItemContextSource.compact$, 'next');
       cartItemComponent.compact = true;
       cartItemComponent.ngOnChanges({
         compact: { currentValue: cartItemComponent.compact } as SimpleChange,
@@ -190,7 +205,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "readonly" to context', () => {
-      spyOn(cartItemContextSource.readonly$, 'next');
+      vi.spyOn(cartItemContextSource.readonly$, 'next');
       cartItemComponent.readonly = true;
       cartItemComponent.ngOnChanges({
         readonly: { currentValue: cartItemComponent.readonly } as SimpleChange,
@@ -201,7 +216,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "item" to context', () => {
-      spyOn(cartItemContextSource.item$, 'next');
+      vi.spyOn(cartItemContextSource.item$, 'next');
       cartItemComponent.item = { orderCode: '123' };
       cartItemComponent.ngOnChanges({
         item: { currentValue: cartItemComponent.item } as SimpleChange,
@@ -212,7 +227,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "quantityControl" to context', () => {
-      spyOn(cartItemContextSource.quantityControl$, 'next');
+      vi.spyOn(cartItemContextSource.quantityControl$, 'next');
       cartItemComponent.quantityControl = new UntypedFormControl(2);
       cartItemComponent.ngOnChanges({
         quantityControl: {
@@ -225,7 +240,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "promotionLocation" to context', () => {
-      spyOn(cartItemContextSource.location$, 'next');
+      vi.spyOn(cartItemContextSource.location$, 'next');
       cartItemComponent.promotionLocation = PromotionLocation.Order;
       cartItemComponent.ngOnChanges({
         promotionLocation: {
@@ -238,7 +253,7 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "options" to context', () => {
-      spyOn(cartItemContextSource.options$, 'next');
+      vi.spyOn(cartItemContextSource.options$, 'next');
       cartItemComponent.options = { isSaveForLater: true };
       cartItemComponent.ngOnChanges({
         options: { currentValue: cartItemComponent.options } as SimpleChange,
@@ -250,16 +265,15 @@ describe('CartItemComponent', () => {
   });
 
   it('should create cart details component', () => {
-    featureConfig.isEnabled.and.returnValue(true);
     expect(cartItemComponent).toBeTruthy();
 
     fixture.detectChanges();
 
-    featureConfig.isEnabled.and.returnValue(false);
     expect(cartItemComponent).toBeTruthy();
   });
 
   it('should call removeItem()', () => {
+    fixture.detectChanges();
     const button: DebugElement = fixture.debugElement.query(By.css('button'));
     button.nativeElement.click();
     fixture.detectChanges();
@@ -302,7 +316,7 @@ describe('CartItemComponent', () => {
       const infoContainer: HTMLElement = el.query(
         By.css('.cx-info-container')
       ).nativeElement;
-      expect(infoContainer.innerText).toContain(
+      expect(infoContainer.textContent?.trim()).toContain(
         `${variant.name}: ${variant.value}`
       );
     });

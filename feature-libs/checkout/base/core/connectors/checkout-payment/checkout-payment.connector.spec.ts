@@ -3,12 +3,12 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
 import { CheckoutPaymentConnector } from './checkout-payment.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
-  createPaymentDetails = createSpy().and.returnValue(of({}));
-  setPaymentDetails = createSpy().and.returnValue(of({}));
-  getPaymentCardTypes = createSpy().and.returnValue(of([]));
+  createPaymentDetails = vi.fn().mockReturnValue(of({}));
+  setPaymentDetails = vi.fn().mockReturnValue(of({}));
+  getPaymentCardTypes = vi.fn().mockReturnValue(of([]));
+  deletePaymentDetails = vi.fn().mockReturnValue(of([]));
 }
 
 describe('CheckoutPaymentConnector', () => {
@@ -52,5 +52,10 @@ describe('CheckoutPaymentConnector', () => {
       .subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.getPaymentCardTypes).toHaveBeenCalledWith();
+  });
+
+  it('delete should call adapter', () => {
+    service.deletePaymentDetails('1', '2').pipe(take(1)).subscribe();
+    expect(adapter.deletePaymentDetails).toHaveBeenCalledWith('1', '2');
   });
 });

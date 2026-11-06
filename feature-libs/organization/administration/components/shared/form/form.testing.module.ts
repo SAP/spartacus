@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,10 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { CurrentItemService } from '../current-item.service';
 import { FormService } from './form.service';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-org-form',
-  template: '<ng-content></ng-content>',
-  standalone: false,
+  template: '<ng-content />',
 })
 class MockFormComponent {
   @Input() i18nRoot;
@@ -22,11 +20,11 @@ export class MockBudgetFormService {}
 
 class MockCurrentItemService {}
 class MockFormService {
-  getForm = createSpy('getForm');
+  getForm = () => {};
 }
 
 @NgModule({
-  declarations: [MockFormComponent],
+  imports: [MockFormComponent],
   exports: [MockFormComponent],
   providers: [
     {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,12 +14,12 @@ import {
 } from '@spartacus/checkout/base/components';
 import {
   CmsConfig,
-  ConfigModule,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
-import { SpinnerModule } from '@spartacus/storefront';
 import { OpfCheckoutPaymentsModule } from '@spartacus/opf/checkout/components';
+import { SpinnerModule } from '@spartacus/storefront';
 import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-type.component';
 
 @NgModule({
@@ -30,7 +30,10 @@ import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-t
     FeaturesConfigModule,
     OpfCheckoutPaymentsModule,
     ReactiveFormsModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    OpfB2bCheckoutPaymentTypeComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OpfCheckoutPaymentType: {
           component: OpfB2bCheckoutPaymentTypeComponent,
@@ -39,7 +42,6 @@ import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-t
       },
     }),
   ],
-  declarations: [OpfB2bCheckoutPaymentTypeComponent],
   exports: [OpfB2bCheckoutPaymentTypeComponent],
 })
 export class OpfB2bCheckoutPaymentTypeModule {}

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -125,6 +125,9 @@ export class OccConfiguratorVariantNormalizer
       );
     }
     const uiType = this.convertAttributeType(sourceAttribute);
+    const firstConflict = sourceAttribute.conflicts?.[0] as unknown as
+      | { text?: string }
+      | undefined;
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
@@ -141,6 +144,9 @@ export class OccConfiguratorVariantNormalizer
       numTotalLength: sourceAttribute.typeLength,
       selectedSingleValue: undefined,
       hasConflicts: numberOfConflicts > 0,
+      hasNonNavigableConflict:
+        numberOfConflicts === 1 &&
+        firstConflict?.text === 'ATTRIBUTE_INCONSISTENCY_MARKER',
       images: attributeImages,
       values: attributeValues,
       intervalInDomain: sourceAttribute.intervalInDomain,
@@ -534,6 +540,7 @@ export class OccConfiguratorVariantNormalizer
       Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
       Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
       Configurator.UiType.DROPDOWN,
+      Configurator.UiType.SINGLE_SELECTION_IMAGE,
     ];
     const inputTypes = [
       Configurator.UiType.NUMERIC,
@@ -548,8 +555,6 @@ export class OccConfiguratorVariantNormalizer
     const uiType = attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED;
     if (singleValueTypes.includes(uiType)) {
       this.compileAttributeIncompleteSingleLevel(attribute);
-    } else if (uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE) {
-      this.compileAttributeIncompleteSingleSelectionImage(attribute);
     } else if (inputTypes.includes(uiType)) {
       this.compileAttributeIncompleteInputTypes(attribute);
     } else if (multiValueTypes.includes(uiType)) {
@@ -567,13 +572,7 @@ export class OccConfiguratorVariantNormalizer
       attribute.incomplete = true;
     }
   }
-  protected compileAttributeIncompleteSingleSelectionImage(
-    attribute: Configurator.Attribute
-  ): void {
-    if (!attribute.selectedSingleValue) {
-      attribute.incomplete = true;
-    }
-  }
+
   protected compileAttributeIncompleteInputTypes(
     attribute: Configurator.Attribute
   ): void {

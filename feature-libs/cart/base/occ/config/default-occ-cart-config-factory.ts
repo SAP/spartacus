@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,8 @@ export function defaultOccCartConfigFactory(): OccConfig {
           addEmail: 'users/${userId}/carts/${cartId}/email',
           deleteCart: 'users/${userId}/carts/${cartId}',
           cartVoucher: 'users/${userId}/carts/${cartId}/vouchers',
+          cartApplyVoucher: 'users/${userId}/carts/${cartId}/applyVoucher',
+          cartRemoveVoucher: 'users/${userId}/carts/${cartId}/removeVoucher',
           saveCart: '/users/${userId}/carts/${cartId}/save',
           validate: 'users/${userId}/carts/${cartId}/validate?fields=DEFAULT',
           cartAccessCode: 'users/${userId}/carts/${cartId}/accessCode',

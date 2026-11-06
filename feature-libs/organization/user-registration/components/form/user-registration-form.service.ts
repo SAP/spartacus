@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import {
 import {
   AuthConfigService,
   Country,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   OAuthFlow,
@@ -36,30 +36,36 @@ import { filter, switchMap, take, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UserRegistrationFormService {
+  protected readonly maxFieldLength = 256;
+  private featureToggles = inject(FeatureToggles);
+
   private _form: FormGroup = this.buildForm();
-  private featureConfigService = inject(FeatureConfigService);
 
   /*
    * Initializes form structure for registration.
    */
   protected buildForm(): FormGroup {
+    const maxLength = this.featureToggles.enableFormFieldMaxLength
+      ? [Validators.maxLength(this.maxFieldLength)]
+      : [];
+
     return this.formBuilder.group({
       titleCode: [null],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      companyName: ['', Validators.required],
+      firstName: ['', [Validators.required, ...maxLength]],
+      lastName: ['', [Validators.required, ...maxLength]],
+      companyName: ['', [Validators.required, ...maxLength]],
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       country: this.formBuilder.group({
         isocode: [null],
       }),
-      line1: [''],
-      line2: [''],
-      town: [''],
+      line1: ['', maxLength],
+      line2: ['', maxLength],
+      town: ['', maxLength],
       region: this.formBuilder.group({
         isocode: [null],
       }),
-      postalCode: [''],
-      phoneNumber: [''],
+      postalCode: ['', maxLength],
+      phoneNumber: ['', maxLength],
       message: [''],
     });
   }
@@ -172,7 +178,7 @@ export class UserRegistrationFormService {
     if (
       this.authConfigService.getOAuthFlow() ===
         OAuthFlow.ResourceOwnerPasswordFlow ||
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      this.featureToggles.authorizationCodeFlowByDefault
     ) {
       this.routingService.go({ cxRoute: 'login' });
     }

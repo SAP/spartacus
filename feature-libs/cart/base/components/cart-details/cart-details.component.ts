@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
@@ -13,20 +14,51 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService } from '@spartacus/core';
+import {
+  AuthService,
+  FeatureDirective,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
+import { PromotionsComponent, SpinnerComponent } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  startWith,
+  tap,
+} from 'rxjs/operators';
+import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
+import { CartValidationWarningsComponent } from '../validation/cart-warnings/cart-validation-warnings.component';
+
+const CART_DETAILS_UPDATING_DEBOUNCE_MS = 250;
 
 @Component({
   selector: 'cx-cart-details',
   templateUrl: './cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FeatureDirective,
+    CartValidationWarningsComponent,
+    PromotionsComponent,
+    CartItemListComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
+  /**
+   * True while the active cart has pending writes. Drives the visible
+   * "Updating cart" banner. Debounced to avoid flicker on fast networks.
+   */
+  updating$: Observable<boolean>;
   loggedIn = false;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
@@ -61,6 +93,17 @@ export class CartDetailsComponent implements OnInit {
           ? cartLoaded && sflLoaded
           : cartLoaded
       )
+    );
+
+    this.buildUpdating$();
+  }
+
+  protected buildUpdating$() {
+    this.updating$ = this.activeCartService.isStable().pipe(
+      map((stable) => !stable),
+      debounceTime(CART_DETAILS_UPDATING_DEBOUNCE_MS),
+      startWith(false),
+      distinctUntilChanged()
     );
   }
 

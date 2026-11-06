@@ -3,6 +3,12 @@
   padding-inline-start: 3rem;
   padding-top: 0;
 
+  .cx-opf-quick-buy-buttons-fixed-space {
+    position: relative;
+    margin: 10px 0;
+    height: 48px;
+  }
+
   @include media-breakpoint-up(lg) {
     flex: none;
   }
@@ -19,5 +25,18 @@
     max-width: 100%;
     padding-inline-end: 0;
     padding-inline-start: 0;
+  }
+}
+
+.ProductDetailsPageTemplate {
+  %cx-opf-quick-buy-buttons {
+    padding-inline-end: 20px;
+    padding-inline-start: 20px;
+
+    @include media-breakpoint-down(md) {
+      padding: 0;
+      order: 0;
+      margin-bottom: 0;
+    }
   }
 }

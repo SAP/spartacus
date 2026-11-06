@@ -2,13 +2,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureDirective,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
   Translatable,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -17,12 +19,15 @@ import {
   OrderInvoiceList,
   PDFInvoicesFacade,
 } from '@spartacus/pdf-invoices/root';
-import { FileDownloadService, IconTestingModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {
+  FileDownloadService,
+  IconTestingModule,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { EMPTY, Observable, firstValueFrom, of, throwError } from 'rxjs';
 import { InvoicesListComponent } from './invoices-list.component';
-import createSpy = jasmine.createSpy;
 
 const blob = new Blob();
 
@@ -109,7 +114,6 @@ const mockOrderInvoiceList: OrderInvoiceList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -118,7 +122,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -151,7 +154,7 @@ class MockPDFInvoicesFacade implements Partial<PDFInvoicesFacade> {
 }
 
 class MockFileDownloadService {
-  download = createSpy('MockFileDownloadService.download Spy');
+  download = vi.fn();
 }
 
 class MockLanguageService {
@@ -194,13 +197,7 @@ describe('InvoicesListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule],
-      declarations: [
-        InvoicesListComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockFeatureDirective,
-      ],
+      imports: [IconTestingModule, InvoicesListComponent],
       providers: [
         { provide: PDFInvoicesFacade, useClass: MockPDFInvoicesFacade },
         { provide: FileDownloadService, useClass: MockFileDownloadService },
@@ -208,14 +205,33 @@ describe('InvoicesListComponent', () => {
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(InvoicesListComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            PaginationComponent,
+            SortingComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
     pdfInvoicesFacade = TestBed.inject(PDFInvoicesFacade);
     translationService = TestBed.inject(TranslationService);
     downloadService = TestBed.inject(FileDownloadService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, 'add').and.callThrough();
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
+    vi.spyOn(globalMessageService, 'add');
+    vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
   });
 
   beforeEach(() => {
@@ -229,10 +245,10 @@ describe('InvoicesListComponent', () => {
   });
 
   it('should show feature not enabled error when the API returns error', () => {
-    spyOn(pdfInvoicesFacade, 'getInvoicesForOrder').and.returnValue(
+    vi.spyOn(pdfInvoicesFacade, 'getInvoicesForOrder').mockReturnValue(
       throwError(mockInvoicesNotEnabledError)
     );
-    spyOn(component, 'getNotEnabledError').and.callThrough();
+    vi.spyOn(component, 'getNotEnabledError');
 
     // Change the page
     const newPage = 3;
@@ -244,14 +260,8 @@ describe('InvoicesListComponent', () => {
     );
   });
 
-  it('should read document list', (done) => {
-    let orderInvoiceList: OrderInvoiceList = {};
-    let queryParams: InvoiceQueryParams = {};
-    component.invoicesList$
-      .pipe(take(1))
-      .subscribe((value: OrderInvoiceList) => {
-        orderInvoiceList = value;
-      });
+  it('should read document list', async () => {
+    const orderInvoiceList = await firstValueFrom(component.invoicesList$);
     expect(orderInvoiceList).toEqual(mockOrderInvoiceList);
     expect(component.pagination).toEqual({
       currentPage: 0,
@@ -260,12 +270,7 @@ describe('InvoicesListComponent', () => {
       totalResults: 16,
       sort: 'invoiceId:asc',
     });
-    component.queryParams$
-      .pipe(take(1))
-      .subscribe((value: InvoiceQueryParams) => {
-        queryParams = value;
-        done();
-      });
+    const queryParams = await firstValueFrom(component.queryParams$);
     expect(queryParams).toEqual({
       currentPage: 0,
       pageSize: 5,
@@ -276,8 +281,8 @@ describe('InvoicesListComponent', () => {
 
   it('Should change page and invoke the API', () => {
     // Spy functions to ensure new invoices are being fetched
-    spyOn<any>(component, 'updateQueryParams').and.callThrough();
-    spyOn(pdfInvoicesFacade, 'getInvoicesForOrder').and.callThrough();
+    vi.spyOn<any>(component, 'updateQueryParams');
+    vi.spyOn(pdfInvoicesFacade, 'getInvoicesForOrder');
 
     // By default currentPage will be 0
     expect(component._initQueryParams.currentPage).toEqual(0);
@@ -300,8 +305,8 @@ describe('InvoicesListComponent', () => {
 
   it('Should change sort and invoke the API', () => {
     // Spy functions to ensure new invoices are being fetched
-    spyOn<any>(component, 'updateQueryParams').and.callThrough();
-    spyOn(pdfInvoicesFacade, 'getInvoicesForOrder').and.callThrough();
+    vi.spyOn<any>(component, 'updateQueryParams');
+    vi.spyOn(pdfInvoicesFacade, 'getInvoicesForOrder');
     // Getting ready to change sort, make sure that current sort is different and should be one of the sortOptions key
     const newSortCode = 'byTotalAmountAsc';
     expect(component._initQueryParams.sort).not.toEqual(newSortCode);
@@ -347,16 +352,16 @@ describe('InvoicesListComponent', () => {
 
     const tableHeaders = tableElement.queryAll(By.css('th'));
     expect(tableHeaders?.length).toEqual(5);
-    expect(tableHeaders[0].properties.innerText).toEqual(
+    expect(tableHeaders[0].nativeElement.textContent.trim()).toEqual(
       'pdfInvoices.invoicesTable.invoiceId'
     );
-    expect(tableHeaders[1].properties.innerText).toEqual(
+    expect(tableHeaders[1].nativeElement.textContent.trim()).toEqual(
       'pdfInvoices.invoicesTable.createdAt'
     );
-    expect(tableHeaders[2].properties.innerText).toEqual(
+    expect(tableHeaders[2].nativeElement.textContent.trim()).toEqual(
       'pdfInvoices.invoicesTable.netAmount'
     );
-    expect(tableHeaders[3].properties.innerText).toEqual(
+    expect(tableHeaders[3].nativeElement.textContent.trim()).toEqual(
       'pdfInvoices.invoicesTable.totalAmount'
     );
     expect(tableHeaders[4].children[0].attributes.title).toEqual(
@@ -380,36 +385,36 @@ describe('InvoicesListComponent', () => {
 
       expect(tableCells?.length).toEqual(5);
 
-      expect(tableCells[0].nativeElement.innerText).toEqual(
+      expect(tableCells[0].nativeElement.textContent.trim()).toEqual(
         mockOrderInvoiceList.invoices?.[rowNumber]?.invoiceId
       );
 
-      expect(isDate(tableCells[1].nativeElement.innerText)).toEqual(
+      expect(isDate(tableCells[1].nativeElement.textContent.trim())).toEqual(
         !!mockOrderInvoiceList.invoices?.[rowNumber]?.createdAt
       );
 
       if (
         mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.formattedValue
       ) {
-        expect(tableCells[2].nativeElement.innerText).toEqual(
+        expect(tableCells[2].nativeElement.textContent.trim()).toEqual(
           mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.formattedValue
         );
       } else {
-        expect(tableCells[2].nativeElement.innerHTML).toEqual(
-          ` ${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.currencyIso}&nbsp;${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.value} `
+        expect(tableCells[2].nativeElement.textContent.trim()).toEqual(
+          `${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.currencyIso} ${mockOrderInvoiceList.invoices?.[rowNumber]?.netAmount?.value}`
         );
       }
 
       if (
         mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.formattedValue
       ) {
-        expect(tableCells[3].nativeElement.innerText).toEqual(
+        expect(tableCells[3].nativeElement.textContent.trim()).toEqual(
           mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount
             ?.formattedValue
         );
       } else {
-        expect(tableCells[3].nativeElement.innerHTML).toEqual(
-          ` ${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.currencyIso}&nbsp;${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.value} `
+        expect(tableCells[3].nativeElement.textContent.trim()).toEqual(
+          `${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.currencyIso} ${mockOrderInvoiceList.invoices?.[rowNumber]?.totalAmount?.value}`
         );
       }
 
@@ -426,9 +431,9 @@ describe('InvoicesListComponent', () => {
       externalSystemId: '',
     };
 
-    spyOn(pdfInvoicesFacade, 'getInvoicePDF').and.returnValue(of(blob));
+    vi.spyOn(pdfInvoicesFacade, 'getInvoicePDF').mockReturnValue(of(blob));
     const fakeUrl = 'blob:http://localhost:4321/15-09-2023-1234';
-    spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
+    vi.spyOn(URL, 'createObjectURL').mockReturnValue(fakeUrl);
 
     expect(invoicePDF).not.toBeUndefined();
     component.downloadPDFInvoice(
@@ -455,9 +460,9 @@ describe('InvoicesListComponent', () => {
       externalSystemId: '',
     };
 
-    spyOn(pdfInvoicesFacade, 'getInvoicePDF').and.returnValue(of(blob));
+    vi.spyOn(pdfInvoicesFacade, 'getInvoicePDF').mockReturnValue(of(blob));
     const fakeUrl = 'blob:http://localhost:4321/15-09-2023-1234';
-    spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
+    vi.spyOn(URL, 'createObjectURL').mockReturnValue(fakeUrl);
 
     component.downloadPDFInvoice(
       invoicePDF.invoiceId || '',

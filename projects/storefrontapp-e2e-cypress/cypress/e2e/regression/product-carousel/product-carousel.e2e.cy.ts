@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ import { CyHttpMessages } from 'cypress/types/net-stubbing';
 
 import * as cart from '../../../helpers/cart';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { cmsEndpoints } from '../../../helpers/cms-endpoints';
 
 context('Product carousel', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -93,7 +94,7 @@ context('Product carousel', () => {
             method: 'GET',
             pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
               'BASE_SITE'
-            )}/cms/pages`,
+            )}/${cmsEndpoints.pages}`,
           },
           pageRequestHandler
         );

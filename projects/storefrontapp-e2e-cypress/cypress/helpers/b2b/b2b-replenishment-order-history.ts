@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -90,12 +90,10 @@ export function verifySorting() {
 
   cy.get(
     `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code > .cx-replenishment-order-history-value`
-  ).then(($orders) => {
-    expect(
-      $orders[0].textContent
-        .toString()
-        .localeCompare($orders[1].textContent.toString())
-    ).to.equal(-1);
+  ).should(($orders) => {
+    const codes = Array.from($orders).map((el) => el.textContent?.trim() ?? '');
+    const sorted = [...codes].sort((a, b) => a.localeCompare(b));
+    expect(codes, 'codes sorted ascending').to.deep.equal(sorted);
   });
 }
 

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,8 +24,8 @@ import { MyPreferredStoreComponent } from './my-preferred-store.component';
         },
       },
     } as CmsConfig),
+    MyPreferredStoreComponent,
   ],
   exports: [MyPreferredStoreComponent],
-  declarations: [MyPreferredStoreComponent],
 })
 export class MyPreferredStoreModule {}

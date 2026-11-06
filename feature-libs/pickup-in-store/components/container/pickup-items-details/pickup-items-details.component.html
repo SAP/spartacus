@@ -21,19 +21,19 @@
             </p>
             <cx-store-address
               [storeDetails]="deliveryPointOfService?.storeDetails"
-            ></cx-store-address>
+            />
           </div>
           <div class="cx-pickup-items-details-store-schedule">
             <cx-store-schedule
               [storeDetails]="deliveryPointOfService?.storeDetails"
-            ></cx-store-schedule>
+            />
           </div>
           <div *ngIf="showEdit" class="cx-pickup-items-details-edit-icon">
             <a
               [attr.title]="'common.edit' | cxTranslate"
               [routerLink]="{ cxRoute: 'cart' } | cxUrl"
-              ><cx-icon [type]="ICON_TYPE.PENCIL"></cx-icon
-            ></a>
+              ><cx-icon [type]="ICON_TYPE.PENCIL"
+            /></a>
           </div>
         </div>
       </div>
@@ -47,17 +47,8 @@
         <div class="cx-price-header col-md-2">
           {{ 'cartItems.itemPrice' | cxTranslate }}
         </div>
-        <div
-          *cxFeature="'a11yQTY2Quantity'"
-          class="cx-quantity-header col-md-1"
-        >
+        <div class="cx-quantity-header col-md-1">
           {{ 'cartItems.quantityFull' | cxTranslate }}
-        </div>
-        <div
-          *cxFeature="'!a11yQTY2Quantity'"
-          class="cx-quantity-header col-md-1"
-        >
-          {{ 'cartItems.quantity' | cxTranslate }}
         </div>
         <div class="cx-total-header col-md-2">
           {{ 'cartItems.total' | cxTranslate }}
@@ -74,7 +65,7 @@
               <cx-media
                 [container]="item.product?.images?.PRIMARY"
                 format="cartIcon"
-              ></cx-media>
+              />
             </a>
           </div>
           <!-- Item Information -->
@@ -127,22 +118,12 @@
               >
                 <div class="cx-value">
                   <span
-                    *cxFeature="'a11yQTY2Quantity'"
                     class="cx-label"
                     [ngClass]="'d-md-none d-lg-none d-xl-none'"
                     placement="left"
                     title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
                   >
                     {{ 'cartItems.quantityFull' | cxTranslate }}
-                  </span>
-                  <span
-                    *cxFeature="'!a11yQTY2Quantity'"
-                    class="cx-label"
-                    [ngClass]="'d-md-none d-lg-none d-xl-none'"
-                    placement="left"
-                    title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
-                  >
-                    {{ 'cartItems.quantity' | cxTranslate }}
                   </span>
                   {{ item.quantity }}
                 </div>

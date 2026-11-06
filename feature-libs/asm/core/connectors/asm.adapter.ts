@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
+  AsmSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -36,4 +37,11 @@ export abstract class AsmAdapter {
    * Abstract function used to create an account for customers.
    */
   abstract createCustomer(user: CustomerRegistrationForm): Observable<User>;
+
+  /**
+   * Abstract function used to create ASM session event.
+   */
+  abstract createAsmSessionEvent(
+    options: AsmSessionCreationOptions
+  ): Observable<void>;
 }

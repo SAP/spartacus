@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ export const defaultServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
       currencyIso: 'USD',
       formattedValue: 'USD0.00',
       priceType: PriceType.BUY,
-      value: 0.0,
+      value: 0,
     },
     description: 'Not applicable',
     name: 'No Delivery Charges for Service',

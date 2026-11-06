@@ -1,17 +1,25 @@
-import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
 import {
-  FocusConfig,
-  ICON_TYPE,
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FocusDirective,
+  IconComponent,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { NEVER, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
 import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
 
 let component: ConfiguratorOverviewFilterDialogComponent;
@@ -31,54 +39,52 @@ function initialize() {
 
 function initializeMocks() {
   mockLaunchDialogService = {
-    closeDialog: jasmine.createSpy(),
+    closeDialog: vi.fn(),
     data$: of(ovConfig),
   };
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Component({
   selector: 'cx-configurator-overview-filter',
   template: '',
-  standalone: false,
 })
 class MockConfiguratorOverviewFilterComponent {
   @Input() showFilterBar: boolean = true;
   @Input() config: Configurator.ConfigurationWithOverview;
 }
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
-export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
-}
 
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initializeMocks();
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorOverviewFilterDialogComponent,
-        MockCxIconComponent,
-        MockConfiguratorOverviewFilterComponent,
-        MockKeyboadFocusDirective,
-        MockFeatureDirective,
-      ],
-      imports: [I18nTestingModule],
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorOverviewFilterDialogComponent],
       providers: [
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ConfiguratorOverviewFilterDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            ConfiguratorOverviewFilterComponent,
+            FocusDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            IconTestingModule,
+            KeyboardFocusTestingModule,
+            MockFeatureDirective,
+            MockConfiguratorOverviewFilterComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   it('should create component', () => {
     initialize();

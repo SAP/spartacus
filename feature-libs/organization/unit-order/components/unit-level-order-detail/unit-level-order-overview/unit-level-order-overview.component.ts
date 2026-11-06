@@ -1,20 +1,28 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   B2BUser,
   CostCenter,
+  CxDatePipe,
+  FeatureToggles,
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
@@ -23,9 +31,11 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
   selector: 'cx-unit-level-order-overview',
   templateUrl: './unit-level-order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe],
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
+  private featureToggles = inject(FeatureToggles);
+
   constructor(
     protected translation: TranslationService,
     protected unitLevelOrderDetailsService: UnitLevelOrderDetailService
@@ -104,7 +114,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
       filter(() => Boolean(hasPaymentInfo)),
       map(([textTitle, textAccount, textCard]) => ({
         title: textTitle,
-        text: [Boolean(hasPaymentInfo) ? textCard : textAccount],
+        text: [hasPaymentInfo ? textCard : textAccount],
       }))
     );
   }
@@ -131,10 +141,15 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
         const formattedAddress = this.normalizeFormattedAddress(
           deliveryAddress?.formattedAddress ?? ''
         );
+        const fullName = `${deliveryAddress?.firstName} ${deliveryAddress?.lastName}`;
 
         return {
           title: textTitle,
-          textBold: `${deliveryAddress?.firstName} ${deliveryAddress?.lastName}`,
+          textBold:
+            this.featureToggles.addTitleToAddressCard &&
+            !!deliveryAddress?.title
+              ? `${deliveryAddress.title} ${fullName}`
+              : fullName,
           text: [formattedAddress, deliveryAddress?.country?.name],
         } as Card;
       })
@@ -189,17 +204,20 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
   ): Observable<Card> {
     return this.translation.translate('paymentForm.billingAddress').pipe(
       filter(() => Boolean(billingAddress)),
-      map(
-        (textTitle) =>
-          ({
-            title: textTitle,
-            textBold: `${billingAddress?.firstName} ${billingAddress?.lastName}`,
-            text: [
-              billingAddress?.formattedAddress,
-              billingAddress?.country?.name,
-            ],
-          }) as Card
-      )
+      map((textTitle) => {
+        const fullName = `${billingAddress?.firstName} ${billingAddress?.lastName}`;
+        return {
+          title: textTitle,
+          textBold:
+            this.featureToggles.addTitleToAddressCard && !!billingAddress?.title
+              ? `${billingAddress.title} ${fullName}`
+              : fullName,
+          text: [
+            billingAddress?.formattedAddress,
+            billingAddress?.country?.name,
+          ],
+        } as Card;
+      })
     );
   }
 

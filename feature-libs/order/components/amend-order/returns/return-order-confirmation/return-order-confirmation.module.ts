@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
     I18nModule,
     ReactiveFormsModule,
     AmendOrderActionsModule,
+    ReturnOrderConfirmationComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -44,7 +45,6 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
       },
     }),
   ],
-  declarations: [ReturnOrderConfirmationComponent],
   exports: [ReturnOrderConfirmationComponent],
 })
 export class ReturnOrderConfirmationModule {}

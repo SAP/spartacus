@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import { CartVoucherAdapter } from '@spartacus/cart/base/core';
 import { CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   ConverterService,
+  FeatureToggles,
   InterceptorUtil,
   LoggerService,
   OCC_USER_ID_ANONYMOUS,
@@ -23,6 +24,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class OccCartVoucherAdapter implements CartVoucherAdapter {
   protected logger = inject(LoggerService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected http: HttpClient,
@@ -32,6 +34,24 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
 
   protected getCartVoucherEndpoint(userId: string, cartId: string): string {
     return this.occEndpoints.buildUrl('cartVoucher', {
+      urlParams: { userId, cartId },
+    });
+  }
+
+  protected getApplyCartVoucherEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('cartApplyVoucher', {
+      urlParams: { userId, cartId },
+    });
+  }
+
+  protected getRemoveCartVoucherEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('cartRemoveVoucher', {
       urlParams: { userId, cartId },
     });
   }
@@ -49,13 +69,24 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   }
 
   add(userId: string, cartId: string, voucherId: string): Observable<{}> {
+    const headers = this.getHeaders(userId);
+
+    if (this.featureToggles.enableApplyVoucherEndpoint) {
+      const applyVoucherUrl = this.getApplyCartVoucherEndpoint(userId, cartId);
+      const body = { voucherId };
+      return this.http.post(applyVoucherUrl, body, { headers }).pipe(
+        catchError((error: any) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        }),
+        this.converter.pipeable(CART_VOUCHER_NORMALIZER)
+      );
+    }
+
     const url = this.getCartVoucherEndpoint(userId, cartId);
 
     const toAdd = JSON.stringify({});
 
     const params: HttpParams = new HttpParams().set('voucherId', voucherId);
-
-    const headers = this.getHeaders(userId);
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
       catchError((error: any) => {
@@ -66,13 +97,25 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   }
 
   remove(userId: string, cartId: string, voucherId: string): Observable<{}> {
+    const headers = this.getHeaders(userId);
+
+    if (this.featureToggles.enableRemoveVoucherEndpoint) {
+      const removeVoucherUrl = this.getRemoveCartVoucherEndpoint(
+        userId,
+        cartId
+      );
+      const body = { voucherId };
+      return this.http.post(removeVoucherUrl, body, { headers }).pipe(
+        catchError((error: any) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        })
+      );
+    }
+
     const url =
       this.getCartVoucherEndpoint(userId, cartId) +
       '/' +
       encodeURIComponent(voucherId);
-
-    const headers = this.getHeaders(userId);
-
     return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
         throw tryNormalizeHttpError(error, this.logger);

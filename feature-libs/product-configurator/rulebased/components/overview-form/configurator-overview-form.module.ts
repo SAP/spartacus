@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-  CmsConfig,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
@@ -23,9 +22,10 @@ import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.
     ConfiguratorOverviewBundleAttributeModule,
     I18nModule,
     FeaturesConfigModule,
+    ConfiguratorOverviewFormComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorOverviewForm: {
           component: ConfiguratorOverviewFormComponent,
@@ -33,7 +33,6 @@ import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.
       },
     }),
   ],
-  declarations: [ConfiguratorOverviewFormComponent],
   exports: [ConfiguratorOverviewFormComponent],
 })
 export class ConfiguratorOverviewFormModule {}

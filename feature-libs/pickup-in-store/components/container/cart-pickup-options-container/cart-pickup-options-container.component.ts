@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
-  inject,
   OnDestroy,
   OnInit,
   Optional,
@@ -18,7 +18,7 @@ import {
   CartType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { CmsService, FeatureConfigService, Page } from '@spartacus/core';
+import { CmsService, Page } from '@spartacus/core';
 import {
   cartWithIdAndUserId,
   getProperty,
@@ -45,6 +45,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { PickupOptionsComponent } from '../../presentational';
 
 type OrderEntryRequiredFields =
   | 'entryNumber'
@@ -77,7 +78,7 @@ export function orderEntryWithRequiredFields(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
-  standalone: false,
+  imports: [PickupOptionsComponent, AsyncPipe, NgIf],
 })
 export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   pickupOption$: Observable<PickupOption | undefined>;
@@ -94,10 +95,8 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   productCode: string;
   quantity: number;
   userId: string;
-  private displayNameIsSet = false;
   page?: string;
   readonly CartType = CartType;
-  private featureConfigService = inject(FeatureConfigService);
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected launchDialogService: LaunchDialogService,
@@ -249,8 +248,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
             )
         )
       ),
-      map(({ displayName, name }) => ({ displayName, name })),
-      tap((_) => (this.displayNameIsSet = true))
+      map(({ displayName, name }) => ({ displayName, name }))
     );
   }
 
@@ -288,13 +286,6 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
             .subscribe()
         );
       });
-
-    if (
-      !this.featureConfigService.isEnabled('a11yPickupOptionsTabs') &&
-      !this.displayNameIsSet
-    ) {
-      this.openDialog(event.triggerElement);
-    }
   }
 
   ngOnDestroy(): void {

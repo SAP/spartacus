@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
+import { NgComponentOutlet } from '@angular/common';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
@@ -29,7 +30,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
       useExisting: AsmCustomer360SectionContextSource,
     },
   ],
-  standalone: false,
+  imports: [NgComponentOutlet],
 })
 export class AsmCustomer360SectionComponent implements OnDestroy {
   @Input()

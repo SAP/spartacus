@@ -1,15 +1,24 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FeatureDirective } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
+import {
+  ConfiguratorAttributeProductCardComponent,
+  ConfiguratorAttributeProductCardComponentOptions,
+} from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
 
 interface SelectionValue {
@@ -23,7 +32,15 @@ interface SelectionValue {
   selector: 'cx-configurator-attribute-multi-selection-bundle',
   templateUrl: './configurator-attribute-multi-selection-bundle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorPriceComponent,
+    NgFor,
+    ConfiguratorAttributeProductCardComponent,
+    AsyncPipe,
+    FeatureDirective,
+  ],
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
@@ -71,14 +88,15 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     valueCode: any,
     state: any
   ): ConfigFormUpdateEvent {
-    const index = this.multipleSelectionValues.findIndex(
-      (value) => value.valueCode === valueCode
+    // Create a new array (and a new value object for the changed value) instead
+    // of mutating in place. The previous array is handed over by reference into
+    // the dispatched action and gets deep-frozen by the NgRx runtime checks. On
+    // a round trip that does not re-create the attribute component (e.g. CPQ API
+    // V2 returning no changes) the same frozen array would be reused, so an
+    // in-place mutation would throw a "read-only" error.
+    this.multipleSelectionValues = this.multipleSelectionValues.map((value) =>
+      value.valueCode === valueCode ? { ...value, selected: state } : value
     );
-
-    this.multipleSelectionValues[index] = {
-      ...this.multipleSelectionValues[index],
-      selected: state,
-    };
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
@@ -112,12 +130,24 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       return;
     }
 
-    value.quantity = eventValue.quantity;
+    // Create a new value object instead of mutating in place, since the value
+    // might be part of a deep-frozen array handed over into the store on a
+    // previous round trip (see updateMultipleSelectionValues).
+    const updatedValue: SelectionValue = {
+      ...value,
+      quantity: eventValue.quantity,
+    };
+    this.multipleSelectionValues = this.multipleSelectionValues.map(
+      (selectionValue) =>
+        selectionValue.valueCode === eventValue.valueCode
+          ? updatedValue
+          : selectionValue
+    );
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
-        values: [value],
+        values: [updatedValue],
       },
       ownerKey: this.ownerKey,
       updateType: Configurator.UpdateType.VALUE_QUANTITY,
@@ -201,22 +231,24 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   /**
    * Extract corresponding product card parameters
-   * @param {boolean} disableAllButtons - Prevent all actions, e.g. while loading
    * @param {boolean} hideRemoveButton - hide remove action, e.g. if only value required attribute
    * @param {Configurator.Value} value - Value
    * @param {number} index - index of current value in list of values of attribute
+   * @param {boolean} disableAllButtons - Prevent all actions, e.g. while loading. Only relevant while
+   *   the `productConfiguratorConsolidatedButtonDisabling` feature toggle is off.
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    disableAllButtons: boolean | null,
     hideRemoveButton: boolean | null,
     value: Configurator.Value,
-    index: number
+    index: number,
+    disableAllButtons: boolean | null = false
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       disableAllButtons: disableAllButtons ?? false,
       hideRemoveButton: hideRemoveButton ?? false,
       productBoundValue: value,
+      attribute: this.attribute,
       multiSelect: true,
       withQuantity: this.withQuantity,
       loading$: this.loading$,

@@ -5,15 +5,22 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, firstValueFrom, Observable } from 'rxjs';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation.component';
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -36,10 +43,7 @@ class MockReplenishmentOrderHistoryFacade
   clearReplenishmentOrderDetails() {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -61,10 +65,12 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
+      imports: [
+        ReplenishmentOrderCancellationComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: ReplenishmentOrderHistoryFacade,
@@ -75,10 +81,20 @@ describe('ReplenishmentOrderCancellationComponent', () => {
           useClass: MockLaunchDialogService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ReplenishmentOrderCancellationComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
+    mockReplenishmentOrder$.next(mockReplenishmentOrder); //reset to prevent leakage between executions
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);
     replenishmentOrderHistoryFacade = TestBed.inject(
       ReplenishmentOrderHistoryFacade
@@ -94,19 +110,16 @@ describe('ReplenishmentOrderCancellationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be able to get replenishment order details', () => {
-    let result: ReplenishmentOrder;
-
-    replenishmentOrderHistoryFacade
-      .getReplenishmentOrderDetails()
-      .subscribe((data) => (result = data))
-      .unsubscribe();
+  it('should be able to get replenishment order details', async () => {
+    let result: ReplenishmentOrder = await firstValueFrom(
+      replenishmentOrderHistoryFacade.getReplenishmentOrderDetails()
+    );
 
     expect(result).toEqual(mockReplenishmentOrder);
   });
 
   it('should be able to call the open dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
     el.query(By.css('button.btn-secondary:last-child')).nativeElement.click();
 

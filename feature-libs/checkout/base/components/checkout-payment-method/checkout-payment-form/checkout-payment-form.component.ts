@@ -1,48 +1,106 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
+  ViewChild,
+  forwardRef,
   inject,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import {
   CardType,
+  FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
   UserPaymentService,
+  useFeatureStyles,
 } from '@spartacus/core';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import {
+  FocusConfig,
+  FocusDirective,
+  FocusFirstInvalidFieldDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  ICON_TYPE,
+  IconComponent,
+  LaunchDialogService,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
+import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-address/checkout-billing-address-form.component';
 
 @Component({
   selector: 'cx-payment-form',
   templateUrl: './checkout-payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    FeatureDirective,
+    FocusDirective,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FocusFirstInvalidFieldDirective,
+    FormErrorsComponent,
+    IconComponent,
+    CheckoutBillingAddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
-export class CheckoutPaymentFormComponent implements OnInit {
+export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
+
+  /**
+   * Drives the `cxFocus` autofocus host wrapping the form body. Autofocus starts
+   * disabled and is enabled (with a `refreshFocus` token to re-trigger the
+   * directive) only once the card type data has loaded, so focus lands on the
+   * card type select rather than whichever field wins the async render race.
+   *
+   * Keeping the host inside the template (rather than on the component element)
+   * also lets the action buttons render outside it: in Safari a `<button>`
+   * doesn't take focus on click, so if it lived inside the host, focus would
+   * fall to the host and its autofocus would redirect to the first field.
+   */
+  focusConfig: FocusConfig = { autofocus: false };
 
   months: string[] = [];
   years: number[] = [];
@@ -70,6 +128,11 @@ export class CheckoutPaymentFormComponent implements OnInit {
   @Output()
   setPaymentDetails = new EventEmitter<any>();
 
+  @ViewChild(forwardRef(() => FocusFirstInvalidFieldDirective))
+  protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
+
+  cvvTooltipDismissed = false;
+
   paymentForm: UntypedFormGroup = this.fb.group({
     cardType: this.fb.group({
       code: [null, Validators.required],
@@ -83,6 +146,17 @@ export class CheckoutPaymentFormComponent implements OnInit {
   });
 
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
+  private featureToggles = inject(FeatureToggles);
+  protected cdr = inject(ChangeDetectorRef);
+  protected elementRef = inject(ElementRef);
+  protected subscription = new Subscription();
+
+  get cvvLabelId(): string | null {
+    return this.featureToggles.a11yCvvInfoIconKeyboardAccessible
+      ? 'cvvLabelText'
+      : null;
+  }
+
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -92,11 +166,34 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
     protected translationService: TranslationService
-  ) {}
+  ) {
+    useFeatureStyles('a11yCvvInfoIconKeyboardAccessible');
+  }
   /**
    * @deprecated  This property is obsolete since 2211.42
    */
   useExtractedBillingAddressComponent: boolean = true;
+
+  /**
+   * Handles Escape on the CVV info button. Adds a dismissed class to the
+   * `.cx-cvv-info` wrapper to suppress the `:focus-within` CSS rule that keeps
+   * the tooltip visible, while retaining focus on the button (WCAG 1.4.13).
+   * Propagation is stopped so the parent `[cxFocus]` trap does not redirect
+   * focus to the first page element.
+   */
+  onCvvEscape(event: KeyboardEvent): void {
+    // Only intercept while tooltip is visible; otherwise let Escape propagate so the page handles it normally (e.g. skip links).
+    if (!this.cvvTooltipDismissed) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.cvvTooltipDismissed = true;
+    }
+  }
+
+  /** Clears the dismissed state so the tooltip re-enables on next focus. */
+  onCvvBlur(): void {
+    this.cvvTooltipDismissed = false;
+  }
 
   ngOnInit(): void {
     if (this.paymentDetails) {
@@ -106,6 +203,42 @@ export class CheckoutPaymentFormComponent implements OnInit {
     this.expMonthAndYear();
 
     this.cardTypes$ = this.checkoutPaymentFacade.getPaymentCardTypes();
+
+    // Initial focus (form load): enable autofocus only once the card type data
+    // has loaded, so the `cxFocus` host focuses the card type select instead of
+    // whichever field wins the async render race. This is intentionally
+    // data-driven rather than DOM-driven; the post-submit counterpart,
+    // `focusFirstInvalidField()`, has to query the DOM instead because it needs
+    // the *specific* invalid field, not just the first.
+    if (this.featureToggles.a11yImproveCheckoutFocus) {
+      this.subscription.add(
+        this.cardTypes$
+          .pipe(
+            filter((cardTypes) => !!cardTypes?.length),
+            take(1)
+          )
+          .subscribe(() => {
+            // The emission and the change detection that renders the card type
+            // select happen in the same tick; defer to a macrotask so the
+            // select exists in the DOM before `refreshFocus` re-triggers the
+            // directive's focus logic and picks the first focusable field.
+            setTimeout(() => {
+              // Don't steal focus if the user has already engaged with the form.
+              const active = document.activeElement;
+              const host = this.elementRef.nativeElement as HTMLElement;
+              if (active && active !== document.body && host.contains(active)) {
+                return;
+              }
+              this.focusConfig = { autofocus: true, refreshFocus: {} };
+              this.cdr.markForCheck();
+            });
+          })
+      );
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   expMonthAndYear(): void {
@@ -170,6 +303,10 @@ export class CheckoutPaymentFormComponent implements OnInit {
 
       if (!sameAsDeliveryAddress) {
         this.billingAddressService.markAllAsTouched();
+      }
+
+      if (this.featureToggles.a11yImproveCheckoutFocus) {
+        this.firstInvalidFieldFocus?.focusFirstInvalidField();
       }
     }
   }

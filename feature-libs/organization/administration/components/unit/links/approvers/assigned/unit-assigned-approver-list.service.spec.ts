@@ -87,8 +87,8 @@ describe('UnitAssignedApproverListService', () => {
   });
 
   it('should clear approvers data before load', () => {
-    spyOn(unitService, 'clearAssignedUsersList');
-    spyOn(unitService, 'getUsers').and.returnValue(EMPTY);
+    vi.spyOn(unitService, 'clearAssignedUsersList');
+    vi.spyOn(unitService, 'getUsers').mockReturnValue(EMPTY);
 
     service.getData('u1').subscribe();
     expect(unitService.clearAssignedUsersList).toHaveBeenCalledWith(

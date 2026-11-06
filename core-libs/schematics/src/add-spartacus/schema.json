@@ -1,0 +1,417 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SpartacusSchematics",
+  "title": "Spartacus Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": [
+        "ASM",
+        "ASM-Customer-360",
+        "Cart",
+        "WishList",
+        "Checkout",
+        "Order",
+        "Import-Export",
+        "Saved-Cart",
+        "Quick-Order",
+        "Image-Zoom",
+        "Product-Variants",
+        "SmartEdit",
+        "Store-Finder",
+        "Personalization",
+        "User-Account",
+        "User-Profile"
+      ],
+      "items": {
+        "enum": [
+          "ASM",
+          "ASM-Customer-360",
+          "Import-Export",
+          "Saved-Cart",
+          "Quick-Order",
+          "CDC",
+          "CDC-B2B",
+          "CDP",
+          "CDS",
+          "Cart",
+          "WishList",
+          "Checkout",
+          "Checkout-B2B",
+          "Checkout-Scheduled-Replenishment",
+          "Order",
+          "Order-Document-Flow",
+          "OPPS",
+          "Digital-Payments",
+          "OPF-Checkout",
+          "Punchout",
+          "Customer-Ticketing",
+          "Administration",
+          "Order-Approval",
+          "Organization-User-Registration",
+          "Unit-Order",
+          "Account-Summary",
+          "Bulk-Pricing",
+          "Image-Zoom",
+          "Future-Stock",
+          "PDF-Invoices",
+          "Product-Variants",
+          "Product-Multi-Dimensional-Selector",
+          "Product-Multi-Dimensional-List",
+          "VC-Configurator",
+          "Textfield-Configurator",
+          "CPQ-Configurator",
+          "Qualtrics",
+          "Requested-Delivery-Date",
+          "Estimated-Delivery-Date",
+          "S4HANA-Order-Management",
+          "cpq-quote",
+          "s4-service",
+          "Subscription-Billing",
+          "OMF",
+          "SmartEdit",
+          "Store-Finder",
+          "Personalization",
+          "Segment-Refs",
+          "TMS-GTM",
+          "TMS-AEPL",
+          "Pickup-In-Store",
+          "User-Account",
+          "User-Profile",
+          "Quote"
+        ],
+        "type": "string"
+      },
+      "x-prompt": {
+        "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the User-Account feature is required.",
+        "type": "list",
+        "items": [
+          {
+            "value": "ASM",
+            "label": "Assisted Services Module",
+            "checked": true
+          },
+          {
+            "value": "ASM-Customer-360",
+            "label": "ASM Customer 360",
+            "checked": true
+          },
+          {
+            "value": "Import-Export",
+            "label": "Import/Export",
+            "checked": true
+          },
+          {
+            "value": "Saved-Cart",
+            "label": "Saved Cart",
+            "checked": true
+          },
+          {
+            "value": "Quick-Order",
+            "label": "Quick Order",
+            "checked": true
+          },
+          {
+            "value": "CDC",
+            "label": "Customer Data Cloud Integration - B2C"
+          },
+          {
+            "value": "CDC-B2B",
+            "label": "Customer Data Cloud Integration - B2B"
+          },
+          {
+            "value": "CDP",
+            "label": "Customer Data Platform Integration"
+          },
+          {
+            "value": "CDS",
+            "label": "Context-Driven Services Integration"
+          },
+          {
+            "value": "Checkout",
+            "label": "Checkout base",
+            "checked": true
+          },
+          {
+            "value": "Checkout-B2B",
+            "label": "Checkout B2B (b2b feature, requires Base Checkout)"
+          },
+          {
+            "value": "Checkout-Scheduled-Replenishment",
+            "label": "Checkout Scheduled Replenishment (b2b feature, requires Base and B2B Checkout)"
+          },
+          {
+            "value": "Cart",
+            "label": "Cart",
+            "checked": true
+          },
+          {
+            "value": "WishList",
+            "label": "WishList",
+            "checked": true
+          },
+          {
+            "value": "Order",
+            "label": "Order",
+            "checked": true
+          },
+          {
+            "value": "Order-Document-Flow",
+            "label": "Order Document Flow (b2b feature)"
+          },
+          {
+            "value": "Digital-Payments",
+            "label": "Digital Payments Integration"
+          },
+          {
+            "value": "OPF-Checkout",
+            "label": "Open Payment Framework Checkout Integration"
+          },
+          {
+            "value": "Punchout",
+            "label": "Punchout Integration (b2b feature)"
+          },
+          {
+            "value": "Administration",
+            "label": "Organization - Adminstration (b2b feature)"
+          },
+          {
+            "value": "Order-Approval",
+            "label": "Organization - Order Approval (b2b feature)"
+          },
+          {
+            "value": "Organization-User-Registration",
+            "label": "Organization - User Registration (b2b feature)"
+          },
+          {
+            "value": "Unit-Order",
+            "label": "Organization - Unit Order (b2b feature)"
+          },
+          {
+            "value": "Account-Summary",
+            "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
+          },
+          {
+            "value": "Bulk-Pricing",
+            "label": "Product - Bulk Pricing (b2b feature)"
+          },
+          {
+            "value": "Product-Variants",
+            "label": "Product - Variants",
+            "checked": true
+          },
+          {
+            "value": "Product-Multi-Dimensional-Selector",
+            "label": "Product Multi-Dimensional - Selector"
+          },
+          {
+            "value": "Product-Multi-Dimensional-List",
+            "label": "Product Multi-Dimensional - PLP price range"
+          },
+          {
+            "value": "Image-Zoom",
+            "label": "Product - Image Zoom",
+            "checked": true
+          },
+          {
+            "value": "Future-Stock",
+            "label": "Product - Future Stock (b2b feature)"
+          },
+          {
+            "value": "VC-Configurator",
+            "label": "Product Configurator - Variant Configurator"
+          },
+          {
+            "value": "Textfield-Configurator",
+            "label": "Product Configurator - Textfield Configurator"
+          },
+          {
+            "value": "CPQ-Configurator",
+            "label": "Product Configurator - CPQ Configurator (b2b feature)"
+          },
+          {
+            "value": "PDF-Invoices",
+            "label": "PDF Invoices"
+          },
+          {
+            "value": "Qualtrics",
+            "label": "Qualtrics"
+          },
+          {
+            "value": "Requested-Delivery-Date",
+            "label": "Requested Delivery Date"
+          },
+          {
+            "value": "Estimated-Delivery-Date",
+            "label": "Estimated Delivery Date"
+          },
+          {
+            "value": "S4HANA-Order-Management",
+            "label": "S/4HANA Order Management (b2b feature)"
+          },
+          {
+            "value": "cpq-quote",
+            "label": "CPQ Quote Integration (b2b feature)"
+          },
+          {
+            "value": "s4-service",
+            "label": "S/4HANA Service Integration (b2b feature)"
+          },
+          {
+            "value": "Subscription-Billing",
+            "label": "Subscription Billing Integration"
+          },
+          {
+            "value": "OMF",
+            "label": "SAP Order Management Foundation Integration"
+          },
+          {
+            "value": "SmartEdit",
+            "label": "SmartEdit",
+            "checked": true
+          },
+          {
+            "value": "Store-Finder",
+            "label": "Store Finder",
+            "checked": true
+          },
+          {
+            "value": "Personalization",
+            "label": "Tracking - Personalization",
+            "checked": true
+          },
+          {
+            "value": "Segment-Refs",
+            "label": "Segment Reference"
+          },
+          {
+            "value": "TMS-GTM",
+            "label": "Tracking - Tag Management System - Google Tag Manager"
+          },
+          {
+            "value": "TMS-AEPL",
+            "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
+          },
+          {
+            "value": "OPPS",
+            "label": "Omnichannel Promotion Pricing Service (OPPS) Integration"
+          },
+          {
+            "value": "User-Account",
+            "label": "User - Account",
+            "checked": true
+          },
+          {
+            "value": "User-Profile",
+            "label": "User - Profile",
+            "checked": true
+          },
+          {
+            "value": "Quote",
+            "label": "Quote"
+          },
+          {
+            "value": "Customer-Ticketing",
+            "label": "Customer Ticketing"
+          },
+          {
+            "value": "Pickup-In-Store",
+            "label": "Pickup in Store"
+          }
+        ]
+      }
+    },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the Spartacus features.",
+      "default": true
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "The url of the OCC backend",
+      "default": "https://localhost:9002"
+    },
+    "occPrefix": {
+      "type": "string",
+      "description": "The OCC API prefix. E.g.: /occ/v2/"
+    },
+    "baseSite": {
+      "type": "string",
+      "description": "A comma-separated list of base site(s) to use with Spartacus"
+    },
+    "currency": {
+      "type": "string",
+      "description": "A comma-separated list of currencies to use in Spartacus"
+    },
+    "language": {
+      "type": "string",
+      "description": "A comma-separated list of languages to use in Spartacus"
+    },
+    "urlParameters": {
+      "type": "string",
+      "description": "A comma-separated list that represents the order of site-context parameters. E.g.: ['baseSite', 'language', 'currency']"
+    },
+    "useMetaTags": {
+      "type": "boolean",
+      "description": "Configure baseUrl via meta tag in index.html"
+    },
+    "featureLevel": {
+      "type": "string",
+      "description": "Configure feature level for application."
+    },
+    "overwriteAppComponent": {
+      "type": "boolean",
+      "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
+      "default": true
+    },
+    "ssr": {
+      "type": "boolean",
+      "description": "Add Server-side rendering support to the project.",
+      "default": false
+    },
+    "theme": {
+      "type": "string",
+      "description": "Select a style theme to add. E.g: santorini"
+    },
+    "aiTools": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["agents", "claude"]
+      },
+      "default": ["agents"],
+      "description": "Select the local folder(s) to install Spartacus AI development skills",
+      "x-prompt": {
+        "type": "list",
+        "multiselect": true,
+        "message": "Select the local folder(s) to install Spartacus AI development skills",
+        "items": [
+          {
+            "value": "agents",
+            "label": ".agents (.agents/skills/spartacus-developer/)"
+          },
+          {
+            "value": "claude",
+            "label": ".claude (.claude/skills/spartacus-developer/)"
+          }
+        ]
+      }
+    }
+  },
+  "required": []
+}

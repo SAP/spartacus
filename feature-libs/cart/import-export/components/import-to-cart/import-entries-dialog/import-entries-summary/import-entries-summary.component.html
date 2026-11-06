@@ -17,7 +17,7 @@
   *ngIf="summary.successesCount > 0"
   class="cx-import-entries-summary-successes"
 >
-  <cx-icon class="success" [type]="iconTypes.SUCCESS"></cx-icon>
+  <cx-icon class="success" [type]="iconTypes.SUCCESS" />
   {{ 'importEntriesDialog.summary.successes' | cxTranslate: summary }}
 </p>
 <div
@@ -25,7 +25,7 @@
   class="cx-import-entries-summary-warnings"
 >
   <p>
-    <cx-icon class="warning" [type]="iconTypes.ERROR"></cx-icon>
+    <cx-icon class="warning" [type]="iconTypes.ERROR" />
     {{
       'importEntriesDialog.summary.warning'
         | cxTranslate: { count: summary.warningMessages.length }
@@ -53,7 +53,7 @@
   class="cx-import-entries-summary-errors"
 >
   <p>
-    <cx-icon class="error" [type]="iconTypes.RESET"></cx-icon>
+    <cx-icon class="error" [type]="iconTypes.RESET" />
     {{
       'importEntriesDialog.summary.error'
         | cxTranslate: { count: summary.errorMessages.length }

@@ -1,8 +1,6 @@
 <div id="{{ createGroupId(group.id) }}" role="tabpanel">
   <ng-container *ngIf="displayConflictDescription(group)">
-    <cx-configurator-conflict-description
-      [currentGroup]="group"
-    ></cx-configurator-conflict-description>
+    <cx-configurator-conflict-description [currentGroup]="group" />
   </ng-container>
   <div
     class="cx-group-attribute"
@@ -19,7 +17,7 @@
         [currentGroup]="group"
         [attribute]="attribute"
         [suggestionNumber]="indexOfAttribute"
-      ></cx-configurator-conflict-suggestion>
+      />
     </ng-container>
 
     <ng-container *ngIf="activeLanguage$ | async as activeLanguage">

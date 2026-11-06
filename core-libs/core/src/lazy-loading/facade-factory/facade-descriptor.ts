@@ -1,0 +1,57 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { AbstractType } from '@angular/core';
+import { Observable } from 'rxjs';
+
+export interface FacadeDescriptor<T extends object> {
+  /**
+   * Facade class
+   */
+  facade: AbstractType<StrictlyAllowedFacade<T>>;
+  /**
+   * Feature name that should be used to resolve facade
+   */
+  feature: string;
+  /**
+   * Methods of the facade that will be proxied from lazy loaded services.
+   *
+   * All methods should either return an Observable or void. Any return type that
+   * is not an Observable will be ignored.
+   */
+  methods?: MethodKeys<T>[];
+  /**
+   * Properties of the facade that will be proxied from lazy loaded services.
+   *
+   * Only Observable properties are supported.
+   */
+  properties?: PropertyKeys<T>[];
+  /**
+   * Denotes that feature should have to be initialized with an async delay.
+   * Required to make lazy NgRx store feature ready.
+   */
+  async?: boolean;
+}
+
+type MethodKeys<T extends object> = {
+  [K in keyof T]: T[K] extends (...args: any[]) => AllowedReturn ? K : never;
+}[keyof T];
+
+type PropertyKeys<T extends object> = {
+  [K in keyof T]: T[K] extends Observable<any> ? K : never;
+}[keyof T];
+
+type AllowedReturn = void | Observable<any>;
+
+type AllowedKeys<T> = {
+  [K in keyof T]: T[K] extends (...args: any[]) => AllowedReturn
+    ? K
+    : T[K] extends Observable<any>
+      ? K
+      : never;
+}[keyof T];
+
+type StrictlyAllowedFacade<T> = Pick<T, AllowedKeys<T>> extends T ? T : never;

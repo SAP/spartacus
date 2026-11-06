@@ -48,6 +48,11 @@
     border-radius: 10px;
     background-color: #f1f1f1f1;
 
+    @include cx-highContrastTheme-dark {
+      border-color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+
     cx-icon {
       color: var(--cx-color-info);
     }

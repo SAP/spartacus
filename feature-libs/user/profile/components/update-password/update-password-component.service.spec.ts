@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   AbstractControl,
   ReactiveFormsModule,
@@ -7,7 +7,7 @@ import {
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -18,29 +18,29 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
-import createSpy = jasmine.createSpy;
 
-const mockInvalidPassword = 'strongPass$!123';
+const mockSecurePassword = 'strongPas$!123';
+const mockInvalidPassword = 'strongPas$!123|';
 
 class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
-  update = createSpy().and.returnValue(of({}));
+  update = vi.fn().mockReturnValue(of({}));
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy();
-  getUrl = createSpy().and.returnValue('');
+  go = vi.fn();
+  getUrl = vi.fn().mockReturnValue('');
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  setRedirectUrl = createSpy();
+  setRedirectUrl = vi.fn();
 }
 
 class MockAuthService implements Partial<AuthService> {
-  coreLogout = createSpy().and.returnValue(Promise.resolve());
+  coreLogout = vi.fn().mockReturnValue(Promise.resolve());
 }
 
 describe('UpdatePasswordComponentService', () => {
@@ -50,7 +50,7 @@ describe('UpdatePasswordComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
   let authService: AuthService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   let oldPassword: AbstractControl;
   let newPassword: AbstractControl;
@@ -86,8 +86,8 @@ describe('UpdatePasswordComponentService', () => {
   });
 
   beforeEach(() => {
-    featureConfigService = TestBed.inject(FeatureConfigService);
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+    featureToggles = TestBed.inject(FeatureToggles);
+    featureToggles.useEnhancedSecurePasswordValidators = true;
 
     service = TestBed.inject(UpdatePasswordComponentService);
     userPasswordFacade = TestBed.inject(UserPasswordFacade);
@@ -149,15 +149,17 @@ describe('UpdatePasswordComponentService', () => {
         );
       });
 
-      it('should reroute to the login page', fakeAsync(() => {
+      it('should reroute to the login page', async () => {
+        vi.useFakeTimers();
         service.updatePassword();
 
-        tick();
+        await vi.advanceTimersByTimeAsync(0);
+        vi.useRealTimers();
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
-      }));
+      });
 
       it('should reset the form', () => {
-        spyOn(service.form, 'reset').and.callThrough();
+        vi.spyOn(service.form, 'reset');
         service.updatePassword();
         expect(service.form.reset).toHaveBeenCalled();
       });
@@ -189,14 +191,17 @@ describe('UpdatePasswordComponentService', () => {
     });
 
     describe('password validators', () => {
-      it('should have new validators when feature flag isEnabled', () => {
+      it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', () => {
         const newPasswordControl = service.form.get(
           'newPassword'
         ) as UntypedFormControl;
         const validations = {
           whenEmpty: newPasswordControl.validator?.({} as any),
-          whenNotEmpty: newPasswordControl.validator?.({
+          whenNotEmptyAndInvalid: newPasswordControl.validator?.({
             value: mockInvalidPassword,
+          } as any),
+          whenNotEmpty: newPasswordControl.validator?.({
+            value: mockSecurePassword,
           } as any),
         };
 
@@ -208,10 +213,12 @@ describe('UpdatePasswordComponentService', () => {
           cxMinOneSpecialCharacter: true,
           cxMinEightCharactersLength: true,
           cxMaxCharactersLength: true,
+          cxMustEndWithLegalCharacter: true,
         });
-        expect(validations.whenNotEmpty).toEqual({
-          cxNoConsecutiveCharacters: true,
+        expect(validations.whenNotEmptyAndInvalid).toEqual({
+          cxMustEndWithLegalCharacter: true,
         });
+        expect(validations.whenNotEmpty).toEqual(null);
       });
     });
   });

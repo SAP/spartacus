@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -69,9 +69,7 @@ export class OccOmfOrderHistoryAdapter extends OccOrderHistoryAdapter {
   public load(userId: string, orderCode: string): Observable<Order> {
     return this.getOrderGuid(orderCode).pipe(
       switchMap((guid) => {
-        const url = this.occEndpoints.buildUrl('orderDetail', {
-          urlParams: { userId, orderId: orderCode },
-        });
+        const url = this.getOrderDetailUrl(userId, orderCode);
         let headers = this.getRequestHeader(guid);
         if (userId === OCC_USER_ID_ANONYMOUS) {
           headers = InterceptorUtil.createHeader(

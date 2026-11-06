@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -101,6 +101,7 @@ export interface Cart {
   totalUnitCount?: number;
   user?: Principal;
   quoteCode?: string;
+  quotePurchaseOrderNumber?: string;
 }
 
 export interface CartModification {
@@ -210,4 +211,6 @@ export enum CartValidationStatusCode {
   REVIEW_CONFIGURATION = 'reviewConfiguration',
   PRICING_ERROR = 'pricingError',
   UNRESOLVABLE_ISSUES = 'unresolvableIssues',
+  BELOW_MIN_QUANTITY = 'below_min_quantity',
+  ABOVE_MAX_QUANTITY = 'exceed_max_quantity',
 }

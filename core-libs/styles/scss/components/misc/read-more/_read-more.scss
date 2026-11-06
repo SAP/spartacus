@@ -1,0 +1,12 @@
+%cx-read-more {
+  .btn-link {
+    border-radius: 4px;
+  }
+
+  @include cx-highContrastTheme('a11yHighContrastFix') {
+    .btn-link {
+      color: var(--cx-color-primary);
+      background-color: var(--cx-color-background);
+    }
+  }
+}

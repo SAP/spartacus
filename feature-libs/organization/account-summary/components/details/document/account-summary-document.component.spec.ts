@@ -5,13 +5,23 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import {
-  I18nTestingModule,
+  CxDatePipe,
+  FeatureDirective,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
   SortModel,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { FileDownloadService, IconTestingModule } from '@spartacus/storefront';
-import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
+import {
+  FileDownloadService,
+  IconComponent,
+  MockIconComponent,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
+import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
 
 import { AccountSummaryDocumentComponent } from './account-summary-document.component';
 
@@ -23,17 +33,17 @@ import {
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import createSpy = jasmine.createSpy;
 
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { RouterModule } from '@angular/router';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { mockAccountSummaryList } from '../account-summary-mock-data';
+import { AccountSummaryDocumentFilterComponent } from './filter';
 
 const blob = new Blob();
 
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -42,7 +52,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -55,7 +64,6 @@ class MockSortingComponent {
 @Component({
   template: '',
   selector: 'cx-account-summary-document-filter',
-  standalone: false,
 })
 class MockAccountSummaryDocumentFilterComponent {
   @Input() documentTypeOptions: any;
@@ -80,7 +88,7 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
 }
 
 class MockFileDownloadService {
-  download = createSpy('MockFileDownloadService.download Spy');
+  download = vi.fn();
 }
 
 class MockLanguageService {
@@ -98,21 +106,39 @@ describe('AccountSummaryDocumentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule],
-      declarations: [
-        AccountSummaryDocumentComponent,
-        MockAccountSummaryDocumentFilterComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockFeatureDirective,
-      ],
+      imports: [AccountSummaryDocumentComponent, RouterModule.forRoot([])],
       providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
         { provide: FileDownloadService, useClass: MockFileDownloadService },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AccountSummaryDocumentComponent, {
+        remove: {
+          imports: [
+            IconComponent,
+            TranslatePipe,
+            CxDatePipe,
+            AccountSummaryDocumentFilterComponent,
+            PaginationComponent,
+            SortingComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockIconComponent,
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAccountSummaryDocumentFilterComponent,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
     accountSummaryFacade = TestBed.inject(AccountSummaryFacade);
     translationService = TestBed.inject(TranslationService);
     downloadService = TestBed.inject(FileDownloadService);
@@ -142,8 +168,8 @@ describe('AccountSummaryDocumentComponent', () => {
 
   it('Should change page and sort', () => {
     // Spy functions to ensure new documents are being fetched
-    spyOn<any>(component, 'updateQueryParams').and.callThrough();
-    spyOn(accountSummaryFacade, 'getDocumentList').and.callThrough();
+    vi.spyOn<any, any>(component, 'updateQueryParams');
+    vi.spyOn(accountSummaryFacade, 'getDocumentList');
 
     // By default page will be 0
     expect(component._queryParams.page).toEqual(0);
@@ -185,8 +211,8 @@ describe('AccountSummaryDocumentComponent', () => {
 
   it('should change filters', () => {
     // Spy functions to ensure new documents are being fetched
-    spyOn<any>(component, 'updateQueryParams').and.callThrough();
-    spyOn(accountSummaryFacade, 'getDocumentList').and.callThrough();
+    vi.spyOn<any, any>(component, 'updateQueryParams');
+    vi.spyOn(accountSummaryFacade, 'getDocumentList');
 
     // Change the filters
     const status = DocumentStatus.CLOSED;
@@ -231,7 +257,7 @@ describe('AccountSummaryDocumentComponent', () => {
 
     // Call addNamesToSortModel with two sort options
     const sorts: Array<SortModel> = [{ code: 'abc' }, { code: 'def' }];
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     component['addNamesToSortModel'](sorts);
 
     // Expect that translate was called twice
@@ -252,25 +278,25 @@ describe('AccountSummaryDocumentComponent', () => {
 
     const tableHeaders = tableElement.queryAll(By.css('th'));
     expect(tableHeaders?.length).toEqual(8);
-    expect(tableHeaders[0].properties.innerText).toEqual(
+    expect(tableHeaders[0].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.id'
     );
-    expect(tableHeaders[1].properties.innerText).toEqual(
+    expect(tableHeaders[1].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.type'
     );
-    expect(tableHeaders[2].properties.innerText).toEqual(
+    expect(tableHeaders[2].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.date'
     );
-    expect(tableHeaders[3].properties.innerText).toEqual(
+    expect(tableHeaders[3].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.dueDate'
     );
-    expect(tableHeaders[4].properties.innerText).toEqual(
+    expect(tableHeaders[4].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.originalAmount'
     );
-    expect(tableHeaders[5].properties.innerText).toEqual(
+    expect(tableHeaders[5].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.openAmount'
     );
-    expect(tableHeaders[6].properties.innerText).toEqual(
+    expect(tableHeaders[6].nativeElement.textContent?.trim()).toEqual(
       'orgAccountSummary.document.status'
     );
     expect(tableHeaders[7].children[0].attributes.title).toEqual(
@@ -296,31 +322,31 @@ describe('AccountSummaryDocumentComponent', () => {
 
       expect(tableCells?.length).toEqual(8);
 
-      expect(tableCells[0].nativeElement.innerText).toEqual(
+      expect(tableCells[0].nativeElement.textContent?.trim()).toEqual(
         mockAccountSummaryList.orgDocuments?.[rowNumber]?.id
       );
 
-      expect(tableCells[1].nativeElement.innerText).toEqual(
+      expect(tableCells[1].nativeElement.textContent?.trim()).toEqual(
         mockAccountSummaryList.orgDocuments?.[rowNumber]?.orgDocumentType?.name
       );
 
-      expect(isDate(tableCells[2].nativeElement.innerText)).toEqual(
+      expect(isDate(tableCells[2].nativeElement.textContent?.trim())).toEqual(
         !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.createdAtDate
       );
 
-      expect(isDate(tableCells[3].nativeElement.innerText)).toEqual(
+      expect(isDate(tableCells[3].nativeElement.textContent?.trim())).toEqual(
         !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.dueAtDate
       );
 
-      expect(tableCells[4].nativeElement.innerText).toEqual(
+      expect(tableCells[4].nativeElement.textContent?.trim()).toEqual(
         mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedAmount
       );
 
-      expect(tableCells[5].nativeElement.innerText).toEqual(
+      expect(tableCells[5].nativeElement.textContent?.trim()).toEqual(
         mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedOpenAmount
       );
 
-      expect(tableCells[6].nativeElement.innerText).toEqual(
+      expect(tableCells[6].nativeElement.textContent?.trim()).toEqual(
         `orgAccountSummary.statuses.${mockAccountSummaryList.orgDocuments?.[rowNumber]?.status}`
       );
 
@@ -336,12 +362,12 @@ describe('AccountSummaryDocumentComponent', () => {
         (doc) => doc?.attachments?.length && doc?.attachments?.length > 0
       ) || {};
 
-    spyOn(accountSummaryFacade, 'getDocumentAttachment').and.returnValue(
+    vi.spyOn(accountSummaryFacade, 'getDocumentAttachment').mockReturnValue(
       of(blob)
     );
     const fakeUrl =
       'blob:http://localhost:9877/50d43852-5f76-41e0-bb36-599d4b99af07';
-    spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
+    vi.spyOn(URL, 'createObjectURL').mockReturnValue(fakeUrl);
 
     component.downloadAttachment(
       documentWithAttachment.id,

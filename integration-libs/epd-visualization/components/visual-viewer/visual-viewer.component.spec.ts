@@ -210,10 +210,12 @@ class MockVisualViewerService {
   public sceneLoadInfo$ = new Subject<SceneLoadInfo>();
 }
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-animation-slider',
   template: '',
-  standalone: false,
 })
 export class MockVisualViewerAnimationSliderComponent {
   set value(value: number) {
@@ -263,12 +265,12 @@ describe('VisualViewerComponent', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [VisualViewerComponent],
         imports: [
           I18nTestingModule,
           VisualViewerToolbarButtonModule,
           VisualViewerAnimationSliderModule,
           SpinnerModule,
+          VisualViewerComponent,
         ],
         providers: [
           provideConfigFactory(getTestConfig),
@@ -305,11 +307,11 @@ describe('VisualViewerComponent', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [VisualViewerComponent],
         imports: [
           I18nTestingModule,
           VisualViewerToolbarButtonModule,
           VisualViewerAnimationSliderModule,
+          VisualViewerComponent,
         ],
         providers: [
           provideConfigFactory(getTestConfig),

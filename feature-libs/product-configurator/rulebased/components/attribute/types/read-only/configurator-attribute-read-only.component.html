@@ -45,7 +45,9 @@
                 getLabel(expMode, value.valueDisplay, value.valueCode)
               "
               [tabIndex]="0"
-            ></cx-configurator-show-more>
+              [attributeLabel]="attribute.label"
+              [valueLabel]="value.valueDisplay"
+            />
           </div>
           <div class="cx-value-price">
             <cx-configurator-price
@@ -54,7 +56,7 @@
                   enrichValueWithPrice(value, changedPrices)
                 )
               "
-            ></cx-configurator-price>
+            />
           </div>
         </div>
       </ng-container>

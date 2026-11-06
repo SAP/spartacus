@@ -24,13 +24,13 @@
         (click)="close('Close download invoices dialog')"
       >
         <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          <cx-icon [type]="iconTypes.CLOSE" />
         </span>
       </button>
     </div>
 
     <div class="cx-dialog-body modal-body">
-      <cx-invoices-list> </cx-invoices-list>
+      <cx-invoices-list />
       <div id="noInvoice" *ngIf="invoiceCount === 0" role="alert">
         {{ 'myAccountV2OrderDetails.noInvoices' | cxTranslate }}
       </div>
@@ -40,7 +40,7 @@
         aria-live="polite"
         role="alert"
       >
-        <cx-spinner></cx-spinner>
+        <cx-spinner />
       </div>
     </div>
   </div>

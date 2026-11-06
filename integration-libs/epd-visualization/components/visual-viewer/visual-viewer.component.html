@@ -21,7 +21,7 @@
                 | cxTranslate
             }}"
             (click)="activateHomeView()"
-          ></cx-epd-visualization-viewer-toolbar-button>
+          />
 
           <cx-epd-visualization-viewer-toolbar-button
             class="turntableButton toolbarItem"
@@ -34,7 +34,7 @@
             [hidden]="is2D"
             (click)="navigationMode = NavigationMode.Turntable"
             [checked]="navigationMode === NavigationMode.Turntable"
-          ></cx-epd-visualization-viewer-toolbar-button>
+          />
 
           <cx-epd-visualization-viewer-toolbar-button
             class="panButton toolbarItem"
@@ -46,7 +46,7 @@
             }}"
             (click)="navigationMode = NavigationMode.Pan"
             [checked]="navigationMode === NavigationMode.Pan"
-          ></cx-epd-visualization-viewer-toolbar-button>
+          />
 
           <cx-epd-visualization-viewer-toolbar-button
             class="zoomButton toolbarItem"
@@ -58,7 +58,7 @@
             }}"
             (click)="navigationMode = NavigationMode.Zoom"
             [checked]="navigationMode === NavigationMode.Zoom"
-          ></cx-epd-visualization-viewer-toolbar-button>
+          />
 
           <cx-epd-visualization-viewer-toolbar-button
             class="isolateButton toolbarItem"
@@ -74,7 +74,7 @@
             }}"
             (click)="isolateModeEnabled = !isolateModeEnabled"
             [checked]="isolateModeEnabled"
-          ></cx-epd-visualization-viewer-toolbar-button>
+          />
 
           <cx-epd-visualization-viewer-toolbar-button
             class="playPauseButton toolbarItem"
@@ -89,7 +89,7 @@
             [hidden]="is2D || animationTotalDuration <= 0"
             [disabled]="isolateModeEnabled"
             (click)="animationPlaying ? pauseAnimation() : playAnimation()"
-          ></cx-epd-visualization-viewer-toolbar-button>
+          />
 
           <cx-epd-visualization-viewer-toolbar-button
             class="showAllHotpotsButton toolbarItem"
@@ -104,7 +104,7 @@
             [checked]="showAllHotspotsEnabled"
             [hidden]="!is2D"
             (click)="showAllHotspotsEnabled = !showAllHotspotsEnabled"
-          ></cx-epd-visualization-viewer-toolbar-button>
+          />
         </div>
 
         <div [hidden]="is2D || animationTotalDuration <= 0">
@@ -119,7 +119,7 @@
               animationPlaying ? pauseAnimation() : playAnimation();
               $event.preventDefault()
             "
-          ></cx-epd-visualization-animation-slider>
+          />
         </div>
       </div>
     </div>
@@ -128,6 +128,6 @@
 
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>

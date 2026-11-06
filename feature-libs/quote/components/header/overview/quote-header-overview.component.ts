@@ -1,11 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { EventService, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  EventService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   Quote,
   QuoteAction,
@@ -14,19 +20,34 @@ import {
   QuoteMetadata,
   QuoteState,
 } from '@spartacus/quote/root';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config/quote-ui.config';
 import {
   EditCard,
+  QuoteHeaderBuyerEditComponent,
   SaveEvent,
 } from '../buyer-edit/quote-header-buyer-edit.component';
 
 @Component({
   selector: 'cx-quote-header-overview',
   templateUrl: './quote-header-overview.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    CardComponent,
+    IconComponent,
+    QuoteHeaderBuyerEditComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+  ],
 })
 export class QuoteHeaderOverviewComponent {
   protected quoteFacade = inject(QuoteFacade);
@@ -45,12 +66,15 @@ export class QuoteHeaderOverviewComponent {
   protected defineQuoteMetaData(event: SaveEvent): QuoteMetadata {
     let metaData: QuoteMetadata = {};
     if (Object.getOwnPropertyNames(event).length >= 1) {
-      const [name, description] = [event.name, event.description];
+      const { name, description, purchaseOrderNumber } = event;
 
       metaData = {
         ...metaData,
         ...(event.name && { name }),
         ...{ description },
+        ...(event.purchaseOrderNumber && {
+          sapPurchaseOrderNumber: purchaseOrderNumber,
+        }),
       };
     }
     return metaData;
@@ -107,27 +131,47 @@ export class QuoteHeaderOverviewComponent {
    * @param description - Quote description
    * @returns Observable emitting a card content
    */
-  getQuoteInformation(name?: string, description?: string): Observable<Card> {
+  getQuoteInformation(
+    name?: string,
+    description?: string,
+    purchaseOrderNumber?: string
+  ): Observable<Card> {
     return combineLatest([
       this.translationService.translate('quote.header.overview.information'),
       this.translationService.translate('quote.header.overview.name'),
       this.translationService.translate('quote.header.overview.description'),
+      this.translationService.translate(
+        'quote.header.overview.purchaseOrderNumber'
+      ),
     ]).pipe(
-      map(([infoTitle, nameTitle, descriptionTitle]) => {
-        return {
-          title: infoTitle,
-          paragraphs: [
-            {
-              title: nameTitle,
-              text: [name ?? QuoteHeaderOverviewComponent.NO_DATA],
-            },
-            {
-              title: descriptionTitle,
-              text: [description ?? QuoteHeaderOverviewComponent.NO_DATA],
-            },
-          ],
-        };
-      })
+      map(
+        ([
+          infoTitle,
+          nameTitle,
+          descriptionTitle,
+          purchaseOrderNumberTitle,
+        ]) => {
+          return {
+            title: infoTitle,
+            paragraphs: [
+              {
+                title: nameTitle,
+                text: [name ?? QuoteHeaderOverviewComponent.NO_DATA],
+              },
+              {
+                title: descriptionTitle,
+                text: [description ?? QuoteHeaderOverviewComponent.NO_DATA],
+              },
+              {
+                title: purchaseOrderNumberTitle,
+                text: [
+                  purchaseOrderNumber ?? QuoteHeaderOverviewComponent.NO_DATA,
+                ],
+              },
+            ],
+          };
+        }
+      )
     );
   }
 
@@ -138,11 +182,16 @@ export class QuoteHeaderOverviewComponent {
    * @param description - Quote description
    * @returns Observable emitting an edit card content
    */
-  getEditQuoteInformation(name: string, description: string): EditCard {
+  getEditQuoteInformation(
+    name: string,
+    description: string,
+    purchaseOrderNumber?: string
+  ): EditCard {
     return {
       name: name,
       description: description,
       charactersLimit: QuoteHeaderOverviewComponent.CHARACTERS_LIMIT,
+      ...(purchaseOrderNumber ? { purchaseOrderNumber } : {}),
     };
   }
 

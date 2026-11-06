@@ -1,33 +1,45 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
+import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import {
-  LaunchDialogService,
-  ICON_TYPE,
   FocusConfig,
+  FocusDirective,
+  ICON_TYPE,
+  IconComponent,
   KeyboardFocusService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
-import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorGroupComponent } from '../group/configurator-group.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-conflict-solver-dialog',
   templateUrl: './configurator-conflict-solver-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    NgIf,
+    ConfiguratorGroupComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorConflictSolverDialogComponent
   implements OnInit, OnDestroy

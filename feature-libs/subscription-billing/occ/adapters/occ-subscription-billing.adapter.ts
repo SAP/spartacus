@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +14,8 @@ import {
 } from '@spartacus/core';
 import { SubscriptionBillingAdapter } from '@spartacus/subscription-billing/core';
 import {
-  SubscriptionDetail,
-  SubscriptionList,
+  SubscriptionBill,
+  SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
 import { catchError, Observable } from 'rxjs';
 
@@ -25,30 +26,15 @@ export class OccSubscriptionBillingAdapter
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);
   protected occEndpoints = inject(OccEndpointsService);
-  getSubscriptionByCode(
-    userId: string,
-    subscriptionCode: string
-  ): Observable<SubscriptionDetail> {
-    const url = this.occEndpoints.buildUrl('subscriptionByCode', {
-      urlParams: {
-        userId,
-        subscriptionCode,
-      },
-    });
-    return this.http.get<SubscriptionDetail>(url).pipe(
-      catchError((error) => {
-        throw tryNormalizeHttpError(error, this.logger);
-      })
-    );
-  }
 
-  getSubscriptionList(
+  getSubscriptionBillsList(
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
-  ): Observable<SubscriptionList> {
-    const url = this.occEndpoints.buildUrl('subscriptionList', {
+    sort?: string,
+    filters?: string
+  ): Observable<SubscriptionBillsList> {
+    const url = this.occEndpoints.buildUrl('subscriptionBillsList', {
       urlParams: {
         userId,
       },
@@ -56,9 +42,27 @@ export class OccSubscriptionBillingAdapter
         pageSize,
         currentPage,
         sort,
+        filters,
       },
     });
-    return this.http.get<SubscriptionList>(url).pipe(
+    return this.http.get<SubscriptionBillsList>(url).pipe(
+      catchError((error) => {
+        throw tryNormalizeHttpError(error, this.logger);
+      })
+    );
+  }
+
+  getSubscriptionBillByCode(
+    userId: string,
+    billId: string
+  ): Observable<SubscriptionBill> {
+    const url = this.occEndpoints.buildUrl('subscriptionBillByCode', {
+      urlParams: {
+        userId,
+        billId,
+      },
+    });
+    return this.http.get<SubscriptionBill>(url).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
       })

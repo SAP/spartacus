@@ -1,11 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -13,12 +7,21 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  KeyboardFocusService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -29,14 +32,13 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
+import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorFormComponent } from './configurator-form.component';
-import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-group',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorGroupComponent {
   @Input() group: Configurator.Group;
@@ -152,6 +154,8 @@ class MockConfiguratorGroupsService {
 
   navigateToFirstIncompleteGroup(): void {}
 
+  navigateToContainerRow(): void {}
+
   isConflictGroupType() {}
 }
 
@@ -262,12 +266,12 @@ let htmlElem: HTMLElement;
 let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 let keyboardFocusService: KeyboardFocusService;
+let featureToggles: MockFeatureTogglesController;
 
-describe('ConfigurationFormComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [MockConfiguratorGroupComponent, ConfiguratorFormComponent],
+describe('ConfiguratorFormComponent', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, NgSelectModule, ConfiguratorFormComponent],
       providers: [
         {
           provide: RoutingService,
@@ -290,71 +294,56 @@ describe('ConfigurationFormComponent', () => {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     })
-      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+      .overrideComponent(ConfiguratorFormComponent, {
+        remove: {
+          imports: [TranslatePipe, ConfiguratorGroupComponent],
+        },
+        add: {
+          imports: [MockConfiguratorGroupComponent, I18nTestingModule],
         },
       })
+      .overrideComponent(ConfiguratorFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', false);
 
-    spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
-    spyOn(
-      configuratorGroupsService,
-      'navigateToConflictSolver'
-    ).and.callThrough();
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
-    spyOn(
-      configuratorGroupsService,
-      'navigateToFirstIncompleteGroup'
-    ).and.callThrough();
+    vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
+    vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
+    vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
+    vi.spyOn(configuratorGroupsService, 'navigateToContainerRow');
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    spyOn(
-      configuratorCommonsService,
-      'isConfigurationLoading'
-    ).and.callThrough();
-    spyOn(
-      configuratorCommonsService,
-      'getOrCreateConfiguration'
-    ).and.callThrough();
-    spyOn(configuratorCommonsService, 'getConfiguration').and.callThrough();
-    spyOn(
-      configuratorCommonsService,
-      'checkConflictSolverDialog'
-    ).and.callThrough();
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
+    vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
+    vi.spyOn(configuratorCommonsService, 'getConfiguration');
+    vi.spyOn(configuratorCommonsService, 'checkConflictSolverDialog');
 
-    globalMessageService = TestBed.inject(
-      GlobalMessageService as Type<GlobalMessageService>
-    );
-    spyOn(globalMessageService, 'add').and.callThrough();
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    vi.spyOn(globalMessageService, 'add');
 
     isConfigurationLoadingObservable = of(false);
 
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
-    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
+    vi.spyOn(configExpertModeService, 'setExpModeRequested');
 
     hasConfigurationConflictsObservable = of(false);
 
-    launchDialogService = TestBed.inject(
-      LaunchDialogService as Type<LaunchDialogService>
-    );
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
-    spyOn(keyboardFocusService, 'clear').and.callThrough();
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
+    vi.spyOn(keyboardFocusService, 'clear');
     configuration = structuredClone(productConfiguration);
   });
 
@@ -436,6 +425,52 @@ describe('ConfigurationFormComponent', () => {
     });
     createComponentWithData();
     expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not navigate to a bundle line item if no row id is provided', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({});
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should not navigate to a bundle line item in resolve issues mode', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({
+      resolveIssues: 'true',
+      rowId: 'row-1',
+    });
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should navigate to the bundle line item when a row id is provided and productConfiguratorCPQContainer is enabled', () => {
+    featureToggles.set('productConfiguratorCPQContainer', true);
+    routerStateObservable = mockRouterStateWithQueryParams({
+      rowId: 'row-1',
+    });
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: PRODUCT_CODE,
+        type: CommonConfigurator.OwnerType.PRODUCT,
+      }),
+      'row-1'
+    );
+  });
+
+  it('should not navigate to a bundle line item when productConfiguratorCPQContainer is disabled', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({
+      rowId: 'row-1',
+    });
+    createComponentWithData();
+    expect(
+      configuratorGroupsService.navigateToContainerRow
+    ).not.toHaveBeenCalled();
   });
 
   describe('Rendering', () => {
@@ -522,6 +557,12 @@ describe('ConfigurationFormComponent', () => {
   });
 
   describe('ngOnInit()', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
     it('should call getConfiguration in order to prepare conflict check', () => {
       routerStateObservable = mockRouterStateWithQueryParams({});
       createComponentWithData();
@@ -539,7 +580,7 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
-    it('should launch the restart config dialog with data if requested and when the config is not new', fakeAsync(() => {
+    it('should launch the restart config dialog with data if requested and when the config is not new', async () => {
       routerStateObservable = mockRouterStateWithQueryParams({
         displayRestartDialog: 'true',
       });
@@ -547,25 +588,25 @@ describe('ConfigurationFormComponent', () => {
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
         undefined,
         { owner: config.owner }
       );
-    }));
+    });
 
-    it('should NOT launch the restart config dialog if not requested and not a new config', fakeAsync(() => {
+    it('should NOT launch the restart config dialog if not requested and not a new config', async () => {
       routerStateObservable = mockRouterStateWithQueryParams({});
       const config: Configurator.Configuration = structuredClone(configRead);
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should NOT launch the restart config dialog if requested but a new config', fakeAsync(() => {
+    it('should NOT launch the restart config dialog if requested but a new config', async () => {
       routerStateObservable = mockRouterStateWithQueryParams({
         displayRestartDialog: 'true',
       });
@@ -573,9 +614,9 @@ describe('ConfigurationFormComponent', () => {
       config.interactionState.newConfiguration = true;
       configurationCreateObservable = of(config);
       createComponentWithData();
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-    }));
+    });
   });
 
   describe('listenForConflictResolution()', () => {

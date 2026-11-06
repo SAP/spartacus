@@ -22,6 +22,11 @@
     padding: 1.75rem 1.75rem;
     border-radius: 10px;
     background-color: #ffffff;
+
+    @include cx-highContrastTheme-dark {
+      border-color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
   }
 
   .cx-card .cx-card-title {
@@ -64,6 +69,14 @@
     @include media-breakpoint-down(md) {
       background: #d3d6db;
     }
+
+    @include cx-highContrastTheme-dark {
+      background: var(--cx-color-background);
+
+      @include media-breakpoint-down(md) {
+        background: var(--cx-color-background);
+      }
+    }
   }
 
   .cx-shipping-and-delivery-info-cards {
@@ -88,6 +101,11 @@
       border-radius: 10px;
       padding: 1.75rem;
       background-color: #ffffff;
+
+      @include cx-highContrastTheme-dark {
+        border-color: var(--cx-color-text);
+        background-color: var(--cx-color-background);
+      }
 
       button {
         position: absolute;
@@ -122,6 +140,7 @@
     flex-wrap: wrap;
     gap: 2rem;
     margin-bottom: 2rem;
+    margin-top: 1.2rem;
 
     > *:last-child:nth-child(odd) {
       flex: 1 1 100%;
@@ -129,7 +148,7 @@
   }
 
   %edit-button-styles {
-    position: absolute;
+    position: center;
     top: 1.75rem;
     right: 1.75rem;
     color: var(--cx-color-primary);

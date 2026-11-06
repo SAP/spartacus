@@ -1,17 +1,26 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import {
   BaseOption,
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   RoutingService,
+  TranslatePipe,
   UrlCommandRoute,
   UrlCommands,
+  UrlPipe,
   VariantType,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import {
+  ProductVariantColorSelectorComponent,
+  ProductVariantSizeSelectorComponent,
+  ProductVariantStyleSelectorComponent,
+} from '../public_api';
 import { ProductVariantsContainerComponent } from './product-variants-container.component';
 
 const mockProduct: Product = {
@@ -41,10 +50,7 @@ class MockRoutingService {
   ): void {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
     return options.cxRoute;
@@ -60,7 +66,6 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-product-variant-style-selector',
   template: '',
-  standalone: false,
 })
 class MockCxProductStyleSelectorComponent {
   @Input() product: Product;
@@ -70,7 +75,6 @@ class MockCxProductStyleSelectorComponent {
 @Component({
   selector: 'cx-product-variant-size-selector',
   template: '',
-  standalone: false,
 })
 class MockCxProductSizeSelectorComponent {
   @Input() product: Product;
@@ -80,7 +84,6 @@ class MockCxProductSizeSelectorComponent {
 @Component({
   selector: 'cx-product-variant-color-selector',
   template: '',
-  standalone: false,
 })
 class MockCxProductColorSelectorComponent {
   @Input() product: Product;
@@ -91,16 +94,9 @@ describe('ProductVariantsContainerComponent', () => {
   let component: ProductVariantsContainerComponent;
   let fixture: ComponentFixture<ProductVariantsContainerComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProductVariantsContainerComponent,
-        MockUrlPipe,
-        MockCxProductStyleSelectorComponent,
-        MockCxProductSizeSelectorComponent,
-        MockCxProductColorSelectorComponent,
-      ],
-      imports: [I18nTestingModule],
+      imports: [ProductVariantsContainerComponent],
       providers: [
         {
           provide: RoutingService,
@@ -111,8 +107,31 @@ describe('ProductVariantsContainerComponent', () => {
           useClass: MockCurrentProductService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ProductVariantsContainerComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            ProductVariantStyleSelectorComponent,
+            ProductVariantSizeSelectorComponent,
+            ProductVariantColorSelectorComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockCxProductStyleSelectorComponent,
+            MockCxProductSizeSelectorComponent,
+            MockCxProductColorSelectorComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantsContainerComponent);

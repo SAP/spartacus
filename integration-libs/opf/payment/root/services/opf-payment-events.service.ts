@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,5 +22,29 @@ export class OpfPaymentEventsService {
    */
   emitReinitiatePaymentEvent(paymentOptionId?: number): void {
     this.reinitiatePaymentEvent.next(paymentOptionId);
+  }
+
+  protected refreshActiveConfigurationsEvent: Subject<void> = new Subject();
+  refreshActiveConfigurationsEvent$: Observable<void> =
+    this.refreshActiveConfigurationsEvent.asObservable();
+
+  /**
+   * Emits an event to refresh the active payment configurations list
+   */
+  emitRefreshActiveConfigurationsEvent(): void {
+    this.refreshActiveConfigurationsEvent.next();
+  }
+
+  protected isGiftCardCoveredTotalAmountEvent: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  isGiftCardCoveredTotalAmountEvent$: Observable<boolean> =
+    this.isGiftCardCoveredTotalAmountEvent.asObservable();
+
+  /**
+   * Emits an event to indicate if the gift card covers the total amount
+   * @param isCovered Boolean indicating if the gift card covers the total amount
+   */
+  emitIsGiftCardCoveredTotalAmountEvent(isCovered: boolean): void {
+    this.isGiftCardCoveredTotalAmountEvent.next(isCovered);
   }
 }

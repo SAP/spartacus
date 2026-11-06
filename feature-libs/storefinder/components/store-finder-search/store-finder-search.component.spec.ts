@@ -1,10 +1,14 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import {
+  FeatureDirective,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
+import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
 const query = {
@@ -27,10 +31,7 @@ const mockActivatedRoute = {
   },
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -38,7 +39,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -50,24 +50,29 @@ describe('StoreFinderSearchComponent', () => {
 
   let routingService: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [
-        StoreFinderSearchComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureDirective,
-      ],
+      imports: [StoreFinderSearchComponent, MockUrlPipe],
       providers: [
         {
           provide: RoutingService,
-          useValue: { go: jasmine.createSpy() },
+          useValue: { go: vi.fn() },
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(StoreFinderSearchComponent, {
+        remove: { imports: [TranslatePipe, IconComponent, FeatureDirective] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
@@ -114,7 +119,7 @@ describe('StoreFinderSearchComponent', () => {
   });
 
   it('should call findStores if search value provided and Enter is an event', () => {
-    spyOn(component, 'findStores');
+    vi.spyOn(component, 'findStores');
     component.searchBox.setValue(query.queryParams.query);
     component.onKey(keyEvent);
     expect(component.findStores).toHaveBeenCalledWith(query.queryParams.query);

@@ -1,13 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { newAddress } from '../../../helpers/address-book';
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Address Book Page Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();

@@ -106,10 +106,12 @@ describe('OrderDetailsService', () => {
     orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
     routingService = TestBed.inject(RoutingService);
 
-    spyOn(routingService, 'getRouterState');
-    spyOn(orderHistoryFacade, 'loadOrderDetails');
-    spyOn(orderHistoryFacade, 'clearOrderDetails');
-    spyOn(orderHistoryFacade, 'getOrderDetails').and.returnValue(of(mockOrder));
+    vi.spyOn(routingService, 'getRouterState');
+    vi.spyOn(orderHistoryFacade, 'loadOrderDetails');
+    vi.spyOn(orderHistoryFacade, 'clearOrderDetails');
+    vi.spyOn(orderHistoryFacade, 'getOrderDetails').mockReturnValue(
+      of(mockOrder)
+    );
   });
 
   it('should be created', () => {

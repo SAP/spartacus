@@ -1,19 +1,35 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   ViewChild,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import { AuthService, Product, isNotNullable } from '@spartacus/core';
-import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  AuthService,
+  Product,
+  TranslatePipe,
+  UrlPipe,
+  isNotNullable,
+  FeatureDirective,
+  useFeatureStyles,
+} from '@spartacus/core';
+import {
+  AtMessageDirective,
+  BtnLikeLinkDirective,
+  CurrentProductService,
+  ICON_TYPE,
+  IconComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
@@ -21,7 +37,17 @@ import { filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-add-to-wishlist',
   templateUrl: './add-to-wish-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    AtMessageDirective,
+    IconComponent,
+    BtnLikeLinkDirective,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    FeatureDirective,
+  ],
 })
 export class AddToWishListComponent {
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
@@ -51,7 +77,9 @@ export class AddToWishListComponent {
     protected wishListFacade: WishListFacade,
     protected currentProductService: CurrentProductService,
     protected authService: AuthService
-  ) {}
+  ) {
+    useFeatureStyles('a11yAddToWishListBtnMargin');
+  }
 
   add(product: Product): void {
     if (product.code) {

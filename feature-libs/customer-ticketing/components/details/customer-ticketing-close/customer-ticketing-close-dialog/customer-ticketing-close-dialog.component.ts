@@ -1,23 +1,44 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
 import {
   STATUS,
   STATUS_NAME,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
-import { FormUtils } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormUtils,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
   selector: 'cx-customer-ticketing-close-dialog',
   templateUrl: './customer-ticketing-close-dialog.component.html',
-  standalone: false,
+  imports: [
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgIf,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CustomerTicketingCloseDialogComponent
   extends CustomerTicketingDialogComponent

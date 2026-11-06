@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,8 +15,6 @@ export interface RenderingEntry {
 
   /**
    * Approximate size of the entry in bytes.
-   *
-   * It's used only when `ssrFeatureToggles.limitCacheByMemory` is set to true.
    */
   _size?: number;
 }

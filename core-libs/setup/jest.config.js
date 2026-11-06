@@ -16,6 +16,12 @@ module.exports = {
     // and: https://github.com/angular/angular-cli/pull/28726
     '^../third_party/beasties/index.js$':
       '<rootDir>/../../node_modules/beasties',
+    // Jest treats .mjs as ESM and double-wraps the default export during CJS interop,
+    // breaking `domino.impl` in platform-server's setDomTypes(). Redirect to a .js
+    // CJS wrapper that unwraps the default export correctly.
+    // See: https://github.com/angular/angular/pull/67851
+    '^../third_party/domino/bundled-domino\\.mjs$':
+      '<rootDir>/__mocks__/bundled-domino.js',
   },
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   transform: {

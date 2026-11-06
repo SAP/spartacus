@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { FeatureConfigService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   Budget,
@@ -34,13 +34,6 @@ class MockB2bUserService {
 
 class MockUnitFormService {}
 
-// TODO (CXSPA-5630): Remove mock next major release
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 describe('ChildUnitItemService', () => {
   let service: UnitUserItemService;
   let userService: B2BUserService;
@@ -52,10 +45,6 @@ describe('ChildUnitItemService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitFormService, useClass: MockUnitFormService },
         { provide: B2BUserService, useClass: MockB2bUserService },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     });
 
@@ -68,7 +57,7 @@ describe('ChildUnitItemService', () => {
   });
 
   it('should create item with unitUid', () => {
-    spyOn(userService, 'create').and.callThrough();
+    vi.spyOn(userService, 'create');
     const form = new UntypedFormGroup({});
     form.setControl('name', new UntypedFormControl('User name'));
     form.setControl(
@@ -89,7 +78,7 @@ describe('ChildUnitItemService', () => {
 
   it('should launch orgUnitChildren with unitUid uid', () => {
     const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     service.launchDetails({
       uid: 'uid',
       name: 'foo bar',

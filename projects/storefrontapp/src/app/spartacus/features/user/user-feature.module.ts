@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import {
 } from '@spartacus/user/account/assets';
 import {
   USER_ACCOUNT_FEATURE,
+  UserAccountConfig,
   UserAccountRootModule,
 } from '@spartacus/user/account/root';
 import {
@@ -38,6 +39,11 @@ import { environment } from '../../../../environments/environment';
 @NgModule({
   imports: [UserAccountRootModule, UserProfileRootModule],
   providers: [
+    provideConfig(<UserAccountConfig>{
+      userAccount: {
+        enableUserCurrencySync: false,
+      },
+    }),
     provideConfig(<CmsConfig>{
       featureModules: {
         [USER_ACCOUNT_FEATURE]: {

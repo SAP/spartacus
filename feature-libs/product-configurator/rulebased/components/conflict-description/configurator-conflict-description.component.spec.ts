@@ -1,41 +1,32 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorConflictDescriptionComponent } from './configurator-conflict-description.component';
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
 
 describe('ConfigurationConflictDescriptionComponent', () => {
   let component: ConfiguratorConflictDescriptionComponent;
   let fixture: ComponentFixture<ConfiguratorConflictDescriptionComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorConflictDescriptionComponent,
-        MockCxIconComponent,
-      ],
-      imports: [],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorConflictDescriptionComponent],
       providers: [],
     })
+      .overrideComponent(ConfiguratorConflictDescriptionComponent, {
+        remove: { imports: [IconComponent] },
+        add: { imports: [IconTestingModule] },
+      })
       .overrideComponent(ConfiguratorConflictDescriptionComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorConflictDescriptionComponent);

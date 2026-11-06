@@ -1,11 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { ProductImageZoomViewComponent } from '../product-image-zoom-view/product-image-zoom-view.component';
 import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog.component';
 
 class MockLaunchDialogService {
@@ -15,7 +22,6 @@ class MockLaunchDialogService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -24,7 +30,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-product-image-zoom-view',
   template: '',
-  standalone: false,
 })
 class MockProductImageZoomViewComponent {
   @Input() galleryIndex: number;
@@ -37,19 +42,33 @@ describe('ProductImageZoomDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
+      imports: [KeyboardFocusTestingModule, ProductImageZoomDialogComponent],
       providers: [
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
       ],
-      declarations: [
-        ProductImageZoomDialogComponent,
-        MockCxIconComponent,
-        MockProductImageZoomViewComponent,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductImageZoomDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            ProductImageZoomViewComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockProductImageZoomViewComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ProductImageZoomDialogComponent);
     component = fixture.componentInstance;
@@ -63,7 +82,7 @@ describe('ProductImageZoomDialogComponent', () => {
 
   describe('close', () => {
     beforeEach(() => {
-      spyOn(component, 'close').and.callThrough();
+      vi.spyOn(component, 'close');
     });
 
     it('should call close dialog on handleClick', () => {
@@ -82,7 +101,7 @@ describe('ProductImageZoomDialogComponent', () => {
     });
 
     it('should call close dialog with the close reason', () => {
-      spyOn(launchDialogService, 'closeDialog').and.callThrough();
+      vi.spyOn(launchDialogService, 'closeDialog');
 
       component.close('cross clicked');
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -90,7 +109,7 @@ describe('ProductImageZoomDialogComponent', () => {
       );
     });
     it('should call close dialog without the close reason', () => {
-      spyOn(launchDialogService, 'closeDialog').and.callThrough();
+      vi.spyOn(launchDialogService, 'closeDialog');
 
       component.close();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('');

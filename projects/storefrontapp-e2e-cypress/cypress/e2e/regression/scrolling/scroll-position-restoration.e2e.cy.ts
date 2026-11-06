@@ -1,8 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import { cmsEndpoints } from '../../../helpers/cms-endpoints';
 
 context('scroll Position Restoration', () => {
   it('should restore scroll position', () => {
@@ -10,7 +12,7 @@ context('scroll Position Restoration', () => {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/cms/pages`,
+      )}/${cmsEndpoints.pages}`,
       query: {
         pageType: 'ProductPage',
       },
@@ -20,7 +22,7 @@ context('scroll Position Restoration', () => {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/cms/pages`,
+      )}/${cmsEndpoints.pages}`,
       query: {
         pageType: 'CategoryPage',
       },
@@ -52,14 +54,13 @@ context('scroll Position Restoration', () => {
         cy.log('Go back to product list');
         cy.go(-1);
         waitForCategoryPageLoad();
+        cy.get('cx-product-list-item').should('have.length.at.least', 4);
         cy.window().its('scrollY').should('be.greaterThan', 0);
 
         cy.log('Go forward to product details');
         cy.go(1);
         verifyProductPageLoaded(productName);
-        cy.window().then(($window) => {
-          expect($window.scrollY).to.be.greaterThan(0);
-        });
+        cy.window().its('scrollY').should('be.greaterThan', 0);
       });
   });
 });

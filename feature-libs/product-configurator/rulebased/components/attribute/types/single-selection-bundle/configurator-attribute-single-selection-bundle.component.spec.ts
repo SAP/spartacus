@@ -1,30 +1,51 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, ProductConnector } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
+}
+
+class MockConfiguratorStorefrontUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(false);
+  }
+}
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -33,7 +54,7 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -42,7 +63,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -102,21 +123,16 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     return value;
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-      ],
-      declarations: [
         ConfiguratorAttributeSingleSelectionBundleComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
-        MockProductCardComponent,
-        MockConfiguratorPriceComponent,
-        MockConfiguratorAttributeQuantityComponent,
       ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
@@ -125,11 +141,30 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         { provide: ProductConnector, useClass: MockProductConnector },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionBundleComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [
+            ConfiguratorAttributeProductCardComponent,
+            ConfiguratorPriceComponent,
+            ConfiguratorAttributeQuantityComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockProductCardComponent,
+            MockConfiguratorPriceComponent,
+            MockConfiguratorAttributeQuantityComponent,
+          ],
           providers: [
             {
               provide: ConfiguratorAttributeProductCardComponent,
@@ -138,8 +173,11 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           ],
         },
       })
+      .overrideComponent(ConfiguratorAttributeSingleSelectionBundleComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     values = [
@@ -198,11 +236,14 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       values,
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
     };
+  });
 
-    fixture.detectChanges();
+  afterEach(() => {
+    fixture?.destroy();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 

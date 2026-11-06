@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslationService } from '@spartacus/core';
+import { ProductTypes, TranslationService } from '@spartacus/core';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { OutletContextData } from '@spartacus/storefront';
-import { ServiceDetailsCardComponent } from './service-details-card.component';
 import { of } from 'rxjs';
+import { ServiceDetailsCardComponent } from './service-details-card.component';
 
 class MockTranslationService {
   translate() {}
@@ -20,7 +20,7 @@ describe('ServiceDetailsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ServiceDetailsCardComponent],
+      imports: [ServiceDetailsCardComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: CheckoutServiceSchedulePickerService, useValue: {} },
@@ -35,11 +35,21 @@ describe('ServiceDetailsCardComponent', () => {
     component = fixture.componentInstance;
     translateService = TestBed.inject(TranslationService);
     pickerService = TestBed.inject(CheckoutServiceSchedulePickerService);
-    spyOn(translateService, 'translate')
-      .withArgs('serviceOrderCheckout.serviceDetails')
-      .and.returnValue(of('card title'))
-      .withArgs('serviceOrderCheckout.cardLabel')
-      .and.returnValue(of('card bold text'));
+    //   vi.spyOn(translateService, 'translate')
+    //     .withArgs('serviceOrderCheckout.serviceDetails')
+    //     .mockReturnValue(of('card title'))
+    //     .withArgs('serviceOrderCheckout.cardLabel')
+    //     .mockReturnValue(of('card bold text'));
+    vi.spyOn(translateService, 'translate').mockImplementation(
+      (key: string) => {
+        if (key === 'serviceOrderCheckout.serviceDetails') {
+          return of('card title');
+        }
+        if (key === 'serviceOrderCheckout.cardLabel') {
+          return of('card bold text');
+        }
+      }
+    );
   });
 
   it('should create', () => {
@@ -47,7 +57,7 @@ describe('ServiceDetailsCardComponent', () => {
   });
 
   it('should return card with details', () => {
-    spyOn(pickerService, 'convertDateTimeToReadableString').and.returnValue(
+    vi.spyOn(pickerService, 'convertDateTimeToReadableString').mockReturnValue(
       '2023/12/12, 12:00'
     );
     component.getServiceDetailsCard('2023/12/12TY12:00').subscribe((card) => {
@@ -69,7 +79,7 @@ describe('ServiceDetailsCardComponent', () => {
   });
 
   it('should call ngOnDestroy', () => {
-    spyOn(component['subscription'], 'unsubscribe');
+    vi.spyOn(component['subscription'], 'unsubscribe');
     component.ngOnDestroy();
     expect(component['subscription'].unsubscribe).toHaveBeenCalled();
   });
@@ -86,8 +96,8 @@ describe('ServiceDetailsCardComponent', () => {
   it('should show service details card in order summary only if order contains service products', () => {
     component.order = {
       entries: [
-        { product: { productTypes: 'SERVICE' } },
-        { product: { productTypes: 'PHYSICAL' } },
+        { product: { productTypes: ProductTypes.SERVICE } },
+        { product: { productTypes: ProductTypes.PHYSICAL } },
       ],
     } as any;
     expect(component.showServiceDetails()).toEqual(true);
@@ -95,8 +105,8 @@ describe('ServiceDetailsCardComponent', () => {
   it('should not show service details card in order summary if order doesnot contains service products', () => {
     component.order = {
       entries: [
-        { product: { productTypes: 'PHYSICAL' } },
-        { product: { productTypes: 'PHYSICAL' } },
+        { product: { productTypes: ProductTypes.PHYSICAL } },
+        { product: { productTypes: ProductTypes.PHYSICAL } },
       ],
     } as any;
     expect(component.showServiceDetails()).toEqual(false);

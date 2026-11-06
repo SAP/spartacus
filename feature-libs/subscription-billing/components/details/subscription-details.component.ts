@@ -1,51 +1,75 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { EventService } from '@spartacus/core';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import {
+  CxDatePipe,
+  EventService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   GetSubscriptionByCodeReloadEvent,
-  SubscriptionBillingFacade,
+  SubscriptionActionMode,
   SubscriptionDetail,
+  SubscriptionFacade,
 } from '@spartacus/subscription-billing/root';
-import { combineLatest, Observable, Subscription, take, tap } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgClass,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+    SpinnerComponent,
+  ],
 })
-export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
-  protected subscriptionFacade = inject(SubscriptionBillingFacade);
+export class SubscriptionDetailsComponent implements OnInit {
+  protected subscriptionFacade = inject(SubscriptionFacade);
   protected eventService = inject(EventService);
-  protected subscription = new Subscription();
+  protected launchDialogService = inject(LaunchDialogService);
 
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
-    this.subscriptionFacade.getSubscriptionByCode();
+    of(undefined);
 
   ngOnInit() {
-    this.subscription = combineLatest([
-      this.subscriptionDetails$,
-      this.subscriptionFacade.getSubscriptionCodeFromRoute(),
-    ])
-      .pipe(
-        take(1),
-        tap(([subscriptionDetails, subscriptionCode]) => {
-          if (
-            subscriptionDetails &&
-            subscriptionDetails.id !== subscriptionCode
-          ) {
-            this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
-          }
-        })
-      )
-      .subscribe();
+    this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
+    this.subscriptionDetails$ = this.subscriptionFacade.getSubscriptionByCode();
   }
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  showSubscriptionActionsDialog(mode: SubscriptionActionMode): void {
+    this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
+      if (!subscription) {
+        return;
+      }
+
+      const dataToPass = {
+        ...subscription,
+        code: subscription.id,
+        mode,
+      };
+
+      this.launchDialogService.openDialogAndSubscribe(
+        LAUNCH_CALLER.SUBSCRIPTION_ACTION_CONFIRMATION,
+        undefined,
+        dataToPass
+      );
+    });
   }
 }

@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,13 +17,21 @@ import {
   CartValidationStatusCode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { OCC_CART_ID_CURRENT } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  OCC_CART_ID_CURRENT,
+  TranslatePipe,
+} from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
   SelectFocusUtility,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 
@@ -30,7 +39,15 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'cx-reorder-dialog',
   templateUrl: './reorder-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    NgIf,
+    NgFor,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ReorderDialogComponent {
   iconTypes = ICON_TYPE;
@@ -49,6 +66,7 @@ export class ReorderDialogComponent {
 
   selectFocusUtility = inject(SelectFocusUtility);
   elementRef = inject(ElementRef, { optional: true });
+  protected globalMessageService = inject(GlobalMessageService);
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -59,14 +77,22 @@ export class ReorderDialogComponent {
   createCartFromOrder(orderCode: string): void {
     this.showDecisionPrompt$.next(false);
     this.loading$.next(true);
-    this.reorderOrderFacade
-      .reorder(orderCode)
-      .subscribe((cartModificationList: CartModificationList) => {
-        this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT);
+    this.reorderOrderFacade.reorder(orderCode).subscribe({
+      next: (cartModificationList: CartModificationList) => {
+        this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT, { active: true });
         this.cartModifications = cartModificationList.cartModifications;
         this.loading$.next(false);
         this.recaptureFocus();
-      });
+      },
+      error: () => {
+        this.globalMessageService.add(
+          { key: 'reorder.dialog.error' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+        this.loading$.next(false);
+        this.close('Error creating cart from order');
+      },
+    });
   }
 
   recaptureFocus(): void {

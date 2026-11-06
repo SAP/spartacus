@@ -7,20 +7,26 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import {
+  CxDatePipe,
   EntitiesModel,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
   SearchConfig,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { SortingComponent } from '@spartacus/storefront';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { PaginationTestingModule } from 'core-libs/storefront/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { OrderApprovalListComponent } from './order-approval-list.component';
-import createSpy = jasmine.createSpy;
-import { ActivatedRoute } from '@angular/router';
 
 const mockOrderApprovals: EntitiesModel<OrderApproval> = {
   pagination: {
@@ -77,7 +83,7 @@ class MockActivatedRoute {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
+  imports: [I18nTestingModule, UrlTestingModule, PaginationTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -99,7 +105,7 @@ class MockOrderApprovalService {
 }
 
 class MockRoutingService {
-  go = createSpy('go').and.stub();
+  go = vi.fn().mockImplementation(() => {});
 }
 
 describe('OrderApprovalListComponent?', () => {
@@ -111,15 +117,28 @@ describe('OrderApprovalListComponent?', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, UrlTestingModule, PaginationTestingModule],
-      declarations: [OrderApprovalListComponent, MockSortingComponent],
+      imports: [PaginationTestingModule, OrderApprovalListComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderApprovalListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SortingComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockSortingComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     orderApprovalService = TestBed.inject(OrderApprovalService);
     routingService = TestBed.inject(RoutingService);
@@ -162,7 +181,7 @@ describe('OrderApprovalListComponent?', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(orderApprovalService, 'getList').and.stub();
+    vi.spyOn(orderApprovalService, 'getList').mockImplementation(() => {});
 
     component.changeSortCode('byOrderNumber');
 
@@ -180,7 +199,9 @@ describe('OrderApprovalListComponent?', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(orderApprovalService, 'loadOrderApprovals').and.stub();
+    vi.spyOn(orderApprovalService, 'loadOrderApprovals').mockImplementation(
+      () => {}
+    );
 
     component.sortType = 'byDate';
     component.pageChange(1);
@@ -197,7 +218,7 @@ describe('OrderApprovalListComponent?', () => {
   });
 
   it('should go to details page when the table row is clicked', () => {
-    el.query(By.css('tr')).nativeElement.click();
+    el.query(By.css('tbody tr')).nativeElement.click();
 
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orderApprovalDetails',

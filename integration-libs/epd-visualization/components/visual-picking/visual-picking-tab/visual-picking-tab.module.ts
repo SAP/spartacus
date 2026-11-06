@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,9 @@ import { VisualPickingProductFilterModule } from './product-filter/visual-pickin
 import { VisualPickingProductListModule } from './product-list/visual-picking-product-list.module';
 import { VisualPickingTabComponent } from './visual-picking-tab.component';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -21,6 +24,7 @@ import { VisualPickingTabComponent } from './visual-picking-tab.component';
     VisualViewerModule,
     VisualPickingProductListModule,
     VisualPickingProductFilterModule,
+    VisualPickingTabComponent,
   ],
   providers: [
     provideDefaultConfig({
@@ -31,7 +35,6 @@ import { VisualPickingTabComponent } from './visual-picking-tab.component';
       },
     } as CmsConfig),
   ],
-  declarations: [VisualPickingTabComponent],
   exports: [VisualPickingTabComponent],
 })
 export class VisualPickingTabModule {}

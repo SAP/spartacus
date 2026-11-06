@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,9 +12,19 @@ import {
   HostBinding,
   inject,
 } from '@angular/core';
-import { B2BUnit, RoutingService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  B2BUnit,
+  FeatureToggles,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
+  BREAKPOINT,
+  BreakpointService,
+  IconComponent,
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
@@ -25,7 +36,7 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, AsyncPipe, RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')
@@ -35,6 +46,11 @@ export class ToggleLinkCellComponent extends CellComponent {
 
   protected elementRef = inject(ElementRef);
   protected routingService = inject(RoutingService);
+  private featureService = inject(FeatureToggles);
+
+  protected readonly isLargeScreen$ = inject(BreakpointService).isUp(
+    BREAKPOINT.lg
+  );
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
@@ -127,7 +143,9 @@ export class ToggleLinkCellComponent extends CellComponent {
     this.routingService
       ?.go({ cxRoute: this.route, params: this.routeModel })
       .then(() => {
-        this.restoreFocus();
+        if (!this.featureService.a11yCardNotificationMessage) {
+          this.restoreFocus();
+        }
       });
   }
 
@@ -152,17 +170,25 @@ export class ToggleLinkCellComponent extends CellComponent {
   onArrowRight(event: KeyboardEvent): void {
     if (!this.expanded && this.isSwitchable) {
       this.toggleItem(event);
-      this.restoreFocus();
+      if (!this.featureService.a11yCardNotificationMessage) {
+        this.restoreFocus();
+      }
     }
   }
 
   onArrowLeft(event: KeyboardEvent): void {
     if (this.expanded && this.isSwitchable) {
       this.toggleItem(event);
-      this.restoreFocus();
+      if (!this.featureService.a11yCardNotificationMessage) {
+        this.restoreFocus();
+      }
     }
   }
 
+  /**
+   * To be removed when a11yCardNotificationMessage is enabled.
+   * @deprecated
+   */
   restoreFocus(): void {
     const focusedElementId = document.activeElement?.id || '';
     this.unitTreeService.treeToggle$.pipe(take(1)).subscribe(() => {

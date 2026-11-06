@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,15 +12,19 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  FeatureToggles,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {
+  KeyboardFocusService,
   LAUNCH_CALLER,
   LaunchDialogService,
-  KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -34,17 +39,19 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { ConfiguratorGroupComponent } from '../group/configurator-group.component';
 
 @Component({
   selector: 'cx-configurator-form',
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, ConfiguratorGroupComponent, NgFor, AsyncPipe],
 })
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected keyboardFocusService = inject(KeyboardFocusService);
+  private featureToggles = inject(FeatureToggles);
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -145,8 +152,8 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       });
 
     this.routerData$.pipe(take(1)).subscribe((routingData) => {
-      //In case of resolving issues (if no conflict solver dialog is present!), check if the configuration contains conflicts,
-      //if not, check if the configuration contains missing mandatory fields and show the group
+      // Resolving issues (overview or cart banner): navigate to conflicts or the
+      // first incomplete group. Bundle line deep links use rowId only.
       if (routingData.resolveIssues) {
         this.configuratorCommonsService
           .hasConflicts(routingData.owner)
@@ -164,8 +171,17 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
               );
             }
           });
-      } else {
+      } else if (
+        routingData.rowId &&
+        this.featureToggles.productConfiguratorCPQContainer
+      ) {
         // Clear persisted focus before entering the configurator UI
+        this.keyboardFocusService.clear();
+        this.configuratorGroupsService.navigateToContainerRow(
+          routingData.owner,
+          routingData.rowId
+        );
+      } else {
         this.keyboardFocusService.clear();
       }
 

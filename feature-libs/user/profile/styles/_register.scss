@@ -12,5 +12,27 @@
       color: var(--cx-color-secondary);
       margin-bottom: 0;
     }
+
+    .form-group,
+    .form-check {
+      scroll-margin-bottom: $cx-anonymous-consent-banner-offset;
+    }
+
+    input,
+    select,
+    textarea,
+    ng-select,
+    button[type='submit'],
+    .cx-login-link {
+      &:focus {
+        scroll-margin-bottom: $cx-anonymous-consent-banner-offset;
+      }
+    }
+
+    @include forFeature('a11yRegistrationTermsAsteriskMargin') {
+      .form-check-label :is(a, button) + cx-form-required-asterisks {
+        margin-inline-start: 6px;
+      }
+    }
   }
 }

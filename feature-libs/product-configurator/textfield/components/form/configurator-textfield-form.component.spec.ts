@@ -1,5 +1,4 @@
-import { Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -77,15 +76,13 @@ describe('TextfieldFormComponent', () => {
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
   let textfieldService: ConfiguratorTextfieldService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         PageLayoutModule,
-      ],
-      declarations: [
         ConfiguratorTextfieldFormComponent,
         ConfiguratorTextfieldInputFieldComponent,
         ConfiguratorTextfieldAddToCartButtonComponent,
@@ -101,13 +98,11 @@ describe('TextfieldFormComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;
-    textfieldService = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
-    );
+    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
   });
 
   it('should create component', () => {
@@ -162,7 +157,7 @@ describe('TextfieldFormComponent', () => {
   });
 
   it('should call update configuration on facade in case it was triggered on component', () => {
-    spyOn(textfieldService, 'updateConfiguration').and.callThrough();
+    vi.spyOn(textfieldService, 'updateConfiguration');
     component.updateConfiguration(productConfig.configurationInfos[0]);
     expect(textfieldService.updateConfiguration).toHaveBeenCalledTimes(1);
   });

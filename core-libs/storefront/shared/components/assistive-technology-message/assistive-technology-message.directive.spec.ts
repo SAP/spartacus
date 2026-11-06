@@ -1,0 +1,139 @@
+import { Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  MockTranslatePipe,
+} from '@spartacus/core';
+import { of } from 'rxjs';
+import { AtMessageModule } from './assistive-technology-message.module';
+
+@Component({
+  template: `
+    <button class="cancel-btn" [cxAtMessage]="'common.cancel' | cxTranslate">
+      <span class="cancel-label">Action</span>
+    </button>
+    <button
+      class="results-btn"
+      [cxAtMessage]="'searchBox.productsResult' | cxTranslate: { count: 4 }"
+    >
+      Action
+    </button>
+    <button
+      class="confirm-btn"
+      [cxAtMessage]="[
+        'checkoutOrderConfirmation.thankYou' | cxTranslate,
+        'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate,
+      ]"
+    >
+      Action
+    </button>
+  `,
+  imports: [AtMessageModule, MockTranslatePipe],
+})
+class MockComponent {}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = vi.fn().mockImplementation(() => {});
+  remove = vi.fn().mockImplementation(() => {});
+  get = vi.fn().mockReturnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
+}
+describe('AtMessageDirective', () => {
+  let component: MockComponent;
+  let fixture: ComponentFixture<MockComponent>;
+  let globalMessageService: GlobalMessageService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [MockComponent],
+      providers: [
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(MockComponent);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    component = fixture.componentInstance;
+  });
+
+  function getCancelButton(): DebugElement {
+    return fixture.debugElement.query(By.css('.cancel-btn'));
+  }
+
+  function getResultsButton(): DebugElement {
+    return fixture.debugElement.query(By.css('.results-btn'));
+  }
+
+  function getConfirmationButton(): DebugElement {
+    return fixture.debugElement.query(By.css('.confirm-btn'));
+  }
+
+  it('should create test component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should add assistive global message on click', () => {
+    fixture.detectChanges();
+    getCancelButton().nativeElement.click();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'common.cancel',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should add assistive global message with parameters on click', () => {
+    fixture.detectChanges();
+    getResultsButton().nativeElement.click();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'searchBox.productsResult count:4',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should add assitive global message composed from two translations', () => {
+    const expectedMessage =
+      'checkoutOrderConfirmation.thankYou\n' +
+      'checkoutOrderConfirmation.invoiceHasBeenSentByEmail';
+    fixture.detectChanges();
+    getConfirmationButton().nativeElement.click();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      expectedMessage,
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should add assistive global message when clicking a child element of the host', () => {
+    fixture.detectChanges();
+    const childSpan =
+      getCancelButton().nativeElement.querySelector('.cancel-label');
+    childSpan.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'common.cancel',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should remove existing assistive message before adding the new one', () => {
+    const globalMessageService = TestBed.inject(GlobalMessageService);
+    vi.spyOn(globalMessageService, 'get').mockReturnValueOnce(
+      of({
+        [GlobalMessageType.MSG_TYPE_ASSISTIVE]: [{ raw: 'old message' }],
+      })
+    );
+
+    fixture.detectChanges();
+    getCancelButton().nativeElement.click();
+
+    expect(globalMessageService.remove).toHaveBeenCalledWith(
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'common.cancel',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+});

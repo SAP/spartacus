@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,11 +10,14 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  RoutingConfigService,
   RoutingService,
+  WindowRef,
 } from '@spartacus/core';
 
 import {
   OpfDynamicScript,
+  OpfHtmlContentMode,
   OpfKeyValueMap,
   OpfMetadataModel,
   OpfMetadataStoreService,
@@ -27,13 +30,15 @@ import {
 } from '@spartacus/opf/global-functions/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
-import { concatMap, filter, map, take, tap } from 'rxjs/operators';
+import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 import { OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
   OpfPaymentVerificationUrlInput,
 } from '../../model';
+const OPF_PAYMENT_VERIFICATION_QUERY_SEARCH_KEY =
+  'opfPaymentVerificationQuerySearch';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +51,8 @@ export class OpfPaymentVerificationService {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected globalFunctionsService = inject(OpfGlobalFunctionsFacade);
+  protected winRef = inject(WindowRef);
+  protected routingConfigService = inject(RoutingConfigService);
 
   opfDefaultPaymentError: HttpErrorModel = {
     statusText: 'Payment Verification Error',
@@ -61,6 +68,35 @@ export class OpfPaymentVerificationService {
       : [];
   }
 
+  /**
+   * Stores the redirect query string before OAuth bootstrap mutates `location.search`.
+   */
+  captureRedirectQueryString(): void {
+    if (!this.winRef.isBrowser()) {
+      return;
+    }
+
+    const pathname = this.winRef.location.pathname ?? '';
+    const isRedirectUrl = [OpfPage.RESULT_PAGE, OpfPage.CANCEL_PAGE].some(
+      (routeName) =>
+        (this.routingConfigService.getRouteConfig(routeName)?.paths ?? []).some(
+          (path) => pathname.endsWith(path.startsWith('/') ? path : `/${path}`)
+        )
+    );
+
+    if (!isRedirectUrl) {
+      return;
+    }
+
+    const search = this.winRef.location.search ?? '';
+    if (search) {
+      this.winRef.sessionStorage?.setItem(
+        OPF_PAYMENT_VERIFICATION_QUERY_SEARCH_KEY,
+        search
+      );
+    }
+  }
+
   protected findInParamsMap(
     key: string,
     list: Array<OpfKeyValueMap>
@@ -71,16 +107,38 @@ export class OpfPaymentVerificationService {
     this.routingService.go({ cxRoute });
   }
 
+  clearPaymentSessionForReinitiation(): void {
+    this.opfMetadataStoreService.updateOpfMetadata({
+      opfPaymentSessionId: undefined,
+      opfPaymentSessionConfigurationId: undefined,
+    });
+  }
+
   verifyResultUrl(route: ActivatedRoute): Observable<{
     paymentSessionId: string;
     paramsMap: Array<OpfKeyValueMap>;
     afterRedirectScriptFlag: string | undefined;
+    is3DSRedirect?: boolean;
   }> {
     let paramsMap: Array<OpfKeyValueMap>;
+    const is3DSRedirect = this.check3DSRedirectState();
+
+    const redirectQueryParams$ = this.winRef.isBrowser()
+      ? of(this.getParamsMap(this.getRedirectQueryParams()))
+      : route.queryParams.pipe(map((params) => this.getParamsMap(params)));
+
     return route?.routeConfig?.data?.cxRoute === OpfPage.RESULT_PAGE
-      ? route.queryParams.pipe(
-          concatMap((params: Params) => {
-            paramsMap = this.getParamsMap(params);
+      ? redirectQueryParams$.pipe(
+          concatMap((parsedParamsMap: Array<OpfKeyValueMap>) => {
+            paramsMap = parsedParamsMap;
+
+            if (is3DSRedirect) {
+              const storedState = this.get3DSRedirectState();
+              if (storedState?.paymentSessionId) {
+                return of(storedState.paymentSessionId);
+              }
+            }
+
             return this.getPaymentSessionId(paramsMap);
           }),
           concatMap((paymentSessionId: string | undefined) => {
@@ -98,6 +156,7 @@ export class OpfPaymentVerificationService {
                 OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG,
                 paramsMap
               ),
+              is3DSRedirect,
             });
           })
         )
@@ -105,6 +164,32 @@ export class OpfPaymentVerificationService {
           ...this.opfDefaultPaymentError,
           message: 'opfPayment.errors.cancelPayment',
         }));
+  }
+
+  protected getRedirectQueryParams(): Params {
+    const captured = this.winRef.sessionStorage?.getItem(
+      OPF_PAYMENT_VERIFICATION_QUERY_SEARCH_KEY
+    );
+
+    if (captured) {
+      this.winRef.sessionStorage?.removeItem(
+        OPF_PAYMENT_VERIFICATION_QUERY_SEARCH_KEY
+      );
+    }
+
+    const search = captured ?? this.winRef.location.search ?? '';
+    if (!search) {
+      return {};
+    }
+
+    const query = search.startsWith('?') ? search.slice(1) : search;
+    const params: Params = {};
+
+    new URLSearchParams(query).forEach((value, key) => {
+      params[key] = value;
+    });
+
+    return params;
   }
 
   protected getPaymentSessionId(
@@ -226,7 +311,7 @@ export class OpfPaymentVerificationService {
     return this.opfPaymentFacade.getAfterRedirectScripts(paymentSessionId).pipe(
       concatMap((response) => {
         if (!response?.afterRedirectScript) {
-          return throwError(this.opfDefaultPaymentError);
+          return throwError(() => this.opfDefaultPaymentError);
         }
         return from(
           this.renderAfterRedirectScripts(response.afterRedirectScript)
@@ -242,14 +327,12 @@ export class OpfPaymentVerificationService {
 
     return new Promise((resolve: (value: boolean) => void) => {
       this.opfResourceLoaderService
-        .loadResources(script.jsUrls, script.cssUrls)
+        .loadResources(script.jsUrls, script.cssUrls, undefined, script)
         .then(() => {
-          if (html) {
+          if (html && script?.htmlContentMode !== OpfHtmlContentMode.SEPARATE) {
             this.opfResourceLoaderService.executeScriptFromHtml(html);
-            resolve(true);
-          } else {
-            resolve(false);
           }
+          resolve(true);
         })
         .catch(() => {
           resolve(false);
@@ -263,4 +346,67 @@ export class OpfPaymentVerificationService {
     );
     this.opfResourceLoaderService.clearAllResources();
   }
+
+  protected check3DSRedirectState(): boolean {
+    const metadata = this.opfMetadataStoreService.opfMetadataState?.value;
+    return metadata?.is3DSRedirect === true;
+  }
+
+  protected get3DSRedirectState(): {
+    paymentSessionId: string;
+    returnPath: string;
+  } | null {
+    const metadata = this.opfMetadataStoreService.opfMetadataState?.value;
+    if (!metadata?.is3DSRedirect || !metadata?.opfPaymentSessionId) {
+      return null;
+    }
+
+    return {
+      paymentSessionId: metadata.opfPaymentSessionId,
+      returnPath: metadata.opf3DSRedirectReturnPath ?? '',
+    };
+  }
+
+  protected clear3DSRedirectState(): void {
+    this.opfMetadataStoreService.updateOpfMetadata({
+      is3DSRedirect: false,
+      opf3DSRedirectReturnPath: undefined,
+    });
+  }
+
+  run3DSRedirectPattern(
+    paymentSessionId: string,
+    paramsMap: Array<OpfKeyValueMap>,
+    vcr: ViewContainerRef
+  ): Observable<boolean> {
+    const storedState = this.get3DSRedirectState();
+
+    this.globalFunctionsService.registerGlobalFunctions({
+      domain: OpfGlobalFunctionsDomain.CHECKOUT,
+      paymentSessionId,
+      vcr,
+    });
+
+    return this.opfPaymentFacade
+      .submitCompletePayment({
+        paymentSessionId,
+        additionalData: paramsMap,
+        callbacks: {
+          onSuccess: () => {},
+          onPending: () => {},
+          onFailure: () => {},
+        },
+        returnPath: storedState?.returnPath,
+      })
+      .pipe(
+        finalize(() => {
+          this.clear3DSRedirectState();
+        })
+      );
+  }
+}
+
+export function captureOpfPaymentVerificationQueryFactory(): () => void {
+  const service = inject(OpfPaymentVerificationService);
+  return () => service.captureRedirectQueryString();
 }

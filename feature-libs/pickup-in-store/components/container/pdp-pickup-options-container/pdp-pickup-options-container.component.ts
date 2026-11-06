@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,14 +8,14 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  inject,
   OnDestroy,
   OnInit,
   Output,
   ViewContainerRef,
 } from '@angular/core';
-import { FeatureConfigService, Product } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   AugmentedPointOfService,
   getProperty,
@@ -41,6 +41,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { PickupOptionsComponent } from '../../presentational';
 
 /** Custom type guard to ensure we have a product a defined code */
 function isProductWithCode(
@@ -55,7 +56,7 @@ function isProductWithCode(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'pdp-pickup-options-container.component.html',
-  standalone: false,
+  imports: [PickupOptionsComponent, AsyncPipe, NgIf],
 })
 export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   @Output() intendedPickupChange = new EventEmitter<
@@ -68,9 +69,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   pickupOption$: Observable<PickupOption>;
   intendedPickupLocation$: Observable<AugmentedPointOfService | undefined>;
   private productCode: string;
-  private displayNameIsSet = false;
 
-  private featureConfigService = inject(FeatureConfigService);
   constructor(
     protected currentProductService: CurrentProductService,
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
@@ -109,7 +108,6 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       ),
       switchMap(({ intendedLocation, productCode }) => {
         if (intendedLocation?.displayName) {
-          this.displayNameIsSet = true;
           return of(getProperty(intendedLocation, 'displayName'));
         }
 
@@ -191,23 +189,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     option: PickupOption;
     triggerElement: ElementRef;
   }): void {
-    const { option, triggerElement } = event;
-
-    const handleChange = () => {
-      if (!this.featureConfigService.isEnabled('a11yPickupOptionsTabs')) {
-        if (option === 'delivery') {
-          return;
-        }
-        if (!this.displayNameIsSet) {
-          this.openDialog(triggerElement);
-        }
-      }
-    };
-
     this.intendedPickupLocationService.setPickupOption(
       this.productCode,
-      option
+      event.option
     );
-    handleChange();
   }
 }

@@ -1,17 +1,21 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Config, I18nTestingModule } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  I18nTestingModule,
+  LoggerTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import {
-  ICON_TYPE,
-  IconLoaderService,
-  IconModule,
-} from '@spartacus/storefront';
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { getTestScheduler } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
@@ -19,6 +23,7 @@ import { Configurator } from '../../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
+import { ConfiguratorMessageService } from '../../service/configurator-message.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
@@ -26,37 +31,24 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
 }
 
 @Component({
   selector: 'cx-configurator-show-options',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorShowOptionsComponent {
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
-}
-
-export class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
-  }
-
-  getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-circle';
-  }
-
-  addLinkResource() {}
-
-  getHtml(_iconType: ICON_TYPE) {}
-
-  getFlipDirection(): void {}
 }
 
 let isCartEntryOrGroupVisited = true;
@@ -69,6 +61,10 @@ class MockConfigUtilsService {
   focusValue(): void {}
 
   scrollToConfigurationElement(): void {}
+
+  idSelector(id: string): string {
+    return '#' + id;
+  }
 }
 
 const configWithoutConflicts: Configurator.Configuration =
@@ -93,10 +89,6 @@ class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
 }
 
-class MockConfig {
-  features = [{ enableReadDomainValuesOnDemand: false }];
-}
-
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
@@ -104,7 +96,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorUISettingsConfig: ConfiguratorUISettingsConfig;
-  let featuresConfig: Config;
+  let featureToggles: MockFeatureTogglesController;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -139,16 +131,15 @@ describe('ConfigAttributeHeaderComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        LoggerTestingModule,
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
         MockConfiguratorShowOptionsComponent,
       ],
       providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
@@ -165,21 +156,28 @@ describe('ConfigAttributeHeaderComponent', () => {
           provide: ConfiguratorUISettingsConfig,
           useValue: structuredClone(testConfiguratorUISettings),
         },
-
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        { provide: Config, useClass: MockConfig },
+        ...provideMockFeatureToggles({
+          productConfiguratorCPQContainer: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
         },
       })
+      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     config = configWithoutConflicts;
@@ -195,29 +193,24 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute.required = false;
     component.attribute.incomplete = true;
     component.attribute.domainOnDemand = false;
+    component.attribute.container = undefined;
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     component.isNavigationToGroupEnabled = true;
     component['logError'] = () => {};
-    featuresConfig = TestBed.inject(Config);
-    (featuresConfig.features ?? {}).enableReadDomainValuesOnDemand = false;
-    fixture.detectChanges();
 
-    configurationGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configurationGroupsService = TestBed.inject(ConfiguratorGroupsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configuratorUISettingsConfig = TestBed.inject(
-      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorUISettingsConfig = TestBed.inject(ConfiguratorUISettingsConfig);
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', false);
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -283,6 +276,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Render corresponding part of the component', () => {
     it('should not render message for not visible attribute', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -303,11 +297,12 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         'div.cx-hidden-msg',
-        'configurator.attribute.notVisibleAttributeMsg'
+        'WARNING configurator.attribute.notVisibleAttributeMsg'
       );
     });
 
     it('should render a label', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -334,15 +329,15 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should not render "Show Options" button if domainOnDemand is false', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         'cx-configurator-show-options'
       );
     });
-    it('should render "Show Options" button if domainOnDemand is true in case enableReadDomainValuesOnDemand feature flag is enabled', () => {
+    it('should render "Show Options" button if domainOnDemand is true', () => {
       component.attribute.domainOnDemand = true;
-      (featuresConfig.features ?? {}).enableReadDomainValuesOnDemand = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -362,6 +357,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render an image', () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -388,6 +384,226 @@ describe('ConfigAttributeHeaderComponent', () => {
         htmlElem,
         'cx-configurator-show-more'
       );
+    });
+
+    describe('container and typed messages with productConfiguratorCPQContainer', () => {
+      beforeEach(() => {
+        featureToggles.set('productConfiguratorCPQContainer', true);
+      });
+
+      it('should not render container row info if container is not present', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg'
+        );
+      });
+
+      it('should not render container row info if neither minRows nor maxRows is set', () => {
+        component.attribute.container = { rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg'
+        );
+      });
+
+      it('should render container row info when both minRows and maxRows are set', () => {
+        component.attribute.container = { minRows: 2, maxRows: 5, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerMinMaxRows maxRows:5 minRows:2'
+        );
+      });
+
+      it('should render container row info when only minRows is set', () => {
+        component.attribute.container = { minRows: 2, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerMinRows count:2'
+        );
+      });
+
+      it('should render container row info when only maxRows is set', () => {
+        component.attribute.container = { maxRows: 5, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerMaxRows count:5'
+        );
+      });
+
+      it('should render max-only info when minRows is 0', () => {
+        component.attribute.container = { minRows: 0, maxRows: 10, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerMaxRows count:10'
+        );
+      });
+
+      it('should render exact-count info when minRows equals maxRows', () => {
+        component.attribute.container = { minRows: 1, maxRows: 1, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg',
+          'configurator.attribute.containerExactRows count:1'
+        );
+      });
+
+      it('should not render container row info if minRows is 0 and maxRows is not set', () => {
+        component.attribute.container = { minRows: 0, rows: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-container-info-msg'
+        );
+      });
+
+      it('should not render error messages if container is not present', () => {
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-warning-msg'
+        );
+      });
+
+      it('should not render messages if the container message list is empty', () => {
+        component.attribute.container = { rows: [], messages: [] };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-warning-msg'
+        );
+      });
+
+      it('should render a warning message', () => {
+        component.attribute.container = {
+          rows: [],
+          messages: [
+            {
+              message: 'Too many units',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+          ],
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          'Too many units'
+        );
+      });
+
+      it('should render warning messages after the required message', () => {
+        component.attribute.required = true;
+        component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+        component.attribute.container = {
+          rows: [],
+          messages: [
+            {
+              message: 'Too many units',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+          ],
+        };
+        component.ngOnInit();
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-required-error-msg',
+          'configurator.attribute.singleSelectRequiredMessage'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          'Too many units'
+        );
+      });
+
+      it('should render multiple warning messages', () => {
+        component.attribute.container = {
+          rows: [],
+          messages: [
+            {
+              message: 'Too many units',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+            {
+              message: 'Invalid selection',
+              severity: Configurator.MessageSeverity.WARNING,
+            },
+          ],
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          2
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          'Too many units'
+        );
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-warning-msg',
+          'Invalid selection',
+          1
+        );
+      });
+
+      it('should render info messages for info severity', () => {
+        component.attribute.container = {
+          rows: [],
+          messages: [
+            {
+              message: 'Check quantity',
+              severity: Configurator.MessageSeverity.INFO,
+            },
+          ],
+        };
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-info-msg',
+          'Check quantity'
+        );
+      });
     });
   });
 
@@ -468,6 +684,41 @@ describe('ConfigAttributeHeaderComponent', () => {
         'singleSelectAdditionalRequiredMessage'
       );
     });
+
+    it('should return a default message key for container attribute type', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = {
+        minRows: 4,
+        rows: [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+        ],
+      };
+      expect(component.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+  });
+
+  describe('getContainerRequiredMessageKey', () => {
+    it('should return a container message with remaining products as count', () => {
+      component.attribute.container = {
+        minRows: 4,
+        rows: [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+        ],
+      };
+      expect(
+        component.getContainerRequiredMessageKey(
+          component.attribute.container.minRows,
+          component.attribute.container.rows
+        )
+      ).toEqual({
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: 2 },
+      });
+    });
   });
 
   describe('Required message at the attribute level', () => {
@@ -531,6 +782,28 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         '.cx-required-error-msg'
+      );
+    });
+
+    it('should render container required message with remaining products as count', () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.required = true;
+      component.attribute.container = {
+        minRows: 4,
+        rows: [
+          { id: '1', selected: true },
+          { id: '2', selected: true },
+        ],
+      };
+      component.showRequiredMessageForDomainAttribute$ = of(true);
+      fixture.detectChanges();
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-required-error-msg',
+        'configurator.attribute.containerRequiredMessage count:2'
       );
     });
   });
@@ -723,10 +996,41 @@ describe('ConfigAttributeHeaderComponent', () => {
   describe('Get conflict message key', () => {
     it("should return 'configurator.conflict.viewConflictDetails' conflict message key for attribute groups", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
-
+      component.isNavigationToGroupEnabled = true;
+      component.attribute.hasNonNavigableConflict = false;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConflictDetails'
+      );
+    });
+
+    it("should return 'configurator.conflict.nonNavigableConflict' conflict message key for attribute groups and attribute with non navigable conflict", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = true;
+      component.attribute.hasNonNavigableConflict = true;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.nonNavigableConflict'
+      );
+    });
+
+    it("should return 'configurator.conflict.conflictDetected' conflict message key for attriubte groups if navigation is disabled and conflict is navigable", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      component.attribute.hasNonNavigableConflict = false;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.conflictDetected'
+      );
+    });
+
+    it("should return 'configurator.conflict.nonNavigableConflict' conflict message key for attribute groups and attribute with non navigable conflict even if navigation is disabled", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      component.attribute.hasNonNavigableConflict = true;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.nonNavigableConflict'
       );
     });
 
@@ -741,6 +1045,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain label element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -784,10 +1089,10 @@ describe('ConfigAttributeHeaderComponent', () => {
     describe('Conflict message', () => {
       beforeEach(() => {
         component.attribute.hasConflicts = true;
-        fixture.detectChanges();
       });
 
       it("should contain label element for not required attribute with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -931,6 +1236,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       });
 
       it("should contain cx-icon element with 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -943,8 +1249,11 @@ describe('ConfigAttributeHeaderComponent', () => {
       });
     });
 
-    it("should contain div element with 'aria-label' attribute for required error message that defines an accessible name to label the current element", () => {
-      component.showRequiredMessageForDomainAttribute$ = of(true);
+    it("should contain div element with 'role=alert' for required error message so that it is announced once", () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.ngOnInit();
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -952,8 +1261,38 @@ describe('ConfigAttributeHeaderComponent', () => {
         'div',
         'cx-required-error-msg',
         undefined,
-        'aria-label',
+        'role',
+        'alert',
         'configurator.attribute.singleSelectRequiredMessage'
+      );
+      const message = htmlElem.querySelector(
+        '.cx-required-error-msg'
+      ) as HTMLElement;
+      expect(message.hasAttribute('aria-label')).toBe(false);
+      expect(message.hasAttribute('aria-live')).toBe(false);
+    });
+
+    it("should contain div element with 'aria-live' attribute for a container warning message", () => {
+      featureToggles.set('productConfiguratorCPQContainer', true);
+      component.attribute.container = {
+        rows: [],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+        ],
+      };
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-warning-msg',
+        undefined,
+        'aria-live',
+        'assertive',
+        'Too many units'
       );
     });
   });
@@ -964,7 +1303,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_1;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -978,7 +1317,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_1;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -991,7 +1330,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -1004,8 +1343,8 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       component.attribute.groupId = undefined;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
-      spyOn<any>(component, 'logError');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn<any>(component, 'logError');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -1027,12 +1366,12 @@ describe('ConfigAttributeHeaderComponent', () => {
           a: true,
           b: false,
         });
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(configurationLoading);
+        ).mockReturnValue(configurationLoading);
 
-        spyOn(configuratorStorefrontUtilsService, 'focusValue');
+        vi.spyOn(configuratorStorefrontUtilsService, 'focusValue');
 
         fixture.detectChanges();
         component['focusValue'](component.attribute);
@@ -1058,12 +1397,12 @@ describe('ConfigAttributeHeaderComponent', () => {
           a: true,
           b: false,
         });
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(configurationLoading);
+        ).mockReturnValue(configurationLoading);
 
-        spyOn(
+        vi.spyOn(
           configuratorStorefrontUtilsService,
           'scrollToConfigurationElement'
         );
@@ -1129,6 +1468,77 @@ describe('ConfigAttributeHeaderComponent', () => {
       ((configuratorUISettingsConfig.productConfigurator ??=
         {}).descriptions ??= {}).attributeDescriptionLength = 110;
       expect(component.getAttributeDescriptionLength()).toEqual(110);
+    });
+  });
+
+  describe('messages', () => {
+    it('should return empty arrays if container is not present', () => {
+      expect(component.getContainerMessages()).toEqual({
+        infoMessages: [],
+        errorMessages: [],
+        warningMessages: [],
+      });
+    });
+
+    it('should return empty arrays if list of messages is undefined', () => {
+      component.attribute.container = { rows: [] };
+      expect(component.getContainerMessages()).toEqual({
+        infoMessages: [],
+        errorMessages: [],
+        warningMessages: [],
+      });
+    });
+
+    it('should split messages by severity', () => {
+      component.attribute.container = {
+        rows: [],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+          {
+            message: 'Check quantity',
+            severity: Configurator.MessageSeverity.INFO,
+          },
+        ],
+      };
+      expect(component.getContainerMessages()).toEqual({
+        infoMessages: ['Check quantity'],
+        warningMessages: ['Too many units'],
+        errorMessages: [],
+      });
+    });
+
+    it('should pass error, warning, and info data to the message component', () => {
+      component.attribute.container = {
+        rows: [],
+        messages: [
+          {
+            message: 'Too many units',
+            severity: Configurator.MessageSeverity.WARNING,
+          },
+          {
+            message: 'Check quantity',
+            severity: Configurator.MessageSeverity.INFO,
+          },
+        ],
+      };
+
+      const groups = component.getMessageGroups();
+      const warnings = groups.find(
+        (group) => group.uiKeyPrefix === 'warning-msg'
+      );
+      const info = groups.find((group) => group.uiKeyPrefix === 'info-msg');
+
+      expect(warnings?.messages).toEqual(['Too many units']);
+      expect(warnings?.messageClass).toBe('cx-warning-msg');
+      expect(warnings?.showIcon).toBe(true);
+      expect(warnings?.uiKeyPrefix).toBe('warning-msg');
+      expect(info?.messages).toEqual(['Check quantity']);
+      expect(info?.messageClass).toBe('cx-info-msg');
+      expect(info?.showIcon).toBe(false);
+      expect(info?.uiKeyPrefix).toBe('info-msg');
     });
   });
 
@@ -1214,6 +1624,177 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
       expect(component['needsRequiredAttributeErrorMsg']()).toBe(true);
+    });
+  });
+
+  describe('isMultiSelection', () => {
+    it('returns true for CHECKBOXLIST', () => {
+      component.attribute.uiType = Configurator.UiType.CHECKBOXLIST;
+      expect(component['isMultiSelection']).toBe(true);
+    });
+
+    it('returns false for RADIOBUTTON', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      expect(component['isMultiSelection']).toBe(false);
+    });
+  });
+
+  describe('isContainerSelection', () => {
+    it('returns true for CONTAINER ui type', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      expect(component['isContainerSelection']()).toBe(true);
+    });
+
+    it('returns false for non-container ui types', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      expect(component['isContainerSelection']()).toBe(false);
+    });
+  });
+
+  describe('getMessageGroups', () => {
+    it('prepends required container message when showRequiredMessage is true', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = {
+        minRows: 3,
+        rows: [{ id: '1', selected: true }],
+      };
+
+      const groups = component.getMessageGroups(true);
+
+      expect(groups.map((group) => group.uiKeyPrefix)).toContain(
+        'required-msg'
+      );
+    });
+
+    it('prepends domain required message for non-container attributes', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.attribute.required = true;
+
+      const groups = component.getMessageGroups(true);
+
+      expect(groups[0].uiKeyPrefix).toBe('required-msg');
+      expect(groups[0].messages[0]).toEqual({
+        key: 'configurator.attribute.singleSelectRequiredMessage',
+      });
+    });
+
+    it('does not prepend required message when showRequiredMessage is false', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.attribute.required = true;
+
+      const groups = component.getMessageGroups(false);
+
+      expect(groups.some((group) => group.uiKeyPrefix === 'required-msg')).toBe(
+        false
+      );
+    });
+
+    it('does not prepend a required group when no message key is resolved', () => {
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.attribute.required = true;
+      vi.spyOn(component, 'getRequiredMessageKey').mockReturnValue('');
+
+      const groups = component.getMessageGroups(true);
+
+      expect(groups.some((group) => group.uiKeyPrefix === 'required-msg')).toBe(
+        false
+      );
+    });
+  });
+
+  describe('container message context callbacks', () => {
+    let configuratorMessageService: ConfiguratorMessageService;
+    let enrichSpy: ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      configuratorMessageService = TestBed.inject(ConfiguratorMessageService);
+      enrichSpy = vi.spyOn(
+        configuratorMessageService,
+        'enrichMessagesWithContainerContext'
+      );
+    });
+
+    function getLastEnrichContext() {
+      const lastCall = vi.mocked(enrichSpy).mock.lastCall;
+      if (!lastCall) {
+        throw new Error('enrichMessagesWithContainerContext was not called');
+      }
+      return lastCall[1];
+    }
+
+    it('wires the required-message callback passed by getContainerMessages', () => {
+      component.attribute.container = {
+        minRows: 4,
+        rows: [{ id: '1', selected: true }],
+      };
+
+      component.getContainerMessages();
+
+      const context = getLastEnrichContext();
+      expect(
+        context.getContainerRequiredMessageKey(4, [{ id: '1', selected: true }])
+      ).toEqual({
+        key: 'configurator.attribute.containerRequiredMessage',
+        params: { count: 3 },
+      });
+    });
+
+    it('wires the row-info callback passed by getMessageGroups for containers', () => {
+      component.attribute.uiType = Configurator.UiType.CONTAINER;
+      component.attribute.container = { minRows: 2, maxRows: 5, rows: [] };
+
+      component.getMessageGroups(true);
+
+      const context = getLastEnrichContext();
+      expect(context.getContainerRowInfoKey(2, 5)).toEqual({
+        key: 'configurator.attribute.containerMinMaxRows',
+        params: { minRows: 2, maxRows: 5 },
+      });
+    });
+  });
+
+  describe('logError', () => {
+    beforeEach(() => {
+      // the global beforeEach replaces logError with a no-op, restore the real one
+      delete (component as unknown as Record<string, unknown>)['logError'];
+    });
+
+    it('logs the given text via the logger service', () => {
+      const logger = component['logger'];
+      vi.spyOn(logger, 'error');
+
+      component['logError']('Attribute was not found in any conflict group.');
+
+      expect(logger.error).toHaveBeenCalledWith(
+        'Attribute was not found in any conflict group.'
+      );
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('emits true when group is visited and attribute needs required message', async () => {
+      isCartEntryOrGroupVisited = true;
+      component.attribute.required = true;
+      component.attribute.incomplete = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.ngOnInit();
+
+      const show = await firstValueFrom(
+        component.showRequiredMessageForDomainAttribute$
+      );
+      expect(show).toBe(true);
+    });
+
+    it('emits false when group has not been visited', async () => {
+      isCartEntryOrGroupVisited = false;
+      component.attribute.required = true;
+      component.attribute.incomplete = true;
+      component.ngOnInit();
+
+      const show = await firstValueFrom(
+        component.showRequiredMessageForDomainAttribute$
+      );
+      expect(show).toBe(false);
     });
   });
 });

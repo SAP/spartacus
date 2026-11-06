@@ -23,3 +23,7 @@
 
 // ORDER IMPORTANT: Spartacus styles last
 @import '@spartacus/styles';
+
+// CMS-driven base-site theme rules (must come after Spartacus styles so
+// the CSS custom properties override the defaults in `:root`).
+@import 'cms-themes';

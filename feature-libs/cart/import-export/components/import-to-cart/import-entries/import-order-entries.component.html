@@ -1,5 +1,6 @@
 <button
   *ngIf="orderEntriesContext$ | async as orderEntriesContext"
+  #open
   class="btn btn-tertiary cx-import-btn"
   (click)="openDialog(orderEntriesContext)"
 >

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import { CheckoutLoginComponent } from './checkout-login.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    CheckoutLoginComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -42,7 +43,6 @@ import { CheckoutLoginComponent } from './checkout-login.component';
       },
     }),
   ],
-  declarations: [CheckoutLoginComponent],
   exports: [CheckoutLoginComponent],
 })
 export class CheckoutLoginModule {}

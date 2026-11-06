@@ -6,16 +6,33 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Currency, CurrencyService, I18nTestingModule } from '@spartacus/core';
+import {
+  Currency,
+  CurrencyService,
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { FocusDirective, FormErrorsComponent } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import {
+  DatePickerComponent,
+  FocusDirective,
+  FormErrorsComponent,
+} from '@spartacus/storefront';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
+import { FormComponent } from '../../shared';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { BudgetItemService } from '../services/budget-item.service';
 import { BudgetFormComponent } from './budget-form.component';
@@ -54,7 +71,13 @@ class MockItemService {
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-date-picker',
   template: '',
-  standalone: false,
+  imports: [
+    I18nTestingModule,
+    UrlTestingModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    FormTestingModule,
+  ],
 })
 class MockDatePickerComponent {
   @Input() control: UntypedFormControl;
@@ -72,32 +95,50 @@ describe('BudgetFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        FormTestingModule,
-      ],
-      declarations: [
         BudgetFormComponent,
         FormErrorsComponent,
-        MockDatePickerComponent,
         FocusDirective,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: BudgetItemService, useClass: MockItemService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(BudgetFormComponent, {
+        remove: {
+          imports: [
+            FormComponent,
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            DatePickerComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            FormTestingModule,
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockDatePickerComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     currencyService = TestBed.inject(CurrencyService);
     b2bUnitService = TestBed.inject(OrgUnitService);
 
-    spyOn(currencyService, 'getAll').and.callThrough();
-    spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
-    spyOn(b2bUnitService, 'loadList').and.callThrough();
+    vi.spyOn(currencyService, 'getAll');
+    vi.spyOn(b2bUnitService, 'getActiveUnitList');
+    vi.spyOn(b2bUnitService, 'loadList');
   });
 
   beforeEach(() => {

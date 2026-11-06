@@ -13,6 +13,8 @@ const initialState: OpfMetadataModel = {
   isPaymentInProgress: false,
   opfPaymentSessionId: undefined,
   isTermsAndConditionsAlertClosed: false,
+  is3DSRedirect: false,
+  opf3DSRedirectReturnPath: undefined,
 };
 
 const state: OpfMetadataModel = {

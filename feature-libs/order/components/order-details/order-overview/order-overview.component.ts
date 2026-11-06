@@ -1,40 +1,65 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CartOutlets, DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
   CostCenter,
+  CxDatePipe,
+  FeatureToggles,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
+  useFeatureStyles,
 } from '@spartacus/core';
-import { Card, CmsComponentData } from '@spartacus/storefront';
-import { Observable, combineLatest, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { OrderDetailsService } from '../order-details.service';
 import {
   OrderConfig,
   OrderOutlets,
   paymentMethodCard,
 } from '@spartacus/order/root';
+import {
+  Card,
+  CardComponent,
+  CmsComponentData,
+  OutletDirective,
+} from '@spartacus/storefront';
+import { Observable, combineLatest, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { OrderDetailBillingComponent } from '../order-detail-billing/order-detail-billing.component';
+import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponentService } from './order-overview-component.service';
 
 @Component({
   selector: 'cx-order-overview',
   templateUrl: './order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    CardComponent,
+    OutletDirective,
+    NgTemplateOutlet,
+    OrderDetailBillingComponent,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+  ],
 })
 export class OrderOverviewComponent {
   protected orderOverviewComponentService = inject(
     OrderOverviewComponentService
   );
   protected orderConfig = inject(OrderConfig);
+  private featureToggles = inject(FeatureToggles);
   readonly cartOutlets = CartOutlets;
   readonly orderOutlets = OrderOutlets;
 
@@ -52,7 +77,9 @@ export class OrderOverviewComponent {
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,
     protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
-  ) {}
+  ) {
+    useFeatureStyles('orderOverviewCardsInlinePadding');
+  }
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(
@@ -169,7 +196,7 @@ export class OrderOverviewComponent {
     ]).pipe(
       map(([textTitle, textAccount, textCard]) => ({
         title: textTitle,
-        text: [Boolean(hasPaymentInfo) ? textCard : textAccount],
+        text: [hasPaymentInfo ? textCard : textAccount],
       }))
     );
   }
@@ -192,10 +219,14 @@ export class OrderOverviewComponent {
         const formattedAddress = this.normalizeFormattedAddress(
           deliveryAddress.formattedAddress ?? ''
         );
+        const fullName = `${deliveryAddress.firstName} ${deliveryAddress.lastName}`;
 
         return {
           title: textTitle,
-          textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
+          textBold:
+            this.featureToggles.addTitleToAddressCard && !!deliveryAddress.title
+              ? `${deliveryAddress.title} ${fullName}`
+              : fullName,
           text: [formattedAddress, deliveryAddress.country?.name],
         } as Card;
       })
@@ -228,8 +259,8 @@ export class OrderOverviewComponent {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
       this.translation.translate('paymentCard.expires', {
-        month: Boolean(payment) ? payment.expiryMonth : '',
-        year: Boolean(payment) ? payment.expiryYear : '',
+        month: payment ? payment.expiryMonth : '',
+        year: payment ? payment.expiryYear : '',
       }),
     ]).pipe(
       filter(() => Boolean(payment)),
@@ -248,17 +279,17 @@ export class OrderOverviewComponent {
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
     return this.translation.translate('paymentForm.billingAddress').pipe(
       filter(() => Boolean(billingAddress)),
-      map(
-        (textTitle) =>
-          ({
-            title: textTitle,
-            textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
-            text: [
-              billingAddress.formattedAddress,
-              billingAddress.country?.name,
-            ],
-          }) as Card
-      )
+      map((textTitle) => {
+        const fullName = `${billingAddress.firstName} ${billingAddress.lastName}`;
+        return {
+          title: textTitle,
+          textBold:
+            this.featureToggles.addTitleToAddressCard && !!billingAddress.title
+              ? `${billingAddress.title} ${fullName}`
+              : fullName,
+          text: [billingAddress.formattedAddress, billingAddress.country?.name],
+        } as Card;
+      })
     );
   }
 

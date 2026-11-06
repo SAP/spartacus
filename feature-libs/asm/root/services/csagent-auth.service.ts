@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -100,13 +100,16 @@ export class CsAgentAuthService {
       .subscribe((token) => (userToken = token))
       .unsubscribe();
 
-    this.authStorageService.switchTokenTargetToCSAgent();
     try {
-      await this.oAuthLibWrapperService.initLoginFlow();
+      // Persist emulation state BEFORE the full-page redirect. initLoginFlow() navigates
+      // away, so anything after it does not run reliably; the agent token arrives later in
+      // AsmAuthService.checkOAuthParamsInUrl() on return.
       this.store.dispatch(new AuthActions.Logout());
 
       if (customerId !== undefined && userToken !== undefined) {
         // OCC specific user id handling. Customize when implementing different backend
+        // isEmulated is set to true before switchTokenTargetToCSAgent() so that
+        // isUserLoggedIn() stays true throughout and no spurious LogoutEvent fires.
         this.userIdService.setUserId(customerId);
         this.authStorageService.setEmulatedUserToken(userToken);
         this.store.dispatch(new AuthActions.Login());
@@ -115,6 +118,9 @@ export class CsAgentAuthService {
         this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
         this.authStorageService.clearEmulatedUserToken();
       }
+
+      this.authStorageService.switchTokenTargetToCSAgent();
+      await this.oAuthLibWrapperService.initLoginFlow();
     } catch {
       this.authStorageService.switchTokenTargetToUser();
     }
@@ -144,9 +150,16 @@ export class CsAgentAuthService {
       this.authStorageService.getToken(),
       this.authStorageService.getTokenTarget(),
     ]).pipe(
-      map(([token, tokenTarget]) =>
-        Boolean(token?.access_token && tokenTarget === TokenTarget.CSAgent)
-      )
+      map(([token, tokenTarget]) => {
+        const emulatedUserToken =
+          this.authStorageService.getEmulatedUserToken();
+
+        return Boolean(
+          token?.access_token &&
+            tokenTarget === TokenTarget.CSAgent &&
+            token.access_token !== emulatedUserToken?.access_token
+        );
+      })
     );
   }
 

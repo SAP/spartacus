@@ -9,15 +9,12 @@ describe('OrderOverviewDeliveryDateComponent', () => {
   let fixture: ComponentFixture<OrderOverviewDeliveryDateComponent>;
 
   const translationServiceMock = {
-    translate: jasmine
-      .createSpy('translate')
-      .and.returnValue(of('Translated Text')),
+    translate: vi.fn().mockReturnValue(of('Translated Text')),
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OrderOverviewDeliveryDateComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, OrderOverviewDeliveryDateComponent],
       providers: [
         { provide: TranslationService, useValue: translationServiceMock },
       ],
@@ -62,7 +59,7 @@ describe('OrderOverviewDeliveryDateComponent', () => {
   });
 
   it('should unsubscribe from subscription on component destruction', () => {
-    spyOn(component['subscription'], 'unsubscribe');
+    vi.spyOn(component['subscription'], 'unsubscribe');
     component.ngOnDestroy();
     expect(component['subscription'].unsubscribe).toHaveBeenCalled();
   });

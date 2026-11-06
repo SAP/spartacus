@@ -6,34 +6,48 @@ on:
       - develop-*
       - release/*
 
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
 
 concurrency: 
   group: lighthouse-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 name: Lighthouse
+
+permissions:
+  contents: read
+  actions: write
+  
 jobs:
+  detect_changes:
+    name: Lighthouse - Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      RUN_CHECKS: ${{ steps.detect_code_changes.outputs.RUN_CHECKS }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Detect code changes
+        id: detect_code_changes
+        uses: ./.github/actions/detect-changes
+
   lighthouse:
+    needs: [detect_changes]
     name: Lighthouse score validation
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v4
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: | 
             node_modules
@@ -41,6 +55,15 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Cache Nx build artifacts
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            .nx/cache
+            .nx/workspace-data
+          key: nx-lighthouse-${{ github.sha }}
+          restore-keys: |
+            nx-lighthouse-
       - name: Package installation
         run: npm ci
       - name: Run lighthouse score validation

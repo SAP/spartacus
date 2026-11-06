@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,6 +43,7 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    ForgotPasswordComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -66,6 +67,5 @@ import { ForgotPasswordComponent } from './forgot-password.component';
       },
     }),
   ],
-  declarations: [ForgotPasswordComponent],
 })
 export class ForgotPasswordModule {}

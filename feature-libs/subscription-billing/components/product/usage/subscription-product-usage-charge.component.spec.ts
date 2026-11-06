@@ -1,13 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { SubscriptionProductUsageChargeComponent } from './subscription-product-usage-charge.component';
 import { Pipe, PipeTransform, signal } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UsageChargeType } from '../../../root/model';
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+import { SubscriptionProductUsageChargeComponent } from './subscription-product-usage-charge.component';
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(_value: string): any {
     return '';
@@ -80,20 +77,21 @@ const mockProduct2 = signal({ sapPricePlan: {} });
 describe('SubscriptionProductUsageChargeComponent', () => {
   let component: SubscriptionProductUsageChargeComponent;
   let fixture: ComponentFixture<SubscriptionProductUsageChargeComponent>;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [
-        MockTranslatePipe,
-        SubscriptionProductUsageChargeComponent,
-      ],
+      imports: [SubscriptionProductUsageChargeComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslateService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SubscriptionProductUsageChargeComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(SubscriptionProductUsageChargeComponent);
     component = fixture.componentInstance;
-  }));
+  });
   it('should be created', () => {
     Object.defineProperty(component, 'product', {
       get: () => signal(null),

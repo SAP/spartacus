@@ -1,32 +1,49 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
   AuthConfigService,
   ConsentTemplate,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
   useFeatureStyles,
 } from '@spartacus/core';
-import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
+import {
+  CaptchaComponent,
+  CustomFormValidators,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  NgSelectA11yDirective,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+  sortTitles,
+} from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -35,21 +52,36 @@ import { RegisterComponentService } from './register-component.service';
 @Component({
   selector: 'cx-register',
   templateUrl: './register.component.html',
-  standalone: false,
   host: { ngSkipHydration: 'true' },
+  imports: [
+    NgIf,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    PasswordVisibilityToggleDirective,
+    NgFor,
+    RouterLink,
+    CaptchaComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   // CXSPA-10916: Remove service with toggle
-  private featureConfigService = inject(FeatureConfigService);
-
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'enableSecurePasswordValidation'
-  )
-    ? CustomFormValidators.securePasswordValidators
-    : [
-        ...CustomFormValidators.passwordValidators,
-        CustomFormValidators.noConsecutiveCharacters,
-      ];
+  private featureToggles = inject(FeatureToggles);
+  protected passwordValidators = this.featureToggles
+    .useEnhancedSecurePasswordValidators
+    ? [
+        ...CustomFormValidators.securePasswordValidators,
+        CustomFormValidators.mustEndWithLegalCharacter,
+      ]
+    : CustomFormValidators.securePasswordValidators;
 
   titles$: Observable<Title[]>;
 
@@ -112,7 +144,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService
   ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
+    useFeatureStyles('a11yRegistrationTermsAsteriskMargin');
   }
 
   ngOnInit() {
@@ -226,7 +258,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   protected onRegisterUserSuccess(): void {
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+    if (this.featureToggles.authorizationCodeFlowByDefault) {
       this.router.go({ cxRoute: 'login' });
     } else if (
       this.authConfigService.getOAuthFlow() ===
@@ -242,8 +274,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.anonymousConsentsConfig?.anonymousConsents?.registerConsent;
 
     if (registerConsent) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      if (Boolean(this.registerForm.get('newsletter')!.value)) {
+      if (this.registerForm.get('newsletter')?.value) {
         this.anonymousConsentsService.giveConsent(registerConsent);
       } else {
         this.anonymousConsentsService.withdrawConsent(registerConsent);

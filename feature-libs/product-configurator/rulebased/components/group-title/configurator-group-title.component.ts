@@ -1,23 +1,24 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  AfterContentChecked,
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   OnDestroy,
   OnInit,
-  AfterContentChecked,
 } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
-  ICON_TYPE,
-  HamburgerMenuService,
   BREAKPOINT,
   BreakpointService,
+  HamburgerMenuComponent,
+  HamburgerMenuService,
+  ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
@@ -31,16 +32,25 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-group-title',
   templateUrl: './configurator-group-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, HamburgerMenuComponent, AsyncPipe],
 })
 export class ConfiguratorGroupTitleComponent
   implements OnInit, OnDestroy, AfterContentChecked
 {
-  @HostBinding('class.ghost') ghostStyle = true;
   protected subscription = new Subscription();
   protected readonly PRE_HEADER = '.PreHeader';
   protected readonly ADD_TO_CART_BUTTON = 'cx-configurator-add-to-cart-button';
   protected focusFirstElementInMobileGroupList = false;
+
+  /**
+   * @deprecated since 221121.23 - Prefer the `#ghostGroup` template
+   * (`.cx-ghost-group-title.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when the group resolves. This flag is still cleared when data arrives for
+   * compatibility; it no longer affects the host. Will be removed in the next
+   * major.
+   */
+  ghostStyle = true;
 
   displayedGroup$: Observable<Configurator.Group> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -52,6 +62,7 @@ export class ConfiguratorGroupTitleComponent
         )
       )
     );
+
   iconTypes = ICON_TYPE;
 
   constructor(

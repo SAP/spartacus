@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
-import * as NgrxStore from '@ngrx/store';
-import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
+import { MemoizedSelector } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
   GeoPoint,
   GlobalMessageService,
@@ -8,16 +8,14 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { StoreFinderConfig } from '../config/store-finder-config';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { StoreFinderSelectors } from '../store';
 import { StoreFinderActions } from '../store/actions/index';
-import * as fromStoreReducers from '../store/reducers/index';
 import {
   FindStoresState,
   StateWithStoreFinder,
-  StoresState,
-  STORE_FINDER_FEATURE,
 } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
 
@@ -33,6 +31,29 @@ class MockRoutingService implements Partial<RoutingService> {
 
 class MockStoreFinderConfig {
   radius: 50000;
+}
+
+const longitudeLatitude: GeoPoint = {
+  longitude: 10.1,
+  latitude: 20.2,
+};
+
+class LocalMockWinRef extends MockWinRef {
+  private readonly _nativeWindow = {
+    navigator: {
+      geolocation: {
+        watchPosition: (callback) => {
+          callback({ coords: longitudeLatitude });
+          return 1;
+        },
+        clearWatch: () => {},
+      },
+    },
+  } as unknown as Window;
+
+  override get nativeWindow(): Window {
+    return this._nativeWindow;
+  }
 }
 
 const location: PointOfService = {
@@ -138,94 +159,70 @@ const location: PointOfService = {
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
-  let store: Store<StoresState>;
+  let store: MockStore<StateWithStoreFinder>;
   let winRef: WindowRef;
   let routingService: RoutingService;
 
   const queryText = 'test';
 
   const storeId = 'shop_los_angeles_1';
-  const geolocationWatchId = 1;
-
-  const longitudeLatitude: GeoPoint = {
-    longitude: 10.1,
-    latitude: 20.2,
-  };
-
-  const MockWindowRef = {
-    nativeWindow: {
-      navigator: {
-        geolocation: {
-          watchPosition: (callback) => {
-            callback({ coords: longitudeLatitude });
-            return geolocationWatchId;
-          },
-          clearWatch: () => {},
-        },
-      },
-    },
-  };
 
   const mockStoreEntities: FindStoresState = {
     findStoresEntities: { pointOfServices: [] },
     findStoreEntityById: {},
   };
-  const storeLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  const storeLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  const storeEntities$: BehaviorSubject<FindStoresState> = new BehaviorSubject(
-    mockStoreEntities
-  );
 
-  const mockSelect = (
-    selector: MemoizedSelector<StateWithStoreFinder, FindStoresState | boolean>
-  ) => {
-    switch (selector) {
-      case StoreFinderSelectors.getStoresLoading:
-        return () => storeLoading$.asObservable();
-      case StoreFinderSelectors.getStoresSuccess:
-        return () => storeLoaded$.asObservable();
-      case StoreFinderSelectors.getFindStoresEntities:
-        return () => storeEntities$.asObservable();
-      default:
-        return () => EMPTY;
-    }
-  };
+  let mockSelectLoading: MemoizedSelector<StateWithStoreFinder, boolean>;
+  let mockSelectSuccess: MemoizedSelector<StateWithStoreFinder, boolean>;
+  let mockSelectEntities: MemoizedSelector<
+    StateWithStoreFinder,
+    FindStoresState
+  >;
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
-
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          STORE_FINDER_FEATURE,
-          fromStoreReducers.getReducers()
-        ),
-      ],
       providers: [
         StoreFinderService,
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: LocalMockWinRef },
         { provide: RoutingService, useClass: MockRoutingService },
         GlobalMessageService,
         { provide: StoreFinderConfig, useClass: MockStoreFinderConfig },
+        provideMockStore(),
       ],
     });
 
+    store = TestBed.inject(MockStore);
+
+    mockSelectLoading = store.overrideSelector(
+      StoreFinderSelectors.getStoresLoading as MemoizedSelector<
+        StateWithStoreFinder,
+        boolean
+      >,
+      true
+    );
+    mockSelectSuccess = store.overrideSelector(
+      StoreFinderSelectors.getStoresSuccess as MemoizedSelector<
+        StateWithStoreFinder,
+        boolean
+      >,
+      true
+    );
+    mockSelectEntities = store.overrideSelector(
+      StoreFinderSelectors.getFindStoresEntities as MemoizedSelector<
+        StateWithStoreFinder,
+        FindStoresState
+      >,
+      mockStoreEntities
+    );
+
     service = TestBed.inject(StoreFinderService);
-    store = TestBed.inject(Store);
     winRef = TestBed.inject(WindowRef);
     routingService = TestBed.inject(RoutingService);
 
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(
-      winRef.nativeWindow.navigator.geolocation,
-      'watchPosition'
-    ).and.callThrough();
-    spyOn(
-      winRef.nativeWindow.navigator.geolocation,
-      'clearWatch'
-    ).and.callThrough();
-    spyOn(routingService, 'getParams').and.returnValue(EMPTY);
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(winRef.nativeWindow.navigator.geolocation, 'watchPosition');
+    vi.spyOn(winRef.nativeWindow.navigator.geolocation, 'clearWatch');
+    routerParam$.next({});
   });
 
   it('should inject StoreFinderService', inject(
@@ -272,6 +269,10 @@ describe('StoreFinderService', () => {
 
   describe('Find Stores with My Location', () => {
     it('should dispatch a OnHold action and a FindStores action', () => {
+      const spyWatchPosition = vi.spyOn(
+        winRef.nativeWindow.navigator.geolocation,
+        'watchPosition'
+      );
       service.findStoresAction(
         queryText,
         { currentPage: 0 },
@@ -284,9 +285,7 @@ describe('StoreFinderService', () => {
         new StoreFinderActions.FindStoresOnHold()
       );
 
-      expect(
-        winRef.nativeWindow.navigator.geolocation.watchPosition
-      ).toHaveBeenCalled();
+      expect(spyWatchPosition).toHaveBeenCalled();
     });
   });
 
@@ -312,13 +311,18 @@ describe('StoreFinderService', () => {
 
   describe('Reload store entities on context change', () => {
     beforeEach(() => {
-      storeLoaded$.next(false);
-      storeLoading$.next(false);
+      mockSelectLoading.setResult(false);
+      mockSelectSuccess.setResult(false);
+      store.refreshState();
     });
 
     it('should dispatch findStores action on context change', () => {
       routerParam$.next({ country: 'US' });
-      storeEntities$.next({ findStoresEntities: {}, findStoreEntityById: {} });
+      mockSelectEntities.setResult({
+        findStoresEntities: {},
+        findStoreEntityById: {},
+      });
+      store.refreshState();
       expect(store.dispatch).toHaveBeenCalledWith(
         new StoreFinderActions.FindStores({
           queryText: '',
@@ -334,7 +338,11 @@ describe('StoreFinderService', () => {
 
     it('should dispatch viewStoreById action on context change', () => {
       routerParam$.next({ store: storeId });
-      storeEntities$.next({ findStoresEntities: {}, findStoreEntityById: {} });
+      mockSelectEntities.setResult({
+        findStoresEntities: {},
+        findStoreEntityById: {},
+      });
+      store.refreshState();
       expect(store.dispatch).toHaveBeenCalledWith(
         new StoreFinderActions.FindStoreById({ storeId })
       );

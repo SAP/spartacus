@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -156,10 +156,11 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   }
 
   getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
-    return this.checkoutQueryFacade
-      .getCheckoutDetailsState()
-      .pipe(
-        map((state) => ({ ...state, data: state.data?.purchaseOrderNumber }))
-      );
+    return combineLatest([
+      this.checkoutQueryFacade.getCheckoutDetailsState(),
+      this.activeCartFacade.getActive(),
+    ]).pipe(
+      map(([state, cart]) => ({ ...state, data: cart?.purchaseOrderNumber }))
+    );
   }
 }

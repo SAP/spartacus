@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,8 +17,9 @@ import {
   inject,
 } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+
 /**
  * Generic in-memory paged list component that can be used to render arbitrary items in
  * a vertical orientation.
@@ -25,12 +27,14 @@ import { Observable } from 'rxjs';
  *
  * To allow for flexible rendering of items, the rendering is delegated to the
  * given `template` and `headerTemplate`.
+ *
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @Component({
   selector: 'cx-epd-visualization-paged-list',
   templateUrl: './paged-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgTemplateOutlet, NgFor, IconComponent, SlicePipe],
 })
 export class PagedListComponent implements OnInit {
   /**

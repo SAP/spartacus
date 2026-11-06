@@ -25,7 +25,6 @@ describe('consent reference interceptor', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: ProfileTagEventService,

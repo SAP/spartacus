@@ -1,14 +1,21 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   OrderReturnRequestFacade,
   ReturnRequestList,
 } from '@spartacus/order/root';
 import { ListNavigationModule } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
 const mockReturns: ReturnRequestList = {
@@ -32,10 +39,7 @@ class ActivatedRouteMock {
   constructor(public snapshot: any) {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -66,10 +70,9 @@ describe('OrderReturnRequestListComponent', () => {
   let fixture: ComponentFixture<OrderReturnRequestListComponent>;
   let returnService: OrderReturnRequestFacade;
   let el: DebugElement;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [ListNavigationModule, I18nTestingModule],
-      declarations: [OrderReturnRequestListComponent, MockUrlPipe],
+      imports: [ListNavigationModule, OrderReturnRequestListComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -84,10 +87,19 @@ describe('OrderReturnRequestListComponent', () => {
           useClass: MockTranslationService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderReturnRequestListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     returnService = TestBed.inject(OrderReturnRequestFacade);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderReturnRequestListComponent);
@@ -131,7 +143,9 @@ describe('OrderReturnRequestListComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(returnService, 'loadOrderReturnRequestList').and.stub();
+    vi.spyOn(returnService, 'loadOrderReturnRequestList').mockImplementation(
+      () => {}
+    );
 
     component.changeSortCode('byOrderNumber');
 
@@ -143,18 +157,15 @@ describe('OrderReturnRequestListComponent', () => {
     );
   });
 
-  it('getSortLabels ', (done) => {
-    component
-      .getSortLabels()
-      .subscribe((labels) => {
-        expect(labels).toEqual({ byDate: 'sortLabel', byRMA: 'sortLabel' });
-        done();
-      })
-      .unsubscribe();
+  it('getSortLabels ', async () => {
+    const labels = await firstValueFrom(component.getSortLabels());
+    expect(labels).toEqual({ byDate: 'sortLabel', byRMA: 'sortLabel' });
   });
 
   it('should set correctly page', () => {
-    spyOn(returnService, 'loadOrderReturnRequestList').and.stub();
+    vi.spyOn(returnService, 'loadOrderReturnRequestList').mockImplementation(
+      () => {}
+    );
 
     component.sortType = 'byDate';
     component.pageChange(1);
@@ -167,7 +178,9 @@ describe('OrderReturnRequestListComponent', () => {
   });
 
   it('should clear return  requests data when component destroy', () => {
-    spyOn(returnService, 'clearOrderReturnRequestList').and.stub();
+    vi.spyOn(returnService, 'clearOrderReturnRequestList').mockImplementation(
+      () => {}
+    );
 
     component.ngOnDestroy();
     expect(returnService.clearOrderReturnRequestList).toHaveBeenCalledWith();
@@ -188,7 +201,6 @@ describe('OrderReturnRequestListComponent', () => {
 
     const sortComponents = el.queryAll(By.css('cx-sorting'));
     expect(sortComponents.length).toBe(2);
-    console.log(sortComponents);
     expect(
       sortComponents[1].query(
         By.css('input[aria-controls="order-return-table"]')

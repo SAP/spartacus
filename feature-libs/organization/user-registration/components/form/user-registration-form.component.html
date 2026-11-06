@@ -10,18 +10,20 @@
         formControlName="titleCode"
         [searchable]="false"
         [clearable]="false"
-        [items]="titles$ | async"
+        [items]="(titles$ | async) ?? []"
         bindLabel="name"
         bindValue="code"
         placeholder="{{
           'userRegistrationForm.fields.titleCode.placeholder' | cxTranslate
         }}"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
         [cxNgSelectA11y]="{
           ariaLabel:
             'userRegistrationForm.fields.titleCode.label' | cxTranslate,
         }"
-      >
-      </ng-select>
+      />
     </label>
 
     <label>
@@ -51,7 +53,7 @@
           label: 'userRegistrationForm.fields.firstName.label' | cxTranslate,
         }"
         [control]="registerForm.get('firstName')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -81,7 +83,7 @@
           label: 'userRegistrationForm.fields.lastName.label' | cxTranslate,
         }"
         [control]="registerForm.get('lastName')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -110,7 +112,7 @@
           label: 'userRegistrationForm.fields.companyName.label' | cxTranslate,
         }"
         [control]="registerForm.get('companyName')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -140,7 +142,7 @@
           label: 'userRegistrationForm.fields.email.label' | cxTranslate,
         }"
         [control]="registerForm.get('email')"
-      ></cx-form-errors>
+      />
     </label>
 
     <ng-container
@@ -163,19 +165,21 @@
           placeholder="{{
             'userRegistrationForm.fields.country.placeholder' | cxTranslate
           }}"
+          ariaLabelDropdown="{{
+            'common.ngSelectDropdownOptionsList' | cxTranslate
+          }}"
           [cxNgSelectA11y]="{
             ariaLabel:
               'userRegistrationForm.fields.country.label' | cxTranslate,
           }"
-        >
-        </ng-select>
+        />
 
         <cx-form-errors
           [translationParams]="{
             label: 'userRegistrationForm.fields.country.label' | cxTranslate,
           }"
           [control]="registerForm.get('country.isocode')"
-        ></cx-form-errors>
+        />
       </label>
     </ng-container>
 
@@ -203,7 +207,7 @@
           label: 'userRegistrationForm.fields.addressLine.label' | cxTranslate,
         }"
         [control]="registerForm.get('line1')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -224,10 +228,7 @@
         "
         [attr.aria-errormessage]="'line2Error'"
       />
-      <cx-form-errors
-        id="line2Error"
-        [control]="registerForm.get('line2')"
-      ></cx-form-errors>
+      <cx-form-errors id="line2Error" [control]="registerForm.get('line2')" />
     </label>
 
     <label>
@@ -246,10 +247,7 @@
         "
         [attr.aria-errormessage]="'townError'"
       />
-      <cx-form-errors
-        id="townError"
-        [control]="registerForm.get('town')"
-      ></cx-form-errors>
+      <cx-form-errors id="townError" [control]="registerForm.get('town')" />
     </label>
 
     <label>
@@ -276,7 +274,7 @@
           label: 'userRegistrationForm.fields.postalCode.label' | cxTranslate,
         }"
         [control]="registerForm.get('postalCode')"
-      ></cx-form-errors>
+      />
     </label>
 
     <ng-container *ngIf="regions$ | async as regions" formGroupName="region">
@@ -296,18 +294,20 @@
             'userRegistrationForm.fields.state.placeholder' | cxTranslate
           }}"
           id="region-select"
+          ariaLabelDropdown="{{
+            'common.ngSelectDropdownOptionsList' | cxTranslate
+          }}"
           [cxNgSelectA11y]="{
             ariaLabel: 'userRegistrationForm.fields.state.label' | cxTranslate,
           }"
-        >
-        </ng-select>
+        />
 
         <cx-form-errors
           [translationParams]="{
             label: 'userRegistrationForm.fields.state.label' | cxTranslate,
           }"
           [control]="registerForm.get('region.isocode')"
-        ></cx-form-errors>
+        />
       </label>
     </ng-container>
 
@@ -335,7 +335,7 @@
           label: 'userRegistrationForm.fields.phoneNumber.label' | cxTranslate,
         }"
         [control]="registerForm.get('phoneNumber')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -362,7 +362,7 @@
           label: 'userRegistrationForm.fields.message.label' | cxTranslate,
         }"
         [control]="registerForm.get('message')"
-      ></cx-form-errors>
+      />
     </label>
 
     <button type="submit" class="btn btn-block btn-primary">
@@ -377,5 +377,5 @@
 </section>
 
 <ng-template #loading>
-  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-spinner"><cx-spinner /></div>
 </ng-template>

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import { CheckoutGuard } from '../guards/checkout.guard';
 import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, CheckoutOrchestratorComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -24,7 +24,6 @@ import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component
       },
     }),
   ],
-  declarations: [CheckoutOrchestratorComponent],
   exports: [CheckoutOrchestratorComponent],
 })
 export class CheckoutOrchestratorModule {}

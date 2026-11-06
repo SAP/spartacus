@@ -1,16 +1,23 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Country,
+  CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Region,
   Title,
   Translatable,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import {
@@ -18,7 +25,7 @@ import {
   NgSelectA11yDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { Observable, of, throwError } from 'rxjs';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
@@ -113,10 +120,7 @@ class MockUserRegistrationFormService
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -129,20 +133,18 @@ describe('UserRegistrationFormComponent', () => {
 
   let userRegistrationFormService: UserRegistrationFormService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [
         UserRegistrationFormComponent,
-        MockUrlPipe,
         NgSelectA11yDirective,
         SpinnerComponent,
-        MockFeatureDirective,
+        I18nTestingModule,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -154,11 +156,23 @@ describe('UserRegistrationFormComponent', () => {
           useClass: MockGlobalMessageService,
         },
       ],
+    }).overrideComponent(UserRegistrationFormComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+      },
+      add: {
+        imports: [
+          MockTranslatePipe,
+          MockDatePipe,
+          MockUrlPipe,
+          MockFeatureDirective,
+        ],
+      },
     });
 
     userRegistrationFormService = TestBed.inject(UserRegistrationFormService);
     msgServcie = TestBed.inject(GlobalMessageService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserRegistrationFormComponent);
@@ -172,7 +186,7 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should initialize registerForm', () => {
-    spyOnProperty(userRegistrationFormService, 'form', 'get').and.callThrough();
+    vi.spyOn(userRegistrationFormService, 'form', 'get');
 
     expect(component.registerForm).toBeInstanceOf(FormGroup);
   });
@@ -204,7 +218,7 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should submit form and call the service', () => {
-    spyOn(userRegistrationFormService, 'registerUser').and.callThrough();
+    vi.spyOn(userRegistrationFormService, 'registerUser');
     component.registerForm.patchValue({
       ...mockOrganizationUser,
       companyName: 'New Company Inc.',
@@ -221,14 +235,14 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should show error message if service response failed ', () => {
-    spyOn(userRegistrationFormService, 'registerUser').and.returnValue(
+    vi.spyOn(userRegistrationFormService, 'registerUser').mockReturnValue(
       throwError(() => new Error('Simulated error'))
     );
     component.registerForm.patchValue({
       ...mockOrganizationUser,
       companyName: 'New Company Inc.',
     });
-    spyOn(msgServcie, 'add').and.callThrough();
+    vi.spyOn(msgServcie, 'add');
     component.registerForm.markAllAsTouched();
 
     component.submit();
@@ -242,7 +256,7 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should not register organization user with invalid form', () => {
-    spyOn(userRegistrationFormService, 'registerUser').and.callThrough();
+    vi.spyOn(userRegistrationFormService, 'registerUser');
     component.registerForm.reset();
     component.registerForm.patchValue({
       firstName: mockOrganizationUser.firstName,

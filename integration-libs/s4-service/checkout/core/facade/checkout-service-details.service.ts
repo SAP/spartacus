@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import {
   Command,
   CommandStrategy,
   QueryState,
+  ProductTypes,
 } from '@spartacus/core';
 import { Observable, combineLatest, take, map, switchMap, tap } from 'rxjs';
 import {
@@ -100,7 +101,7 @@ export class CheckoutServiceDetailsService
       map((entries: OrderEntry[]) => {
         return entries
           .map((entry: OrderEntry) => {
-            if (entry.product?.productTypes === 'SERVICE') {
+            if (entry.product?.productTypes === ProductTypes.SERVICE) {
               return entry.product?.code;
             } else {
               return '';

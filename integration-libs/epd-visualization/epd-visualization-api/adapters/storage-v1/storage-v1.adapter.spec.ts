@@ -25,7 +25,6 @@ describe('StorageV1Adapter', () => {
   describe('getNodes', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [],
         providers: [
           provideConfigFactory(getTestConfig),
           provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),

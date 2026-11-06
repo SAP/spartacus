@@ -6,23 +6,30 @@ import {
   Input,
   NO_ERRORS_SCHEMA,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
 } from '@spartacus/asm/root';
-import { HttpErrorModel, I18nTestingModule } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  HttpErrorModel,
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { AsmCreateCustomerFormComponent } from './asm-create-customer-form.component';
 import { CreatedCustomer } from './asm-create-customer-form.model';
-import createSpy = jasmine.createSpy;
 
 const createdCustomerData: CreatedCustomer = {
   firstName: 'John',
@@ -80,14 +87,13 @@ const duplicatedUidErrorResponse: HttpErrorModel = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog = createSpy();
+  closeDialog = vi.fn();
 
   data$ = of(createdCustomerData);
 }
@@ -98,12 +104,13 @@ class MockAsmCreateCustomerFacade implements Partial<AsmCreateCustomerFacade> {
   }
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
+}
+
+export class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = vi.fn();
 }
 
 describe('AsmCreateCustomerFormComponent', () => {
@@ -113,27 +120,36 @@ describe('AsmCreateCustomerFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let asmCreateCustomerFacade: AsmCreateCustomerFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmCreateCustomerFormComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
-      ],
+      imports: [I18nTestingModule, AsmCreateCustomerFormComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: AsmCreateCustomerFacade,
           useClass: MockAsmCreateCustomerFacade,
         },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCreateCustomerFormComponent, {
+        remove: {
+          imports: [IconComponent, FocusDirective, TranslatePipe],
+        },
+        add: {
+          imports: [
+            MockCxIconComponent,
+            MockKeyboadFocusDirective,
+            MockTranslatePipe,
+          ],
+        },
+      })
+      .compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
     asmCreateCustomerFacade = TestBed.inject(AsmCreateCustomerFacade);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmCreateCustomerFormComponent);
@@ -159,7 +175,7 @@ describe('AsmCreateCustomerFormComponent', () => {
   });
 
   it('should submit form and call the service', () => {
-    spyOn(asmCreateCustomerFacade, 'createCustomer').and.callThrough();
+    vi.spyOn(asmCreateCustomerFacade, 'createCustomer');
     component.registerForm.patchValue(createdCustomerData);
 
     component.submitForm();
@@ -173,7 +189,7 @@ describe('AsmCreateCustomerFormComponent', () => {
   });
 
   it('should not register user with invalid form', () => {
-    spyOn(asmCreateCustomerFacade, 'createCustomer').and.callThrough();
+    vi.spyOn(asmCreateCustomerFacade, 'createCustomer');
     component.registerForm.reset();
     component.registerForm.patchValue({
       firstName: createdCustomerData.firstName,
@@ -213,7 +229,7 @@ describe('AsmCreateCustomerFormComponent', () => {
   });
 
   it('should close modal when create account successfully', () => {
-    spyOn(asmCreateCustomerFacade, 'createCustomer').and.callThrough();
+    vi.spyOn(asmCreateCustomerFacade, 'createCustomer');
     component.registerForm.patchValue(createdCustomerData);
 
     component.submitForm();

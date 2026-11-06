@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 import { OccConfig } from '@spartacus/core';
 
 const PRICE_HEADER_FIELDS =
-  ',totalPrice(formattedValue),quoteDiscounts(formattedValue),orderDiscounts(formattedValue),productDiscounts(formattedValue)';
+  ',totalPrice(formattedValue),quoteDiscounts(formattedValue),orderDiscounts(formattedValue),productDiscounts(formattedValue),sapSubtotalExcludingOrderLevelDiscount(formattedValue)';
 
 export const defaultOccQuoteConfig: OccConfig = {
   backend: {

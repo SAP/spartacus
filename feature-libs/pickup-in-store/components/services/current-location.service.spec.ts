@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { CurrentLocationService } from './current-location.service';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
-export const MockWindowRef = {
-  nativeWindow: {
+export class MockWindowRef extends MockWinRef {
+  private _nativeWindow = {
     navigator: {
       geolocation: {
         getCurrentPosition: (
@@ -27,8 +28,11 @@ export const MockWindowRef = {
           } as GeolocationPosition),
       },
     },
-  },
-};
+  } as Window;
+  override get nativeWindow(): Window {
+    return this._nativeWindow;
+  }
+}
 
 describe('CurrentLocationService', () => {
   let service: CurrentLocationService;
@@ -40,7 +44,7 @@ describe('CurrentLocationService', () => {
         CurrentLocationService,
         {
           provide: WindowRef,
-          useValue: MockWindowRef,
+          useClass: MockWindowRef,
         },
       ],
     });
@@ -57,21 +61,22 @@ describe('CurrentLocationService', () => {
     });
 
     it('should get the current location from the browser API', () => {
-      spyOn(
-        (windowRef.nativeWindow as Window).navigator.geolocation,
+      const getCurrentPosSpy = vi.spyOn(
+        windowRef.nativeWindow.navigator.geolocation,
         'getCurrentPosition'
-      ).and.callThrough();
+      );
 
-      const successCallback: PositionCallback = jasmine.createSpy();
+      const successCallback: PositionCallback = vi.fn();
       const errorCallback: PositionErrorCallback = () => {};
       const options: PositionOptions = {};
 
       service.getCurrentLocation(successCallback, errorCallback, options);
 
-      expect(
-        (windowRef.nativeWindow as Window).navigator.geolocation
-          .getCurrentPosition
-      ).toHaveBeenCalledWith(successCallback, errorCallback, options);
+      expect(getCurrentPosSpy).toHaveBeenCalledWith(
+        successCallback,
+        errorCallback,
+        options
+      );
       expect(successCallback).toHaveBeenCalled();
     });
   });
@@ -83,7 +88,7 @@ describe('CurrentLocationService', () => {
     });
 
     it('should do nothing if the native window is undefined', () => {
-      const successCallback: PositionCallback = jasmine.createSpy();
+      const successCallback: PositionCallback = vi.fn();
       const errorCallback: PositionErrorCallback = () => {};
       const options: PositionOptions = {};
 
@@ -99,7 +104,9 @@ export class MockCurrentLocationService {
     errorCallback?: PositionErrorCallback | null,
     options?: PositionOptions
   ): void {
-    MockWindowRef.nativeWindow.navigator.geolocation.getCurrentPosition(
+    (
+      new MockWindowRef().nativeWindow as Window
+    ).navigator.geolocation.getCurrentPosition(
       successCallback,
       errorCallback,
       options

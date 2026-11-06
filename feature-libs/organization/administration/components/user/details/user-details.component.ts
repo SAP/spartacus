@@ -1,16 +1,29 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  B2BUser,
+  B2BUserRight,
+  B2BUserRole,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+import { CardComponent } from '../../shared/card/card.component';
+import { DisableInfoComponent } from '../../shared/detail/disable-info/disable-info.component';
+import { ToggleStatusComponent } from '../../shared/detail/toggle-status-action/toggle-status.component';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { ItemService } from '../../shared/item.service';
 import { UserItemService } from '../services/user-item.service';
-import { B2BUserService } from '@spartacus/organization/administration/core';
 
 @Component({
   selector: 'cx-org-user-details',
@@ -23,7 +36,20 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
     },
   ],
   host: { class: 'content-wrapper' },
-  standalone: false,
+  imports: [
+    NgIf,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    ToggleStatusComponent,
+    DisableInfoComponent,
+    ItemExistsDirective,
+    NgFor,
+    RouterLinkActive,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class UserDetailsComponent {
   userGuardSubscription: Subscription;

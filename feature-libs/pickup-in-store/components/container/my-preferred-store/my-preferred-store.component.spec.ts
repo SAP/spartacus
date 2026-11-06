@@ -5,8 +5,7 @@ import {
   CmsConfig,
   CmsService,
   ConfigModule,
-  FeatureConfigService,
-  FeaturesConfigModule,
+  FeatureStylesService,
   I18nTestingModule,
   Page,
   PointOfService,
@@ -17,23 +16,16 @@ import {
   PickupLocationsSearchFacade,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { StoreLocationService } from '@spartacus/storefinder/core';
+import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { CardModule, IconTestingModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { MyPreferredStoreComponent } from './my-preferred-store.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
-}
-
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
 }
 
 class MockCmsService {
@@ -188,11 +180,9 @@ describe('MyPreferredStoreComponent', () => {
   let routingService: RoutingService;
   let cmsService: CmsService;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MyPreferredStoreComponent],
       imports: [
         CardModule,
         CommonModule,
@@ -206,6 +196,7 @@ describe('MyPreferredStoreComponent', () => {
             },
           },
         } as CmsConfig),
+        MyPreferredStoreComponent,
       ],
       providers: [
         { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
@@ -217,20 +208,13 @@ describe('MyPreferredStoreComponent', () => {
         { provide: StoreFinderFacade, useClass: MockStoreLocationService },
         { provide: StoreLocationService, useClass: MockStoreLocationService },
         { provide: CmsService, useClass: MockCmsService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
-      .overrideModule(FeaturesConfigModule, {
-        set: {
-          declarations: [MockFeatureDirective],
-          exports: [MockFeatureDirective],
-        },
-      })
+
       .compileComponents();
     cmsService = TestBed.inject(CmsService);
     routingService = TestBed.inject(RoutingService);
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   beforeEach(() => {
@@ -250,17 +234,17 @@ describe('MyPreferredStoreComponent', () => {
   });
 
   it('should changeStore', () => {
-    spyOn(routingService, 'go');
+    vi.spyOn(routingService, 'go');
     component.changeStore();
     expect(routingService.go).toHaveBeenCalledWith(['/store-finder']);
   });
 
   it('should show the link', () => {
-    spyOn(component, 'getDirectionsToStore');
-    spyOn(
+    vi.spyOn(component, 'getDirectionsToStore');
+    vi.spyOn(
       pickupLocationsSearchService,
       'loadAndGetStoreDetails'
-    ).and.returnValue(of(mockStore));
+    ).mockReturnValue(of(mockStore));
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -273,13 +257,13 @@ describe('MyPreferredStoreComponent', () => {
   });
 
   it('should show action link and a button', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(
+    vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
       of({ pageId: 'someOtherPage' })
     );
-    spyOn(
+    vi.spyOn(
       pickupLocationsSearchService,
       'loadAndGetStoreDetails'
-    ).and.returnValue(of(mockStore));
+    ).mockReturnValue(of(mockStore));
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -292,17 +276,40 @@ describe('MyPreferredStoreComponent', () => {
     );
     expect(changeStoreButton.textContent).toEqual(' Change Store ');
   });
+});
 
-  it('should cover deprecated code to pass global coverage threshold', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(
-      of({ pageId: 'someOtherPage' })
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('MyPreferredStoreComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [MyPreferredStoreComponent, I18nTestingModule],
+      providers: [
+        { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
+        {
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: StoreFinderFacade, useClass: MockStoreLocationService },
+        { provide: StoreLocationService, useClass: MockStoreLocationService },
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(MyPreferredStoreComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
     );
-    spyOn(
-      pickupLocationsSearchService,
-      'loadAndGetStoreDetails'
-    ).and.returnValue(of(mockStore));
-    spyOn(featureConfigService, 'isEnabled').and.returnValues(false, true);
-    component.ngOnInit();
-    expect(fixture.debugElement.nativeElement).toBeDefined();
   });
 });

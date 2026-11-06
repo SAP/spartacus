@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import {
 } from '@spartacus/core';
 import { BtnLikeLinkModule, PageSlotModule } from '@spartacus/storefront';
 import { LoginAsGuestGuard } from '../guards/login-as-guest.guard';
+import { LoginRegisterB2BComponent } from './login-register-b2b/login-register-b2b.component';
 import { LoginRegisterComponent } from './login-register.component';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { LoginRegisterComponent } from './login-register.component';
     PageSlotModule,
     I18nModule,
     BtnLikeLinkModule,
+    LoginRegisterComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -36,7 +38,14 @@ import { LoginRegisterComponent } from './login-register.component';
         },
       },
     }),
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ReturningOrganizationUserRegisterComponent: {
+          component: LoginRegisterB2BComponent,
+          guards: [NotAuthGuard],
+        },
+      },
+    }),
   ],
-  declarations: [LoginRegisterComponent],
 })
 export class LoginRegisterModule {}

@@ -35,7 +35,7 @@ describe('OpfCtaButton', () => {
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [OpfCtaElementComponent],
+      imports: [OpfCtaElementComponent],
       providers: [
         { provide: OpfCtaScriptsService, useValue: opfCtaScriptsServiceMock },
       ],

@@ -1,7 +1,9 @@
-import { Component, Input, EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Component, EventEmitter, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FeatureDirective } from '@spartacus/core';
+import { CarouselComponent } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const firstImage = {
   zoom: {
@@ -28,12 +30,9 @@ const secondImage = {
   selector: 'cx-carousel',
   template: `
     <ng-container *ngFor="let item of items">
-      <ng-container
-        *ngTemplateOutlet="template; context: { item: item }"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="template; context: { item: item }" />
     </ng-container>
   `,
-  standalone: false,
 })
 class MockCarouselComponent {
   @Input() items;
@@ -46,15 +45,16 @@ describe('ProductImageZoomThumbnailsComponent', () => {
   let productImageZoomThumbnailsComponent: ProductImageZoomThumbnailsComponent;
   let fixture: ComponentFixture<ProductImageZoomThumbnailsComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProductImageZoomThumbnailsComponent,
-        MockCarouselComponent,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
-  }));
+      imports: [ProductImageZoomThumbnailsComponent],
+    })
+      .overrideComponent(ProductImageZoomThumbnailsComponent, {
+        remove: { imports: [CarouselComponent, FeatureDirective] },
+        add: { imports: [MockCarouselComponent, MockFeatureDirective] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImageZoomThumbnailsComponent);
@@ -69,7 +69,7 @@ describe('ProductImageZoomThumbnailsComponent', () => {
 
   describe('openImage', () => {
     it('should emit event with image and index', () => {
-      spyOn(productImageZoomThumbnailsComponent.productImage, 'emit');
+      vi.spyOn(productImageZoomThumbnailsComponent.productImage, 'emit');
 
       productImageZoomThumbnailsComponent.openImage(firstImage);
 

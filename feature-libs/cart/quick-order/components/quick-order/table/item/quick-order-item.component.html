@@ -12,7 +12,7 @@
         [container]="entry?.product?.images?.PRIMARY"
         [alt]="entry?.product?.name"
         format="cartIcon"
-      ></cx-media>
+      />
     </a>
     <div class="cx-info">
       <div class="cx-name">
@@ -41,18 +41,15 @@
 </td>
 
 <td role="cell" class="cx-quantity">
-  <div *cxFeature="'a11yQTY2Quantity'" class="cx-mobile-header">
+  <div class="cx-mobile-header">
     {{ 'quickOrderTable.quantityFull' | cxTranslate }}
-  </div>
-  <div *cxFeature="'!a11yQTY2Quantity'" class="cx-mobile-header">
-    {{ 'quickOrderTable.qty' | cxTranslate }}
   </div>
   <div class="cx-value">
     <cx-item-counter
       [control]="quantityControl"
       [max]="entry.product?.stock?.stockLevel"
       [readonly]="loading"
-    ></cx-item-counter>
+    />
   </div>
 </td>
 

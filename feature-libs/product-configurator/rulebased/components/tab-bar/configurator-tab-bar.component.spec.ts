@@ -1,22 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-
 import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -89,14 +78,6 @@ class MockConfigUtilsService {
 
 class MockConfiguratorGroupsService {}
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 describe('ConfigTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
@@ -106,14 +87,13 @@ describe('ConfigTabBarComponent', () => {
   let routingService: RoutingService;
   let keyboardFocusService: KeyboardFocusService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockRouterState = structuredClone(mockRouterStateBase);
     mockRouterState.state.params.displayOnly = false;
 
     routerStateObservable = of(mockRouterState);
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterModule],
-      declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
+    await TestBed.configureTestingModule({
+      imports: [RouterModule, ConfiguratorTabBarComponent],
       providers: [
         {
           provide: RoutingService,
@@ -134,12 +114,18 @@ describe('ConfigTabBarComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorTabBarComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [I18nTestingModule],
         },
       })
+      .overrideComponent(ConfiguratorTabBarComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
-  }));
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;
@@ -150,33 +136,39 @@ describe('ConfigTabBarComponent', () => {
         ConfiguratorModelUtils.createInitialOwner()
       )
     );
-    component.ghostStyle = false;
-
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
-    spyOn(keyboardFocusService, 'clear').and.callThrough();
-    spyOn(
-      configuratorStorefrontUtilsService,
-      'focusFirstActiveElement'
-    ).and.callThrough();
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
+    vi.spyOn(keyboardFocusService, 'clear');
+    vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
   });
 
-  it('should render ghost view if no data is present', () => {
-    configurationObs = NEVER;
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
+  describe('ghost loading placeholder', () => {
+    it('should render ghost tab bar when configuration data is not available', () => {
+      configurationObs = NEVER;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-tab-bar.ghost'
+      );
+    });
+
+    it('should render tab bar when configuration data is available', () => {
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-tab-bar.ghost'
+      );
+    });
   });
 
   it('should render 2 navigation links per default', () => {
@@ -489,47 +481,53 @@ describe('ConfigTabBarComponent', () => {
   });
 
   describe('Focus handling on navigation', () => {
-    it('focusOverviewInTabBar should call clear and focusFirstActiveElement', fakeAsync(() => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+    it('focusOverviewInTabBar should call clear and focusFirstActiveElement', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configWithOverview)
       );
       component['focusOverviewInTabBar']();
-      tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      await vi.advanceTimersByTimeAsync(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('focusOverviewInTabBar should not call clear and focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('focusOverviewInTabBar should not call clear and focusFirstActiveElement if overview data is not present in configuration', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         configurationObs
       );
       component['focusOverviewInTabBar']();
-      tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      await vi.advanceTimersByTimeAsync(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(0);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(0);
-    }));
+    });
 
-    it('focusConfigurationInTabBar should call clear and focusFirstActiveElement', fakeAsync(() => {
+    it('focusConfigurationInTabBar should call clear and focusFirstActiveElement', async () => {
       mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
       component['focusConfigurationInTabBar']();
-      tick(1); // needed because of delay(0) in focusConfigurationInTabBar
+      await vi.advanceTimersByTimeAsync(1); // needed because of delay(0) in focusConfigurationInTabBar
       expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('navigateToOverview should navigate to overview page and should call focusFirstActiveElement inside focusOverviewInTabBar', fakeAsync(() => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    it('navigateToOverview should navigate to overview page and should call focusFirstActiveElement inside focusOverviewInTabBar', async () => {
+      vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configWithOverview)
       );
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
       component['navigateToOverview'](mockRouterData);
-      tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      await vi.advanceTimersByTimeAsync(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'configureOverview' + mockRouterData.owner.configuratorType,
@@ -543,13 +541,13 @@ describe('ConfigTabBarComponent', () => {
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('navigateToConfiguration should navigate to configuration page and should call focusFirstActiveElement inside focusConfigurationInTabBar', fakeAsync(() => {
+    it('navigateToConfiguration should navigate to configuration page and should call focusFirstActiveElement inside focusConfigurationInTabBar', async () => {
       mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
       component['navigateToConfiguration'](mockRouterData);
-      tick(1); // needed because of delay(0) in focusConfigurationInTabBar
+      await vi.advanceTimersByTimeAsync(1); // needed because of delay(0) in focusConfigurationInTabBar
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'configure' + mockRouterData.owner.configuratorType,
@@ -563,6 +561,6 @@ describe('ConfigTabBarComponent', () => {
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
-    }));
+    });
   });
 });

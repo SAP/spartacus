@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ export * from './group/index';
 export * from './form/index';
 export * from './group-menu/index';
 export * from './group-title/index';
+export * from './message/index';
 export * from './overview-attribute/index';
 export * from './overview-bundle-attribute/index';
 export * from './overview-filter/index';

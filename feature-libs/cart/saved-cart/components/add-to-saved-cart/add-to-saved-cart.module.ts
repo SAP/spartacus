@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { AddToSavedCartComponent } from './add-to-saved-cart.component';
     I18nModule,
     UrlModule,
     FeaturesConfigModule,
+    AddToSavedCartComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -34,6 +35,5 @@ import { AddToSavedCartComponent } from './add-to-saved-cart.component';
     }),
   ],
   exports: [AddToSavedCartComponent],
-  declarations: [AddToSavedCartComponent],
 })
 export class AddToSavedCartModule {}

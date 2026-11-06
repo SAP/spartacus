@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,21 +11,19 @@ import {
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
+  getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
-import AppModuleServer from './main.server';
+import bootstrap from './main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
   cache: process.env['SSR_CACHE'] === 'true',
-  ssrFeatureToggles: {
-    limitCacheByMemory: true,
-  },
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
@@ -40,11 +38,20 @@ export function app(): express.Express {
 
   server.set('trust proxy', 'loopback');
 
-  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
+  // Validates the resolved request origin against an allowlist. See the JSDoc
+  // of `getOriginValidationMiddleware` for the accepted formats and matching
+  // rules. Here it is read from the `SSR_ALLOWED_ORIGINS` environment variable
+  // (comma-separated); when unset or empty the middleware is a no-op.
+  server.use(
+    getOriginValidationMiddleware({
+      allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
+    })
+  );
+
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap: AppModuleServer,
+      bootstrap,
     })
   );
 
@@ -53,14 +60,14 @@ export function app(): express.Express {
 
   // Serve static files from /browser
   server.get(
-    '*.*',
+    /.*\..*/,
     express.static(browserDistFolder, {
       maxAge: '1y',
     })
   );
 
   // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
+  server.get(/.*/, (req, res) => {
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],

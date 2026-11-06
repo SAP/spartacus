@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,6 +68,18 @@ export interface CartOccEndpoints {
    * @member {string}
    */
   cartVoucher?: string | OccEndpoint;
+  /**
+   * Endpoint for applying cart voucher
+   *
+   * @member {string}
+   */
+  cartApplyVoucher?: string | OccEndpoint;
+  /**
+   * Endpoint for removing cart voucher
+   *
+   * @member {string}
+   */
+  cartRemoveVoucher?: string | OccEndpoint;
   /**
    * Get cart validation results
    */

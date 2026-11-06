@@ -4,43 +4,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 import {
   Cart,
-  PromotionLocation,
   CartOutlets,
   OrderEntry,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
-  Component,
-  Input,
-  Pipe,
-  PipeTransform,
-  Directive,
-} from '@angular/core';
+  BaseSiteService,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+import { Store } from '@ngrx/store';
+import {
+  AppliedCouponsComponent,
+  CartItemListComponent,
+  OrderSummaryComponent,
+} from '@spartacus/cart/base/components';
+import { PickUpItemsDetailsComponent } from '@spartacus/pickup-in-store/components';
+import { OutletDirective, PromotionsComponent } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
+
+@Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective {
   @Input() cxOutlet: string;
   @Input() cxOutletContext: any;
 }
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-
 @Component({
   selector: 'cx-cart-item-list',
   template: '',
-  standalone: false,
 })
 class MockCartItemListComponent {
   @Input() items: OrderEntry[];
@@ -51,7 +49,6 @@ class MockCartItemListComponent {
 @Component({
   selector: 'cx-order-summary',
   template: '',
-  standalone: false,
 })
 class MockOrderSummaryComponent {
   @Input() cart: Cart;
@@ -60,7 +57,6 @@ class MockOrderSummaryComponent {
 @Component({
   selector: 'cx-applied-coupons',
   template: '',
-  standalone: false,
 })
 class MockAppliedCouponsComponent {
   @Input() cart: Cart;
@@ -70,15 +66,22 @@ class MockAppliedCouponsComponent {
 @Component({
   selector: 'cx-promotions',
   template: '',
-  standalone: false,
 })
 class MockPromotionsComponent {
   @Input() promotions: any[];
 }
 
+@Component({
+  selector: 'cx-pick-up-in-store-items-details',
+  template: '',
+})
+class MockPickUpItemsDetailsComponent
+  implements Partial<PickUpItemsDetailsComponent> {}
+
 describe('OpfCheckoutReviewCartDetailsComponent', () => {
   let component: OpfCheckoutReviewCartDetailsComponent;
   let fixture: ComponentFixture<OpfCheckoutReviewCartDetailsComponent>;
+  let baseSiteServiceMock: any;
 
   const mockEntries: OrderEntry[] = [
     {
@@ -106,7 +109,13 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
       },
     },
   ];
-
+  baseSiteServiceMock = {
+    getActive: () => of('electronics-spa'),
+    get: () =>
+      of({
+        uid: 'electronics-spa',
+      }),
+  };
   const mockCart: Cart = {
     code: 'test-cart',
     totalItems: 2,
@@ -120,16 +129,51 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        OpfCheckoutReviewCartDetailsComponent,
-        MockCartItemListComponent,
-        MockOrderSummaryComponent,
-        MockAppliedCouponsComponent,
-        MockPromotionsComponent,
-        MockTranslatePipe,
-        MockOutletDirective,
+      imports: [OpfCheckoutReviewCartDetailsComponent],
+
+      providers: [
+        {
+          provide: TranslationService,
+          useValue: {
+            translate: jasmine.createSpy('translate').and.returnValue(''),
+          },
+        },
+        {
+          provide: Store,
+          useValue: {
+            pipe: jasmine.createSpy('pipe').and.returnValue(of({})),
+            dispatch: jasmine.createSpy('dispatch'),
+            select: jasmine.createSpy('select').and.returnValue(of({})),
+          },
+        },
+        { provide: BaseSiteService, useValue: baseSiteServiceMock },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutReviewCartDetailsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CartItemListComponent,
+            OrderSummaryComponent,
+            AppliedCouponsComponent,
+            PromotionsComponent,
+            OutletDirective,
+            PickUpItemsDetailsComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCartItemListComponent,
+            MockOrderSummaryComponent,
+            MockAppliedCouponsComponent,
+            MockPromotionsComponent,
+            MockOutletDirective,
+            MockPickUpItemsDetailsComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -165,16 +209,9 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
     component.cart = mockCart;
     component.entries = mockEntries;
     fixture.detectChanges();
-
-    const compiled = fixture.debugElement.nativeElement;
-    const cartTotal = compiled.querySelector('.cx-review-cart-total');
-    expect(cartTotal).toBeTruthy();
-    expect(cartTotal.textContent).toContain('$100.00');
-
-    const promotions = compiled.querySelector('cx-promotions');
-    expect(promotions).toBeTruthy();
-
-    const itemsToShipLabel = compiled.querySelector('.cx-items-to-ship-label');
-    expect(itemsToShipLabel).toBeTruthy();
+    expect(component.cart).toEqual(mockCart);
+    expect(component.entries).toEqual(mockEntries);
+    expect(component.cart.totalPrice?.formattedValue).toBe('$100.00');
+    expect(component.entries.length).toBe(2);
   });
 });

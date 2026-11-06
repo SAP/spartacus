@@ -6,7 +6,7 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "./tools/build-lib:augmented-types",
+      "executor": "./tools/build-lib:declaration-merging",
       "options": {
         "tsConfig": "feature-libs/quote/tsconfig.lib.json",
         "project": "feature-libs/quote/ng-package.json"
@@ -17,13 +17,11 @@
         }
       }
     },
-    "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+    "test-vitest": {
+      "executor": "nx:run-commands",
       "options": {
-        "main": "feature-libs/quote/test.ts",
-        "tsConfig": "feature-libs/quote/tsconfig.spec.json",
-        "polyfills": ["zone.js", "zone.js/testing"],
-        "karmaConfig": "feature-libs/quote/karma.conf.js"
+        "command": "npx vitest run --config vitest.config.ts",
+        "cwd": "{projectRoot}"
       }
     },
     "test-jest": {

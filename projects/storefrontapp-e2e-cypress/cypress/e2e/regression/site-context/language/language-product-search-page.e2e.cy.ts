@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,7 +53,10 @@ describe('Language switch - product-search page', () => {
       );
 
       cy.get('cx-searchbox input').type('fun');
-      cy.get('cx-searchbox .products .name').should('contain', deutschName);
+      cy.get('cx-searchbox .products .cx-product-name').should(
+        'contain',
+        deutschName
+      );
     });
   });
 });

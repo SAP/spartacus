@@ -1,3 +1,4 @@
+import { take } from 'rxjs/operators';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -9,7 +10,7 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Cart, PaymentType } from '@spartacus/cart/base/root';
 import { CHECKOUT_PAYMENT_TYPE_NORMALIZER } from '@spartacus/checkout/b2b/core';
 import {
@@ -23,7 +24,7 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
 
 class MockLoggerService {
@@ -80,7 +81,6 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCheckoutPaymentTypeAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
@@ -98,7 +98,7 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
     );
     converter = TestBed.inject(ConverterService as Type<ConverterService>);
 
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    vi.spyOn(converter, 'pipeableMany');
   });
 
   afterEach(() => {
@@ -119,14 +119,8 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
       ],
     };
 
-    it(`should return paymentTypes`, (done) => {
-      service
-        .getPaymentTypes()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(paymentTypesList.paymentTypes);
-          done();
-        });
+    it(`should return paymentTypes`, async () => {
+      const resultPromise = firstValueFrom(service.getPaymentTypes());
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === 'paymenttypes';
@@ -138,6 +132,9 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(paymentTypesList);
+
+      const result = await resultPromise;
+      expect(result).toEqual(paymentTypesList.paymentTypes);
     });
 
     it(`should use converter`, () => {
@@ -149,8 +146,14 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'get').and.returnValue(
+      beforeEach(() => {
+        vi.useFakeTimers();
+      });
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+        vi.spyOn(httpClient, 'get').mockReturnValue(
           throwError(() => mockJaloError)
         );
 
@@ -160,17 +163,17 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
         let calledTimes = -1;
 
-        spyOn(httpClient, 'get').and.returnValue(
+        vi.spyOn(httpClient, 'get').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 3) {
@@ -189,33 +192,29 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
           });
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
         expect(result).toEqual(undefined);
 
         // 3*3*300 = 2700
-        tick(2700);
+        await vi.advanceTimersByTimeAsync(2700);
 
         expect(result).toEqual(paymentTypesList.paymentTypes);
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 
   describe(`setPaymentType`, () => {
     const paymentType = 'CARD';
 
-    it(`should set payment type to cart`, (done) => {
-      service
-        .setPaymentType(userId, cartId, paymentType)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(cartData);
-          done();
-        });
+    it(`should set payment type to cart`, async () => {
+      const resultPromise = firstValueFrom(
+        service.setPaymentType(userId, cartId, paymentType)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -228,18 +227,17 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(cartData);
     });
 
-    it(`should set payment type to cart that contains purchaseOrderNumber`, (done) => {
+    it(`should set payment type to cart that contains purchaseOrderNumber`, async () => {
       const purchaseOrderNumber = 'test-number';
 
-      service
-        .setPaymentType(userId, cartId, paymentType, purchaseOrderNumber)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(cartData);
-          done();
-        });
+      const resultPromise = firstValueFrom(
+        service.setPaymentType(userId, cartId, paymentType, purchaseOrderNumber)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -251,11 +249,20 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
 
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(cartData);
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'put').and.returnValue(
+      beforeEach(() => {
+        vi.useFakeTimers();
+      });
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+        vi.spyOn(httpClient, 'put').mockReturnValue(
           throwError(() => mockJaloError)
         );
 
@@ -265,17 +272,17 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
         let calledTimes = -1;
 
-        spyOn(httpClient, 'put').and.returnValue(
+        vi.spyOn(httpClient, 'put').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 3) {
@@ -294,19 +301,19 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
           });
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
         expect(result).toEqual(undefined);
 
         // 3*3*300 = 2700
-        tick(2700);
+        await vi.advanceTimersByTimeAsync(2700);
 
         expect(result).toEqual(cartData);
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 });

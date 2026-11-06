@@ -1,26 +1,29 @@
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   AsmCustomer360CustomerCouponList,
   AsmCustomer360Facade,
   AsmCustomer360Response,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { CustomerCouponService, I18nTestingModule } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import {
+  CustomerCouponService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { firstValueFrom, Observable, of } from 'rxjs';
+import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360CustomerCouponComponent } from './asm-customer-360-customer-coupon.component';
-import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { CustomerCouponEntry } from './asm-customer-360-customer-coupon.model';
-import { By } from '@angular/platform-browser';
-import { Component, DebugElement, Input } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 describe('AsmCustomer360CouponComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    standalone: false,
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -158,11 +161,9 @@ describe('AsmCustomer360CouponComponent', () => {
   }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
         AsmCustomer360CustomerCouponComponent,
         AsmCustomer360PromotionListingComponent,
-        MockCxIconComponent,
       ],
       providers: [
         AsmCustomer360SectionContextSource,
@@ -179,11 +180,21 @@ describe('AsmCustomer360CouponComponent', () => {
           useClass: MockAsmCustomer360Facade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360CustomerCouponComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+      })
+      .overrideComponent(AsmCustomer360PromotionListingComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+      })
+      .compileComponents();
     customerCouponService = TestBed.inject(CustomerCouponService);
   });
 
   beforeEach(() => {
+    mockCustomerCouponEntryList.forEach((entry) => (entry.applied = false));
     fixture = TestBed.createComponent(AsmCustomer360CustomerCouponComponent);
     component = fixture.componentInstance;
     context = TestBed.inject(AsmCustomer360SectionContextSource);
@@ -221,24 +232,25 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should reload customer coupon list when searching customer coupon ', () => {
-    spyOn(component, 'searchCustomerCoupon').and.callThrough();
+    vi.spyOn(component, 'searchCustomerCoupon');
     el.query(
       By.css('.cx-asm-customer-360-promotion-listing-search-icon-search')
     ).nativeElement.click();
     expect(component.searchCustomerCoupon).toHaveBeenCalled();
   });
 
-  it('should be able to fetch coupon list from context data', () => {
+  it('should be able to fetch coupon list from context data', async () => {
     context.data$.next(mockCustomerCouponList);
     component.fetchCustomerCoupons();
-    component.entries$.subscribe((entries) => {
-      expect(entries).toEqual(mockCustomerCouponEntryList);
-      expect(component.showErrorAlert$.getValue()).toBe(false);
-    });
+    const entries = await firstValueFrom(component.entries$);
+    expect(entries).toEqual(mockCustomerCouponEntryList);
+    expect(component.showErrorAlert$.getValue()).toBe(false);
   });
 
   it('should be able to assign customer coupon to customer', () => {
-    spyOn(customerCouponService, 'claimCustomerCoupon').and.stub();
+    vi.spyOn(customerCouponService, 'claimCustomerCoupon').mockImplementation(
+      () => {}
+    );
     mockCustomerCouponEntryList[1].applied = false;
     component.claimCouponToCustomer(mockCustomerCouponEntryList[1]);
     expect(customerCouponService.claimCustomerCoupon).toHaveBeenCalled();
@@ -248,8 +260,14 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should be able to remove customer coupon from customer', () => {
-    spyOn(customerCouponService, 'disclaimCustomerCoupon').and.stub();
-    spyOn(customerCouponService, 'resetDisclaimCustomerCoupon').and.stub();
+    vi.spyOn(
+      customerCouponService,
+      'disclaimCustomerCoupon'
+    ).mockImplementation(() => {});
+    vi.spyOn(
+      customerCouponService,
+      'resetDisclaimCustomerCoupon'
+    ).mockImplementation(() => {});
     mockCustomerCouponEntryList[0].applied = true;
     component.disclaimCouponToCustomer(mockCustomerCouponEntryList[0]);
     expect(
@@ -262,22 +280,22 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should reload customer coupon list when applying customer coupon failed', () => {
-    spyOn(
+    vi.spyOn(
       customerCouponService,
       'getClaimCustomerCouponResultError'
-    ).and.returnValue(of(true));
-    spyOn(component, 'changeTab').and.callThrough();
+    ).mockReturnValue(of(true));
+    vi.spyOn(component, 'changeTab');
     component.ngOnInit();
     customerCouponService.getClaimCustomerCouponResultError();
     expect(component.changeTab).toHaveBeenCalled();
   });
 
   it('should reload customer coupon list when removing customer coupon failed', () => {
-    spyOn(
+    vi.spyOn(
       customerCouponService,
       'getDisclaimCustomerCouponResultError'
-    ).and.returnValue(of(true));
-    spyOn(component, 'changeTab').and.callThrough();
+    ).mockReturnValue(of(true));
+    vi.spyOn(component, 'changeTab');
     component.ngOnInit();
     customerCouponService.getDisclaimCustomerCouponResultError();
     expect(component.changeTab).toHaveBeenCalled();

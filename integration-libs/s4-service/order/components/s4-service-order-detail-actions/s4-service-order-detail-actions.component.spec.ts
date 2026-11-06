@@ -2,15 +2,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
   I18nModule,
+  MockTranslatePipe,
   RoutingService,
   Translatable,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
-import { OrderDetailsService } from '@spartacus/order/components';
+import {
+  OrderDetailActionsComponent,
+  OrderDetailsService,
+} from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -34,10 +41,7 @@ const mockOrder3 = {
   status: 'PENDING',
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -61,7 +65,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 @Component({
   template: '',
   selector: 'cx-order-details-actions',
-  standalone: false,
+  imports: [I18nModule],
 })
 class MockOrderDetailActionsComponent {}
 
@@ -79,7 +83,11 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [I18nModule],
+      imports: [
+        I18nModule,
+        S4ServiceOrderDetailActionsComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
@@ -90,12 +98,20 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-      declarations: [
-        S4ServiceOrderDetailActionsComponent,
-        MockUrlPipe,
-        MockOrderDetailActionsComponent,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(S4ServiceOrderDetailActionsComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe, OrderDetailActionsComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockOrderDetailActionsComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(S4ServiceOrderDetailActionsComponent);
     checkoutServiceSchedulePickerService = TestBed.inject(
@@ -106,7 +122,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     component = fixture.componentInstance;
     component.order$ = of(order);
     fixture.detectChanges();
-    spyOn(globalMessageService, 'add').and.callThrough();
+    vi.spyOn(globalMessageService, 'add');
   };
 
   describe('order serviceable', () => {
@@ -132,19 +148,19 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       expect(elements.length).toEqual(1);
     });
     it('should not display a notification when time to service is more than 24 hours', () => {
-      spyOn(
+      vi.spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
-      ).and.returnValue(40);
+      ).mockReturnValue(40);
       (component as any).displayServiceMessage(mockOrder1);
       fixture.detectChanges();
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
     it('should display a notification when time to service is within 24 hours', () => {
-      spyOn(
+      vi.spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
-      ).and.returnValue(10);
+      ).mockReturnValue(10);
       (component as any).displayServiceMessage(mockOrder1);
       fixture.detectChanges();
       expect(globalMessageService.add).toHaveBeenCalledWith(

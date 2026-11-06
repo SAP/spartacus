@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,8 @@ export interface OpfCtaProductItem {
 export enum OpfCtaScriptsLocation {
   CART_MESSAGING = 'CART_MESSAGING',
   PDP_MESSAGING = 'PDP_MESSAGING',
+  CART_QUICK_BUY = 'CART_QUICK_BUY',
+  PDP_QUICK_BUY = 'PDP_QUICK_BUY',
   ORDER_CONFIRMATION_PAYMENT_GUIDE = 'ORDER_CONFIRMATION_PAYMENT_GUIDE',
   ORDER_HISTORY_PAYMENT_GUIDE = 'ORDER_HISTORY_PAYMENT_GUIDE',
 }
@@ -61,4 +63,6 @@ export enum OpfCtaEvent {
 export const OpfCtaDynamicLocations: Array<OpfCtaScriptsLocation> = [
   OpfCtaScriptsLocation.CART_MESSAGING,
   OpfCtaScriptsLocation.PDP_MESSAGING,
+  OpfCtaScriptsLocation.CART_QUICK_BUY,
+  OpfCtaScriptsLocation.PDP_QUICK_BUY,
 ];

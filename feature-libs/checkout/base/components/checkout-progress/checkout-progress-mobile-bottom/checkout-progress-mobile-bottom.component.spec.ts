@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import { I18nTestingModule } from '@spartacus/core';
@@ -35,10 +35,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   activeStepIndex$: Observable<number> = of(0);
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -47,10 +44,10 @@ describe('CheckoutProgressMobileBottomComponent', () => {
   let component: CheckoutProgressMobileBottomComponent;
   let fixture: ComponentFixture<CheckoutProgressMobileBottomComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         CheckoutProgressMobileBottomComponent,
         MockTranslateUrlPipe,
       ],
@@ -58,7 +55,7 @@ describe('CheckoutProgressMobileBottomComponent', () => {
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutProgressMobileBottomComponent);
@@ -76,7 +73,7 @@ describe('CheckoutProgressMobileBottomComponent', () => {
 
     mockCheckoutSteps.forEach((step, index) => {
       if (index > 0) {
-        expect(steps.innerText).toContain(step.name && index + 1);
+        expect(steps.textContent?.trim()).toContain(step.name && index + 1);
       }
     });
   });

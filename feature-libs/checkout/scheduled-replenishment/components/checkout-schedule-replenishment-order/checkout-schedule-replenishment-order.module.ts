@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,13 @@ import { IconModule } from '@spartacus/storefront';
 import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule-replenishment-order.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, I18nModule, IconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    IconModule,
+    CheckoutScheduleReplenishmentOrderComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -27,7 +33,6 @@ import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule
       },
     }),
   ],
-  declarations: [CheckoutScheduleReplenishmentOrderComponent],
   exports: [CheckoutScheduleReplenishmentOrderComponent],
 })
 export class CheckoutScheduleReplenishmentOrderModule {}

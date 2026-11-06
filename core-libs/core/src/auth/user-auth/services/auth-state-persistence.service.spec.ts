@@ -1,0 +1,165 @@
+import { TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { firstValueFrom, of } from 'rxjs';
+import { StatePersistenceService } from '../../../state/services/state-persistence.service';
+import { CLIENT_AUTH_FEATURE } from '../../client-auth/store';
+import * as fromAuthReducers from '../../client-auth/store/reducers/index';
+import { UserIdService } from '../facade/user-id.service';
+import { AuthToken } from '../models/auth-token.model';
+import { AuthRedirectStorageService } from './auth-redirect-storage.service';
+import { AuthStatePersistenceService } from './auth-state-persistence.service';
+import { AuthStorageService } from './auth-storage.service';
+
+class MockUserIdService implements Partial<UserIdService> {
+  setUserId(_id: string) {}
+  getUserId() {
+    return of('userId');
+  }
+  clearUserId() {}
+}
+
+class MockAuthStorageService implements Partial<AuthStorageService> {
+  getToken() {
+    return of({} as AuthToken);
+  }
+  setToken() {}
+}
+
+class MockAuthRedirectStorageService
+  implements Partial<AuthRedirectStorageService>
+{
+  getRedirectUrl() {
+    return of(undefined);
+  }
+  setRedirectUrl() {}
+}
+
+describe('AuthStatePersistenceService', () => {
+  let service: AuthStatePersistenceService;
+  let persistenceService: StatePersistenceService;
+  let userIdService: UserIdService;
+  let authStorageService: AuthStorageService;
+  let authRedirectStorageService: AuthRedirectStorageService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(
+          CLIENT_AUTH_FEATURE,
+          fromAuthReducers.getReducers()
+        ),
+      ],
+      providers: [
+        AuthStatePersistenceService,
+        { provide: UserIdService, useClass: MockUserIdService },
+        { provide: AuthStorageService, useClass: MockAuthStorageService },
+        {
+          provide: AuthRedirectStorageService,
+          useClass: MockAuthRedirectStorageService,
+        },
+        StatePersistenceService,
+      ],
+    });
+
+    service = TestBed.inject(AuthStatePersistenceService);
+    persistenceService = TestBed.inject(StatePersistenceService);
+    userIdService = TestBed.inject(UserIdService);
+    authStorageService = TestBed.inject(AuthStorageService);
+    authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(
+      () => {}
+    );
+  });
+
+  it('should inject service', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('state should be updated after read from storage', () => {
+    vi.spyOn(userIdService, 'setUserId').mockImplementation(() => {});
+    vi.spyOn(authStorageService, 'setToken');
+    vi.spyOn(authRedirectStorageService, 'setRedirectUrl');
+
+    service['onRead']({
+      userId: 'userId',
+      token: {
+        access_token: 'access_token',
+        expires_at: '1000',
+        access_token_stored_at: '900',
+        granted_scopes: [],
+        token_type: 'bearer',
+        refresh_token: 'refresh',
+      },
+      redirectUrl: 'some_url',
+    });
+
+    expect(authStorageService.setToken).toHaveBeenCalledWith({
+      refresh_token: 'refresh',
+      access_token: 'access_token',
+      expires_at: '1000',
+      access_token_stored_at: '900',
+      granted_scopes: [],
+      token_type: 'bearer',
+    });
+    expect(userIdService.setUserId).toHaveBeenCalledWith('userId');
+    expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
+      'some_url'
+    );
+  });
+
+  it('user id should be initialized even when read from storage was empty', () => {
+    vi.spyOn(userIdService, 'clearUserId').mockImplementation(() => {});
+
+    service['onRead']({});
+
+    expect(userIdService.clearUserId).toHaveBeenCalled();
+  });
+
+  it('should call persistenceService with correct attributes', () => {
+    const state$ = of('');
+    vi.spyOn(service as any, 'getAuthState').mockReturnValue(state$);
+
+    service.initSync();
+
+    expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        key: 'auth',
+        state$,
+      })
+    );
+    expect(service['getAuthState']).toHaveBeenCalled();
+  });
+
+  it('should return state from auth state and userId service', async () => {
+    vi.spyOn(authStorageService, 'getToken').mockReturnValue(
+      of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
+    );
+    vi.spyOn(authRedirectStorageService, 'getRedirectUrl').mockReturnValue(
+      of('redirect_url')
+    );
+
+    const state = await firstValueFrom(service['getAuthState']());
+    expect(state).toEqual({
+      userId: 'userId',
+      token: { access_token: 'token' },
+      redirectUrl: 'redirect_url',
+    } as any);
+  });
+
+  it('isUserLoggedIn should check state of user login in localStorage', () => {
+    vi.spyOn(persistenceService, 'readStateFromStorage').mockReturnValue({
+      token: { access_token: 'token' },
+      userId: 'userId',
+      redirectUrl: 'redirect_url',
+    });
+
+    expect(service.isUserLoggedIn()).toBe(true);
+
+    expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        key: 'auth',
+      })
+    );
+  });
+});

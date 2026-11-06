@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -27,10 +28,12 @@ import { ApplePayService } from './apple-pay.service';
   selector: 'cx-opf-apple-pay',
   templateUrl: './apple-pay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, AsyncPipe],
 })
 export class ApplePayComponent implements OnInit {
-  @Input() activeConfiguration: OpfActiveConfiguration;
+  @Input() activeConfiguration:
+    | OpfActiveConfiguration
+    | OpfActiveConfiguration[];
 
   protected applePayService = inject(ApplePayService);
   protected currentProductService = inject(CurrentProductService);
@@ -42,10 +45,15 @@ export class ApplePayComponent implements OnInit {
   applePayDigitalWallet?: OpfQuickBuyDigitalWallet;
 
   ngOnInit(): void {
-    this.applePayDigitalWallet =
-      this.activeConfiguration?.digitalWalletQuickBuy?.find(
+    const activeConfigurations = Array.isArray(this.activeConfiguration)
+      ? this.activeConfiguration
+      : [this.activeConfiguration];
+    this.applePayDigitalWallet = activeConfigurations
+      ?.flatMap((config) => config.digitalWalletQuickBuy || [])
+      .find(
         (digitalWallet) =>
-          digitalWallet.provider === OpfQuickBuyProviderType.APPLE_PAY
+          digitalWallet.provider === OpfQuickBuyProviderType.APPLE_PAY &&
+          digitalWallet.enabled
       );
     if (
       !this.applePayDigitalWallet?.merchantId ||

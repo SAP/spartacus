@@ -1,0 +1,7 @@
+{
+  "lib": {
+    "entryFile": "public_api.ts",
+    "cssUrl": "inline",
+    "styleIncludePaths": ["../../../core-libs/styles/scss"]
+  }
+}

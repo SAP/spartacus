@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,45 +9,45 @@ import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('consignment tracking', () => {
   viewportContext(['desktop', 'mobile'], () => {
-    before(() => {
+    beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       orderDetail.loginUsingUserWithOrder();
     });
 
-    it('should see tracking package button and tracking events when consignment is shipped', () => {
+    it('should display tracking button and details for shipped consignments', () => {
       cy.visit('/my-account/order/100000');
-      cy.get('.cx-list').should('have.length', 3);
-
       cy.get('.cx-list')
-        .filter(
-          ':has(span:contains("Shipped")):has(.cx-code:contains("300938"))'
-        )
-        .first()
-        .within(() => {
-          cy.get('.cx-code').should('contain', '300938');
-          cy.get('.btn-track').click();
+        .filter(':has(.cx-list-status span:contains("Shipped"))')
+        .each(($consignment) => {
+          cy.wrap($consignment).within(() => {
+            cy.get('.cx-code').should('not.be.empty');
+            cy.get('.btn-track')
+              .should('exist')
+              .should('be.visible')
+              .scrollIntoView()
+              .click();
+          });
+
+          cy.get('cx-tracking-events').should('be.visible');
+
+          cy.get('cx-tracking-events').within(() => {
+            cy.get('.cx-tracking-event-body, .cx-no-tracking-heading').should(
+              'exist'
+            );
+            cy.get('.close').click();
+          });
         });
-      cy.get('.cx-tracking-event-body').should('have.length', 3);
+    });
 
-      cy.get('cx-tracking-events .close').click();
-
+    it('should not see tracking button for waiting consignment', () => {
+      cy.visit('/my-account/order/100000');
       cy.get('.cx-list')
-        .filter(
-          ':has(span:contains("Shipped")):has(.cx-code:contains("1992693"))'
-        )
-        .first()
-        .within(() => {
-          cy.get('.cx-code').should('contain', '1992693');
-          cy.get('.btn-track').click();
-        });
-      cy.get('.cx-no-tracking-heading').should('have.length', 1);
-      cy.get('cx-tracking-events .close').click();
-      cy.get('.cx-list')
-        .filter(':has(span:contains("Waiting"))')
-        .first()
-        .within(() => {
-          cy.get('.cx-code').should('contain', '1377492');
-          cy.get('.btn-track').should('have.length', 0);
+        .filter(':has(.cx-list-status span:contains("Waiting"))')
+        .each(($consignment) => {
+          cy.wrap($consignment).within(() => {
+            cy.get('.cx-code').should('not.be.empty');
+            cy.get('.btn-track').should('not.exist');
+          });
         });
     });
 

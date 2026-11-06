@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
-import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { KeyboardFocusTestingModule } from 'core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module';
+import { PaginationTestingModule } from 'core-libs/storefront/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { Subject } from 'rxjs';
 import { BaseMessageComponent } from './base-message.component';
 import { MessageData } from './message.model';
@@ -20,7 +20,13 @@ const MockMessageData: Partial<MessageData> = {
 
 @Component({
   template: '',
-  standalone: false,
+  imports: [
+    CommonModule,
+    PaginationTestingModule,
+    KeyboardFocusTestingModule,
+    I18nTestingModule,
+    IconTestingModule,
+  ],
 })
 class MessageComponent extends BaseMessageComponent {}
 
@@ -37,9 +43,8 @@ describe('BaseMessageComponent', () => {
         KeyboardFocusTestingModule,
         I18nTestingModule,
         IconTestingModule,
+        MessageComponent,
       ],
-      declarations: [MessageComponent],
-
       providers: [
         {
           provide: MessageData,
@@ -105,14 +110,17 @@ describe('BaseMessageComponent', () => {
   });
 
   describe('close()', () => {
-    beforeEach(function () {
-      // https://github.com/gruntjs/grunt-contrib-jasmine/issues/213
-      jasmine.clock().uninstall();
-      jasmine.clock().install();
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.useRealTimers();
     });
 
     it('should emit close event', () => {
-      const nextEvent = spyOn(messageData.events, 'next');
+      const nextEvent = vi.spyOn(messageData.events, 'next');
       component.close();
       expect(nextEvent).toHaveBeenCalledWith({
         close: true,
@@ -120,12 +128,12 @@ describe('BaseMessageComponent', () => {
     });
 
     it('should close after message timeout', () => {
-      const nextEvent = spyOn(messageData.events, 'next');
+      const nextEvent = vi.spyOn(messageData.events, 'next');
       messageData.timeout = 10;
       component.ngOnInit();
 
       expect(nextEvent).not.toHaveBeenCalled();
-      jasmine.clock().tick(10);
+      vi.advanceTimersByTime(10);
       expect(nextEvent).toHaveBeenCalledWith({
         close: true,
       });

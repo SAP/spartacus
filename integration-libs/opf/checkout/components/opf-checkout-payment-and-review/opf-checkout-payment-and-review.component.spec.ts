@@ -4,78 +4,85 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
-import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
+import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { Observable, of } from 'rxjs';
-import { CheckoutFlowOrchestratorService } from '@spartacus/checkout/base/components';
-import { OPF_CHECKOUT_FLOW_NAME } from '../../root/model';
-import { Address, TranslationService, CmsService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
+  CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
-import { DeliveryMode } from '@spartacus/cart/base/root';
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { Store } from '@ngrx/store';
+import {
+  Address,
+  CmsService,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  OpfBaseFacade,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
+import { Observable, of } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import {
+  OpfCheckoutBillingAddressFormComponent,
+  OpfCheckoutBillingAddressFormService,
+} from '../opf-checkout-billing-address-form';
+import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments';
+import { OpfCheckoutReviewCartDetailsComponent } from '../opf-checkout-review-cart-details';
+import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert';
+import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-
-@Component({
-  selector: 'cx-opf-checkout-review-card',
-  template: '',
-  standalone: false,
-})
-class MockReviewCardComponent {
-  @Input() cardContent$: Observable<Card>;
-  @Input() editConfig: any;
+@Pipe({ name: 'cxUrl', standalone: true })
+class MockUrlPipe implements PipeTransform {
+  transform(value: any): any {
+    return value;
+  }
 }
 
 @Component({
   selector: 'cx-opf-checkout-payments',
   template: '',
-  standalone: false,
 })
 class MockPaymentsComponent {
   @Input() elementsPerPage: number;
-  @Input() explicitTermsAndConditions: boolean;
+  @Input() explicitTermsAndConditions: boolean | undefined;
   @Input() disabled: boolean;
+  @Input() isHeadingDisplayed: boolean;
+  @Input() isPaymentRenderBelow: boolean;
+  @Input() isPaymentInfoMessageEnabled: boolean;
+  @Input() showBeforePaymentOptionsOutlet: boolean;
+  @Input() forceDefaultPaymentOptionInputSelection: boolean;
 }
 
 @Component({
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
   template: '',
-  standalone: false,
 })
 class MockTermsAndConditionsAlertComponent {
   @Input() isDismissible: boolean;
   @Input() isVisible: boolean;
-  @Input() isExplicit: boolean;
+  @Input() isExplicit: boolean | undefined;
 }
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
   template: '',
-  standalone: false,
 })
 class MockBillingAddressFormComponent {}
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
   template: '',
-  standalone: false,
 })
 class MockReviewCartDetailsComponent {
   @Input() cart: any;
   @Input() entries: any;
+  @Input() isAddressCardVisible: boolean;
 }
 
 class MockTranslationService {
@@ -95,23 +102,38 @@ class MockTranslationService {
   }
 }
 
-class MockStore {
-  dispatch(): void {}
-  pipe(): Observable<any> {
-    return of({});
-  }
-}
-
 class MockCmsService {
   getCurrentPage(): Observable<any> {
     return of({});
+  }
+}
+class MockOpfCheckoutBillingAddressFormService {
+  paymentOptionsDisabled$ = of(false);
+}
+class MockOpfMetadataStoreService {
+  getOpfMetadataState(): Observable<any> {
+    return of({ selectedPaymentOptionId: 'test-payment-id' });
+  }
+
+  updateOpfMetadata(_metadata: any): void {}
+}
+
+class MockOpfBaseFacade {
+  getActiveConfigurationsState(): Observable<any> {
+    return of({ loading: false, error: false, data: [] });
+  }
+}
+
+class MockCheckoutPaymentTypeFacade {
+  getPaymentTypeState(): Observable<any> {
+    return of({ loading: false, error: false, data: {} });
   }
 }
 
 describe('OpfCheckoutPaymentAndReviewComponent', () => {
   let component: OpfCheckoutPaymentAndReviewComponent;
   let fixture: ComponentFixture<OpfCheckoutPaymentAndReviewComponent>;
-  let checkoutFlowOrchestratorService: CheckoutFlowOrchestratorService;
+  let opfMetadataStoreService: OpfMetadataStoreService;
 
   const mockCheckoutStepService = {
     getCheckoutStepUrl: jasmine
@@ -123,6 +145,9 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
     getDeliveryAddressState: jasmine
       .createSpy('getDeliveryAddressState')
       .and.returnValue(of({})),
+    clearCheckoutDeliveryAddress: jasmine.createSpy(
+      'clearCheckoutDeliveryAddress'
+    ),
   };
 
   const mockCheckoutPaymentFacade = {
@@ -135,25 +160,17 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
     getSelectedDeliveryModeState: jasmine
       .createSpy('getSelectedDeliveryModeState')
       .and.returnValue(of({})),
+    setDeliveryMode: jasmine.createSpy('setDeliveryMode'),
   };
 
-  const mockCheckoutFlowOrchestratorService = {
-    getPaymentProvider: jasmine
-      .createSpy('getPaymentProvider')
-      .and.returnValue(of(OPF_CHECKOUT_FLOW_NAME)),
+  const mockActiveCartFacade = {
+    hasDeliveryItems: jasmine.createSpy('hasDeliveryItems'),
+    isStable: jasmine.createSpy('isStable'),
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        OpfCheckoutPaymentAndReviewComponent,
-        MockReviewCardComponent,
-        MockPaymentsComponent,
-        MockTermsAndConditionsAlertComponent,
-        MockBillingAddressFormComponent,
-        MockReviewCartDetailsComponent,
-        MockTranslatePipe,
-      ],
+      imports: [OpfCheckoutPaymentAndReviewComponent],
       providers: [
         { provide: CheckoutStepService, useValue: mockCheckoutStepService },
         {
@@ -165,31 +182,121 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
           provide: CheckoutDeliveryModesFacade,
           useValue: mockCheckoutDeliveryModesFacade,
         },
-        {
-          provide: CheckoutFlowOrchestratorService,
-          useValue: mockCheckoutFlowOrchestratorService,
-        },
         { provide: TranslationService, useClass: MockTranslationService },
-        { provide: Store, useClass: MockStore },
         { provide: CmsService, useClass: MockCmsService },
+        { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
+        { provide: OpfBaseFacade, useClass: MockOpfBaseFacade },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
+        {
+          provide: OpfCheckoutBillingAddressFormService,
+          useClass: MockOpfCheckoutBillingAddressFormService,
+        },
+        {
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutPaymentTypeFacade,
+        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutPaymentAndReviewComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            UrlPipe,
+            OpfCheckoutPaymentsComponent,
+            OpfCheckoutTermsAndConditionsAlertComponent,
+            OpfCheckoutBillingAddressFormComponent,
+            OpfCheckoutReviewCartDetailsComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockPaymentsComponent,
+            MockTermsAndConditionsAlertComponent,
+            MockBillingAddressFormComponent,
+            MockReviewCartDetailsComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OpfCheckoutPaymentAndReviewComponent);
     component = fixture.componentInstance;
-    checkoutFlowOrchestratorService = TestBed.inject(
-      CheckoutFlowOrchestratorService
-    );
+    opfMetadataStoreService = TestBed.inject(OpfMetadataStoreService);
 
-    (
-      checkoutFlowOrchestratorService.getPaymentProvider as jasmine.Spy
-    ).calls.reset();
+    mockActiveCartFacade.hasDeliveryItems.calls.reset();
+    mockActiveCartFacade.isStable.calls.reset();
+    mockActiveCartFacade.isStable.and.returnValue(of(true));
+    mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress.calls.reset();
+    mockCheckoutDeliveryModesFacade.setDeliveryMode.calls.reset();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should expose terms and conditions form state', () => {
+    expect(component.termsAndConditionInvalid).toBe(true);
+    expect(component.termsAndConditionsFieldValue).toBe(false);
+
+    component.checkoutSubmitForm.get('termsAndConditions')?.setValue(true);
+
+    expect(component.termsAndConditionInvalid).toBe(false);
+    expect(component.termsAndConditionsFieldValue).toBe(true);
+  });
+
+  it('should toggle terms and conditions by updating metadata', () => {
+    const updateSpy = spyOn(opfMetadataStoreService, 'updateOpfMetadata');
+    component.checkoutSubmitForm.get('termsAndConditions')?.setValue(true);
+
+    component.toggleTermsAndConditions();
+
+    expect(updateSpy).toHaveBeenCalledWith({
+      termsAndConditionsChecked: true,
+    });
+  });
+
+  it('should update selected payment provider name', () => {
+    let selectedProviderName: string | null | undefined;
+    (component as any).selectedPaymentProviderName$.subscribe((value: any) => {
+      selectedProviderName = value;
+    });
+
+    component.onPaymentProviderSelected('Mock provider');
+
+    expect(selectedProviderName).toBe('Mock provider');
+  });
+
+  it('should detect cms component existence in page', () => {
+    const cmsComponentUid = 'OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT';
+
+    expect((component as any).isCmsComponentInPage(cmsComponentUid, {})).toBe(
+      false
+    );
+    expect(
+      (component as any).isCmsComponentInPage(cmsComponentUid, {
+        slots: [cmsComponentUid],
+      })
+    ).toBe(true);
+  });
+
+  it('should initialize metadata state and pickup delivery mode in ngOnInit', () => {
+    const updateSpy = spyOn(opfMetadataStoreService, 'updateOpfMetadata');
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(true));
+
+    component.ngOnInit();
+
+    expect(updateSpy).toHaveBeenCalledWith({
+      termsAndConditionsChecked: false,
+    });
+    expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
+    expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
   });
 
   it('should get delivery address card', () => {
@@ -225,5 +332,57 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
       expect(card.textBold).toBe('Standard Delivery');
       expect(card.text).toBeDefined();
     });
+  });
+
+  it('should clear delivery address and set pickup mode when cart has no delivery items', () => {
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(false));
+
+    component.setPickupDeliveryMode();
+
+    expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
+    expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+    ).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryModesFacade.setDeliveryMode
+    ).toHaveBeenCalledWith('pickup');
+  });
+  it('should not modify delivery settings when cart has delivery items', () => {
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(true));
+
+    component.setPickupDeliveryMode();
+
+    expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
+    expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+    ).not.toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryModesFacade.setDeliveryMode
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should handle Observable completion correctly', () => {
+    const completionSpy = jasmine.createSpy('completion');
+
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(
+      of(false).pipe(
+        finalize(() => {
+          completionSpy();
+        })
+      )
+    );
+
+    component.setPickupDeliveryMode();
+
+    expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
+    expect(completionSpy).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+    ).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryModesFacade.setDeliveryMode
+    ).toHaveBeenCalledWith('pickup');
   });
 });

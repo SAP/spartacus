@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ import { AccountData } from '../support/require-logged-in.commands';
 import { config } from '../support/utils/login';
 import * as authForms from './auth-forms';
 import { generateMail, randomString } from './user';
+import { cmsEndpoints } from './cms-endpoints';
 
 const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
 
@@ -31,7 +32,7 @@ export function createUser(): AccountData {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageLabelOrId: '/logout',
     },

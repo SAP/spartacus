@@ -1,15 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'cxMultiLine',
-  standalone: false,
-})
+@Pipe({ name: 'cxMultiLine' })
 export class MultiLinePipe implements PipeTransform {
   transform(value: string): string {
     const lastIndex = value.lastIndexOf(' ');

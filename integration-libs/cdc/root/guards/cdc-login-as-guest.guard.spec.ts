@@ -1,20 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
 import { CdcLoginAsGuestGuard } from './cdc-login-as-guest.guard';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { firstValueFrom } from 'rxjs';
 
-const mockFeatureConfigService = {
-  isEnabled: jasmine.createSpy().and.returnValue(true),
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: true,
 };
 
 const mockWindowRef = {
   localStorage: {
-    getItem: jasmine.createSpy().and.returnValue('true'),
-    removeItem: jasmine.createSpy(),
+    getItem: vi.fn().mockReturnValue('true'),
+    removeItem: vi.fn(),
   },
 };
 
@@ -32,10 +34,7 @@ describe('CdcLoginAsGuestGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         Router,
-        {
-          provide: FeatureConfigService,
-          useValue: mockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: SemanticPathService,
           useClass: MockSemanticPathService,
@@ -51,19 +50,16 @@ describe('CdcLoginAsGuestGuard', () => {
   });
 
   beforeEach(() => {
-    mockWindowRef.localStorage.removeItem.calls.reset();
+    mockWindowRef.localStorage.removeItem.mockClear();
   });
 
   it('should be created', () => {
     expect(guard).toBeTruthy();
   });
 
-  it('should use overridden login route', (done) => {
-    spyOn(semanticPathService, 'get');
-    mockFeatureConfigService.isEnabled.and.returnValue(true);
-    guard.canActivate().subscribe(() => {
-      expect(semanticPathService.get).toHaveBeenCalledWith('login');
-      done();
-    });
+  it('should use overridden login route', async () => {
+    vi.spyOn(semanticPathService, 'get');
+    await firstValueFrom(guard.canActivate());
+    expect(semanticPathService.get).toHaveBeenCalledWith('login');
   });
 });

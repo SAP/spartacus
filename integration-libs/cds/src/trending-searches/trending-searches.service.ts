@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import {
 } from 'rxjs';
 import { CdsConfig } from '../config';
 import { CdsEndpointsService } from '../services';
+import { ProfileTagWindowObject } from '../profiletag/model/profile-tag.model';
 import { SearchPhrases } from './model';
 
 const AVAILABILITY_CHECK_INTERVAL = 250;
@@ -46,7 +47,9 @@ export class TrendingSearchesService implements OnDestroy {
   protected checkAvailability(): Observable<string> {
     return timer(0, AVAILABILITY_CHECK_INTERVAL).pipe(
       map(
-        () => (this.winRef.nativeWindow as any)?.Y_TRACKING?.config?.cdsSiteId
+        () =>
+          (this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING
+            ?.config?.cdsSiteId
       ),
       takeWhile((cdsSiteId) => !cdsSiteId, true),
       take(MAX_AVAILABILITY_CHECKS),

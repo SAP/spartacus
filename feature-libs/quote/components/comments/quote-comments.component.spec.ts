@@ -1,18 +1,12 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { Component, DOCUMENT, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
-import { QuoteComment, Quote, QuoteFacade } from '@spartacus/quote/root';
+import { Quote, QuoteComment, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
+  IconComponent,
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
@@ -33,7 +27,6 @@ const ALL_PRODUCTS_ID = '';
   providers: [
     { provide: MessagingComponent, useClass: MockCxMessagingComponent },
   ],
-  standalone: false,
 })
 class MockCxMessagingComponent {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -44,7 +37,6 @@ class MockCxMessagingComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -62,16 +54,11 @@ describe('QuoteCommentsComponent', () => {
 
   let quote: Quote;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        QuoteCommentsComponent,
-        MockCxMessagingComponent,
-        MockCxIconComponent,
-      ],
+      imports: [I18nTestingModule, QuoteCommentsComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -90,26 +77,27 @@ describe('QuoteCommentsComponent', () => {
           useValue: mockQuoteItemsComponentService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(QuoteCommentsComponent, {
+        remove: { imports: [MessagingComponent, IconComponent] },
+        add: { imports: [MockCxMessagingComponent, MockCxIconComponent] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteCommentsComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
-    fixture.detectChanges();
-    spyOn(component.commentsComponent, 'resetForm');
-
-    mockQuoteItemsComponentService = jasmine.createSpyObj(
-      'QuoteItemsComponentService',
-      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
-    );
-    asSpy(
-      mockQuoteItemsComponentService.getQuoteEntriesExpanded
-    ).and.returnValue(of(true));
     quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
   });
+
+  /** Renders the component and sets up ViewChild spies. Call at the start of each test that needs the DOM or ViewChild. */
+  function renderComponent() {
+    fixture.detectChanges();
+    vi.spyOn(component.commentsComponent, 'resetForm');
+  }
 
   function initTestData() {
     quote = createEmptyQuote();
@@ -120,21 +108,26 @@ describe('QuoteCommentsComponent', () => {
   }
 
   function initMocks() {
-    quoteFacade = jasmine.createSpyObj('QuoteFacade', [
-      'getQuoteDetails',
-      'addQuoteComment',
-    ]);
-    asSpy(quoteFacade.getQuoteDetails).and.returnValue(of(quote));
-    asSpy(quoteFacade.addQuoteComment).and.returnValue(of({}));
+    quoteFacade = {
+      getQuoteDetails: vi.fn(),
+      addQuoteComment: vi.fn(),
+    } as any;
+    (quoteFacade.getQuoteDetails as vi.Mock).mockReturnValue(of(quote));
+    (quoteFacade.addQuoteComment as vi.Mock).mockReturnValue(of({}));
 
-    eventService = jasmine.createSpyObj('EventService', ['dispatch']);
-  }
+    eventService = { dispatch: vi.fn() } as any;
 
-  function asSpy(f: any) {
-    return <jasmine.Spy>f;
+    mockQuoteItemsComponentService = {
+      setQuoteEntriesExpanded: vi.fn(),
+      getQuoteEntriesExpanded: vi.fn(),
+    } as any;
+    (
+      mockQuoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock
+    ).mockReturnValue(of(true));
   }
 
   it('should create', () => {
+    renderComponent();
     expect(component).toBeTruthy();
   });
 
@@ -164,6 +157,7 @@ describe('QuoteCommentsComponent', () => {
   });
 
   it('should render the messaging section by default', () => {
+    renderComponent();
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -173,6 +167,7 @@ describe('QuoteCommentsComponent', () => {
 
   describe('clickToggle', () => {
     it('should collapse the comments area when clicking the toggle', () => {
+      renderComponent();
       CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
       fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementNotPresent(
@@ -183,6 +178,7 @@ describe('QuoteCommentsComponent', () => {
     });
 
     it('should toggle the comments on enter', () => {
+      renderComponent();
       CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
       fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementNotPresent(
@@ -193,6 +189,7 @@ describe('QuoteCommentsComponent', () => {
     });
 
     it('should expand the comments area when clicking the toggle', () => {
+      renderComponent();
       component.expandComments = false;
       CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
       CommonQuoteTestUtilsService.expectElementPresent(
@@ -389,12 +386,13 @@ describe('QuoteCommentsComponent', () => {
       expect(mapCommentToMessageEvent(comment).item).toBeUndefined();
     });
     it('should throw an error if there is an entry but without entry number', () => {
-      expect(() => mapCommentToMessageEvent(comment, {})).toThrowError();
+      expect(() => mapCommentToMessageEvent(comment, {})).toThrow();
     });
   });
 
   describe('onSend', () => {
     it('should add a header quote comment with the given text', () => {
+      renderComponent();
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
@@ -408,6 +406,7 @@ describe('QuoteCommentsComponent', () => {
       );
     });
     it('should add a item quote comment with the given text', () => {
+      renderComponent();
       component.onSend({ message: 'test comment', itemId: '3' }, QUOTE_CODE);
       expect(quoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
@@ -418,6 +417,7 @@ describe('QuoteCommentsComponent', () => {
       );
     });
     it('should refresh the quote to display the just added comment', () => {
+      renderComponent();
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
@@ -428,6 +428,7 @@ describe('QuoteCommentsComponent', () => {
       );
     });
     it('should reset message input text', () => {
+      renderComponent();
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
@@ -436,7 +437,8 @@ describe('QuoteCommentsComponent', () => {
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
     it('should handle errors', () => {
-      asSpy(quoteFacade.addQuoteComment).and.returnValue(
+      renderComponent();
+      (quoteFacade.addQuoteComment as vi.Mock).mockReturnValue(
         throwError(new Error('test error'))
       );
       component.onSend(
@@ -459,37 +461,43 @@ describe('QuoteCommentsComponent', () => {
       aTagProduct2 = createElementMock('Product 2');
       const mockedATags = [aTagProduct1, aTagProduct2];
       const document = TestBed.inject(DOCUMENT);
-      spyOn(document, 'getElementsByTagName').and.returnValue(<any>mockedATags);
+      vi.spyOn(document, 'getElementsByTagName').mockReturnValue(
+        <any>mockedATags
+      );
       quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
     });
 
     function createElementMock(textContent: string) {
       const elem = { textContent: textContent, scrollIntoView: function () {} };
-      spyOn(elem, 'scrollIntoView');
+      vi.spyOn(elem, 'scrollIntoView');
       return elem;
     }
 
-    it('should expand cart and call scrollIntoView on the corresponding cart item in the document', fakeAsync(() => {
+    it('should expand cart and call scrollIntoView on the corresponding cart item in the document', async () => {
+      vi.useFakeTimers();
       component.onItemClicked({ item: { id: 'P2', name: 'Product 2' } });
       expect(
         quoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
-      tick(); //because of delay(0)
+      await vi.advanceTimersByTimeAsync(0); //because of delay(0)
+      vi.useRealTimers();
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
       expect(aTagProduct2.scrollIntoView).toHaveBeenCalledWith({
         block: 'center',
       });
-    }));
+    });
 
-    it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
+    it('should only expand the cart but not scroll if the target item is not found in the document', async () => {
+      vi.useFakeTimers();
       component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
       expect(
         quoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
-      tick(); //because of delay(0)
+      await vi.advanceTimersByTimeAsync(0); //because of delay(0)
+      vi.useRealTimers();
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
       expect(aTagProduct2.scrollIntoView).not.toHaveBeenCalled();
-    }));
+    });
   });
 
   describe('prepareMessageEvents', () => {
@@ -522,6 +530,7 @@ describe('QuoteCommentsComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      renderComponent();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,
@@ -539,6 +548,7 @@ describe('QuoteCommentsComponent', () => {
     });
 
     it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      renderComponent();
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,

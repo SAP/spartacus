@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -102,11 +102,27 @@ context('Product Configuration', () => {
         testProductMultiLevel
       );
       configurationVc.clickAddToCartBtn();
+      configurationOverview.checkConfigOverviewPageDisplayed();
       cy.log('Go back to configuration page using browser back button');
       cy.go('back');
+      configurationVc.checkConfigPageDisplayed();
       configurationVc.clickAddToCartBtn();
+      configurationOverview.checkConfigOverviewPageDisplayed();
       configurationOverview.clickContinueToCartBtnOnOP();
       configurationCart.clickOnEditConfigurationLink(0);
+      configurationVc.checkConfigPageDisplayed();
+    });
+
+    it('should sync increased quantity from product detail page with configuration add-to-cart stepper (CXSPA-2662)', () => {
+      configurationVc.registerCreateConfigurationRoute();
+      clickAllowAllFromBanner();
+      common.goToPDPage(electronicsShop, testProductMultiLevel);
+      configuration.checkPdpQuantityStepper(1);
+      configuration.increasePdpQuantity();
+      configuration.increasePdpQuantity();
+      configuration.checkPdpQuantityStepper(3);
+      configurationVc.clickOnConfigureBtnInCatalog();
+      configuration.checkQuantityStepper(3);
     });
 
     it('should increase quantity of a configured product via a quantity stepper (CXSPA-3193)', () => {
@@ -284,7 +300,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Skipped due to JDK-21 (CXSPA-10506): Checkout process for configurable products', () => {
+  describe('Checkout process for configurable products', () => {
     it('should support configurable product', () => {
       configuration.completeOrderProcess(testProductMultiLevel, true);
     });

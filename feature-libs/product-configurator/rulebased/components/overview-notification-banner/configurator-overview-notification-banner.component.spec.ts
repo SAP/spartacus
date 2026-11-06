@@ -1,13 +1,14 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-
+import { I18nTestingModule, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -20,22 +21,6 @@ import {
   productConfigurationWithoutIssues,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
-
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 
 const productConfigurationWithDetailedIssuesCountedInOverview: Configurator.Configuration =
   {
@@ -116,29 +101,15 @@ function initialize(router: ConfiguratorRouter.Data) {
   htmlElem = fixture.nativeElement;
   fixture.detectChanges();
 }
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
-})
-class MockCxIconComponent {
-  @Input() type: any;
-}
 
 class MockActivatedRoute {
   constructor(public snapshot: any) {}
 }
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterModule],
-      declarations: [
-        ConfiguratorOverviewNotificationBannerComponent,
-        MockTranslatePipe,
-        MockUrlPipe,
-        MockCxIconComponent,
-      ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RouterModule, ConfiguratorOverviewNotificationBannerComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
@@ -150,8 +121,17 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ConfiguratorOverviewNotificationBannerComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe, IconComponent],
+        },
+        add: {
+          imports: [I18nTestingModule, UrlTestingModule, IconTestingModule],
+        },
+      })
+      .compileComponents();
+  });
 
   it('should create', () => {
     configurationObs = of(productConfiguration);
@@ -319,6 +299,27 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     );
     component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
       expect(skipConflicts).toBe(false)
+    );
+  });
+
+  it('should count CPQ overview issues including nested container-row issues', () => {
+    const cpqConfigurationWithNestedIssues: Configurator.Configuration = {
+      ...productConfigurationWithoutIssues,
+      overview: {
+        configId: CONFIG_ID,
+        productCode: productConfigurationWithoutIssues.productCode ?? '',
+        totalNumberOfIssues: 6,
+      },
+    };
+    configurationObs = of(cpqConfigurationWithNestedIssues);
+    initialize(routerData);
+    component.numberOfIssues$.subscribe((numberOfIssues) =>
+      expect(numberOfIssues).toBe(6)
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-error-msg'
     );
   });
 });

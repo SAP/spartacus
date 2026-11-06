@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ export const defaultOccConfiguratorProductConfig: OccConfig = {
           configurator:
             'products/${productCode}?fields=code,configurable,configuratorType',
           configuratorProductCard:
-            'products/${productCode}?fields=code,description,images(DEFAULT)',
+            'products/${productCode}?fields=code,name,description,images(DEFAULT)',
         },
       },
     },

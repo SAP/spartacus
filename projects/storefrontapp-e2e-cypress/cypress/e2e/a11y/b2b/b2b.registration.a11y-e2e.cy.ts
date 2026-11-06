@@ -1,16 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { fillOrganizationUserRegistrationForm } from '../../../helpers/b2b/b2b-user-registration';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 function clickRegisterButton() {
   cy.get('main button').contains(' Register ').scrollIntoView().click();
 }
 describe('B2b registration accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.a11yContinuumSetup();

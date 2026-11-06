@@ -1,17 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable, inject } from '@angular/core';
 import { CmsService } from '@spartacus/core';
-import { Observable, Subscription, of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 
 import {
   OpfBaseFacade,
   OpfDynamicScript,
+  OpfHtmlContentMode,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
 import {
@@ -37,8 +38,6 @@ export class OpfCtaScriptsService {
   protected opfDynamicCtaService = inject(OpfDynamicCtaService);
   protected opfStaticCtaService = inject(OpfStaticCtaService);
 
-  protected subList: Array<Subscription> = [];
-
   loadAndRunScript(
     script: OpfDynamicScript
   ): Promise<OpfDynamicScript | undefined> {
@@ -47,10 +46,15 @@ export class OpfCtaScriptsService {
     return new Promise(
       (resolve: (value: OpfDynamicScript | undefined) => void) => {
         this.opfResourceLoaderService
-          .loadResources(script.jsUrls, script.cssUrls)
+          .loadResources(script.jsUrls, script.cssUrls, undefined, script)
           .then(() => {
-            if (html) {
+            if (
+              html &&
+              script?.htmlContentMode !== OpfHtmlContentMode.SEPARATE
+            ) {
               this.opfResourceLoaderService.executeScriptFromHtml(html);
+              resolve(script);
+            } else if (html) {
               resolve(script);
             } else {
               resolve(undefined);
@@ -151,9 +155,80 @@ export class OpfCtaScriptsService {
           scriptsLocation,
           paymentAccountIds
         ),
+      [OpfCtaScriptsLocation.CART_QUICK_BUY]: () =>
+        this.opfDynamicCtaService.fillCtaRequestforCartPage(
+          scriptsLocation,
+          paymentAccountIds
+        ),
+      [OpfCtaScriptsLocation.PDP_QUICK_BUY]: () =>
+        this.opfDynamicCtaService.fillCtaRequestforProductPage(
+          scriptsLocation,
+          paymentAccountIds
+        ),
     };
     const selectedFunction = locationToFunctionMap[scriptsLocation];
     return selectedFunction();
+  }
+
+  getQuickBuyCtaHtmlList(): Observable<OpfDynamicScript[]> {
+    let isDynamicCtaLocation = false;
+    return this.fillQuickBuyCtaScriptRequest().pipe(
+      concatMap((opfCtaScriptsRequest) => {
+        isDynamicCtaLocation =
+          !!opfCtaScriptsRequest?.scriptLocations?.length &&
+          !!opfCtaScriptsRequest?.scriptLocations.find((location) =>
+            OpfCtaDynamicLocations.includes(location)
+          );
+        isDynamicCtaLocation &&
+          this.opfDynamicCtaService.registerScriptReadyEvent();
+        return this.fetchCtaScripts(opfCtaScriptsRequest);
+      }),
+      tap((scriptsResponse) => {
+        isDynamicCtaLocation &&
+          !!scriptsResponse.length &&
+          this.opfDynamicCtaService.initiateEvents();
+      }),
+      finalize(() => {
+        this.opfResourceLoaderService.clearAllResources();
+        isDynamicCtaLocation && this.opfDynamicCtaService.stopEvents();
+      })
+    );
+  }
+
+  protected fillQuickBuyCtaScriptRequest(): Observable<OpfCtaScriptsRequest> {
+    let paymentAccountIds: number[];
+
+    return this.getPaymentAccountIds().pipe(
+      concatMap((accIds) => {
+        paymentAccountIds = accIds;
+        return this.getQuickBuyScriptLocation();
+      }),
+      concatMap((scriptsLocation: OpfCtaScriptsLocation | undefined) => {
+        return this.fillRequestForTargetPage(
+          scriptsLocation,
+          paymentAccountIds
+        );
+      })
+    );
+  }
+
+  protected getQuickBuyScriptLocation(): Observable<
+    OpfCtaScriptsLocation | undefined
+  > {
+    const cmsToCtaLocationMap: Partial<
+      Record<OpfCtaCmsPageLocation, OpfCtaScriptsLocation>
+    > = {
+      [OpfCtaCmsPageLocation.CART_PAGE]: OpfCtaScriptsLocation.CART_QUICK_BUY,
+      [OpfCtaCmsPageLocation.PDP_PAGE]: OpfCtaScriptsLocation.PDP_QUICK_BUY,
+    };
+    return this.cmsService.getCurrentPage().pipe(
+      take(1),
+      map((page) =>
+        page.pageId
+          ? cmsToCtaLocationMap[page.pageId as OpfCtaCmsPageLocation]
+          : undefined
+      )
+    );
   }
 
   protected getScriptLocation(): Observable<OpfCtaScriptsLocation | undefined> {

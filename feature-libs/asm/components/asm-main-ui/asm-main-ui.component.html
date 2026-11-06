@@ -21,7 +21,7 @@
         rel="noopener noreferrer"
         role="button"
       >
-        <cx-icon [type]="iconTypes.HELP"></cx-icon>
+        <cx-icon [type]="iconTypes.HELP" />
         <span>{{ 'asm.helpPortalUrl' | cxTranslate }}</span></a
       >
     </div>
@@ -37,20 +37,16 @@
         class="cx-asm-customer-list-link"
         (click)="showCustomList()"
       >
-        <cx-icon [type]="iconTypes.USER_FRIENDS"></cx-icon>
+        <cx-icon [type]="iconTypes.USER_FRIENDS" />
         <span>{{ 'asm.customers' | cxTranslate }}</span></a
       >
     </div>
 
     <ng-container *cxFeature="'!authorizationCodeFlowByDefault'">
-      <cx-asm-toggle-ui
-        *ngIf="customerSupportAgentLoggedIn$ | async"
-      ></cx-asm-toggle-ui>
+      <cx-asm-toggle-ui *ngIf="customerSupportAgentLoggedIn$ | async" />
     </ng-container>
 
-    <cx-asm-session-timer
-      *ngIf="customerSupportAgentLoggedIn$ | async"
-    ></cx-asm-session-timer>
+    <cx-asm-session-timer *ngIf="customerSupportAgentLoggedIn$ | async" />
 
     <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
       <div
@@ -89,34 +85,31 @@
     *ngIf="customerSupportAgentLoggedIn$ | async; else showLoginForm"
   >
     <ng-container *ngIf="customer$ | async; else showCustomerSelection">
-      <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
+      <cx-customer-emulation *ngIf="notCollapsed" />
       <cx-message
         *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
         [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
         [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
         (closeMessage)="closeDialogConfirmationAlert()"
-      >
-      </cx-message>
+      />
       <cx-message
         *ngIf="showDeeplinkCartInfoAlert$ | async"
         [text]="deeplinkCartAlertKey | cxTranslate"
         [type]="globalMessageType.MSG_TYPE_INFO"
         (closeMessage)="closeDeeplinkCartInfoAlert()"
-      >
-      </cx-message>
+      />
       <cx-message
         *ngIf="notCollapsed && showCustomerEmulationInfoAlert"
         [text]="'asm.startCustomerEmulationAlertInfo' | cxTranslate"
         [type]="globalMessageType.MSG_TYPE_INFO"
         (closeMessage)="closeCustomerEmulationInfoAlert()"
-      >
-      </cx-message>
+      />
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection
         *ngIf="notCollapsed"
         (submitEvent)="startCustomerEmulationSession($event, $event.parameters)"
-      ></cx-customer-selection>
+      />
     </ng-template>
   </ng-container>
 
@@ -126,7 +119,7 @@
         *ngIf="notCollapsed"
         (submitEvent)="loginCustomerSupportAgent($event)"
         [csAgentTokenLoading]="csAgentTokenLoading$ | async"
-      ></cx-csagent-login-form>
+      />
     </ng-container>
   </ng-template>
 </ng-container>

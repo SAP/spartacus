@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { GlobalMessageType } from 'projects/core/src/global-message/models/global-message.model';
+import { GlobalMessageType } from 'core-libs/core/src/global-message/models/global-message.model';
 import { MessageService } from './message.service';
 
 describe('MessageService', () => {

@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -15,22 +16,28 @@ import {
   inject,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
   AuthConfigService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CustomFormValidators,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import {
   VerificationToken,
@@ -45,8 +52,17 @@ import { RegistrationVerificationTokenFormComponentService } from './verify-regi
   selector: 'cx-registration-verification-token-form',
   templateUrl: './verify-register-verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
   host: { ngSkipHydration: 'true' },
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgIf,
+    NgClass,
+    SpinnerComponent,
+    TranslatePipe,
+  ],
 })
 export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected fb = inject(UntypedFormBuilder);
@@ -64,18 +80,16 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected launchDialogService: LaunchDialogService =
     inject(LaunchDialogService);
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected passwordValidators = this.getPasswordValidators();
 
   getPasswordValidators(): any {
-    if (this.featureConfigService.isEnabled('enableSecurePasswordValidation')) {
-      return CustomFormValidators.securePasswordValidators;
-    } else {
-      return [
-        ...CustomFormValidators.passwordValidators,
-        CustomFormValidators.noConsecutiveCharacters,
-      ];
-    }
+    return this.featureToggles.useEnhancedSecurePasswordValidators
+      ? [
+          ...CustomFormValidators.securePasswordValidators,
+          CustomFormValidators.mustEndWithLegalCharacter,
+        ]
+      : CustomFormValidators.securePasswordValidators;
   }
 
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
@@ -104,7 +118,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   );
 
   ngOnInit() {
-    if (!!history.state) {
+    if (history.state) {
       this.tokenId = history.state['tokenId'];
       this.target = history.state['loginId'];
       this.titleCode = history.state['titleCode'];
@@ -136,7 +150,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       !this.lastName
     ) {
       this.router.go(
-        this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+        this.featureToggles.authorizationCodeFlowByDefault
           ? { cxRoute: 'register' }
           : ['/login/register']
       );
@@ -244,7 +258,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       this.router.go('login');
     }
 
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+    if (this.featureToggles.authorizationCodeFlowByDefault) {
       this.router.go({ cxRoute: 'login' });
     }
     this.service.postRegisterMessage();
@@ -313,5 +327,19 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       event.preventDefault();
       this.openInfoDailog();
     }
+  }
+
+  goBack(): void {
+    this.router.go(
+      { cxRoute: 'register' },
+      {
+        state: {
+          titleCode: this.titleCode,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.target,
+        },
+      }
+    );
   }
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'getPaymentDetailsState',
         'createPaymentDetails',
         'setPaymentDetails',
+        'deletePaymentDetails',
       ],
       // TODO:#deprecation-checkout - remove once we remove ngrx
       async: true,
@@ -60,4 +61,9 @@ export abstract class CheckoutPaymentFacade {
   abstract setPaymentDetails(
     paymentDetails: PaymentDetails
   ): Observable<unknown>;
+
+  /**
+   * Deletes the payment details from the current cart
+   */
+  abstract deletePaymentDetails(): Observable<unknown>;
 }

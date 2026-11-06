@@ -1,7 +1,11 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   STATUS,
@@ -11,31 +15,29 @@ import {
 import {
   FileUploadModule,
   FocusConfig,
+  FocusDirective,
   FormErrorsModule,
+  IconComponent,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
-import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
-  createTicketEvent = createSpy().and.returnValue(EMPTY);
-  uploadAttachment = createSpy().and.returnValue(EMPTY);
+  createTicketEvent = vi.fn().mockReturnValue(EMPTY);
+  uploadAttachment = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -43,7 +45,6 @@ export class MockKeyboadFocusDirective {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -57,15 +58,10 @@ describe('CustomerTicketingReopenDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
         FileUploadModule,
-      ],
-      declarations: [
         CustomerTicketingReopenDialogComponent,
-        MockKeyboadFocusDirective,
-        MockCxIconComponent,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -75,7 +71,18 @@ describe('CustomerTicketingReopenDialogComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingReopenDialogComponent, {
+        remove: { imports: [TranslatePipe, FocusDirective, IconComponent] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockKeyboadFocusDirective,
+            MockCxIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
   });
@@ -142,9 +149,9 @@ describe('CustomerTicketingReopenDialogComponent', () => {
           addedByAgent: true,
           ticketEventAttachments: [{}],
         };
-        (
-          customerTicketingFacade.createTicketEvent as jasmine.Spy
-        ).and.returnValue(of(mockTicketEvent));
+        (customerTicketingFacade.createTicketEvent as any).mockReturnValue(
+          of(mockTicketEvent)
+        );
 
         component.reopenRequest();
 

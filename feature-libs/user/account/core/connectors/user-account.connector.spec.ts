@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { VerificationToken, VerificationTokenCreation } from '../../root/model';
 import { UserAccountAdapter } from './user-account.adapter';
 import { UserAccountConnector } from './user-account.connector';
-import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
@@ -17,10 +16,10 @@ const verificationToken: VerificationToken = {
 };
 
 class MockUserAdapter implements UserAccountAdapter {
-  createVerificationToken = createSpy('createVerificationToken').and.callFake(
-    () => of(verificationToken)
-  );
-  load = createSpy('load').and.callFake((userId) => of(`load-${userId}`));
+  createVerificationToken = vi
+    .fn('createVerificationToken')
+    .mockImplementation(() => of(verificationToken));
+  load = vi.fn('load').mockImplementation((userId) => of(`load-${userId}`));
 }
 
 describe('UserConnector', () => {
@@ -43,18 +42,17 @@ describe('UserConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('get should call adapter', () => {
-    let result;
-    service.get('user-id').subscribe((res) => (result = res));
+  it('get should call adapter', async () => {
+    const result = await firstValueFrom(service.get('user-id'));
     expect(result).toEqual('load-user-id');
     expect(adapter.load).toHaveBeenCalledWith('user-id');
   });
 
-  it('should create a new verification token', () => {
-    let result;
-    service
-      .createVerificationToken(verificationTokenCreation)
-      .subscribe((res) => (result = res));
+  it('should create a new verification token', async () => {
+    const result = await firstValueFrom(
+      service.createVerificationToken(verificationTokenCreation)
+    );
+
     expect(result).toEqual(verificationToken);
     expect(adapter.createVerificationToken).toHaveBeenCalledWith(
       verificationTokenCreation

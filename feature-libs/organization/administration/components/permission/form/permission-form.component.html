@@ -22,7 +22,7 @@
         id="codeError"
         [translationParams]="{ label: 'orgPurchaseLimit.code' | cxTranslate }"
         [control]="form.get('code')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label
@@ -38,7 +38,7 @@
         formControlName="code"
         [searchable]="false"
         [clearable]="false"
-        [items]="(types$ | async) ?? null"
+        [items]="(types$ | async) ?? []"
         bindLabel="name"
         bindValue="code"
         [readonly]="form.disabled"
@@ -46,15 +46,17 @@
         [placeholder]="
           'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
         "
-      >
-      </ng-select>
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
+      />
 
       <cx-form-errors
         [translationParams]="{
           label: 'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate,
         }"
         [control]="form.get('orderApprovalPermissionType.code')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label *ngIf="form.get('periodRange')">
@@ -70,15 +72,17 @@
         [items]="periods"
         appendTo="cx-org-list"
         [placeholder]="'orgPurchaseLimit.periodRange' | cxTranslate"
-      >
-      </ng-select>
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
+      />
 
       <cx-form-errors
         [translationParams]="{
           label: 'orgPurchaseLimit.periodRange' | cxTranslate,
         }"
         [control]="form.get('periodRange')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label
@@ -99,15 +103,17 @@
         bindLabel="name"
         bindValue="isocode"
         [placeholder]="'orgPurchaseLimit.currency' | cxTranslate"
-      >
-      </ng-select>
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
+      />
 
       <cx-form-errors
         [translationParams]="{
           label: 'orgPurchaseLimit.currency' | cxTranslate,
         }"
         [control]="form.get('currency.isocode')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label *ngIf="form.get('threshold')">
@@ -133,7 +139,7 @@
           label: 'orgPurchaseLimit.threshold' | cxTranslate,
         }"
         [control]="form.get('threshold')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label [formGroup]="$any(form.get('orgUnit'))">
@@ -146,21 +152,23 @@
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="(units$ | async) ?? null"
+        [items]="(units$ | async) ?? []"
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit')?.disabled ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgPurchaseLimit.orgUnit' | cxTranslate"
-      >
-      </ng-select>
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
+      />
 
       <cx-form-errors
         [translationParams]="{
           label: 'orgPurchaseLimit.orgUnit' | cxTranslate,
         }"
         [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
+      />
     </label>
   </ng-container>
 </cx-org-form>

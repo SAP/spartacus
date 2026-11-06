@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,6 @@ import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-a
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
 @NgModule({
-  declarations: [OpfCheckoutBillingAddressFormComponent, GetAddressCardContent],
   exports: [OpfCheckoutBillingAddressFormComponent],
   imports: [
     NgSelectA11yModule,
@@ -35,6 +34,8 @@ import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-add
     FormErrorsModule,
     SpinnerModule,
     AddressFormModule,
+    OpfCheckoutBillingAddressFormComponent,
+    GetAddressCardContent,
   ],
   providers: [OpfCheckoutBillingAddressFormService],
 })

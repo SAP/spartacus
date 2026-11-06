@@ -25,7 +25,7 @@ const organizationBreadcrumb: BreadcrumbMeta = {
 };
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = jasmine.createSpy('get').and.returnValue(testOrganizationUrl);
+  get = vi.fn().mockReturnValue(testOrganizationUrl);
 }
 
 const testHomeBreadcrumb: BreadcrumbMeta = { label: 'Test Home', link: '/' };
@@ -82,7 +82,7 @@ describe('OrganizationPageMetaResolver', () => {
   describe('resolveBreadcrumbs', () => {
     describe('when being on the Organization page', () => {
       beforeEach(() => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of({ state: { semanticRoute: 'organization' } } as any)
         );
       });
@@ -101,11 +101,11 @@ describe('OrganizationPageMetaResolver', () => {
       };
 
       beforeEach(() => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of({ state: { semanticRoute: 'orgBudgetDetails' } } as any)
         );
 
-        spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
+        vi.spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').mockReturnValue(
           of([testHomeBreadcrumb, testBudgetsBreadcrumb])
         );
       });

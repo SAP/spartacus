@@ -1,11 +1,9 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { CartModificationList } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_CURRENT } from '@spartacus/core';
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, of } from 'rxjs';
 import { ReorderOrderAdapter } from './reorder-order.adapter';
 import { ReorderOrderConnector } from './reorder-order.connector';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockOrderId = 'orderID';
@@ -14,14 +12,14 @@ const mockCartModificationList: CartModificationList = {
 };
 
 class MockReorderOrderAdapter implements ReorderOrderAdapter {
-  reorder = createSpy().and.returnValue(of({}));
+  reorder = vi.fn().mockReturnValue(of({}));
 }
 
 describe('ReorderOrderConnector', () => {
   let adapter: ReorderOrderAdapter;
   let connector: ReorderOrderConnector;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         ReorderOrderConnector,
@@ -31,7 +29,7 @@ describe('ReorderOrderConnector', () => {
         },
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     adapter = TestBed.inject(ReorderOrderAdapter);
@@ -42,16 +40,13 @@ describe('ReorderOrderConnector', () => {
     expect(connector).toBeTruthy();
   });
 
-  it('reorder should call adapter', (done) => {
-    adapter.reorder = createSpy().and.returnValue(of(mockCartModificationList));
+  it('reorder should call adapter', async () => {
+    adapter.reorder = vi.fn().mockReturnValue(of(mockCartModificationList));
 
-    connector
-      .reorder(mockOrderId, mockUserId)
-      .pipe(take(1))
-      .subscribe((result: any) => {
-        expect(adapter.reorder).toHaveBeenCalledWith(mockOrderId, mockUserId);
-        expect(result).toEqual(mockCartModificationList);
-        done();
-      });
+    const result = await firstValueFrom(
+      connector.reorder(mockOrderId, mockUserId)
+    );
+    expect(adapter.reorder).toHaveBeenCalledWith(mockOrderId, mockUserId);
+    expect(result).toEqual(mockCartModificationList);
   });
 });

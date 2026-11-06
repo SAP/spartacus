@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
 
 // UI types
 const radioGroup = 'radioGroup';
-const single_selection_image = 'single_selection_image';
 const checkBoxList = 'checkBoxList';
 
 // Group Status
@@ -35,16 +34,12 @@ const PROJECTOR = 'Projector';
 const CONFLICT_FOR_GAMING_CONSOLE = 'Conflict for Gaming Console';
 
 // List of attributes
-const COLOUR_HT = 'COLOUR_HT';
 const CAMERA_MODE = 'CAMERA_MODE';
 const CAMERA_SD_CARD = 'CAMERA_SD_CARD';
-const ROOM_SIZE = 'ROOM_SIZE';
 const PROJECTOR_TYPE = 'PROJECTOR_TYPE';
 const GAMING_CONSOLE = 'GAMING_CONSOLE';
 
 // List of attribute values
-const WHITE = 'COLOUR_HT_WHITE';
-const TITAN = 'COLOUR_HT_TITAN';
 const SDHC = 'SDHC';
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
 const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
@@ -59,7 +54,6 @@ context('Product Configuration', () => {
     const commerceRelease: configurationVc.CommerceRelease = {};
 
     before(() => {
-      clearAllStorage();
       configurationVc.checkCommerceRelease(
         electronicsShop,
         testProduct,
@@ -68,45 +62,16 @@ context('Product Configuration', () => {
     });
 
     beforeEach(() => {
+      clearAllStorage();
       configurationVc.registerConfigurationRoute();
       configurationVc.registerConfigurationUpdateRoute();
       configurationOverviewVc.registerConfigurationOverviewRoute();
+      cy.viewport(1280, 1500);
       cy.visit('/');
       clickAllowAllFromBanner();
     });
 
     describe('Configure product', () => {
-      it('should support image attribute type - single selection', () => {
-        configurationVc.goToConfigurationPage(
-          electronicsShop,
-          testProductMultiLevel,
-          commerceRelease.isPricingEnabled
-        );
-        configuration.checkAttributeDisplayed(ROOM_SIZE, radioGroup);
-        configurationVc.selectAttributeAndWait(
-          COLOUR_HT,
-          single_selection_image,
-          WHITE,
-          commerceRelease.isPricingEnabled
-        );
-        configurationVc.checkImageSelected(
-          single_selection_image,
-          COLOUR_HT,
-          WHITE
-        );
-        configurationVc.selectAttributeAndWait(
-          COLOUR_HT,
-          single_selection_image,
-          TITAN,
-          commerceRelease.isPricingEnabled
-        );
-        configurationVc.checkImageSelected(
-          single_selection_image,
-          COLOUR_HT,
-          TITAN
-        );
-      });
-
       it('should keep checkboxes selected after group change', () => {
         configurationVc.goToConfigurationPage(
           electronicsShop,

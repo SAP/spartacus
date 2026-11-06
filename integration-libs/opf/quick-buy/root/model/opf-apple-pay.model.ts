@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@ import { Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 export interface ApplePaySessionVerificationRequest {
-  cartId: string;
+  /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
+  cartId?: string;
   validationUrl: string;
   initiative: 'web';
   initiativeContext: string;

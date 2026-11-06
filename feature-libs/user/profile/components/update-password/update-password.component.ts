@@ -1,17 +1,35 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Optional,
   inject,
+  Optional,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import {
+  FeatureDirective,
+  PageMetaService,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  getPageTitle,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 
@@ -20,19 +38,31 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   templateUrl: './update-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form', ngSkipHydration: 'true' },
-  standalone: false,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    PasswordVisibilityToggleDirective,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class UpdatePasswordComponent {
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
+  protected pageMetaService = inject(PageMetaService);
 
-  constructor(protected service: UpdatePasswordComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  constructor(protected service: UpdatePasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
+  pageTitle$: Observable<string> = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.updatePassword();

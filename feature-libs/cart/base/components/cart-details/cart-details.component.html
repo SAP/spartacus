@@ -1,11 +1,23 @@
 <ng-container *ngIf="cart$ | async as cart">
   <ng-container *ngIf="entries$ | async as entries">
     <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
-      <cx-cart-validation-warnings></cx-cart-validation-warnings>
+      <cx-cart-validation-warnings />
 
       <h2 class="cx-total">
         {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
       </h2>
+
+      <ng-container *cxFeature="'enableCartSlowNetworkResilience'">
+        <div
+          *ngIf="updating$ | async"
+          class="cx-cart-details-updating"
+          role="status"
+          aria-live="polite"
+        >
+          <cx-spinner aria-hidden="true" />
+          <span>{{ 'cartDetails.updating' | cxTranslate }}</span>
+        </div>
+      </ng-container>
 
       <cx-promotions
         [promotions]="
@@ -13,7 +25,7 @@
             cart.potentialOrderPromotions || []
           )
         "
-      ></cx-promotions>
+      />
 
       <cx-cart-item-list
         [items]="entries"
@@ -23,7 +35,7 @@
           isSaveForLater: false,
           optionalBtn: saveForLaterBtn,
         }"
-      ></cx-cart-item-list>
+      />
     </div>
   </ng-container>
 </ng-container>

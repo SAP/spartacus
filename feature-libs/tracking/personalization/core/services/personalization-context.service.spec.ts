@@ -104,7 +104,7 @@ describe('PersonalizationContextService', () => {
   });
 
   it('should return undefined if PersonalizationScriptComponent does not exists', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(
+    vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
       of({
         slots: {
           PlaceholderContentSlot: {},

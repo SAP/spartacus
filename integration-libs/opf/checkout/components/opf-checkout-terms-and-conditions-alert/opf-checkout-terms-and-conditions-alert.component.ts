@@ -1,30 +1,40 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   Input,
   OnInit,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { filter, take } from 'rxjs';
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
   templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, IconComponent, TranslatePipe, AsyncPipe],
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected opfCheckoutBillingAddressFormService = inject(
+    OpfCheckoutBillingAddressFormService
+  );
+  protected cdr = inject(ChangeDetectorRef);
 
   iconTypes = ICON_TYPE;
+  protected paymentDisabled$ =
+    this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
 
   /**
    * Defines if alert could be dismissed or not
@@ -57,6 +67,7 @@ export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
       )
       .subscribe(() => {
         this.isVisible = false;
+        this.cdr.markForCheck();
       });
   }
 }

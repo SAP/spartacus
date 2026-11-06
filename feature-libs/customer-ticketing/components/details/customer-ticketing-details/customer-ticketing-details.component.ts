@@ -1,13 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
+  CxDatePipe,
   EventService,
+  FeatureDirective,
   RoutingService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -18,7 +22,7 @@ import {
   TEXT_COLOR_CLASS,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
@@ -26,7 +30,16 @@ import { filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-customer-ticketing-details',
   templateUrl: './customer-ticketing-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    CardComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    CxDatePipe,
+    FeatureDirective,
+    TranslatePipe,
+  ],
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {
   dateFormat = DATE_FORMAT;

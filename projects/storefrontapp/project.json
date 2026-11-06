@@ -33,6 +33,11 @@
             "glob": "**/*",
             "input": "feature-libs/smartedit/assets",
             "output": "assets/"
+          },
+          {
+            "glob": "**/*",
+            "input": "integration-libs/opf/gift-card/assets",
+            "output": "assets/"
           }
         ],
         "styles": [
@@ -249,6 +254,7 @@
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
+        "eslintConfig": "projects/storefrontapp/eslint.config.mjs",
         "lintFilePatterns": [
           "projects/storefrontapp/**/*.ts",
           "projects/storefrontapp/**/*.html"

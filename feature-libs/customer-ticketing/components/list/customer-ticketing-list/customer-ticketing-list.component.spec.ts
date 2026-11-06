@@ -6,18 +6,27 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
+  FeatureStylesService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   TicketList,
 } from '@spartacus/customer-ticketing/root';
-import { EMPTY, Observable, of } from 'rxjs';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { CustomerTicketingCreateComponent } from '../customer-ticketing-create';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 
 const mockTicketList: TicketList = {
@@ -149,7 +158,6 @@ const mockTicketList2: TicketList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -158,7 +166,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -168,10 +175,7 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -186,20 +190,21 @@ class MockTranslationService {
   }
 }
 
+const mockTicketList$ = new BehaviorSubject<TicketList>(mockTicketList);
+
 class MockCustomerTicketingFacade {
   getTickets(
     _pageSize: number,
     _currentPage?: number,
     _sort?: string
   ): Observable<TicketList> {
-    return of(mockTicketList);
+    return mockTicketList$.asObservable();
   }
 
   clearTicketList() {}
 }
 @Component({
   selector: 'cx-customer-ticketing-create',
-  standalone: false,
 })
 class MockCustomerTicketingCreateComponent {}
 
@@ -209,15 +214,12 @@ describe('CustomerTicketingListComponent', () => {
   let routingService: RoutingService;
   let customerTicketingFacade: CustomerTicketingFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         CustomerTicketingListComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockUrlPipe,
-        MockCustomerTicketingCreateComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -227,10 +229,33 @@ describe('CustomerTicketingListComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingListComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            PaginationComponent,
+            SortingComponent,
+            UrlPipe,
+            CustomerTicketingCreateComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockUrlPipe,
+            MockCustomerTicketingCreateComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     const translationService = TestBed.inject(TranslationService);
-    spyOn(translationService, 'translate').and.callFake((input) => {
+    vi.spyOn(translationService, 'translate').mockImplementation((input) => {
       switch (input) {
         case 'customerTicketing.ticketId':
           return of('ticket-id');
@@ -246,14 +271,16 @@ describe('CustomerTicketingListComponent', () => {
     fixture = TestBed.createComponent(CustomerTicketingListComponent);
     component = fixture.componentInstance;
     routingService = TestBed.inject(RoutingService);
-    fixture.detectChanges();
-  }));
+    mockTicketList$.next(mockTicketList);
+  });
 
   it('should be created', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display tickets', () => {
+    fixture.detectChanges();
     const TWO_TICKETS = '(3)';
 
     const ticketsCount = fixture.debugElement.query(
@@ -271,7 +298,7 @@ describe('CustomerTicketingListComponent', () => {
   });
 
   it('should redirect to ticket details page', () => {
-    spyOn(routingService, 'go').and.stub();
+    vi.spyOn(routingService, 'go').mockImplementation(() => {});
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
@@ -288,17 +315,49 @@ describe('CustomerTicketingListComponent', () => {
   });
 
   it('should display next page', () => {
-    spyOn(customerTicketingFacade, 'getTickets').and.returnValue(
-      of(mockTicketList2)
-    );
-
-    component.pageChange(1);
-
     fixture.detectChanges();
+
+    mockTicketList$.next(mockTicketList2);
+    component.pageChange(1);
+    fixture.detectChanges();
+
     const idElements = fixture.debugElement
       .queryAll(By.css('.cx-ticketing-list-id a.cx-ticketing-list-value'))
       .map((debugElement) => debugElement.nativeElement as HTMLElement);
     expect(idElements.length).toBe(1);
     expect(idElements[0].textContent?.includes('0000003')).toBe(true);
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('CustomerTicketingListComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CustomerTicketingListComponent, RouterModule.forRoot([])],
+      providers: [
+        {
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(CustomerTicketingListComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

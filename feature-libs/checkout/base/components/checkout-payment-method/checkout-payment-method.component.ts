@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,16 +21,24 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
+  FeatureDirective,
   getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
   UserPaymentService,
   WindowRef,
 } from '@spartacus/core';
-import { Card, ICON_TYPE, SelectFocusUtility } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  FocusDirective,
+  ICON_TYPE,
+  SelectFocusUtility,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -46,20 +55,28 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './checkout-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    CardComponent,
+    CheckoutPaymentFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    FocusDirective,
+    FeatureDirective,
+  ],
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
   protected deliveryAddress: Address | undefined;
   protected busy$ = new BehaviorSubject<boolean>(false);
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
   @Optional() protected focusService = inject(SelectFocusUtility);
   @Optional() protected windowRef = inject(WindowRef);
 
@@ -155,11 +172,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       this.selectedMethod$,
       this.translationService.translate('paymentForm.useThisPayment'),
       this.translationService.translate('paymentCard.defaultPaymentMethod'),
-      this.featureConfigService?.isEnabled(
-        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
-      )
-        ? this.translationService.translate('paymentCard.selectedPayment')
-        : this.translationService.translate('paymentCard.selected'),
+      this.translationService.translate('paymentCard.selectedPayment'),
     ]).pipe(
       tap(([paymentMethods, selectedMethod]) =>
         this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
@@ -222,9 +235,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     );
 
     this.savePaymentMethod(paymentDetails);
-    if (this.featureConfigService?.isEnabled('a11yFocusOnCardAfterSelecting')) {
-      this.focusCardAfterSelecting();
-    }
+    this.focusCardAfterSelecting();
   }
 
   /**
@@ -335,11 +346,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     selected: PaymentDetails | undefined
   ): Card {
     const isSelected = selected?.id === paymentDetails.id;
-    const isButtonRole =
-      this.featureConfigService?.isEnabled(
-        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
-      ) && !isSelected;
-    const role = isButtonRole ? 'button' : 'application';
+    const role = !isSelected ? 'button' : 'application';
 
     return {
       role,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,13 +14,13 @@ import {
   KeyboardFocusModule,
   MediaModule,
 } from '@spartacus/storefront';
+import { ConfiguratorMessageModule } from '../../message/configurator-message.module';
 import { ConfiguratorPriceModule } from '../../price/configurator-price.module';
 import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
 import { ConfiguratorAttributeQuantityModule } from '../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 @NgModule({
-  declarations: [ConfiguratorAttributeProductCardComponent],
   exports: [ConfiguratorAttributeProductCardComponent],
   imports: [
     CommonModule,
@@ -33,8 +33,10 @@ import { ConfiguratorAttributeProductCardComponent } from './configurator-attrib
     ReactiveFormsModule,
     MediaModule,
     ConfiguratorPriceModule,
+    ConfiguratorMessageModule,
     KeyboardFocusModule,
     IconModule,
+    ConfiguratorAttributeProductCardComponent,
   ],
 })
 export class ConfiguratorAttributeProductCardModule {}

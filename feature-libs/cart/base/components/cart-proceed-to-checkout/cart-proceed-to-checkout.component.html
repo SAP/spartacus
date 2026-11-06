@@ -1,4 +1,22 @@
 <cx-progress-button
+  *cxFeature="'enableCartSlowNetworkResilience'"
+  (clickEvent)="disableButtonWhileNavigation()"
+  [class]="'btn btn-primary btn-block'"
+  [disabled]="cartValidationInProgress || !!(cartUpdating$ | async)"
+  [loading]="cartValidationInProgress || !!(cartUpdating$ | async)"
+  [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+  tabindex="-1"
+>
+  {{
+    (cartValidationInProgress || !!(cartUpdating$ | async)
+      ? 'validation.inProgress'
+      : 'cartDetails.proceedToCheckout'
+    ) | cxTranslate
+  }}
+</cx-progress-button>
+
+<cx-progress-button
+  *cxFeature="'!enableCartSlowNetworkResilience'"
   (clickEvent)="disableButtonWhileNavigation()"
   [class]="'btn btn-primary btn-block'"
   [disabled]="cartValidationInProgress"

@@ -1,31 +1,44 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule } from '@spartacus/core';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import {
+  FeatureLevelDirective,
+  I18nTestingModule,
+  LoggerTestingModule,
+} from '@spartacus/core';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import {
+  FocusDirective,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
+import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { defaultNumericAttributeMetadata } from '../../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
-import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
 function createValue(
@@ -49,18 +62,10 @@ function createValue(
   return value;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -70,7 +75,7 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -79,16 +84,22 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() attributeLabel?: string;
+  @Input() valueLabel?: string;
+  @Input() itemLabel?: string;
 }
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 let showRequiredErrorMessage: boolean;
@@ -148,11 +159,10 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       incomplete: true,
       values,
     };
-    fixture.detectChanges();
     return component;
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(ConfiguratorAttributeDropDownComponent, {
       set: {
         providers: [
@@ -163,23 +173,14 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeDropDownComponent,
-        ConfiguratorAttributeInputFieldComponent,
-        ConfiguratorAttributeNumericInputFieldComponent,
-        MockFocusDirective,
-        MockConfiguratorAttributeQuantityComponent,
-        MockConfiguratorPriceComponent,
-        MockFeatureLevelDirective,
-        MockConfiguratorShowMoreComponent,
-      ],
+    await TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ConfiguratorAttributeDropDownComponent,
       ],
       providers: [
         {
@@ -197,15 +198,34 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeDropDownComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [
+            FocusDirective,
+            ConfiguratorAttributeQuantityComponent,
+            ConfiguratorPriceComponent,
+            FeatureLevelDirective,
+            ConfiguratorShowMoreComponent,
+          ],
+        },
+        add: {
+          imports: [
+            KeyboardFocusTestingModule,
+            MockConfiguratorAttributeQuantityComponent,
+            MockConfiguratorPriceComponent,
+            MockFeatureLevelDirective,
+            MockConfiguratorShowMoreComponent,
+          ],
         },
       })
+      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
-  }));
+  });
 
   it('should create', () => {
     createComponentWithData();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -214,8 +234,9 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     );
   });
 
-  it('should render an empty component because showRequiredErrorMessage$ is `false`', () => {
+  it('should render an empty component in case showRequiredErrorMessage$ is `false`', () => {
     createComponentWithData(false);
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
@@ -247,16 +268,15 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
   it('should set selectedSingleValue on init', () => {
     createComponentWithData();
+    fixture.detectChanges();
     expect(component.attributeDropDownForm.value).toEqual(selectedValue);
   });
 
   it('should call updateConfiguration on select', () => {
     createComponentWithData();
+    fixture.detectChanges();
     component.ownerKey = ownerKey;
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     component.onSelect(component.attributeDropDownForm.value);
     expect(
       component['configuratorCommonsService'].updateConfiguration
@@ -392,6 +412,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   describe('getSelectedValueDescription', () => {
     it('should return blank if no description provided at model level on any selected value', () => {
       createComponentWithData();
+      fixture.detectChanges();
       component.attribute.values = [];
       expect(component.getSelectedValueDescription()).toBe('');
     });
@@ -415,10 +436,24 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       );
     });
 
+    it('should provide input field for date value in case additional input is allowed ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
     it('should provide input field for numeric value ', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      Object.assign(component.attribute, defaultNumericAttributeMetadata);
       fixture.detectChanges();
       htmlElem = fixture.nativeElement;
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -435,6 +470,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -449,6 +485,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

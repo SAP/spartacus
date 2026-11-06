@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 export * from './engine-decorator/index';
+export * from './express-utils/express-origin-validation-middleware';
 export * from './engine/cx-common-engine';
 export * from './engine/ng-express-engine';
 export * from './error-handling/index';

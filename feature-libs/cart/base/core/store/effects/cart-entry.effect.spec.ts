@@ -3,7 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { CartModification } from '@spartacus/cart/base/root';
-import { OccConfig } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  OccConfig,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
@@ -13,7 +17,6 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -27,12 +30,18 @@ const MockOccModuleConfig: OccConfig = {
 describe('Cart effect', () => {
   let entryEffects: fromEffects.CartEntryEffects;
   let actions$: Observable<Action>;
+  let globalMessageService: GlobalMessageService;
 
   let mockCartModification: Required<CartModification>;
   const userId = 'testUserId';
   const cartId = 'testCartId';
 
+  const mockGlobalMessageService = {
+    add: vi.fn(),
+  };
+
   beforeEach(() => {
+    vi.clearAllMocks();
     mockCartModification = {
       deliveryModeChanged: true,
       entry: {},
@@ -43,15 +52,15 @@ describe('Cart effect', () => {
     };
 
     const mockCartEntryConnector: Partial<CartEntryConnector> = {
-      add: createSpy().and.returnValue(of(mockCartModification)),
-      remove: createSpy().and.returnValue(of({})),
-      update: createSpy().and.returnValue(of(mockCartModification)),
+      add: vi.fn().mockReturnValue(of(mockCartModification)),
+      remove: vi.fn().mockReturnValue(of({})),
+      update: vi.fn().mockReturnValue(of(mockCartModification)),
     };
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: CartEntryConnector, useValue: mockCartEntryConnector },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         fromEffects.CartEntryEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$),
@@ -61,6 +70,7 @@ describe('Cart effect', () => {
     });
 
     entryEffects = TestBed.inject(fromEffects.CartEntryEffects);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('addEntry$', () => {
@@ -124,6 +134,22 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.removeEntry$).toBeObservable(expected);
+    });
+
+    it('should show a confirmation message after successfully removing an entry', () => {
+      const action = new CartActions.CartRemoveEntry({
+        userId: userId,
+        cartId: cartId,
+        entryNumber: 'testEntryNumber',
+      });
+
+      actions$ = of(action);
+      entryEffects.removeEntry$.subscribe();
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'cartItems.itemRemoved' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     });
   });
 

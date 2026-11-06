@@ -1,11 +1,15 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CpqQuoteOfferComponent } from './cpq-quote-offer.component';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { Observable, ReplaySubject, of, take } from 'rxjs';
 import { Component, Input } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
-import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  LanguageService,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
+import { Observable, ReplaySubject, firstValueFrom, of } from 'rxjs';
+import { CpqQuoteOfferComponent } from './cpq-quote-offer.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -23,7 +27,6 @@ class MockLanguageService {
 @Component({
   selector: 'cx-cpq-quote-offer',
   template: '',
-  standalone: false,
 })
 class MockConfigureCpqDiscountsComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;
@@ -35,13 +38,9 @@ describe('CpqQuoteOfferComponent', () => {
   let mockCartItemContext: MockCartItemContext;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CpqQuoteOfferComponent,
-        MockConfigureCpqDiscountsComponent,
-      ],
+      imports: [CpqQuoteOfferComponent, MockConfigureCpqDiscountsComponent],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
@@ -50,29 +49,29 @@ describe('CpqQuoteOfferComponent', () => {
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(CpqQuoteOfferComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteOfferComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
-
-    fixture.detectChanges();
   });
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should expose orderEntry$', (done) => {
+  it('should expose orderEntry$', async () => {
     const orderEntry: Partial<OrderEntry & Array<CpqDiscounts>> = {
       cpqDiscounts: [],
     };
-    component.orderEntry$.pipe(take(1)).subscribe((value) => {
-      expect(value).toBe(orderEntry);
-      done();
-    });
-
     mockCartItemContext.item$.next(orderEntry);
+    const value = await firstValueFrom(component.orderEntry$);
+    expect(value).toBe(orderEntry);
   });
 
   describe('estimated delivery date', () => {
@@ -80,7 +79,7 @@ describe('CpqQuoteOfferComponent', () => {
       mockCartItemContext.item$.next({
         cpqDiscounts: undefined,
       });
-
+      fixture.detectChanges();
       // const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-offer').length).toBe(0);
     });

@@ -4,18 +4,17 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthService, SemanticPathService } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
-import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
-  isUserLoggedIn = createSpy().and.returnValue(EMPTY);
+  isUserLoggedIn = vi.fn().mockReturnValue(EMPTY);
 }
 
 class SemanticPathServiceStub implements Partial<SemanticPathService> {
-  get = createSpy().and.returnValue('');
+  get = vi.fn().mockReturnValue('');
 }
 
 class CartServiceStub implements Partial<ActiveCartFacade> {
-  isGuestCart = createSpy().and.returnValue(of(true));
+  isGuestCart = vi.fn().mockReturnValue(of(true));
 }
 
 describe('NotCheckoutAuthGuard', () => {
@@ -44,8 +43,8 @@ describe('NotCheckoutAuthGuard', () => {
 
   describe('when user is authorized,', () => {
     beforeEach(() => {
-      authService.isUserLoggedIn = createSpy().and.returnValue(of(true));
-      semanticPathService.get = createSpy().and.returnValue('/home');
+      authService.isUserLoggedIn = vi.fn().mockReturnValue(of(true));
+      semanticPathService.get = vi.fn().mockReturnValue('/home');
     });
 
     it('should return homepage url', () => {
@@ -61,8 +60,8 @@ describe('NotCheckoutAuthGuard', () => {
 
   describe('when user is NOT authorized, but user is guest', () => {
     beforeEach(() => {
-      authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
-      semanticPathService.get = createSpy().and.returnValue('/cart');
+      authService.isUserLoggedIn = vi.fn().mockReturnValue(of(false));
+      semanticPathService.get = vi.fn().mockReturnValue('/cart');
     });
 
     it('should return cart page url', () => {
@@ -78,8 +77,8 @@ describe('NotCheckoutAuthGuard', () => {
 
   describe('when user is NOT authorized nor guest', () => {
     beforeEach(() => {
-      authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
-      activeCartFacade.isGuestCart = createSpy().and.returnValue(of(false));
+      authService.isUserLoggedIn = vi.fn().mockReturnValue(of(false));
+      activeCartFacade.isGuestCart = vi.fn().mockReturnValue(of(false));
     });
 
     it('should return true', () => {

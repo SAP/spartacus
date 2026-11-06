@@ -1,10 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
 
 /**
@@ -13,6 +15,91 @@ import { Configurator } from '../../model/configurator.model';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorBasicEffectService {
+  protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+
+  /**
+   * Returns the given configuration from the store if the requested tab (group)
+   * was loaded before and still holds attributes, so that the caller can avoid
+   * an unnecessary backend read.
+   *
+   * This is relevant for configurator types that load tabs lazily (one group
+   * per backend call) and may safely reuse an already loaded tab.
+   *
+   * @param configuration - configuration currently held in the store
+   * @param configId - requested configuration ID
+   * @param groupId - requested group (tab) ID
+   * @param owner - configuration owner
+   * @returns configuration from the store, or undefined if the tab was not loaded before or has no attributes
+   */
+  getConfigurationIfTabAlreadyLoaded(
+    configuration: Configurator.Configuration,
+    configId: string,
+    groupId: string,
+    owner: CommonConfigurator.Owner
+  ): Configurator.Configuration | undefined {
+    if (!configuration || !groupId || configuration.configId !== configId) {
+      return undefined;
+    }
+
+    const group = this.configuratorUtilsService.getOptionalGroupById(
+      configuration.groups,
+      groupId
+    );
+
+    if (!group?.attributes?.length) {
+      return undefined;
+    }
+
+    return {
+      ...configuration,
+      owner,
+      interactionState: {
+        ...configuration.interactionState,
+        currentGroup: groupId,
+      },
+    };
+  }
+
+  /**
+   * Returns the first tab id of a newly added container row that
+   * carries a nested product configuration. Used after add-row
+   * success to navigate into that nested configuration.
+   *
+   * A row is considered new when its id is not among the selected container rows of
+   * the previous configuration. If several new selected rows appear, the first one
+   * that defines a `groupId` is used. Returns `undefined` when the new row has no
+   * nested configuration, the nested group cannot be resolved, or it has no tabs.
+   *
+   * @param previous - Configuration still held in the store (pre-add)
+   * @param next - Configuration returned by the add-row call
+   * @returns First tab id of the nested configuration, or undefined
+   */
+  getFirstTabIdOfNewlyAddedContainerRow(
+    previous: Configurator.Configuration | undefined,
+    next: Configurator.Configuration
+  ): string | undefined {
+    const previousSelectedRows = this.collectSelectedContainerRows(
+      previous?.groups ?? []
+    );
+    const previousSelectedIds = new Set(
+      previousSelectedRows.map((row) => row.id)
+    );
+    const nextSelectedRows = this.collectSelectedContainerRows(next.groups);
+    const newRows = nextSelectedRows.filter(
+      (row) => !previousSelectedIds.has(row.id)
+    );
+    const newRowWithConfig = newRows.find((row) => !!row.groupId);
+
+    if (!newRowWithConfig?.groupId) {
+      return undefined;
+    }
+    const rowGroup = this.configuratorUtilsService.getOptionalGroupById(
+      next.groups,
+      newRowWithConfig.groupId
+    );
+    return rowGroup?.subGroups[0]?.id;
+  }
+
   /**
    * Finds first attribute group with attributes for a configuration (ignores conflict groups per default).
    * If optional parameter 'includeConflicts' is set to true it finds first group with attributes including conflict groups.
@@ -61,16 +148,14 @@ export class ConfiguratorBasicEffectService {
         )
         .shift();
     }
-    if (groupWithAttributes === undefined) {
-      groupWithAttributes = groups
-        .filter(
-          (currentGroup) =>
-            currentGroup.attributes &&
-            currentGroup.attributes.length > 0 &&
-            currentGroup.groupType !== Configurator.GroupType.CONFLICT_GROUP
-        )
-        .shift();
-    }
+    groupWithAttributes ??= groups
+      .filter(
+        (currentGroup) =>
+          currentGroup.attributes &&
+          currentGroup.attributes.length > 0 &&
+          currentGroup.groupType !== Configurator.GroupType.CONFLICT_GROUP
+      )
+      .shift();
     let id: string | undefined;
     if (groupWithAttributes) {
       id = groupWithAttributes.id;
@@ -90,5 +175,16 @@ export class ConfiguratorBasicEffectService {
         .shift();
     }
     return id;
+  }
+
+  protected collectSelectedContainerRows(
+    groups: Configurator.Group[]
+  ): Configurator.ContainerRow[] {
+    return groups.flatMap((group) => [
+      ...(group.attributes ?? []).flatMap((attribute) =>
+        (attribute.container?.rows ?? []).filter((row) => row.selected)
+      ),
+      ...this.collectSelectedContainerRows(group.subGroups ?? []),
+    ]);
   }
 }

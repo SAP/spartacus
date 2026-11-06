@@ -1,9 +1,18 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { ItemCounterComponent, MediaComponent } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { QuickOrderItemComponent } from './quick-order-item.component';
 
@@ -25,10 +34,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -36,7 +42,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockItemCounterComponent {
   @Input() max: number;
@@ -47,7 +53,7 @@ class MockItemCounterComponent {
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -61,17 +67,36 @@ describe('QuickOrderItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
         QuickOrderItemComponent,
-        MockUrlPipe,
-        MockItemCounterComponent,
-        MockMediaComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuickOrderItemComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            ItemCounterComponent,
+            MediaComponent,
+            UrlPipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockItemCounterComponent,
+            MockMediaComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     quickOrderService = TestBed.inject(QuickOrderFacade);
   });
@@ -80,7 +105,7 @@ describe('QuickOrderItemComponent', () => {
     fixture = TestBed.createComponent(QuickOrderItemComponent);
     component = fixture.componentInstance;
 
-    component.entry = mockEntry;
+    fixture.componentRef.setInput('entry', mockEntry);
     component.index = mockIndex;
     fixture.detectChanges();
   });
@@ -96,14 +121,14 @@ describe('QuickOrderItemComponent', () => {
   });
 
   it('should delete entry', () => {
-    spyOn(quickOrderService, 'softDeleteEntry');
+    vi.spyOn(quickOrderService, 'softDeleteEntry');
     component.removeEntry();
 
     expect(quickOrderService.softDeleteEntry).toHaveBeenCalledWith(mockIndex);
   });
 
   it('should update entry on quantity change', () => {
-    spyOn(quickOrderService, 'updateEntryQuantity');
+    vi.spyOn(quickOrderService, 'updateEntryQuantity');
     component.quantityControl.setValue(5);
 
     expect(quickOrderService.updateEntryQuantity).toHaveBeenCalledWith(
@@ -113,7 +138,7 @@ describe('QuickOrderItemComponent', () => {
   });
 
   it('should update quantity on secondary product add', () => {
-    spyOn(quickOrderService, 'getProductAdded').and.returnValue(
+    vi.spyOn(quickOrderService, 'getProductAdded').mockReturnValue(
       mockCodeSubject
     );
     component.ngOnInit();

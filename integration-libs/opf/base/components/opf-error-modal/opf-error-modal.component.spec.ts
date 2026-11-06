@@ -41,8 +41,11 @@ describe('OpfErrorModalComponent', () => {
   let opfErrorModalService: OpfErrorModalService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
-      declarations: [OpfErrorModalComponent],
+      imports: [
+        I18nTestingModule,
+        KeyboardFocusTestingModule,
+        OpfErrorModalComponent,
+      ],
       providers: [
         { provide: OpfErrorModalService, useClass: MockOpfErrorModalService },
         {

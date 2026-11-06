@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import {
 
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
+import { ConfiguratorStateUtils } from '../configurator-state-utils';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
@@ -442,12 +443,26 @@ function takeOverChanges(
   state: Configurator.Configuration
 ): Configurator.Configuration {
   const content = { ...action.payload };
-  const groups = content.groups.length > 0 ? content.groups : state.groups;
+  const groups =
+    content.groups.length > 0
+      ? ConfiguratorStateUtils.mergeConfigurationGroups(
+          state.groups,
+          content.groups
+        )
+      : state.groups;
+  const flatGroups =
+    content.flatGroups.length > 0
+      ? ConfiguratorStateUtils.mergeConfigurationGroups(
+          state.flatGroups,
+          content.flatGroups
+        )
+      : state.flatGroups;
 
   const result: Configurator.Configuration = {
     ...state,
     ...content,
     groups: groups,
+    flatGroups: flatGroups,
     interactionState: {
       ...state.interactionState,
       ...content.interactionState,
@@ -467,15 +482,17 @@ function takeOverPricingChanges(
   state: Configurator.Configuration
 ): Configurator.Configuration {
   const content = { ...action.payload };
-  const groups = state.groups;
+  const {
+    interactionState: _pricingInteractionState,
+    ...configurationWithoutInteractionState
+  } = content;
 
-  const result = {
+  const result: Configurator.Configuration = {
     ...state,
-    ...content,
-    groups: groups,
+    ...configurationWithoutInteractionState,
+    groups: state.groups,
     interactionState: {
       ...state.interactionState,
-      ...content.interactionState,
       issueNavigationDone: true,
     },
   };

@@ -1,19 +1,20 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CmsOrderDetailItemsComponent,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
-import {
-  CardModule,
-  CmsComponentData,
-  OutletModule,
-  PromotionsModule,
-} from '@spartacus/storefront';
+import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
+import { ConsignmentTrackingComponent } from './consignment-tracking/consignment-tracking.component';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
 
@@ -134,7 +135,6 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 @Component({
   selector: 'cx-consignment-tracking',
   template: '',
-  standalone: false,
 })
 class MockConsignmentTrackingComponent {
   @Input()
@@ -149,7 +149,7 @@ describe('OrderDetailItemsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockOrderDetailsService = <OrderDetailsService>{
       isOrderDetailsLoading(): Observable<boolean> {
         return of(false);
@@ -160,18 +160,34 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule, PromotionsModule, OutletModule],
+      imports: [RouterModule.forRoot([]), I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
       ],
-      declarations: [
-        OrderDetailItemsComponent,
-        MockConsignmentTrackingComponent,
-        OrderConsignedEntriesComponent,
-      ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(OrderDetailItemsComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, ConsignmentTrackingComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockConsignmentTrackingComponent,
+          ],
+        },
+      })
+      .overrideComponent(OrderConsignedEntriesComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailItemsComponent);
@@ -236,7 +252,7 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should show promotions on replenishment details', () => {
-    spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
+    vi.spyOn(mockOrderDetailsService, 'getOrderDetails').mockReturnValue(
       of(mockReplenishmentOrder)
     );
     let order: ReplenishmentOrder;

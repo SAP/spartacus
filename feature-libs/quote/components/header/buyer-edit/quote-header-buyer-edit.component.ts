@@ -1,28 +1,43 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 export interface SaveEvent {
   name?: string;
   description?: string;
+  purchaseOrderNumber?: string;
 }
 
 export interface EditCard {
   name: string;
   description: string;
+  purchaseOrderNumber?: string;
   charactersLimit?: number;
 }
 
 @Component({
   selector: 'cx-quote-header-buyer-edit',
   templateUrl: './quote-header-buyer-edit.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgTemplateOutlet,
+    TranslatePipe,
+  ],
 })
 export class QuoteHeaderBuyerEditComponent implements OnInit {
   iconTypes = ICON_TYPE;
@@ -82,5 +97,9 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
   ngOnInit() {
     this.defineFormControl('name', this.content.name);
     this.defineFormControl('description', this.content.description);
+    this.defineFormControl(
+      'purchaseOrderNumber',
+      this.content.purchaseOrderNumber ?? ''
+    );
   }
 }

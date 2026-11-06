@@ -106,17 +106,17 @@ describe('CartEventBuilder', () => {
 
     expect(result.length).toBe(1);
     expect(result[0].constructor === event.constructor).toBe(true);
-    expect(result[0]).toEqual(jasmine.objectContaining(event));
+    expect(result[0]).toEqual(expect.objectContaining(event));
   }
 
   describe('should register event', () => {
     it('should subscribe to cart stream when actions are dispatched', () => {
       let activeCartSubscribed = false;
       let activeCartIdSubscribed = false;
-      spyOn(activeCartService, 'getActive').and.callFake(() =>
+      vi.spyOn(activeCartService, 'getActive').mockImplementation(() =>
         of(MOCK_ACTIVE_CART).pipe(tap(() => (activeCartSubscribed = true)))
       );
-      spyOn(activeCartService, 'getActiveCartId').and.callFake(() =>
+      vi.spyOn(activeCartService, 'getActiveCartId').mockImplementation(() =>
         of('1').pipe(tap(() => (activeCartIdSubscribed = true)))
       );
 
@@ -257,8 +257,8 @@ describe('CartEventBuilder', () => {
 
           expect(result.length).toBe(2);
           expect(result[0].constructor).toEqual(CartRemoveEntrySuccessEvent);
-          expect(result[0]).toEqual(jasmine.objectContaining(firstEventData));
-          expect(result[1]).toEqual(jasmine.objectContaining(secondEventData));
+          expect(result[0]).toEqual(expect.objectContaining(firstEventData));
+          expect(result[1]).toEqual(expect.objectContaining(secondEventData));
 
           subscription.unsubscribe();
         });
@@ -308,8 +308,8 @@ describe('CartEventBuilder', () => {
 
           expect(results.length).toBe(2);
           expect(results[0].constructor).toEqual(CartRemoveEntryFailEvent);
-          expect(results[0]).toEqual(jasmine.objectContaining(firstEventData));
-          expect(results[1]).toEqual(jasmine.objectContaining(secondEventData));
+          expect(results[0]).toEqual(expect.objectContaining(firstEventData));
+          expect(results[1]).toEqual(expect.objectContaining(secondEventData));
 
           subscription.unsubscribe();
         });
@@ -340,7 +340,7 @@ describe('CartEventBuilder', () => {
           );
           expect(results.length).toBe(1);
           expect(results[0].constructor).toEqual(CartUpdateEntrySuccessEvent);
-          expect(results[0]).toEqual(jasmine.objectContaining(firstEventData));
+          expect(results[0]).toEqual(expect.objectContaining(firstEventData));
 
           subscription.unsubscribe();
         });
@@ -370,7 +370,7 @@ describe('CartEventBuilder', () => {
           );
           expect(results.length).toBe(1);
           expect(results[0].constructor).toEqual(CartUpdateEntryFailEvent);
-          expect(results[0]).toEqual(jasmine.objectContaining(firstEventData));
+          expect(results[0]).toEqual(expect.objectContaining(firstEventData));
 
           subscription.unsubscribe();
         });
@@ -401,7 +401,7 @@ describe('CartEventBuilder', () => {
             payload,
           });
 
-          expect(result).toEqual(jasmine.objectContaining(eventData));
+          expect(result).toEqual(expect.objectContaining(eventData));
         });
       });
 
@@ -428,7 +428,7 @@ describe('CartEventBuilder', () => {
             payload,
           });
 
-          expect(result).toEqual(jasmine.objectContaining(eventData));
+          expect(result).toEqual(expect.objectContaining(eventData));
         });
       });
 
@@ -456,7 +456,7 @@ describe('CartEventBuilder', () => {
             payload,
           });
 
-          expect(result).toEqual(jasmine.objectContaining(eventData));
+          expect(result).toEqual(expect.objectContaining(eventData));
         });
       });
     });
@@ -480,7 +480,7 @@ describe('CartEventBuilder', () => {
 
           actions$.next(new CartActions.CartAddVoucher(eventData));
 
-          expect(result).toEqual(jasmine.objectContaining(eventData));
+          expect(result).toEqual(expect.objectContaining(eventData));
         });
       });
 
@@ -500,7 +500,7 @@ describe('CartEventBuilder', () => {
 
           actions$.next(new CartActions.CartAddVoucherSuccess(eventData));
 
-          expect(result).toEqual(jasmine.objectContaining(eventData));
+          expect(result).toEqual(expect.objectContaining(eventData));
         });
       });
 
@@ -521,7 +521,7 @@ describe('CartEventBuilder', () => {
 
           actions$.next(new CartActions.CartAddVoucherFail(eventData));
 
-          expect(result).toEqual(jasmine.objectContaining(eventData));
+          expect(result).toEqual(expect.objectContaining(eventData));
         });
       });
     });
@@ -545,7 +545,7 @@ describe('CartEventBuilder', () => {
 
           actions$.next(new CartActions.CartRemoveVoucher(eventData));
 
-          expect(result).toEqual(jasmine.objectContaining(eventData));
+          expect(result).toEqual(expect.objectContaining(eventData));
         });
       });
 
@@ -565,7 +565,7 @@ describe('CartEventBuilder', () => {
 
           actions$.next(new CartActions.CartRemoveVoucherSuccess(eventData));
 
-          expect(result).toEqual(jasmine.objectContaining(eventData));
+          expect(result).toEqual(expect.objectContaining(eventData));
         });
       });
 
@@ -586,7 +586,7 @@ describe('CartEventBuilder', () => {
 
           actions$.next(new CartActions.CartRemoveVoucherFail(eventData));
 
-          expect(result).toEqual(jasmine.objectContaining(eventData));
+          expect(result).toEqual(expect.objectContaining(eventData));
         });
       });
     });
@@ -613,7 +613,7 @@ describe('CartEventBuilder', () => {
           })
         );
 
-        expect(result).toEqual(jasmine.objectContaining(eventData));
+        expect(result).toEqual(expect.objectContaining(eventData));
 
         subscription.unsubscribe();
       });

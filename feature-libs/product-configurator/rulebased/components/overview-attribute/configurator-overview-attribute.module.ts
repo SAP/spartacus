@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,12 @@ import { ConfiguratorPriceModule } from '../price/configurator-price.module';
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, ConfiguratorPriceModule],
-  declarations: [ConfiguratorOverviewAttributeComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ConfiguratorPriceModule,
+    ConfiguratorOverviewAttributeComponent,
+  ],
   exports: [ConfiguratorOverviewAttributeComponent],
 })
 export class ConfiguratorOverviewAttributeModule {}

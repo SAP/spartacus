@@ -1,14 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   B2BUser,
   B2BUserRole,
   EntitiesModel,
+  FeatureToggles,
   isNotUndefined,
   PaginationModel,
 } from '@spartacus/core';
@@ -39,6 +40,7 @@ export interface UserModel {
 })
 export class UserListService extends ListService<UserModel> {
   protected tableType = OrganizationTableType.USER;
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected tableService: TableService,
@@ -73,14 +75,22 @@ export class UserListService extends ListService<UserModel> {
     const userModels: EntitiesModel<UserModel> = {
       pagination,
       sorts,
-      values: values.map((value: any) => ({
+      values: values.map((value: B2BUser) => ({
         ...value,
-        unit: value.orgUnit,
-        roles: value.roles?.filter((role: any) =>
-          availableRoles.includes(role)
-        ),
+        unit: value?.orgUnit ?? {},
+        roles:
+          value?.roles?.filter((role: string) =>
+            availableRoles.includes(role as B2BUserRole)
+          ) ?? [],
       })),
     };
     return userModels;
+  }
+
+  /**
+   * Enable search functionality for user list based on feature toggle.
+   */
+  override isSearchEnabled(): boolean {
+    return !!this.featureToggles.enableB2BCustomerSearch;
   }
 }

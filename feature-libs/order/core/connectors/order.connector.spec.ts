@@ -4,18 +4,19 @@ import { take } from 'rxjs/operators';
 import { OrderAdapter } from './order.adapter';
 import { OrderConnector } from './order.connector';
 
-import createSpy = jasmine.createSpy;
-
 class MockOrderAdapter implements Partial<OrderAdapter> {
-  placeOrder = createSpy('OrderAdapter.placeOrder').and.callFake(
-    (userId: string, cartId: string, termsChecked: boolean) =>
-      of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
-  );
-  placePaymentAuthorizedOrder = createSpy(
-    'OrderAdapter.placePaymentAuthorizedOrder'
-  ).and.callFake((userId: string, cartId: string, termsChecked: boolean) =>
-    of(`placePaymentAuthorizedOrder-${userId}-${cartId}-${termsChecked}`)
-  );
+  placeOrder = vi
+    .fn('OrderAdapter.placeOrder')
+    .mockImplementation(
+      (userId: string, cartId: string, termsChecked: boolean) =>
+        of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
+    );
+  placePaymentAuthorizedOrder = vi
+    .fn('OrderAdapter.placePaymentAuthorizedOrder')
+    .mockImplementation(
+      (userId: string, cartId: string, termsChecked: boolean) =>
+        of(`placePaymentAuthorizedOrder-${userId}-${cartId}-${termsChecked}`)
+    );
 }
 
 describe('OrderConnector', () => {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,15 +11,18 @@ import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   catchError,
+  concatMap,
   filter,
   map,
   mergeMap,
   switchMap,
   take,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorGroupStatusService } from '../../facade/configurator-group-status.service';
@@ -35,6 +38,18 @@ type updateConfigurationSuccessResultType =
   | ConfiguratorActions.UpdatePriceSummary
   | ConfiguratorActions.SearchVariants
   | ConfiguratorActions.ChangeGroup;
+
+type updateConfigurationSuccessActionType =
+  | ConfiguratorActions.UpdateConfigurationSuccess
+  | ConfiguratorActions.AddContainerRowSuccess
+  | ConfiguratorActions.CopyContainerRowSuccess
+  | ConfiguratorActions.RemoveContainerRowSuccess;
+
+type updateConfigurationFailActionType =
+  | ConfiguratorActions.UpdateConfigurationFail
+  | ConfiguratorActions.AddContainerRowFail
+  | ConfiguratorActions.CopyContainerRowFail
+  | ConfiguratorActions.RemoveContainerRowFail;
 
 @Injectable()
 /**
@@ -97,23 +112,20 @@ export class ConfiguratorBasicEffects {
       ofType(ConfiguratorActions.READ_CONFIGURATION),
 
       mergeMap((action: ConfiguratorActions.ReadConfiguration) => {
-        return this.configuratorCommonsConnector
-          .readConfiguration(
-            action.payload.configuration.configId,
-            action.payload.groupId,
-            action.payload.configuration.owner
-          )
-          .pipe(
-            switchMap((configuration: Configurator.Configuration) => [
-              new ConfiguratorActions.ReadConfigurationSuccess(configuration),
-            ]),
-            catchError((error) => [
-              new ConfiguratorActions.ReadConfigurationFail({
-                ownerKey: action.payload.configuration.owner.key,
-                error: tryNormalizeHttpError(error, this.logger),
-              }),
-            ])
-          );
+        return this.readConfiguration(
+          action.payload.configuration,
+          action.payload.groupId
+        ).pipe(
+          switchMap((configuration: Configurator.Configuration) => [
+            new ConfiguratorActions.ReadConfigurationSuccess(configuration),
+          ]),
+          catchError((error) => [
+            new ConfiguratorActions.ReadConfigurationFail({
+              ownerKey: action.payload.configuration.owner.key,
+              error: tryNormalizeHttpError(error, this.logger),
+            }),
+          ])
+        );
       })
     )
   );
@@ -163,10 +175,11 @@ export class ConfiguratorBasicEffects {
     this.actions$.pipe(
       ofType(ConfiguratorActions.UPDATE_CONFIGURATION),
       map((action: ConfiguratorActions.UpdateConfiguration) => action.payload),
-      //mergeMap here as we need to process each update
-      //(which only sends one changed attribute at a time),
-      //so we must not cancel inner emissions
-      mergeMap((payload: Configurator.Configuration) => {
+      //concatMap (not mergeMap) so that updates are processed strictly one after
+      //another: concatMap queues the updates without cancelling in-flight
+      //emissions (switchMap would cancel and lose changes; each update only sends
+      //one changed attribute at a time).
+      concatMap((payload: Configurator.Configuration) => {
         return this.configuratorCommonsConnector
           .updateConfiguration(payload)
           .pipe(
@@ -184,6 +197,99 @@ export class ConfiguratorBasicEffects {
               return [
                 new ConfiguratorActions.UpdateConfigurationFail({
                   configuration: payload,
+                  error: errorPayload,
+                }),
+              ];
+            })
+          );
+      })
+    )
+  );
+
+  addContainerRow$: Observable<
+    | ConfiguratorActions.AddContainerRowSuccess
+    | ConfiguratorActions.AddContainerRowFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.ADD_CONTAINER_ROW),
+      map((action: ConfiguratorActions.AddContainerRow) => action.payload),
+      concatMap((parameters: Configurator.AddContainerRowParameters) => {
+        return this.configuratorCommonsConnector
+          .addContainerRow(parameters)
+          .pipe(
+            map((configuration: Configurator.Configuration) => {
+              return new ConfiguratorActions.AddContainerRowSuccess({
+                ...configuration,
+                owner: parameters.owner,
+              });
+            }),
+            catchError((error) => {
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
+              return [
+                new ConfiguratorActions.AddContainerRowFail({
+                  parameters,
+                  error: errorPayload,
+                }),
+              ];
+            })
+          );
+      })
+    )
+  );
+
+  copyContainerRow$: Observable<
+    | ConfiguratorActions.CopyContainerRowSuccess
+    | ConfiguratorActions.CopyContainerRowFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.COPY_CONTAINER_ROW),
+      map((action: ConfiguratorActions.CopyContainerRow) => action.payload),
+      concatMap((parameters: Configurator.CopyContainerRowParameters) => {
+        return this.configuratorCommonsConnector
+          .copyContainerRow(parameters)
+          .pipe(
+            map((configuration: Configurator.Configuration) => {
+              return new ConfiguratorActions.CopyContainerRowSuccess({
+                ...configuration,
+                owner: parameters.owner,
+              });
+            }),
+            catchError((error) => {
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
+              return [
+                new ConfiguratorActions.CopyContainerRowFail({
+                  parameters,
+                  error: errorPayload,
+                }),
+              ];
+            })
+          );
+      })
+    )
+  );
+
+  removeContainerRow$: Observable<
+    | ConfiguratorActions.RemoveContainerRowSuccess
+    | ConfiguratorActions.RemoveContainerRowFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.REMOVE_CONTAINER_ROW),
+      map((action: ConfiguratorActions.RemoveContainerRow) => action.payload),
+      concatMap((parameters: Configurator.RemoveContainerRowParameters) => {
+        return this.configuratorCommonsConnector
+          .removeContainerRow(parameters)
+          .pipe(
+            map((configuration: Configurator.Configuration) => {
+              return new ConfiguratorActions.RemoveContainerRowSuccess({
+                ...configuration,
+                owner: parameters.owner,
+              });
+            }),
+            catchError((error) => {
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
+              return [
+                new ConfiguratorActions.RemoveContainerRowFail({
+                  parameters,
                   error: errorPayload,
                 }),
               ];
@@ -297,40 +403,71 @@ export class ConfiguratorBasicEffects {
   updateConfigurationSuccess$: Observable<updateConfigurationSuccessResultType> =
     createEffect(() =>
       this.actions$.pipe(
-        ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
-        map(
-          (action: ConfiguratorActions.UpdateConfigurationSuccess) =>
-            action.payload
+        ofType(
+          ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
+          ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS,
+          ConfiguratorActions.COPY_CONTAINER_ROW_SUCCESS,
+          ConfiguratorActions.REMOVE_CONTAINER_ROW_SUCCESS
         ),
-        mergeMap((payload: Configurator.Configuration) => {
+        mergeMap((action: updateConfigurationSuccessActionType) => {
+          const payload = action.payload;
           return this.store.pipe(
             select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
             take(1),
-            filter((hasPendingChanges) => hasPendingChanges === false),
+            filter((hasPendingChanges) => !hasPendingChanges),
             switchMap(() =>
               this.store.pipe(
                 select(
                   ConfiguratorSelectors.getCurrentGroup(payload.owner.key)
                 ),
                 take(1),
-                map((currentGroupId) => {
-                  // Group ids of conflict groups (Configurator.GroupType.CONFLICT_GROUP) always start with 'CONFLICT'
-                  const groupIdFromPayload =
+                withLatestFrom(
+                  this.store.pipe(
+                    select(
+                      ConfiguratorSelectors.getConfigurationFactory(
+                        payload.owner.key
+                      )
+                    )
+                  )
+                ),
+                map(([currentGroupId, previousConfiguration]) => {
+                  const applicableCurrentGroupId =
+                    currentGroupId &&
+                    !currentGroupId.startsWith(Configurator.ConflictIdPrefix)
+                      ? currentGroupId
+                      : undefined;
+
+                  let groupIdFromPayload =
+                    applicableCurrentGroupId ??
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                       payload,
                       payload.interactionState.isConflictResolutionMode
                     );
+
+                  if (
+                    action.type ===
+                    ConfiguratorActions.ADD_CONTAINER_ROW_SUCCESS
+                  ) {
+                    const firstTabId =
+                      this.configuratorBasicEffectService.getFirstTabIdOfNewlyAddedContainerRow(
+                        previousConfiguration,
+                        payload
+                      );
+                    if (firstTabId) {
+                      groupIdFromPayload = firstTabId;
+                    }
+                  }
+
                   const parentGroupFromPayload =
                     this.configuratorGroupUtilsService.getParentGroup(
                       payload.groups,
                       this.configuratorGroupUtilsService.getGroupById(
                         payload.groups,
                         groupIdFromPayload
-                      ),
-                      undefined
+                      )
                     );
                   return {
-                    currentGroupId,
+                    applicableCurrentGroupId,
                     groupIdFromPayload,
                     parentGroupFromPayload,
                   };
@@ -351,7 +488,7 @@ export class ConfiguratorBasicEffects {
                     });
                   const searchVariantsAction =
                     new ConfiguratorActions.SearchVariants(payload);
-                  return container.currentGroupId ===
+                  return container.applicableCurrentGroupId ===
                     container.groupIdFromPayload
                     ? [
                         updateFinalizeSuccessAction,
@@ -379,25 +516,47 @@ export class ConfiguratorBasicEffects {
   updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> =
     createEffect(() =>
       this.actions$.pipe(
-        ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
-        map(
-          (action: ConfiguratorActions.UpdateConfigurationFail) =>
-            action.payload
+        ofType(
+          ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,
+          ConfiguratorActions.ADD_CONTAINER_ROW_FAIL,
+          ConfiguratorActions.COPY_CONTAINER_ROW_FAIL,
+          ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL
         ),
-        mergeMap((payload) => {
-          return this.store.pipe(
-            select(
-              ConfiguratorSelectors.hasPendingChanges(
-                payload.configuration.owner.key
+        mergeMap((action: updateConfigurationFailActionType) => {
+          const ownerKey =
+            action.type === ConfiguratorActions.ADD_CONTAINER_ROW_FAIL ||
+            action.type === ConfiguratorActions.COPY_CONTAINER_ROW_FAIL ||
+            action.type === ConfiguratorActions.REMOVE_CONTAINER_ROW_FAIL
+              ? action.payload.parameters.owner.key
+              : action.payload.configuration.owner.key;
+          const configurationFromAction =
+            action.type === ConfiguratorActions.UPDATE_CONFIGURATION_FAIL
+              ? of(action.payload.configuration)
+              : this.store.pipe(
+                  select(
+                    ConfiguratorSelectors.getConfigurationFactory(ownerKey)
+                  ),
+                  take(1)
+                );
+
+          return configurationFromAction.pipe(
+            filter((configuration) =>
+              this.configuratorGroupUtilsService.isConfigurationCreated(
+                configuration
               )
             ),
-            take(1),
-            filter((hasPendingChanges) => hasPendingChanges === false),
-            map(
-              () =>
-                new ConfiguratorActions.UpdateConfigurationFinalizeFail(
-                  payload.configuration
+            switchMap((configuration) =>
+              this.store.pipe(
+                select(ConfiguratorSelectors.hasPendingChanges(ownerKey)),
+                take(1),
+                filter((hasPendingChanges) => !hasPendingChanges),
+                map(
+                  () =>
+                    new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+                      configuration
+                    )
                 )
+              )
             )
           );
         })
@@ -442,43 +601,52 @@ export class ConfiguratorBasicEffects {
             )
           ),
           take(1),
-          filter((hasPendingChanges) => hasPendingChanges === false),
+          filter((hasPendingChanges) => !hasPendingChanges),
           switchMap(() => {
-            return this.configuratorCommonsConnector
-              .readConfiguration(
-                action.payload.configuration.configId,
-                action.payload.groupId,
-                action.payload.configuration.owner
-              )
-              .pipe(
-                switchMap((configuration: Configurator.Configuration) => {
-                  return [
-                    new ConfiguratorActions.SetCurrentGroup({
-                      entityKey: action.payload.configuration.owner.key,
+            return this.readConfiguration(
+              action.payload.configuration,
+              action.payload.groupId
+            ).pipe(
+              switchMap((configuration: Configurator.Configuration) => {
+                // Cached CPQ tabs reuse the store snapshot, including a stale
+                // menuParentGroup. Stamp the navigation target so the group
+                // menu drills in together with the form.
+                const configurationWithNavigationState: Configurator.Configuration =
+                  {
+                    ...configuration,
+                    interactionState: {
+                      ...configuration.interactionState,
                       currentGroup: action.payload.groupId,
-                    }),
-                    new ConfiguratorActions.SetMenuParentGroup({
-                      entityKey: action.payload.configuration.owner.key,
                       menuParentGroup: action.payload.parentGroupId,
-                    }),
-                    new ConfiguratorActions.ReadConfigurationSuccess(
-                      configuration
-                    ),
-                    new ConfiguratorActions.UpdatePriceSummary({
-                      ...configuration,
-                      interactionState: {
-                        currentGroup: action.payload.groupId,
-                      },
-                    }),
-                  ];
-                }),
-                catchError((error) => [
-                  new ConfiguratorActions.ReadConfigurationFail({
-                    ownerKey: action.payload.configuration.owner.key,
-                    error: tryNormalizeHttpError(error, this.logger),
+                    },
+                  };
+                return [
+                  new ConfiguratorActions.SetCurrentGroup({
+                    entityKey: action.payload.configuration.owner.key,
+                    currentGroup: action.payload.groupId,
                   }),
-                ])
-              );
+                  new ConfiguratorActions.SetMenuParentGroup({
+                    entityKey: action.payload.configuration.owner.key,
+                    menuParentGroup: action.payload.parentGroupId,
+                  }),
+                  new ConfiguratorActions.ReadConfigurationSuccess(
+                    configurationWithNavigationState
+                  ),
+                  new ConfiguratorActions.UpdatePriceSummary({
+                    ...configuration,
+                    interactionState: {
+                      currentGroup: action.payload.groupId,
+                    },
+                  }),
+                ];
+              }),
+              catchError((error) => [
+                new ConfiguratorActions.ReadConfigurationFail({
+                  ownerKey: action.payload.configuration.owner.key,
+                  error: tryNormalizeHttpError(error, this.logger),
+                }),
+              ])
+            );
           })
         );
       })
@@ -511,6 +679,46 @@ export class ConfiguratorBasicEffects {
         })
       )
     );
+
+  /**
+   * Reads a configuration for the given group (tab). For configurator types
+   * that load tabs lazily (currently CPQ), an already loaded tab is served
+   * from the store instead of triggering another backend read. All other types
+   * always read from the backend.
+   *
+   * @param configuration - configuration carrying the config ID and owner
+   * @param groupId - requested group (tab) ID
+   * @returns configuration for the requested group
+   */
+  protected readConfiguration(
+    configuration: Configurator.Configuration,
+    groupId: string
+  ): Observable<Configurator.Configuration> {
+    const owner = configuration.owner;
+    return this.store.pipe(
+      select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
+      take(1),
+      switchMap((configurationInStore) => {
+        const configurationFromStore =
+          owner.configuratorType === ConfiguratorType.CPQ
+            ? this.configuratorBasicEffectService.getConfigurationIfTabAlreadyLoaded(
+                configurationInStore,
+                configuration.configId,
+                groupId,
+                owner
+              )
+            : undefined;
+
+        return configurationFromStore
+          ? of(configurationFromStore)
+          : this.configuratorCommonsConnector.readConfiguration(
+              configuration.configId,
+              groupId,
+              owner
+            );
+      })
+    );
+  }
 
   constructor(
     protected actions$: Actions,

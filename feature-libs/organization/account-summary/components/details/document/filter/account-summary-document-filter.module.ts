@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ import {
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 
 @NgModule({
-  declarations: [AccountSummaryDocumentFilterComponent],
   imports: [
     CommonModule,
     I18nModule,
@@ -27,6 +26,7 @@ import { AccountSummaryDocumentFilterComponent } from './account-summary-documen
     DatePickerModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    AccountSummaryDocumentFilterComponent,
   ],
   exports: [AccountSummaryDocumentFilterComponent],
 })

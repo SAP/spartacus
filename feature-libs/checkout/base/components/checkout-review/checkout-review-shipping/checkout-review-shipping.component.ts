@@ -1,10 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   ActiveCartFacade,
   CartOutlets,
@@ -18,11 +20,19 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
+  FeatureToggles,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+  OutletDirective,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -31,11 +41,19 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   selector: 'cx-checkout-review-shipping',
   templateUrl: './checkout-review-shipping.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    CardComponent,
+    RouterLink,
+    IconComponent,
+    OutletDirective,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class CheckoutReviewShippingComponent {
-  protected featureConfig = inject(FeatureConfigService);
-
+  private featureToggles = inject(FeatureToggles);
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
@@ -84,7 +102,8 @@ export class CheckoutReviewShippingComponent {
           textPhone,
           textMobile,
           deliveryAddress,
-          countryName
+          countryName,
+          this.featureToggles.addTitleToAddressCard
         )
       )
     );

@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  AsmSessionCreationOptions,
   AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
-import { AsmActions } from '../store/actions/index';
+import { AsmActions, AsmSessionActions } from '../store/actions/index';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { AsmService } from './asm.service';
@@ -46,7 +47,7 @@ describe('AsmService', () => {
   });
 
   it('should dispatch proper action for customer search', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     const searchOptions: CustomerSearchOptions = { query: 'search term' };
     service.customerSearch(searchOptions);
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -77,7 +78,7 @@ describe('AsmService', () => {
   });
 
   it('should dispatch proper action for customer search reset', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     service.customerSearchReset();
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.CustomerSearchReset()
@@ -85,7 +86,7 @@ describe('AsmService', () => {
   });
 
   it('should dispatch proper action for update asm UI', () => {
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     const asmUi: AsmUi = {};
     service.updateAsmUiState(asmUi);
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -103,5 +104,14 @@ describe('AsmService', () => {
       .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(asmUi);
+  });
+
+  it('should dispatch proper action for create session event', () => {
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    const options: AsmSessionCreationOptions = { eventType: 'startSesion' };
+    service.createAsmSessionEvent(options);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmSessionActions.AsmSessionCreationAction(options)
+    );
   });
 });

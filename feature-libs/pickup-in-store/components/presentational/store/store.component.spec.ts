@@ -1,8 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule } from '@spartacus/storefront';
+import { By } from '@angular/platform-browser';
+import {
+  FeatureStylesService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MockIconComponent,
+} from '@spartacus/storefront';
+import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';
 import { SetPreferredStoreStubComponent } from '../../container/set-preferred-store/set-preferred-store.component.spec';
+import { StoreAddressComponent } from './store-address';
 import { StoreAddressStubComponent } from './store-address/store-address.component.spec';
+import { StoreScheduleComponent } from './store-schedule';
 import { StoreScheduleStubComponent } from './store-schedule/store-schedule.component.spec';
 import { StoreComponent } from './store.component';
 
@@ -12,28 +24,43 @@ describe('StoreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        StoreComponent,
-        StoreAddressStubComponent,
-        StoreScheduleStubComponent,
-        SetPreferredStoreStubComponent,
-      ],
-      imports: [I18nTestingModule, IconTestingModule],
-    }).compileComponents();
+      imports: [StoreComponent],
+    })
+      .overrideComponent(StoreComponent, {
+        remove: {
+          imports: [
+            StoreAddressComponent,
+            StoreScheduleComponent,
+            SetPreferredStoreComponent,
+            TranslatePipe,
+            IconComponent,
+          ],
+        },
+        add: {
+          imports: [
+            StoreAddressStubComponent,
+            StoreScheduleStubComponent,
+            SetPreferredStoreStubComponent,
+            MockTranslatePipe,
+            MockIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('selectStore emits the storeDetails and returns false', () => {
-    spyOn(component.storeSelected, 'emit');
+    vi.spyOn(component.storeSelected, 'emit');
 
     component.storeDetails = { name: 'storeName' };
     fixture.detectChanges();
@@ -75,31 +102,88 @@ describe('StoreComponent', () => {
   });
 
   it('toggleOpenHours toggles the value of openHoursOpen', () => {
+    fixture.detectChanges();
     const element = fixture.debugElement.nativeElement;
 
     expect(component.openHoursOpen).toEqual(false);
     expect(element.querySelector('cx-store-schedule')).toBeNull();
-    let icon = element
-      .querySelector('cx-icon')
-      .attributes.getNamedItem('ng-reflect-type')?.value;
-    expect(icon).toEqual('CARET_DOWN');
+    let iconDebugElement = fixture.debugElement.query(
+      By.css('.cx-store-opening-hours-icon cx-icon')
+    );
+    expect(iconDebugElement.componentInstance.type).toEqual(
+      ICON_TYPE.CARET_DOWN
+    );
 
-    component.toggleOpenHours();
+    const toggleButton = fixture.debugElement.query(
+      By.css('.cx-store-opening-hours-toggle')
+    ).nativeElement;
+
+    toggleButton.click();
     fixture.detectChanges();
     expect(component.openHoursOpen).toEqual(true);
     expect(element.querySelector('cx-store-schedule')).not.toBeNull();
-    icon = element
-      .querySelector('cx-icon')
-      .attributes.getNamedItem('ng-reflect-type')?.value;
-    expect(icon).toEqual('CARET_UP');
+    iconDebugElement = fixture.debugElement.query(
+      By.css('.cx-store-opening-hours-icon cx-icon')
+    );
+    expect(iconDebugElement.componentInstance.type).toEqual(ICON_TYPE.CARET_UP);
 
-    component.toggleOpenHours();
+    toggleButton.click();
     fixture.detectChanges();
     expect(component.openHoursOpen).toEqual(false);
     expect(element.querySelector('cx-store-schedule')).toBeNull();
-    icon = element
-      .querySelector('cx-icon')
-      .attributes.getNamedItem('ng-reflect-type')?.value;
-    expect(icon).toEqual('CARET_DOWN');
+    iconDebugElement = fixture.debugElement.query(
+      By.css('.cx-store-opening-hours-icon cx-icon')
+    );
+    expect(iconDebugElement.componentInstance.type).toEqual(
+      ICON_TYPE.CARET_DOWN
+    );
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('StoreComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreComponent],
+      providers: [
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    })
+      .overrideComponent(StoreComponent, {
+        remove: {
+          imports: [
+            StoreAddressComponent,
+            StoreScheduleComponent,
+            SetPreferredStoreComponent,
+            TranslatePipe,
+            IconComponent,
+          ],
+        },
+        add: {
+          imports: [
+            StoreAddressStubComponent,
+            StoreScheduleStubComponent,
+            SetPreferredStoreStubComponent,
+            MockTranslatePipe,
+            MockIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(StoreComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
@@ -91,13 +90,13 @@ const attributeDDWoValuesTemplate: Configurator.Attribute = {
   uiType: Configurator.UiType.DROPDOWN,
   selectedSingleValue: '',
 };
-const attributeSSIWithValues: Configurator.Attribute = {
+const attributeSSIWithValuesTemplate: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
   selectedSingleValue: 'SomeValue',
 };
-const attributeSSIWoValues: Configurator.Attribute = {
+const attributeSSIWoValuesTemplate: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
@@ -347,11 +346,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     occConfiguratorVariantNormalizer = TestBed.inject(
-      OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
+      OccConfiguratorVariantNormalizer
     );
-    configUISettingsConfig = TestBed.inject(
-      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
-    );
+    configUISettingsConfig = TestBed.inject(ConfiguratorUISettingsConfig);
     groups = [];
     flatGroups = [];
     configuration = structuredClone(configurationTemplate);
@@ -635,12 +632,54 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
       expect(attributes[0].hasConflicts).toBe(false);
 
-      sourceAttribute.conflicts = ['first, second'];
+      sourceAttribute.conflicts = [
+        { text: 'first' } as any,
+        { text: 'second' } as any,
+      ];
       occConfiguratorVariantNormalizer.convertAttribute(
         sourceAttribute,
         attributes
       );
       expect(attributes[1].hasConflicts).toBe(true);
+    });
+
+    it('should set hasNonNavigableConflict to true if exactly one conflict with approriate key exists otherwise false', () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: attributeName,
+        key: attributeName,
+      };
+      const attributes: Configurator.Attribute[] = [];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[0].hasNonNavigableConflict).toBe(false);
+
+      sourceAttribute.conflicts = [
+        { text: 'first' } as any,
+        { text: 'second' } as any,
+      ];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[1].hasNonNavigableConflict).toBe(false);
+
+      sourceAttribute.conflicts = [{ text: 'onlyConflict' } as any];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[2].hasNonNavigableConflict).toBe(false);
+
+      sourceAttribute.conflicts = [
+        { text: 'ATTRIBUTE_INCONSISTENCY_MARKER' } as any,
+      ];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[3].hasNonNavigableConflict).toBe(true);
     });
 
     it('should set user input to blank string in case formattedValue is not present', () => {
@@ -1142,11 +1181,15 @@ describe('OccConfiguratorVariantNormalizer', () => {
     let attributeDDWithValues: Configurator.Attribute;
     let attributeDDWoValues: Configurator.Attribute;
     let attributeRBWithValues: Configurator.Attribute;
+    let attributeSSIWithValues: Configurator.Attribute;
+    let attributeSSIWoValues: Configurator.Attribute;
 
     beforeEach(() => {
       attributeDDWithValues = structuredClone(attributeDDWithValuesTemplate);
       attributeDDWoValues = structuredClone(attributeDDWoValuesTemplate);
       attributeRBWithValues = structuredClone(attributeRBWithValuesTemplate);
+      attributeSSIWithValues = structuredClone(attributeSSIWithValuesTemplate);
+      attributeSSIWoValues = structuredClone(attributeSSIWoValuesTemplate);
     });
 
     it('should set incomplete by string type correctly', () => {
@@ -1225,6 +1268,16 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
       expect(attributeSSIWoValues.incomplete).toBe(true);
       expect(attributeSSIWithValues.incomplete).toBe(false);
+    });
+
+    it('should set incomplete by single-selection-image type with retract option correctly', () => {
+      attributeSSIWithValues.selectedSingleValue =
+        Configurator.RetractValueCode;
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeSSIWithValues
+      );
+
+      expect(attributeSSIWithValues.incomplete).toBe(true);
     });
 
     it('should set incomplete by checkbox type correctly', () => {

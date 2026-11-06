@@ -1,0 +1,173 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Location } from '@angular/common';
+import { Injectable, Injector, OnDestroy } from '@angular/core';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+} from '@angular/router';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { SiteContextParamsService } from './site-context-params.service';
+import { SiteContextUrlSerializer } from './site-context-url-serializer';
+
+// PRIVATE API
+@Injectable({
+  providedIn: 'root',
+})
+export class SiteContextRoutesHandler implements OnDestroy {
+  constructor(
+    private siteContextParams: SiteContextParamsService,
+    private serializer: SiteContextUrlSerializer,
+    private injector: Injector
+  ) {}
+
+  private subscription = new Subscription();
+
+  private contextValues: {
+    [param: string]: string;
+  } = {};
+
+  private router: Router;
+  private location: Location;
+
+  /**
+   * Tells whether there is a pending navigation at the moment, so we can avoid an infinite loop caused by the cyclic dependency:
+   * - `subscribeChanges` method triggers a navigation on update of site context state
+   * - `subscribeRouting` method updates the site context state on navigation
+   */
+  private isNavigating = false;
+
+  /**
+   * Initializes the two-way synchronization between the site context state and the URL.
+   *
+   * @deprecated since 2211.32. Use `initOnce()` instead for safe idempotent initialization.
+   * This method now delegates to `initOnce()` internally.
+   */
+  init(): void {
+    this.initOnce();
+  }
+
+  /**
+   * ReplaySubject to track initialization state.
+   * Emits once when URL context has been read and applied.
+   */
+  protected initialized$ = new ReplaySubject<unknown>(1);
+
+  /**
+   * Flag to ensure init logic runs only once.
+   */
+  private isInitialized = false;
+
+  /**
+   * Initializes the URL-to-state synchronization once and returns an Observable
+   * that completes when the initial URL context values have been applied.
+   *
+   * Safe to call multiple times - subsequent calls return the same Observable
+   * without re-executing the initialization logic.
+   *
+   * @returns Observable that emits and completes when URL context is initialized
+   */
+  initOnce(): Observable<unknown> {
+    if (!this.isInitialized) {
+      this.isInitialized = true;
+      this.initInternal();
+    }
+    return this.initialized$.asObservable();
+  }
+
+  /**
+   * Internal initialization logic
+   */
+  private initInternal(): void {
+    this.router = this.injector.get<Router>(Router);
+    this.location = this.injector.get<Location>(Location);
+    const routingParams = this.siteContextParams.getUrlEncodingParameters();
+
+    if (routingParams.length) {
+      // Read and apply URL context values synchronously
+      this.setContextParamsFromRoute(this.location.path(true));
+      // Set up ongoing subscriptions for navigation and state changes
+      this.subscribeChanges(routingParams);
+      this.subscribeRouting();
+    }
+
+    // Signal completion - URL context has been applied
+    this.initialized$.next(undefined);
+    this.initialized$.complete();
+  }
+
+  /**
+   * After each change of the site context state, it modifies the current URL in place.
+   * But it happens only for the parameters configured to be persisted in the URL.
+   */
+  private subscribeChanges(params: string[]) {
+    params.forEach((param) => {
+      const service = this.siteContextParams.getSiteContextService(param);
+      if (service) {
+        this.subscription.add(
+          service.getActive().subscribe((value) => {
+            if (
+              !this.isNavigating &&
+              this.contextValues[param] &&
+              this.contextValues[param] !== value
+            ) {
+              const parsed = this.router.parseUrl(this.router.url);
+              const serialized = this.router.serializeUrl(parsed);
+              this.location.replaceState(serialized);
+            }
+            this.contextValues[param] = value;
+          })
+        );
+      }
+    });
+  }
+
+  /**
+   * After each Angular NavigationStart event it updates the site context state based on
+   * site context params encoded in the anticipated URL.
+   */
+  private subscribeRouting() {
+    this.subscription.add(
+      this.router.events
+        .pipe(
+          filter(
+            (event) =>
+              event instanceof NavigationStart ||
+              event instanceof NavigationEnd ||
+              event instanceof NavigationError ||
+              event instanceof NavigationCancel
+          )
+        )
+        .subscribe((event) => {
+          this.isNavigating = event instanceof NavigationStart;
+          if (this.isNavigating) {
+            this.setContextParamsFromRoute((event as NavigationStart).url);
+          }
+        })
+    );
+  }
+
+  /**
+   * Updates the site context state based on the context params encoded in the given URL
+   *
+   * @param url URL with encoded context params
+   */
+  private setContextParamsFromRoute(url: string) {
+    const { params } = this.serializer.urlExtractContextParameters(url);
+    Object.keys(params).forEach((param) =>
+      this.siteContextParams.setValue(param, params[param])
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+}

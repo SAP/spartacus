@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,9 @@ export class OccB2BUserNormalizer implements Converter<Occ.B2BUser, B2BUser> {
       target = { ...(source as any) } as B2BUser;
     }
     target.email = source?.uid;
+    if (!target.customerId) {
+      target.customerId = source?.uid;
+    }
 
     return target;
   }

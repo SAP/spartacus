@@ -1,11 +1,14 @@
-import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
@@ -27,15 +30,20 @@ class MockBreakpointService {
 }
 const headerSlots = ['SiteLogo', 'MiniCart'];
 const headerSlotsIncludingPreHeader = ['PreHeader', 'SiteLogo', 'MiniCart'];
+const overviewNavigationSlot = 'CpqConfigOverviewNavigation';
 const contentSlots = [
   'CpqConfigHeader',
   'CpqConfigBanner',
   'CpqConfigMenu',
   'CpqConfigContent',
   'CpqConfigOverviewBanner',
+  overviewNavigationSlot,
   'CpqConfigOverviewContent',
   'CpqConfigBottombar',
 ];
+const contentSlotsWithoutOverviewNavigation = contentSlots.filter(
+  (slot) => slot !== overviewNavigationSlot
+);
 
 const displayOnlyHeaderSlotsLargeResolution = [
   'SiteContext',
@@ -91,9 +99,10 @@ const sectionContent = 'content';
 
 describe('CpqConfiguratorPageLayoutHandler', () => {
   let classUnderTest: CpqConfiguratorPageLayoutHandler;
+  let featureToggles: MockFeatureTogglesController;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: ConfiguratorRouterExtractorService,
@@ -107,20 +116,21 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,
         },
+        ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      CpqConfiguratorPageLayoutHandler as Type<CpqConfiguratorPageLayoutHandler>
-    );
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
+    featureToggles.set('productConfiguratorCPQContainer', true);
+    classUnderTest = TestBed.inject(CpqConfiguratorPageLayoutHandler);
   });
 
   it('should create service', () => {
     expect(classUnderTest).toBeDefined();
   });
 
-  it('should not touch slots for section different than header', () => {
+  it('should not touch slots for section different than header when overview navigation feature is enabled', () => {
     let slots$ = cold('-a', {
       a: contentSlots,
     });
@@ -130,6 +140,23 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
       sectionContent
     );
     expect(handledSlots$).toBeObservable(slots$);
+  });
+
+  it('should remove overview navigation slot when productConfiguratorCPQContainer is disabled', () => {
+    featureToggles.set('productConfiguratorCPQContainer', false);
+    const slots$ = cold('-a', {
+      a: contentSlots,
+    });
+    const handledSlots$ = classUnderTest.handle(
+      slots$,
+      pageTemplateCpq,
+      sectionContent
+    );
+    expect(handledSlots$).toBeObservable(
+      cold('-a', {
+        a: contentSlotsWithoutOverviewNavigation,
+      })
+    );
   });
 
   it('should change slots for header section in cpq template in case we are on configuration page', () => {

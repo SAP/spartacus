@@ -1,22 +1,29 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Price } from '@spartacus/core';
+import { Price, TranslatePipe } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
 
 @Component({
   selector: 'cx-quote-summary-prices',
   templateUrl: 'quote-summary-prices.component.html',
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class QuoteSummaryPricesComponent {
   protected quoteFacade = inject(QuoteFacade);
+  protected quoteUIConfig = inject(QuoteUIConfig);
 
   quoteDetails$ = this.quoteFacade.getQuoteDetails();
+
+  get showSubtotalBeforeDiscounts(): boolean {
+    return this.quoteUIConfig.quote?.showSubtotalBeforeDiscounts ?? true;
+  }
 
   /**
    * Checks whether the price has a non-zero value.

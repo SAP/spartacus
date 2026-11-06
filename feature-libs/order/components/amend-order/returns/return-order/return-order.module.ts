@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import { ReturnOrderComponent } from './return-order.component';
     AmendOrderItemsModule,
     AmendOrderActionsModule,
     FormErrorsModule,
+    ReturnOrderComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -37,7 +38,6 @@ import { ReturnOrderComponent } from './return-order.component';
       },
     }),
   ],
-  declarations: [ReturnOrderComponent],
   exports: [ReturnOrderComponent],
 })
 export class ReturnOrderModule {}

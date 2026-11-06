@@ -1,11 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureStylesService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { FeatureDirective } from '@spartacus/core';
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockCurrentLocationService } from '../../services/current-location.service.spec';
 
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { StoreSearchComponent } from './store-search.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 describe('StoreSearchComponent', () => {
   let component: StoreSearchComponent;
@@ -14,32 +19,37 @@ describe('StoreSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StoreSearchComponent, MockFeatureDirective],
-      imports: [I18nTestingModule],
+      imports: [StoreSearchComponent],
       providers: [
         {
           provide: CurrentLocationService,
           useClass: MockCurrentLocationService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreSearchComponent, {
+        remove: { imports: [TranslatePipe, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreSearchComponent);
     currentLocationService = TestBed.inject(CurrentLocationService);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeDefined();
   });
 
   it('onFindStores emits a location and returns false', () => {
+    fixture.detectChanges();
     const location = 'a location';
-    spyOn(component, 'onFindStores').and.callThrough();
-    spyOn(component.findStores, 'emit').and.callThrough();
+    vi.spyOn(component, 'onFindStores');
+    vi.spyOn(component.findStores, 'emit');
     const RESULT = component.onFindStores(location);
     expect(component.onFindStores).toHaveBeenCalledWith(location);
     expect(component.findStores.emit).toHaveBeenCalledWith({ location });
@@ -47,20 +57,21 @@ describe('StoreSearchComponent', () => {
   });
 
   it('onHideOutOfStock emits eventHideOutOfStock', () => {
-    spyOn(component.eventHideOutOfStock, 'emit');
+    fixture.detectChanges();
+    vi.spyOn(component.eventHideOutOfStock, 'emit');
     expect(component.hideOutOfStock).toEqual(false);
     component.onHideOutOfStock();
     expect(component.eventHideOutOfStock.emit).toHaveBeenCalledWith(true);
-    component.hideOutOfStock = !component.hideOutOfStock;
-    fixture.detectChanges();
+    fixture.componentRef.setInput('hideOutOfStock', true);
     component.onHideOutOfStock();
     expect(component.eventHideOutOfStock.emit).toHaveBeenCalledWith(false);
   });
 
   it('useMyLocation makes findStores emit a location', () => {
-    spyOn(currentLocationService, 'getCurrentLocation').and.callThrough();
-    spyOn(component.showSpinner, 'emit').and.callThrough();
-    spyOn(component.findStores, 'emit').and.callThrough();
+    fixture.detectChanges();
+    vi.spyOn(currentLocationService, 'getCurrentLocation');
+    vi.spyOn(component.showSpinner, 'emit');
+    vi.spyOn(component.findStores, 'emit');
 
     component.useMyLocation();
 
@@ -74,6 +85,42 @@ describe('StoreSearchComponent', () => {
   });
 });
 
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('StoreSearchComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreSearchComponent],
+      providers: [
+        {
+          provide: CurrentLocationService,
+          useClass: MockCurrentLocationService,
+        },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    })
+      .overrideComponent(StoreSearchComponent, {
+        remove: { imports: [TranslatePipe, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(StoreSearchComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
+  });
+});
+
 /**
  * This is a stub of the StoreSearchComponent with the same inputs
  * for the purposes of testing the components that wrap it.
@@ -81,7 +128,6 @@ describe('StoreSearchComponent', () => {
 @Component({
   selector: 'cx-store-search',
   template: '',
-  standalone: false,
 })
 export class StoreSearchStubComponent {
   @Input() hideOutOfStock = false;

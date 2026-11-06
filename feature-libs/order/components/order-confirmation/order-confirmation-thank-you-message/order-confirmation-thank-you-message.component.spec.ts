@@ -1,17 +1,22 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
+  FeatureLevelDirective,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { AddToHomeScreenBannerComponent } from '@spartacus/storefront';
+import { MockFeatureLevelDirective } from '@spartacus/storefront/testing';
 import { of } from 'rxjs';
+import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/order-guest-register-form.component';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
-import createSpy = jasmine.createSpy;
 
 const replenishmentOrderCode = 'test-repl-code';
 const mockOrder = {
@@ -24,14 +29,12 @@ const mockOrder = {
 @Component({
   selector: 'cx-add-to-home-screen-banner',
   template: '',
-  standalone: false,
 })
 class MockAddtoHomeScreenBannerComponent {}
 
 @Component({
   selector: 'cx-guest-register-form',
   template: '',
-  standalone: false,
 })
 class MockGuestRegisterFormComponent {
   @Input() guid: string;
@@ -39,7 +42,7 @@ class MockGuestRegisterFormComponent {
 }
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  getOrderDetails = createSpy().and.returnValue(of(mockOrder));
+  getOrderDetails = vi.fn().mockReturnValue(of(mockOrder));
   clearPlacedOrder() {}
 }
 
@@ -48,7 +51,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 class MockTranslationService {
-  translate = createSpy().and.returnValue(of('testMessage'));
+  translate = vi.fn().mockReturnValue(of('testMessage'));
 }
 
 describe('OrderConfirmationThankYouMessageComponent', () => {
@@ -58,22 +61,37 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   let orderFacade: OrderFacade;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        OrderConfirmationThankYouMessageComponent,
-        MockAddtoHomeScreenBannerComponent,
-        MockGuestRegisterFormComponent,
-        MockFeatureLevelDirective,
-      ],
+      imports: [OrderConfirmationThankYouMessageComponent],
       providers: [
         { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(OrderConfirmationThankYouMessageComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AddToHomeScreenBannerComponent,
+            OrderGuestRegisterFormComponent,
+            FeatureLevelDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAddtoHomeScreenBannerComponent,
+            MockGuestRegisterFormComponent,
+            MockFeatureLevelDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -98,9 +116,9 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should display replenishment order code', () => {
-    orderFacade.getOrderDetails = createSpy().and.returnValue(
-      of({ ...mockOrder, replenishmentOrderCode })
-    );
+    orderFacade.getOrderDetails = vi
+      .fn()
+      .mockReturnValue(of({ ...mockOrder, replenishmentOrderCode }));
 
     fixture.detectChanges();
     expect(
@@ -118,9 +136,9 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should not display guest register form for login user', () => {
-    orderFacade.getOrderDetails = createSpy().and.returnValue(
-      of({ guid: 'guid', guestCustomer: false })
-    );
+    orderFacade.getOrderDetails = vi
+      .fn()
+      .mockReturnValue(of({ guid: 'guid', guestCustomer: false }));
 
     fixture.detectChanges();
 
@@ -130,7 +148,7 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should add assistive message after view init', () => {
-    const addSpy: jasmine.Spy = spyOn(globalMessageService, 'add');
+    const addSpy: vi.Mock = vi.spyOn(globalMessageService, 'add');
     const expectedMessage = `testMessage ${mockOrder.code}. testMessage testMessage`;
 
     component.ngOnInit();

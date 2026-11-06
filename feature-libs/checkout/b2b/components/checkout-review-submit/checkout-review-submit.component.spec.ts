@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   ActiveCartFacade,
   Cart,
@@ -25,16 +26,23 @@ import {
   CostCenter,
   Country,
   I18nTestingModule,
+  MockTranslatePipe,
   PaymentDetails,
   QueryState,
+  TranslatePipe,
+  UrlPipe,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card, OutletModule, PromotionsModule } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
+import {
+  Card,
+  CardComponent,
+  IconComponent,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
+import { MockIconComponent } from '@spartacus/storefront/testing/icon-testing-module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
-
-import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
   guid: 'test',
@@ -91,7 +99,6 @@ const mockPaymentTypes: PaymentType[] = [
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
 })
 class MockCardComponent {
   @Input()
@@ -113,7 +120,7 @@ class MockCheckoutDeliveryAddressService
 class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  loadSupportedDeliveryModes = createSpy();
+  loadSupportedDeliveryModes = vi.fn();
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   > {
@@ -202,10 +209,7 @@ class MockUserCostCenterService implements Partial<UserCostCenterService> {
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -214,18 +218,14 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
   let component: B2BCheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<B2BCheckoutReviewSubmitComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
+        RouterModule.forRoot([]),
         I18nTestingModule,
         PromotionsModule,
-        IconTestingModule,
         OutletModule,
-      ],
-      declarations: [
         B2BCheckoutReviewSubmitComponent,
-        MockCardComponent,
-        MockUrlPipe,
       ],
       providers: [
         {
@@ -258,8 +258,22 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
           useClass: MockUserCostCenterService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(B2BCheckoutReviewSubmitComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe, CardComponent, IconComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockCardComponent,
+            MockIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(B2BCheckoutReviewSubmitComponent);

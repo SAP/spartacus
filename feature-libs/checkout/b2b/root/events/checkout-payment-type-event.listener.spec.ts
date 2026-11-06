@@ -19,15 +19,14 @@ import {
   CheckoutPaymentTypesQueryResetEvent,
 } from './checkout-b2b.events';
 import { CheckoutPaymentTypeEventListener } from './checkout-payment-type-event.listener';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = 'test-user-id';
 const mockCartId = 'test-cart-id';
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 describe(`CheckoutPaymentTypeEventListener`, () => {

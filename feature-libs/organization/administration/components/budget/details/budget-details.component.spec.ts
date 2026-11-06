@@ -1,28 +1,29 @@
-import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { Budget } from '@spartacus/organization/administration/core';
-import { FocusDirective } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { EMPTY, of, Subject } from 'rxjs';
+import { RouterModule } from '@angular/router';
 import {
-  DisableInfoModule,
-  ItemExistsDirective,
-  MessageService,
-  ToggleStatusModule,
-} from '../../shared';
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { Budget } from '@spartacus/organization/administration/core';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { EMPTY, of, Subject } from 'rxjs';
+import { CardComponent, MessageComponent, MessageService } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { BudgetDetailsComponent } from './budget-details.component';
-import createSpy = jasmine.createSpy;
 
 const mockCode = 'b1';
 
 class MockBudgetItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn().mockReturnValue(EMPTY);
   error$ = of(false);
+  current$ = of({});
 }
 
 class MockMessageService {
@@ -40,36 +41,39 @@ describe('BudgetDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        I18nTestingModule,
-        UrlTestingModule,
-        CardTestingModule,
-        MessageTestingModule,
-        ToggleStatusModule,
-        DisableInfoModule,
-      ],
-      declarations: [
-        BudgetDetailsComponent,
-        ItemExistsDirective,
-        FocusDirective,
-      ],
-      providers: [{ provide: ItemService, useClass: MockBudgetItemService }],
+      imports: [I18nTestingModule, RouterModule.forRoot([])],
     })
       .overrideComponent(BudgetDetailsComponent, {
-        set: {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            CardComponent,
+            MessageComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            CardTestingModule,
+            MessageTestingModule,
+          ],
           providers: [
             {
               provide: MessageService,
               useClass: MockMessageService,
             },
+            { provide: ItemService, useClass: MockBudgetItemService },
           ],
         },
       })
       .compileComponents();
 
-    itemService = TestBed.inject(ItemService);
     fixture = TestBed.createComponent(BudgetDetailsComponent);
+    itemService = fixture.componentRef.injector.get(ItemService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

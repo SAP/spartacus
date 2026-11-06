@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,6 +47,36 @@ export abstract class RulebasedConfiguratorAdapter {
    */
   abstract updateConfiguration(
     configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration>;
+
+  /**
+   * Optional method to add a new container row to a CPQ configuration.
+   * Only implemented by configurators that support containers (CPQ).
+   *
+   * @param parameters add container row parameters
+   */
+  abstract addContainerRow?(
+    parameters: Configurator.AddContainerRowParameters
+  ): Observable<Configurator.Configuration>;
+
+  /**
+   * Optional method to copy a container row of a CPQ configuration.
+   * Only implemented by configurators that support containers (CPQ).
+   *
+   * @param parameters copy container row parameters
+   */
+  abstract copyContainerRow?(
+    parameters: Configurator.CopyContainerRowParameters
+  ): Observable<Configurator.Configuration>;
+
+  /**
+   * Optional method to delete a container row from a CPQ configuration.
+   * Only implemented by configurators that support containers (CPQ).
+   *
+   * @param parameters remove container row parameters
+   */
+  abstract removeContainerRow?(
+    parameters: Configurator.RemoveContainerRowParameters
   ): Observable<Configurator.Configuration>;
 
   /**

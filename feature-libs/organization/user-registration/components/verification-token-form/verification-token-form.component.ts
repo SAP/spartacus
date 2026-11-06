@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,10 +15,25 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-
-import { UntypedFormGroup } from '@angular/forms';
-import { FeatureConfigService, RoutingService } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import {
+  FeatureToggles,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   VerificationToken,
   VerificationTokenFacade,
@@ -30,10 +46,22 @@ import { RegisterVerificationTokenFormComponentService } from './verification-to
   selector: 'cx-verification-token-form',
   templateUrl: './verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgClass,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class RegisterVerificationTokenFormComponent implements OnInit {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected service: RegisterVerificationTokenFormComponentService = inject(
     RegisterVerificationTokenFormComponentService
   );
@@ -68,7 +96,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
   waitTimeForRateLimit: number = 300;
 
   ngOnInit() {
-    if (!!history.state) {
+    if (history.state) {
       this.registerData = history.state['registrationDataForm'];
       this.tokenId = history.state['tokenId'];
       this.target = history.state['loginId'];
@@ -93,7 +121,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
           {}
         );
         this.routingService.go(
-          this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+          this.featureToggles.authorizationCodeFlowByDefault
             ? { cxRoute: 'register' }
             : ['/login/register']
         );

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ import {
 } from './utils/implements-interface-utils';
 import { fixPossiblyMissingImport } from './utils/import-utils';
 
-// NOTE: The rule will be available in ESLint configs as "@nrwl/nx/workspace/no-ngrx-fail-action-without-error-action-implementation"
+// NOTE: The rule will be available in ESLint configs as "@nx/workspace-no-ngrx-fail-action-without-error-action-implementation"
 export const RULE_NAME =
   'no-ngrx-fail-action-without-error-action-implementation';
 

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,9 @@ import { AsmCustomer360SupportTicketList } from '@spartacus/asm/customer-360/roo
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
+import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import {
   CustomerTableColumn,
   CustomerTableTextAlign,
@@ -20,7 +23,7 @@ import { SupportTicketEntry } from './asm-customer-360-support-tickets.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-support-tickets',
   templateUrl: './asm-customer-360-support-tickets.component.html',
-  standalone: false,
+  imports: [AsmCustomer360TableComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360SupportTicketsComponent implements OnInit {
   supportTicketsColumns: Array<CustomerTableColumn> = [

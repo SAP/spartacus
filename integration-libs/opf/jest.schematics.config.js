@@ -1,11 +1,11 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.schematics.json');
 const { defaultTransformerOptions } = require('jest-preset-angular/presets');
+const { esmMatchers } = require('../../jest-esm-matchers');
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
   preset: 'jest-preset-angular',
-  globalSetup: 'jest-preset-angular/global-setup',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/',
   }),
@@ -20,6 +20,7 @@ module.exports = {
       },
     ],
   },
+  transformIgnorePatterns: [`node_modules/(?!${esmMatchers.join('|')})`],
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],

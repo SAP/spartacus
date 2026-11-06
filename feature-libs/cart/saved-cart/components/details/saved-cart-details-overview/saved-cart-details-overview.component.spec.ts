@@ -1,7 +1,13 @@
 import { DebugElement, ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   CardModule,
   IconTestingModule,
@@ -55,8 +61,11 @@ describe('SavedCartDetailsOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule, CardModule],
-      declarations: [SavedCartDetailsOverviewComponent],
+      imports: [
+        IconTestingModule,
+        CardModule,
+        SavedCartDetailsOverviewComponent,
+      ],
       providers: [
         {
           provide: SavedCartDetailsService,
@@ -65,7 +74,12 @@ describe('SavedCartDetailsOverviewComponent', () => {
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SavedCartDetailsOverviewComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe] },
+        add: { imports: [MockTranslatePipe, MockDatePipe] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(SavedCartDetailsOverviewComponent);
     component = fixture.componentInstance;
@@ -73,14 +87,14 @@ describe('SavedCartDetailsOverviewComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(component, 'getCartName').and.callThrough();
-    spyOn(component, 'getCartDescription').and.callThrough();
-    spyOn(component, 'getCartId').and.callThrough();
-    spyOn(component, 'getDateSaved').and.callThrough();
-    spyOn(component, 'getCartItems').and.callThrough();
-    spyOn(component, 'getCartQuantity').and.callThrough();
-    spyOn(component, 'getCartTotal').and.callThrough();
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(component, 'getCartName');
+    vi.spyOn(component, 'getCartDescription');
+    vi.spyOn(component, 'getCartId');
+    vi.spyOn(component, 'getDateSaved');
+    vi.spyOn(component, 'getCartItems');
+    vi.spyOn(component, 'getCartQuantity');
+    vi.spyOn(component, 'getCartTotal');
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
     fixture.detectChanges();
   });

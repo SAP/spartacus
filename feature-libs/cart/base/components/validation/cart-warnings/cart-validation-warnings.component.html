@@ -4,7 +4,7 @@
     *ngIf="visibleWarnings[cartModification.entry.product.code]"
   >
     <span class="alert-icon">
-      <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+      <cx-icon [type]="iconTypes.ERROR" />
     </span>
     <span>
       <a
@@ -24,7 +24,7 @@
       [attr.aria-label]="'common.close' | cxTranslate"
       (click)="removeMessage(cartModification)"
     >
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      <cx-icon [type]="iconTypes.CLOSE" />
     </button>
   </div>
 </ng-container>

@@ -15,8 +15,7 @@
           [isVisibleCloseButton]="false"
           [type]="globalMessageType.MSG_TYPE_ERROR"
           class="quick-order-list-limit-message"
-        >
-        </cx-message>
+        />
       </ng-container>
     </ng-container>
   </ng-container>
@@ -29,8 +28,7 @@
       "
       [type]="globalMessageType.MSG_TYPE_ERROR"
       class="quick-order-add-to-cart-information-message"
-    >
-    </cx-message>
+    />
   </ng-container>
 
   <ng-container *ngIf="nonPurchasableError$ | async as nonPurchasableError">
@@ -42,8 +40,7 @@
       "
       [type]="globalMessageType.MSG_TYPE_ERROR"
       class="quick-order-non-purchasable-product-error-message"
-    >
-    </cx-message>
+    />
   </ng-container>
 
   <ng-container *ngIf="softDeletedEntries$ | async as deletedEntries">
@@ -62,8 +59,7 @@
       "
       [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
       class="quick-order-deletions-message"
-    >
-    </cx-message>
+    />
   </ng-container>
 
   <ng-container *ngIf="errors$ | async as errors">
@@ -176,15 +172,14 @@
     </div>
 
     <div class="quick-order-form-body">
-      <cx-quick-order-form #quickOrderForm [limit]="quickOrderListLimit">
-      </cx-quick-order-form>
+      <cx-quick-order-form #quickOrderForm [limit]="quickOrderListLimit" />
     </div>
 
     <div class="quick-order-table-body">
       <cx-quick-order-table
         [entries]="entries"
         [loading]="!(isCartStable$ | async)"
-      ></cx-quick-order-table>
+      />
     </div>
 
     <div class="quick-order-footer row">

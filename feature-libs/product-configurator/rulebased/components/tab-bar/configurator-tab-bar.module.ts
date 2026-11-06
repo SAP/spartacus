@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,12 +9,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
@@ -28,9 +23,10 @@ import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
     I18nModule,
     UrlModule,
     RouterModule,
+    ConfiguratorTabBarComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorTabBar: {
           component: ConfiguratorTabBarComponent,
@@ -38,7 +34,6 @@ import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
       },
     }),
   ],
-  declarations: [ConfiguratorTabBarComponent],
   exports: [ConfiguratorTabBarComponent],
 })
 export class ConfiguratorTabBarModule {}

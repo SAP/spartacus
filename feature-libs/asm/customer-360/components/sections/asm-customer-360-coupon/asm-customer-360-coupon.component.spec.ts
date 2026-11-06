@@ -5,17 +5,17 @@ import {
   AsmCustomer360Response,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { I18nTestingModule, UserIdService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
-import { AsmCustomer360CouponComponent } from './asm-customer-360-coupon.component';
 import {
   ActiveCartFacade,
   Cart,
   CartVoucherFacade,
 } from '@spartacus/cart/base/root';
+import { I18nTestingModule, UserIdService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { AsmCustomer360CouponComponent } from './asm-customer-360-coupon.component';
 
 describe('AsmCustomer360CouponComponent', () => {
   let cartVoucherService: CartVoucherFacade;
@@ -95,8 +95,8 @@ describe('AsmCustomer360CouponComponent', () => {
   }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         AsmCustomer360CouponComponent,
         AsmCustomer360PromotionListingComponent,
       ],
@@ -172,7 +172,7 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should be able to apply coupon to cart and refresh coupon status', () => {
-    spyOn(cartVoucherService, 'addVoucher').and.stub();
+    vi.spyOn(cartVoucherService, 'addVoucher').mockImplementation(() => {});
     const couponEntry = mockCouponList.coupons[1];
     expect(couponEntry.applied).toBe(false);
     component.applyCouponToCustomer(couponEntry);
@@ -183,7 +183,7 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should be able to remove coupon to cart and refresh coupon status', () => {
-    spyOn(cartVoucherService, 'removeVoucher').and.stub();
+    vi.spyOn(cartVoucherService, 'removeVoucher').mockImplementation(() => {});
     const couponEntry = mockCouponList.coupons[0];
     expect(couponEntry.applied).toBe(true);
     component.removeCouponToCustomer(couponEntry);
@@ -194,10 +194,10 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should reload coupon list when applying coupon failed', () => {
-    spyOn(cartVoucherService, 'getAddVoucherResultError').and.returnValue(
+    vi.spyOn(cartVoucherService, 'getAddVoucherResultError').mockReturnValue(
       of(true)
     );
-    spyOn(component, 'refreshComponent').and.callThrough();
+    vi.spyOn(component, 'refreshComponent');
     component.ngOnInit();
     cartVoucherService.getAddVoucherResultError();
     expect(component.refreshComponent).toHaveBeenCalled();

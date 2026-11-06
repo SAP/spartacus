@@ -1,13 +1,20 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Images, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  Images,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import { MyAccountV2OrderConsignmentsService } from '@spartacus/order/components';
 import { OrderHistoryView } from '@spartacus/order/root';
-import { MediaContainer } from '@spartacus/storefront';
+import { MediaComponent, MediaContainer } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { MyAccountV2OrderConsolidatedInformationComponent } from './my-account-v2-order-consolidated-information.component';
-import createSpy = jasmine.createSpy;
 
 const mock_order1: OrderHistoryView = {
   code: 'order1',
@@ -36,16 +43,12 @@ const mock_images: Images[] = [
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: MediaContainer;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -53,8 +56,8 @@ class MockUrlPipe implements PipeTransform {
 class MockMyAccountV2OrderConsignmentsService
   implements Partial<MyAccountV2OrderConsignmentsService>
 {
-  getGroupedConsignments = createSpy();
-  getUnconsignedEntries = createSpy();
+  getGroupedConsignments = vi.fn();
+  getUnconsignedEntries = vi.fn();
 }
 
 class MockTranslationService {
@@ -68,14 +71,9 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
   let fixture: ComponentFixture<MyAccountV2OrderConsolidatedInformationComponent>;
   let service: MyAccountV2OrderConsignmentsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MyAccountV2OrderConsolidatedInformationComponent,
-        MockUrlPipe,
-        MockMediaComponent,
-      ],
+      imports: [MyAccountV2OrderConsolidatedInformationComponent],
       providers: [
         {
           provide: MyAccountV2OrderConsignmentsService,
@@ -83,9 +81,23 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
         },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2OrderConsolidatedInformationComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, MediaComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockMediaComponent,
+          ],
+        },
+      })
+      .compileComponents();
     service = TestBed.inject(MyAccountV2OrderConsignmentsService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -115,24 +127,24 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
     expect(result2).toEqual(true);
   });
   it('should return pickup consignments', () => {
-    service.getGroupedConsignments = createSpy().and.stub();
+    service.getGroupedConsignments = vi.fn().mockImplementation(() => {});
     component.getPickupConsignments(mock_order1.consignments ?? []);
     expect(service.getGroupedConsignments).toHaveBeenCalled();
   });
   it('should return delivery consignments', () => {
-    service.getGroupedConsignments = createSpy().and.stub();
+    service.getGroupedConsignments = vi.fn().mockImplementation(() => {});
     component.getDeliveryConsignments(mock_order1.consignments ?? []);
     expect(service.getGroupedConsignments).toHaveBeenCalled();
   });
   it('should return delivery unconsigned consignments', () => {
-    service.getUnconsignedEntries = createSpy().and.stub();
+    service.getUnconsignedEntries = vi.fn().mockImplementation(() => {});
     component.getDeliveryUnconsignedEntries(
       mock_order1.unconsignedEntries ?? []
     );
     expect(service.getUnconsignedEntries).toHaveBeenCalled();
   });
   it('should return pickup unconsigned consignments', () => {
-    service.getUnconsignedEntries = createSpy().and.stub();
+    service.getUnconsignedEntries = vi.fn().mockImplementation(() => {});
     component.getPickupUnconsignedEntries(mock_order1.unconsignedEntries ?? []);
     expect(service.getUnconsignedEntries).toHaveBeenCalled();
   });

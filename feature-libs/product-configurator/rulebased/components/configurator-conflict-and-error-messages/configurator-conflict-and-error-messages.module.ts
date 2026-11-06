@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,19 +7,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-conflict-and-error-messages.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule, IconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    IconModule,
+    ConfiguratorConflictAndErrorMessagesComponent,
+  ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         CpqConfiguratorConflictAndErrorMessagesComponent: {
           component: ConfiguratorConflictAndErrorMessagesComponent,
@@ -27,8 +29,6 @@ import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-co
       },
     }),
   ],
-
-  declarations: [ConfiguratorConflictAndErrorMessagesComponent],
   exports: [ConfiguratorConflictAndErrorMessagesComponent],
 })
 export class ConfiguratorConflictAndErrorMessagesModule {}

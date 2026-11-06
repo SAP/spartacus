@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -57,6 +57,17 @@ export const s4omB2bAccountShipToUser: SampleUser = {
   },
 };
 
+export const s4omB2bProductNotInCatalogUser: AccountData = {
+  registrationData: {
+    email: 'susan.miller@harvestlive.inc',
+    password: 'welcome',
+    firstName: 'Susan',
+    lastName: 'Miller',
+    titleCode: 'mr',
+  },
+  user: '209',
+};
+
 export const cartWithS4OMB2bProductAndPremiumShipping: SampleCartProduct = {
   estimatedShipping: '$16.99',
   total: '$12.55',
@@ -73,6 +84,11 @@ export const s4omPONumber: string = poNumber;
 export const s4omCostCenter: string = '17100003_CC';
 export const s4omB2BUnit: string = 'Dell Bont Industries';
 export const s4omPastOrderId: string = '103300';
+export const s4omProductNotInCatalogOrderIds = {
+  ALL_PRODUCT_IN_CATALOG: '141455',
+  SOME_PRODUCT_IN_CATALOG: '141453',
+  NONE_PRODUCT_IN_CATALOG: '141454',
+};
 
 const acceptAndSubmitOrder = [
   {
@@ -508,7 +524,7 @@ export function findRowInOrderHistoryTable(
   poNum: string,
   costCenter?: string
 ) {
-  cy.get('cx-order-history h2').should('contain', 'Order history');
+  cy.get('cx-breadcrumb h1').should('contain', 'Order History');
 
   let index = 2; //start navigating from the second page
   cy.get('#order-history-table').as('orderHistoryTable');

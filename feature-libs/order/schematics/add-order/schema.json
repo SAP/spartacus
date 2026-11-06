@@ -24,7 +24,26 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Order"]
+      "default": ["Order"],
+      "items": {
+        "enum": ["Order", "Order-Document-Flow"],
+        "type": "string"
+      },
+      "x-prompt": {
+        "message": "Which Order features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "Order",
+            "label": "Order",
+            "checked": true
+          },
+          {
+            "value": "Order-Document-Flow",
+            "label": "Order Document Flow (b2b feature)"
+          }
+        ]
+      }
     }
   },
   "required": []

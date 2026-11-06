@@ -20,8 +20,11 @@ describe('ImportEntriesFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule],
-      declarations: [ImportEntriesSummaryComponent],
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        ImportEntriesSummaryComponent,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImportEntriesSummaryComponent);
@@ -36,7 +39,7 @@ describe('ImportEntriesFormComponent', () => {
   });
 
   it('should close dialog on close method', () => {
-    spyOn(component.closeEvent, 'emit');
+    vi.spyOn(component.closeEvent, 'emit');
     const mockCloseReason = 'Close Import Products Dialog';
     component.close(mockCloseReason);
 

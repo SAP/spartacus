@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,8 +17,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { BtnLikeLinkModule, ListNavigationModule } from '@spartacus/storefront';
 import { UnitLevelOrdersViewerGuard } from '@spartacus/organization/unit-order/core';
+import { BtnLikeLinkModule, ListNavigationModule } from '@spartacus/storefront';
 import { UnitLevelOrderHistoryFilterModule } from './filter/unit-level-order-history-filter.module';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
 
@@ -34,8 +34,8 @@ import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.compo
     UnitLevelOrderHistoryFilterModule,
     BtnLikeLinkModule,
     FeaturesConfigModule,
+    UnitLevelOrderHistoryComponent,
   ],
-  declarations: [UnitLevelOrderHistoryComponent],
   exports: [UnitLevelOrderHistoryComponent],
   providers: [
     provideDefaultConfig({

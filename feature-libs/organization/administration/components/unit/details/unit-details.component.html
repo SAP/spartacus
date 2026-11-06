@@ -1,7 +1,11 @@
 <cx-org-card
   *ngIf="model$ | async as model"
   i18nRoot="orgUnit.details"
-  [cxFocus]="{ refreshFocus: model }"
+  [cxFocus]="
+    isA11yCardNotificationMessageFeatureEnabled
+      ? { refreshFocus: (refreshFocusReference$ | async) }
+      : { refreshFocus: model }
+  "
   [showHint]="true"
 >
   <a
@@ -19,14 +23,13 @@
     key="uid"
     *ngIf="isUpdatingUnitAllowed"
     i18nRoot="orgUnit"
-  ></cx-org-toggle-status>
+  />
 
   <cx-org-disable-info
     info
     i18nRoot="orgUnit"
     [displayInfoConfig]="{ disabledDisable: true }"
-  >
-  </cx-org-disable-info>
+  />
 
   <section main class="details" cxOrgItemExists>
     <div class="property">

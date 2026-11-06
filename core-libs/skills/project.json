@@ -1,0 +1,8 @@
+{
+  "name": "skills",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "core-libs/skills",
+  "projectType": "library",
+  "targets": {},
+  "tags": ["type:util"]
+}

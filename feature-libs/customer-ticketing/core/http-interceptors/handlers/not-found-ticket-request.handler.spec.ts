@@ -73,9 +73,9 @@ describe('NotFoundTicketRequestHandler', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
 
-    spyOn(globalMessageService, 'add');
-    spyOn(globalMessageService, 'remove');
-    spyOn(routingService, 'go');
+    vi.spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'remove');
+    vi.spyOn(routingService, 'go');
   });
 
   it('should be created', () => {
@@ -122,7 +122,7 @@ describe('NotFoundTicketRequestHandler', () => {
       describe('when the route is supportTicketDetails', () => {
         beforeEach(() => {
           routingService.getRouterState;
-          spyOn(routingService, 'getRouterState').and.returnValue(
+          vi.spyOn(routingService, 'getRouterState').mockReturnValue(
             of({
               state: { semanticRoute: 'supportTicketDetails' },
             } as RouterState)

@@ -1,4 +1,3 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -8,12 +7,12 @@ import {
   Product,
   ProductScope,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -61,14 +60,6 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
@@ -90,12 +81,7 @@ function setupWithCurrentProductService(
     productListItemContextReturnsNull
   ) {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterModule],
-      declarations: [
-        ConfigureProductComponent,
-        MockUrlPipe,
-        MockFeatureDirective,
-      ],
+      imports: [RouterModule, ConfigureProductComponent],
       providers: [
         {
           provide: ProductListItemContext,
@@ -110,15 +96,15 @@ function setupWithCurrentProductService(
           useClass: MockRoutingService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfigureProductComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [I18nTestingModule] },
+      })
+      .compileComponents();
   } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, StoreModule.forRoot({})],
-      declarations: [
-        ConfigureProductComponent,
-        MockUrlPipe,
-        MockFeatureDirective,
-      ],
+      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
       providers: [
         {
           provide: CurrentProductService,
@@ -129,15 +115,15 @@ function setupWithCurrentProductService(
           useClass: MockRoutingService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfigureProductComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [I18nTestingModule] },
+      })
+      .compileComponents();
   } else {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, StoreModule.forRoot({})],
-      declarations: [
-        ConfigureProductComponent,
-        MockUrlPipe,
-        MockFeatureDirective,
-      ],
+      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
       providers: [
         {
           provide: ProductListItemContext,
@@ -152,15 +138,18 @@ function setupWithCurrentProductService(
           useClass: MockRoutingService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfigureProductComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [I18nTestingModule] },
+      })
+      .compileComponents();
   }
 
-  currentProductService = TestBed.inject(
-    CurrentProductService as Type<CurrentProductService>
-  );
+  currentProductService = TestBed.inject(CurrentProductService);
   routingService = TestBed.inject(RoutingService);
 
-  spyOn(currentProductService, 'getProduct').and.callThrough();
+  vi.spyOn(currentProductService, 'getProduct');
 
   fixture = TestBed.createComponent(ConfigureProductComponent);
   component = fixture.componentInstance;
@@ -203,22 +192,20 @@ describe('ConfigureProductComponent', () => {
     );
   });
 
-  it('should emit product in case it was launched with current product service', (done) => {
+  it('should emit product in case it was launched with current product service', async () => {
     setupWithCurrentProductService(true);
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
-      done();
     });
   });
 
-  it('should emit non-configurable dummy in case it was launched with product service which emits null', (done) => {
+  it('should emit non-configurable dummy in case it was launched with product service which emits null', async () => {
     setupWithCurrentProductService(true, true, true);
     component['productListItemContext'] = null;
     component['currentProductService'] = null;
     fixture.detectChanges();
     component.product$.subscribe((product) => {
       expect(product).toEqual(mockProductNotConfigurable);
-      done();
     });
   });
 
@@ -232,40 +219,36 @@ describe('ConfigureProductComponent', () => {
     );
   });
 
-  it('should emit product in case it was launched with product item context', (done) => {
+  it('should emit product in case it was launched with product item context', async () => {
     setupWithCurrentProductService(false);
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
-      done();
     });
   });
 
   describe('getProduct', () => {
-    it('should emit null in case both productListItemContext and currentProductService return null', (done) => {
+    it('should emit null in case both productListItemContext and currentProductService return null', async () => {
       setupWithCurrentProductService(true, true, true);
       component['getProduct']().subscribe((product) => {
         expect(product).toBe(null);
-        done();
       });
     });
 
-    it('should emit product in case it was launched with defined product item context', (done) => {
+    it('should emit product in case it was launched with defined product item context', async () => {
       setupWithCurrentProductService(false);
       component['getProduct']().subscribe((product) => {
         expect(product).toBe(mockProduct);
-        done();
       });
     });
 
-    it('should emit product in case it was launched with defined currentProductService', (done) => {
+    it('should emit product in case it was launched with defined currentProductService', async () => {
       setupWithCurrentProductService(true);
       component['getProduct']().subscribe((product) => {
         expect(product).toBe(mockProduct);
-        done();
       });
     });
 
-    it('should emit null in case both productListItemContext and currentProductService are undefined', (done) => {
+    it('should emit null in case both productListItemContext and currentProductService are undefined', async () => {
       setupWithCurrentProductService(true);
       component['productListItemContext'] = null;
       component['currentProductService'] = null;
@@ -273,7 +256,6 @@ describe('ConfigureProductComponent', () => {
 
       component['getProduct']().subscribe((product) => {
         expect(product).toBe(null);
-        done();
       });
     });
   });
@@ -441,7 +423,7 @@ describe('ConfigureProductComponent', () => {
     it('should navigate to a product configurator', () => {
       setupWithCurrentProductService(true);
       fixture.detectChanges();
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const btn = fixture.debugElement.query(By.css('button'));
       btn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith(

@@ -51,7 +51,7 @@ describe('OrganizationUserRegistrationConflictHandler', () => {
   });
 
   it('should handle existing organization user conflict', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockOrganizationUserConflictResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(

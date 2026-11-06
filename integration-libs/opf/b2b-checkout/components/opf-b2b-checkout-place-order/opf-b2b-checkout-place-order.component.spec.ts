@@ -4,27 +4,34 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { OpfB2bCheckoutPlaceOrderComponent } from './opf-b2b-checkout-place-order.component';
-import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import { LaunchRenderStrategy } from '@spartacus/storefront';
+import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import {
   CurrencyService,
   GlobalMessageService,
-  I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
-  AtMessageModule,
+  AtMessageDirective,
   LAUNCH_CALLER,
   LaunchDialogService,
+  LaunchRenderStrategy,
 } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { OpfB2bCheckoutPlaceOrderComponent } from './opf-b2b-checkout-place-order.component';
 import createSpy = jasmine.createSpy;
+
+@Directive({ selector: '[cxAtMessage]' })
+class MockAtMessageDirective {
+  @Input() cxAtMessage: string | string[] | undefined;
+}
 
 class MockCheckoutPlaceOrderComponent {
   checkoutSubmitForm = new UntypedFormGroup({
@@ -71,8 +78,7 @@ describe('OpfB2bCheckoutPlaceOrderComponent', () => {
       getActive: () => of('en'),
     };
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
-      declarations: [OpfB2bCheckoutPlaceOrderComponent],
+      imports: [ReactiveFormsModule, OpfB2bCheckoutPlaceOrderComponent],
       providers: [
         {
           provide: CheckoutPlaceOrderComponent,
@@ -87,7 +93,12 @@ describe('OpfB2bCheckoutPlaceOrderComponent', () => {
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfB2bCheckoutPlaceOrderComponent, {
+        remove: { imports: [TranslatePipe, AtMessageDirective] },
+        add: { imports: [MockTranslatePipe, MockAtMessageDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

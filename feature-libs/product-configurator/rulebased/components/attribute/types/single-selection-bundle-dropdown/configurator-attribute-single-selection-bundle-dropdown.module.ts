@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
@@ -27,9 +26,10 @@ import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './c
     ReactiveFormsModule,
     ConfiguratorAttributeQuantityModule,
     ConfiguratorPriceModule,
+    ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_dropdownProduct:
@@ -38,7 +38,6 @@ import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './c
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
   exports: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownModule {}

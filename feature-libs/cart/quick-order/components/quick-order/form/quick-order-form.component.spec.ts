@@ -7,19 +7,22 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  FeatureConfigService,
   FeaturesConfig,
+  FeatureStylesService,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   Product,
   Translatable,
+  TranslatePipe,
+  TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 
 const mockProductCode: string = 'mockCode';
 const mockProductCode2: string = 'mockCode2';
@@ -65,16 +68,9 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -91,12 +87,7 @@ describe('QuickOrderFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [
-        QuickOrderFormComponent,
-        MockCxIconComponent,
-        MockFeatureDirective,
-      ],
+      imports: [ReactiveFormsModule, FormErrorsModule, QuickOrderFormComponent],
       providers: [
         ChangeDetectorRef,
         WindowRef,
@@ -109,9 +100,16 @@ describe('QuickOrderFormComponent', () => {
             features: { level: '5.1' },
           },
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ a11yQuickOrderResetFocus: true }),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuickOrderFormComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: {
+          imports: [MockTranslatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
 
     quickOrderService = TestBed.inject(QuickOrderFacade);
   });
@@ -133,11 +131,8 @@ describe('QuickOrderFormComponent', () => {
 
   describe('on add method', () => {
     it('should trigger addProduct', () => {
-      spyOn(quickOrderService, 'addProduct').and.callThrough();
-      spyOn(
-        quickOrderService,
-        'clearNonPurchasableProductError'
-      ).and.callThrough();
+      vi.spyOn(quickOrderService, 'addProduct');
+      vi.spyOn(quickOrderService, 'clearNonPurchasableProductError');
       component.add(mockProduct, mockEvent);
 
       expect(
@@ -147,12 +142,9 @@ describe('QuickOrderFormComponent', () => {
     });
 
     it('should not trigger addProduct because of non purchasable product', () => {
-      spyOn(component, 'clear').and.callThrough();
-      spyOn(quickOrderService, 'addProduct').and.callThrough();
-      spyOn(
-        quickOrderService,
-        'setNonPurchasableProductError'
-      ).and.callThrough();
+      vi.spyOn(component, 'clear');
+      vi.spyOn(quickOrderService, 'addProduct');
+      vi.spyOn(quickOrderService, 'setNonPurchasableProductError');
       component.add(mockNonPurchasableProduct, mockEvent);
 
       expect(quickOrderService.addProduct).not.toHaveBeenCalledWith(
@@ -172,7 +164,7 @@ describe('QuickOrderFormComponent', () => {
     });
 
     it('first on the list', () => {
-      spyOn(component, 'add').and.callThrough();
+      vi.spyOn(component, 'add');
       component.results = [mockProduct];
 
       component.addProduct(mockEvent);
@@ -182,7 +174,7 @@ describe('QuickOrderFormComponent', () => {
   });
 
   it('with not trigger addProduct on input enter with more than one product in results list', () => {
-    spyOn(component, 'add').and.callThrough();
+    vi.spyOn(component, 'add');
     component.results = [mockProduct, mockProduct2];
 
     component.addProduct(mockEvent);
@@ -217,7 +209,7 @@ describe('QuickOrderFormComponent', () => {
       const ev = {
         preventDefault() {},
       };
-      spyOn(ev, 'preventDefault').and.callThrough();
+      vi.spyOn(ev, 'preventDefault');
 
       component.form?.get('product')?.setValue('test');
       component.clear(ev as Event);
@@ -267,5 +259,35 @@ describe('QuickOrderFormComponent', () => {
       component.canAddProduct().subscribe((canAdd) => (result = canAdd));
       expect(result).toBeFalsy();
     });
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('QuickOrderFormComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, QuickOrderFormComponent],
+      providers: [
+        { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
+        { provide: WindowRef, useValue: { document: document } },
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(QuickOrderFormComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

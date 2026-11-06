@@ -75,8 +75,11 @@ describe('PickupInStoreOrderConsignmentContainerComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-      declarations: [PickupInStoreOrderConsignmentContainerComponent],
-      imports: [CommonModule, I18nTestingModule],
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        PickupInStoreOrderConsignmentContainerComponent,
+      ],
     });
 
   const stubServiceAndCreateComponent = () => {

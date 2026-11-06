@@ -1,19 +1,19 @@
-import { Component, Type } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -49,29 +49,28 @@ class MockMessageConfig {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockCxSpinnerComponent {}
-describe('ConfigurationUpdateMessageComponent', () => {
+describe('ConfiguratorUpdateMessageComponent', () => {
   let component: ConfiguratorUpdateMessageComponent;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let fixture: ComponentFixture<ConfiguratorUpdateMessageComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
         ConfiguratorUpdateMessageComponent,
-        MockCxSpinnerComponent,
       ],
       providers: [
         {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-
         {
           provide: ConfiguratorMessageConfig,
           useClass: MockMessageConfig,
@@ -81,16 +80,28 @@ describe('ConfigurationUpdateMessageComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
       ],
+    }).overrideComponent(ConfiguratorUpdateMessageComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, SpinnerComponent],
+      },
+      add: {
+        imports: [I18nTestingModule, MockCxSpinnerComponent],
+      },
     });
-  }));
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(owner);
+  });
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create component', () => {
@@ -107,7 +118,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
     );
   });
 
-  it('should show update banner after delay time if pending changes is true', fakeAsync(() => {
+  it('should show update banner after delay time if pending changes is true', async () => {
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
@@ -116,16 +127,16 @@ describe('ConfigurationUpdateMessageComponent', () => {
     fixture.detectChanges();
 
     //Should appear after a bit
-    tick(2000);
+    await vi.advanceTimersByTimeAsync(2000);
 
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       1
     );
     expect(htmlElem.querySelectorAll('div').length).toBe(2);
-  }));
+  });
 
-  it('should show update banner after default delay time if pending changes is true and no delay time configured', fakeAsync(() => {
+  it('should show update banner after default delay time if pending changes is true and no delay time configured', async () => {
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
@@ -135,15 +146,15 @@ describe('ConfigurationUpdateMessageComponent', () => {
     waitingTime = undefined;
 
     //Should appear after a bit
-    tick(2000);
+    await vi.advanceTimersByTimeAsync(2000);
 
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       1
     );
-  }));
+  });
 
-  it('should not show update banner if pending changes is true but delay time not reached', fakeAsync(() => {
+  it('should not show update banner if pending changes is true but delay time not reached', async () => {
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
@@ -152,12 +163,12 @@ describe('ConfigurationUpdateMessageComponent', () => {
     fixture.detectChanges();
 
     //Wait a bit, but don't reach delay time
-    tick(500);
+    await vi.advanceTimersByTimeAsync(500);
 
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
-    tick(1000);
-  }));
+    await vi.advanceTimersByTimeAsync(1000);
+  });
 });

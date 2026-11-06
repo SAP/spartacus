@@ -8,15 +8,9 @@
     <div class="title-bar">
       <div class="title">
         <h3>
-          <span
-            *cxFeature="'a11yRegionAssociatedHeaders'"
-            id="{{ i18nRoot + '_title' }}"
-          >
+          <span id="{{ i18nRoot + '_title' }}">
             {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
           </span>
-          <ng-container *cxFeature="'!a11yRegionAssociatedHeaders'">
-            {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
-          </ng-container>
           <button
             *ngIf="showHint"
             [cxPopover]="detailHint"
@@ -29,7 +23,7 @@
             [attr.aria-label]="'organization.information' | cxTranslate"
             [attr.title]="'organization.information' | cxTranslate"
           >
-            <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+            <cx-icon [type]="iconTypes.INFO" />
           </button>
         </h3>
         <h4>
@@ -40,7 +34,7 @@
         </h4>
       </div>
       <div class="actions">
-        <ng-content select="[actions]"></ng-content>
+        <ng-content select="[actions]" />
       </div>
     </div>
     <button
@@ -54,19 +48,19 @@
         type="CLOSE"
         title="{{ 'common.close' | cxTranslate }}"
         (click)="closeView($event)"
-      ></cx-icon>
+      />
       <ng-template #prevLabel>{{ previousLabel | cxTranslate }}</ng-template>
     </button>
   </div>
 
   <div class="main">
-    <cx-org-message aria-live="assertive"></cx-org-message>
-    <ng-content select="[info]"></ng-content>
-    <ng-content select="[main]"></ng-content>
+    <cx-org-message aria-live="assertive" />
+    <ng-content select="[info]" />
+    <ng-content select="[main]" />
   </div>
 </cx-view>
 
-<router-outlet></router-outlet>
+<router-outlet />
 
 <ng-template #detailHint>
   <p>

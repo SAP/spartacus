@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,6 @@ import {
   CdcJsService,
   CdcLoadUserTokenFailEvent,
   CDC_PREFERENCE_SERIALIZER,
-  CDC_USER_PREFERENCE_SERIALIZER,
 } from '@spartacus/cdc/root';
 import {
   AnonymousConsentsService,
@@ -121,29 +120,6 @@ export class CDCRegisterComponentService extends RegisterComponentService {
           .pipe(filter((userObj): userObj is User => Boolean(userObj)));
       })
     );
-  }
-
-  /**
-   * Return preferences object that needs to be updated during register process
-   * @returns preference object
-   * @deprecated since 2211.38
-   */
-  // CXSPA-9292: remove this method in next major release
-  generatePreferencesObject(): any {
-    let preferences = null;
-    const consentIDs = this.cdcConsentManagementService.getCdcConsentIDs(); //fetch all active consents
-    for (const id of consentIDs) {
-      const consent: ConsentTemplate = {};
-      consent.id = id;
-      consent.currentConsent = {};
-      consent.currentConsent.consentGivenDate = new Date();
-      const serializedPreference: any = this.converter.convert(
-        consent,
-        CDC_USER_PREFERENCE_SERIALIZER
-      );
-      preferences = Object.assign(preferences ?? {}, serializedPreference);
-    }
-    return preferences;
   }
 
   // @override

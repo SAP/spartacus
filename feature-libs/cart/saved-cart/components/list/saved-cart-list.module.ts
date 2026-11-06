@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     I18nModule,
     SpinnerModule,
     FeaturesConfigModule,
+    SavedCartListComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -38,7 +39,6 @@ import { SavedCartListComponent } from './saved-cart-list.component';
       },
     }),
   ],
-  declarations: [SavedCartListComponent],
   exports: [SavedCartListComponent],
 })
 export class SavedCartListModule {}

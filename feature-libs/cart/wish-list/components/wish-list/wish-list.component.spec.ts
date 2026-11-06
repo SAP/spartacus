@@ -1,11 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { of } from 'rxjs';
+import { WishListItemComponent } from '../public_api';
 import { WishListComponent } from './wish-list.component';
-import createSpy = jasmine.createSpy;
 
 const mockWishList: Cart = {
   code: 'xxx',
@@ -13,14 +19,13 @@ const mockWishList: Cart = {
 };
 
 class MockWishListService {
-  getWishList = createSpy().and.returnValue(of(mockWishList));
-  getWishListLoading = createSpy().and.returnValue(of(false));
+  getWishList = vi.fn().mockReturnValue(of(mockWishList));
+  getWishListLoading = vi.fn().mockReturnValue(of(false));
 }
 
 @Component({
   selector: '[cx-wish-list-item], cx-wish-list-item',
   template: '',
-  standalone: false,
 })
 class MockWishListItemComponent {
   @Input()
@@ -37,18 +42,26 @@ describe('WishListComponent', () => {
 
   let wishListService: WishListFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [WishListComponent, MockWishListItemComponent],
+      imports: [I18nTestingModule, WishListComponent],
       providers: [
         {
           provide: WishListFacade,
           useClass: MockWishListService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(WishListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, WishListItemComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockWishListItemComponent],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListComponent);

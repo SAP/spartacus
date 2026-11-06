@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AuthService,
@@ -26,7 +26,9 @@ import { LogoutGuard } from '@spartacus/storefront';
 export class CdcLogoutGuard extends LogoutGuard {
   constructor(
     protected auth: AuthService,
-    protected cms: CmsService,
+    /** @deprecated since 2611 - only used in the legacy code path when {@link FeatureToggles.useConfigurableLogoutRedirect} is disabled.
+     *  Will be removed in the major release of 2028. */
+    @Optional() protected cms: CmsService | null,
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
@@ -49,6 +51,6 @@ export class CdcLogoutGuard extends LogoutGuard {
    * @returns promise to resolve after complete logout
    */
   protected logout(): Promise<any> {
-    return Promise.all([super.logout(), this.logoutFromCdc()]);
+    return Promise.all([super.logout(), Promise.resolve(this.logoutFromCdc())]);
   }
 }

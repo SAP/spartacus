@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,8 +18,8 @@ import { ConfiguratorOverviewFilterComponent } from './configurator-overview-fil
     FormsModule,
     ReactiveFormsModule,
     ConfiguratorOverviewFilterBarModule,
+    ConfiguratorOverviewFilterComponent,
   ],
-  declarations: [ConfiguratorOverviewFilterComponent],
   exports: [ConfiguratorOverviewFilterComponent],
 })
 export class ConfiguratorOverviewFilterModule {}

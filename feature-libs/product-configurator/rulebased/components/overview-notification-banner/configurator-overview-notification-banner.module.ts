@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,19 +7,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule, IconModule, RouterModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    IconModule,
+    RouterModule,
+    ConfiguratorOverviewNotificationBannerComponent,
+  ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorOverviewBanner: {
           component: ConfiguratorOverviewNotificationBannerComponent,
@@ -27,7 +29,6 @@ import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-
       },
     }),
   ],
-  declarations: [ConfiguratorOverviewNotificationBannerComponent],
   exports: [ConfiguratorOverviewNotificationBannerComponent],
 })
 export class ConfiguratorOverviewNotificationBannerModule {}

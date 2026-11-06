@@ -1,13 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PointOfServiceStock, useFeatureStyles } from '@spartacus/core';
+import {
+  PointOfServiceStock,
+  TranslatePipe,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { storeHasStock } from '@spartacus/pickup-in-store/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';
+import { StoreAddressComponent } from './store-address/store-address.component';
+import { StoreScheduleComponent } from './store-schedule/store-schedule.component';
 
 /**
  * A store in the store list including address, opening times, stock level, and
@@ -16,7 +24,15 @@ import { ICON_TYPE } from '@spartacus/storefront';
 @Component({
   selector: 'cx-store',
   templateUrl: './store.component.html',
-  standalone: false,
+  imports: [
+    StoreAddressComponent,
+    IconComponent,
+    NgIf,
+    StoreScheduleComponent,
+    SetPreferredStoreComponent,
+    NgClass,
+    TranslatePipe,
+  ],
 })
 export class StoreComponent implements OnInit {
   /** The details of the store to be displayed */
@@ -31,8 +47,7 @@ export class StoreComponent implements OnInit {
   readonly ICON_TYPE = ICON_TYPE;
 
   constructor() {
-    useFeatureStyles('a11yViewHoursButtonIconContrast');
-    useFeatureStyles('a11yStoreInStockIconContrast');
+    useFeatureStyles('a11yHighContrastFix');
   }
 
   ngOnInit(): void {

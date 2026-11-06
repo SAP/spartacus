@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { whenJDK17 } from '../../../support/utils/jdk-versions';
 import { visitLoginPage } from '../../../support/utils/login';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 /**
  * This test checks accessibility concerns on the pages for Login, Forgot Password, and Register
@@ -14,6 +15,7 @@ describe(
   'Login, Register, and Forgot Password Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     beforeEach(() => {
       cy.a11yContinuumSetup();
     });

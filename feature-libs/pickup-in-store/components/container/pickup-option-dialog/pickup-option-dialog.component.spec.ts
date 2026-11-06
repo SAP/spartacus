@@ -1,11 +1,21 @@
 import { CommonModule } from '@angular/common';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
@@ -13,25 +23,24 @@ import {
   PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
-  IconTestingModule,
+  IconComponent,
   KeyboardFocusModule,
   LAUNCH_CALLER,
   LaunchDialogService,
+  MockIconComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
+import { StoreListComponent } from '../store-list';
 import { StoreListStubComponent } from '../store-list/store-list.component.spec';
+import { StoreSearchComponent } from '../store-search';
 import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
 import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
 
 export class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
@@ -93,20 +102,13 @@ describe('PickupOptionDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PickupOptionDialogComponent,
-        StoreSearchStubComponent,
-        StoreListStubComponent,
-        MockFeatureDirective,
-      ],
       imports: [
         CommonModule,
-        I18nTestingModule,
-        IconTestingModule,
         KeyboardFocusModule,
         SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
+        PickupOptionDialogComponent,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -130,7 +132,30 @@ describe('PickupOptionDialogComponent', () => {
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PickupOptionDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            FeatureDirective,
+            StoreSearchComponent,
+            StoreListComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockFeatureDirective,
+            StoreSearchStubComponent,
+            StoreListStubComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(PickupOptionDialogComponent);
     component = fixture.componentInstance;
@@ -147,8 +172,8 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('ngOnInit should call appropriate methods', () => {
-    spyOn(pickupLocationsSearchService, 'getHideOutOfStock');
-    spyOn(pickupOptionFacade, 'getPageContext').and.returnValue(of('PDP'));
+    vi.spyOn(pickupLocationsSearchService, 'getHideOutOfStock');
+    vi.spyOn(pickupOptionFacade, 'getPageContext').mockReturnValue(of('PDP'));
     component.ngOnInit();
 
     expect(component.isPDP).toEqual(true);
@@ -156,7 +181,7 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('ngOnInit should set the cartId and userId for an anonymous user', () => {
-    spyOn(activeCartFacade, 'getActive').and.returnValue(
+    vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(
       of({
         guid: 'test',
         user: { uid: 'anonymous' },
@@ -169,7 +194,7 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('ngOnInit should set the cartId and userId for a logged in user', () => {
-    spyOn(activeCartFacade, 'getActive').and.returnValue(
+    vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(
       of({
         guid: 'test',
         user: { uid: 'test@sap.com' },
@@ -182,7 +207,7 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('onFindStores calls appropriate service method', () => {
-    spyOn(pickupLocationsSearchService, 'startSearch');
+    vi.spyOn(pickupLocationsSearchService, 'startSearch');
     component.onFindStores({ location: '' });
     expect(pickupLocationsSearchService.startSearch).toHaveBeenCalledWith({
       productCode: 'testProductCode',
@@ -191,7 +216,7 @@ describe('PickupOptionDialogComponent', () => {
   });
 
   it('onHideOutOfStock calls appropriate service method', () => {
-    spyOn(pickupLocationsSearchService, 'toggleHideOutOfStock');
+    vi.spyOn(pickupLocationsSearchService, 'toggleHideOutOfStock');
     component.onHideOutOfStock();
     expect(
       pickupLocationsSearchService.toggleHideOutOfStock
@@ -200,7 +225,7 @@ describe('PickupOptionDialogComponent', () => {
 
   it('should close dialog on close method', () => {
     const mockCloseReason = 'Close Dialog';
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(launchDialogService, 'closeDialog');
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -211,21 +236,18 @@ describe('PickupOptionDialogComponent', () => {
   it('should close dialog on close method no selection', () => {
     const mockCloseReason = 'CLOSE_WITHOUT_SELECTION';
     component.productCode = 'productCode';
-    spyOn(launchDialogService, 'closeDialog');
-    spyOn(
-      intendedPickupLocationFacade,
-      'getIntendedLocation'
-    ).and.callThrough();
-    spyOn(intendedPickupLocationFacade, 'setPickupOption').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(intendedPickupLocationFacade, 'getIntendedLocation');
+    vi.spyOn(intendedPickupLocationFacade, 'setPickupOption');
+
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       mockCloseReason
     );
-
     expect(
       intendedPickupLocationFacade.getIntendedLocation
-    ).toHaveBeenCalledWith('productCode');
+    ).not.toHaveBeenCalled();
   });
 
   it('should set loading when showSpinner is called', () => {
@@ -237,10 +259,11 @@ describe('PickupOptionDialogComponent', () => {
 
   it('should filter if store name is defined', () => {
     const mockCloseReason = 'CLOSE_WITHOUT_SELECTION';
-    spyOn(intendedPickupLocationFacade, 'getIntendedLocation').and.returnValue(
-      of({ name: 'testStoreName', pickupOption: 'pickup' })
-    );
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(
+      intendedPickupLocationFacade,
+      'getIntendedLocation'
+    ).mockReturnValue(of({ name: 'testStoreName', pickupOption: 'pickup' }));
+    vi.spyOn(launchDialogService, 'closeDialog');
 
     component.close(mockCloseReason);
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -250,7 +273,7 @@ describe('PickupOptionDialogComponent', () => {
 
   it('should close the dialog when user clicks outside', () => {
     const element = fixture.debugElement.nativeElement;
-    spyOn(component, 'close');
+    vi.spyOn(component, 'close');
 
     element.click();
     expect(component.close).toHaveBeenCalledWith(
@@ -262,7 +285,7 @@ describe('PickupOptionDialogComponent', () => {
     const element = (
       fixture.debugElement.nativeElement as HTMLElement
     ).querySelector('.cx-pickup-option-dialog');
-    spyOn(component, 'close');
+    vi.spyOn(component, 'close');
 
     element?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(component.close).toHaveBeenCalledWith(

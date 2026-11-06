@@ -1,0 +1,242 @@
+$space: 0.5rem;
+
+%header {
+  background-color: var(--cx-color-light);
+  color: var(--cx-color-inverse);
+
+  @include media-breakpoint-up(lg) {
+    background: linear-gradient(
+      to top,
+      var(--cx-color-background-dark) $header-height,
+      var(--cx-color-light) 0
+    );
+  }
+
+  .header {
+    max-width: var(--cx-page-width-max);
+    margin: auto;
+
+    @include media-breakpoint-up(lg) {
+      padding: 0 10px;
+    }
+
+    @include media-breakpoint-down(md) {
+      .SiteContext,
+      .SiteLinks,
+      .SiteLogin,
+      .NavigationBar {
+        display: none;
+      }
+    }
+
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      align-self: center;
+      display: block;
+      flex: none;
+    }
+
+    .SiteLinks {
+      font-weight: var(--cx-font-weight-semi);
+    }
+  }
+
+  &.is-expanded {
+    .navigation {
+      position: absolute;
+      width: 100%;
+      z-index: 20;
+
+      @include media-breakpoint-down(md) {
+        height: 100vh;
+        background-color: var(--cx-color-background);
+      }
+    }
+    .PreHeader {
+      z-index: 4;
+    }
+
+    @include media-breakpoint-down(md) {
+      &:after {
+        content: '';
+        display: block;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: var(--cx-background-dark);
+        z-index: 2;
+      }
+    }
+  }
+
+  &:not(.is-expanded) {
+    cx-page-layout.navigation {
+      display: none;
+    }
+  }
+
+  .SiteContext,
+  .SiteLinks {
+    font-size: 0.75rem;
+    color: var(--cx-color-medium);
+    > * {
+      flex: none;
+    }
+    justify-content: flex-start;
+
+    @include type('8');
+  }
+
+  .SiteLinks {
+    --cx-display: block;
+    cx-link {
+      display: block;
+      padding-inline-end: 0;
+    }
+  }
+
+  .SiteLogo {
+    width: 90px;
+  }
+
+  .SearchBox {
+    margin: 14px auto;
+
+    @include media-breakpoint-down(sm) {
+      margin-top: 4px;
+      margin-inline-end: 0;
+      margin-bottom: 4px;
+      margin-inline-start: auto;
+    }
+  }
+
+  .VariantConfigExitButton,
+  .VariantConfigOverviewExitButton,
+  .CpqConfigExitButton {
+    margin-block-start: 14px;
+    margin-block-end: 14px;
+    margin-inline-start: auto;
+    margin-inline-end: 14px;
+
+    @include media-breakpoint-down(sm) {
+      margin-block-start: 4px;
+      margin-inline-end: 0;
+      margin-block-end: 4px;
+      margin-inline-start: auto;
+    }
+  }
+
+  .NavigationBar {
+    flex: 100%;
+    min-height: $header-height;
+
+    @include media-breakpoint-down(md) {
+      background-color: var(--cx-color-background);
+    }
+  }
+
+  .cx-hamburger {
+    display: block;
+
+    &.is-active {
+      .hamburger-inner,
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        background-color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  @include media-breakpoint-only(xs) {
+    .SearchBox {
+      margin-inline-start: auto;
+    }
+  }
+
+  // non-desktop
+  @include media-breakpoint-down(md) {
+    .SiteContext,
+    .SiteLinks,
+    .SiteLogin {
+      background-color: var(--cx-color-light);
+      color: var(--cx-color, var(--cx-color-text));
+
+      @include cx-highContrastTheme {
+        background-color: var(--cx-color-background);
+      }
+    }
+
+    .SiteContext {
+      padding: $space $space * 2 $space / 2;
+    }
+
+    .SiteLinks {
+      flex-direction: column;
+      a {
+        padding: $space / 2 $space * 2 $space;
+        line-height: 48px;
+      }
+    }
+  }
+
+  // desktop
+  @include media-breakpoint-up(lg) {
+    header {
+      padding: 0 $space * 2;
+    }
+    .cx-hamburger {
+      display: none;
+
+      &.is-active {
+        background-color: var(--cx-color-primary);
+      }
+    }
+
+    .SiteContext,
+    .SiteLinks {
+      flex: 50%;
+      display: flex;
+      --cx-margin: #{$space} 8px;
+    }
+
+    .SiteContext {
+      justify-content: flex-start;
+      &:after {
+        border-top: 1px solid currentColor;
+        content: '';
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 44px;
+      }
+    }
+
+    .SiteLinks {
+      justify-content: flex-end;
+      color: var(--cx-color-primary);
+      flex-wrap: nowrap;
+    }
+
+    .SiteLogin {
+      padding: $space $space * 2;
+    }
+  }
+
+  .hamburger-inner,
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    background-color: var(--cx-color-primary);
+  }
+
+  @include cx-highContrastTheme {
+    background-image: linear-gradient(
+      var(--cx-color-background) $header-height,
+      var(--cx-color-background) 0
+    );
+    border-bottom: 1px solid var(--cx-color-dark);
+  }
+}

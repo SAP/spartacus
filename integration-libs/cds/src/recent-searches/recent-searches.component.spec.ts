@@ -7,8 +7,15 @@
 
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
 import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  HighlightPipe,
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
@@ -19,18 +26,12 @@ import {
 } from './recent-searches.component';
 import { RecentSearchesService } from './recent-searches.service';
 
-@Pipe({
-  name: 'cxHighlight',
-  standalone: false,
-})
+@Pipe({ name: 'cxHighlight' })
 class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {
     return ['test', 'url'];
@@ -39,9 +40,7 @@ class MockUrlPipe implements PipeTransform {
 describe('RecentSearchesComponent', () => {
   let component: RecentSearchesComponent;
   let fixture: ComponentFixture<RecentSearchesComponent>;
-  const recentSearchesService = jasmine.createSpyObj('RecentSearchesService', [
-    'recentSearches$',
-  ]);
+  const recentSearchesService = { recentSearches$: vi.fn() };
   let context$ = new BehaviorSubject<SearchBoxOutlet>({
     search: 'test',
     searchBoxActive: true,
@@ -52,15 +51,18 @@ describe('RecentSearchesComponent', () => {
   };
 
   const searchBoxComponentServiceMock = {
-    changeSelectedWord: jasmine.createSpy('changeSelectedWord'),
-    shareEvent: jasmine.createSpy('shareEvent'),
+    changeSelectedWord: vi.fn(),
+    shareEvent: vi.fn(),
     setRecentSearches: (enabled: boolean = false) => of(enabled),
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [RecentSearchesComponent, MockHighlightPipe, MockUrlPipe],
+      imports: [
+        I18nTestingModule,
+        RecentSearchesComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: RecentSearchesService,
@@ -73,7 +75,16 @@ describe('RecentSearchesComponent', () => {
         { provide: OutletContextData, useValue: { context$ } },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(RecentSearchesComponent, {
+        remove: {
+          imports: [TranslatePipe, HighlightPipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockHighlightPipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -106,7 +117,7 @@ describe('RecentSearchesComponent', () => {
 
   it('should emit expected values when outletContext emits a value with searchBoxActive set to true', function () {
     const expectedValues = ['test1', 'test2', 'test3'];
-    recentSearchesService.recentSearches$.and.returnValue(of(expectedValues));
+    recentSearchesService.recentSearches$.mockReturnValue(of(expectedValues));
 
     component.ngOnInit();
 
@@ -119,7 +130,7 @@ describe('RecentSearchesComponent', () => {
   });
 
   it('should prevent the default event behavior when called', function () {
-    const ev = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+    const ev = { preventDefault: vi.fn() };
 
     component.preventDefault(ev);
 

@@ -1,17 +1,11 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 
-import { CheckoutReviewOverviewComponent } from './checkout-review-overview.component';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
+import { CheckoutReviewOverviewComponent } from './checkout-review-overview.component';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -23,7 +17,7 @@ const mockCart: Cart = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  getActive = createSpy().and.returnValue(of(mockCart));
+  getActive = vi.fn().mockReturnValue(of(mockCart));
 }
 
 describe('CheckoutReviewOverviewComponent', () => {
@@ -32,8 +26,11 @@ describe('CheckoutReviewOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CheckoutReviewOverviewComponent],
-      imports: [I18nTestingModule, PromotionsModule],
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        CheckoutReviewOverviewComponent,
+      ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
       ],
@@ -74,8 +71,8 @@ describe('CheckoutReviewOverviewComponent', () => {
   });
 
   describe('wrapComponentsWithSectionEl', () => {
-    it('should render section wrapper', fakeAsync(() => {
-      spyOn(component['featureService'], 'isEnabled').and.returnValue(true);
+    it('should render section wrapper', async () => {
+      vi.useFakeTimers();
       const els = [
         document.createElement('cx-checkout-review-payment'),
         document.createElement('cx-checkout-review-overview'),
@@ -85,12 +82,13 @@ describe('CheckoutReviewOverviewComponent', () => {
       document.body?.append(els[1]);
       document.body?.append(els[2]);
       component.ngAfterViewInit();
-      tick(16); // Amount for requestAnimationFrame
+      await vi.advanceTimersByTimeAsync(16); // Amount for requestAnimationFrame
       expect(
         document.querySelector(
           'section[aria-label="checkoutReview.reviewOrder"]'
         )
       ).toBeTruthy();
-    }));
+      vi.useRealTimers();
+    });
   });
 });

@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
-import { CurrentProductService } from '@spartacus/storefront';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Product, TranslationService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Product, TranslatePipe, TranslationService } from '@spartacus/core';
+import { CurrentProductService } from '@spartacus/storefront';
 import {
   OneTimeCharge,
   RecurringCharge,
+  SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
+import { Observable, of } from 'rxjs';
+import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 const mockOneTime: OneTimeCharge[] = [{ name: 'one' }, { name: 'two' }];
 const mockRecurring: RecurringCharge[] = [{ price: { value: 1 } }];
 const mockProduct2 = {
@@ -35,10 +35,7 @@ class MockCurrentProductService {
     return null;
   }
 }
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(_value: string): any {
     return '';
@@ -58,10 +55,9 @@ describe('SubscriptionProductPriceComponent', () => {
   let component: SubscriptionProductPriceComponent;
   let fixture: ComponentFixture<SubscriptionProductPriceComponent>;
   let productService: SubscriptionProductService;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [MockTranslatePipe, SubscriptionProductPriceComponent],
+      imports: [SubscriptionProductPriceComponent],
       providers: [
         {
           provide: SubscriptionProductService,
@@ -70,13 +66,18 @@ describe('SubscriptionProductPriceComponent', () => {
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: TranslationService, useClass: MockTranslateService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SubscriptionProductPriceComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
     productService = TestBed.inject(SubscriptionProductService);
-  }));
+  });
   describe('for a null product', () => {
     beforeEach(() => {
-      spyOn(productService, 'getSubscriptionData').and.returnValue(of(null));
-      spyOn(productService, 'isSubscription').and.returnValue(true);
+      vi.spyOn(productService, 'getSubscriptionData').mockReturnValue(of(null));
+      vi.spyOn(productService, 'isSubscription').mockReturnValue(true);
       fixture = TestBed.createComponent(SubscriptionProductPriceComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -98,8 +99,8 @@ describe('SubscriptionProductPriceComponent', () => {
   });
   describe('for a mock product without price plan', () => {
     beforeEach(() => {
-      spyOn(productService, 'isSubscription').and.returnValue(true);
-      spyOn(productService, 'getSubscriptionData').and.returnValue(
+      vi.spyOn(productService, 'isSubscription').mockReturnValue(true);
+      vi.spyOn(productService, 'getSubscriptionData').mockReturnValue(
         of(mockProduct1)
       );
       fixture = TestBed.createComponent(SubscriptionProductPriceComponent);
@@ -124,8 +125,8 @@ describe('SubscriptionProductPriceComponent', () => {
   });
   describe('for a mock product with price plan', () => {
     beforeEach(() => {
-      spyOn(productService, 'isSubscription').and.returnValue(true);
-      spyOn(productService, 'getSubscriptionData').and.returnValue(
+      vi.spyOn(productService, 'isSubscription').mockReturnValue(true);
+      vi.spyOn(productService, 'getSubscriptionData').mockReturnValue(
         of(mockProduct2)
       );
       fixture = TestBed.createComponent(SubscriptionProductPriceComponent);

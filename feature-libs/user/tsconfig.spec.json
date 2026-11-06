@@ -1,12 +1,34 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "module": "es2022",
-    "types": ["jasmine", "node"],
-    "strict": false
+    "module": "preserve",
+    "strict": false,
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "vite/client",
+      "node",
+      "vitest"
+    ],
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "paths": {
+      "@spartacus/storefront/testing/mock-feature-directive": [
+        "../../core-libs/storefront/shared/test/mock-feature-directive.ts"
+      ],
+      "@spartacus/storefront/testing/mock-feature-level-directive": [
+        "../../core-libs/storefront/shared/test/mock-feature-level-directive.ts"
+      ],
+      "@spartacus/core/testing/process-reducers": [
+        "../../core-libs/core/src/process/store/reducers/index.ts"
+      ]
+    }
   },
-  "files": ["test.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
+  "files": ["../../testing/setup-vitest.ts"],
+  "include": [
+    "**/*.ts",
+    "../../core-libs/core/src/**/*.ts",
+    "../../core-libs/storefront/**/*.ts"
+  ]
 }

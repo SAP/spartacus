@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UnitFormComponent } from '../../../form';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { UnitChildItemService } from './unit-child-item.service';
@@ -23,7 +24,7 @@ import { UnitChildItemService } from './unit-child-item.service';
       useExisting: UnitChildItemService,
     },
   ],
-  standalone: false,
+  imports: [UnitFormComponent],
 })
 export class UnitChildCreateComponent {
   unitKey$: Observable<string> = this.unitService.key$;

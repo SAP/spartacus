@@ -13,7 +13,7 @@ import {
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
-import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { MockOccEndpointsService } from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
 import { DP_DETAILS_NORMALIZER, DP_REQUEST_NORMALIZER } from './converters';
 import { DigitalPaymentsAdapter } from './digital-payments.adapter';
 import { OccDigitalPaymentsAdapter } from './occ-digital-payments.adapter';
@@ -58,7 +58,6 @@ describe('OccDigitalPaymentsAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: DigitalPaymentsConfig, useValue: mockDpConfig },
         OccDigitalPaymentsAdapter,
@@ -76,8 +75,8 @@ describe('OccDigitalPaymentsAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
     converterService = TestBed.inject(ConverterService);
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

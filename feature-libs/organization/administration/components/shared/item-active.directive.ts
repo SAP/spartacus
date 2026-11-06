@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,10 +12,7 @@ import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
 
-@Directive({
-  selector: '[cxOrgItemActive]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOrgItemActive]' })
 export class ItemActiveDirective<T extends BaseItem = BaseItem>
   implements OnInit, OnDestroy
 {

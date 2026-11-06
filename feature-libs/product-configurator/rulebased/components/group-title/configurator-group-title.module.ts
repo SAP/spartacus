@@ -1,19 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
+import { provideDefaultConfig } from '@spartacus/core';
 import { HamburgerMenuModule } from '@spartacus/storefront';
+import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 
 @NgModule({
-  imports: [CommonModule, HamburgerMenuModule],
+  imports: [CommonModule, HamburgerMenuModule, ConfiguratorGroupTitleComponent],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorGroupTitle: {
           component: ConfiguratorGroupTitleComponent,
@@ -21,7 +21,6 @@ import { HamburgerMenuModule } from '@spartacus/storefront';
       },
     }),
   ],
-  declarations: [ConfiguratorGroupTitleComponent],
   exports: [ConfiguratorGroupTitleComponent],
 })
 export class ConfiguratorGroupTitleModule {}

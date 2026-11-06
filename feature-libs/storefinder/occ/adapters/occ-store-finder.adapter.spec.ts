@@ -63,7 +63,6 @@ describe('OccStoreFinderAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccStoreFinderAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
@@ -76,9 +75,9 @@ describe('OccStoreFinderAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'pipeableMany').and.callThrough();
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'pipeableMany');
+    vi.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {

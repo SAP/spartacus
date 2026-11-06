@@ -5,7 +5,6 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
-        <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
         <cx-form-required-legend />
         <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
           <div class="form-group">
@@ -15,16 +14,18 @@
               }}</span>
               <ng-select
                 [clearable]="false"
-                [items]="titles$ | async"
+                [items]="(titles$ | async) ?? []"
                 [placeholder]="'register.selectTitle' | cxTranslate"
                 [searchable]="false"
                 bindLabel="name"
                 bindValue="code"
                 formControlName="titleCode"
                 id="title-select"
+                ariaLabelDropdown="{{
+                  'common.ngSelectDropdownOptionsList' | cxTranslate
+                }}"
                 [cxNgSelectA11y]="{}"
-              >
-              </ng-select>
+              />
             </label>
           </div>
 
@@ -56,7 +57,7 @@
                   label: 'register.firstName.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('firstName')"
-              ></cx-form-errors>
+              />
             </label>
           </div>
 
@@ -88,7 +89,7 @@
                   label: 'register.lastName.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('lastName')"
-              ></cx-form-errors>
+              />
             </label>
           </div>
 
@@ -120,7 +121,7 @@
                   label: 'register.emailAddress.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('email')"
-              ></cx-form-errors>
+              />
             </label>
           </div>
 
@@ -154,7 +155,7 @@
                   label: 'register.password.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('password')"
-              ></cx-form-errors>
+              />
             </label>
           </div>
 
@@ -190,7 +191,7 @@
                   label: 'register.confirmPassword.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('passwordconf')"
-              ></cx-form-errors>
+              />
             </label>
           </div>
 
@@ -240,9 +241,7 @@
                       <cx-form-required-asterisks />
                     </ng-container>
                   </span>
-                  <cx-form-errors
-                    [control]="control.get('isConsentGranted')"
-                  ></cx-form-errors>
+                  <cx-form-errors [control]="control.get('isConsentGranted')" />
                 </label>
               </div>
             </div>
@@ -263,11 +262,14 @@
                   [attr.aria-errormessage]="'termsandconditionsError'"
                 />
                 <span class="form-check-label">
-                  {{ 'register.confirmThatRead' | cxTranslate }}
+                  <span id="confirm-read-label">
+                    {{ 'register.confirmThatRead' | cxTranslate }}
+                  </span>
                   <a
                     [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-describedby="confirm-read-label"
                   >
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>
@@ -280,14 +282,12 @@
                     label: 'register.termsAndConditions' | cxTranslate,
                   }"
                   [control]="registerForm.get('termsandconditions')"
-                ></cx-form-errors>
+                />
               </label>
             </div>
           </div>
-          <cx-captcha (confirmed)="captchaConfirmed()"></cx-captcha>
-          <cx-form-errors
-            [control]="registerForm.get('captcha')"
-          ></cx-form-errors>
+          <cx-captcha (confirmed)="captchaConfirmed()" />
+          <cx-form-errors [control]="registerForm.get('captcha')" />
           <button type="submit" class="btn btn-block btn-primary">
             {{ 'register.register' | cxTranslate }}
           </button>
@@ -303,5 +303,5 @@
 </section>
 
 <ng-template #loading>
-  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-spinner"><cx-spinner /></div>
 </ng-template>

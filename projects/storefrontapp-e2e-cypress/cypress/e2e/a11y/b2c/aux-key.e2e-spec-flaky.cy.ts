@@ -5,6 +5,7 @@
  */
 
 import { isolateTests } from '../../../support/utils/test-isolation';
+import { cmsEndpoints } from '../../../helpers/cms-endpoints';
 
 context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
@@ -195,7 +196,7 @@ function loadPageWithComponenents(pageUrl: string) {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/${cmsEndpoints.components}`,
   }).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');

@@ -1,13 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureStylesService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   PointOfServiceNames,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { IconTestingModule, OutletContextData } from '@spartacus/storefront';
-import { MockFeatureDirectivesModule } from 'projects/storefrontlib/shared/test/mock-feature-directives.module';
+import {
+  IconComponent,
+  MockIconComponent,
+  OutletContextData,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { SetPreferredStoreComponent } from './set-preferred-store.component';
@@ -24,17 +31,16 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SetPreferredStoreComponent],
-      imports: [
-        I18nTestingModule,
-        IconTestingModule,
-        CommonModule,
-        MockFeatureDirectivesModule,
-      ],
+      imports: [CommonModule, SetPreferredStoreComponent],
       providers: [
         { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SetPreferredStoreComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockIconComponent] },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
     preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
@@ -48,7 +54,7 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
   });
 
   it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
-    spyOn(preferredStoreFacade, 'setPreferredStore');
+    vi.spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
     expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
@@ -78,13 +84,17 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SetPreferredStoreComponent],
-      imports: [I18nTestingModule, IconTestingModule, CommonModule],
+      imports: [CommonModule, SetPreferredStoreComponent],
       providers: [
         { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
         { provide: OutletContextData, useValue: { context$ } },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SetPreferredStoreComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockIconComponent] },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
     preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
@@ -98,7 +108,7 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
   });
 
   it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
-    spyOn(preferredStoreFacade, 'setPreferredStore');
+    vi.spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
     expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
@@ -121,8 +131,40 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
 @Component({
   selector: 'cx-set-preferred-store',
   template: '',
-  standalone: false,
 })
 export class SetPreferredStoreStubComponent {
   @Input() pointOfServiceName: PointOfServiceNames;
 }
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('SetPreferredStoreComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [SetPreferredStoreComponent],
+      providers: [
+        { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    })
+      .overrideComponent(SetPreferredStoreComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockIconComponent] },
+      })
+      .compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(SetPreferredStoreComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
+  });
+});

@@ -95,8 +95,8 @@ describe('UserGroupPermissionListService', () => {
   });
 
   it('should assign permission', () => {
-    spyOn(userGroupService, 'assignPermission').and.callThrough();
-    spyOn(permissionService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(userGroupService, 'assignPermission');
+    vi.spyOn(permissionService, 'getLoadingStatus');
 
     expect(service.assign('userGroupCode', 'permissionCode')).toEqual(
       mockItemStatus
@@ -111,8 +111,8 @@ describe('UserGroupPermissionListService', () => {
   });
 
   it('should unassign permission', () => {
-    spyOn(userGroupService, 'unassignPermission').and.callThrough();
-    spyOn(permissionService, 'getLoadingStatus').and.callThrough();
+    vi.spyOn(userGroupService, 'unassignPermission');
+    vi.spyOn(permissionService, 'getLoadingStatus');
 
     expect(service.unassign('userGroupCode', 'permissionCode')).toEqual(
       mockItemStatus

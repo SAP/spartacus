@@ -183,8 +183,12 @@ describe('ExplainDisableInfoComponent', () => {
   let fixture: ComponentFixture<DisableInfoComponent<BaseItem>>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule, IconModule],
-      declarations: [DisableInfoComponent],
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        IconModule,
+        DisableInfoComponent,
+      ],
       providers: [
         {
           provide: ItemService,
@@ -210,7 +214,7 @@ describe('ExplainDisableInfoComponent', () => {
     fixture.detectChanges();
     const values = fixture.debugElement
       .queryAll(By.css('section > ul > li'))
-      .map((el) => el.nativeNode.innerText);
+      .map((el) => el.nativeNode.textContent?.trim());
     expect(values).toEqual(expectedValue);
   }
 

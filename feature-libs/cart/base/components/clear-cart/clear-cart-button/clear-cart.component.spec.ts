@@ -45,8 +45,7 @@ describe('ClearCartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ClearCartComponent],
+      imports: [I18nTestingModule, ClearCartComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -83,7 +82,7 @@ describe('ClearCartComponent', () => {
   it('should open service dialog', () => {
     component.cart$ = mockCartNonEmpty$;
     fixture.detectChanges();
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
     const clearBtn = el.query(By.css('.clear-cart-btn')).nativeElement;
 

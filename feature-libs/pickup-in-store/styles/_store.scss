@@ -32,10 +32,7 @@
     text-decoration: underline;
     .cx-store-opening-hours-icon {
       color: var(--cx-color-secondary);
-      opacity: var(--cx-opacity, 0.5);
-      @include forFeature('a11yViewHoursButtonIconContrast') {
-        opacity: var(--cx-opacity, 1);
-      }
+      opacity: var(--cx-opacity, 1);
     }
     padding-inline-start: 0;
     padding-top: 0;
@@ -50,10 +47,7 @@
 
   .cx-store-stock-icon {
     color: var(--cx-color-secondary);
-    opacity: var(--cx-opacity, 0.5);
-    @include forFeature('a11yStoreInStockIconContrast') {
-      opacity: var(--cx-opacity, 1);
-    }
+    opacity: var(--cx-opacity, 1);
   }
 
   .cx-store-out-of-stock {
@@ -67,5 +61,15 @@
   .cx-store-pick-up-from-here {
     padding: 0 0 25px 0;
     vertical-align: middle;
+  }
+
+  @include cx-highContrastTheme('a11yHighContrastFix') {
+    .cx-store-opening-hours-toggle {
+      color: var(--cx-color-primary);
+    }
+    .cx-store-stock-icon,
+    .cx-store-opening-hours-icon {
+      color: var(--cx-color-text);
+    }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,12 +10,8 @@ import { isMobile } from './viewport-context';
 
 export function switchLanguage(lang: string) {
   const selector = isMobile()
-    ? '.navigation .SiteContext label'
-    : '.header .SiteContext label';
+    ? '.navigation .SiteContext cx-site-context-selector:first-child'
+    : '.header .SiteContext cx-site-context-selector:first-child';
 
-  cy.get(selector)
-    .contains('Language')
-    .parent()
-    .children('select')
-    .select(lang, { force: true });
+  cy.get(selector).find('select').select(lang, { force: true });
 }

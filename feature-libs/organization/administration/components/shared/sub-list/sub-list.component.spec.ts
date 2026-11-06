@@ -8,17 +8,30 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
-import { FocusConfig } from '@spartacus/storefront';
-import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  EntitiesModel,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FocusConfig,
+  FocusDirective,
+  PaginationComponent,
+  TableComponent,
+} from '@spartacus/storefront';
+import { PaginationTestingModule } from 'core-libs/storefront/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
+import { CardComponent } from '../card/card.component';
 import { CardTestingModule } from '../card/card.testing.module';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
+import { MessageComponent } from '../message/message.component';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { SubListComponent } from './sub-list.component';
-import createSpy = jasmine.createSpy;
-import { ActivatedRoute } from '@angular/router';
 
 const mockList: EntitiesModel<any> = {
   values: [
@@ -40,7 +53,13 @@ const mockEmptyList: EntitiesModel<any> = {
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-table',
   template: '',
-  standalone: false,
+  imports: [
+    CommonModule,
+    CardTestingModule,
+    MessageTestingModule,
+    I18nTestingModule,
+    PaginationTestingModule,
+  ],
 })
 class MockTableComponent {
   @Input() data;
@@ -51,8 +70,8 @@ class MockTableComponent {
 }
 
 class MockBaseListService {
-  view = createSpy('view');
-  sort = createSpy('sort');
+  view = vi.fn();
+  sort = vi.fn();
   getData() {
     return of(null);
   }
@@ -65,13 +84,22 @@ class MockBaseListService {
   hasGhostData() {
     return false;
   }
+  isSearchEnabled(): boolean {
+    return false;
+  }
+  getMinSearchCharacters(): number {
+    return 3;
+  }
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
+  }
   onCreateButtonClick(): void {}
-  getCreateButtonType = createSpy('getCreateButtonType');
+  getCreateButtonType = vi.fn();
 }
 
 class MockItemService {
   key$ = of('key');
-  launchDetails = createSpy('launchDetails');
+  launchDetails = vi.fn();
 }
 
 class ActivatedRouteMock {
@@ -81,7 +109,6 @@ class ActivatedRouteMock {
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[cxFocus]',
-  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -96,17 +123,10 @@ describe('SubListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        CardTestingModule,
-        MessageTestingModule,
-        I18nTestingModule,
-        PaginationTestingModule,
-      ],
-      declarations: [
         SubListComponent,
-        MockTableComponent,
-        MockKeyboadFocusDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
-
       providers: [
         {
           provide: ListService,
@@ -121,7 +141,32 @@ describe('SubListComponent', () => {
           useValue: new ActivatedRouteMock({}),
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SubListComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            TableComponent,
+            FocusDirective,
+            PaginationComponent,
+            CardComponent,
+            MessageComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockTableComponent,
+            MockKeyboadFocusDirective,
+            CardTestingModule,
+            MessageTestingModule,
+            PaginationTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -130,7 +175,9 @@ describe('SubListComponent', () => {
 
   describe('with  data', () => {
     beforeEach(() => {
-      spyOn(organizationListService, 'getData').and.returnValue(of(mockList));
+      vi.spyOn(organizationListService, 'getData').mockReturnValue(
+        of(mockList)
+      );
       fixture = TestBed.createComponent(SubListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -158,7 +205,7 @@ describe('SubListComponent', () => {
 
   describe('without data', () => {
     beforeEach(() => {
-      spyOn(organizationListService, 'getData').and.returnValue(
+      vi.spyOn(organizationListService, 'getData').mockReturnValue(
         of(mockEmptyList)
       );
       fixture = TestBed.createComponent(SubListComponent);

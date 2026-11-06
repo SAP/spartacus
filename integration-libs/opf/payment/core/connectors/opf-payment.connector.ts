@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import {
   OpfPaymentSubmitCompleteResponse,
   OpfPaymentSubmitRequest,
   OpfPaymentSubmitResponse,
+  OpfPaymentUpdateConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
@@ -66,5 +67,11 @@ export class OpfPaymentConnector {
     paymentConfig: OpfPaymentInitiationConfig
   ): Observable<OpfPaymentSessionData> {
     return this.adapter.initiatePayment(paymentConfig);
+  }
+
+  public updatePaymentTransaction(
+    updatePaymentConfig: OpfPaymentUpdateConfig
+  ): Observable<OpfPaymentSessionData> {
+    return this.adapter.updatePaymentTransaction(updatePaymentConfig);
   }
 }

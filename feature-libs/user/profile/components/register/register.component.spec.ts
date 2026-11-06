@@ -1,11 +1,12 @@
-import { Component, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AbstractControl,
   ReactiveFormsModule,
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -16,43 +17,53 @@ import {
   BaseSite,
   BaseSiteService,
   ConsentTemplate,
-  FeatureConfigService,
+  CxDatePipe,
+  FeatureToggles,
+  FeatureDirective,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
   OAuthFlow,
   RoutingService,
   SiteAdapter,
   Title,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CaptchaModule,
   FormErrorsModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { EMPTY, Observable, Subject, of } from 'rxjs';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { EMPTY, firstValueFrom, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
-import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
-const mockInvalidPassword = 'strongPass$!123';
+const mockInvalidPassword = 'strongPas$!123|';
 
-const mockRegisterFormData: any = {
-  titleCode: 'Mr',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'JohnDoe@thebest.john.intheworld.com',
-  email_lowercase: 'johndoe@thebest.john.intheworld.com',
-  termsandconditions: true,
-  password: mockSecurePassword,
-  passwordconf: mockSecurePassword,
-  newsletter: true,
-  captcha: true,
+let mockRegisterFormData: any = {};
+
+const initMockRegisterForm = () => {
+  mockRegisterFormData = {
+    titleCode: 'Mr',
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'JohnDoe@thebest.john.intheworld.com',
+    email_lowercase: 'johndoe@thebest.john.intheworld.com',
+    termsandconditions: true,
+    password: mockSecurePassword,
+    passwordconf: mockSecurePassword,
+    newsletter: true,
+    captcha: true,
+  };
 };
 
 const mockTitlesList: Title[] = [
@@ -66,10 +77,7 @@ const mockTitlesList: Title[] = [
   },
 ];
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -77,20 +85,28 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    I18nTestingModule,
+    FormErrorsModule,
+    NgSelectModule,
+    PasswordVisibilityToggleModule,
+    NgSelectA11yModule,
+    CaptchaModule,
+  ],
 })
 class MockSpinnerComponent {}
 
 class MockGlobalMessageService {
-  add = createSpy();
-  remove = createSpy();
+  add = vi.fn();
+  remove = vi.fn();
   get() {
     return EMPTY;
   }
 }
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 
 class MockAnonymousConsentsService {
@@ -123,12 +139,12 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
 class MockRegisterComponentService
   implements Partial<RegisterComponentService>
 {
-  getTitles = createSpy().and.returnValue(of(mockTitlesList));
-  register = createSpy().and.returnValue(of(undefined));
-  postRegisterMessage = createSpy();
-  getAdditionalConsents = createSpy();
-  generateAdditionalConsentsFormControl = createSpy();
-  collectDataFromRegisterForm = createSpy();
+  getTitles = vi.fn().mockReturnValue(of(mockTitlesList));
+  register = vi.fn().mockReturnValue(of(undefined));
+  postRegisterMessage = vi.fn();
+  getAdditionalConsents = vi.fn();
+  generateAdditionalConsentsFormControl = vi.fn();
+  collectDataFromRegisterForm = vi.fn();
 }
 
 class MockSiteAdapter {
@@ -166,24 +182,23 @@ describe('RegisterComponent', () => {
   let anonymousConsentService: AnonymousConsentsService;
   let authConfigService: AuthConfigService;
   let registerComponentService: RegisterComponentService;
-  let featureConfigService: FeatureConfigService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  const configureTestingModule = async (
+    featureToggles: { [key: string]: any } = {
+      useEnhancedSecurePasswordValidators: false,
+      authorizationCodeFlowByDefault: false,
+    }
+  ) => {
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,
         PasswordVisibilityToggleModule,
         NgSelectA11yModule,
         CaptchaModule,
-      ],
-      declarations: [
         RegisterComponent,
-        MockUrlPipe,
-        MockSpinnerComponent,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -222,9 +237,38 @@ describe('RegisterComponent', () => {
           provide: LanguageService,
           useClass: MockLanguageService,
         },
+        {
+          provide: FeatureToggles,
+          useValue: { ...featureToggles },
+        },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(RegisterComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockSpinnerComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
+  };
+
+  beforeEach(async () => {
+    await configureTestingModule();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
@@ -234,12 +278,12 @@ describe('RegisterComponent', () => {
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authConfigService = TestBed.inject(AuthConfigService);
     registerComponentService = TestBed.inject(RegisterComponentService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
 
     component = fixture.componentInstance;
 
     fixture.detectChanges();
+
+    initMockRegisterForm();
     controls = component.registerForm.controls;
   });
 
@@ -252,28 +296,23 @@ describe('RegisterComponent', () => {
       fixture = TestBed.createComponent(RegisterComponent);
       fixture.detectChanges();
       const el: HTMLElement = fixture.debugElement.nativeElement;
-      const submitButton: HTMLElement = el.querySelector(
+      const submitButton: HTMLElement | null = el.querySelector(
         'button[type="submit"]'
       );
-      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
+      expect(submitButton?.hasAttribute('disabled')).toBeFalsy();
     });
   });
 
   describe('ngOnInit', () => {
-    it('should load titles', () => {
+    it('should load titles', async () => {
       component.ngOnInit();
 
-      let titleList: Title[];
-      component.titles$
-        .subscribe((data) => {
-          titleList = data;
-        })
-        .unsubscribe();
-      expect(titleList).toEqual(mockTitlesList);
+      const data = await firstValueFrom(component.titles$);
+      expect(data).toEqual(mockTitlesList);
     });
 
     it('should handle error when title code is required from the backend config', () => {
-      spyOn(globalMessageService, 'get').and.returnValue(
+      vi.spyOn(globalMessageService, 'get').mockReturnValue(
         of({
           [GlobalMessageType.MSG_TYPE_ERROR]: [
             { raw: 'This field is required.' },
@@ -295,7 +334,7 @@ describe('RegisterComponent', () => {
 
     it('should show spinner when loading = true', () => {
       const register = new Subject();
-      (regComponentService.register as any).and.returnValue(register);
+      (regComponentService.register as any).mockReturnValue(register);
       component.ngOnInit();
       component.registerUser();
       fixture.detectChanges();
@@ -325,16 +364,28 @@ describe('RegisterComponent', () => {
 
   describe('register', () => {
     it('should register with valid form', () => {
-      regComponentService.collectDataFromRegisterForm =
-        createSpy().and.returnValue({
-          firstName: mockRegisterFormData.firstName,
-          lastName: mockRegisterFormData.lastName,
-          uid: mockRegisterFormData.email_lowercase,
-          password: mockRegisterFormData.password,
-          titleCode: mockRegisterFormData.titleCode,
-        });
+      const getInvalidControls = () => {
+        const invalid: string[] = [];
+        const controls = component.registerForm.controls;
+        for (const name in controls) {
+          if (controls[name].invalid) {
+            invalid.push(name);
+          }
+        }
+        return invalid;
+      };
+      vi.spyOn(
+        registerComponentService,
+        'collectDataFromRegisterForm'
+      ).mockReturnValue({
+        firstName: mockRegisterFormData.firstName,
+        lastName: mockRegisterFormData.lastName,
+        uid: mockRegisterFormData.email_lowercase,
+        password: mockRegisterFormData.password,
+        titleCode: mockRegisterFormData.titleCode,
+      });
       component.registerForm.patchValue(mockRegisterFormData);
-      component.ngOnInit();
+      component.registerForm.updateValueAndValidity();
       component.submitForm();
       expect(regComponentService.register).toHaveBeenCalledWith({
         firstName: mockRegisterFormData.firstName,
@@ -361,7 +412,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should not redirect in different flow that ResourceOwnerPasswordFlow', () => {
-      spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+      vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
         OAuthFlow.ImplicitFlow
       );
       component.ngOnInit();
@@ -375,7 +426,9 @@ describe('RegisterComponent', () => {
   const toggleAnonymousConsentMethod = 'toggleAnonymousConsent';
   describe(`${toggleAnonymousConsentMethod}`, () => {
     it('should call anonymousConsentsService.giveConsent when the consent is given', () => {
-      spyOn(anonymousConsentService, 'giveConsent').and.stub();
+      vi.spyOn(anonymousConsentService, 'giveConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(true);
@@ -383,7 +436,9 @@ describe('RegisterComponent', () => {
       expect(anonymousConsentService.giveConsent).toHaveBeenCalled();
     });
     it('should call anonymousConsentsService.withdrawConsent when the consent is NOT given', () => {
-      spyOn(anonymousConsentService, 'withdrawConsent').and.stub();
+      vi.spyOn(anonymousConsentService, 'withdrawConsent').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       controls['newsletter'].setValue(false);
@@ -394,7 +449,9 @@ describe('RegisterComponent', () => {
 
   describe('isConsentGiven', () => {
     it('should call anonymousConsentsService.isConsentGiven', () => {
-      spyOn(anonymousConsentService, 'isConsentGiven').and.stub();
+      vi.spyOn(anonymousConsentService, 'isConsentGiven').mockImplementation(
+        () => {}
+      );
       const mockConsent: AnonymousConsent = {
         consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
       };
@@ -412,17 +469,18 @@ describe('RegisterComponent', () => {
     });
 
     it('should disable input when register consent is required', () => {
-      spyOn<any>(component, isConsentRequiredMethod).and.returnValue(true);
+      vi.spyOn<any>(component, isConsentRequiredMethod).mockReturnValue(true);
+      fixture.detectChanges();
       fixture.detectChanges();
       expect(controls['newsletter'].status).toEqual('DISABLED');
     });
   });
 
   describe('captcha', () => {
-    let captchaComponent;
+    let captchaComponent: DebugElement;
     beforeEach(() => {
       captchaComponent = fixture.debugElement.query(By.css('cx-captcha'));
-      spyOn(component, 'registerUser').and.callThrough();
+      vi.spyOn(component, 'registerUser');
       mockRegisterFormData.captcha = false;
       component.registerForm.patchValue(mockRegisterFormData);
     });
@@ -444,7 +502,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should confirm captcha', () => {
-      spyOn(component, 'captchaConfirmed').and.callThrough();
+      vi.spyOn(component, 'captchaConfirmed');
 
       captchaComponent.triggerEventHandler('enabled', true);
       captchaComponent.triggerEventHandler('confirmed', true);
@@ -457,9 +515,12 @@ describe('RegisterComponent', () => {
   });
 
   describe('password validators', () => {
-    it('should have new validators when feature flag is enabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
-
+    it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', async () => {
+      TestBed.resetTestingModule();
+      await configureTestingModule({
+        useEnhancedSecurePasswordValidators: true,
+        authorizationCodeFlowByDefault: false,
+      });
       fixture = TestBed.createComponent(RegisterComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -470,8 +531,11 @@ describe('RegisterComponent', () => {
 
       const validations = {
         whenEmpty: passwordControl.validator?.({} as any),
-        whenNotEmpty: passwordControl.validator?.({
+        whenNotEmptyAndInvalid: passwordControl.validator?.({
           value: mockInvalidPassword,
+        } as any),
+        whenNotEmpty: passwordControl.validator?.({
+          value: mockSecurePassword,
         } as any),
       };
       expect(passwordControl).toBeTruthy();
@@ -482,10 +546,12 @@ describe('RegisterComponent', () => {
         cxMinOneUpperCaseCharacter: true,
         cxMinEightCharactersLength: true,
         cxMaxCharactersLength: true,
+        cxMustEndWithLegalCharacter: true,
       });
-      expect(validations.whenNotEmpty).toEqual({
-        cxNoConsecutiveCharacters: true,
+      expect(validations.whenNotEmptyAndInvalid).toEqual({
+        cxMustEndWithLegalCharacter: true,
       });
+      expect(validations.whenNotEmpty).toEqual(null);
     });
   });
 });

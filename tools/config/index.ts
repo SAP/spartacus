@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,15 +14,16 @@
 
 import { execSync } from 'child_process';
 import { Command } from 'commander';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { globSync } from 'glob';
 import { chalk } from '../chalk';
+import { checkLockFiles } from './check-lock-files';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
 
 // ------------ Utilities ------------
-
+/* eslint-disable no-console */
 /**
  * Logger when everything was ok
  */
@@ -276,9 +277,66 @@ const repository = librariesPaths
     return acc;
   }, {});
 
+/**
+ * Checks (or fixes) that the `add-or-update-ai-skills` version in migrations.json
+ * matches the `@spartacus/schematics` package version.
+ * In check mode (`config:check`), reports an error pointing to the fix command.
+ * In fix mode (`config:update`), writes the corrected version automatically.
+ */
+function syncAiMigrationVersion(): void {
+  const MIGRATIONS_PATH = 'core-libs/schematics/src/migrations/migrations.json';
+  const SCHEMATICS_PACKAGE_PATH = 'core-libs/schematics/package.json';
+  const MIGRATION_KEY = 'add-or-update-ai-skills';
+
+  const schematicsVersion: string = readJsonFile(
+    SCHEMATICS_PACKAGE_PATH
+  ).version;
+  const migrations = readJsonFile(MIGRATIONS_PATH);
+
+  if (!migrations.schematics[MIGRATION_KEY]) {
+    return;
+  }
+
+  const currentVersion: string = migrations.schematics[MIGRATION_KEY].version;
+
+  if (currentVersion === schematicsVersion) {
+    success(
+      ` ✔  \`${MIGRATION_KEY}\` version already matches \`${schematicsVersion}\``
+    );
+    return;
+  }
+
+  if (options.fix) {
+    migrations.schematics[MIGRATION_KEY].version = schematicsVersion;
+    writeFileSync(MIGRATIONS_PATH, `${JSON.stringify(migrations, null, 2)}\n`);
+    logUpdatedFile(MIGRATIONS_PATH);
+  } else {
+    error(
+      MIGRATIONS_PATH,
+      [
+        `\`${MIGRATION_KEY}\` version \`${currentVersion}\` does not match ` +
+          `\`${SCHEMATICS_PACKAGE_PATH}\` version \`${schematicsVersion}\`.`,
+      ],
+      [
+        `Run \`${chalk.bold('npm run config:update')}\` to fix this automatically.`,
+      ]
+    );
+  }
+}
+
+// Run the cheap lock-file check first so a PR that forgot to update its
+// `package-lock.json` fails fast, without waiting for the slower dependency,
+// tsconfig and `generate:deps` steps below.
+checkLockFiles(options);
+if (!options.fix && errorsCount > 0) {
+  console.log(chalk.red(`\nErrors: ${errorsCount}\n`));
+  process.exit(1);
+}
+
 manageDependencies(repository, options);
 // Keep it after dependencies, because fixes from deps might might result in different tsconfig files
 manageTsConfigs(repository, options);
+syncAiMigrationVersion();
 
 if (options.generateDeps) {
   // re-generate dependencies.json file.

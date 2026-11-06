@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
@@ -11,18 +11,20 @@ import {
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
+import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
   selector: 'cx-applied-coupons',
   template: '',
-  standalone: false,
 })
 class MockAppliedCouponsComponent {
   @Input()
@@ -39,24 +41,24 @@ describe('CartCouponComponent', () => {
   let input: HTMLInputElement;
   let el: DebugElement;
 
-  const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
-    'getActive',
-    'getActiveCartId',
-    'isStable',
-  ]);
+  const mockActiveCartService = {
+    getActive: vi.fn(),
+    getActiveCartId: vi.fn(),
+    isStable: vi.fn(),
+  };
 
-  const mockCartVoucherService = jasmine.createSpyObj('CartVoucherService', [
-    'addVoucher',
-    'getAddVoucherResultSuccess',
-    'resetAddVoucherProcessingState',
-    'getAddVoucherResultLoading',
-    'getAddVoucherResultError',
-  ]);
+  const mockCartVoucherService = {
+    addVoucher: vi.fn(),
+    getAddVoucherResultSuccess: vi.fn(),
+    resetAddVoucherProcessingState: vi.fn(),
+    getAddVoucherResultLoading: vi.fn(),
+    getAddVoucherResultError: vi.fn(),
+  };
 
-  const mockCustomerCouponService = jasmine.createSpyObj(
-    'CustomerCouponService',
-    ['loadCustomerCoupons', 'getCustomerCoupons']
-  );
+  const mockCustomerCouponService = {
+    loadCustomerCoupons: vi.fn(),
+    getCustomerCoupons: vi.fn(),
+  };
 
   const couponsSearchResult: CustomerCouponSearchResult = {
     coupons: [
@@ -71,14 +73,9 @@ describe('CartCouponComponent', () => {
 
   const appliedVouchers: Voucher[] = [{ code: 'CustomerCoupon1' }];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
-      declarations: [
-        CartCouponComponent,
-        MockAppliedCouponsComponent,
-        MockFeatureDirective,
-      ],
+      imports: [ReactiveFormsModule, FormErrorsModule, CartCouponComponent],
       providers: [
         { provide: ActiveCartFacade, useValue: mockActiveCartService },
         { provide: CartVoucherFacade, useValue: mockCartVoucherService },
@@ -86,28 +83,36 @@ describe('CartCouponComponent', () => {
           provide: CustomerCouponService,
           useValue: mockCustomerCouponService,
         },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(CartCouponComponent, {
+        remove: { imports: [TranslatePipe, AppliedCouponsComponent] },
+        add: { imports: [MockTranslatePipe, MockAppliedCouponsComponent] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
+    vi.clearAllMocks();
     fixture = TestBed.createComponent(CartCouponComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    mockActiveCartService.getActive.and.returnValue(
+    mockActiveCartService.getActive.mockReturnValue(
       of({ code: '123' } as Cart)
     );
-    mockActiveCartService.getActiveCartId.and.returnValue(of('123'));
-    mockActiveCartService.isStable.and.returnValue(of(true));
-    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(EMPTY);
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(EMPTY);
-    mockCartVoucherService.addVoucher.and.stub();
-    mockCartVoucherService.resetAddVoucherProcessingState.and.stub();
-    mockCartVoucherService.resetAddVoucherProcessingState.calls.reset();
-    mockCartVoucherService.getAddVoucherResultError.and.returnValue(EMPTY);
-    mockCustomerCouponService.loadCustomerCoupons.and.stub();
-    mockCustomerCouponService.getCustomerCoupons.and.returnValue(of({}));
+    mockActiveCartService.getActiveCartId.mockReturnValue(of('123'));
+    mockActiveCartService.isStable.mockReturnValue(of(true));
+    mockCartVoucherService.getAddVoucherResultSuccess.mockReturnValue(EMPTY);
+    mockCartVoucherService.getAddVoucherResultLoading.mockReturnValue(EMPTY);
+    mockCartVoucherService.addVoucher.mockImplementation(() => {});
+    mockCartVoucherService.resetAddVoucherProcessingState.mockImplementation(
+      () => {}
+    );
+    mockCartVoucherService.getAddVoucherResultError.mockReturnValue(EMPTY);
+    mockCustomerCouponService.loadCustomerCoupons.mockImplementation(() => {});
+    mockCustomerCouponService.getCustomerCoupons.mockReturnValue(of({}));
   });
 
   it('should create', () => {
@@ -116,7 +121,7 @@ describe('CartCouponComponent', () => {
   });
 
   it('should show coupon input and submit button', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
+    mockCartVoucherService.getAddVoucherResultLoading.mockReturnValue(
       of(false)
     );
     fixture.detectChanges();
@@ -142,7 +147,7 @@ describe('CartCouponComponent', () => {
   });
 
   it('should disable button when coupon is in process', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
+    mockCartVoucherService.getAddVoucherResultLoading.mockReturnValue(
       hot('-a', { a: true })
     );
     fixture.detectChanges();
@@ -154,7 +159,7 @@ describe('CartCouponComponent', () => {
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
+    mockCartVoucherService.getAddVoucherResultLoading.mockReturnValue(
       cold('-a', { a: true })
     );
     applyBtn.click();
@@ -166,8 +171,8 @@ describe('CartCouponComponent', () => {
   });
 
   it('should coupon is applied successfully', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of(true));
-    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of(true));
+    mockCartVoucherService.getAddVoucherResultLoading.mockReturnValue(of(true));
+    mockCartVoucherService.getAddVoucherResultSuccess.mockReturnValue(of(true));
 
     fixture.detectChanges();
 
@@ -185,7 +190,7 @@ describe('CartCouponComponent', () => {
   });
 
   it('should list customer coupons when has customer coupons', () => {
-    mockCustomerCouponService.getCustomerCoupons.and.returnValue(
+    mockCustomerCouponService.getCustomerCoupons.mockReturnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();
@@ -204,10 +209,10 @@ describe('CartCouponComponent', () => {
   });
 
   it('should not show applied customer coupon', () => {
-    mockActiveCartService.getActive.and.returnValue(
+    mockActiveCartService.getActive.mockReturnValue(
       of({ appliedVouchers: appliedVouchers } as Cart)
     );
-    mockCustomerCouponService.getCustomerCoupons.and.returnValue(
+    mockCustomerCouponService.getCustomerCoupons.mockReturnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();
@@ -217,26 +222,27 @@ describe('CartCouponComponent', () => {
   });
 
   it('should apply customer coupons', () => {
-    mockCustomerCouponService.getCustomerCoupons.and.returnValue(
+    mockCustomerCouponService.getCustomerCoupons.mockReturnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();
-    const customerCoupon = el.queryAll(By.css('.cx-available-coupon .card'))[0]
-      .nativeElement;
+    const customerCoupon = el.queryAll(
+      By.css('.cx-available-coupon .card button')
+    )[0].nativeElement;
     customerCoupon.click();
     fixture.detectChanges();
     expect(mockCartVoucherService.addVoucher).toHaveBeenCalled();
   });
 
   it('should reload customer coupons on apply error', () => {
-    mockCartVoucherService.getAddVoucherResultError.and.returnValue(of(true));
+    mockCartVoucherService.getAddVoucherResultError.mockReturnValue(of(true));
     fixture.detectChanges();
     expect(mockCustomerCouponService.loadCustomerCoupons).toHaveBeenCalled();
   });
 
   it('should reset state when on destroy is triggered', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of(true));
-    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of(true));
+    mockCartVoucherService.getAddVoucherResultLoading.mockReturnValue(of(true));
+    mockCartVoucherService.getAddVoucherResultSuccess.mockReturnValue(of(true));
     fixture.detectChanges();
 
     component.ngOnDestroy();

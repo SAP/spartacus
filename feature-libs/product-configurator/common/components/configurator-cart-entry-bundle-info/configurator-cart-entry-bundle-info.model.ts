@@ -1,14 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import type { Product } from '@spartacus/core';
 
 /**
  * An interface representing the CPQ Line item from order entry.
  */
 export interface LineItem {
   name?: string;
+  productCode?: string;
   formattedQuantity?: string;
   formattedPrice?: string;
+  rowId?: string;
+  configurable?: boolean;
+  /** Product data for PDP links when loaded from product code. */
+  product?: Product;
 }

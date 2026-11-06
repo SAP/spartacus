@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,8 +15,7 @@ import {
 import { OpfPaymentMethodDetailsComponent } from './opf-payment-method-details.component';
 
 @NgModule({
-  declarations: [OpfPaymentMethodDetailsComponent],
-  imports: [CommonModule, CardModule],
+  imports: [CommonModule, CardModule, OpfPaymentMethodDetailsComponent],
   exports: [OpfPaymentMethodDetailsComponent],
   providers: [
     provideOutlet({

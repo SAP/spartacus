@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,10 +10,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { ConfiguratorAttributeCompositionConfig } from '../composition/configurator-attribute-composition.config';
-import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+import { ConfiguratorMessageModule } from '../../message/configurator-message.module';
 import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
 import { ConfiguratorShowOptionsModule } from '../show-options/configurator-show-options.module';
+import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
 @NgModule({
   imports: [
@@ -24,10 +24,12 @@ import { ConfiguratorShowOptionsModule } from '../show-options/configurator-show
     IconModule,
     NgSelectModule,
     ConfiguratorShowMoreModule,
+    ConfiguratorMessageModule,
     ConfiguratorShowOptionsModule,
+    ConfiguratorAttributeHeaderComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           Header: ConfiguratorAttributeHeaderComponent,
@@ -35,7 +37,6 @@ import { ConfiguratorShowOptionsModule } from '../show-options/configurator-show
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeHeaderComponent],
   exports: [ConfiguratorAttributeHeaderComponent],
 })
 export class ConfiguratorAttributeHeaderModule {}

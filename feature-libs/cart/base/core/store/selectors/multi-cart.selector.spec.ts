@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
+import { firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MultiCartSelectors } from '.';
 import { CartActions } from '../actions';
@@ -87,7 +88,7 @@ describe('Multi Cart selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('getMultiCartState', () => {
@@ -195,37 +196,31 @@ describe('Multi Cart selectors', () => {
   });
 
   describe('getCartIsStableSelectorFactory', () => {
-    it('should return true when cart is stable when there is no active cart', (done) => {
-      store
-        .pipe(
+    it('should return true when cart is stable when there is no active cart', async () => {
+      const result = await firstValueFrom(
+        store.pipe(
           select(
             MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
-          ),
-          take(1)
+          )
         )
-        .subscribe((result) => {
-          expect(result).toEqual(true);
-          done();
-        });
+      );
+      expect(result).toEqual(true);
     });
 
-    it('should return true when cart is stable when there are 0 processes and loading is false', (done) => {
+    it('should return true when cart is stable when there are 0 processes and loading is false', async () => {
       loadCart();
 
-      store
-        .pipe(
+      const result = await firstValueFrom(
+        store.pipe(
           select(
             MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
-          ),
-          take(1)
+          )
         )
-        .subscribe((result) => {
-          expect(result).toEqual(true);
-          done();
-        });
+      );
+      expect(result).toEqual(true);
     });
 
-    it('should return false when there are pending processes', (done) => {
+    it('should return false when there are pending processes', async () => {
       store.dispatch(
         new CartActions.LoadCart({
           userId: 'userId',
@@ -236,17 +231,14 @@ describe('Multi Cart selectors', () => {
         })
       );
 
-      store
-        .pipe(
+      const result = await firstValueFrom(
+        store.pipe(
           select(
             MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
-          ),
-          take(1)
+          )
         )
-        .subscribe((result) => {
-          expect(result).toEqual(false);
-          done();
-        });
+      );
+      expect(result).toEqual(false);
     });
   });
 

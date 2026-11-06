@@ -58,7 +58,6 @@ describe('OccCartAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCartAdapter,
         ProductImageNormalizer,
@@ -73,9 +72,9 @@ describe('OccCartAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEndpointService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'pipeableMany').and.callThrough();
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'pipeableMany');
+    vi.spyOn(occEndpointService, 'buildUrl');
   });
 
   afterEach(() => {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,7 @@ export abstract class FormService<T> {
   protected abstract build(item?: T): void;
 
   getForm(item?: T): UntypedFormGroup | null {
-    if (this.form && !!item) {
+    if (this.form && item) {
       this.patchData(item);
       return this.form;
     }

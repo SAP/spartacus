@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
@@ -34,7 +34,7 @@ describe('Unit Level Orders Selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('getOrdersLoaderState', () => {
@@ -57,7 +57,7 @@ describe('Unit Level Orders Selectors', () => {
   });
 
   describe('getOrders', () => {
-    it('should return unit Orders', fakeAsync(() => {
+    it('should return unit Orders', () => {
       let result: OrderHistoryList | undefined;
       store.pipe(select(UnitOrderSelectors.getOrders)).subscribe((value) => {
         result = value;
@@ -66,7 +66,7 @@ describe('Unit Level Orders Selectors', () => {
       expect(result).toEqual(mockEmptyOrderList);
       store.dispatch(new UnitOrderActions.LoadUnitOrdersSuccess(mockOrderList));
       expect(result).toEqual(mockOrderList);
-    }));
+    });
   });
 
   describe('getOrdersLoaded', () => {

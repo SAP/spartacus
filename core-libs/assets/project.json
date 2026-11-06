@@ -1,0 +1,31 @@
+{
+  "name": "assets",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "core-libs/assets/src",
+  "projectType": "library",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "core-libs/assets/tsconfig.lib.json",
+        "project": "core-libs/assets/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "core-libs/assets/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "core-libs/assets/**/*.ts",
+          "core-libs/assets/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:util"]
+}

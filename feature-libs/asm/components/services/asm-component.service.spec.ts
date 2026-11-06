@@ -8,8 +8,9 @@ import {
 import { AsmDialogActionType } from '@spartacus/asm/customer-360/root';
 import { AuthService, WindowRef, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { AsmComponentService } from './asm-component.service';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
 class MockAuthService implements Partial<AuthService> {
   logout(): void {}
@@ -24,10 +25,10 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   }
 }
 
-const store = {};
-const MockWindowRef = {
-  localStorage: {
-    getItem: (key: string): string => {
+const store: Record<string, string> = {};
+class MockWindowRef extends MockWinRef {
+  override localStorage: any = {
+    getItem: (key: string): string | null => {
       return key in store ? store[key] : null;
     },
     setItem: (key: string, value: string) => {
@@ -38,11 +39,11 @@ const MockWindowRef = {
         delete store[key];
       }
     },
-  },
-  location: {
+  };
+  override location = {
     search: 'customerId=testId',
-  },
-};
+  } as Location;
+}
 
 class MockAsmDeepLinkService implements Partial<AsmDeepLinkService> {
   isEmulateInURL(): boolean {
@@ -83,7 +84,7 @@ describe('AsmComponentService', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         { provice: AsmDeepLinkService, useClass: MockAsmDeepLinkService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmEnablerService, useClass: MockAsmEnablerService },
@@ -103,7 +104,10 @@ describe('AsmComponentService', () => {
 
   describe('logoutCustomerSupportAgentAndCustomer()', () => {
     it('should logout csagent no matter the emulation state', () => {
-      spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.stub();
+      vi.spyOn(
+        csAgentAuthService,
+        'logoutCustomerSupportAgent'
+      ).mockImplementation(() => {});
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
 
@@ -113,32 +117,30 @@ describe('AsmComponentService', () => {
 
   describe('logoutCustomer()', () => {
     it('should logout customer and redirect to home.', () => {
-      spyOn(authService, 'logout').and.stub();
+      vi.spyOn(authService, 'logout').mockImplementation(() => {});
       asmComponentService.logoutCustomer();
       expect(authService.logout).toHaveBeenCalled();
     });
   });
 
   describe('isCustomerEmulationSessionInProgress()', () => {
-    it('should return true when user token is from an emulation session', () => {
-      spyOn(csAgentAuthService, 'isCustomerEmulated').and.returnValue(of(true));
-      let result = false;
-      asmComponentService
-        .isCustomerEmulationSessionInProgress()
-        .pipe(take(1))
-        .subscribe((value) => (result = value));
+    it('should return true when user token is from an emulation session', async () => {
+      vi.spyOn(csAgentAuthService, 'isCustomerEmulated').mockReturnValue(
+        of(true)
+      );
+      const result = await firstValueFrom(
+        asmComponentService.isCustomerEmulationSessionInProgress()
+      );
       expect(result).toBe(true);
     });
 
-    it('should return false when user token is not from an emulation session', () => {
-      spyOn(csAgentAuthService, 'isCustomerEmulated').and.returnValue(
+    it('should return false when user token is not from an emulation session', async () => {
+      vi.spyOn(csAgentAuthService, 'isCustomerEmulated').mockReturnValue(
         of(false)
       );
-      let result = false;
-      asmComponentService
-        .isCustomerEmulationSessionInProgress()
-        .pipe(take(1))
-        .subscribe((value) => (result = value));
+      const result = await firstValueFrom(
+        asmComponentService.isCustomerEmulationSessionInProgress()
+      );
       expect(result).toBe(false);
     });
   });
@@ -162,34 +164,29 @@ describe('AsmComponentService', () => {
   });
 
   describe('isEmulatedByDeepLink and setEmulated ', () => {
-    it('should emit true when user is emulated', (done) => {
+    it('should emit true when user is emulated', async () => {
       asmComponentService.setEmulatedByDeepLink(true);
 
-      asmComponentService
-        .isEmulatedByDeepLink()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBe(true);
-          done();
-        });
+      const result = await firstValueFrom(
+        asmComponentService.isEmulatedByDeepLink()
+      );
+      expect(result).toBe(true);
     });
 
-    it('should emit false when setEmulated called with false', (done) => {
+    it('should emit false when setEmulated called with false', async () => {
       asmComponentService.setEmulatedByDeepLink(false);
-      asmComponentService
-        .isEmulatedByDeepLink()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBe(false);
-          done();
-        });
+
+      const result = await firstValueFrom(
+        asmComponentService.isEmulatedByDeepLink()
+      );
+      expect(result).toBe(false);
     });
   });
 
   describe('customer 360()', () => {
     it('should handle dialog actions', () => {
       const routingService = TestBed.inject(RoutingService);
-      spyOn(routingService, 'go').and.stub();
+      vi.spyOn(routingService, 'go').mockImplementation(() => {});
 
       asmComponentService.handleAsmDialogAction({
         actionType: AsmDialogActionType.NAVIGATE,

@@ -1,0 +1,58 @@
+%cx-table {
+  table {
+    // avoid breaking table content
+    white-space: nowrap;
+    table-layout: fixed;
+    width: 100%;
+    td,
+    th {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    th {
+      padding: var(--cx-spatial-base) var(--cx-spatial-md);
+
+      color: var(--cx-color-secondary);
+      text-transform: uppercase;
+
+      &.sortable {
+        cursor: pointer;
+      }
+    }
+
+    thead tr,
+    > tr:not(:last-child) {
+      border-bottom: solid 1px var(--cx-color-medium);
+    }
+
+    th,
+    td {
+      transition:
+        opacity 0.2s ease-in-out 0.2s,
+        width 0.2s ease-in-out 0.2s;
+
+      padding: var(--cx-spatial-md);
+
+      > * {
+        display: flex;
+        // justify-content: space-between;
+      }
+    }
+
+    // Gated behind the a11yTableKeyboardNavigation feature flag. When a row is
+    // focused via keyboard navigation, the browser scrolls it into view; the
+    // large block-axis scroll-margin gives breathing room above and below so
+    // the row lands around the middle of the page rather than at the viewport
+    // edge. This is an approximation: CSS cannot truly re-center a row that is
+    // already partially visible.
+    @include forFeature('a11yTableKeyboardNavigation') {
+      tbody[tabindex],
+      tr[tabindex],
+      td[tabindex] {
+        scroll-margin-block: 50vh;
+      }
+    }
+  }
+}

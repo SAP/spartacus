@@ -51,8 +51,7 @@ describe('OrderDetailPermissionResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderDetailPermissionResultsComponent],
+      imports: [I18nTestingModule, OrderDetailPermissionResultsComponent],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
       ],
@@ -81,26 +80,30 @@ describe('OrderDetailPermissionResultsComponent', () => {
   });
 
   it('should display approval details in a table', () => {
-    expect(element.queryAll(By.css('tr')).length).toEqual(
+    expect(element.queryAll(By.css('tbody tr')).length).toEqual(
       mockOrder.permissionResults.length
     );
 
     for (let i = 0; i < mockOrder.permissionResults.length; i++) {
       expect(
-        element.query(
-          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approverName`)
-        ).nativeElement.innerText
+        element
+          .query(By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approverName`))
+          .nativeElement.textContent?.trim()
       ).toContain(mockOrder.permissionResults[i].approverName);
       expect(
-        element.query(
-          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-statusDisplay`)
-        ).nativeElement.innerText
+        element
+          .query(
+            By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-statusDisplay`)
+          )
+          .nativeElement.textContent?.trim()
       ).toContain(mockOrder.permissionResults[i].statusDisplay);
 
       expect(
-        element.query(
-          By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approvalNotes`)
-        ).nativeElement.innerText
+        element
+          .query(
+            By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approvalNotes`)
+          )
+          .nativeElement.textContent?.trim()
       ).toContain(
         mockOrder.permissionResults[i].approverNotes ||
           'orderApprovalDetails.permissionResults.noApprovalComments'

@@ -10,8 +10,8 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { Consignment, OrderHistoryFacade } from '@spartacus/order/root';
 import {
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
@@ -31,10 +31,7 @@ const mockConsignment: Consignment = {
   entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
 };
 
-@Pipe({
-  name: 'cxTranslateUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslateUrl' })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -67,16 +64,20 @@ describe('ConsignmentTrackingComponent', () => {
     return equals;
   };
 
-  const userOrderService = jasmine.createSpyObj('UserOrderService', [
-    'loadConsignmentTracking',
-    'getConsignmentTracking',
-    'clearConsignmentTracking',
-  ]);
+  const userOrderService = {
+    loadConsignmentTracking: vi.fn(),
+    getConsignmentTracking: vi.fn(),
+    clearConsignmentTracking: vi.fn(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, I18nTestingModule],
-      declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
+      imports: [
+        SpinnerModule,
+        I18nTestingModule,
+        ConsignmentTrackingComponent,
+        MockTranslateUrlPipe,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: OrderHistoryFacade, useValue: userOrderService },
@@ -87,10 +88,10 @@ describe('ConsignmentTrackingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsignmentTrackingComponent);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    userOrderService.getConsignmentTracking.and.returnValue(
+    userOrderService.getConsignmentTracking.mockReturnValue(
       of({ trackingID: '1234567890' })
     );
-    userOrderService.loadConsignmentTracking.and.callFake(
+    userOrderService.loadConsignmentTracking.mockImplementation(
       (_orderCode: string, _consignmentCode: string) => {}
     );
     el = fixture.debugElement;
@@ -98,10 +99,10 @@ describe('ConsignmentTrackingComponent', () => {
     component.consignment = mockConsignment;
     component.orderCode = 'test_order_id';
 
-    userOrderService.getConsignmentTracking.and.returnValue(
+    userOrderService.getConsignmentTracking.mockReturnValue(
       of(mockConsignment)
     );
-    userOrderService.clearConsignmentTracking.and.callFake(() => {});
+    userOrderService.clearConsignmentTracking.mockImplementation(() => {});
   });
 
   it('should create', () => {
@@ -153,7 +154,7 @@ describe('ConsignmentTrackingComponent', () => {
   });
 
   it('should be able to open dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
     mockConsignment.status = consignmentStatus[0];
     fixture.detectChanges();
 

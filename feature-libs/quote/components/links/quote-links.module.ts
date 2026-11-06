@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import { QuoteLinksComponent } from './quote-links.component';
     RouterModule,
     UrlModule,
     FeaturesConfigModule,
+    QuoteLinksComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -35,7 +36,6 @@ import { QuoteLinksComponent } from './quote-links.component';
       },
     }),
   ],
-  declarations: [QuoteLinksComponent],
   exports: [QuoteLinksComponent],
 })
 export class QuoteLinksModule {}

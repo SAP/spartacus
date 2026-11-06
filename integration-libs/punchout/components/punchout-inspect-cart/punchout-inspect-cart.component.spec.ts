@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PunchoutInspectCartComponent } from './punchout-inspect-cart.component';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { AuthService } from '@spartacus/core';
-import { of } from 'rxjs';
 import { PunchoutUiRestrictionService } from '@spartacus/punchout/root';
+import { of } from 'rxjs';
+import { PunchoutInspectCartComponent } from './punchout-inspect-cart.component';
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive() {
@@ -53,8 +53,7 @@ describe('PunchoutInspectCartComponent', () => {
     mockPunchoutUiRestrictionService = new MockPunchoutUiRestrictionService();
 
     await TestBed.configureTestingModule({
-      declarations: [PunchoutInspectCartComponent],
-      imports: [],
+      imports: [PunchoutInspectCartComponent],
       providers: [
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
         { provide: AuthService, useValue: mockAuthService },

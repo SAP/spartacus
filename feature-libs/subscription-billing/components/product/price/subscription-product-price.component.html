@@ -2,18 +2,16 @@
   <ng-container *ngIf="isCurrentProductSubscription()">
     <div>
       <ng-container *ngIf="recurringCharges().length > 0">
-        <ng-container *ngTemplateOutlet="showRecurringCharges"></ng-container>
+        <ng-container *ngTemplateOutlet="showRecurringCharges" />
       </ng-container>
 
       <ng-container *ngIf="oneTimeCharges().length > 0">
-        <ng-container *ngTemplateOutlet="showOneTimeCharges"></ng-container>
+        <ng-container *ngTemplateOutlet="showOneTimeCharges" />
       </ng-container>
 
-      <ng-container *ngTemplateOutlet="showTerm"></ng-container>
+      <ng-container *ngTemplateOutlet="showTerm" />
 
-      <cx-subscription-product-usage-charge
-        [product]="productDetail"
-      ></cx-subscription-product-usage-charge>
+      <cx-subscription-product-usage-charge [product]="productDetail" />
     </div>
   </ng-container>
 

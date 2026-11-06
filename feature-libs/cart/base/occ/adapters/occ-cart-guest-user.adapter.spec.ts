@@ -47,7 +47,6 @@ describe('OccCartGuestUserAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCartGuestUserAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
@@ -61,8 +60,8 @@ describe('OccCartGuestUserAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEndpointService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(occEndpointService, 'buildUrl');
   });
 
   afterEach(() => {

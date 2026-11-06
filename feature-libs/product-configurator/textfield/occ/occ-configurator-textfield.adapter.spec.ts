@@ -2,7 +2,6 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/base/root';
 import {
@@ -95,7 +94,6 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccConfiguratorTextfieldAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
@@ -104,23 +102,17 @@ describe('OccConfigurationTextfieldAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-    occEnpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
     occConfiguratorVariantAdapter = TestBed.inject(
-      OccConfiguratorTextfieldAdapter as Type<OccConfiguratorTextfieldAdapter>
+      OccConfiguratorTextfieldAdapter
     );
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'convert');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

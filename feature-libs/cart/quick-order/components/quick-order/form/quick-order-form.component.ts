@@ -1,29 +1,41 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  inject,
   Input,
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   Config,
-  FeatureConfigService,
+  FeatureToggles,
   Product,
+  TranslatePipe,
   WindowRef,
+  useFeatureStyles,
 } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -39,7 +51,16 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   selector: 'cx-quick-order-form',
   templateUrl: './quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    IconComponent,
+    NgFor,
+    MediaComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;
@@ -52,16 +73,18 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('quickOrderInput') quickOrderInput: ElementRef;
 
-  private featureConfigService = inject(FeatureConfigService);
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     public config: Config,
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yHighContrastFix');
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -83,11 +106,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
-      if (
-        this.featureConfigService.isEnabled(
-          'a11yQuickOrderSearchBoxRefocusOnClose'
-        )
-      ) {
+
+      if (!this.featureToggles.a11yQuickOrderResetFocus) {
         requestAnimationFrame(() => {
           this.quickOrderInput.nativeElement.focus();
         });
@@ -96,13 +116,21 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     const product = this.form.get('product')?.value;
 
-    if (!!product) {
-      this.form.reset();
+    if (product) {
+      this.featureToggles.a11yQuickOrderResetFocus
+        ? this.form.reset({}, { emitEvent: false })
+        : this.form.reset();
     }
 
     // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
     this.close();
     this.cd?.detectChanges();
+
+    if (this.featureToggles.a11yQuickOrderResetFocus) {
+      requestAnimationFrame(() => {
+        this.quickOrderInput.nativeElement.focus();
+      });
+    }
   }
 
   add(product: Product, event: Event): void {
@@ -154,15 +182,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     // Focus on first index moving to last
     if (results.length) {
-      if (
-        this.featureConfigService.isEnabled(
-          'a11ySearchableDropdownFirstElementFocus'
-        )
-      ) {
-        this.winRef.document
-          .querySelector('main')
-          ?.classList.remove('mouse-focus');
-      }
+      this.winRef.document
+        .querySelector('main')
+        ?.classList.remove('mouse-focus');
       if (focusedIndex >= results.length - 1) {
         results[0].focus();
       } else {

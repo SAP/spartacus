@@ -88,7 +88,6 @@ describe('OpfApiCtaAdapter', () => {
     ]);
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OpfApiCtaAdapter,
         { provide: OpfConfig, useValue: mockOpfConfig },

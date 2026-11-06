@@ -9,11 +9,12 @@ import {
 } from '@spartacus/storefront';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 
-const store = {};
-const MockWindowRef = {
-  localStorage: {
-    getItem: (key: string): string => {
+const store: Record<string, string> = {};
+class MockWindowRef extends MockWinRef {
+  override localStorage: any = {
+    getItem: (key: string): string | null => {
       return key in store ? store[key] : null;
     },
     setItem: (key: string, value: string) => {
@@ -24,8 +25,8 @@ const MockWindowRef = {
         delete store[key];
       }
     },
-  },
-};
+  };
+}
 
 class MockComponentFactoryResolver {
   resolveComponentFactory() {}
@@ -62,7 +63,7 @@ describe('AsmEnablerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: MockWindowRef },
         {
           provide: ComponentFactoryResolver,
           useClass: MockComponentFactoryResolver,
@@ -90,24 +91,24 @@ describe('AsmEnablerService', () => {
 
   describe('Open ASM based on URL parameter', () => {
     it('should add UI when ?asm=true', () => {
-      spyOn(location, 'path').and.returnValue('/any/url?asm=true');
-      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      vi.spyOn(location, 'path').mockReturnValue('/any/url?asm=true');
+      vi.spyOn(<any>asmEnablerService, 'addUi').mockImplementation(() => {});
       asmEnablerService.load();
       expect((<any>asmEnablerService).addUi).toHaveBeenCalled();
     });
 
     it('should add UI when assisted-service/emulate? shows in the url', () => {
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/assisted-service/emulate?customerId=1234'
       );
-      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      vi.spyOn(<any>asmEnablerService, 'addUi').mockImplementation(() => {});
       asmEnablerService.load();
       expect((<any>asmEnablerService).addUi).toHaveBeenCalled();
     });
 
     it('should not add UI when asm param is not used', () => {
-      spyOn(location, 'path').and.returnValue('/any/url');
-      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      vi.spyOn(location, 'path').mockReturnValue('/any/url');
+      vi.spyOn(<any>asmEnablerService, 'addUi').mockImplementation(() => {});
       asmEnablerService.load();
       expect((<any>asmEnablerService).addUi).not.toHaveBeenCalled();
     });
@@ -116,24 +117,24 @@ describe('AsmEnablerService', () => {
   describe('Open ASM based on previous usage', () => {
     it('should add UI when localStorage key asm_enabled is true', () => {
       windowRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
-      spyOn(location, 'path').and.returnValue('/any/url');
-      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      vi.spyOn(location, 'path').mockReturnValue('/any/url');
+      vi.spyOn(<any>asmEnablerService, 'addUi').mockImplementation(() => {});
       asmEnablerService.load();
       expect((<any>asmEnablerService).addUi).toHaveBeenCalled();
     });
 
     it('should not add UI when localStorage asm_enabled is false ', () => {
       windowRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'false');
-      spyOn(location, 'path').and.returnValue('/any/url');
-      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      vi.spyOn(location, 'path').mockReturnValue('/any/url');
+      vi.spyOn(<any>asmEnablerService, 'addUi').mockImplementation(() => {});
       asmEnablerService.load();
       expect((<any>asmEnablerService).addUi).not.toHaveBeenCalled();
     });
 
     it('should not add UI when localStorage asm_enabled is not available ', () => {
       windowRef.localStorage.removeItem(ASM_ENABLED_LOCAL_STORAGE_KEY);
-      spyOn(location, 'path').and.returnValue('/any/url');
-      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      vi.spyOn(location, 'path').mockReturnValue('/any/url');
+      vi.spyOn(<any>asmEnablerService, 'addUi').mockImplementation(() => {});
       asmEnablerService.load();
       expect((<any>asmEnablerService).addUi).not.toHaveBeenCalled();
     });

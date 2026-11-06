@@ -44,7 +44,7 @@ describe('AccountSummaryItemService', () => {
   });
 
   it('should launch account summary detail route with unit uid', () => {
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     service.launchDetails(testB2BUnit);
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orgAccountSummaryDetails',

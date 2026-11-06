@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,8 @@ import {
   ApplePaySessionVerificationResponse,
   ApplePayTransactionInput,
   OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
+  OpfQuickBuyApplePayProvider,
+  OpfQuickBuyConfig,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyFacade,
   OpfQuickBuyLocation,
@@ -48,14 +50,17 @@ export class ApplePayService {
     OpfQuickBuyTransactionService
   );
   protected opfQuickBuyFacade = inject(OpfQuickBuyFacade);
+  protected opfQuickBuyConfig = inject(OpfQuickBuyConfig);
   protected paymentInProgress = false;
-  protected readonly defaultApplePayCardParameters: any = {
-    shippingMethods: [],
-    merchantCapabilities: ['supports3DS'],
-    supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-    requiredShippingContactFields: ['email', 'name', 'postalAddress'],
-    requiredBillingContactFields: ['email', 'name', 'postalAddress'],
-  };
+
+  // default config guarantees providers.applePay is always present
+  protected get applePayProviderConfig(): OpfQuickBuyApplePayProvider {
+    return this.opfQuickBuyConfig.providers
+      ?.applePay as OpfQuickBuyApplePayProvider;
+  }
+
+  protected readonly defaultApplePayCardParameters: any =
+    this.applePayProviderConfig.cardParameters;
 
   protected initialTransactionDetails: QuickBuyTransactionDetails = {
     context: OpfQuickBuyLocation.PRODUCT,
@@ -210,14 +215,12 @@ export class ApplePayService {
     event: ApplePayJS.ApplePayValidateMerchantEvent
   ): Observable<ApplePaySessionVerificationResponse> {
     return this.opfQuickBuyTransactionService.handleCartGuestUser().pipe(
-      switchMap(() => this.opfQuickBuyTransactionService.getCurrentCartId()),
-      switchMap((cartId: string) => {
+      switchMap(() => {
         const verificationRequest: ApplePaySessionVerificationRequest = {
           validationUrl: event.validationURL,
           initiative: 'web',
           initiativeContext: (this.winRef?.nativeWindow as Window).location
             ?.hostname,
-          cartId,
         };
         return this.verifyApplePaySession(verificationRequest);
       })
@@ -436,17 +439,22 @@ export class ApplePayService {
           JSON.stringify(applePayPayment.token.paymentData)
         );
 
-        return this.opfPaymentFacade.submitPayment({
-          additionalData: [],
-          paymentSessionId: '',
-          callbacks: {
-            onSuccess: () => {},
-            onPending: () => {},
-            onFailure: () => {},
-          },
-          paymentMethod: OpfQuickBuyProviderType.APPLE_PAY as any,
-          encryptedToken,
-        });
+        return this.opfQuickBuyTransactionService.getCurrentCartId().pipe(
+          switchMap((cartId) =>
+            this.opfPaymentFacade.submitPayment({
+              additionalData: [],
+              paymentSessionId: '',
+              callbacks: {
+                onSuccess: () => {},
+                onPending: () => {},
+                onFailure: () => {},
+              },
+              paymentMethod: OpfQuickBuyProviderType.APPLE_PAY as any,
+              encryptedToken,
+              cartId,
+            })
+          )
+        );
       })
     );
   }

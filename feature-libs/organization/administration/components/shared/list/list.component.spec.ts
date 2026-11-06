@@ -13,22 +13,31 @@ import { ActivatedRoute } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   EntitiesModel,
+  FeatureDirective,
   I18nTestingModule,
-  Translatable,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrganizationTableType } from '@spartacus/organization/administration/components';
-import { PopoverModule, Table } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
-import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/shared/components/split-view/testing/spit-view-testing.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import {
+  FocusDirective,
+  IconComponent,
+  PaginationComponent,
+  PopoverModule,
+  SplitViewComponent,
+  Table,
+  TableComponent,
+} from '@spartacus/storefront';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { KeyboardFocusTestingModule } from 'core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module';
+import { PaginationTestingModule } from 'core-libs/storefront/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { SplitViewTestingModule } from 'core-libs/storefront/shared/components/split-view/testing/spit-view-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { ListComponent } from './list.component';
 import { ListService } from './list.service';
-import createSpy = jasmine.createSpy;
 
 interface Mock {
   code: string;
@@ -58,8 +67,10 @@ const mockEmptyList: EntitiesModel<Mock> = {
 };
 
 class MockBaseListService {
-  view = createSpy('view');
-  sort = createSpy('sort');
+  view = vi.fn();
+  sort = vi.fn();
+  search = vi.fn();
+  clearSearch = vi.fn();
   getData() {
     return EMPTY;
   }
@@ -72,16 +83,23 @@ class MockBaseListService {
   hasGhostData() {
     return false;
   }
-  onCreateButtonClick(): void {}
-  getCreateButtonType = createSpy('getCreateButtonType');
-  getCreateButtonLabel(): Translatable {
-    return { key: 'organization.add' };
+  isSearchEnabled(): boolean {
+    return false;
   }
+  getMinSearchCharacters(): number {
+    return 3;
+  }
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
+  }
+  onCreateButtonClick(): void {}
+  getCreateButtonType = vi.fn();
+  getCreateButtonLabel = vi.fn().mockReturnValue({ key: 'organization.add' });
 }
 
 class MockItemService {
   key$ = EMPTY;
-  launchDetails = createSpy('launchDetails');
+  launchDetails = vi.fn();
 }
 
 class ActivatedRouteMock {
@@ -92,7 +110,6 @@ class ActivatedRouteMock {
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-table',
   template: '',
-  standalone: false,
 })
 class MockTableComponent {
   @Input() data;
@@ -105,7 +122,18 @@ class MockTableComponent {
 
 @Component({
   templateUrl: './list.component.html',
-  standalone: false,
+  imports: [
+    CommonModule,
+    I18nTestingModule,
+    UrlTestingModule,
+    SplitViewTestingModule,
+    PaginationTestingModule,
+    IconTestingModule,
+    NgSelectModule,
+    FormsModule,
+    KeyboardFocusTestingModule,
+    PopoverModule,
+  ],
 })
 class MockListComponent extends ListComponent<Mock> {
   constructor(
@@ -125,23 +153,7 @@ describe('ListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        I18nTestingModule,
-        UrlTestingModule,
-        SplitViewTestingModule,
-        PaginationTestingModule,
-        IconTestingModule,
-        NgSelectModule,
-        FormsModule,
-        KeyboardFocusTestingModule,
-        PopoverModule,
-      ],
-      declarations: [
-        MockListComponent,
-        MockTableComponent,
-        MockFeatureDirective,
-      ],
+      imports: [CommonModule, NgSelectModule, FormsModule, PopoverModule],
       providers: [
         {
           provide: ActivatedRoute,
@@ -156,7 +168,36 @@ describe('ListComponent', () => {
           useClass: MockItemService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MockListComponent, {
+        remove: {
+          imports: [
+            FocusDirective,
+            UrlPipe,
+            TranslatePipe,
+            SplitViewComponent,
+            PaginationComponent,
+            IconComponent,
+            TableComponent,
+            FeatureDirective,
+            ListComponent,
+          ],
+        },
+        add: {
+          imports: [
+            KeyboardFocusTestingModule,
+            I18nTestingModule,
+            UrlTestingModule,
+            SplitViewTestingModule,
+            PaginationTestingModule,
+            IconTestingModule,
+            MockListComponent,
+            MockTableComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     service = TestBed.inject(ListService);
     itemService = TestBed.inject(ItemService);
@@ -164,8 +205,8 @@ describe('ListComponent', () => {
 
   describe('with table data', () => {
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockList));
-      spyOn(service, 'key').and.callThrough();
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockList));
+      vi.spyOn(service, 'key');
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -228,7 +269,7 @@ describe('ListComponent', () => {
 
   describe('without table data', () => {
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockEmptyList));
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -247,7 +288,7 @@ describe('ListComponent', () => {
 
   describe('hint', () => {
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockEmptyList));
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -260,27 +301,26 @@ describe('ListComponent', () => {
     });
 
     it('should display hint after click info button', () => {
-      const infoButton = fixture.debugElement.query(
-        By.css('button[ng-reflect-cx-popover]')
-      ).nativeElement;
+      const infoButton = fixture.debugElement.query(By.css('button cx-icon'))
+        .parent?.nativeElement;
       infoButton.click();
       const el = fixture.debugElement.query(
         By.css('cx-popover > .popover-body > p')
       );
       expect(el).toBeTruthy();
-      expect(el.nativeElement.innerText).toBe('orgBudget.hint');
+      expect(el.nativeElement.textContent?.trim()).toBe('orgBudget.hint');
     });
   });
 
   describe('onCreateButtonClick', () => {
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockEmptyList));
       fixture = TestBed.createComponent(MockListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
     it('should process click of create button', () => {
-      spyOn(service, 'onCreateButtonClick').and.callThrough();
+      vi.spyOn(service, 'onCreateButtonClick');
       component.onCreateButtonClick();
       expect(service.onCreateButtonClick).toHaveBeenCalled();
     });
@@ -290,17 +330,16 @@ describe('ListComponent', () => {
     let el: DebugElement;
 
     beforeEach(() => {
-      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockEmptyList));
       fixture = TestBed.createComponent(MockListComponent);
       el = fixture.debugElement;
       component = fixture.componentInstance;
-      fixture.detectChanges();
     });
 
     describe('it should show create functionality by default', () => {
       it('it should show Hyperlink with correct label and not Button', () => {
-        service.getCreateButtonType = createSpy().and.returnValue('LINK');
-        service.getCreateButtonLabel = createSpy().and.returnValue({
+        service.getCreateButtonType = vi.fn().mockReturnValue('LINK');
+        service.getCreateButtonLabel = vi.fn().mockReturnValue({
           key: 'organization.add',
         });
         component.createButtonType = service.getCreateButtonType();
@@ -309,14 +348,16 @@ describe('ListComponent', () => {
 
         let hlink = el.query(By.css('a.button.primary.create'));
         expect(hlink).toBeTruthy();
-        expect(hlink.nativeElement.innerText).toBe('organization.add');
+        expect(hlink.nativeElement.textContent?.trim()).toBe(
+          'organization.add'
+        );
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeNull();
       });
 
       it('it should show Button with correct label and not Hyperlink', () => {
-        service.getCreateButtonType = createSpy().and.returnValue('BUTTON');
-        service.getCreateButtonLabel = createSpy().and.returnValue({
+        service.getCreateButtonType = vi.fn().mockReturnValue('BUTTON');
+        service.getCreateButtonLabel = vi.fn().mockReturnValue({
           key: 'organization.manageUsers',
         });
         component.createButtonType = service.getCreateButtonType();
@@ -327,13 +368,15 @@ describe('ListComponent', () => {
         expect(hlink).toBeNull();
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeTruthy();
-        expect(button.nativeElement.innerText).toBe('organization.manageUsers');
+        expect(button.nativeElement.textContent?.trim()).toBe(
+          'organization.manageUsers'
+        );
       });
     });
 
     describe('it should not show create functionality', () => {
       it('it should not show Hyperlink', () => {
-        service.getCreateButtonType = createSpy().and.returnValue('LINK');
+        service.getCreateButtonType = vi.fn().mockReturnValue('LINK');
         component.hideAddButton = true;
         component.createButtonType = service.getCreateButtonType();
         fixture.detectChanges();
@@ -345,7 +388,7 @@ describe('ListComponent', () => {
       });
 
       it('it should not show Button', () => {
-        service.getCreateButtonType = createSpy().and.returnValue('BUTTON');
+        service.getCreateButtonType = vi.fn().mockReturnValue('BUTTON');
         component.createButtonType = service.getCreateButtonType();
         component.hideAddButton = true;
         fixture.detectChanges();
@@ -354,6 +397,78 @@ describe('ListComponent', () => {
         expect(hlink).toBeNull();
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeNull();
+      });
+    });
+  });
+
+  describe('Search functionality', () => {
+    beforeEach(() => {
+      vi.spyOn(service, 'getData').mockReturnValue(of(mockList));
+      fixture = TestBed.createComponent(MockListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    describe('isSearchEnabled', () => {
+      it('should initialize isSearchEnabled from service', () => {
+        // MockBaseListService.isSearchEnabled() returns false by default
+        expect(component.isSearchEnabled).toBe(false);
+      });
+
+      it('should reflect service isSearchEnabled value', () => {
+        vi.spyOn(service, 'isSearchEnabled').mockReturnValue(true);
+        const newFixture = TestBed.createComponent(MockListComponent);
+        const newComponent = newFixture.componentInstance;
+        expect(newComponent.isSearchEnabled).toBe(true);
+      });
+    });
+
+    describe('onSearchQueryChange()', () => {
+      it('should not trigger search when pagination is undefined', () => {
+        component.isSearchEnabled = true;
+        component.onSearchQueryChange(undefined, 'test');
+        // Should not throw and search should not be called immediately (debounced)
+        expect(service.search).not.toHaveBeenCalled();
+      });
+
+      it('should not trigger search when search is disabled', () => {
+        component.isSearchEnabled = false;
+        component.onSearchQueryChange({ currentPage: 0 }, 'test');
+        expect(service.search).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('clearSearch()', () => {
+      it('should clear searchQuery and call service.clearSearch', () => {
+        component.searchQuery = 'test';
+        component.clearSearch({ currentPage: 0 });
+        expect(component.searchQuery).toBe('');
+        expect(service.clearSearch).toHaveBeenCalledWith({ currentPage: 0 });
+      });
+
+      it('should not call service.clearSearch when pagination is undefined', () => {
+        component.clearSearch(undefined);
+        expect(service.clearSearch).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('UI', () => {
+      it('should not show search box when search is disabled', () => {
+        component.isSearchEnabled = false;
+        fixture.detectChanges();
+        const searchWrapper = fixture.debugElement.query(
+          By.css('.search-wrapper')
+        );
+        expect(searchWrapper).toBeFalsy();
+      });
+
+      it('should show search box when search is enabled', () => {
+        component.isSearchEnabled = true;
+        fixture.detectChanges();
+        const searchWrapper = fixture.debugElement.query(
+          By.css('.search-wrapper')
+        );
+        expect(searchWrapper).toBeTruthy();
       });
     });
   });

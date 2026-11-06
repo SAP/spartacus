@@ -5,7 +5,7 @@ import {
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
@@ -41,8 +41,7 @@ describe('AssignCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AssignCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule, AssignCellComponent],
       providers: [
         {
           provide: OutletContextData,
@@ -106,11 +105,8 @@ describe('AssignCellComponent', () => {
     });
 
     it('should unassign', () => {
-      spyOn(
-        organizationListService as SubListService<any>,
-        'unassign'
-      ).and.callThrough();
-      spyOn(messageService, 'add').and.callThrough();
+      vi.spyOn(organizationListService as SubListService<any>, 'unassign');
+      vi.spyOn(messageService, 'add');
 
       component.toggleAssign();
 
@@ -153,11 +149,8 @@ describe('AssignCellComponent', () => {
     });
 
     it('should assign', () => {
-      spyOn(
-        organizationListService as SubListService<any>,
-        'assign'
-      ).and.callThrough();
-      spyOn(messageService, 'add').and.callThrough();
+      vi.spyOn(organizationListService as SubListService<any>, 'assign');
+      vi.spyOn(messageService, 'add');
 
       component.toggleAssign();
 

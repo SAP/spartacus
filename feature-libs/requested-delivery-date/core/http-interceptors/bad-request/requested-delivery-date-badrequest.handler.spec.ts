@@ -51,7 +51,7 @@ describe('RequestedDeliveryDateBadRequestHandler', () => {
   });
 
   it('should handle wrong date bad request', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockRDDBadRequestResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(

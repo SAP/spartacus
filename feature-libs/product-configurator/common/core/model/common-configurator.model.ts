@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -110,6 +110,9 @@ export enum ConfigurationInfoFields {
   QTY = 'QTY',
   FORMATTED_PRICE = 'FORMATTED_PRICE',
   PRICE_VALUE = 'PRICE_VALUE',
+  PARENT = 'PARENT',
+  ROW_ID = 'ROW_ID',
+  CONFIGURABLE = 'CONFIGURABLE',
 }
 
 /**

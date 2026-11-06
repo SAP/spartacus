@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,7 @@ import {
   OpfPaymentErrorType,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
+  OpfPaymentChannel,
   OpfPaymentSubmitCompleteInput,
   OpfPaymentSubmitCompleteRequest,
   OpfPaymentSubmitCompleteResponse,
@@ -65,13 +66,15 @@ export class OpfPaymentHostedFieldsService {
       paymentSessionId,
       returnPath,
       encryptedToken,
+      savePaymentMethod,
     } = submitInput;
 
     const submitRequest: OpfPaymentSubmitRequest = {
       paymentMethod,
       additionalData,
-      channel: 'BROWSER',
+      channel: OpfPaymentChannel.BROWSER,
       browserInfo: getBrowserInfo(this.winRef.nativeWindow),
+      savePaymentMethod,
     };
     if (paymentMethod !== OpfPaymentMethod.CREDIT_CARD) {
       submitRequest.encryptedToken = '';
@@ -80,7 +83,7 @@ export class OpfPaymentHostedFieldsService {
       submitRequest.encryptedToken = encryptedToken;
     }
 
-    return this.getCartAccessCode(submitRequest).pipe(
+    return this.getCartAccessCode(submitRequest, submitInput.cartId).pipe(
       concatMap(([request, { accessCode: otpKey }]) =>
         this.opfPaymentConnector.submitPayment(
           request,
@@ -89,11 +92,15 @@ export class OpfPaymentHostedFieldsService {
         )
       ),
       concatMap((response: OpfPaymentSubmitResponse) =>
-        this.paymentResponseHandler(response, submitInput.callbacks)
+        this.paymentResponseHandler(
+          response,
+          submitInput.callbacks,
+          submitInput.cartId
+        )
       ),
       tap((order: Order) => {
         if (order) {
-          this.routingService.go({ cxRoute: 'orderConfirmation' });
+          this.onPaymentSuccess(order);
         }
       }),
       map((order: Order) => (order ? true : false)),
@@ -103,7 +110,7 @@ export class OpfPaymentHostedFieldsService {
           returnPath,
           submitInput?.callbacks?.onFailure
         );
-        return throwError(error);
+        return throwError(() => error);
       }),
       backOff({
         /**
@@ -119,14 +126,18 @@ export class OpfPaymentHostedFieldsService {
   submitCompletePayment(
     submitCompleteInput: OpfPaymentSubmitCompleteInput
   ): Observable<boolean> {
-    const { additionalData, paymentSessionId, returnPath } =
+    const { additionalData, paymentSessionId, returnPath, savePaymentMethod } =
       submitCompleteInput;
 
     const submitCompleteRequest: OpfPaymentSubmitCompleteRequest = {
       additionalData,
       paymentSessionId,
+      savePaymentMethod,
     };
-    return this.getCartAccessCode(submitCompleteRequest).pipe(
+    return this.getCartAccessCode(
+      submitCompleteRequest,
+      submitCompleteInput.cartId
+    ).pipe(
       concatMap(([request, { accessCode: otpKey }]) =>
         this.opfPaymentConnector.submitCompletePayment(
           request,
@@ -135,11 +146,15 @@ export class OpfPaymentHostedFieldsService {
         )
       ),
       concatMap((response: OpfPaymentSubmitCompleteResponse) =>
-        this.paymentResponseHandler(response, submitCompleteInput.callbacks)
+        this.paymentResponseHandler(
+          response,
+          submitCompleteInput.callbacks,
+          submitCompleteInput.cartId
+        )
       ),
       tap((order: Order) => {
         if (order) {
-          this.routingService.go({ cxRoute: 'orderConfirmation' });
+          this.onPaymentSuccess(order);
         }
       }),
       map((order: Order) => (order ? true : false)),
@@ -169,14 +184,15 @@ export class OpfPaymentHostedFieldsService {
       onPending: OpfPaymentMerchantCallback;
       onFailure: OpfPaymentMerchantCallback;
       onCancel?: OpfPaymentMerchantCallback;
-    }
+    },
+    cartId?: string
   ): Observable<Order> {
     if (
       response.status === OpfPaymentSubmitStatus.ACCEPTED ||
       response.status === OpfPaymentSubmitStatus.DELAYED
     ) {
       return from(Promise.resolve(callbacks.onSuccess(response))).pipe(
-        concatMap(() => this.orderFacade.placePaymentAuthorizedOrder(true))
+        concatMap(() => this.placeOrder(cartId))
       );
     } else if (
       callbacks?.onCancel &&
@@ -192,25 +208,35 @@ export class OpfPaymentHostedFieldsService {
     } else if (response.status === OpfPaymentSubmitStatus.REJECTED) {
       return from(Promise.resolve(callbacks.onFailure(response))).pipe(
         concatMap(() =>
-          throwError({
+          throwError(() => ({
             ...opfDefaultPaymentError,
             type: OpfPaymentErrorType.PAYMENT_REJECTED,
-          })
+          }))
         )
       );
     } else {
       return from(Promise.resolve(callbacks.onFailure(response))).pipe(
         concatMap(() =>
-          throwError({
+          throwError(() => ({
             ...opfDefaultPaymentError,
             type: OpfPaymentErrorType.STATUS_NOT_RECOGNIZED,
-          })
+          }))
         )
       );
     }
   }
+
+  protected placeOrder(cartId?: string): Observable<Order> {
+    return this.orderFacade.placePaymentAuthorizedOrder(true, cartId);
+  }
+
+  protected onPaymentSuccess(_order: Order): void {
+    this.routingService.go({ cxRoute: 'orderConfirmation' });
+  }
+
   protected getCartAccessCode(
-    submitRequest: OpfPaymentSubmitRequest | OpfPaymentSubmitCompleteRequest
+    submitRequest: OpfPaymentSubmitRequest | OpfPaymentSubmitCompleteRequest,
+    cartId?: string
   ): Observable<
     [
       OpfPaymentSubmitRequest | OpfPaymentSubmitCompleteRequest,
@@ -219,12 +245,12 @@ export class OpfPaymentHostedFieldsService {
   > {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartFacade.takeActiveCartId(),
+      cartId ? of(cartId) : this.activeCartFacade.takeActiveCartId(),
     ]).pipe(
-      switchMap(([userId, activeCartId]: [string, string]) => {
+      switchMap(([userId, resolvedCartId]: [string, string]) => {
         return combineLatest([
           of(submitRequest),
-          this.cartAccessCodeFacade.getCartAccessCode(userId, activeCartId),
+          this.cartAccessCodeFacade.getCartAccessCode(userId, resolvedCartId),
         ]);
       })
     );

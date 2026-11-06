@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,10 +30,8 @@ export function orgUnitEntitiesReducer(
 
 export function orgUnitListReducer(
   state = orgUnitsInitialState,
-  action: StateUtils.LoaderAction
+  _action: StateUtils.LoaderAction
 ): any {
-  switch (action.type) {
-  }
   return state;
 }
 

@@ -1,19 +1,27 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
+  OnDestroy,
   OnInit,
   ViewChild,
-  AfterViewInit,
-  OnDestroy,
 } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -22,21 +30,27 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { GlobalMessageService, UserIdService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  TranslatePipe,
+  UserIdService,
+  FeatureToggles,
+} from '@spartacus/core';
 import {
   OpfActiveConfiguration,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
+import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
-import { FormBuilder, FormGroup } from '@angular/forms';
-
+import { SpinnerComponent } from '@spartacus/storefront';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
+  filter,
   Observable,
   Subscription,
-  take,
-  filter,
   switchMap,
+  take,
 } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -44,7 +58,15 @@ import { map, tap } from 'rxjs/operators';
   selector: 'cx-opf-b2b-checkout-payment-type',
   templateUrl: './opf-b2b-checkout-payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    OpfCheckoutPaymentsComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class OpfB2bCheckoutPaymentTypeComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -58,6 +80,8 @@ export class OpfB2bCheckoutPaymentTypeComponent
   protected globalMessageService = inject(GlobalMessageService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected fb = inject(FormBuilder);
+  protected destroyRef = inject(DestroyRef);
+  private featureToggles = inject(FeatureToggles);
 
   @ViewChild('poNumber', { static: false })
   protected poNumberInputElement: ElementRef<HTMLInputElement>;
@@ -161,12 +185,21 @@ export class OpfB2bCheckoutPaymentTypeComponent
       (selectedOption) => (this.selectedPaymentOption = selectedOption)
     );
 
-    this.subscription.add(
-      this.cartPoNumber$.subscribe((poNumber) => {
-        this.poNumberValue = poNumber;
-        this.form.patchValue({ poNumber });
-      })
-    );
+    if (this.featureToggles.opfUseDestroyRef) {
+      this.cartPoNumber$
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((poNumber) => {
+          this.poNumberValue = poNumber;
+          this.form.patchValue({ poNumber });
+        });
+    } else {
+      this.subscription.add(
+        this.cartPoNumber$.subscribe((poNumber) => {
+          this.poNumberValue = poNumber;
+          this.form.patchValue({ poNumber });
+        })
+      );
+    }
   }
 
   ngAfterViewInit(): void {

@@ -1,4 +1,5 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { Provider } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   ActivatedRoute,
@@ -7,60 +8,92 @@ import {
 } from '@angular/router';
 import {
   AuthConfigService,
+  AuthMultisiteIsolationService,
   AuthService,
-  FeatureConfigService,
+  CsrfStateService,
+  FeatureToggles,
+  FederatedLoginService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  OAUTH_REDIRECT_FLOW_KEY,
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { firstValueFrom, Observable, of, throwError } from 'rxjs';
+import {
+  LOGIN_ERROR_KEY,
+  SESSION_EXPIRED_ERROR,
+} from '../user-account-constants';
 import { LoginFormComponentService } from './login-form-component.service';
-import createSpy = jasmine.createSpy;
-
-class MockWinRef {
-  get nativeWindow(): Window {
-    return {} as Window;
-  }
-}
 
 class MockAuthService implements Partial<AuthService> {
-  loginWithCredentials = createSpy().and.returnValue(of({}));
-  isUserLoggedIn = createSpy().and.returnValue(of(true));
-  getCsrfToken = createSpy().and.returnValue(
+  loginWithCredentials = vi.fn().mockReturnValue(of({}));
+  isUserLoggedIn = vi.fn().mockReturnValue(of(true));
+  loginWithRedirect = vi.fn().mockReturnValue(true);
+  getCsrfToken = vi.fn().mockReturnValue(
     of({
       headerName: 'CSFR',
       parameterName: '_csfr',
       token: 'token',
     })
   );
+  refreshCsrfToken = vi.fn().mockReturnValue(
+    of({
+      headerName: 'CSFR',
+      parameterName: '_csfr',
+      token: 'new-token',
+    })
+  );
 }
 
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
-  remove = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
+  remove = vi.fn().mockImplementation(() => {});
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string): boolean {
-    return false;
-  }
+class MockFederatedLoginService implements Partial<FederatedLoginService> {
+  isLoginDomain?: boolean | undefined = false;
 }
+
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: false,
+  authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
+};
 
 class MockActivatedRoute implements Partial<ActivatedRoute> {
   snapshot = {
     queryParams: { error: 'bad_credentials' },
   } as unknown as ActivatedRouteSnapshot;
+  queryParams = of<{ error: string | null }>({ error: 'bad_credentials' });
 }
 
 class MockRouter implements Partial<Router> {
-  navigate = createSpy().and.stub();
+  navigate = vi.fn().mockImplementation(() => {});
+  navigateByUrl = vi.fn().mockImplementation(() => {});
 }
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getCustomLoginFormEndpoint() {
     return 'https://localhost:9002/authorizationserver/login';
+  }
+}
+
+class MockCsrfStateService implements Partial<CsrfStateService> {
+  get = vi.fn().mockReturnValue({ token: 'token' });
+  set = vi.fn().mockImplementation(() => {});
+}
+
+class MockAuthMultisiteIsolationService
+  implements Partial<AuthMultisiteIsolationService>
+{
+  decorateUserId(userId: string): Observable<string> {
+    return of(userId);
   }
 }
 
@@ -96,26 +129,38 @@ describe('LoginFormComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let activatedRoute: ActivatedRoute;
   let router: Router;
+  let authMultisiteIsolationService: AuthMultisiteIsolationService;
 
-  beforeEach(waitForAsync(() => {
+  const providers: Provider[] = [
+    LoginFormComponentService,
+    { provide: WindowRef, useClass: MockWinRef },
+    { provide: AuthService, useClass: MockAuthService },
+    { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+    { provide: AuthConfigService, useClass: MockAuthConfigService },
+    { provide: ActivatedRoute, useClass: MockActivatedRoute },
+    { provide: Router, useClass: MockRouter },
+    { provide: FederatedLoginService, useClass: MockFederatedLoginService },
+    { provide: CsrfStateService, useClass: MockCsrfStateService },
+    {
+      provide: AuthMultisiteIsolationService,
+      useClass: MockAuthMultisiteIsolationService,
+    },
+    provideMockFeatureToggles({ ...mockFeatureToggles }),
+  ];
+
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
-      providers: [
-        LoginFormComponentService,
-        { provide: WindowRef, useClass: MockWinRef },
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: AuthConfigService, useClass: MockAuthConfigService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: Router, useClass: MockRouter },
-      ],
+      providers: [...providers],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(LoginFormComponentService);
+    authMultisiteIsolationService = TestBed.inject(
+      AuthMultisiteIsolationService
+    );
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
     activatedRoute = TestBed.inject(ActivatedRoute);
@@ -123,24 +168,48 @@ describe('LoginFormComponentService', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should create service', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('showResetPassword', () => {
+    it('should be true when isLoginDomain is false', () => {
+      expect(service.showResetPassword).toBe(true);
+    });
+
+    it('should be false when isLoginDomain is true', async () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+        providers: [...providers],
+      }).compileComponents();
+      const federatedLoginService = TestBed.inject(FederatedLoginService);
+      federatedLoginService.isLoginDomain = true;
+
+      service = TestBed.inject(LoginFormComponentService);
+
+      expect(service.showResetPassword).toBe(false);
+    });
   });
 
   describe('login', () => {
     const userId = 'test@email.com';
     const password = 'secret';
 
-    it('should not patch user id', () => {
-      service.isUpdating$.subscribe().unsubscribe();
+    it('should not patch user id', async () => {
+      await firstValueFrom(service.isUpdating$);
       expect(service.form.value.userId).toEqual('');
     });
 
-    it('should patch user id', () => {
-      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
+    it('should patch user id', async () => {
+      vi.spyOn(winRef, 'nativeWindow', 'get').mockReturnValue({
         history: { state: { newUid: 'test.user@shop.com' } },
       } as Window);
-      service.isUpdating$.subscribe().unsubscribe();
+      await firstValueFrom(service.isUpdating$);
       expect(service.form.value.userId).toEqual('test.user@shop.com');
     });
 
@@ -161,7 +230,7 @@ describe('LoginFormComponentService', () => {
       });
 
       it('should reset the form', () => {
-        spyOn(service.form, 'reset').and.stub();
+        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.login();
         expect(service.form.reset).toHaveBeenCalled();
       });
@@ -181,63 +250,47 @@ describe('LoginFormComponentService', () => {
       });
 
       it('should not reset the form', () => {
-        spyOn(service.form, 'reset').and.stub();
+        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.login();
         expect(service.form.reset).not.toHaveBeenCalled();
       });
     });
 
     describe('new flow', () => {
-      // Reset test module to reconfigure FeatureConfigService
-      beforeEach(waitForAsync(() => {
+      let mockFeatureTogglesController: MockFeatureTogglesController;
+      // Reset test module to reconfigure FeatureToggles
+      beforeEach(async () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
-          providers: [
-            LoginFormComponentService,
-            {
-              provide: FeatureConfigService,
-              useClass: class {
-                isEnabled(_feature: string): boolean {
-                  return true;
-                }
-              },
-            },
-            {
-              provide: AuthConfigService,
-              useClass: MockAuthConfigService,
-            },
-            {
-              provide: AuthService,
-              useClass: MockAuthService,
-            },
-            {
-              provide: WindowRef,
-              useClass: MockWinRef,
-            },
-            {
-              provide: GlobalMessageService,
-              useClass: MockGlobalMessageService,
-            },
-            {
-              provide: ActivatedRoute,
-              useClass: MockActivatedRoute,
-            },
-            {
-              provide: Router,
-              useClass: MockRouter,
-            },
-          ],
-        }).compileComponents();
-      }));
+          providers: [...providers],
+        });
+        TestBed.overrideProvider(FeatureToggles, {
+          useFactory: () => TestBed.inject(MockFeatureTogglesController),
+        });
+        await TestBed.compileComponents();
+      });
 
       beforeEach(() => {
+        mockFeatureTogglesController = TestBed.inject(
+          MockFeatureTogglesController
+        );
+        mockFeatureTogglesController.set(
+          'authorizationCodeFlowByDefault',
+          true
+        );
+        mockFeatureTogglesController.set(
+          'authorizationCodeFlowByDefaultCsrfTokenRefresh',
+          true
+        );
+        authMultisiteIsolationService = TestBed.inject(
+          AuthMultisiteIsolationService
+        );
         globalMessageService = TestBed.inject(GlobalMessageService);
         activatedRoute = TestBed.inject(ActivatedRoute);
         router = TestBed.inject(Router);
         service = TestBed.inject(LoginFormComponentService);
         authService = TestBed.inject(AuthService);
         winRef = TestBed.inject(WindowRef);
-        // featureConfigService = TestBed.inject(FeatureConfigService);
       });
 
       describe('success', () => {
@@ -253,15 +306,72 @@ describe('LoginFormComponentService', () => {
           });
         });
 
-        it('should request email', () => {
+        it('should submit native form with refreshed CSRF token', async () => {
           const form = createForm(userId, password, csrf);
-          const submitSpy = spyOn(form, 'submit');
+          const submitSpy = vi.spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).toHaveBeenCalledWith();
+          expect(winRef.localStorage?.setItem).toHaveBeenCalledWith(
+            OAUTH_REDIRECT_FLOW_KEY,
+            'true'
+          );
+        });
+
+        describe('when siteIsolationForCustomLoginPage is enabled', () => {
+          beforeEach(() => {
+            mockFeatureTogglesController.set(
+              'siteIsolationForCustomLoginPage',
+              true
+            );
+          });
+
+          it('should decorate the user ID of the submitted form', () => {
+            const testData = {
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+            };
+            const decoratedUserId = testData.userId + '|decorator';
+            vi.spyOn(
+              authMultisiteIsolationService,
+              'decorateUserId'
+            ).mockReturnValue(of(decoratedUserId));
+            service.form.setValue(testData);
+            const form = createForm(userId, password, csrf);
+            let submittedFormData: FormData;
+            vi.spyOn(form, 'submit').mockImplementation(() => {
+              submittedFormData = new FormData(form);
+            });
+
+            service.login(form);
+
+            expect(submittedFormData.get('username')).toEqual(decoratedUserId);
+            expect(service.form.get('userId')?.value).toEqual(testData.userId);
+            expect(form.elements['username']?.value).toEqual(testData.userId);
+          });
+        });
+
+        it('should update csrf form field with fresh token before submit', async () => {
+          service.form.get('csrf')?.setValue('old-token');
+          const form = createForm(userId, password, 'old-token');
+          vi.spyOn(form, 'submit');
+          service.login(form);
+          expect(service.form.get('csrf')?.value).toBe('new-token');
+        });
+
+        it('should not disable the form before submitting (browser drops disabled inputs from POST body)', async () => {
+          const form = createForm(userId, password, csrf);
+          let formDisabledAtSubmit: boolean | undefined;
+          vi.spyOn(form, 'submit').mockImplementation(() => {
+            formDisabledAtSubmit = service.form.disabled;
+          });
+          service.login(form);
+          expect(form.submit).toHaveBeenCalled();
+          expect(formDisabledAtSubmit).toBe(false);
         });
 
         it('should reset the form', () => {
-          spyOn(service.form, 'reset').and.stub();
+          vi.spyOn(service.form, 'reset').mockImplementation(() => {});
           service.login();
           expect(service.form.reset).toHaveBeenCalled();
         });
@@ -282,16 +392,174 @@ describe('LoginFormComponentService', () => {
 
         it('should not login', () => {
           const form = createForm(userId, password, csrf);
-          const submitSpy = spyOn(form, 'submit');
+          const submitSpy = vi.spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).not.toHaveBeenCalled();
         });
 
         it('should not reset the form', () => {
-          spyOn(service.form, 'reset').and.stub();
+          vi.spyOn(service.form, 'reset').mockImplementation(() => {});
           const form = createForm(userId, password, csrf);
           service.login(form);
           expect(service.form.reset).not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when CSRF refresh fails on login submit', () => {
+        const userId = 'test@email.com';
+        const password = 'secret';
+        const csrf = 'token';
+
+        beforeEach(() => {
+          (authService.refreshCsrfToken as any).mockReturnValue(
+            throwError(() => ({ status: 403 }))
+          );
+          service.form.setValue({ userId, password, csrf });
+        });
+
+        it('should NOT submit the form', async () => {
+          const form = createForm(userId, password, csrf);
+          const submitSpy = vi.spyOn(form, 'submit');
+          service.login(form);
+          expect(submitSpy).not.toHaveBeenCalled();
+        });
+
+        it('should stash session_expired in sessionStorage and hard-redirect to /login on CSRF refresh failure', async () => {
+          const form = createForm(userId, password, csrf);
+          vi.spyOn(form, 'submit');
+          service.login(form);
+          expect(winRef.sessionStorage?.setItem).toHaveBeenCalledWith(
+            LOGIN_ERROR_KEY,
+            SESSION_EXPIRED_ERROR
+          );
+          expect(winRef.nativeWindow?.location.href).toBe('/login');
+          expect(authService.loginWithRedirect).not.toHaveBeenCalled();
+        });
+
+        it('should reset busy state to false on CSRF refresh failure', async () => {
+          const form = createForm(userId, password, csrf);
+          vi.spyOn(form, 'submit');
+          let busyValue: boolean | undefined = await firstValueFrom(
+            service.isUpdating$
+          );
+          service.login(form);
+          expect(busyValue).toBe(false);
+        });
+
+        it('should clear the OAuth redirect flow flag on CSRF refresh failure', async () => {
+          const form = createForm(userId, password, csrf);
+          vi.spyOn(form, 'submit');
+          service.login(form);
+          expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
+            OAUTH_REDIRECT_FLOW_KEY
+          );
+        });
+
+        it('should surface the session-expired message inline when nativeWindow is unexpectedly undefined (defensive fallback)', async () => {
+          vi.spyOn(winRef, 'nativeWindow', 'get').mockReturnValue(
+            undefined as unknown as Window
+          );
+          const form = createForm(userId, password, csrf);
+          vi.spyOn(form, 'submit');
+          service.login(form);
+          expect(winRef.sessionStorage?.setItem).toHaveBeenCalledWith(
+            LOGIN_ERROR_KEY,
+            SESSION_EXPIRED_ERROR
+          );
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            { key: 'httpHandlers.sessionExpired' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        });
+      });
+
+      describe('when authorizationCodeFlowByDefaultCsrfTokenRefresh is disabled', () => {
+        let mockFeatureTogglesController: MockFeatureTogglesController;
+
+        beforeEach(async () => {
+          TestBed.resetTestingModule();
+          TestBed.configureTestingModule({
+            providers: [...providers],
+          });
+          TestBed.overrideProvider(FeatureToggles, {
+            useFactory: () => TestBed.inject(MockFeatureTogglesController),
+          });
+          await TestBed.compileComponents();
+        });
+
+        beforeEach(() => {
+          mockFeatureTogglesController = TestBed.inject(
+            MockFeatureTogglesController
+          );
+          mockFeatureTogglesController.set(
+            'authorizationCodeFlowByDefault',
+            true
+          );
+          mockFeatureTogglesController.set(
+            'authorizationCodeFlowByDefaultCsrfTokenRefresh',
+            false
+          );
+
+          authMultisiteIsolationService = TestBed.inject(
+            AuthMultisiteIsolationService
+          );
+          service = TestBed.inject(LoginFormComponentService);
+          authService = TestBed.inject(AuthService);
+          winRef = TestBed.inject(WindowRef);
+        });
+
+        it('should submit synchronously without refreshing CSRF token', () => {
+          service.form.setValue({
+            userId: 'test@email.com',
+            password: 'secret',
+            csrf: 'token',
+          });
+          const form = createForm('test@email.com', 'secret', 'token');
+          const submitSpy = vi.spyOn(form, 'submit');
+          service.login(form);
+          expect(submitSpy).toHaveBeenCalled();
+          expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
+        });
+
+        describe('when siteIsolationForCustomLoginPage is enabled', () => {
+          beforeEach(() => {
+            mockFeatureTogglesController.set(
+              'siteIsolationForCustomLoginPage',
+              true
+            );
+          });
+
+          it('should decorate the user ID of the submitted form', () => {
+            const testData = {
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+            };
+            const decoratedUserId = testData.userId + '|decorator';
+            vi.spyOn(
+              authMultisiteIsolationService,
+              'decorateUserId'
+            ).mockReturnValue(of(decoratedUserId));
+            service.form.setValue(testData);
+            const form = createForm(
+              testData.userId,
+              testData.password,
+              testData.csrf
+            );
+            let submittedFormData: FormData;
+            vi.spyOn(form, 'submit').mockImplementation(() => {
+              submittedFormData = new FormData(form);
+            });
+
+            service.login(form);
+
+            expect(
+              authMultisiteIsolationService.decorateUserId
+            ).toHaveBeenCalled();
+            expect(submittedFormData.get('username')).toEqual(decoratedUserId);
+            expect(service.form.get('userId')?.value).toEqual(testData.userId);
+            expect(form.elements['username']?.value).toEqual(testData.userId);
+          });
         });
       });
 
@@ -299,6 +567,9 @@ describe('LoginFormComponentService', () => {
         it('should add error message to global message service', () => {
           service.handleCustomLoginError();
 
+          expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
+            OAUTH_REDIRECT_FLOW_KEY
+          );
           expect(globalMessageService.add).toHaveBeenCalledWith(
             {
               key: 'customLoginPage.badRequest.bad_credentials',
@@ -310,11 +581,90 @@ describe('LoginFormComponentService', () => {
           });
         });
 
-        it('should not add error message to global message service if error is not present', () => {
-          activatedRoute.snapshot.queryParams = { error: null };
+        it('should drain a session_expired stash from sessionStorage and surface httpHandlers.sessionExpired', () => {
+          (winRef.sessionStorage?.getItem as any).mockImplementation(
+            (key: string) =>
+              key === LOGIN_ERROR_KEY ? SESSION_EXPIRED_ERROR : null
+          );
           service.handleCustomLoginError();
+          expect(winRef.sessionStorage?.removeItem).toHaveBeenCalledWith(
+            LOGIN_ERROR_KEY
+          );
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            { key: 'httpHandlers.sessionExpired' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        });
+
+        it('should map error=session_expired to the httpHandlers.sessionExpired key (reused from the global session-expired message)', () => {
+          (activatedRoute as any).queryParams = of({
+            error: 'session_expired',
+          });
+          service.handleCustomLoginError();
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            { key: 'httpHandlers.sessionExpired' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          expect(router.navigate).toHaveBeenCalledWith([], {
+            queryParams: { error: null },
+          });
+        });
+
+        it('should not add error message to global message service if error is not present', () => {
+          (activatedRoute as any).queryParams = of({ error: null });
+          service.handleCustomLoginError();
+          expect(winRef.localStorage?.removeItem).not.toHaveBeenCalled();
           expect(globalMessageService.add).not.toHaveBeenCalled();
           expect(router.navigate).not.toHaveBeenCalled();
+        });
+      });
+
+      describe('SSR (isBrowser = false)', () => {
+        const userId = 'test@email.com';
+        const password = 'secret';
+        const csrf = 'token';
+
+        beforeEach(() => {
+          vi.spyOn(winRef, 'isBrowser').mockReturnValue(false);
+          service.form.setValue({ userId, password, csrf });
+        });
+
+        it('should not set localStorage flag when submitting login form', () => {
+          const form = createForm(userId, password, csrf);
+          vi.spyOn(form, 'submit');
+          service.login(form);
+          expect(winRef.localStorage?.setItem).not.toHaveBeenCalled();
+        });
+
+        it('should not remove localStorage flag when handling login error', () => {
+          service.handleCustomLoginError();
+          expect(winRef.localStorage?.removeItem).not.toHaveBeenCalled();
+        });
+      });
+
+      describe('resolveLoginErrorKey', () => {
+        it('should map session_expired to httpHandlers.sessionExpired', () => {
+          expect(
+            (service as any).resolveLoginErrorKey(SESSION_EXPIRED_ERROR)
+          ).toBe('httpHandlers.sessionExpired');
+        });
+
+        it('should map bad_credentials to customLoginPage.badRequest.bad_credentials', () => {
+          expect((service as any).resolveLoginErrorKey('bad_credentials')).toBe(
+            'customLoginPage.badRequest.bad_credentials'
+          );
+        });
+
+        it('should map account_disabled to customLoginPage.badRequest.account_disabled', () => {
+          expect(
+            (service as any).resolveLoginErrorKey('account_disabled')
+          ).toBe('customLoginPage.badRequest.account_disabled');
+        });
+
+        it('should map unknown error codes to customLoginPage.badRequest.unknown_error', () => {
+          expect(
+            (service as any).resolveLoginErrorKey('some_unknown_error')
+          ).toBe('customLoginPage.badRequest.unknown_error');
         });
       });
     });

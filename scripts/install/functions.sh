@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+export SPARTACUS_BIN="${REPO_ROOT}/node_modules/.bin"
+
+ng() { "${SPARTACUS_BIN}/ng" "$@"; return $?; }
+export -f ng
 WARNINGS=()
 HAS_XVFB_INSTALLED=false
 
@@ -57,12 +62,7 @@ function prepare_install {
         kill ${VERDACCIO_PID}
     fi
 
-    npm i -g verdaccio@5
-    npm i -g npm-cli-login
-    npm i -g serve@13.0.4
-    npm i -g pm2
-    npm i -g concurrently
-    npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
+    npm install
 
     ng config -g cli.packageManager npm
 
@@ -92,9 +92,16 @@ function update_projects_versions {
 function create_shell_app {
     local EXTRA_ANGULAR_CLI_FLAGS=""
     if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
-        EXTRA_ANGULAR_CLI_FLAGS="--standalone=false --ssr=false" # SSR can be added later by running other schematics (e.g. Spartacus installation schematics with its flag --ssr).
-        echo "Angular CLI version >= 17.0.0, so applying extra flags to the command 'ng new': ${EXTRA_ANGULAR_CLI_FLAGS}"
+        EXTRA_ANGULAR_CLI_FLAGS="--ssr=false" # SSR can be added later by running other schematics (e.g. Spartacus installation schematics with its flag --ssr).
     fi
+    if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "20.0.0")" -ge 0 ]; then
+        EXTRA_ANGULAR_CLI_FLAGS="${EXTRA_ANGULAR_CLI_FLAGS} --zoneless=false --ai-config=none --file-name-style-guide=2016"
+    fi
+
+    if [ -n "${EXTRA_ANGULAR_CLI_FLAGS}" ]; then
+        echo "Angular CLI version ${ANGULAR_CLI_VERSION} so applying extra flags to command 'ng new': ${EXTRA_ANGULAR_CLI_FLAGS}"
+    fi
+    
 
     ( cd ${INSTALLATION_DIR} && \
         ng new ${1} \
@@ -136,11 +143,21 @@ function add_epd_visualization {
 
 function add_opf {
     if [ "${ADD_OPF}" = true ] ; then
-        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive 
+        local access_code_header_flag="--enable-get-active-configurations-access-code-header"
+        [[ "${OPF_ACCESS_CODE_HEADER_ENABLED}" = false ]] && access_code_header_flag="--no-enable-get-active-configurations-access-code-header"
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} ${access_code_header_flag} --skip-confirmation --no-interactive
     fi
 
     if [ "${ADD_OPF}" = true ] && [ "${ADD_B2B_LIBS}" = true ] ; then
         ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive --features "OPF-B2B-Checkout"
+    fi
+
+     if [[ "${ADD_OPF}" = true && "${ADD_OPF_TOKENISATION}" = true ]] ; then
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive --features "OPF-Tokenisation"
+    fi
+
+    if [[ "${ADD_OPF}" = true && "${ADD_OPF_GIFT_CARD}" = true ]] ; then
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive --features "OPF-Gift-Card"
     fi
 }
 
@@ -216,6 +233,51 @@ function add_feature_libs {
   ng add @spartacus/customer-ticketing@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/pickup-in-store@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
 }
+# TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
+function use_santorini_updated_theme {
+    # Install-script storefronts otherwise render the library-default "classic"
+    # santorini theme (e.g. --cx-color-primary: #1f7bc0), because
+    # @spartacus/styles pulls in theme/santorini/_variables.scss via
+    # core-libs/styles/scss/_theme.scss.
+    #
+    # Instead of hardcoding values, we make the generated app COMPILE the
+    # santorini-updated theme variables. The import is inserted BEFORE
+    # '@spartacus/styles/scss/core' so santorini-updated seeds the theme's
+    # `!default` SCSS variables first; core's later santorini import then
+    # no-ops on them and rebuilds $theme-colors from the santorini-updated
+    # values. This means any future edit to
+    # @spartacus/styles/scss/theme/santorini-updated/_variables.scss is picked
+    # up automatically on the next install (no duplicated values here).
+    local styles_file="src/styles.scss"
+    if [[ ! -f "${styles_file}" ]]; then
+        echo "WARN: ${styles_file} not found; skipping santorini-updated theme override."
+        return
+    fi
+    if grep -q "theme/santorini-updated/variables" "${styles_file}"; then
+        echo "santorini-updated theme already applied in ${styles_file}, skipping."
+        return
+    fi
+    local anchor="@import '@spartacus/styles/scss/core';"
+    if ! grep -qF "${anchor}" "${styles_file}"; then
+        echo "WARN: expected import \"${anchor}\" not found in ${styles_file}; skipping santorini-updated theme override."
+        return
+    fi
+    local import_line="@import '@spartacus/styles/scss/theme/santorini-updated/variables';"
+    local tmp
+    tmp="$(mktemp)"
+    awk -v anchor="${anchor}" -v line="${import_line}" '
+      index($0, anchor) && !done {
+        print "// Install-script default: compile the santorini-updated theme so its";
+        print "// palette/typography override the classic santorini defaults. Imported";
+        print "// before @spartacus/styles so its !default variables win. Kept in sync";
+        print "// with @spartacus/styles/scss/theme/santorini-updated/_variables.scss.";
+        print line;
+        done = 1;
+      }
+      { print }
+    ' "${styles_file}" > "${tmp}" && mv "${tmp}" "${styles_file}"
+    echo "Applied santorini-updated theme (compiled) to ${styles_file}."
+}
 
 function add_spartacus_csr {
     local IS_NPM_INSTALL="$2"
@@ -243,6 +305,8 @@ function add_spartacus_csr {
     add_cpq-quote
     add_pdf_invoices
     add_punchout
+    # TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
+    use_santorini_updated_theme
     remove_npmrc
     )
 }
@@ -274,6 +338,8 @@ function add_spartacus_ssr {
     add_cpq-quote
     add_pdf_invoices
     add_punchout
+    # TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
+    use_santorini_updated_theme
     remove_npmrc
     )
 }
@@ -303,6 +369,8 @@ function add_spartacus_ssr_pwa {
     add_cpq-quote
     add_pdf_invoices
     add_punchout
+    # TODO: remove once @spartacus/styles/_theme.scss switches to santorini-updated as the default (planned for next major — see core-libs/styles/scss/_theme.scss line 11).
+    use_santorini_updated_theme
     remove_npmrc
     )
 }
@@ -396,16 +464,16 @@ function install_from_sources {
     update_projects_versions
 
     printh "Building libraries."
-    ( cd ${CLONE_DIR} && npm run build:libs)
+    ( cd ${CLONE_DIR} && source ci-scripts/npm-commands.sh && build_libs_ci)
 
-    verdaccio --config ./config.yaml &
+    "${SPARTACUS_BIN}/verdaccio" --config ./config.yaml &
 
     VERDACCIO_PID=$!
     echo "verdaccio PID: ${VERDACCIO_PID}"
 
     sleep 15
 
-    (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
+    ("${SPARTACUS_BIN}/npm-cli-login" -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
     printh "Publish Packages"
     for project in ${project_packages[@]}; do
@@ -490,8 +558,13 @@ function start_csr_unix {
         echo "Skipping csr app start (no port defined)"
     else
         build_csr
-        printh "Starting csr app"
-        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT}
+         if [ -n "${SSL_CERT_PATH}" ] && [ -n "${SSL_KEY_PATH}" ]; then
+            printh "Starting csr app in SSL mode"
+            "${SPARTACUS_BIN}/pm2" start --name "${CSR_APP_NAME}-${CSR_PORT}" "${SPARTACUS_BIN}/serve" -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} --ssl-cert ${SSL_CERT_PATH} --ssl-key ${SSL_KEY_PATH}
+        else
+            printh "Starting csr app in non-SSL mode"
+            "${SPARTACUS_BIN}/pm2" start --name "${CSR_APP_NAME}-${CSR_PORT}" "${SPARTACUS_BIN}/serve" -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT}
+        fi
     fi
 }
 
@@ -507,7 +580,7 @@ function start_ssr_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=${SSR_ALLOWED_HOSTS:-localhost} && "${SPARTACUS_BIN}/pm2" start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
@@ -523,13 +596,13 @@ function start_ssr_pwa_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=${SSR_ALLOWED_HOSTS:-localhost} && "${SPARTACUS_BIN}/pm2" start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
 function start_windows_apps {
     build_csr
-    concurrently "serve ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/csr --single -p ${CSR_PORT}" --names "${CSR_APP_NAME}-{CSR_PORT}}"
+    "${SPARTACUS_BIN}/concurrently" "${SPARTACUS_BIN}/serve ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/csr --single -p ${CSR_PORT}" --names "${CSR_APP_NAME}-{CSR_PORT}}"
 }
 
 function start_apps {
@@ -556,9 +629,9 @@ function start_apps {
 }
 
 function stop_apps {
-    pm2 stop "${CSR_APP_NAME}-${CSR_PORT}"
-    pm2 stop "${SSR_APP_NAME}-${SSR_PORT}"
-    pm2 stop "${SSR_PWA_APP_NAME}-${SSR_PORT}"
+    "${SPARTACUS_BIN}/pm2" stop "${CSR_APP_NAME}-${CSR_PORT}"
+    "${SPARTACUS_BIN}/pm2" stop "${SSR_APP_NAME}-${SSR_PORT}"
+    "${SPARTACUS_BIN}/pm2" stop "${SSR_PWA_APP_NAME}-${SSR_PORT}"
 }
 
 function cmd_help {
@@ -1189,7 +1262,9 @@ function addAuthConfig {
     # Check presence of AuthConfig import
     if ! grep -q 'AuthConfig.*@spartacus/core' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
         # add AuthConfig import on last position of @spartacus/core imports
-        sed_inplace 's/} from "@spartacus\/core"/,AuthConfig } from "@spartacus\/core"/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        sed_inplace "s/} from ['\"]@spartacus\/core['\"]/\AuthConfig &/" "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        # add coma before AuthConfig if @spartacus/core imports list is in a single line
+        sed_inplace '/^[[:space:]]*AuthConfig } from/!s/AuthConfig } from/,AuthConfig } from/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         echo "AuthConfig import added."
     else
         echo "AuthConfig import already exists, skipping."

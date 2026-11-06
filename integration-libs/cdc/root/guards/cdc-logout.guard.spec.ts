@@ -33,7 +33,6 @@ const mockedWindowRef = {
 @Component({
   selector: 'cx-page-layout',
   template: 'mock',
-  standalone: false,
 })
 class MockPageLayoutComponent {}
 
@@ -67,8 +66,8 @@ describe('CdcLogoutGuard', () => {
             canActivate: [CdcLogoutGuard],
           },
         ]),
+        MockPageLayoutComponent,
       ],
-      declarations: [MockPageLayoutComponent],
       providers: [
         {
           provide: RoutingConfig,
@@ -106,18 +105,17 @@ describe('CdcLogoutGuard', () => {
   });
 
   it('logoutFromCdc should logout user from CDC', () => {
-    const cdcLogout = spyOn(
-      winRef.nativeWindow['gigya']?.accounts,
-      'logout'
-    ).and.stub();
+    const cdcLogout = vi
+      .spyOn(winRef.nativeWindow['gigya']?.accounts, 'logout')
+      .mockImplementation(() => {});
     guard['logoutFromCdc']();
 
     expect(cdcLogout).toHaveBeenCalled();
   });
 
   it('should logout in spartacus and from CDC', async () => {
-    spyOn(authService, 'coreLogout').and.callThrough();
-    spyOn(guard as any, 'logoutFromCdc').and.callThrough();
+    vi.spyOn(authService, 'coreLogout');
+    vi.spyOn(guard as any, 'logoutFromCdc');
 
     await zone.run(() => router.navigateByUrl('/logout'));
     expect(authService.coreLogout).toHaveBeenCalled();

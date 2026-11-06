@@ -48,7 +48,6 @@ describe('Orders effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OrderHistoryConnector,
         ReplenishmentOrderHistoryConnector,
@@ -73,7 +72,7 @@ describe('Orders effect', () => {
   describe('loadUserOrders$', () => {
     describe('Order History', () => {
       it('should load user Orders', () => {
-        spyOn(orderHistoryConnector, 'getHistory').and.returnValue(
+        vi.spyOn(orderHistoryConnector, 'getHistory').mockReturnValue(
           of(mockUserOrders)
         );
 
@@ -93,7 +92,7 @@ describe('Orders effect', () => {
       });
 
       it('should handle failures for load user Orders', () => {
-        spyOn(orderHistoryConnector, 'getHistory').and.returnValue(
+        vi.spyOn(orderHistoryConnector, 'getHistory').mockReturnValue(
           throwError(() => mockError)
         );
 
@@ -115,10 +114,10 @@ describe('Orders effect', () => {
 
     describe('Order History for a Replenishment Order Details', () => {
       it('should load user Orders for replenishment order details', () => {
-        spyOn(
+        vi.spyOn(
           replenishmentOrderHistoryConnector,
           'loadReplenishmentDetailsHistory'
-        ).and.returnValue(of(mockUserOrders));
+        ).mockReturnValue(of(mockUserOrders));
 
         const action = new OrderActions.LoadUserOrders({
           userId: 'test@sap.com',
@@ -137,10 +136,10 @@ describe('Orders effect', () => {
       });
 
       it('should handle failures for load user Orders for replenishment order details', () => {
-        spyOn(
+        vi.spyOn(
           replenishmentOrderHistoryConnector,
           'loadReplenishmentDetailsHistory'
-        ).and.returnValue(throwError(() => mockError));
+        ).mockReturnValue(throwError(() => mockError));
 
         const action = new OrderActions.LoadUserOrders({
           userId: 'test@sap.com',

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,6 +61,8 @@ const myAccountV2PasswordMapping: CmsConfig = {
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    UpdatePasswordComponent,
+    MyAccountV2PasswordComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -88,7 +90,6 @@ const myAccountV2PasswordMapping: CmsConfig = {
       inject(USE_MY_ACCOUNT_V2_PASSWORD) ? myAccountV2PasswordMapping : {}
     ),
   ],
-  declarations: [UpdatePasswordComponent, MyAccountV2PasswordComponent],
   exports: [UpdatePasswordComponent, MyAccountV2PasswordComponent],
 })
 export class UpdatePasswordModule {}

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,18 +10,28 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { VisualViewerComponent } from '../../visual-viewer/visual-viewer.component';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
+import { VisualPickingProductFilterComponent } from './product-filter/visual-picking-product-filter.component';
 import { VisualPickingProductListComponent } from './product-list/visual-picking-product-list.component';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 import { VisualPickingTabService } from './visual-picking-tab.service';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-visual-picking-tab',
   templateUrl: './visual-picking-tab.component.html',
   providers: [VisualPickingTabService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    VisualViewerComponent,
+    VisualPickingProductFilterComponent,
+    VisualPickingProductListComponent,
+    TranslatePipe,
+  ],
 })
 export class VisualPickingTabComponent implements AfterViewInit {
   constructor(protected visualPickingTabService: VisualPickingTabService) {}

@@ -1,12 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -26,12 +28,15 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureToggles,
   GlobalMessageService,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
@@ -44,13 +49,22 @@ export interface CardWithAddress {
   selector: 'cx-delivery-address',
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    CardComponent,
+    AddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class B2BCheckoutDeliveryAddressComponent
   extends CheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
   protected subscriptions = new Subscription();
+  private b2bFeatureToggles = inject(FeatureToggles);
 
   protected isAccountPayment$: Observable<boolean> =
     this.checkoutPaymentTypeFacade
@@ -65,7 +79,15 @@ export class B2BCheckoutDeliveryAddressComponent
       switchMap((costCenter) => {
         this.doneAutoSelect = false;
         return costCenter?.code
-          ? this.userCostCenterService.getCostCenterAddresses(costCenter.code)
+          ? this.userCostCenterService
+              .getCostCenterAddresses(costCenter.code)
+              .pipe(
+                map((addresses) =>
+                  this.b2bFeatureToggles.b2bCheckoutShippingAddressFilter
+                    ? addresses.filter((a) => a.shippingAddress === true)
+                    : addresses
+                )
+              )
           : of([]);
       })
     );

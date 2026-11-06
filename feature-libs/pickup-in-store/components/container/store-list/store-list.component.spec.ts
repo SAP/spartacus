@@ -14,7 +14,7 @@ import {
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { StoreListComponent } from './store-list.component';
@@ -26,12 +26,13 @@ describe('StoreListComponent', () => {
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreListComponent, MockFeatureDirective],
       imports: [
         I18nTestingModule,
         SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
+        StoreListComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {
@@ -62,9 +63,9 @@ describe('StoreListComponent', () => {
   });
 
   it('should get local stores on init', () => {
-    spyOn(pickupLocationsSearchService, 'getSearchResults');
-    spyOn(pickupLocationsSearchService, 'isSearchRunning');
-    spyOn(pickupLocationsSearchService, 'hasSearchStarted');
+    vi.spyOn(pickupLocationsSearchService, 'getSearchResults');
+    vi.spyOn(pickupLocationsSearchService, 'isSearchRunning');
+    vi.spyOn(pickupLocationsSearchService, 'hasSearchStarted');
 
     component.ngOnInit();
     expect(pickupLocationsSearchService.getSearchResults).toHaveBeenCalledWith(
@@ -76,7 +77,7 @@ describe('StoreListComponent', () => {
 
   it('should call getSearchResults with productCode', () => {
     component.productCode = 'productCode';
-    spyOn(pickupLocationsSearchService, 'getSearchResults');
+    vi.spyOn(pickupLocationsSearchService, 'getSearchResults');
     component.ngOnInit();
     expect(pickupLocationsSearchService.getSearchResults).toHaveBeenCalledWith(
       'productCode'
@@ -84,7 +85,7 @@ describe('StoreListComponent', () => {
   });
 
   it('should emit storeSelected', () => {
-    spyOn(component.storeSelected, 'emit');
+    vi.spyOn(component.storeSelected, 'emit');
     const pointOfService = {
       name: 'Store Name',
       displayName: 'Store Name',
@@ -94,7 +95,7 @@ describe('StoreListComponent', () => {
   });
 
   it('should call setIntendedLocation on IntendedPickupLocationService', () => {
-    spyOn(intendedPickupLocationService, 'setIntendedLocation');
+    vi.spyOn(intendedPickupLocationService, 'setIntendedLocation');
     const store: PointOfServiceStock = { stockInfo: {} };
     const location: AugmentedPointOfService = { pickupOption: 'pickup' };
     component.onSelectStore(store);
@@ -112,7 +113,6 @@ describe('StoreListComponent', () => {
 @Component({
   selector: 'cx-store-list',
   template: '',
-  standalone: false,
 })
 export class StoreListStubComponent {
   @Input() productCode: string;

@@ -1,22 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
+import { FormBuilder } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  ProductTypes,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
-import { of, throwError } from 'rxjs';
 import { OrderDetailsService } from '@spartacus/order/components';
-import { FormBuilder } from '@angular/forms';
 import {
-  RescheduleServiceOrderFacade,
   CheckoutServiceSchedulePickerService,
+  RescheduleServiceOrderFacade,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import createSpy = jasmine.createSpy;
+import { DatePickerComponent } from '@spartacus/storefront';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of, throwError } from 'rxjs';
+import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
 
 const mockOrder = {
   code: '0005004001',
@@ -25,7 +33,7 @@ const mockOrder = {
       product: {
         code: 'SRV_01',
         name: 'SRV_01',
-        productTypes: 'SERVICE',
+        productTypes: ProductTypes.SERVICE,
       },
     },
   ],
@@ -38,7 +46,7 @@ const mockOrder2 = {
       product: {
         code: 'SRV_01',
         name: 'SRV_01',
-        productTypes: 'SERVICE',
+        productTypes: ProductTypes.SERVICE,
       },
     },
   ],
@@ -52,25 +60,26 @@ class MockRescheduleServiceOrderFacade {
   rescheduleService(_orderCode: string, _scheduledAt: ServiceDateTime) {}
 }
 class MockRoutingService {
-  go = createSpy().and.callThrough();
+  go = vi.fn();
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.callThrough();
+  add = vi.fn();
 }
 class MockCheckoutServiceSchedulePickerService {
-  getMinDateForService = createSpy().and.returnValue(
-    of('2024-07-06T11:00:00+0000')
-  );
-  getScheduledServiceTimes = createSpy().and.returnValue(
-    of(['08:00', '14:30', '16:00'])
-  );
-  convertDateTimeToReadableString =
-    createSpy().and.returnValue('11/07/2024, 14:30');
-  getServiceDetailsFromDateTime = createSpy().and.returnValue({
+  getMinDateForService = vi
+    .fn()
+    .mockReturnValue(of('2024-07-06T11:00:00+0000'));
+  getScheduledServiceTimes = vi
+    .fn()
+    .mockReturnValue(of(['08:00', '14:30', '16:00']));
+  convertDateTimeToReadableString = vi
+    .fn()
+    .mockReturnValue('11/07/2024, 14:30');
+  getServiceDetailsFromDateTime = vi.fn().mockReturnValue({
     date: '11/07/2024',
     time: '14:30',
   });
-  convertToDateTime = createSpy().and.returnValue('2024-06-27T14:30:00±HH:MM');
+  convertToDateTime = vi.fn().mockReturnValue('2024-06-27T14:30:00±HH:MM');
 }
 
 describe('RescheduleServiceOrderComponent', () => {
@@ -82,8 +91,12 @@ describe('RescheduleServiceOrderComponent', () => {
   let checkoutServiceSchedulePickerService: CheckoutServiceSchedulePickerService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, UrlTestingModule],
-      declarations: [RescheduleServiceOrderComponent],
+      imports: [
+        I18nTestingModule,
+        UrlTestingModule,
+        RescheduleServiceOrderComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         {
@@ -98,7 +111,24 @@ describe('RescheduleServiceOrderComponent', () => {
         },
         FormBuilder,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(RescheduleServiceOrderComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .overrideComponent(DatePickerComponent, {
+        remove: {
+          imports: [CxDatePipe],
+        },
+        add: {
+          imports: [MockDatePipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(RescheduleServiceOrderComponent);
     component = fixture.componentInstance;
@@ -139,7 +169,7 @@ describe('RescheduleServiceOrderComponent', () => {
     expect(component.form?.get('scheduleTime')?.value).toEqual('16:00');
   });
   it('should show redirect to order details page with success message when successfully rescheduled', () => {
-    spyOn(rescheduleServiceOrderFacade, 'rescheduleService').and.returnValue(
+    vi.spyOn(rescheduleServiceOrderFacade, 'rescheduleService').mockReturnValue(
       of(200)
     );
     component.rescheduleServiceOrder();
@@ -153,7 +183,7 @@ describe('RescheduleServiceOrderComponent', () => {
     );
   });
   it('should show error message if any error thrown', () => {
-    spyOn(rescheduleServiceOrderFacade, 'rescheduleService').and.returnValue(
+    vi.spyOn(rescheduleServiceOrderFacade, 'rescheduleService').mockReturnValue(
       throwError('Throwing Error message')
     );
     component.rescheduleServiceOrder();

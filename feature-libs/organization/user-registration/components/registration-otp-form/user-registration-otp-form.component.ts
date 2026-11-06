@@ -1,34 +1,54 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   Country,
   GlobalMessageService,
   Region,
   RoutingService,
+  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
-import { Title } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   VerificationToken,
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
-import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-constants';
+import { Title } from '@spartacus/user/profile/root';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserRegistrationFormService } from '../form';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-constants';
 
 @Component({
   selector: 'cx-user-registration-form',
   templateUrl: './user-registration-otp-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class UserRegistrationOTPFormComponent {
   protected routingService = inject(RoutingService);

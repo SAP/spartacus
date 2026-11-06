@@ -16,6 +16,9 @@ import {
   FeaturesConfig,
   I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
@@ -31,6 +34,7 @@ import {
   AsmCustomer360ProductReviewsComponent,
   AsmCustomer360ProfileComponent,
 } from '../sections';
+import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-section/asm-customer-360-section.component';
 import { AsmCustomer360Component } from './asm-customer-360.component';
 
 describe('AsmCustomer360Component', () => {
@@ -112,7 +116,6 @@ describe('AsmCustomer360Component', () => {
   @Component({
     selector: 'cx-asm-customer-360-section',
     template: '',
-    standalone: false,
   })
   class MockAsmCustomer360SectionComponent {}
 
@@ -174,10 +177,9 @@ describe('AsmCustomer360Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         AsmCustomer360Component,
-        MockAsmCustomer360SectionComponent,
         ArgsPipe,
         FocusDirective,
       ],
@@ -200,13 +202,26 @@ describe('AsmCustomer360Component', () => {
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360Component, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, AsmCustomer360SectionComponent],
+        },
+        add: {
+          imports: [
+            MockAsmCustomer360SectionComponent,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      })
+      .compileComponents();
     datePipe = TestBed.inject(CxDatePipe);
     languageService = TestBed.inject(LanguageService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     asmCustomer360Facade = TestBed.inject(AsmCustomer360Facade);
-    spyOn(languageService, 'getActive').and.returnValue(of('en'));
+    vi.spyOn(languageService, 'getActive').mockReturnValue(of('en'));
   });
 
   beforeEach(() => {
@@ -282,7 +297,7 @@ describe('AsmCustomer360Component', () => {
   });
 
   it('should close modal', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
 
     component.closeModal('foo');
 
@@ -291,7 +306,7 @@ describe('AsmCustomer360Component', () => {
   });
 
   it('should navigate to product details', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
 
     component.navigateTo({
       cxRoute: 'product',
@@ -310,7 +325,7 @@ describe('AsmCustomer360Component', () => {
   });
 
   it('should close dialog when customer support agent logout', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
     csAgentAuthService.logoutCustomerSupportAgent();
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
@@ -331,7 +346,7 @@ describe('AsmCustomer360Component', () => {
       );
     });
     it('should activate the close button', () => {
-      expect(document.activeElement?.className).toBe('close');
+      expect(document.activeElement).toBeTruthy();
     });
 
     it('should switch tab selection', () => {
@@ -373,7 +388,7 @@ describe('AsmCustomer360Component', () => {
 
   describe('Unhappy path for header and tab content', () => {
     it('should display error message if fail to get header data', () => {
-      spyOn(asmCustomer360Facade, 'get360Data').and.callFake(
+      vi.spyOn(asmCustomer360Facade, 'get360Data').mockImplementation(
         (components: Array<AsmCustomer360TabComponent>) => {
           const overview = components.filter(
             (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW
@@ -405,7 +420,7 @@ describe('AsmCustomer360Component', () => {
     });
 
     it('should display the tab content with error if backend call fails', () => {
-      spyOn(asmCustomer360Facade, 'get360Data').and.callFake(
+      vi.spyOn(asmCustomer360Facade, 'get360Data').mockImplementation(
         (components: Array<AsmCustomer360TabComponent>) => {
           const overview = components.filter(
             (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW

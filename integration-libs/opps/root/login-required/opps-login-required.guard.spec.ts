@@ -6,11 +6,12 @@ import {
   LoggerService,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 
-import { Router, UrlTree } from '@angular/router';
-import { OppsLoginRequiredGuard } from './opps-login-required.guard';
+import { signal } from '@angular/core';
+import { Navigation, Router, UrlTree } from '@angular/router';
 import { OppsConfig } from '../config/opps-config';
+import { OppsLoginRequiredGuard } from './opps-login-required.guard';
 
 const mockConfig = {
   opps: {
@@ -53,21 +54,18 @@ class MockRouter implements Partial<Router> {
   parseUrl(_url: string): UrlTree {
     return { root: 'test-login' } as any;
   }
-  getCurrentNavigation(): any {
-    let output = {
-      id: 1,
-      previousNavigation: null,
-      trigger: 'imperative',
-      finalUrl: {
-        queryParams: {},
-        fragment: '',
-      },
-      initialUrl: {} as any,
-      extractedUrl: {} as any,
-      extras: {},
-    };
-    return output;
-  }
+  currentNavigation = signal((<Partial<Navigation>>{
+    id: 1,
+    previousNavigation: null,
+    trigger: 'imperative',
+    finalUrl: {
+      queryParams: {},
+      fragment: '',
+    } as UrlTree,
+    initialUrl: {} as any,
+    extractedUrl: {} as any,
+    extras: {},
+  }) as Navigation | null);
 }
 describe('OppsLoginRequiredGuard', () => {
   let guard: OppsLoginRequiredGuard;
@@ -75,7 +73,6 @@ describe('OppsLoginRequiredGuard', () => {
   let authRedirectService: AuthRedirectService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: OppsConfig, useValue: mockConfig },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
@@ -92,43 +89,37 @@ describe('OppsLoginRequiredGuard', () => {
   it('should be created', () => {
     expect(guard).toBeTruthy();
   });
-  it('should return true if user is logged in', (done) => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    guard.canActivate({} as any, {} as any).subscribe((result) => {
-      expect(result).toEqual(true);
-      done();
-    });
+  it('should return true if user is logged in', async () => {
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+    const result = await firstValueFrom(
+      guard.canActivate({} as any, {} as any)
+    );
+    expect(result).toEqual(true);
   });
-  it('should return login url tree if user is not logged in & login required parameter is set to true in url', (done) => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(authRedirectService, 'setRedirectUrl').and.returnValue();
+  it('should return login url tree if user is not logged in & login required parameter is set to true in url', async () => {
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
+    vi.spyOn(authRedirectService, 'setRedirectUrl');
     const route: any = {
       queryParams: { testParam: 'true' },
     };
-    guard.canActivate(route, {} as any).subscribe((result) => {
-      expect(authRedirectService.setRedirectUrl).toHaveBeenCalled();
-      expect(JSON.stringify(result)).toEqual('{"root":"test-login"}');
-      done();
-    });
+    const result = await firstValueFrom(guard.canActivate(route, {} as any));
+    expect(authRedirectService.setRedirectUrl).toHaveBeenCalled();
+    expect(JSON.stringify(result)).toEqual('{"root":"test-login"}');
   });
-  it('should return true if user is not logged in & login required parameter is set to false in url', (done) => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+  it('should return true if user is not logged in & login required parameter is set to false in url', async () => {
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
     const route: any = {
       queryParams: { testParam: 'false' },
     };
-    guard.canActivate(route, {} as any).subscribe((result) => {
-      expect(result).toEqual(true);
-      done();
-    });
+    const result = await firstValueFrom(guard.canActivate(route, {} as any));
+    expect(result).toEqual(true);
   });
-  it('should return true if user is not logged in & login required parameter is not present in url', (done) => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+  it('should return true if user is not logged in & login required parameter is not present in url', async () => {
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
     const route: any = {
       queryParams: {},
     };
-    guard.canActivate(route, {} as any).subscribe((result) => {
-      expect(result).toEqual(true);
-      done();
-    });
+    const result = await firstValueFrom(guard.canActivate(route, {} as any));
+    expect(result).toEqual(true);
   });
 });

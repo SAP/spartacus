@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,7 +53,7 @@ export class WishListService implements WishListFacade {
       distinctUntilChanged(),
       tap(([wishListId, user, userId]) => {
         if (
-          !Boolean(wishListId) &&
+          !wishListId &&
           userId !== OCC_USER_ID_ANONYMOUS &&
           user?.customerId
         ) {
@@ -110,7 +110,7 @@ export class WishListService implements WishListFacade {
         this.userAccountFacade.get()
       ),
       tap(([wishListId, userId, user]) => {
-        if (!Boolean(wishListId) && user?.customerId) {
+        if (!wishListId && user?.customerId) {
           this.loadWishList(userId, user.customerId);
         }
       }),

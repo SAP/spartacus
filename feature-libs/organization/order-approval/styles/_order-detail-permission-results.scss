@@ -27,18 +27,12 @@ cx-order-detail-permission-results {
     }
 
     .cx-approval-thead-mobile {
-      background-color: var(--cx-color-dark);
+      background-color: unset;
 
       th {
         text-align: start;
         color: var(--cx-color-inverse);
-      }
-      @include forFeature('a11yTableHeaderReadout') {
-        background-color: unset;
-
-        th {
-          background-color: var(--cx-color-dark);
-        }
+        background-color: var(--cx-color-dark);
       }
 
       @include media-breakpoint-down(md) {

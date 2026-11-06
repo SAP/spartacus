@@ -2,22 +2,27 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  I18nTestingModule,
   ImageType,
+  MockTranslatePipe,
   Product,
   ProductService,
+  TranslatePipe,
 } from '@spartacus/core';
 
-import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
-import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
-import { AsmCustomer360ActiveCartComponent } from './asm-customer-360-active-cart.component';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   AsmCustomer360ActiveCart,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  BreakpointService,
+  MediaComponent,
+} from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { AsmCustomer360ActiveCartComponent } from './asm-customer-360-active-cart.component';
 
 import { AsmCustomer360ProductItemComponent } from '../../asm-customer-360-product-item/asm-customer-360-product-item.component';
 
@@ -117,12 +122,11 @@ describe('AsmCustomer360ActiveCartComponent', () => {
     },
   };
 
-  const productService = jasmine.createSpyObj('ProductService', ['get']);
+  const productService = { get: vi.fn() };
 
   @Component({
     template: '',
     selector: 'cx-media',
-    standalone: false,
   })
   class MockMediaComponent {
     @Input() container: any;
@@ -132,13 +136,7 @@ describe('AsmCustomer360ActiveCartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmCustomer360ActiveCartComponent,
-        AsmCustomer360ProductListingComponent,
-        AsmCustomer360ProductItemComponent,
-        MockMediaComponent,
-      ],
+      imports: [AsmCustomer360ActiveCartComponent],
       providers: [
         AsmCustomer360SectionContextSource,
         {
@@ -151,7 +149,20 @@ describe('AsmCustomer360ActiveCartComponent', () => {
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360ActiveCartComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .overrideComponent(AsmCustomer360ProductListingComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .overrideComponent(AsmCustomer360ProductItemComponent, {
+        remove: { imports: [TranslatePipe, MediaComponent] },
+        add: { imports: [MockTranslatePipe, MockMediaComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -161,7 +172,7 @@ describe('AsmCustomer360ActiveCartComponent', () => {
 
     const mockProductService = TestBed.inject(ProductService);
 
-    (<jasmine.Spy>mockProductService.get).and.callFake((code: string) => {
+    (mockProductService.get as any).mockImplementation((code: string) => {
       switch (code) {
         case '553637':
           return of(mockProduct1);
@@ -233,7 +244,7 @@ describe('AsmCustomer360ActiveCartComponent', () => {
   });
 
   it('should navigate Product', () => {
-    spyOn(contextSource.navigate$, 'next').and.stub();
+    vi.spyOn(contextSource.navigate$, 'next').mockImplementation(() => {});
     const productName = el.queryAll(
       By.css(
         'cx-asm-customer-360-product-item .cx-asm-customer-360-product-item-name'

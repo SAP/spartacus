@@ -61,8 +61,7 @@ describe('OpfB2bCheckoutCostCenterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OpfB2bCheckoutCostCenterComponent],
+      imports: [I18nTestingModule, OpfB2bCheckoutCostCenterComponent],
       providers: [
         {
           provide: UserCostCenterService,

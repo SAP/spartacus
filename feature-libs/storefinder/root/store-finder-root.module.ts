@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { defaultStoreFinderLayoutConfig } from './config/default-store-finder-layout-config';
+import { defaultStoreFinderRoutingConfig } from './config/default-store-finder-routing-config';
 import { STORE_FINDER_FEATURE } from './feature-name';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
@@ -30,6 +31,7 @@ export function defaultStoreFinderComponentsConfig(): CmsConfig {
   declarations: [],
   providers: [
     provideDefaultConfig(defaultStoreFinderLayoutConfig),
+    provideDefaultConfig(defaultStoreFinderRoutingConfig),
     provideDefaultConfigFactory(defaultStoreFinderComponentsConfig),
   ],
 })

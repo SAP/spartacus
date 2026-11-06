@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
   imports: [
@@ -28,9 +27,10 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
     UrlModule,
     ConfiguratorAttributeQuantityModule,
     ConfiguratorPriceModule,
+    ConfiguratorAttributeMultiSelectionBundleComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_checkBoxListProduct:
@@ -39,7 +39,6 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeMultiSelectionBundleComponent],
   exports: [ConfiguratorAttributeMultiSelectionBundleComponent],
 })
 export class ConfiguratorAttributeMultiSelectionBundleModule {}

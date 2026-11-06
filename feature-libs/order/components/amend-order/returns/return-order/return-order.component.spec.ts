@@ -1,10 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import {
+  AmendOrderActionsComponent,
+  CancelOrReturnItemsComponent,
+} from '@spartacus/order/components';
+import { Consignment } from '@spartacus/order/root';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { combineLatest, firstValueFrom, of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderComponent } from './return-order.component';
 
@@ -46,10 +51,32 @@ class MockOrderAmendService {
   }
 }
 
+const expectedReturnableQuantity = 4;
+const mockConsignmentsWithPartialMatch: {
+  entries: {
+    orderEntry: { product: { code: string } };
+    shippedQuantity: number;
+  }[];
+}[] = [
+  {
+    entries: [
+      {
+        orderEntry: { product: { code: 'prod1' } },
+        shippedQuantity: expectedReturnableQuantity,
+      },
+    ],
+  },
+];
+class NewMockOrderAmendService extends MockOrderAmendService {
+  getOrder() {
+    return of({ consignments: mockConsignmentsWithPartialMatch });
+  }
+}
+
 @Component({
   template: '',
   selector: 'cx-amend-order-items',
-  standalone: false,
+  imports: [FormErrorsModule],
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
@@ -58,7 +85,7 @@ class MockCancelOrReturnItemsComponent {
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
-  standalone: false,
+  imports: [FormErrorsModule],
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -70,22 +97,44 @@ class MockAmendOrderActionComponent {
 describe('ReturnOrderComponent', () => {
   let component: ReturnOrderComponent;
   let fixture: ComponentFixture<ReturnOrderComponent>;
+  let orderAmendService: vi.MockObj<OrderAmendService>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [FormErrorsModule],
+      imports: [FormErrorsModule, ReturnOrderComponent],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],
-      declarations: [
-        ReturnOrderComponent,
-        MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
-      ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ReturnOrderComponent, {
+        remove: {
+          imports: [AmendOrderActionsComponent, CancelOrReturnItemsComponent],
+        },
+        add: {
+          imports: [
+            MockAmendOrderActionComponent,
+            MockCancelOrReturnItemsComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
+    orderAmendService = {
+      getForm: vi.fn(),
+      getOrder: vi.fn(),
+      getEntries: vi.fn(),
+    };
+    orderAmendService.getForm.mockReturnValue(of(mockForm));
+    orderAmendService.getOrder.mockReturnValue(
+      of({ consignments: mockConsignments })
+    );
+    orderAmendService.getEntries.mockReturnValue(of(mockEntries));
+    TestBed.overrideProvider(OrderAmendService, {
+      useValue: orderAmendService,
+    });
+
     fixture = TestBed.createComponent(ReturnOrderComponent);
     component = fixture.componentInstance;
   });
@@ -94,8 +143,8 @@ describe('ReturnOrderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have an order code', () => {
-    component.form$.subscribe().unsubscribe();
+  it('should have an order code', async () => {
+    await firstValueFrom(component.form$);
     expect(component.orderCode).toEqual('123');
   });
 
@@ -115,17 +164,130 @@ describe('ReturnOrderComponent', () => {
     ).toEqual(2);
   });
 
-  it('should filter and map entries with returnable quantities', () => {
-    fixture.detectChanges(); // Ensure the component initializes properly
+  it('should filter and map entries with returnable quantities', async () => {
+    fixture.detectChanges();
 
-    let result: OrderEntry[];
-    component.entries$.subscribe((entries) => (result = entries)).unsubscribe();
-
+    const result: OrderEntry[] =
+      (await firstValueFrom(component.entries$)) ?? [];
     // Verify the filtered and mapped entries
-    expect(result.length).toBe(2); // Expect two entries with returnable quantities
-    expect(result[0].product.code).toBe('prod1');
+    expect(result.length).toBe(2);
+    expect(result[0].product?.code).toBe('prod1');
     expect(result[0].returnableQuantity).toBe(5);
-    expect(result[1].product.code).toBe('prod2');
+    expect(result[1].product?.code).toBe('prod2');
     expect(result[1].returnableQuantity).toBe(3);
+  });
+
+  it('should initialize form$ and set orderCode', async () => {
+    const form: UntypedFormGroup = await firstValueFrom(component.form$);
+    expect(form.value.orderCode).toEqual('123');
+    expect(component.orderCode).toEqual('123');
+  });
+
+  it('should initialize consignments$', async () => {
+    const consignments: any[] =
+      (await firstValueFrom(component.consignments$)) ?? [];
+    expect(consignments.length).toBe(1);
+    expect(consignments[0]?.entries.length).toBe(2);
+    expect(consignments[0].entries[0].orderEntry.product.code).toBe('prod1');
+    expect(consignments[0].entries[0].shippedQuantity).toBe(5);
+  });
+
+  it('should initialize entries$ with filtered and mapped entries', async () => {
+    const entries: OrderEntry[] =
+      (await firstValueFrom(component.entries$)) ?? [];
+    expect(entries.length).toBe(2);
+    expect(entries.length).toBeGreaterThan(0);
+    expect(entries[0].product?.code).toBe('prod1');
+    expect(entries[0].returnableQuantity).toBe(5);
+    expect(entries[1].product?.code).toBe('prod2');
+    expect(entries[1].returnableQuantity).toBe(3);
+  });
+
+  it('should handle empty consignments gracefully', async () => {
+    orderAmendService.getOrder.mockReturnValue(of({ consignments: [] }));
+
+    const entries: OrderEntry[] =
+      (await firstValueFrom(component.entries$)) ?? [];
+    expect(entries.length).toBe(2);
+  });
+
+  it('should handle entries without matching consignment entries', async () => {
+    const mockConsignmentsWithoutMatch = [
+      {
+        entries: [
+          {
+            orderEntry: { product: { code: 'prodX' } },
+            shippedQuantity: 2,
+          },
+        ],
+      },
+    ];
+    orderAmendService.getOrder.mockReturnValue(
+      of({ consignments: mockConsignmentsWithoutMatch })
+    );
+
+    const entries: OrderEntry[] =
+      (await firstValueFrom(component.entries$)) ?? [];
+    expect(entries.length).toBe(2);
+  });
+
+  it('should set orderCode when form$ is initialized', async () => {
+    const formValue: UntypedFormGroup = await firstValueFrom(component.form$);
+    expect(formValue.value.orderCode).toEqual('123');
+    expect(component.orderCode).toEqual('123');
+  });
+
+  it('should initialize consignments$ with correct data', async () => {
+    const consignments: Consignment[] =
+      (await firstValueFrom(component.consignments$)) ?? [];
+    expect(consignments.length).toBe(1);
+    expect(consignments[0].entries?.length).toBe(2);
+    expect(consignments[0]?.entries?.[0].orderEntry).toBeDefined();
+    expect(consignments[0]?.entries?.[0].orderEntry?.product?.code).toBe(
+      'prod1'
+    );
+    expect(consignments[0]?.entries?.[0].shippedQuantity).toBe(5);
+  });
+
+  describe('when order has new consignments', () => {
+    beforeEach(async () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [FormErrorsModule, ReturnOrderComponent],
+        providers: [
+          { provide: OrderAmendService, useClass: NewMockOrderAmendService },
+        ],
+      })
+        .overrideComponent(ReturnOrderComponent, {
+          remove: {
+            imports: [
+              /* original child components will be removed in runtime */
+            ],
+          },
+          add: {
+            imports: [
+              MockAmendOrderActionComponent,
+              MockCancelOrReturnItemsComponent,
+            ],
+          },
+        })
+        .compileComponents();
+    });
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ReturnOrderComponent);
+      component = fixture.componentInstance;
+    });
+
+    it('should update returnableQuantity based on matching entry consignment', async () => {
+      const [entries, consignments] = (await firstValueFrom(
+        combineLatest([component.entries$, component.consignments$])
+      )) as [OrderEntry[], Consignment[]];
+      expect(consignments.length).toBe(1);
+      expect(consignments[0].entries?.length).toBe(1);
+      expect(entries.length).toBe(1);
+      expect(entries[0].product?.code).toBe('prod1');
+      expect(entries[0].returnableQuantity).toBe(expectedReturnableQuantity);
+    });
   });
 });

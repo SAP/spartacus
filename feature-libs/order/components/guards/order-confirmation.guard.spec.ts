@@ -1,16 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, SemanticPathService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { OrderConfirmationGuard } from './order-confirmation.guard';
-import createSpy = jasmine.createSpy;
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  getOrderDetails = createSpy().and.returnValue(of(undefined));
+  getOrderDetails = vi.fn().mockReturnValue(of(undefined));
 }
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = createSpy().and.returnValue('');
+  get = vi.fn().mockReturnValue('');
 }
 
 describe(`OrderConfirmationGuard`, () => {
@@ -23,7 +22,7 @@ describe(`OrderConfirmationGuard`, () => {
       providers: [
         {
           provide: RoutingService,
-          useValue: { go: jasmine.createSpy() },
+          useValue: { go: vi.fn() },
         },
         { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
@@ -36,28 +35,23 @@ describe(`OrderConfirmationGuard`, () => {
   });
 
   describe(`when there is NO order details present`, () => {
-    it(`should return UrlTree to order history page`, (done) => {
-      orderFacade.getOrderDetails = createSpy().and.returnValue(of({}));
-      semanticPathService.get =
-        createSpy().and.returnValue('/my-account/orders');
+    it(`should return UrlTree to order history page`, async () => {
+      orderFacade.getOrderDetails = vi.fn().mockReturnValue(of({}));
+      semanticPathService.get = vi.fn().mockReturnValue('/my-account/orders');
 
-      guard.canActivate().subscribe((result) => {
-        expect(result.toString()).toEqual('/my-account/orders');
-        done();
-      });
+      const result = await firstValueFrom(guard.canActivate());
+      expect(result.toString()).toEqual('/my-account/orders');
     });
   });
 
   describe(`when there is order details present`, () => {
-    it(`should return true`, (done) => {
-      orderFacade.getOrderDetails = createSpy().and.returnValue(
-        of({ code: 'test order' })
-      );
+    it(`should return true`, async () => {
+      orderFacade.getOrderDetails = vi
+        .fn()
+        .mockReturnValue(of({ code: 'test order' }));
 
-      guard.canActivate().subscribe((result) => {
-        expect(result).toEqual(true);
-        done();
-      });
+      const result = await firstValueFrom(guard.canActivate());
+      expect(result).toEqual(true);
     });
   });
 });

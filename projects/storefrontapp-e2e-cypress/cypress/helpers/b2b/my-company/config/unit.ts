@@ -1,10 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
+import {
+  BASE_URL,
+  CURRENCY_USD,
+  LANGUAGE_EN,
+} from '../../../site-context-selector';
+import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { randomString } from '../../../user';
 import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 import { costCenterConfig } from './cost-center.config';
@@ -87,7 +92,7 @@ export const userRolesAndRightsConfig: MyCompanyConfig = {
 
 export const unitConfig: MyCompanyConfig = {
   name: 'Unit',
-  baseUrl: `${FULL_BASE_URL_EN_USD}/organization/units`,
+  baseUrl: `${BASE_URL}/${POWERTOOLS_BASESITE}/${LANGUAGE_EN}/${CURRENCY_USD}/organization/units`,
   apiEndpoint: '/orgUnits',
   objectType: 'children',
   verifyStatusInDetails: true,
@@ -108,15 +113,6 @@ export const unitConfig: MyCompanyConfig = {
       sortLabel: 'Name',
     },
     {
-      label: 'Status',
-      variableName: 'Active',
-      inputType: INPUT_TYPE.TEXT,
-      createValue: 'Active',
-      updateValue: 'Active',
-      showInTable: true,
-      showInDetails: true,
-    },
-    {
       label: 'ID',
       variableName: 'id',
       inputType: INPUT_TYPE.TEXT,
@@ -126,6 +122,15 @@ export const unitConfig: MyCompanyConfig = {
       showInDetails: true,
       useInUrl: true,
       formLabel: 'ID*',
+    },
+    {
+      label: 'Status',
+      variableName: 'Active',
+      inputType: INPUT_TYPE.TEXT,
+      createValue: 'Active',
+      updateValue: 'Active',
+      showInTable: true,
+      showInDetails: true,
     },
     {
       label: 'Approval process',

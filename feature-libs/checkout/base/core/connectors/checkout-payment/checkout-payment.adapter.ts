@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,6 +32,17 @@ export abstract class CheckoutPaymentAdapter {
     userId: string,
     cartId: string,
     paymentDetailsId: string
+  ): Observable<unknown>;
+
+  /**
+   * Abstract method used to delete payment details from cart
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract deletePaymentDetails(
+    userId: string,
+    cartId: string
   ): Observable<unknown>;
 
   /**

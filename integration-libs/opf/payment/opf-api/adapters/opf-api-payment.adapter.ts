@@ -1,10 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
@@ -30,12 +34,14 @@ import {
 } from '@spartacus/opf/payment/core';
 import {
   OpfPaymentAfterRedirectScriptResponse,
+  OpfPaymentError,
   OpfPaymentInitiationConfig,
   OpfPaymentSessionData,
   OpfPaymentSubmitCompleteRequest,
   OpfPaymentSubmitCompleteResponse,
   OpfPaymentSubmitRequest,
   OpfPaymentSubmitResponse,
+  OpfPaymentUpdateConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
@@ -123,7 +129,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
       .post<OpfPaymentSubmitResponse>(url, submitRequest, { headers })
       .pipe(
         catchError((error) => {
-          throw tryNormalizeHttpError(error, this.logger);
+          throw this.normalizeOpfPaymentHttpError(error);
         }),
         backOff({
           shouldRetry: isServerError,
@@ -153,7 +159,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
       })
       .pipe(
         catchError((error) => {
-          throw tryNormalizeHttpError(error, this.logger);
+          throw this.normalizeOpfPaymentHttpError(error);
         }),
         backOff({
           shouldRetry: isServerError,
@@ -216,6 +222,39 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
       );
   }
 
+  updatePaymentTransaction(
+    updatePaymentConfig: OpfPaymentUpdateConfig
+  ): Observable<OpfPaymentSessionData> {
+    const headers = new HttpHeaders({
+      'Accept-Language':
+        this.opfMetadataStatePersistanceService.getActiveLanguage(),
+    })
+      .set(
+        OPF_CC_PUBLIC_KEY_HEADER,
+        this.config.opf?.commerceCloudPublicKey || ''
+      )
+      .set(OPF_CC_ACCESS_CODE_HEADER, updatePaymentConfig?.otpKey || '');
+
+    const url = this.getUpdatePaymentTransactionEndpoint(
+      updatePaymentConfig.paymentSessionId
+    );
+
+    updatePaymentConfig = this.converter.convert(
+      updatePaymentConfig,
+      OPF_PAYMENT_CONFIG_SERIALIZER
+    );
+
+    return this.http
+      .put<OpfPaymentSessionData>(url, updatePaymentConfig?.config, {
+        headers,
+      })
+      .pipe(
+        catchError((error) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        })
+      );
+  }
+
   protected verifyPaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('verifyPayment', {
       urlParams: { paymentSessionId },
@@ -244,5 +283,27 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
 
   protected getInitiatePaymentEndpoint(): string {
     return this.opfEndpointsService.buildUrl('initiatePayment');
+  }
+
+  protected getUpdatePaymentTransactionEndpoint(
+    paymentSessionId: string
+  ): string {
+    return this.opfEndpointsService.buildUrl('updatePaymentTransaction', {
+      urlParams: { paymentSessionId },
+    });
+  }
+
+  protected normalizeOpfPaymentHttpError(
+    error: unknown
+  ): OpfPaymentError | Error {
+    const normalizedError = tryNormalizeHttpError(error, this.logger);
+    if (
+      error instanceof HttpErrorResponse &&
+      error.error != null &&
+      typeof error.error === 'object'
+    ) {
+      Object.assign(normalizedError, error.error);
+    }
+    return normalizedError as OpfPaymentError | Error;
   }
 }

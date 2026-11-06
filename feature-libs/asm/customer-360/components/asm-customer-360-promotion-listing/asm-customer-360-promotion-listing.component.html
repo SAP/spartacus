@@ -3,20 +3,20 @@
     {{ headerText }}
   </h4>
 </div>
-<ng-content></ng-content>
+<ng-content />
 <div class="message-container">
   <cx-message
     *ngIf="showAlert"
     [text]="'asmCustomer360.alertErrorMessage' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_ERROR"
     (closeMessage)="removeAlert.emit()"
-  ></cx-message>
+  />
   <cx-message
     *ngIf="showAlertForApplyAction"
     [text]="'asmCustomer360.applyActionAlter' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_ERROR"
     (closeMessage)="removeAlertForApplyAction.emit()"
-  ></cx-message>
+  />
 </div>
 <table class="cx-asm-customer-360-promotion-listing">
   <caption class="cx-visually-hidden">
@@ -65,7 +65,7 @@
           <tr class="cx-asm-customer-360-promotion-listing-action">
             <ng-container *ngIf="!isCustomerCoupon">
               <td>
-                <cx-icon class="success" type="SUCCESS"></cx-icon>
+                <cx-icon class="success" type="SUCCESS" />
               </td>
               <td class="cx-asm-customer-360-promotion-listing-applied">
                 {{ applied }}

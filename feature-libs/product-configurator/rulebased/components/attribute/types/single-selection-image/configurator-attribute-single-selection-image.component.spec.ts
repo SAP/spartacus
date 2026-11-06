@@ -1,23 +1,28 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-
-import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import {
+  FocusDirective,
+  ICON_TYPE,
+  IconComponent,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+  MockIconComponent,
+  PopoverModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
@@ -26,18 +31,16 @@ import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurat
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
-
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    IconTestingModule,
+    PopoverModule,
+  ],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -61,32 +64,17 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   const groupId = 'testGroup';
   const attributeName = 'attributeName';
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(
       ConfiguratorAttributeSingleSelectionImageComponent,
-      {
-        set: {
-          providers: [
-            {
-              provide: ConfiguratorAttributePriceChangeService,
-              useClass: MockConfiguratorAttributePriceChangeService,
-            },
-          ],
-        },
-      }
+      {}
     );
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeSingleSelectionImageComponent,
-        MockFocusDirective,
-        MockConfiguratorPriceComponent,
-      ],
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
-        IconTestingModule,
         PopoverModule,
+        ConfiguratorAttributeSingleSelectionImageComponent,
       ],
       providers: [
         ConfiguratorStorefrontUtilsService,
@@ -109,12 +97,35 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            FocusDirective,
+            ConfiguratorPriceComponent,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            MockIconComponent,
+            KeyboardFocusTestingModule,
+            MockConfiguratorPriceComponent,
+          ],
+          providers: [
+            {
+              provide: ConfiguratorAttributePriceChangeService,
+              useClass: MockConfiguratorAttributePriceChangeService,
+            },
+          ],
         },
       })
+      .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
-  }));
+  });
 
   function createImage(url: string, altText: string): Configurator.Image {
     const configImage: Configurator.Image = {
@@ -172,10 +183,10 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       values: values,
     };
     component.ownerKey = ownerKey;
-    fixture.detectChanges();
   });
 
   it('should create a component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -188,24 +199,23 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
 
   it('should render info icon at value level if value has a description', () => {
     fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      "cx-icon[ng-reflect-type='INFO']"
+    const icons = fixture.debugElement.queryAll(By.css('cx-icon'));
+    const infoIcon = icons.find(
+      (icon) => icon.componentInstance.type === ICON_TYPE.INFO
     );
+    expect(infoIcon).toBeTruthy();
   });
 
   it('should render popover with description at value level after clicking on info icon', () => {
     fixture.detectChanges();
-    const infoButton = fixture.debugElement.query(
-      By.css('button[ng-reflect-cx-popover]')
-    ).nativeElement;
+    const infoButton = fixture.debugElement.query(By.css('button cx-icon'))
+      .parent?.nativeElement;
     infoButton.click();
     const description = fixture.debugElement.query(
       By.css('cx-popover > .popover-body > span')
     );
     expect(description).toBeTruthy();
-    expect(description.nativeElement.innerText).toBe(
+    expect(description.nativeElement.textContent?.trim()).toBe(
       (component.attribute.values ?? [{}])[1].description
     );
     infoButton.click(); // hide popover after test again
@@ -233,10 +243,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
 
   describe('select single image', () => {
     it('should not call service for update and in case attribute is read-only', () => {
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
+      vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
       value2.selected = true;
@@ -284,6 +291,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -299,6 +307,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     });
 
     it("should contain input element with class name 'form-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -311,6 +320,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     });
 
     it("should contain input elements with class name 'form-input' and 'checked' attribute that indicates the current 'checked' state of widgete", () => {
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

@@ -1,26 +1,29 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
-
 import { ActivatedRoute } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import {
+  FeatureLevelDirective,
+  I18nTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FocusDirective,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
-import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -28,7 +31,10 @@ import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 
@@ -36,7 +42,12 @@ const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    UrlTestingModule,
+  ],
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -45,7 +56,12 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    UrlTestingModule,
+  ],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -54,18 +70,22 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    UrlTestingModule,
+  ],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
+class MockConfiguratorCommonsService {
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
+  updateConfiguration(): void {}
 }
 
 let showRequiredErrorMessage: boolean;
@@ -193,32 +213,24 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       values,
     };
 
-    fixture.detectChanges();
     return component;
   }
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-        ConfiguratorShowMoreComponent,
-        MockProductCardComponent,
-        MockConfiguratorAttributeQuantityComponent,
-        MockConfiguratorPriceComponent,
-        MockFocusDirective,
-        MockFeatureLevelDirective,
-      ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
-        UrlTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        ConfiguratorShowMoreComponent,
       ],
-
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
@@ -232,8 +244,25 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       .overrideComponent(
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
+          remove: {
+            imports: [
+              ConfiguratorAttributeProductCardComponent,
+              ConfiguratorAttributeQuantityComponent,
+              ConfiguratorPriceComponent,
+              FocusDirective,
+              FeatureLevelDirective,
+              TranslatePipe,
+            ],
+          },
+          add: {
+            imports: [
+              MockProductCardComponent,
+              MockConfiguratorAttributeQuantityComponent,
+              MockConfiguratorPriceComponent,
+              KeyboardFocusTestingModule,
+              MockFeatureLevelDirective,
+              I18nTestingModule,
+            ],
             providers: [
               {
                 provide: ConfiguratorAttributeProductCardComponent,
@@ -247,15 +276,23 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           },
         }
       )
+      .overrideComponent(
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        }
+      )
       .compileComponents();
-  }));
+  });
 
   afterEach(() => {
+    fixture?.destroy();
     document.body.removeChild(htmlElem);
   });
 
   it('should create', () => {
     createComponentWithData();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -266,6 +303,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   it('should render an empty component in case showRequiredErrorMessage$ is `false`', () => {
     createComponentWithData(false).ngOnInit();
+    fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
@@ -280,7 +318,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   it('should show product card when product selected', () => {
     createComponentWithData();
-    component.selectionValue = values[1];
+    // values[0] is retract and selected=true; values[1] is non-retract and selected=true
+    // Make values[0] unselected so ngOnInit picks values[1] as the selection
+    values[0].selected = false;
+    component.attribute = { ...component.attribute, values };
     fixture.detectChanges();
 
     const card = htmlElem.querySelector(
@@ -335,6 +376,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
     describe('Accessibility', () => {
       it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -349,6 +391,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       });
 
       it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -361,6 +404,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       });
 
       it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -394,8 +438,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     });
 
     it('should return `true` in case value is not `###RETRACT_VALUE_CODE###`', () => {
-      component.selectionValue = values[1];
       fixture.detectChanges();
+      component.selectionValue = values[1];
       expect(component.isNotRetractValue()).toBe(true);
     });
   });

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,12 @@ import { UnitAssignedApproverListComponent } from './assigned/unit-assigned-appr
 import { UnitApproverListComponent } from './unit-approver-list.component';
 
 @NgModule({
-  imports: [I18nModule, RouterModule, SubListModule],
-  declarations: [UnitApproverListComponent, UnitAssignedApproverListComponent],
+  imports: [
+    I18nModule,
+    RouterModule,
+    SubListModule,
+    UnitApproverListComponent,
+    UnitAssignedApproverListComponent,
+  ],
 })
 export class UnitApproverListModule {}

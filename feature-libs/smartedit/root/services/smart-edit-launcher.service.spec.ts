@@ -1,10 +1,15 @@
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
+import {
+  FeatureModulesService,
+  ScriptLoader,
+  WindowRef,
+} from '@spartacus/core';
+import { of } from 'rxjs';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
-import { of } from 'rxjs';
 
 class MockLocation {
   path() {
@@ -26,14 +31,17 @@ describe('SmartEditLauncherService', () => {
   let location: Location;
   let scriptLoader: ScriptLoader;
   let featureModules: FeatureModulesService;
+  let windowRef: WindowRef;
 
   beforeEach(() => {
+    sessionStorage.clear();
     TestBed.configureTestingModule({
       providers: [
         { provide: Location, useClass: MockLocation },
         { provide: SmartEditConfig, useValue: defaultSmartEditConfig },
         { provide: ScriptLoader, useClass: MockScriptLoader },
         { provide: FeatureModulesService, useClass: MockFeatureModulesService },
+        { provide: WindowRef, useClass: MockWinRef },
       ],
     });
 
@@ -41,6 +49,11 @@ describe('SmartEditLauncherService', () => {
     location = TestBed.inject(Location);
     scriptLoader = TestBed.inject(ScriptLoader);
     featureModules = TestBed.inject(FeatureModulesService);
+    windowRef = TestBed.inject(WindowRef);
+  });
+
+  afterEach(() => {
+    sessionStorage.clear();
   });
 
   it('should be created', () => {
@@ -49,7 +62,7 @@ describe('SmartEditLauncherService', () => {
 
   describe('should get whether Spartacus is launched in SmartEdit', () => {
     it('launched in smartEdit when storefrontPreviewRoute matches, and there is cmsTicketId', () => {
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
       );
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
@@ -57,7 +70,7 @@ describe('SmartEditLauncherService', () => {
     });
 
     it('not launched in smartEdit when storefrontPreviewRoute does not matches', () => {
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/cx-something?cmsTicketId=test-cms-ticket-id'
       );
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
@@ -65,18 +78,57 @@ describe('SmartEditLauncherService', () => {
     });
 
     it('not launched in smartEdit when there is no cmsTicketId', () => {
-      spyOn(location, 'path').and.returnValue('/any/cx-preview');
+      vi.spyOn(location, 'path').mockReturnValue('/any/cx-preview');
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
       expect(launched).toBeFalsy();
+    });
+
+    it('should persist cmsTicketId to sessionStorage on initial SmartEdit launch', () => {
+      vi.spyOn(location, 'path').mockReturnValue(
+        '/any/cx-preview?cmsTicketId=abc123'
+      );
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
+      const launched = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('abc123');
+      expect(smartEditLauncherService.cmsTicketId).toBe('abc123');
+    });
+
+    it('should restore cmsTicketId from sessionStorage when full page redirect occurs after initial launch', () => {
+      vi.spyOn(location, 'path')
+        .mockReturnValueOnce('/any/cx-preview?cmsTicketId=abc123')
+        .mockReturnValueOnce('/any/login/callback?code=auth-code');
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
+      const launched = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('abc123');
+      const launched2 = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched2).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('abc123');
+      expect(smartEditLauncherService.cmsTicketId).toBe('abc123');
+    });
+
+    it('should prefer cmsTicketId from URL over sessionStorage', () => {
+      vi.spyOn(location, 'path')
+        .mockReturnValueOnce('/any/cx-preview?cmsTicketId=abc123')
+        .mockReturnValueOnce('/any/cx-preview?cmsTicketId=def456');
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
+      const launched = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('abc123');
+      const launched2 = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched2).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('def456');
+      expect(smartEditLauncherService.cmsTicketId).toBe('def456');
     });
   });
 
   describe('should lazy load SmartEditModule', () => {
     it('lazy load SmartEditModule', () => {
-      spyOn(location, 'path').and.returnValue(
+      vi.spyOn(location, 'path').mockReturnValue(
         '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
       );
-      spyOn(featureModules, 'resolveFeature').and.callThrough();
+      vi.spyOn(featureModules, 'resolveFeature');
 
       smartEditLauncherService.load();
       expect(featureModules.resolveFeature).toHaveBeenCalledWith('smartEdit');
@@ -84,12 +136,39 @@ describe('SmartEditLauncherService', () => {
   });
 
   it('should be able to load webApplicationInjector.js', () => {
-    spyOn(location, 'path').and.returnValue(
+    vi.spyOn(location, 'path').mockReturnValue(
       '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
     );
-    spyOn(scriptLoader, 'embedScript').and.callThrough();
+    vi.spyOn(scriptLoader, 'embedScript');
 
     smartEditLauncherService.load();
     expect(scriptLoader.embedScript).toHaveBeenCalled();
+  });
+
+  describe('SSR behavior', () => {
+    it('should not read cmsTicketId from sessionStorage when not in browser', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      sessionStorage.setItem('smartedit.cmsTicketId', 'abc123');
+      vi.spyOn(location, 'path').mockReturnValue(
+        '/any/login/callback?code=auth-code'
+      );
+
+      const launched = smartEditLauncherService.isLaunchedInSmartEdit();
+
+      expect(launched).toBeFalsy();
+      expect(smartEditLauncherService.cmsTicketId).toBeUndefined();
+    });
+
+    it('should not store cmsTicketId in sessionStorage when not in browser', () => {
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      vi.spyOn(location, 'path').mockReturnValue(
+        '/any/cx-preview?cmsTicketId=abc123'
+      );
+
+      smartEditLauncherService.isLaunchedInSmartEdit();
+
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
+      expect(smartEditLauncherService.cmsTicketId).toBe('abc123');
+    });
   });
 });

@@ -5,7 +5,6 @@ import { Order, OrderReturnRequestFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderReturnService } from './order-return.service';
-import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = {
   code: '123',
@@ -30,7 +29,7 @@ class MockOrderDetailsService {
 }
 
 class MockOrderReturnRequestService {
-  createOrderReturnRequest = createSpy();
+  createOrderReturnRequest = vi.fn();
   getReturnRequestSuccess() {
     return of(true);
   }
@@ -40,10 +39,10 @@ class MockOrderReturnRequestService {
 }
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 class MockGlobalMessageService {
-  add = createSpy();
+  add = vi.fn();
 }
 
 describe('OrderReturnService', () => {

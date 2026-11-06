@@ -10,13 +10,12 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AsmCustomer360Connector } from '../connectors';
 
-import { AsmCustomer360Service } from './asm-customer-360.service';
 import { Component } from '@angular/core';
+import { AsmCustomer360Service } from './asm-customer-360.service';
 
 @Component({
   selector: 'cx-dummy',
   template: '<div>This is a dummy component</div>',
-  standalone: false,
 })
 export class DummyComponent {}
 
@@ -70,7 +69,7 @@ describe('Asm360Service', () => {
     });
 
     asmCustomer360Connector = TestBed.inject(AsmCustomer360Connector);
-    spyOn(asmCustomer360Connector, 'getAsmCustomer360Data').and.callThrough();
+    vi.spyOn(asmCustomer360Connector, 'getAsmCustomer360Data');
 
     service = TestBed.inject(AsmCustomer360Service);
   });

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -98,6 +98,7 @@ export const b2bAccountShipToUser: SampleUser = {
   email: 'powertools-test-user-with-orders@sap.cx.com',
   password: 'pw4all',
   fullName: 'Akiro Nakamura',
+  addressName: 'Mr. Akiro Nakamura',
   address: {
     city: 'Chicago',
     line1: '999 South Wacker Drive',

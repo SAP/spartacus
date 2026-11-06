@@ -44,7 +44,6 @@ describe('CmsTicketInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: SmartEditLauncherService,
@@ -91,7 +90,7 @@ describe('CmsTicketInterceptor', () => {
   it('should add parameters only for cms requests: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 
@@ -112,7 +111,7 @@ describe('CmsTicketInterceptor', () => {
   it('should not add parameters to other requests: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 
@@ -132,7 +131,7 @@ describe('CmsTicketInterceptor', () => {
   it('should add parameters for product requests: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 
@@ -153,7 +152,7 @@ describe('CmsTicketInterceptor', () => {
   it('should add parameters for productList requests: cmsTicketId, categoryCode', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 
@@ -175,14 +174,14 @@ describe('CmsTicketInterceptor', () => {
   it('should add only one parameter for productList requests when pageContext is partial: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(routingService, 'getPageContext').and.returnValue(
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
         of({
           ...mockPageContext,
           id: '',
         })
       );
 
-      spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
+      vi.spyOn(service, 'cmsTicketId', 'get').mockReturnValue(
         'mockCmsTicketId'
       );
 

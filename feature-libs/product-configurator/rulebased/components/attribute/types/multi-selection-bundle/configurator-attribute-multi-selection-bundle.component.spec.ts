@@ -5,18 +5,32 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  CxDatePipe,
+  FeatureConfigService,
+  I18nTestingModule,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -24,13 +38,16 @@ import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockProductCardComponent {
   @Input()
@@ -40,7 +57,7 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -50,7 +67,7 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -66,6 +83,9 @@ function getSelected(
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 class MockActivatedRoute {
@@ -106,21 +126,13 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     return value;
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        UrlTestingModule,
         ReactiveFormsModule,
-        MediaModule,
-      ],
-      declarations: [
         ConfiguratorAttributeMultiSelectionBundleComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
-        MockProductCardComponent,
-        MockConfiguratorAttributeQuantityComponent,
-        MockConfiguratorPriceComponent,
       ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
@@ -136,11 +148,46 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
+        ...provideMockFeatureToggles({
+          productConfiguratorConsolidatedButtonDisabling: true,
+        }),
       ],
     })
+      .overrideProvider(FeatureConfigService, {
+        useFactory: () => {
+          const ctrl = TestBed.inject(
+            MockFeatureTogglesController
+          ) as unknown as Record<string, unknown>;
+          return {
+            isEnabled: (feature: string) => {
+              const negated = feature.startsWith('!');
+              const key = negated ? feature.slice(1) : feature;
+              const val = !!ctrl[key];
+              return negated ? !val : val;
+            },
+            isLevel: () => false,
+          };
+        },
+      })
       .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            ConfiguratorAttributeProductCardComponent,
+            ConfiguratorAttributeQuantityComponent,
+            ConfiguratorPriceComponent,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            UrlTestingModule,
+            MockProductCardComponent,
+            MockConfiguratorAttributeQuantityComponent,
+            MockConfiguratorPriceComponent,
+          ],
           providers: [
             {
               provide: ConfiguratorAttributeProductCardComponent,
@@ -149,8 +196,11 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           ],
         },
       })
+      .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     const values: Configurator.Value[] = [
@@ -207,11 +257,10 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       groupId: 'testGroup',
       values: values,
     };
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -236,10 +285,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call facade update onChangeValueQuantity', () => {
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     component.ngOnInit();
 
@@ -268,10 +314,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call facade update on event onDeselect', () => {
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     component.ngOnInit();
 
@@ -315,10 +358,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call selectionChange on event onSelect', () => {
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
 
     component.ngOnInit();
 
@@ -361,11 +401,37 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     );
   });
 
+  it('should not fail on a subsequent selection when the values got frozen after a previous round trip (e.g. CPQ API V2 not re-creating the attribute)', () => {
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
+    component.ngOnInit();
+
+    // Simulates the NgRx runtime deep-freezing the values that were handed
+    // over into the dispatched action on a previous round trip.
+    component.multipleSelectionValues.forEach((value) => Object.freeze(value));
+    Object.freeze(component.multipleSelectionValues);
+
+    expect(() => component.onSelect('3333')).not.toThrow();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
+  });
+
+  it('should not fail on a quantity update when the values got frozen after a previous round trip', () => {
+    component.ngOnInit();
+
+    component.multipleSelectionValues.forEach((value) => Object.freeze(value));
+    Object.freeze(component.multipleSelectionValues);
+
+    expect(() =>
+      component['updateMultipleSelectionValuesQuantity']({
+        valueCode: '1111',
+        quantity: 3,
+      })
+    ).not.toThrow();
+  });
+
   it('should call facade update onDeselectAll', () => {
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
+    vi.spyOn(component['configuratorCommonsService'], 'updateConfiguration');
     component.ngOnInit();
     component.onDeselectAll();
     expect(
@@ -374,13 +440,13 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   });
 
   it('should call onHandleAttributeQuantity of event onChangeAttributeQuantity', () => {
-    spyOn<any>(component, 'onHandleAttributeQuantity');
+    vi.spyOn<any>(component, 'onHandleAttributeQuantity');
     component.onChangeAttributeQuantity(2);
     expect(component['onHandleAttributeQuantity']).toHaveBeenCalled();
   });
 
   it('should call onDeselectAll of event onChangeAttributeQuantity', () => {
-    spyOn(component, 'onDeselectAll');
+    vi.spyOn(component, 'onDeselectAll');
     component.onChangeAttributeQuantity(0);
     expect(component.onDeselectAll).toHaveBeenCalled();
   });
@@ -452,25 +518,40 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     it('should be able to cope with no values', () => {
       component.attribute.values = undefined;
       const options = component.extractProductCardParameters(
-        false,
         true,
         { valueCode: 'A' },
         1
       );
       expect(options.itemCount).toBe(0);
-      expect(options.disableAllButtons).toBe(false);
       expect(options.hideRemoveButton).toBe(true);
     });
 
     it('should be able to handle null values for boolean attributes', () => {
       const options = component.extractProductCardParameters(
         null,
-        null,
+        { valueCode: 'A' },
+        1
+      );
+      expect(options.hideRemoveButton).toBe(false);
+    });
+
+    it('should default disableAllButtons to false when omitted (toggle on path)', () => {
+      const options = component.extractProductCardParameters(
+        false,
         { valueCode: 'A' },
         1
       );
       expect(options.disableAllButtons).toBe(false);
-      expect(options.hideRemoveButton).toBe(false);
+    });
+
+    it('should pass through disableAllButtons when provided (toggle off path)', () => {
+      const options = component.extractProductCardParameters(
+        false,
+        { valueCode: 'A' },
+        1,
+        true
+      );
+      expect(options.disableAllButtons).toBe(true);
     });
   });
 
@@ -494,6 +575,76 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           quantity: 1,
         })
       ).toBeUndefined();
+    });
+  });
+
+  describe('productConfiguratorConsolidatedButtonDisabling feature toggle', () => {
+    let featureToggles: MockFeatureTogglesController;
+
+    function initComponentWithToggle(toggleEnabled: boolean): void {
+      featureToggles.set(
+        'productConfiguratorConsolidatedButtonDisabling',
+        toggleEnabled
+      );
+      fixture = TestBed.createComponent(
+        ConfiguratorAttributeMultiSelectionBundleComponent
+      );
+      component = fixture.componentInstance;
+      htmlElem = fixture.nativeElement;
+      component.ownerKey = 'theOwnerKey';
+      component.attribute = {
+        name: 'attributeName',
+        attrCode: 1111,
+        uiType: Configurator.UiType.CHECKBOXLIST_PRODUCT,
+        required: true,
+        groupId: 'testGroup',
+        values: [
+          createValue(
+            '1111 Description',
+            [createImage('url', 'alt')],
+            'valueName',
+            1,
+            true,
+            '1111',
+            '1111Display'
+          ),
+        ],
+      };
+      // Simulate a running round trip so the (toggle-off) loading-based button
+      // disabling would kick in.
+      component.loading$.next(true);
+      component.ngOnInit();
+      fixture.detectChanges();
+    }
+
+    function getRenderedProductCardOptions(): ConfiguratorAttributeProductCardComponentOptions {
+      return fixture.debugElement.query(By.directive(MockProductCardComponent))
+        .componentInstance.productCardOptions;
+    }
+
+    beforeEach(() => {
+      featureToggles = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    it('should render exactly one product card per value regardless of the active toggle branch', () => {
+      initComponentWithToggle(true);
+
+      expect(
+        htmlElem.querySelectorAll('cx-configurator-attribute-product-card')
+          .length
+      ).toBe(1);
+    });
+
+    it('should not disable the buttons based on the loading state when the toggle is enabled', () => {
+      initComponentWithToggle(true);
+
+      expect(getRenderedProductCardOptions().disableAllButtons).toBe(false);
+    });
+
+    it('should disable the buttons based on the loading state when the toggle is disabled', () => {
+      initComponentWithToggle(false);
+
+      expect(getRenderedProductCardOptions().disableAllButtons).toBe(true);
     });
   });
 });

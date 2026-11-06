@@ -1,34 +1,33 @@
-import { Component, Directive, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
-  FocusConfig,
-  ICON_TYPE,
-  IconLoaderService,
-  IconModule,
+  FocusDirective,
+  IconComponent,
+  IconTestingModule,
   KeyboardFocusService,
+  KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
-
-export class MockIconFontLoaderService {
-  getStyleClasses(_iconType: ICON_TYPE): void {}
-  addLinkResource(): void {}
-  getHtml(_iconType: ICON_TYPE): void {}
-  getFlipDirection(): void {}
-}
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
@@ -59,18 +58,10 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
-export class MockKeyboardFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
-}
-
 @Component({
   selector: 'cx-configurator-group',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
@@ -93,17 +84,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let focusService: KeyboardFocusService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [
-        MockConfiguratorDefaultFormComponent,
-        ConfiguratorConflictSolverDialogComponent,
-        MockKeyboardFocusDirective,
-        MockFeatureDirective,
-      ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorConflictSolverDialogComponent],
       providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
@@ -114,8 +98,30 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ConfiguratorConflictSolverDialogComponent, {
+        remove: {
+          imports: [
+            ConfiguratorGroupComponent,
+            FocusDirective,
+            FeatureDirective,
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            IconTestingModule,
+            KeyboardFocusTestingModule,
+            MockFeatureDirective,
+            MockConfiguratorDefaultFormComponent,
+          ],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -123,30 +129,24 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
 
-    spyOn(
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'scrollToConfigurationElement'
-    ).and.callThrough();
+    );
 
-    spyOn(
-      configuratorStorefrontUtilsService,
-      'focusFirstAttribute'
-    ).and.callThrough();
+    vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstAttribute');
 
-    spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
+    vi.spyOn(configuratorCommonsService, 'updateConfiguration');
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
 
     focusService = TestBed.inject(KeyboardFocusService);
   });
@@ -157,6 +157,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   describe('Rendering', () => {
     it('should render a conflict solver dialog correctly', () => {
+      fixture.detectChanges();
       expect(component).toBeTruthy();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -211,7 +212,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         expect,
         htmlElem,
         '.cx-msg-warning',
-        'configurator.header.conflictWarning'
+        'ERROR configurator.header.conflictWarning'
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -224,6 +225,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   describe('init', () => {
     it('should clear persisted focus key', () => {
+      fixture.detectChanges();
       focusService.set('key');
       component.init(NEVER, NEVER);
       expect(focusService.get()).toBeUndefined();
@@ -231,6 +233,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   });
   describe('dismissModal', () => {
     it('should close dialog when dismissModal is called', () => {
+      fixture.detectChanges();
       const reason = 'Close conflict solver dialog';
       component.ngOnInit();
       component.dismissModal(reason);
@@ -245,6 +248,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   });
 
   describe('Accessibility', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it("should contain action button element with class name 'close' and 'aria-label' attribute that indicates the text for close button", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

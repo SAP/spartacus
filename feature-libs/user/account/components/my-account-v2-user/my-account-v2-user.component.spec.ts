@@ -1,34 +1,29 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   AuthService,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
   User,
 } from '@spartacus/core';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { Observable, of } from 'rxjs';
 import { UserAccountFacade } from '../../root/facade';
 import { MyAccountV2UserComponent } from './my-account-v2-user.component';
-import createSpy = jasmine.createSpy;
 
 class MockAuthService {
-  login = createSpy();
+  login = vi.fn();
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
   }
   isUsingASMClient(): Observable<boolean> {
     return of(false);
   }
-}
-
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
-class MockUrlPipe implements PipeTransform {
-  transform(): void {}
 }
 
 const mockUserDetails: User = {
@@ -40,7 +35,7 @@ const mockUserDetails: User = {
 };
 
 class MockRoutingService {
-  go = createSpy('go');
+  go = vi.fn();
 }
 class MockUserAccountFacade {
   get(): Observable<User> {
@@ -55,9 +50,9 @@ describe('MyAccountV2UserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [MyAccountV2UserComponent, MockUrlPipe],
+      imports: [MyAccountV2UserComponent],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -74,7 +69,12 @@ describe('MyAccountV2UserComponent', () => {
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: AuthService, useClass: MockAuthService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2UserComponent, {
+        remove: { imports: [TranslatePipe, UrlPipe] },
+        add: { imports: [MockTranslatePipe, MockUrlPipe] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
 <fieldset role="radiogroup">
-  <ng-container *ngTemplateOutlet="displayServiceDelivery"></ng-container>
+  <ng-container *ngTemplateOutlet="displayServiceDelivery" />
   <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'serviceOrderCheckout.productDeliveryOptions' | cxTranslate }}
   </legend>
@@ -52,8 +52,7 @@
         [cxOutletContext]="{
           item: activeCartFacade.getActive() | async,
         }"
-      >
-      </ng-template>
+      />
     </div>
   </ng-container>
 </fieldset>
@@ -69,17 +68,16 @@
       items: activeCartFacade.getDeliveryEntries() | async,
       readonly: true,
     }"
-  >
-  </ng-template>
+  />
 </ng-container>
 
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>
 
-<ng-container cxInnerComponentsHost></ng-container>
+<ng-container cxInnerComponentsHost />
 
 <div class="row cx-checkout-btns">
   <div class="col-md-12 col-lg-6">
@@ -144,7 +142,7 @@
             displayDeliveryMode;
             context: { content: serviceDeliveryConfig }
           "
-        ></ng-container>
+        />
       </div>
     </div>
   </ng-container>

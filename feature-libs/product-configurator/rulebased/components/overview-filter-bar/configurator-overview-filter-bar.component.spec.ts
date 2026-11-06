@@ -1,16 +1,15 @@
-import { Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -51,33 +50,19 @@ function initTestData() {
   };
 }
 function initMocks() {
-  mockConfigCommonsService = jasmine.createSpyObj([
-    'updateConfigurationOverview',
-  ]);
+  mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
 }
 
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
 class MockConfigUtilsService {
-  getElement(): void {}
+  getElementById(): void {}
 }
 
 describe('ConfiguratorOverviewFilterBarComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initTestData();
     initMocks();
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorOverviewFilterBarComponent,
-        MockCxIconComponent,
-      ],
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorOverviewFilterBarComponent],
       providers: [
         {
           provide: ConfiguratorCommonsService,
@@ -88,21 +73,28 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
           useClass: MockConfigUtilsService,
         },
       ],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(ConfiguratorOverviewFilterBarComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, IconComponent] },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
+        },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorOverviewFilterBarComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.config = ovConfig;
-    fixture.detectChanges();
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
   });
   describe('in a component test environment', () => {
     it('should create component', () => {
+      fixture.detectChanges();
       expect(component).toBeDefined();
     });
 
@@ -114,7 +106,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.byPrice'
+        'configurator.overviewFilter.byPrice CLOSE'
       );
     });
 
@@ -126,7 +118,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.mySelections'
+        'configurator.overviewFilter.mySelections CLOSE'
       );
     });
 
@@ -138,7 +130,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'Group 1',
+        'Group 1 CLOSE',
         0
       );
 
@@ -146,7 +138,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'Group 2',
+        'Group 2 CLOSE',
         1
       );
     });
@@ -160,7 +152,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.removeAll',
+        'configurator.overviewFilter.removeAll CLOSE',
         2
       );
     });
@@ -188,7 +180,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       let buttonEl = fixture.debugElement.query(
         By.css('#cx-overview-filter-applied-USER_INPUT')
       );
-      spyOn(component, 'onAttrFilterRemove');
+      vi.spyOn(component, 'onAttrFilterRemove');
 
       const event = new KeyboardEvent('keydown', {
         key: 'Delete',
@@ -418,31 +410,30 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     });
 
     describe('focusElementById', () => {
-      it('should call getElement method of ConfiguratorStorefrontUtilsService using # as prefix', () => {
-        spyOn(
-          configuratorStorefrontUtilsService,
-          'getElement'
-        ).and.callThrough();
+      it('should call getElementById method of ConfiguratorStorefrontUtilsService with the plain id', () => {
+        vi.spyOn(configuratorStorefrontUtilsService, 'getElementById');
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(
-          configuratorStorefrontUtilsService.getElement
-        ).toHaveBeenCalledWith('#' + FIRST_FILTER_CHECKBOX_ID);
+          configuratorStorefrontUtilsService.getElementById
+        ).toHaveBeenCalledWith(FIRST_FILTER_CHECKBOX_ID);
       });
 
       it('should call focus method of html element', () => {
-        let mockElement = jasmine.createSpyObj('HTMLElement', ['focus']);
-        spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-          mockElement
-        );
+        let mockElement = { focus: vi.fn() };
+        vi.spyOn(
+          configuratorStorefrontUtilsService,
+          'getElementById'
+        ).mockReturnValue(mockElement);
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(mockElement.focus).toHaveBeenCalled();
       });
 
-      it('should not call focus method if getElement returns null', () => {
-        let mockElement = jasmine.createSpyObj('HTMLElement', ['focus']);
-        spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-          null
-        );
+      it('should not call focus method if getElementById returns undefined', () => {
+        let mockElement = { focus: vi.fn() };
+        vi.spyOn(
+          configuratorStorefrontUtilsService,
+          'getElementById'
+        ).mockReturnValue(undefined);
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(mockElement.focus).not.toHaveBeenCalled();
       });

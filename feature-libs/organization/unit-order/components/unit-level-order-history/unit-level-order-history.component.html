@@ -9,7 +9,7 @@
 
       <cx-unit-level-order-history-filter
         (filterListEvent)="filterChange($event)"
-      ></cx-unit-level-order-history-filter>
+      />
 
       <!-- BODY -->
       <div class="cx-unit-level-order-history-body">
@@ -30,10 +30,10 @@
                 placeholder="{{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}"
                 [ariaLabel]="'unitLevelOrderHistory.sortOrders' | cxTranslate"
                 ariaControls="order-history-table"
-              ></cx-sorting>
+              />
             </label>
             <div class="cx-unit-level-order-history-total-result">
-              <cx-total [pagination]="orderHistory?.pagination"></cx-total>
+              <cx-total [pagination]="orderHistory?.pagination" />
             </div>
             <div
               *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
@@ -43,7 +43,7 @@
                 [pagination]="orderHistory?.pagination"
                 (viewPageEvent)="pageChange($event)"
                 paginationID="pagination-top"
-              ></cx-pagination>
+              />
             </div>
           </div>
           <!-- TABLE -->
@@ -51,33 +51,7 @@
             id="order-history-table"
             class="table cx-unit-level-order-history-table"
           >
-            <thead
-              *cxFeature="'!a11yTableHeaderReadout'"
-              class="cx-unit-level-order-history-thead-mobile"
-            >
-              <th scope="col">
-                {{ 'unitLevelOrderHistory.orderId' | cxTranslate }}
-              </th>
-              <th scope="col">
-                {{ 'unitLevelOrderHistory.date' | cxTranslate }}
-              </th>
-              <th scope="col">
-                {{ 'unitLevelOrderHistory.status' | cxTranslate }}
-              </th>
-              <th scope="col">
-                {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
-              </th>
-              <th scope="col">
-                {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
-              </th>
-              <th scope="col">
-                {{ 'unitLevelOrderHistory.total' | cxTranslate }}
-              </th>
-            </thead>
-            <thead
-              *cxFeature="'a11yTableHeaderReadout'"
-              class="cx-unit-level-order-history-thead-mobile"
-            >
+            <thead class="cx-unit-level-order-history-thead-mobile">
               <tr>
                 <th scope="col">
                   {{ 'unitLevelOrderHistory.orderId' | cxTranslate }}
@@ -169,18 +143,7 @@
                     class="cx-unit-level-order-history-value"
                   >
                     {{ order?.orgCustomer?.name }}
-                    <ng-container
-                      *cxFeature="'a11yTruncatedTextUnitLevelOrderHistory'"
-                    >
-                      <span>{{ order?.orgCustomer?.email }}</span>
-                    </ng-container>
-                    <ng-container
-                      *cxFeature="'!a11yTruncatedTextUnitLevelOrderHistory'"
-                    >
-                      <span class="text-ellipsis">{{
-                        order?.orgCustomer?.email
-                      }}</span>
-                    </ng-container>
+                    <span>{{ order?.orgCustomer?.email }}</span>
                   </a>
                 </td>
                 <td class="cx-unit-level-order-history-unit">
@@ -220,7 +183,9 @@
           </table>
           <!-- Select Form and Pagination Bottom -->
           <div class="cx-unit-level-order-history-sort bottom">
-            <label class="cx-unit-level-order-history-form-group form-group"
+            <label
+              class="cx-unit-level-order-history-form-group form-group"
+              *cxFeature="'showSortFieldsOnlyAtTop'"
               ><span>
                 {{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}
               </span>
@@ -232,10 +197,10 @@
                 placeholder="{{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}"
                 [ariaLabel]="'unitLevelOrderHistory.sortOrders' | cxTranslate"
                 ariaControls="order-history-table"
-              ></cx-sorting>
+              />
             </label>
             <div class="cx-unit-level-order-history-total-result">
-              <cx-total [pagination]="orderHistory?.pagination"></cx-total>
+              <cx-total [pagination]="orderHistory?.pagination" />
             </div>
             <div
               *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
@@ -245,7 +210,7 @@
                 [pagination]="orderHistory?.pagination"
                 (viewPageEvent)="pageChange($event)"
                 paginationID="pagination-bottom"
-              ></cx-pagination>
+              />
             </div>
           </div>
         </ng-container>

@@ -1,17 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
@@ -25,7 +27,9 @@ import {
   HttpErrorModel,
   isNotUndefined,
   OccHttpErrorType,
+  TranslatePipe,
 } from '@spartacus/core';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -39,7 +43,7 @@ import {
   selector: 'cx-payment-type',
   templateUrl: './checkout-payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class CheckoutPaymentTypeComponent {
   @ViewChild('poNumber', { static: false })
@@ -134,6 +138,11 @@ export class CheckoutPaymentTypeComponent {
       distinctUntilChanged()
     );
 
+  activeCartFacade: ActiveCartFacade = inject(ActiveCartFacade);
+  isPONumberEditable$: Observable<boolean> = this.activeCartFacade
+    .getActive()
+    .pipe(map((cart) => !cart?.quotePurchaseOrderNumber));
+
   constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
@@ -149,7 +158,15 @@ export class CheckoutPaymentTypeComponent {
       .setPaymentType(code, this.poNumberInputElement.nativeElement.value)
       .subscribe({
         complete: () => this.onSuccess(),
-        error: () => this.onError(),
+        error: (error) => {
+          if (error.details?.[0]?.message) {
+            this.globalMessageService.add(
+              error.details?.[0]?.message,
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+          }
+          this.onError();
+        },
       });
   }
 
@@ -171,7 +188,15 @@ export class CheckoutPaymentTypeComponent {
       .subscribe({
         // we don't call onSuccess here, because it can cause a spinner flickering
         complete: () => this.checkoutStepService.next(this.activatedRoute),
-        error: () => this.onError(),
+        error: (error) => {
+          if (error.details?.[0]?.message) {
+            this.globalMessageService.add(
+              error.details?.[0]?.message,
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+          }
+          this.onError();
+        },
       });
   }
 

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@
 
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 
-// NOTE: The rule will be available in ESLint configs as "@nrwl/nx/workspace/use-provide-default-feature-toggles"
+// NOTE: The rule will be available in ESLint configs as "@nx/workspace-use-provide-default-feature-toggles"
 export const RULE_NAME = 'use-provide-default-feature-toggles';
 
 export const rule = ESLintUtils.RuleCreator(() => __filename)({

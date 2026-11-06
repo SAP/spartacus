@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`createAppModule should create empty app.module.ts 1`] = `
+"
+import { NgModule } from '@angular/core';
+
+@NgModule({})
+export class AppModule {}
+"
+`;

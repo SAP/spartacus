@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,14 +17,16 @@ const resolveEnvPlugin: Plugin = {
           env[key] = true;
         } else if (process.env[key] === 'false') {
           env[key] = false;
-        } else env[key] = process.env[key];
+        } else {
+          env[key] = process.env[key];
+        }
       }
     });
     build.initialOptions.define = {
       ...build.initialOptions.define,
       'buildProcess.env': JSON.stringify(env),
     };
-    console.log('env=', env);
+    console.log('env=', env); // eslint-disable-line no-console
   },
 };
 

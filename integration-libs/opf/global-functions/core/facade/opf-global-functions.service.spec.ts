@@ -1,33 +1,48 @@
 /*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
   Component,
-  ComponentRef,
   ElementRef,
   InjectionToken,
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { WindowRef } from '@spartacus/core';
-import { defaultOpfErrorDialogOptions } from '@spartacus/opf/base/root';
+import { RoutingService, WindowRef } from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  CartAccessCodeFacade,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
+import {
+  OpfMetadataModel,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
-import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
-import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
-import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
+import { OpfCtaFacade } from '@spartacus/opf/cta/root';
+import {
+  OpfPaymentEventsService,
+  OpfPaymentFacade,
+} from '@spartacus/opf/payment/root';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
+import { OpfGlobalFunctionsCheckoutDomainRegistrationsService } from '../services/domains/checkout/opf-global-functions-checkout-domain-registrations.service';
+import { OpfGlobalFunctionsGlobalDomainRegistrationsService } from '../services/domains/global/opf-global-functions-global-domain-registrations.service';
+import { OpfGlobalFunctionsRedirectDomainRegistrationsService } from '../services/domains/redirect/opf-global-functions-redirect-domain-registrations.service';
+import { facadeProviders } from './facade-providers';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
+
 export const WINDOW = new InjectionToken<Window>('window');
-@Component({
-  template: '',
-  standalone: false,
-})
+
+@Component({ template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
+
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: any) {}
   openDialogAndSubscribe() {
@@ -44,27 +59,104 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 
-describe('OpfGlobalFunctionsService', () => {
-  let service: OpfGlobalFunctionsService;
-  let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
-  let opfPaymentEventsServiceMock: jasmine.SpyObj<OpfPaymentEventsService>;
-  let windowRef: WindowRef;
-  opfPaymentFacadeMock = jasmine.createSpyObj('OpfPaymentFacade', [
+class MockRoutingService implements Partial<RoutingService> {
+  getFullUrl(_options?: any): string {
+    return 'https://test-url';
+  }
+}
+
+class MockOpfCtaFacade implements Partial<OpfCtaFacade> {}
+
+class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
+  opfMetadataState = new BehaviorSubject<OpfMetadataModel>({
+    termsAndConditionsChecked: false,
+    selectedPaymentOptionId: undefined,
+    isPaymentInProgress: false,
+    opfPaymentSessionId: undefined,
+    isTermsAndConditionsAlertClosed: false,
+    is3DSRedirect: false,
+    opf3DSRedirectReturnPath: undefined,
+  });
+  updateOpfMetadata = jasmine
+    .createSpy('updateOpfMetadata')
+    .and.callFake((payload: Partial<OpfMetadataModel>) => {
+      this.opfMetadataState.next({
+        ...this.opfMetadataState.value,
+        ...payload,
+      });
+    });
+  getOpfMetadataState = jasmine
+    .createSpy('getOpfMetadataState')
+    .and.returnValue(this.opfMetadataState.asObservable());
+}
+
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  getActiveCartId = jasmine
+    .createSpy('getActiveCartId')
+    .and.returnValue(of('test-cart-id'));
+  getActive = jasmine.createSpy('getActive').and.returnValue(of({} as any));
+  takeActive = jasmine.createSpy('takeActive').and.returnValue(of({} as any));
+  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
+  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
+}
+
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  getCart = jasmine.createSpy('getCart').and.returnValue(of({} as any));
+  reloadCart = jasmine.createSpy('reloadCart');
+}
+
+class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
+  getCartAccessCode(_userId: string, _cartId: string) {
+    return of('test-access-code');
+  }
+}
+
+class MockOpfQuickBuyTransactionService
+  implements Partial<OpfQuickBuyTransactionService> {}
+
+function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
+  return jasmine.createSpyObj('OpfPaymentFacade', [
     'submitPayment',
     'submitCompletePayment',
     'getActiveConfigurationsState',
+    'verifyPayment',
+    'initiatePayment',
+    'updatePaymentTransaction',
   ]);
-  opfPaymentEventsServiceMock = jasmine.createSpyObj(
-    'OpfPaymentEventsService',
-    ['emitReinitiatePaymentEvent']
-  );
-  let componentRef: ComponentRef<TestContainerComponent>;
-  let launchDialogService: LaunchDialogService;
+}
+
+function createOpfPaymentEventsServiceMock(): jasmine.SpyObj<OpfPaymentEventsService> {
+  return jasmine.createSpyObj('OpfPaymentEventsService', [
+    'emitReinitiatePaymentEvent',
+  ]);
+}
+
+function getWindowOpfPayments(windowRef: WindowRef, domain: string): any {
+  return (windowRef.nativeWindow as any)?.['Opf']?.['payments']?.[domain];
+}
+
+describe('OpfGlobalFunctionsService', () => {
+  let service: OpfGlobalFunctionsService;
+  let windowRef: WindowRef;
+  let checkoutDomain: OpfGlobalFunctionsCheckoutDomainRegistrationsService;
+  let globalDomain: OpfGlobalFunctionsGlobalDomainRegistrationsService;
+  let redirectDomain: OpfGlobalFunctionsRedirectDomainRegistrationsService;
+
+  const mockPaymentSessionId = 'mockSessionId';
+  const registerInput = {
+    domain: OpfGlobalFunctionsDomain.CHECKOUT,
+    paymentSessionId: mockPaymentSessionId,
+    vcr: {} as ViewContainerRef,
+  };
+
   beforeEach(() => {
+    const opfPaymentFacadeMock = createOpfPaymentFacadeMock();
+    const opfPaymentEventsServiceMock = createOpfPaymentEventsServiceMock();
+
     TestBed.configureTestingModule({
-      declarations: [TestContainerComponent],
+      imports: [TestContainerComponent],
       providers: [
-        OpfGlobalFunctionsService,
+        ...facadeProviders,
         WindowRef,
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
         {
@@ -72,14 +164,31 @@ describe('OpfGlobalFunctionsService', () => {
           useValue: opfPaymentEventsServiceMock,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: OpfCtaFacade, useClass: MockOpfCtaFacade },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        { provide: MultiCartFacade, useClass: MockMultiCartFacade },
+        { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
       ],
     });
     service = TestBed.inject(OpfGlobalFunctionsService);
     windowRef = TestBed.inject(WindowRef);
-    componentRef = TestBed.createComponent(TestContainerComponent).componentRef;
-    launchDialogService = TestBed.inject(LaunchDialogService);
-    opfPaymentEventsServiceMock.emitReinitiatePaymentEvent.and.returnValue(
-      undefined
+    checkoutDomain = TestBed.inject(
+      OpfGlobalFunctionsCheckoutDomainRegistrationsService
+    );
+    globalDomain = TestBed.inject(
+      OpfGlobalFunctionsGlobalDomainRegistrationsService
+    );
+    redirectDomain = TestBed.inject(
+      OpfGlobalFunctionsRedirectDomainRegistrationsService
     );
   });
 
@@ -87,341 +196,111 @@ describe('OpfGlobalFunctionsService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('Global Functions in SSR', () => {
-    const mockPaymentSessionId = 'mockSessionId';
-    let windowOpf: any;
-
-    it('should not register global functions for CHECKOUT in SSR', () => {
-      spyOn<any>(service, 'registerSubmit').and.callThrough();
+  describe('SSR guard', () => {
+    it('should not register global functions in SSR', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
-      service.registerGlobalFunctions({
-        domain: OpfGlobalFunctionsDomain.CHECKOUT,
-        paymentSessionId: mockPaymentSessionId,
-        vcr: {} as ViewContainerRef,
-      });
-      expect(service['registerSubmit']).not.toHaveBeenCalled();
+      spyOn(checkoutDomain, 'registerAll');
+
+      service.registerGlobalFunctions(registerInput);
+
+      expect(checkoutDomain.registerAll).not.toHaveBeenCalled();
     });
 
-    it('should not remove global functions for CHECKOUT in SSR', () => {
-      service.registerGlobalFunctions({
-        domain: OpfGlobalFunctionsDomain.CHECKOUT,
-        paymentSessionId: mockPaymentSessionId,
-        vcr: {} as ViewContainerRef,
-      });
-      windowOpf = windowRef.nativeWindow['Opf'];
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
-      service.unregisterGlobalFunctions(OpfGlobalFunctionsDomain.CHECKOUT);
-      expect(windowOpf['payments']['checkout']['submit']).toBeDefined();
-    });
-  });
-
-  describe('should register global functions for CHECKOUT domain', () => {
-    const mockPaymentSessionId = 'mockSessionId';
-    let windowOpf: any;
-
-    beforeEach(() => {
-      service.registerGlobalFunctions({
-        domain: OpfGlobalFunctionsDomain.CHECKOUT,
-        paymentSessionId: mockPaymentSessionId,
-        vcr: {} as ViewContainerRef,
-      });
-      windowOpf = windowRef.nativeWindow?.['Opf'] as any;
-    });
-
-    it('should register global functions for CHECKOUT', () => {
-      expect(windowOpf['payments']['checkout']['submit']).toBeDefined();
-      expect(
-        windowOpf['payments']['checkout']['throwPaymentError']
-      ).toBeDefined();
-      expect(
-        windowOpf['payments']['checkout']['startLoadIndicator']
-      ).toBeDefined();
-      expect(
-        windowOpf['payments']['checkout']['stopLoadIndicator']
-      ).toBeDefined();
-      expect(
-        windowOpf['payments']['checkout']['reinitiatePaymentForm']
-      ).toBeDefined();
-    });
-
-    it('should handle registerSubmit event', () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
-
-      const submitSuccess = (): void => {};
-      const submitPending = (): void => {};
-      const submitFailure = (): void => {};
-      const additionalData = [
-        { key: 'returnUrl', value: 'https://returnUrl/' },
-        { key: 'allow3DS2', value: 'true' },
-        { key: 'originUrl', value: 'https://originUrl/' },
-      ];
-      const cartId = 'mock-cart';
-
-      windowOpf.payments['checkout'].submit({
-        cartId,
-        additionalData,
-        submitSuccess,
-        submitPending,
-        submitFailure,
-        paymentMethod: OpfQuickBuyProviderType.APPLE_PAY,
-      });
-      expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
-    });
-
-    it('should handle registerSubmit event with submitCancel callback', () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
-
-      const submitSuccess = (): void => {};
-      const submitPending = (): void => {};
-      const submitFailure = (): void => {};
-      const submitCancel = (): void => {};
-      const additionalData = [
-        { key: 'returnUrl', value: 'https://returnUrl/' },
-        { key: 'allow3DS2', value: 'true' },
-        { key: 'originUrl', value: 'https://originUrl/' },
-      ];
-      const cartId = 'mock-cart';
-
-      windowOpf.payments['checkout'].submit({
-        cartId,
-        additionalData,
-        submitSuccess,
-        submitPending,
-        submitFailure,
-        submitCancel,
-        paymentMethod: OpfQuickBuyProviderType.APPLE_PAY,
-      });
-      expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
-      const callArgs =
-        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
-      expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
-    });
-
-    it('should handle registerSubmitComplete event', () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
-
-      const submitSuccess = (): void => {};
-      const submitPending = (): void => {};
-      const submitFailure = (): void => {};
-      const additionalData = [
-        { key: 'returnUrl', value: 'https://returnUrl/' },
-        { key: 'allow3DS2', value: 'true' },
-        { key: 'originUrl', value: 'https://originUrl/' },
-      ];
-      const cartId = 'mock-cart';
-
-      windowOpf.payments['checkout'].submitComplete({
-        cartId,
-        additionalData,
-        submitSuccess,
-        submitPending,
-        submitFailure,
-        paymentMethod: OpfQuickBuyProviderType.APPLE_PAY,
-      });
-      expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
-    });
-
-    it('should handle registerSubmitComplete event with submitCancel callback', () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
-
-      const submitSuccess = (): void => {};
-      const submitPending = (): void => {};
-      const submitFailure = (): void => {};
-      const submitCancel = (): void => {};
-      const additionalData = [
-        { key: 'returnUrl', value: 'https://returnUrl/' },
-        { key: 'allow3DS2', value: 'true' },
-        { key: 'originUrl', value: 'https://originUrl/' },
-      ];
-      const cartId = 'mock-cart';
-
-      windowOpf.payments['checkout'].submitComplete({
-        cartId,
-        additionalData,
-        submitSuccess,
-        submitPending,
-        submitFailure,
-        submitCancel,
-      });
-      expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
-      const callArgs =
-        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
-      expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
-    });
-
-    it('should handle throwPaymentError event', () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-
-      const dialog$: Observable<number> = of(1);
-      const dialogSubscribeSpy = spyOn(dialog$, 'subscribe');
-      spyOn(launchDialogService, 'openDialog').and.returnValue(dialog$);
-
-      windowOpf.payments['checkout'].throwPaymentError(
-        defaultOpfErrorDialogOptions
+    it('should not unregister global functions in SSR', () => {
+      service.registerGlobalFunctions(registerInput);
+      const windowOpf = getWindowOpfPayments(
+        windowRef,
+        OpfGlobalFunctionsDomain.CHECKOUT
       );
-      expect(launchDialogService.openDialog).toHaveBeenCalled();
-      expect(dialogSubscribeSpy).toHaveBeenCalled();
-    });
 
-    it('should handle startLoadIndicator event', () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
-
-      windowOpf.payments['checkout'].startLoadIndicator();
-      expect(launchDialogService.launch).toHaveBeenCalled();
-
-      windowOpf.payments['checkout'].startLoadIndicator();
-      expect(launchDialogService.clear).toHaveBeenCalled();
-    });
-
-    it('should handle stopLoadIndicator event', () => {
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
-
-      windowOpf.payments['checkout'].startLoadIndicator();
-      windowOpf.payments['checkout'].stopLoadIndicator();
-      expect(launchDialogService.clear).toHaveBeenCalled();
-    });
-
-    it('should handle reinitiatePaymentForm event with payment option ID', async () => {
-      const testPaymentOptionId = 123;
-
-      const result = await (
-        windowOpf.payments['checkout'] as any
-      ).reinitiatePaymentForm(testPaymentOptionId);
-
-      expect(
-        opfPaymentEventsServiceMock.emitReinitiatePaymentEvent
-      ).toHaveBeenCalledWith(testPaymentOptionId);
-      expect(result).toBe(true);
-    });
-
-    it('should remove global function for REDIRECT', () => {
-      expect(
-        windowOpf['payments'][OpfGlobalFunctionsDomain.CHECKOUT]
-      ).toBeDefined();
-
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
       service.unregisterGlobalFunctions(OpfGlobalFunctionsDomain.CHECKOUT);
 
-      expect(
-        windowOpf['payments'][OpfGlobalFunctionsDomain.CHECKOUT]
-      ).not.toBeDefined();
+      expect(windowOpf?.['submit']).toBeDefined();
     });
   });
 
-  describe('should register global functions for REDIRECT domain', () => {
-    const mockPaymentSessionId = 'mockSessionId';
-    const paramsMap = [
-      { key: 'key1', value: 'value1' },
-      { key: 'key2', value: 'value2' },
-    ];
-    let windowOpf: any;
+  describe('registerGlobalFunctions', () => {
     beforeEach(() => {
-      service.registerGlobalFunctions({
-        domain: OpfGlobalFunctionsDomain.REDIRECT,
-        paymentSessionId: mockPaymentSessionId,
-        vcr: {} as ViewContainerRef,
-        paramsMap,
-      });
-      windowOpf = windowRef.nativeWindow['Opf'];
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
     });
 
-    it('should handle submitCompleteRedirect event', () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+    it('should delegate CHECKOUT registration to checkout domain service', () => {
+      spyOn(checkoutDomain, 'registerAll').and.callThrough();
 
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
+      service.registerGlobalFunctions(registerInput);
 
-      const submitSuccess = (): void => {};
-      const submitPending = (): void => {};
-      const submitFailure = (): void => {};
-      const additionalData = [
-        { key: 'returnUrl', value: 'https://returnUrl/' },
-        { key: 'allow3DS2', value: 'true' },
-        { key: 'originUrl', value: 'https://originUrl/' },
-      ];
-      const cartId = 'mock-cart';
-
-      windowOpf.payments[
-        OpfGlobalFunctionsDomain.REDIRECT
-      ].submitCompleteRedirect({
-        cartId,
-        additionalData,
-        submitSuccess,
-        submitPending,
-        submitFailure,
-      });
-      expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
-    });
-
-    it('should handle submitCompleteRedirect event with submitCancel callback', () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
-
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
-
-      const submitSuccess = (): void => {};
-      const submitPending = (): void => {};
-      const submitFailure = (): void => {};
-      const submitCancel = (): void => {};
-      const additionalData = [
-        { key: 'returnUrl', value: 'https://returnUrl/' },
-        { key: 'allow3DS2', value: 'true' },
-        { key: 'originUrl', value: 'https://originUrl/' },
-      ];
-      const cartId = 'mock-cart';
-
-      windowOpf.payments[
-        OpfGlobalFunctionsDomain.REDIRECT
-      ].submitCompleteRedirect({
-        cartId,
-        additionalData,
-        submitSuccess,
-        submitPending,
-        submitFailure,
-        submitCancel,
-      });
-      expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
-      const callArgs =
-        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
-      expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
-      expect(callArgs.returnPath).toBe('opfCheckoutPaymentAndReview');
-    });
-
-    it('should handle getRedirectParams event', () => {
-      const redirectParams =
-        windowOpf.payments[
-          OpfGlobalFunctionsDomain.REDIRECT
-        ].getRedirectParams();
-      expect(redirectParams).toEqual(paramsMap);
-    });
-
-    it('should remove global function for REDIRECT', () => {
+      expect(checkoutDomain.registerAll).toHaveBeenCalled();
       expect(
-        windowOpf['payments'][OpfGlobalFunctionsDomain.REDIRECT][
-          'submitCompleteRedirect'
+        getWindowOpfPayments(windowRef, OpfGlobalFunctionsDomain.CHECKOUT)?.[
+          'submit'
         ]
       ).toBeDefined();
+    });
+
+    it('should delegate GLOBAL registration to global domain service', () => {
+      spyOn(globalDomain, 'registerAll').and.callThrough();
+
+      service.registerGlobalFunctions({
+        ...registerInput,
+        domain: OpfGlobalFunctionsDomain.GLOBAL,
+      });
+
+      expect(globalDomain.registerAll).toHaveBeenCalled();
       expect(
-        windowOpf['payments'][OpfGlobalFunctionsDomain.REDIRECT][
+        getWindowOpfPayments(windowRef, OpfGlobalFunctionsDomain.GLOBAL)?.[
+          'getCart'
+        ]
+      ).toBeDefined();
+    });
+
+    it('should delegate REDIRECT registration to redirect domain service', () => {
+      spyOn(redirectDomain, 'registerAll').and.callThrough();
+
+      service.registerGlobalFunctions({
+        ...registerInput,
+        domain: OpfGlobalFunctionsDomain.REDIRECT,
+        paramsMap: [{ key: 'key1', value: 'value1' }],
+      });
+
+      expect(redirectDomain.registerAll).toHaveBeenCalled();
+      expect(
+        getWindowOpfPayments(windowRef, OpfGlobalFunctionsDomain.REDIRECT)?.[
           'getRedirectParams'
         ]
       ).toBeDefined();
+    });
+  });
+
+  describe('unregisterGlobalFunctions', () => {
+    beforeEach(() => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+    });
+
+    it('should remove CHECKOUT domain from window.Opf.payments', () => {
+      service.registerGlobalFunctions(registerInput);
+      expect(
+        getWindowOpfPayments(windowRef, OpfGlobalFunctionsDomain.CHECKOUT)
+      ).toBeDefined();
+
+      service.unregisterGlobalFunctions(OpfGlobalFunctionsDomain.CHECKOUT);
+
+      expect(
+        getWindowOpfPayments(windowRef, OpfGlobalFunctionsDomain.CHECKOUT)
+      ).not.toBeDefined();
+    });
+
+    it('should remove REDIRECT domain from window.Opf.payments', () => {
+      service.registerGlobalFunctions({
+        ...registerInput,
+        domain: OpfGlobalFunctionsDomain.REDIRECT,
+        paramsMap: [],
+      });
 
       service.unregisterGlobalFunctions(OpfGlobalFunctionsDomain.REDIRECT);
 
       expect(
-        windowOpf['payments'][OpfGlobalFunctionsDomain.REDIRECT]
+        getWindowOpfPayments(windowRef, OpfGlobalFunctionsDomain.REDIRECT)
       ).not.toBeDefined();
     });
   });

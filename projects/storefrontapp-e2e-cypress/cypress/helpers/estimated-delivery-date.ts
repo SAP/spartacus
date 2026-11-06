@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ export function checkoutShippingAddress() {
 export function checkoutDeliveryMode() {
   cy.get('[formcontrolname="deliveryModeId"]').eq(0).click();
   cy.get('cx-delivery-mode').within(() => {
-    cy.wait(3000);
+    cy.wait(1000);
     cy.findByText('Continue').click();
   });
 }

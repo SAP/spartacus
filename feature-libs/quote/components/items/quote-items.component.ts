@@ -1,12 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AbstractOrderType, CartOutlets } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  OutletDirective,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   QuoteItemsComponentService,
@@ -29,7 +36,15 @@ import {
 @Component({
   selector: 'cx-quote-items',
   templateUrl: './quote-items.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    IconComponent,
+    AbstractOrderContextDirective,
+    OutletDirective,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class QuoteItemsComponent {
   protected quoteItemsComponentService = inject(QuoteItemsComponentService);

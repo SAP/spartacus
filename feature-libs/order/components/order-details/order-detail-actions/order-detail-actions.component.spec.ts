@@ -1,9 +1,17 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeaturesConfig,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailActionsComponent } from './order-detail-actions.component';
 
@@ -14,10 +22,7 @@ const mockOrder: Order = {
   cancellable: false,
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -28,7 +33,7 @@ describe('OrderDetailActionsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockOrderDetailsService = <OrderDetailsService>{
       getOrderDetails() {
         return of(mockOrder);
@@ -36,7 +41,7 @@ describe('OrderDetailActionsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [OrderDetailActionsComponent, RouterModule.forRoot([])],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         {
@@ -46,11 +51,16 @@ describe('OrderDetailActionsComponent', () => {
           },
         },
       ],
-      declarations: [OrderDetailActionsComponent, MockUrlPipe],
-    }).compileComponents();
-  }));
+    })
+      .overrideComponent(OrderDetailActionsComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, UrlPipe] },
+        add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(() => {
+    mockOrder.returnable = true;
     fixture = TestBed.createComponent(OrderDetailActionsComponent);
     el = fixture.debugElement;
 
@@ -61,14 +71,9 @@ describe('OrderDetailActionsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize ', () => {
+  it('should initialize ', async () => {
     fixture.detectChanges();
-    let order: Order;
-    component.order$
-      .subscribe((value) => {
-        order = value;
-      })
-      .unsubscribe();
+    let order: Order = await firstValueFrom(component.order$);
     expect(order).toEqual(mockOrder);
   });
 

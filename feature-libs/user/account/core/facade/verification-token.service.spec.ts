@@ -9,7 +9,6 @@ import {
   VerificationTokenCreation,
 } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
@@ -23,9 +22,9 @@ const verificationToken: VerificationToken = {
 };
 
 class MockUserAccountConnector implements Partial<UserAccountConnector> {
-  createVerificationToken = createSpy().and.callFake(() =>
-    of(verificationToken)
-  );
+  createVerificationToken = vi
+    .fn()
+    .mockImplementation(() => of(verificationToken));
 }
 
 describe('VerificationTokenService', () => {

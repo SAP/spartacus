@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,13 +35,13 @@ export class CpqConfiguratorSerializer
     const updateInformation =
       CpqConfiguratorUtils.getUpdateInformation(attribute);
 
-    const updateAttribute: Cpq.UpdateAttribute = {
+    return {
       configurationId: configId,
       standardAttributeCode: updateInformation.standardAttributeCode,
       changeAttributeValue: { quantity: attribute.quantity },
       tabId: updateInformation.tabId,
+      rowId: updateInformation.rowId,
     };
-    return updateAttribute;
   }
 
   protected convertAttribute(
@@ -55,6 +55,7 @@ export class CpqConfiguratorSerializer
       standardAttributeCode: updateInformation.standardAttributeCode,
       changeAttributeValue: {},
       tabId: updateInformation.tabId,
+      rowId: updateInformation.rowId,
     };
 
     if (

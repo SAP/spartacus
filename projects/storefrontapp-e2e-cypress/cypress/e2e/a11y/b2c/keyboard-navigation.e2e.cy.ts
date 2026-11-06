@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-describe('Kayboard navigation', () => {
+describe('Keyboard navigation', () => {
   context('Navigation UI component', () => {
     beforeEach(() => {
       cy.visit('/');
@@ -99,6 +99,48 @@ describe('Kayboard navigation', () => {
         .should('have.focus')
         .type('{upArrow}');
       cy.get('cx-facet-list').contains('Color').should('have.focus');
+    });
+  });
+
+  context('Product Reviews component', () => {
+    beforeEach(() => {
+      cy.visit(`/product/266685`);
+      cy.get('button').contains(' Reviews ').click();
+      cy.get('.review').as('reviews').should('have.length.greaterThan', 0);
+    });
+
+    function pressKey(key: string) {
+      cy.focused().then((el) => {
+        el[0].dispatchEvent(new KeyboardEvent('keydown', { key }));
+      });
+    }
+
+    it('navigates reviews with down arrow key', () => {
+      cy.get('@reviews').eq(0).focus();
+      pressKey('ArrowDown');
+      cy.get('@reviews').eq(1).should('have.focus');
+      pressKey('ArrowDown');
+      cy.get('@reviews').eq(2).should('have.focus');
+      pressKey('ArrowDown');
+      cy.get('@reviews').eq(3).should('have.focus');
+      pressKey('ArrowDown');
+      cy.get('@reviews').eq(4).should('have.focus');
+      pressKey('ArrowDown');
+      cy.get('@reviews').eq(4).should('have.focus');
+    });
+
+    it('navigates reviews with up arrow key', () => {
+      cy.get('@reviews').eq(4).focus();
+      pressKey('ArrowUp');
+      cy.get('@reviews').eq(3).should('have.focus');
+      pressKey('ArrowUp');
+      cy.get('@reviews').eq(2).should('have.focus');
+      pressKey('ArrowUp');
+      cy.get('@reviews').eq(1).should('have.focus');
+      pressKey('ArrowUp');
+      cy.get('@reviews').eq(0).should('have.focus');
+      pressKey('ArrowUp');
+      cy.get('@reviews').eq(0).should('have.focus');
     });
   });
 });
