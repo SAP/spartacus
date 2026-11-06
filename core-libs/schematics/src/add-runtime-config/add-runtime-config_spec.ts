@@ -115,13 +115,17 @@ describe('addRuntimeConfig (integration)', () => {
       // identifiers — comparing positions in the full file is unambiguous and robust to
       // providers with nested arrays (which would truncate a regex-based extraction).
       const importProvidersFromPos = appConfig.indexOf('importProvidersFrom(');
-      const provideRuntimeOccConfigPos = appConfig.indexOf('provideRuntimeOccConfig(');
+      const provideRuntimeOccConfigPos = appConfig.indexOf(
+        'provideRuntimeOccConfig('
+      );
       // provideRuntimeOccConfig must come after importProvidersFrom so it overrides the
       // meta-tag OCC URL that MetaTagConfigModule (loaded via importProvidersFrom) registers —
       // Spartacus merges ConfigChunk providers in declaration order, last wins.
       // If importProvidersFrom is absent (plain Angular app without AppModule), skip ordering.
       if (importProvidersFromPos !== -1) {
-        expect(provideRuntimeOccConfigPos).toBeGreaterThan(importProvidersFromPos);
+        expect(provideRuntimeOccConfigPos).toBeGreaterThan(
+          importProvidersFromPos
+        );
       } else {
         expect(provideRuntimeOccConfigPos).not.toBe(-1);
       }

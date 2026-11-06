@@ -136,13 +136,17 @@ describe('updateServerTs (runtime config)', () => {
   it('should fetch runtimeEnvironment per-request in catch-all and inject into res.render', () => {
     const serverTs = tree.readText(SERVER_TS_PATH);
     // app() must have no runtimeEnvironment parameter
-    expect(serverTs).not.toContain('runtimeEnvironment: ServerRuntimeEnvironment');
+    expect(serverTs).not.toContain(
+      'runtimeEnvironment: ServerRuntimeEnvironment'
+    );
     expect(serverTs).toContain('RUNTIME_ENVIRONMENT');
     expect(serverTs).toContain('useValue: runtimeEnvironment');
     // RUNTIME_ENVIRONMENT must be in res.render providers
     expect(serverTs).toMatch(/res\.render[\s\S]*RUNTIME_ENVIRONMENT[\s\S]*\)/);
     // ngExpressEngine call must NOT contain RUNTIME_ENVIRONMENT in its options
-    expect(serverTs).not.toMatch(/ngExpressEngine\(\s*\{[^}]*RUNTIME_ENVIRONMENT/);
+    expect(serverTs).not.toMatch(
+      /ngExpressEngine\(\s*\{[^}]*RUNTIME_ENVIRONMENT/
+    );
     expect(serverTs).toMatchSnapshot();
   });
 

@@ -460,7 +460,9 @@ export function addSSR(options: SpartacusOptions): Rule {
         MergeStrategy.Overwrite
       ),
       options.runtimeConfig ? updateServerTs(options) : noop(),
-      options.runtimeConfig ? updateAppConfigServerForRuntimeConfig(options) : noop(),
+      options.runtimeConfig
+        ? updateAppConfigServerForRuntimeConfig(options)
+        : noop(),
       options.runtimeConfig
         ? (_tree: Tree, _ctx: SchematicContext) => {
             _ctx.logger.info(String.raw`

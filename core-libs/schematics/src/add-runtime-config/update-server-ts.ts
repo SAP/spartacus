@@ -186,7 +186,10 @@ function findCatchAllCallback(statements: Node[]): ArrowFunction | undefined {
       continue;
     }
     const expr = stmt.getExpression();
-    if (!Node.isCallExpression(expr) || expr.getExpression().getText() !== 'server.get') {
+    if (
+      !Node.isCallExpression(expr) ||
+      expr.getExpression().getText() !== 'server.get'
+    ) {
       continue;
     }
     const args = expr.getArguments();
