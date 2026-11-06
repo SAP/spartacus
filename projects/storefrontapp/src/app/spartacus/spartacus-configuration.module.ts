@@ -42,6 +42,9 @@ registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
 
+const proxyTarget =
+  'https://api.c432wmya2v-teamspart3-s5-public.model-t.myhybris.cloud';
+
 /**
  * Extra configuration specific for B2B or B2C sales channel only
  * It's enabled only in our repo via a special environment variable at build time.
@@ -81,28 +84,27 @@ const spartacusChannelSpecificConfigurationProviders = environment.b2b
     provideConfig({
       backend: {
         occ: {
-          baseUrl: 'https://localhost:3000', // proxy URL
+          baseUrl: environment.occBaseUrl, // proxy URL
           // prefix: '/proxy' + environment.occApiPrefix, // not needed if not using a prefix
           useWithCredentials: true, // now need cookies sent with all OCC requests
         },
         media: {
-          baseUrl: 'https://40.76.109.9:9002', // We do not want to use the proxy URL for media
+          baseUrl: proxyTarget, // We do not want to use the proxy URL for media
           prefix: environment.mediaApiPrefix,
         },
       },
     }),
     provideConfig(<AuthConfig>{
       authentication: {
-        baseUrl: 'https://localhost:3000', // set base URL to avoid OCC path concatenation
+        baseUrl: environment.occBaseUrl, // set base URL to avoid OCC path concatenation
         // always treated as a relative value added to base URL
         // authBaseUrl + loginUrl = https://localhost:3000/auth
         loginUrl: '/auth',
 
         customLoginPage: {
           // endpoints are prefixed to baseURL, however we want to go to real auth server, not proxy
-          csrfEndpoint: 'https://40.76.109.9:9002/authorizationserver/csrf',
-          loginFormEndpoint:
-            'https://40.76.109.9:9002/authorizationserver/login',
+          csrfEndpoint: `${proxyTarget}/authorizationserver/csrf`,
+          loginFormEndpoint: `${proxyTarget}/authorizationserver/login`,
         },
       },
     }),

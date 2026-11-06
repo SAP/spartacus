@@ -8,6 +8,12 @@ import {
 } from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
 import { catchError, firstValueFrom, map, of, Subject } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+
+// const authProxyEndpoint =
+//   'https://authproxy.c432wmya2v-teamspart3-s5-public.model-t.myhybris.cloud';
+// const authProxyEndpoint = 'https://localhost:3000';
+const authProxyEndpoint = environment.occBaseUrl;
 
 @Injectable()
 export class AuthProxyOAuthLibWrapperService extends OAuthLibWrapperService {
@@ -30,7 +36,7 @@ export class AuthProxyOAuthLibWrapperService extends OAuthLibWrapperService {
 
   refreshToken(): void {
     this.httpClient
-      .get<AuthToken>('https://localhost:3000/refresh', {
+      .get<AuthToken>(authProxyEndpoint + '/refresh', {
         withCredentials: true,
       })
       .subscribe({
@@ -52,7 +58,7 @@ export class AuthProxyOAuthLibWrapperService extends OAuthLibWrapperService {
   revokeAndLogout(): Promise<void> {
     return firstValueFrom(
       this.httpClient
-        .get('https://localhost:3000/revoke', { withCredentials: true })
+        .get(authProxyEndpoint + '/revoke', { withCredentials: true })
         .pipe(
           map(() => {
             // clear token
@@ -85,7 +91,7 @@ export class AuthProxyOAuthLibWrapperService extends OAuthLibWrapperService {
   }
 
   initLoginFlow(): void {
-    this.winRef.location.href = 'https://localhost:3000/auth';
+    this.winRef.location.href = authProxyEndpoint + '/auth';
   }
 
   tryLogin(): Promise<OAuthTryLoginResult> {
@@ -94,7 +100,7 @@ export class AuthProxyOAuthLibWrapperService extends OAuthLibWrapperService {
     }
     return firstValueFrom(
       this.httpClient
-        .get<AuthToken>('https://localhost:3000/token', {
+        .get<AuthToken>(authProxyEndpoint + '/token', {
           withCredentials: true,
         })
         .pipe(
