@@ -1,16 +1,18 @@
-import { ChangeDetectionStrategy, Directive, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -130,11 +132,6 @@ class MockConfigUtilsService {
   focusFirstAttribute(): void {}
 }
 
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
@@ -146,11 +143,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ConfiguratorPreviousNextButtonsComponent,
-        MockFocusDirective,
+        KeyboardFocusTestingModule,
       ],
       providers: [
         {
@@ -172,9 +168,15 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe],
         },
+        add: {
+          imports: [I18nTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -187,19 +189,13 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configurationGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configurationGroupsService = TestBed.inject(ConfiguratorGroupsService);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(config.owner);
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
     vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstAttribute');
   });

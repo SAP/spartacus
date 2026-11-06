@@ -1,15 +1,11 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import {
-  ICON_TYPE,
-  IconLoaderService,
-  IconModule,
-} from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
@@ -18,20 +14,6 @@ import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils'
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
-
-export class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
-  }
-
-  getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-circle';
-  }
-
-  addLinkResource() {}
-  getHtml(_iconType: ICON_TYPE) {}
-  getFlipDirection(): void {}
-}
 
 let showRequiredMessageForUserInput: boolean;
 class MockConfigUtilsService {
@@ -79,15 +61,12 @@ const owner = ConfiguratorModelUtils.createOwner(
 
 describe('ConfigAttributeFooterComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        IconModule,
         ConfiguratorAttributeFooterComponent,
         MockFeatureLevelDirective,
       ],
       providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
@@ -99,9 +78,15 @@ describe('ConfigAttributeFooterComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeFooterComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe, IconComponent],
         },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorAttributeFooterComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

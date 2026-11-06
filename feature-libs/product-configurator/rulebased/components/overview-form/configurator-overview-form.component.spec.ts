@@ -1,4 +1,9 @@
-import { Component, Injectable, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injectable,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -7,7 +12,7 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   LoggerService,
-  MockTranslatePipe,
+  LoggerTestingModule,
   Product,
   ProductService,
   RoutingService,
@@ -106,7 +111,7 @@ class MockConfiguratorStorefrontUtilsService {
   scrollToConfigurationElement = vi.fn();
 
   createOvGroupId(prefix: string, groupId: string): string {
-    return `${prefix}--${groupId}-ovGroup`;
+    return `${this.getPrefixId(prefix, groupId)}-ovGroup`;
   }
 
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
@@ -135,7 +140,6 @@ function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
-  component.ghostStyle = false;
   fixture.detectChanges();
 }
 
@@ -185,12 +189,12 @@ class MockDirectionService implements Partial<DirectionService> {
 
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
         FeaturesConfigModule,
-        I18nTestingModule,
+        LoggerTestingModule,
         ConfiguratorOverviewFormComponent,
         ConfiguratorOverviewAttributeComponent,
       ],
@@ -217,8 +221,11 @@ describe('ConfigurationOverviewFormComponent', () => {
           imports: [ConfiguratorPriceComponent, TranslatePipe],
         },
         add: {
-          imports: [MockConfiguratorPriceComponent, MockTranslatePipe],
+          imports: [MockConfiguratorPriceComponent, I18nTestingModule],
         },
+      })
+      .overrideComponent(ConfiguratorOverviewFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -235,11 +242,12 @@ describe('ConfigurationOverviewFormComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should display ghost view, consisting of 3 elements representing groups, if no data is present', () => {
+  it('should display ghost overview groups when configuration data is not available', () => {
     defaultConfigObservable = NEVER;
     initialize();
 
-    expect(htmlElem.querySelectorAll('.cx-ghost-group').length).toBe(3);
+    expect(htmlElem.querySelectorAll('.cx-ghost-group.ghost').length).toBe(3);
+    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(0);
   });
 
   it('should display configuration overview', () => {
@@ -429,6 +437,52 @@ describe('ConfigurationOverviewFormComponent', () => {
     it('should return false for a regular overview group', () => {
       initialize();
       expect(component.isContainerRowDetailsGroup({ id: '57' })).toBe(false);
+    });
+  });
+
+  describe('isContainerRowDetailsSection', () => {
+    const bundleAttribute: Configurator.AttributeOverview = {
+      attribute: 'Choose Lens',
+      value: 'Zoom Lens',
+      attributeId: '1067',
+      valueId: 'zoom',
+      type: Configurator.AttributeOverviewType.BUNDLE,
+    };
+    const containerRowGroup: Configurator.GroupOverview = {
+      id: `${Configurator.ContainerRowGroupIdPrefix}@1067@zoom`,
+      groupDescription: 'Zoom Lens',
+    };
+
+    it('should return true when the parent lists the matching bundle item', () => {
+      initialize();
+      const parentGroup: Configurator.GroupOverview = {
+        id: '57',
+        attributes: [bundleAttribute],
+      };
+
+      expect(
+        component.isContainerRowDetailsSection(containerRowGroup, parentGroup)
+      ).toBe(true);
+    });
+
+    it('should return false without a parent group', () => {
+      initialize();
+
+      expect(
+        component.isContainerRowDetailsSection(containerRowGroup, undefined)
+      ).toBe(false);
+    });
+
+    it('should return false when the parent has no matching bundle item', () => {
+      initialize();
+      const parentGroup: Configurator.GroupOverview = {
+        id: '57',
+        attributes: [],
+      };
+
+      expect(
+        component.isContainerRowDetailsSection(containerRowGroup, parentGroup)
+      ).toBe(false);
     });
   });
 
@@ -865,6 +919,42 @@ describe('ConfigurationOverviewFormComponent', () => {
       ).toBeNull();
       expect(htmlElem.querySelector('.cx-view-details-link')).toBeNull();
     });
+
+    it('should render a root-level sub-item row group with its own scroll anchor and no configuration details header', () => {
+      const subItemRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1051@grinder`;
+      const configWithSubItemRow: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(configId, owner),
+        overview: {
+          configId,
+          productCode: ConfigurationTestData.PRODUCT_CODE,
+          groups: [
+            {
+              id: '77',
+              groupDescription: 'General',
+              attributes: [{ attribute: 'Color', value: 'Black' }],
+            },
+            {
+              id: subItemRowGroupId,
+              groupDescription: 'Espresso Grinder',
+              attributes: [{ attribute: 'Type', value: 'Burr' }],
+            },
+          ],
+        },
+      };
+      defaultConfigObservable = of(configWithSubItemRow);
+      initialize();
+
+      expect(
+        htmlElem.querySelector('.cx-group.topLevel.configurationDetails')
+      ).toBeNull();
+      const rowGroupSection = htmlElem.querySelector(
+        `[id="cx--${subItemRowGroupId}-ovGroup"]`
+      );
+      expect(rowGroupSection).toBeTruthy();
+      expect(rowGroupSection?.querySelector('h2')?.textContent).toContain(
+        'Espresso Grinder'
+      );
+    });
   });
 
   describe('navigation to the container row requested by the rowId query parameter', () => {
@@ -957,6 +1047,43 @@ describe('ConfigurationOverviewFormComponent', () => {
         rowGroupId
       );
       expectRenderedSection(rowGroupIdPrefix, rowGroupId);
+    });
+
+    it('should navigate to a root-level sub-item row group requested by rowId', () => {
+      const subItemRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1051@grinder`;
+      const baseOverview = configWithNestedContainerRows.overview;
+      if (!baseOverview) {
+        throw new Error('Test configuration is incomplete');
+      }
+      const configWithRootSubItem: Configurator.Configuration = {
+        ...configWithNestedContainerRows,
+        overview: {
+          ...baseOverview,
+          groups: [
+            {
+              id: '77',
+              groupDescription: 'General',
+              attributes: [{ attribute: 'Color', value: 'Black' }],
+            },
+            {
+              id: subItemRowGroupId,
+              groupDescription: 'Espresso Grinder',
+              attributes: [{ attribute: 'Type', value: 'Burr' }],
+            },
+          ],
+        },
+      };
+      defaultConfigObservable = of(configWithRootSubItem);
+      setRowId('grinder');
+      initialize();
+
+      expect(storefrontUtils.navigateToOverviewGroup).toHaveBeenCalledWith(
+        '',
+        subItemRowGroupId
+      );
+      expect(
+        htmlElem.querySelector(`[id="cx--${subItemRowGroupId}-ovGroup"] h2`)
+      ).toBeTruthy();
     });
 
     it('should navigate to the configuration details of a nested container row', () => {

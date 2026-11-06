@@ -192,7 +192,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
   ): boolean {
     return (
-      state.data?.value?.length === 1 && state.data?.page?.totalPages === 1
+      state.data?.value?.length === 1 &&
+      (state.data?.page?.totalPages ?? 1) === 1
     );
   }
 

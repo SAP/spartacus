@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
@@ -10,9 +9,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureLevelDirective,
+  I18nTestingModule,
+  LoggerTestingModule,
+} from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
-import { FocusDirective } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -20,6 +26,7 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { defaultNumericAttributeMetadata } from '../../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import {
   ConfiguratorPriceComponent,
@@ -53,11 +60,6 @@ function createValue(
       : undefined,
   };
   return value;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
 }
 
 @Component({
@@ -171,8 +173,9 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         ],
       },
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         StoreModule.forRoot({}),
@@ -206,14 +209,16 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         },
         add: {
           imports: [
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
             MockFeatureLevelDirective,
             MockConfiguratorShowMoreComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -448,6 +453,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      Object.assign(component.attribute, defaultNumericAttributeMetadata);
       fixture.detectChanges();
       htmlElem = fixture.nativeElement;
       CommonConfiguratorTestUtilsService.expectElementPresent(

@@ -1,8 +1,7 @@
-import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { IconComponent, MockIconComponent } from '@spartacus/storefront';
 import {
@@ -60,13 +59,13 @@ function initialize() {
   component.config = CONFIGURATION;
 
   configuratorStorefrontUtilsService = TestBed.inject(
-    ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    ConfiguratorStorefrontUtilsService
   );
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
@@ -86,7 +85,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     })
       .overrideComponent(ConfiguratorOverviewMenuComponent, {
         remove: { imports: [TranslatePipe, IconComponent] },
-        add: { imports: [MockTranslatePipe, MockIconComponent] },
+        add: { imports: [I18nTestingModule, MockIconComponent] },
       })
       .compileComponents();
   });

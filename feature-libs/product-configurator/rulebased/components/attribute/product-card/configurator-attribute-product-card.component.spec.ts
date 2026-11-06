@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
@@ -9,33 +8,30 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
 import {
   CxDatePipe,
   FeatureConfigService,
   FeatureToggles,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   Product,
   ProductService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusDirective,
   ICON_TYPE,
   ItemCounterComponent,
   KeyboardFocusService,
-  MediaModule,
+  KeyboardFocusTestingModule,
+  MediaComponent,
 } from '@spartacus/storefront';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   BehaviorSubject,
   EMPTY,
@@ -46,18 +42,19 @@ import {
 } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
 } from '../../price/configurator-price.component';
+import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import {
   ConfiguratorAttributeQuantityComponent,
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../quantity/configurator-attribute-quantity.component';
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 const product: Product = {
@@ -109,12 +106,7 @@ let focusService: KeyboardFocusService;
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  imports: [
-    I18nTestingModule,
-    ReactiveFormsModule,
-    UrlTestingModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -123,21 +115,11 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  imports: [
-    I18nTestingModule,
-    ReactiveFormsModule,
-    UrlTestingModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
   @Output() changeQuantity = new EventEmitter<number>();
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
 }
 
 function setProductBoundValueAttributes(
@@ -203,10 +185,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   };
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MediaModule,
         ConfiguratorAttributeProductCardComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
@@ -248,6 +229,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
         remove: {
           imports: [
+            MediaComponent,
             TranslatePipe,
             CxDatePipe,
             UrlPipe,
@@ -258,15 +240,17 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockUrlPipe,
+            I18nTestingModule,
+            UrlTestingModule,
+            MockMediaComponent,
             MockConfiguratorPriceComponent,
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorAttributeQuantityComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeProductCardComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -1762,7 +1746,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         0,
         'aria-describedby',
         'cx-configurator--label--' +
-          component.productCardOptions.attribute.name,
+          component.productCardOptions.attribute?.name,
         'configurator.button.select'
       );
     });

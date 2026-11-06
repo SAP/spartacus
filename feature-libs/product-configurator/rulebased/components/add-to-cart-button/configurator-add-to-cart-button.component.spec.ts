@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
@@ -14,6 +14,7 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
@@ -24,8 +25,8 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
-  ICON_TYPE,
   IconComponent,
+  IconTestingModule,
   IntersectionService,
   ItemCounterComponent,
   KeyboardFocusService,
@@ -99,14 +100,6 @@ const queryParams: any = {
 const mockOrder: Order = {
   code: '1',
 };
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
 
 @Component({
   template: '',
@@ -461,8 +454,8 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   }
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [ConfiguratorAddToCartButtonComponent, I18nTestingModule],
+    await TestBed.configureTestingModule({
+      imports: [ConfiguratorAddToCartButtonComponent],
       providers: [
         {
           provide: RoutingService,
@@ -525,13 +518,19 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     })
       .overrideComponent(ConfiguratorAddToCartButtonComponent, {
         remove: {
-          imports: [ItemCounterComponent, IconComponent, FeatureLevelDirective],
+          imports: [
+            ItemCounterComponent,
+            IconComponent,
+            FeatureLevelDirective,
+            TranslatePipe,
+          ],
         },
         add: {
           imports: [
             MockItemCounterComponent,
-            MockCxIconComponent,
+            IconTestingModule,
             MockFeatureLevelDirective,
+            I18nTestingModule,
           ],
         },
       })
@@ -558,9 +557,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     vi.spyOn(globalMessageService, 'add');
     vi.spyOn(configuratorCommonsService, 'removeConfiguration');
     vi.spyOn(configuratorQuantityService, 'setQuantity');
-    configuratorCartService = TestBed.inject(
-      ConfiguratorCartService as Type<ConfiguratorCartService>
-    );
+    configuratorCartService = TestBed.inject(ConfiguratorCartService);
     vi.spyOn(configuratorCartService, 'getEntry');
     vi.spyOn(
       configuratorStorefrontUtilsService,

@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -16,10 +17,6 @@ import { defaultConfiguratorUISettingsConfig } from '../../../config/default-con
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
@@ -43,12 +40,11 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   const userInput = 'theUserInput';
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         ConfiguratorAttributeInputFieldComponent,
-        MockFocusDirective,
+        KeyboardFocusTestingModule,
       ],
       providers: [
         {
@@ -70,9 +66,15 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe],
         },
+        add: {
+          imports: [I18nTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import {
@@ -133,14 +132,12 @@ describe('ConfiguratorBasicEffectService', () => {
   let classUnderTest: ConfiguratorBasicEffectService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [ConfiguratorBasicEffectService],
     }).compileComponents();
   });
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>
-    );
+    classUnderTest = TestBed.inject(ConfiguratorBasicEffectService);
     productConfiguration = structuredClone(productConfigurationBase);
   });
 

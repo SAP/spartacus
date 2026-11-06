@@ -1,11 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
-  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,9 +21,12 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { cold } from 'jasmine-marbles';
+import {
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
+import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -136,20 +137,6 @@ class MockConfiguratorAttributeNumericInputFieldComponent {
   @Input() language: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
 }
 
 let currentGroupObservable: Observable<string> = EMPTY;
@@ -312,14 +299,14 @@ describe('ConfiguratorGroupComponent', () => {
       getActive: vi.fn().mockReturnValue(of('en')),
     };
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
+        IconTestingModule,
+        KeyboardFocusTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        MockCxIconComponent,
         MockConfiguratorPriceComponent,
-        MockFocusDirective,
         MockFeatureLevelDirective,
         MockProductCardComponent,
         ConfiguratorAttributeCompositionDirective,
@@ -384,28 +371,18 @@ describe('ConfiguratorGroupComponent', () => {
   });
 
   beforeEach(() => {
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
 
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');
     vi.spyOn(configExpertModeService, 'setExpModeActive');
 
     configuratorUtils.setOwnerKey(OWNER);
-    storefrontUtils = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
-    );
+    storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
     isConfigurationLoadingObservable = of(false);
     conflictGroup = structuredClone(conflictGroupBase);
   });

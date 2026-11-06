@@ -1,15 +1,14 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { IconComponent } from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -22,16 +21,6 @@ import {
   productConfigurationWithoutIssues,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 
 const productConfigurationWithDetailedIssuesCountedInOverview: Configurator.Configuration =
   {
@@ -112,14 +101,6 @@ function initialize(router: ConfiguratorRouter.Data) {
   htmlElem = fixture.nativeElement;
   fixture.detectChanges();
 }
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [RouterModule],
-})
-class MockCxIconComponent {
-  @Input() type: any;
-}
 
 class MockActivatedRoute {
   constructor(public snapshot: any) {}
@@ -127,7 +108,7 @@ class MockActivatedRoute {
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [RouterModule, ConfiguratorOverviewNotificationBannerComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
@@ -146,7 +127,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           imports: [TranslatePipe, UrlPipe, IconComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockUrlPipe, MockCxIconComponent],
+          imports: [I18nTestingModule, UrlTestingModule, IconTestingModule],
         },
       })
       .compileComponents();

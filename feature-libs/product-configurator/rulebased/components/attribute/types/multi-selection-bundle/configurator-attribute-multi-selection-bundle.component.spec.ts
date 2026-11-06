@@ -8,23 +8,19 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
 import { ActivatedRoute } from '@angular/router';
 import {
   CxDatePipe,
   FeatureConfigService,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -51,12 +47,7 @@ import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurat
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
-  imports: [
-    I18nTestingModule,
-    UrlTestingModule,
-    ReactiveFormsModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockProductCardComponent {
   @Input()
@@ -66,12 +57,7 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  imports: [
-    I18nTestingModule,
-    UrlTestingModule,
-    ReactiveFormsModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -81,12 +67,7 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  imports: [
-    I18nTestingModule,
-    UrlTestingModule,
-    ReactiveFormsModule,
-    MediaModule,
-  ],
+  imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -146,10 +127,9 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   };
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MediaModule,
         ConfiguratorAttributeMultiSelectionBundleComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
@@ -202,14 +182,12 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockUrlPipe,
+            I18nTestingModule,
+            UrlTestingModule,
             MockProductCardComponent,
             MockConfiguratorAttributeQuantityComponent,
             MockConfiguratorPriceComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
           providers: [
             {
               provide: ConfiguratorAttributeProductCardComponent,
@@ -217,6 +195,9 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
             },
           ],
         },
+      })
+      .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
