@@ -9,15 +9,33 @@
       (click)="collapseMenuIfClickOutside($event)"
     >
       <cx-page-layout section="header" [cxSkipFocus]="skipFocusConfig" />
-
       <cx-page-layout section="navigation" />
     </header>
-    <cx-page-slot position="BottomHeaderSlot" class="cx-bottom-header-slot" />
+    <cx-page-slot
+      *ngIf="!isInCustomTemplate()"
+      position="BottomHeaderSlot"
+      class="cx-bottom-header-slot"
+    />
     <cx-global-message aria-atomic="true" aria-live="assertive" />
   </ng-template>
 
   <main cxSkipLink="cx-main" [cxFocus]="{ disableMouseFocus: true }">
-    <router-outlet />
+    <ng-container *ngIf="isInCustomTemplate(); else defaultTemplate">
+      <div
+        *ngFor="let section of pageTemplateSections()"
+        class="custom-section"
+      >
+        <cx-page-slot
+          *ngFor="let sectionItem of section.sectionItems"
+          class="custom-slot"
+          [position]="sectionItem.position"
+          [ngStyle]="convertToStyle(sectionItem)"
+        />
+      </div>
+    </ng-container>
+    <ng-template #defaultTemplate>
+      <router-outlet />
+    </ng-template>
   </main>
 
   <ng-template cxOutlet="cx-footer">

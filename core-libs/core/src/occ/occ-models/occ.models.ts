@@ -353,6 +353,10 @@ export namespace Occ {
     properties?: any;
 
     robotTag?: PageRobots;
+
+    templateOrigin?: 'BUILT_IN' | 'CUSTOM';
+
+    templateId?: string;
   }
 
   /**
