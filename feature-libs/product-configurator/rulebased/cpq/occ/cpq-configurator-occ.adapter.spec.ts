@@ -236,8 +236,46 @@ describe('CpqConfiguratorOccAdapter', () => {
       });
   });
 
-  it('should throw error in case overview is to be updated', () => {
-    expect(() => adapterUnderTest.updateConfigurationOverview()).toThrow();
+  it('should filter overview client-side without calling OCC', () => {
+    const possibleGroups: Configurator.GroupOverview[] = [
+      {
+        id: '1',
+        groupDescription: 'Tab 1',
+        attributes: [
+          {
+            attribute: 'A',
+            value: 'V',
+            valuePrice: { currencyIso: 'USD', value: 5 },
+          },
+        ],
+      },
+      { id: '2', groupDescription: 'Tab 2', attributes: [] },
+    ];
+    const priceSummary: Configurator.PriceSummary = {
+      currentTotal: { currencyIso: 'USD', value: 100 },
+    };
+    const overviewInput: Configurator.Overview = {
+      configId: productConfiguration.configId,
+      productCode: productConfiguration.productCode,
+      attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
+      groupFilters: ['1'],
+      possibleGroups,
+      priceSummary,
+      totalNumberOfIssues: 0,
+    };
+
+    adapterUnderTest
+      .updateConfigurationOverview(overviewInput)
+      .subscribe((overview) => {
+        expect(
+          mockedOccService.readConfigurationOverview
+        ).not.toHaveBeenCalled();
+        expect(overview.possibleGroups).toBe(possibleGroups);
+        expect(overview.priceSummary).toBe(priceSummary);
+        expect(overview.groups).toHaveLength(1);
+        expect(overview.groups?.[0].id).toBe('1');
+        expect(overview.groups?.[0].attributes).toHaveLength(1);
+      });
   });
 
   it('should delegate update value quantity to OCC service and map owner', () => {
