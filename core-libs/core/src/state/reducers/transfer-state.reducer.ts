@@ -6,14 +6,24 @@
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
-import { INIT } from '@ngrx/store';
+import { inject, makeStateKey, StateKey, TransferState } from '@angular/core';
+import { Store, INIT } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
+import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
-import { makeStateKey, StateKey, TransferState } from '@angular/core';
 
 export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
+
+function isSsrTransferStateLazyWriteEnabled(): boolean {
+  try {
+    return !!inject(FeatureToggles).ssrTransferStateLazyWrite;
+  } catch {
+    return false;
+  }
+}
 
 export function getTransferStateReducer(
   platformId: Object,
@@ -28,11 +38,6 @@ export function getTransferStateReducer(
         config.state.ssrTransfer.keys,
         Boolean(authStatePersistenceService?.isUserLoggedIn())
       );
-    } else if (isPlatformServer(platformId)) {
-      return getServerTransferStateReducer(
-        transferState,
-        config.state.ssrTransfer.keys
-      );
     }
   }
 
@@ -43,29 +48,49 @@ export function getServerTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType | undefined }
 ) {
+  if (isSsrTransferStateLazyWriteEnabled()) {
+    return (reducer: any) => reducer;
+  }
+
   const transferStateKeys = filterKeysByType(
     keys,
     StateTransferType.TRANSFER_STATE
   );
 
-  let callCount = 0;
-  let totalMs = 0;
-
   return function (reducer: any) {
     return function (state: any, action: any) {
       const newState = reducer(state, action);
       if (newState) {
-        callCount++;
-        const t0 = performance.now();
         const stateSlice = getStateSlice(transferStateKeys, [], newState);
         transferState.set(CX_KEY, stateSlice);
-        totalMs += performance.now() - t0;
-        console.log(
-          `[SSR] calls=${callCount} cumulative=${totalMs.toFixed(2)}ms action=${action.type}`
-        );
       }
       return newState;
     };
+  };
+}
+
+export function getServerTransferStateOnSerializer(
+  platformId: Object,
+  store: Store,
+  transferState?: TransferState,
+  config?: StateConfig
+): () => Promise<void> {
+  return async () => {
+    if (
+      !isSsrTransferStateLazyWriteEnabled() ||
+      !isPlatformServer(platformId) ||
+      !transferState ||
+      !config?.state?.ssrTransfer?.keys
+    ) {
+      return;
+    }
+    const transferStateKeys = filterKeysByType(
+      config.state.ssrTransfer.keys,
+      StateTransferType.TRANSFER_STATE
+    );
+    const state = await firstValueFrom(store);
+    const stateSlice = getStateSlice(transferStateKeys, [], state);
+    transferState.set(CX_KEY, stateSlice);
   };
 }
 

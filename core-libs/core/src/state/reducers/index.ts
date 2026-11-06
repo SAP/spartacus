@@ -12,10 +12,14 @@ import {
   TransferState,
 } from '@angular/core';
 
-import { META_REDUCERS } from '@ngrx/store';
+import { META_REDUCERS, Store } from '@ngrx/store';
+import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { Config } from '../../config/config-tokens';
-import { getTransferStateReducer } from './transfer-state.reducer';
+import {
+  getTransferStateReducer,
+  getServerTransferStateOnSerializer,
+} from './transfer-state.reducer';
 
 export { getStateSlice } from '../utils/get-state-slice';
 export * from './transfer-state.reducer';
@@ -38,6 +42,17 @@ export const stateMetaReducers: Provider[] = [
   {
     provide: META_REDUCERS,
     useExisting: TRANSFER_STATE_META_REDUCER,
+    multi: true,
+  },
+  {
+    provide: BEFORE_APP_SERIALIZED,
+    useFactory: getServerTransferStateOnSerializer,
+    deps: [
+      PLATFORM_ID,
+      Store,
+      [new Optional(), TransferState],
+      [new Optional(), Config],
+    ],
     multi: true,
   },
 ];

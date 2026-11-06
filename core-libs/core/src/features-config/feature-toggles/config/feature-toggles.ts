@@ -1008,6 +1008,15 @@ export interface FeatureTogglesInterface {
    * - `core-libs/styles/scss/components/layout/header/_site-context-selector.scss`
    */
   a11yHighContrastFix?: boolean;
+
+  /**
+   * When enabled, the SSR transfer state is written once via `BEFORE_APP_SERIALIZED`
+   * instead of on every NgRx action dispatch. This significantly reduces SSR render time
+   * on pages with high store activity.
+   *
+   * Affected: StateModule (getServerTransferStateReducer, getServerTransferStateOnSerializer)
+   */
+  ssrTransferStateLazyWrite?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1118,4 +1127,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
   a11yHighContrastFix: false,
+  ssrTransferStateLazyWrite: false,
 };
