@@ -38,23 +38,29 @@ export class SubscriptionCartPriceBodyComponent {
   });
 
   protected billingTimeName = computed(
-    () => this.item().product?.sapSubscriptionTerm?.billingPlan?.billingTime?.name
+    () =>
+      this.item().product?.sapSubscriptionTerm?.billingPlan?.billingTime?.name
   );
   protected currencyIso = computed(() => this.item().basePrice?.currencyIso);
 
   protected discounts = computed(() => this.item()?.sapAppliedDiscounts);
   protected recurringDiscount = computed(() =>
     this.discounts()?.find(
-      (discount: SapAppliedDiscountData) => discount.code === SapAppliedDiscountCodesForSubscription.RECURRING
+      (discount: SapAppliedDiscountData) =>
+        discount.code === SapAppliedDiscountCodesForSubscription.RECURRING
     )
   );
   protected fixedDiscount = computed(() =>
     this.discounts()?.find(
-      (discount: SapAppliedDiscountData) => discount.code === SapAppliedDiscountCodesForSubscription.FIXED
+      (discount: SapAppliedDiscountData) =>
+        discount.code === SapAppliedDiscountCodesForSubscription.FIXED
     )
   );
 
-  private getDiscountedPrice(originalPrice?: number, discount?: SapAppliedDiscountData): number | undefined {
+  private getDiscountedPrice(
+    originalPrice?: number,
+    discount?: SapAppliedDiscountData
+  ): number | undefined {
     return discount?.value !== undefined && originalPrice !== undefined
       ? originalPrice - discount.value
       : originalPrice;
@@ -69,6 +75,9 @@ export class SubscriptionCartPriceBodyComponent {
   }
 
   protected getRecurringCharge(charge?: RecurringCharge): number | undefined {
-    return this.getDiscountedPrice(charge?.price?.value, this.recurringDiscount());
+    return this.getDiscountedPrice(
+      charge?.price?.value,
+      this.recurringDiscount()
+    );
   }
 }

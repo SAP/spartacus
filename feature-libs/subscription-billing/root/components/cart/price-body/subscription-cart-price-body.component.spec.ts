@@ -48,21 +48,23 @@ let mockSubscriptionProduct = {
       billingPlan: { billingTime: { name: 'monthly payment' } },
       minimumTerm: { frequency: { name: 'Month(s)' }, value: 6 },
     },
-    sapAppliedDiscounts: [{
-      code: "DM01",
-      value: 0.251
-    }],
+    sapAppliedDiscounts: [
+      {
+        code: 'DM01',
+        value: 0.251,
+      },
+    ],
   },
 };
 
 const mockFixedDiscount = {
-  code: "Fixed",
-  value: 0.25
+  code: 'Fixed',
+  value: 0.25,
 };
 
 const mockRecurringDiscount = {
-  code: "Recurring",
-  value: 0.15
+  code: 'Recurring',
+  value: 0.15,
 };
 let mockProduct = {
   basePrice: { formattedValue: 'USD45.00', value: 45, currencyIso: 'USD' },
@@ -238,12 +240,21 @@ describe('SubscriptionCartPriceBodyComponent', () => {
 
   describe('subscription product with discounts', () => {
     beforeAll(async () => {
-      (mockSubscriptionProduct as any).sapAppliedDiscounts = [mockFixedDiscount, mockRecurringDiscount];
+      (mockSubscriptionProduct as any).sapAppliedDiscounts = [
+        mockFixedDiscount,
+        mockRecurringDiscount,
+      ];
 
       await TestBed.configureTestingModule({
         providers: [
-          { provide: OutletContextData, useClass: MockSubscriptionOutletContextData },
-          { provide: SubscriptionProductService, useClass: MockSubscriptionProductService },
+          {
+            provide: OutletContextData,
+            useClass: MockSubscriptionOutletContextData,
+          },
+          {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
+          },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -258,27 +269,35 @@ describe('SubscriptionCartPriceBodyComponent', () => {
     });
 
     it('renders strikethrough original recurring price', () => {
-      const oldEl = fixture.nativeElement.querySelector('.cx-recurring-charges .cx-old');
+      const oldEl = fixture.nativeElement.querySelector(
+        '.cx-recurring-charges .cx-old'
+      );
       expect(oldEl).toBeTruthy();
       expect(oldEl.textContent).toContain('USD49.00');
     });
 
     it('renders discounted recurring price', () => {
       // 49 - 0.15 = 48.85
-      const discountedEl = fixture.nativeElement.querySelector('.cx-recurring-charges .cx-value > .cx-billing-value');
+      const discountedEl = fixture.nativeElement.querySelector(
+        '.cx-recurring-charges .cx-value > .cx-billing-value'
+      );
       expect(discountedEl).toBeTruthy();
       expect(discountedEl.textContent).toContain('48.85');
     });
 
     it('renders strikethrough original one-time price', () => {
-      const oldEl = fixture.nativeElement.querySelector('.cx-one-time-charges .cx-old');
+      const oldEl = fixture.nativeElement.querySelector(
+        '.cx-one-time-charges .cx-old'
+      );
       expect(oldEl).toBeTruthy();
       expect(oldEl.textContent).toContain('USD13.00');
     });
 
     it('renders discounted one-time price', () => {
       // 13 - 0.25 = 12.75
-      const discountedEl = fixture.nativeElement.querySelector('.cx-one-time-charges .cx-value > .cx-billing-value');
+      const discountedEl = fixture.nativeElement.querySelector(
+        '.cx-one-time-charges .cx-value > .cx-billing-value'
+      );
       expect(discountedEl).toBeTruthy();
       expect(discountedEl.textContent).toContain('12.75');
     });
@@ -291,7 +310,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
       await TestBed.configureTestingModule({
         providers: [
           { provide: OutletContextData, useClass: MockOutletContextData },
-          { provide: SubscriptionProductService, useClass: MockSubscriptionProductService },
+          {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
+          },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -313,7 +335,9 @@ describe('SubscriptionCartPriceBodyComponent', () => {
 
     it('renders discounted base price', () => {
       // 45 - 0.25 = 44.75
-      const discountedEl = fixture.nativeElement.querySelector('.cx-value > .cx-billing-value');
+      const discountedEl = fixture.nativeElement.querySelector(
+        '.cx-value > .cx-billing-value'
+      );
       expect(discountedEl).toBeTruthy();
       expect(discountedEl.textContent).toContain('44.75');
     });
