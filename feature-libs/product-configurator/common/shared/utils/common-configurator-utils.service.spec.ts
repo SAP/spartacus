@@ -20,7 +20,6 @@ import {
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
-import { CommonConfiguratorUISettingsConfig } from '../../components/config/common-configurator-ui-settings.config';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 import { ConfiguratorModelUtils } from './configurator-model-utils';
 
@@ -82,7 +81,7 @@ describe('CommonConfiguratorUtilsService', () => {
   let mockCartItemContext: CartItemContextSource;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: UserIdService,

@@ -1,10 +1,9 @@
-import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  MockTranslatePipe,
+  I18nTestingModule,
   MockTranslationService,
   RoutingService,
   TranslatePipe,
@@ -22,8 +21,10 @@ import {
   DirectionService,
   FocusDirective,
   HamburgerMenuService,
-  IconComponent,
   ICON_TYPE,
+  IconComponent,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -191,20 +192,6 @@ class MockBreakpointService {
   }
 }
 
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
 class MockConfiguratorStorefrontUtilsService {
   createGroupId(groupId?: string): string | undefined {
     if (groupId) {
@@ -249,7 +236,7 @@ function initialize() {
 
 describe('ConfiguratorGroupMenuComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
@@ -294,7 +281,11 @@ describe('ConfiguratorGroupMenuComponent', () => {
       .overrideComponent(ConfiguratorGroupMenuComponent, {
         remove: { imports: [TranslatePipe, FocusDirective, IconComponent] },
         add: {
-          imports: [MockTranslatePipe, MockFocusDirective, MockCxIconComponent],
+          imports: [
+            I18nTestingModule,
+            KeyboardFocusTestingModule,
+            IconTestingModule,
+          ],
         },
       })
       .compileComponents();
@@ -631,6 +622,45 @@ describe('ConfiguratorGroupMenuComponent', () => {
       expect(
         configuratorGroupsService.setMenuParentGroup
       ).toHaveBeenCalledTimes(0);
+    });
+
+    it('should open the submenu of a container row group that has container row subgroups', () => {
+      const subItemRowGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1051@tank',
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        attributes: [],
+        subGroups: [],
+      };
+      const rowTabGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1051@brewing@77',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [{ name: 'compression' }],
+        subGroups: [],
+      };
+      const rowGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1051@brewing',
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        attributes: [],
+        subGroups: [rowTabGroup, subItemRowGroup],
+      };
+      const configWithSubItemRows = structuredClone(mockProductConfiguration);
+      configWithSubItemRows.groups = [
+        mockProductConfiguration.groups[0],
+        rowGroup,
+      ];
+      productConfigurationObservable = of(configWithSubItemRows);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(rowGroup);
+
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalledWith(
+        configWithSubItemRows.owner,
+        rowGroup.id
+      );
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        0
+      );
     });
   });
 
@@ -2620,6 +2650,34 @@ describe('ConfiguratorGroupMenuComponent', () => {
       };
 
       expect(component['hasContainerRowSubGroups'](group)).toBe(false);
+    });
+  });
+
+  describe('isNavigableWithContainerRows', () => {
+    const rowChild: Configurator.Group = {
+      id: 'row',
+      groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      subGroups: [],
+    };
+
+    it('returns true for a tab with container row children', () => {
+      expect(
+        component['isNavigableWithContainerRows']({
+          id: 'tab',
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          subGroups: [rowChild],
+        })
+      ).toBe(true);
+    });
+
+    it('returns false for a container row group with container row children', () => {
+      expect(
+        component['isNavigableWithContainerRows']({
+          id: 'parentRow',
+          groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+          subGroups: [rowChild],
+        })
+      ).toBe(false);
     });
   });
 

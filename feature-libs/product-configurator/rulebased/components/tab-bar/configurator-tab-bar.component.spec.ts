@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-
 import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -78,11 +78,6 @@ class MockConfigUtilsService {
 
 class MockConfiguratorGroupsService {}
 
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 describe('ConfigTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
@@ -97,13 +92,8 @@ describe('ConfigTabBarComponent', () => {
     mockRouterState.state.params.displayOnly = false;
 
     routerStateObservable = of(mockRouterState);
-    TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterModule,
-        ConfiguratorTabBarComponent,
-        MockUrlPipe,
-      ],
+    await TestBed.configureTestingModule({
+      imports: [RouterModule, ConfiguratorTabBarComponent],
       providers: [
         {
           provide: RoutingService,
@@ -124,9 +114,15 @@ describe('ConfigTabBarComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorTabBarComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe],
         },
+        add: {
+          imports: [I18nTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorTabBarComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
