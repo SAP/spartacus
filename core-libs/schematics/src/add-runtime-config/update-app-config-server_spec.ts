@@ -113,7 +113,9 @@ describe('updateAppConfigServer (runtime config)', () => {
     // Strip comments before checking positions
     const withoutComments = providersBlock.replace(/\/\/[^\n]*/g, '');
     const envServerPos = withoutComments.indexOf('provideEnvironmentServer()');
-    const serverRenderingPos = withoutComments.indexOf('provideServerRendering()');
+    const serverRenderingPos = withoutComments.indexOf(
+      'provideServerRendering()'
+    );
     expect(envServerPos).toBeGreaterThan(-1);
     expect(serverRenderingPos).toBeGreaterThan(-1);
     expect(envServerPos).toBeLessThan(serverRenderingPos);
