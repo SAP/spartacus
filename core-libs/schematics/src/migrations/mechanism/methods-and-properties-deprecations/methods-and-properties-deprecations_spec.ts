@@ -272,7 +272,7 @@ describe('updateCmsComponentState migration', () => {
       ),
       'g'
     );
-    const commentOccurrences = (content.match(regex) || []).length;
+    const commentOccurrences = content.match(regex)?.length ?? 0;
     expect(commentOccurrences).toEqual(3);
   });
 
@@ -289,7 +289,7 @@ describe('updateCmsComponentState migration', () => {
       ),
       'g'
     );
-    const commentOccurrences = (content.match(regex) || []).length;
+    const commentOccurrences = content.match(regex)?.length ?? 0;
     expect(commentOccurrences).toEqual(3);
   });
 
@@ -305,11 +305,11 @@ describe('updateCmsComponentState migration', () => {
     const content = appTree.readContent('/src/index.ts');
 
     const regexOld = new RegExp('CMS_GET_COMPONENET_FROM_PAGE', 'g');
-    const oldOccurrences = (content.match(regexOld) || []).length;
+    const oldOccurrences = content.match(regexOld)?.length ?? 0;
     expect(oldOccurrences).toEqual(1);
 
     const regexNew = new RegExp('CMS_GET_COMPONENT_FROM_PAGE', 'g');
-    const newOccurrences = (content.match(regexNew) || []).length;
+    const newOccurrences = content.match(regexNew)?.length ?? 0;
     expect(newOccurrences).toEqual(0);
   });
 
@@ -324,36 +324,32 @@ describe('updateCmsComponentState migration', () => {
       `^// TODO:Spartacus - please convert all the parameters to the 'payload' object's properties for '${LOAD_CMS_COMPONENT_CLASS}' action$`,
       'gm'
     );
-    const loadCmsComponentOccurrences = (
-      content.match(loadCmsComponentRegex) || []
-    ).length;
+    const loadCmsComponentOccurrences =
+      content.match(loadCmsComponentRegex)?.length ?? 0;
     expect(loadCmsComponentOccurrences).toEqual(1);
 
     const loadCmsComponentFailRegex = new RegExp(
       `// TODO:Spartacus - please convert all the parameters to the 'payload' object's properties for '${LOAD_CMS_COMPONENT_FAIL_CLASS}' action`,
       'g'
     );
-    const loadCmsComponentFailOccurrences = (
-      content.match(loadCmsComponentFailRegex) || []
-    ).length;
+    const loadCmsComponentFailOccurrences =
+      content.match(loadCmsComponentFailRegex)?.length ?? 0;
     expect(loadCmsComponentFailOccurrences).toEqual(1);
 
     const loadCmsComponentSuccessRegex = new RegExp(
       `// TODO:Spartacus - please convert all the parameters to the 'payload' object's properties for '${LOAD_CMS_COMPONENT_SUCCESS_CLASS}' action`,
       'g'
     );
-    const loadCmsComponentSuccessOccurrences = (
-      content.match(loadCmsComponentSuccessRegex) || []
-    ).length;
+    const loadCmsComponentSuccessOccurrences =
+      content.match(loadCmsComponentSuccessRegex)?.length ?? 0;
     expect(loadCmsComponentSuccessOccurrences).toEqual(1);
 
     const cmsGetComponentFromPageRegex = new RegExp(
       `// TODO:Spartacus - please convert all the parameters to the 'payload' object's properties for '${CMS_GET_COMPONENT_FROM_PAGE}' action`,
       'g'
     );
-    const cmsGetComponentFromPageRegexOccurrences = (
-      content.match(cmsGetComponentFromPageRegex) || []
-    ).length;
+    const cmsGetComponentFromPageRegexOccurrences =
+      content.match(cmsGetComponentFromPageRegex)?.length ?? 0;
     expect(cmsGetComponentFromPageRegexOccurrences).toEqual(1);
   });
 
@@ -365,8 +361,8 @@ describe('updateCmsComponentState migration', () => {
     const content = appTree.readContent('/src/index.ts');
 
     const spartacusToDoRegex = new RegExp(`^// TODO:Spartacus`, 'gm');
-    const spartacusToDoOccurrences = (content.match(spartacusToDoRegex) || [])
-      .length;
+    const spartacusToDoOccurrences =
+      content.match(spartacusToDoRegex)?.length ?? 0;
     expect(spartacusToDoOccurrences).toEqual(2);
   });
 });

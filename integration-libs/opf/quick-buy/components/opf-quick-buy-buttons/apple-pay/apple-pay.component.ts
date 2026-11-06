@@ -49,7 +49,7 @@ export class ApplePayComponent implements OnInit {
       ? this.activeConfiguration
       : [this.activeConfiguration];
     this.applePayDigitalWallet = activeConfigurations
-      ?.flatMap((config) => config.digitalWalletQuickBuy || [])
+      ?.flatMap((config) => config.digitalWalletQuickBuy ?? [])
       .find(
         (digitalWallet) =>
           digitalWallet.provider === OpfQuickBuyProviderType.APPLE_PAY &&
