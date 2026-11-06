@@ -94,7 +94,9 @@ export class ConfiguratorCartEffects {
   );
 
   updateCartEntry$: Observable<
-    CartActions.CartUpdateEntrySuccess | CartActions.CartUpdateEntryFail
+    | CartActions.CartUpdateEntrySuccess
+    | CartActions.CartUpdateEntryFail
+    | ConfiguratorActions.RemoveConfiguration
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(ConfiguratorActions.UPDATE_CART_ENTRY),
@@ -111,6 +113,12 @@ export class ConfiguratorCartEffects {
                     cartId: payload.cartId,
                     entryNumber: payload.cartEntryNumber,
                     quantity: cartModification.quantity,
+                  }),
+                  // The backend might have discarded the draft configuration (CPQ), so it needs
+                  // to be re-read from the cart entry. Must not happen before the update has
+                  // succeeded, as pending configuration success actions would re-create it.
+                  new ConfiguratorActions.RemoveConfiguration({
+                    ownerKey: payload.configuration.owner.key,
                   }),
                 ];
               }),

@@ -39,7 +39,7 @@ import {
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
-import { OrderFacade } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import {
   BehaviorSubject,
   Observable,
@@ -343,7 +343,7 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected handlePaymentAlreadyDoneError(): Observable<Error> {
-    return this.orderFacade.placePaymentAuthorizedOrder(true).pipe(
+    return this.placeOrder().pipe(
       catchError(() => {
         this.onPlaceOrderError();
 
@@ -356,6 +356,10 @@ export class OpfCheckoutPaymentWrapperService {
         return throwError(() => 'Payment already done');
       })
     );
+  }
+
+  protected placeOrder(cartId?: string): Observable<Order> {
+    return this.orderFacade.placePaymentAuthorizedOrder(true, cartId);
   }
 
   protected onPlaceOrderSuccess(): void {

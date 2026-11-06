@@ -84,4 +84,10 @@ $gutterSize: 15px;
       margin: 0 0 1rem;
     }
   }
+
+  @include cx-highContrastTheme('a11yHighContrastFix') {
+    a {
+      color: var(--cx-color-primary);
+    }
+  }
 }

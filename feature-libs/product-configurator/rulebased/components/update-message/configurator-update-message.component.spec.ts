@@ -1,4 +1,4 @@
-import { Component, Type } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -6,8 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CxDatePipe,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -87,7 +85,7 @@ describe('ConfiguratorUpdateMessageComponent', () => {
         imports: [TranslatePipe, CxDatePipe, SpinnerComponent],
       },
       add: {
-        imports: [MockTranslatePipe, MockDatePipe, MockCxSpinnerComponent],
+        imports: [I18nTestingModule, MockCxSpinnerComponent],
       },
     });
   });
@@ -95,9 +93,7 @@ describe('ConfiguratorUpdateMessageComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(owner);
   });
 

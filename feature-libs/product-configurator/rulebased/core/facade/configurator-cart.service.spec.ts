@@ -104,7 +104,7 @@ describe('ConfiguratorCartService', () => {
     cartObs = of(cart);
     isStableObs = of(true);
     checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),

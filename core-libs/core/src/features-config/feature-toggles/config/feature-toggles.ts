@@ -721,6 +721,73 @@ export interface FeatureTogglesInterface {
   productConfiguratorConsolidatedButtonDisabling?: boolean;
 
   /**
+   * When enabled, CPQ `sapContainers` are converted for the storefront:
+   * `CpqConfiguratorNormalizer` maps `CONTAINER` attributes to
+   * `Configurator.UiType.CONTAINER`, attaches container rows and nested
+   * container-row groups, and `CpqConfiguratorOverviewNormalizer` adds bundle
+   * overview groups for selected container rows.
+   * `CpqConfiguratorNormalizerUtilsService` includes nested container issues in
+   * the total issue count. CPQ container product-card action buttons use
+   * secondary (select/add) and tertiary (remove/deselect) styles instead of
+   * primary and secondary. Product-card layout alignment styles are also
+   * applied (full-width action row, stretched column). Container attribute
+   * accordion and column layout styles are loaded for
+   * `ConfiguratorAttributeContainerComponent`.
+   * Nested container products are reflected in the configurator product title
+   * (slash-separated path) on the configuration page and in the product-title
+   * details. When a CPQ configuration has `hasFullConfigurationState`,
+   * root-level conflict and error messages are taken from the typed `messages`
+   * list; when the user views a nested container-row configuration,
+   * `ConfiguratorConflictAndErrorMessagesComponent` shows that row's typed
+   * messages. On the configuration overview (CPQ and variant configurator),
+   * the overview menu becomes an accessible in-page navigation: it is rendered
+   * as a labeled `nav` landmark, marks the active group with `aria-current` and
+   * moves the focus to the selected group heading. A skip link leads from the
+   * menu to the overview content, which is exposed as a focusable region.
+   * `ConfiguratorOverviewFormComponent` renders bundle configuration-detail
+   * sections (top-level landmarks, view-details links, and nested attribute
+   * blocks) as in-page navigation targets. If the overview is opened with a
+   * `rowId` query parameter (read-only bundle line item links, e.g. in
+   * checkout or the order history), it scrolls to and focuses the
+   * configuration details of that container row. These links also carry the
+   * row ID as URL fragment, so the view reset on navigation does not scroll
+   * the overview back to the top. This requires the router option
+   * `anchorScrolling: 'enabled'` (set by the Spartacus `AppRoutingModule`) and
+   * that no element on the overview page has an `id` or `name` equal to the
+   * row ID. CPQ cart bundle line items
+   * (PDP links, nested edit links, large-bundle overview navigation) and
+   * configure-cart-entry link labels/query params/fragment use `*cxFeature`
+   * template branches like `ConfiguratorAttributeProductCardComponent`.
+   *
+   * When disabled, legacy behavior is preserved (breaking changes above are
+   * not active): container attributes map to `NOT_IMPLEMENTED`, containers and
+   * nested container-row groups are not attached, overview omits container
+   * bundle groups, nested container issues are excluded from the issue total,
+   * conflict and error messaging uses `warningMessages`/`errorMessages` only
+   * (not container-row or typed root `messages`), bundle configuration-detail
+   * overview sections and their in-page targets are not rendered, and
+   * container-specific layout styles are not applied.
+   *
+   * Affects:
+   * `ConfiguratorAttributeContainerComponent`,
+   * `CpqConfiguratorNormalizer`,
+   * `CpqConfiguratorOverviewNormalizer`,
+   * `CpqConfiguratorNormalizerUtilsService` (nested container issue count),
+   * `ConfiguratorAttributeProductCardComponent`,
+   * `ConfiguratorProductTitleComponent`,
+   * `ConfiguratorConflictAndErrorMessagesComponent`,
+   * `ConfiguratorOverviewMenuComponent`,
+   * `ConfiguratorOverviewMenuStandaloneComponent`,
+   * `ConfiguratorOverviewSidebarComponent`,
+   * `ConfiguratorOverviewFormComponent` (bundle `rowId` deep link),
+   * `ConfiguratorCartEntryBundleInfoComponent`,
+   * `ConfigureCartEntryComponent`,
+   * `ConfiguratorFormComponent` (bundle `rowId` deep link),
+   * `ConfiguratorBadRequestHandler` (configurator product-card 404)
+   */
+  productConfiguratorCPQContainer?: boolean;
+
+  /**
    * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
    * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
    * stays legible on the danger background in the high-contrast dark theme
@@ -914,6 +981,33 @@ export interface FeatureTogglesInterface {
    * Affects: `AddToCartComponent`
    */
   a11yInStockInfoTextContrast?: boolean;
+
+  /**
+   * When enabled, improves contrast in high-contrast themes across multiple components
+   * that were missing HC overrides or had insufficient contrast ratios (below 7:1 AAA):
+   *
+   * - `StoreComponent` / `StoreSearchComponent` (pickup-in-store): "View Hours" button,
+   *   "Use My Location" link, and stock/opening-hours icons (CXSPA-12810)
+   * - `CardComponent`: delete-address confirmation message text (CXSPA-12821)
+   * - `CustomerTicketingListComponent`: table column header `<th>` cells (CXSPA-12801)
+   * - `QuickOrderComponent`: ng-select dropdown panel items (CXSPA-12775)
+   * - `ProductReviewsComponent`: "Read More" / "Read Less" links (CXSPA-12804)
+   * - `StoreFinderListItemComponent`: store links including hover state (CXSPA-12786)
+   * - `SearchBoxComponent`: search-box-v2 variant results panel (CXSPA-12789)
+   * - `SiteContextSelectorComponent`: language/currency/theme `<select>` background (CXSPA-12783)
+   *
+   * Affected SCSS files:
+   * - `feature-libs/pickup-in-store/styles/_store.scss`
+   * - `feature-libs/pickup-in-store/styles/_store-search.scss`
+   * - `core-libs/styles/scss/components/misc/card/_card.scss`
+   * - `feature-libs/customer-ticketing/styles/components/_customer-ticketing-list.scss`
+   * - `feature-libs/cart/quick-order/styles/_quick-order.scss`
+   * - `core-libs/styles/scss/components/product/details/_product-reviews.scss`
+   * - `feature-libs/storefinder/styles/components/_store-finder-list-item.scss`
+   * - `core-libs/styles/scss/components/product/search/_searchbox.scss`
+   * - `core-libs/styles/scss/components/layout/header/_site-context-selector.scss`
+   */
+  a11yHighContrastFix?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1001,6 +1095,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  productConfiguratorCPQContainer: false,
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
@@ -1022,4 +1117,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCarouselItemArrowKeyNavigation: false,
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
+  a11yHighContrastFix: false,
 };

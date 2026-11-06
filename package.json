@@ -1,6 +1,6 @@
 {
   "name": "storefrontapp",
-  "version": "2611.0.0",
+  "version": "2612.0.0",
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "workspaces": [
@@ -144,7 +144,7 @@
     "test": "nx test",
     "test:schematics": "npm --prefix ./core-libs/schematics test --",
     "test:all-schematics": "set -e; npm --prefix ./core-libs/schematics test -- -u; for dir in feature-libs/* integration-libs/*; do (cd $dir && npm run test:schematics -- -u); done",
-    "test:libs": "concurrently \"nx test-vitest core\" \"nx test-vitest storefrontlib\" \"nx test-vitest cart\" \"nx test-vitest organization\" \"nx test-vitest storefinder\" \"nx test-vitest smartedit\" \"nx test-vitest asm\" \"nx test-vitest qualtrics\" \"nx test-vitest product\" \"nx test-vitest product-configurator\" \"nx test-vitest product-multi-dimensional\" \"nx test-vitest customer-ticketing\" \"nx test-vitest subscription-billing\" \"nx test cdc --code-coverage\" \"nx test s4-service --code-coverage\" \"nx test cdp --code-coverage\" \"nx test opps --code-coverage\" \"nx test setup --code-coverage\" \"nx test-vitest checkout\" \"nx test-vitest order\" \"nx test digital-payments --code-coverage\" \"nx test epd-visualization --code-coverage\" \"nx test-vitest pickup-in-store\" \"nx test s4om --code-coverage\" \"nx test cpq-quote --code-coverage\" \"nx test omf --code-coverage\" \"nx test-vitest requested-delivery-date\" \"nx test-vitest estimated-delivery-date\" \"nx test-vitest pdf-invoices\" \"nx test-vitest quote\" \"nx test opf --code-coverage\" \"nx test punchout --code-coverage\" \"nx test-vitest tracking\" \"nx test-vitest user\"",
+    "test:libs": "concurrently \"nx test-vitest core\" \"nx test-vitest storefrontlib\" \"nx test-vitest cart\" \"nx test-vitest organization\" \"nx test-vitest storefinder\" \"nx test-vitest smartedit\" \"nx test-vitest asm\" \"nx test-vitest qualtrics\" \"nx test-vitest product\" \"nx test-vitest product-configurator\" \"nx test-vitest product-multi-dimensional\" \"nx test-vitest customer-ticketing\" \"nx test-vitest subscription-billing\" \"nx test cdc --code-coverage\" \"nx test s4-service --code-coverage\" \"nx test cdp --code-coverage\" \"nx test-vitest opps --code-coverage\" \"nx test setup --code-coverage\" \"nx test-vitest checkout\" \"nx test-vitest order\" \"nx test digital-payments --code-coverage\" \"nx test epd-visualization --code-coverage\" \"nx test-vitest pickup-in-store\" \"nx test-vitest s4om --code-coverage\" \"nx test cpq-quote --code-coverage\" \"nx test-vitest omf --code-coverage\" \"nx test-vitest segment-refs --code-coverage\" \"nx test-vitest requested-delivery-date\" \"nx test-vitest estimated-delivery-date\" \"nx test-vitest pdf-invoices\" \"nx test-vitest quote\" \"nx test opf --code-coverage\" \"nx test punchout --code-coverage\" \"nx test-vitest tracking\" \"nx test-vitest user\"",
     "test:storefront:lib": "nx test storefrontlib --source-map --code-coverage",
     "test:opf:lib": "nx test opf --source-map --code-coverage",
     "delete:ssr-dist": "rimraf dist/storefrontapp/server",
@@ -289,13 +289,13 @@
     "ts-node": "^10.6.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.58.0",
-    "verdaccio": "6.10.4",
+    "verdaccio": "6.10.5",
     "vitest": "^4.1.10",
     "webpack": "~5.111.0",
     "webpack-cli": "^7.0.0"
   },
   "overrides": {
-    "@modelcontextprotocol/sdk": "1.32.0",
+    "@modelcontextprotocol/sdk": "1.32.1",
     "@verdaccio/middleware": {
       "express-rate-limit": "5.5.1"
     },
@@ -339,7 +339,7 @@
     "test-exclude": "8.0.0",
     "tmp": "0.2.7",
     "undici": "8.12.3",
-    "vite": "8.2.4",
+    "vite": "8.3.3",
     "ws@^8": "8.21.1"
   }
 }
