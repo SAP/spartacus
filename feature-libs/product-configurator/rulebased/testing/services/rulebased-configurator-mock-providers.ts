@@ -282,12 +282,13 @@ export function provideConfiguratorMockStorefrontUtilsService(options?: {
         );
       }
       if (options?.overviewFormBehavior) {
-        mock.createOvGroupId.mockImplementation(
-          (prefix: string, groupId: string) => `${prefix}--${groupId}-ovGroup`
-        );
         mock.getPrefixId.mockImplementation(
           (idPrefix: string | undefined, groupId: string) =>
             idPrefix ? idPrefix + '--' + groupId : `cx--${groupId}`
+        );
+        mock.createOvGroupId.mockImplementation(
+          (prefix: string, groupId: string) =>
+            `${mock.getPrefixId(prefix, groupId)}-ovGroup`
         );
         mock.idSelector.mockImplementation((id: string) => `#${id}`);
         mock.navigateToOverviewGroup.mockImplementation(

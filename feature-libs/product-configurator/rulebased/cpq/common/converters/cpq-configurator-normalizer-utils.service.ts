@@ -271,6 +271,21 @@ export class CpqConfiguratorNormalizerUtilsService {
   }
 
   /**
+   * Verifies whether a CPQ container row represents selected content. Rows that
+   * carry the ADD action are only offered for adding and therefore do not count
+   * as selected, even if CPQ flags them as selected.
+   *
+   * @param row - CPQ container row
+   * @returns - true, if the row is selected and carries no ADD action
+   */
+  isSelectedContainerRow(row: Cpq.ContainerRow): boolean {
+    return (
+      row.selected === true &&
+      !row.actions?.includes(Cpq.ContainerRowAction.ADD)
+    );
+  }
+
+  /**
    * Convert attribute label
    *
    * @param attribute - CPQ Attribute

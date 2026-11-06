@@ -3752,5 +3752,231 @@ describe('CpqConfiguratorNormalizer', () => {
         )
       ).toEqual([]);
     });
+
+    describe('renderRowsAsSubItems', () => {
+      const subItemRowId = 'grinder-row';
+      const subItemRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${cpqAttributeStdAttrCode}@${subItemRowId}`;
+      const subItemNestedTabGroupId = `${subItemRowGroupId}@${nestedTab.id}`;
+
+      const subItemContainer: Cpq.Container = {
+        stdAttrCode: cpqAttributeStdAttrCode,
+        renderRowsAsSubItems: true,
+        rows: [
+          {
+            id: subItemRowId,
+            productSystemId: 'CPQ_ESPRESSO_GRINDER',
+            productName: 'Espresso Grinder',
+            selected: true,
+            configuration: {
+              completed: true,
+              tabs: [nestedTab],
+            },
+          },
+          {
+            id: 'not-selected',
+            productSystemId: 'SKIP_ME',
+            selected: false,
+            configuration: {
+              completed: true,
+              tabs: [nestedTab],
+            },
+          },
+          {
+            id: 'no-config',
+            productSystemId: 'NO_CONFIG',
+            selected: true,
+          },
+          {
+            id: 'add-row',
+            productSystemId: 'ADD_ME',
+            selected: true,
+            actions: [Cpq.ContainerRowAction.ADD],
+            configuration: {
+              completed: true,
+              tabs: [nestedTab],
+            },
+          },
+        ],
+      };
+
+      function configurationWithSubItemContainer(
+        containers: Cpq.Container[] = [subItemContainer]
+      ): Cpq.Configuration {
+        return {
+          ...cpqConfiguration,
+          tabs: [
+            {
+              ...cpqTab,
+              attributes: [],
+            },
+          ],
+          sapContainers: containers,
+        };
+      }
+
+      it('should add selected row groups as root siblings after tabs and not attach the container attribute', () => {
+        const result = cpqConfiguratorNormalizer.convert(
+          configurationWithSubItemContainer()
+        );
+
+        expect(result.groups.length).toBe(2);
+        expect(result.groups[0].groupType).toBe(
+          Configurator.GroupType.ATTRIBUTE_GROUP
+        );
+        expect(result.groups[1].id).toBe(subItemRowGroupId);
+        expect(result.groups[1].groupType).toBe(
+          Configurator.GroupType.CONTAINER_ROW_GROUP
+        );
+        expect(result.groups[0].attributes?.[0]?.container).toBeUndefined();
+        expect(result.groups[0].subGroups.length).toBe(0);
+      });
+
+      it('should append nested row tabs after root tabs in flatGroups', () => {
+        const result = cpqConfiguratorNormalizer.convert(
+          configurationWithSubItemContainer()
+        );
+        const flatGroupIds = result.flatGroups.map((group) => group.id);
+        expect(flatGroupIds.indexOf(cpqGroupId)).toBeLessThan(
+          flatGroupIds.indexOf(subItemNestedTabGroupId)
+        );
+        expect(
+          result.flatGroups.some((group) => group.id === subItemRowGroupId)
+        ).toBe(false);
+      });
+
+      it('should not create row groups for selected rows carrying the ADD action', () => {
+        const addRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${cpqAttributeStdAttrCode}@add-row`;
+        const result = cpqConfiguratorNormalizer.convert(
+          configurationWithSubItemContainer()
+        );
+
+        expect(result.groups.some((group) => group.id === addRowGroupId)).toBe(
+          false
+        );
+        expect(
+          result.flatGroups.some((group) => group.id.startsWith(addRowGroupId))
+        ).toBe(false);
+      });
+
+      it('should skip flagged containers in attachContainers even when the attribute is on a tab', () => {
+        const result = cpqConfiguratorNormalizer.convert(
+          configurationWithContainers([
+            { ...containerWithRows, renderRowsAsSubItems: true },
+          ])
+        );
+
+        expect(result.groups[0].attributes?.[0].container).toBeUndefined();
+        expect(result.groups.length).toBeGreaterThan(1);
+        expect(
+          result.groups.some((group) => group.id === expectedRowGroupId)
+        ).toBe(true);
+      });
+
+      it('should leave conversion unchanged when renderRowsAsSubItems is false or missing', () => {
+        const withoutFlag = cpqConfiguratorNormalizer.convert(
+          configurationWithContainers([containerWithRows])
+        );
+        const flagFalse = cpqConfiguratorNormalizer.convert(
+          configurationWithContainers([
+            { ...containerWithRows, renderRowsAsSubItems: false },
+          ])
+        );
+
+        expect(withoutFlag.groups[0].subGroups[0].id).toBe(expectedRowGroupId);
+        expect(flagFalse.groups[0].subGroups[0].id).toBe(expectedRowGroupId);
+      });
+
+      it('should set containerRowId on attributes of inlined row tabs', () => {
+        const result = cpqConfiguratorNormalizer.convert(
+          configurationWithSubItemContainer()
+        );
+        const nestedTabGroup = result.groups[1].subGroups[0];
+        expect(nestedTabGroup.attributes?.[0].containerRowId).toBe(
+          subItemRowId
+        );
+      });
+
+      it('should add nested flagged row groups under the parent row group', () => {
+        const nestedSubItemAttrCode = 700;
+        const nestedSubItemRowId = 'water-tank-row';
+        const nestedSubItemRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${nestedSubItemAttrCode}@${nestedSubItemRowId}`;
+
+        const parentRow: Cpq.ContainerRow = {
+          id: 'brewing-row',
+          productSystemId: 'CPQ_ESPRESSO_BREWING_UNIT',
+          productName: 'Espresso Brewing Unit',
+          selected: true,
+          configuration: {
+            completed: true,
+            tabs: [{ ...cpqTab, id: 88, attributes: [] }],
+            containers: [
+              {
+                stdAttrCode: nestedSubItemAttrCode,
+                renderRowsAsSubItems: true,
+                rows: [
+                  {
+                    id: nestedSubItemRowId,
+                    productSystemId: 'CPQ_ESPRESSO_WATER_TANK',
+                    productName: 'Espresso Water Tank',
+                    selected: true,
+                    configuration: {
+                      completed: false,
+                      tabs: [
+                        { ...nestedTab, isIncomplete: true, attributes: [] },
+                      ],
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        };
+
+        const result = cpqConfiguratorNormalizer.convert(
+          configurationWithSubItemContainer([
+            {
+              ...subItemContainer,
+              rows: [parentRow],
+            },
+          ])
+        );
+
+        const brewingRowGroup = result.groups[1];
+        expect(brewingRowGroup.subGroups.length).toBe(2);
+        expect(brewingRowGroup.subGroups[1].id).toBe(nestedSubItemRowGroupId);
+        expect(brewingRowGroup.complete).toBe(false);
+        expect(brewingRowGroup.incompleteBecauseOfChild).toBe(true);
+      });
+
+      it('should not create row groups when productConfiguratorCPQContainer is disabled', () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            CpqConfiguratorNormalizer,
+            CpqConfiguratorNormalizerUtilsService,
+            {
+              provide: LanguageService,
+              useClass: MockConfiguratorProviderService.MockLanguageService,
+            },
+            {
+              provide: TranslationService,
+              useClass: MockConfiguratorProviderService.MockTranslationService,
+            },
+            ...provideMockFeatureToggles({
+              productConfiguratorCPQContainer: false,
+            }),
+          ],
+        });
+        const normalizerWithToggleOff = TestBed.inject(
+          CpqConfiguratorNormalizer as Type<CpqConfiguratorNormalizer>
+        );
+
+        const result = normalizerWithToggleOff.convert(
+          configurationWithSubItemContainer()
+        );
+
+        expect(result.groups.length).toBe(1);
+      });
+    });
   });
 });
