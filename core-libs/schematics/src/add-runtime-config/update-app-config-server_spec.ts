@@ -109,7 +109,7 @@ describe('updateAppConfigServer (runtime config)', () => {
     // independently of any leading comments that may contain the token text.
     const providersMatch = content.match(/providers:\s*\[([\s\S]*?)\]/);
     expect(providersMatch).not.toBeNull();
-    const providersBlock = providersMatch![1];
+    const providersBlock = (providersMatch as RegExpMatchArray)[1];
     // Strip comments before checking positions
     const withoutComments = providersBlock.replace(/\/\/[^\n]*/g, '');
     const envServerPos = withoutComments.indexOf('provideEnvironmentServer()');
