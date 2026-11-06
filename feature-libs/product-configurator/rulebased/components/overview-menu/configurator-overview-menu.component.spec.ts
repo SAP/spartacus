@@ -10,6 +10,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { MockConfiguratorProviderService } from '../../testing';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -26,26 +27,6 @@ const CONFIGURATION: Configurator.ConfigurationWithOverview = {
   overview: ConfigurationTestData.productConfiguration
     .overview as Configurator.Overview,
 };
-
-class MockConfiguratorGroupsService {
-  setGroupStatusVisited = vi.fn();
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  getElementById = vi.fn();
-  getElements = vi.fn();
-  getPrefixId = vi.fn();
-  hasScrollbar = vi.fn();
-  getClosestElement = vi.fn();
-  changeStylingOfElement = vi.fn();
-  removeStylingOfElement = vi.fn();
-  createOvGroupId = vi.fn((_idPrefix?: string, _groupId?: string) => '');
-  createOvMenuItemId = vi.fn();
-  ensureElementVisible = vi.fn();
-  getSpareViewportHeight = vi.fn();
-  getVerticallyScrolledPixels = vi.fn();
-  navigateToOverviewGroup = vi.fn();
-}
 
 let component: ConfiguratorOverviewMenuComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
@@ -74,11 +55,13 @@ describe('ConfigurationOverviewMenuComponent', () => {
       providers: [
         {
           provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorGroupsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
         },
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],

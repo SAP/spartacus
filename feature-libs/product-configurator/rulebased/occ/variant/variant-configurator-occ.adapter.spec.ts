@@ -2,6 +2,17 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
+
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
   CART_MODIFICATION_NORMALIZER,
@@ -15,12 +26,6 @@ import {
   OccEndpointsService,
   TranslationService,
 } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
-  ConfiguratorType,
-} from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import {
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
@@ -28,6 +33,7 @@ import {
 } from '.';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { MockConfiguratorProviderService } from '../../testing';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { OccConfiguratorTestUtils } from '../../testing/occ-configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
@@ -39,10 +45,6 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
 
 class MockOccEndpointsService {
   buildUrl(
@@ -55,12 +57,6 @@ class MockOccEndpointsService {
 
   getEndpoint(url: string) {
     return url;
-  }
-}
-
-class MockTranslationService {
-  translate(text: string) {
-    return text;
   }
 }
 
@@ -140,7 +136,10 @@ describe('OccConfigurationVariantAdapter', () => {
       providers: [
         VariantConfiguratorOccAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: TranslationService,
+          useClass: MockConfiguratorProviderService.MockTranslationService,
+        },
         {
           provide: VARIANT_CONFIGURATOR_NORMALIZER,
           useExisting: OccConfiguratorVariantNormalizer,

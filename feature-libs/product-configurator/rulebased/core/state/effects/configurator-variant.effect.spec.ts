@@ -7,18 +7,16 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import {
-  LoggerTestingModule,
-  MockLoggerService,
-  tryNormalizeHttpError,
-} from '@spartacus/core';
+import { LoggerTestingModule, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import type { Mock } from 'vitest';
 
+import { MockConfiguratorProviderService } from '../../../testing';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorCoreConfig } from '../../config/configurator-core.config';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
@@ -55,7 +53,7 @@ const variants: Configurator.Variant[] = [
 let configuratorCoreConfig: ConfiguratorCoreConfig;
 
 describe('ConfiguratorVariantEffect', () => {
-  let searchVariantsMock: vi.Mock;
+  let searchVariantsMock: Mock;
 
   let configEffects: fromEffects.ConfiguratorVariantEffects;
 
@@ -168,7 +166,10 @@ describe('ConfiguratorVariantEffect', () => {
 
     const completionFailure = new ConfiguratorActions.SearchVariantsFail({
       ownerKey: productConfiguration.owner.key,
-      error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
+      error: tryNormalizeHttpError(
+        errorResponse,
+        new MockConfiguratorProviderService.MockLoggerService()
+      ),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });

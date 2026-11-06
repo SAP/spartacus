@@ -11,14 +11,19 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorProductService } from '../../../common/testing/services/mock-configurator-product.service';
+import { MockConfiguratorRoutingService } from '../../../common/testing/services/mock-configurator-routing.service';
 import { Configurator } from '../../core/model/configurator.model';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockRouterExtractorService,
+} from '../../testing';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
 
@@ -51,33 +56,6 @@ let configuration: Configurator.Configuration =
     )
   );
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(mockRouterData);
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(configuration);
-  }
-}
-
-class MockRoutingService {
-  go() {}
-}
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(PRODUCT);
-  }
-}
-
-class MockBreakpointService {
-  isUp() {}
-  isDown() {}
-}
-
 let component: ConfiguratorExitButtonComponent;
 let fixture: ComponentFixture<ConfiguratorExitButtonComponent>;
 let htmlElem: HTMLElement;
@@ -103,7 +81,7 @@ function setRouterTestDataProduct() {
 }
 
 describe('ConfiguratorExitButton', () => {
-  let routingService: RoutingService;
+  let routingService: MockConfiguratorRoutingService;
   let breakpointService: BreakpointService;
 
   beforeEach(async () => {
@@ -115,32 +93,39 @@ describe('ConfiguratorExitButton', () => {
         ConfiguratorExitButtonComponent,
       ],
       providers: [
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockRouterExtractorService({
+          routerDataSource: () => of(mockRouterData),
+        }),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => of(configuration),
+        }),
         {
           provide: ProductService,
-          useClass: MockProductService,
+          useClass: MockConfiguratorProviderService.MockProductService,
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
         {
           provide: BreakpointService,
-          useClass: MockBreakpointService,
+          useClass: MockConfiguratorProviderService.MockBreakpointService,
         },
       ],
     });
   });
 
   beforeEach(() => {
-    routingService = TestBed.inject(RoutingService);
+    const productService = TestBed.inject(
+      ProductService
+    ) as unknown as MockConfiguratorProductService;
+    productService.product = PRODUCT;
+
+    routingService = TestBed.inject(
+      RoutingService
+    ) as unknown as MockConfiguratorRoutingService;
+    routingService.getRouterState.mockReturnValue(of({ state: {} } as any));
+
     breakpointService = TestBed.inject(BreakpointService);
   });
 

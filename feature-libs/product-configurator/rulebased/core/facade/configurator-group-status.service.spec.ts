@@ -35,7 +35,7 @@ describe('ConfiguratorGroupStatusService', () => {
     classUnderTest = TestBed.inject(ConfiguratorGroupStatusService);
     store = TestBed.inject(Store);
 
-    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    vi.spyOn(store, 'dispatch');
     vi.spyOn(store, 'pipe').mockReturnValue(of(productConfiguration));
   });
 

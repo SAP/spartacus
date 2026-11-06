@@ -4,13 +4,14 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
+import { LayoutConfig } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { provideConfiguratorMockBreakpointService } from '../../testing';
 import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
 
 const standardRouterData: ConfiguratorRouter.Data = {
@@ -23,11 +24,6 @@ class MockRouterExtractorService {
   }
 }
 let isLargeResolution: boolean;
-class MockBreakpointService {
-  isUp(): Observable<boolean> {
-    return of(isLargeResolution);
-  }
-}
 const headerSlots = ['SiteLogo', 'MiniCart'];
 const headerSlotsIncludingPreHeader = ['PreHeader', 'SiteLogo', 'MiniCart'];
 const overviewNavigationSlot = 'CpqConfigOverviewNavigation';
@@ -108,10 +104,9 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockRouterExtractorService,
         },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
+        provideConfiguratorMockBreakpointService({
+          isUpSource: () => of(isLargeResolution),
+        }),
         {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,

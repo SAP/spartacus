@@ -12,9 +12,9 @@ import {
   GROUP_ID_7,
   GROUP_ID_8,
   GROUP_ID_9,
-  PRODUCT_CODE,
-  GROUP_ID_CONFLICT_HEADER,
   GROUP_ID_CONFLICT_1,
+  GROUP_ID_CONFLICT_HEADER,
+  PRODUCT_CODE,
 } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';

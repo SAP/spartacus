@@ -10,16 +10,17 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
+  ConfiguratorType,
+  ReadOnlyPostfix,
+} from '@spartacus/product-configurator/common';
+import {
   CurrentProductService,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
+import { MockConfiguratorProviderService } from '../../testing';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
-import {
-  ConfiguratorType,
-  ReadOnlyPostfix,
-} from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
 
 const productCode = 'CONF_LAPTOP';
@@ -60,10 +61,6 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
-}
-
 let component: ConfigureProductComponent;
 let currentProductService: CurrentProductService;
 let fixture: ComponentFixture<ConfigureProductComponent>;
@@ -93,7 +90,7 @@ function setupWithCurrentProductService(
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
       ],
     })
@@ -112,7 +109,7 @@ function setupWithCurrentProductService(
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
       ],
     })
@@ -135,7 +132,7 @@ function setupWithCurrentProductService(
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
       ],
     })

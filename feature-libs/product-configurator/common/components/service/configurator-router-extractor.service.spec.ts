@@ -1,12 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
-  I18nTestingModule,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { ConfiguratorType } from './../../core/model/common-configurator.model';
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
+import { MockConfiguratorProviderService } from '../../testing';
 import { ConfiguratorRouter } from './configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './configurator-router-extractor.service';
 
@@ -19,12 +17,6 @@ const CONFIG_ID_TEMPLATE = 'abcd';
 
 let mockRouterState: any;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-}
-
 describe('ConfigRouterExtractorService', () => {
   let serviceUnderTest: ConfiguratorRouterExtractorService;
 
@@ -34,7 +26,7 @@ describe('ConfigRouterExtractorService', () => {
       providers: [
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useClass: MockConfiguratorProviderService.MockRoutingService,
         },
       ],
     }).compileComponents();

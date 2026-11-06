@@ -6,24 +6,24 @@ import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
 import {
   I18nTestingModule,
   RouterState,
-  RoutingService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+  OrderEntryStatus,
+  ReadOnlyPostfix,
+} from '@spartacus/product-configurator/common';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { cold } from 'jasmine-marbles';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
-import {
-  CommonConfigurator,
-  ConfiguratorType,
-  OrderEntryStatus,
-  ReadOnlyPostfix,
-} from '../../core/model/common-configurator.model';
+import { provideConfiguratorMockRoutingService } from '../../testing';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
@@ -48,12 +48,6 @@ const mockBaseRouterState: any = {
 
 let mockRouterState: RouterState;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-}
-
 describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
@@ -67,10 +61,7 @@ describe('ConfigureCartEntryComponent', () => {
       imports: [RouterModule, ConfigureCartEntryComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
+        provideConfiguratorMockRoutingService(() => mockRouterState),
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),

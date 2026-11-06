@@ -1,4 +1,3 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
@@ -13,26 +12,23 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   FocusDirective,
-  IconComponent,
   IconTestingModule,
   KeyboardFocusService,
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { Configurator } from '../../core/model/configurator.model';
+import {
+  MockConfiguratorGroupComponent,
+  MockConfiguratorProviderService,
+} from '../../testing';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  dismissConflictSolverDialog(): void {}
-}
 
 const mockRouterData: ConfiguratorRouter.Data = {
   owner: {
@@ -50,29 +46,10 @@ const mockData: any = {
 
 const mockDialogData$ = new BehaviorSubject<any>(mockData);
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  get data$(): Observable<any> {
-    return mockDialogData$.asObservable();
-  }
-
-  closeDialog(_reason: string): void {}
-}
-
-@Component({
-  selector: 'cx-configurator-group',
-  template: '',
-  imports: [I18nTestingModule, IconTestingModule],
-})
-class MockConfiguratorDefaultFormComponent {
-  @Input() group: Configurator.Group;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() isNavigationToGroupEnabled = true;
-}
-
-class MockConfigUtilsService {
-  scrollToConfigurationElement(): void {}
-
-  focusFirstAttribute(): void {}
+class MockLaunchDialogService {
+  data$ = mockDialogData$.asObservable();
+  closeDialog = vi.fn();
+  openDialogAndSubscribe = vi.fn();
 }
 
 describe('ConfiguratorConflictSolverDialogComponent', () => {
@@ -86,15 +63,17 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorConflictSolverDialogComponent],
+      imports: [IconTestingModule, ConfiguratorConflictSolverDialogComponent],
       providers: [
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
@@ -107,16 +86,14 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
             FeatureDirective,
             TranslatePipe,
             CxDatePipe,
-            IconComponent,
           ],
         },
         add: {
           imports: [
-            I18nTestingModule,
-            IconTestingModule,
+            MockConfiguratorGroupComponent,
             KeyboardFocusTestingModule,
             MockFeatureDirective,
-            MockConfiguratorDefaultFormComponent,
+            I18nTestingModule,
           ],
         },
       })
@@ -212,7 +189,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         expect,
         htmlElem,
         '.cx-msg-warning',
-        'ERROR configurator.header.conflictWarning'
+        'configurator.header.conflictWarning'
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(

@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { RoutingService } from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import {
   BreakpointService,
@@ -13,10 +12,15 @@ import {
 } from '@spartacus/storefront';
 import { NEVER, Observable, of, Subscription } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockGroupsService,
+  provideConfiguratorMockRoutingService,
+} from '../../testing';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -29,56 +33,12 @@ let routerStateObservable: Observable<RouterState>;
 let currentGroupObservable: Observable<Configurator.Group>;
 const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
-class MockRouter {
-  public events = of('');
-}
-
-class MockConfiguratorGroupService {
-  navigateToGroup(): void {}
-
-  getCurrentGroup(): Observable<Configurator.Group> {
-    return currentGroupObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
-  }
-
-  readConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-}
-
-class MockBreakpointService {
-  isDown(): void {}
-
-  isUp(): void {}
-}
-
 @Component({
   selector: 'cx-hamburger-menu',
   template: '',
   imports: [ReactiveFormsModule, NgSelectModule],
 })
 class MockHamburgerMenuComponent {}
-
-class MockConfiguratorStorefrontUtilsService {
-  changeStyling(): void {}
-  focusFirstActiveElement(): void {}
-  removeStyling(): void {}
-}
 
 describe('ConfiguratorGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
@@ -96,36 +56,32 @@ describe('ConfiguratorGroupTitleComponent', () => {
     currentGroupObservable = of(group);
     await TestBed.configureTestingModule({
       imports: [
-        IconTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
+        IconTestingModule,
         ConfiguratorGroupTitleComponent,
       ],
       providers: [
         HamburgerMenuService,
         {
           provide: Router,
-          useClass: MockRouter,
+          useClass: MockConfiguratorProviderService.MockRouter,
         },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
+        provideConfiguratorMockRoutingService(() => routerStateObservable),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => of(config),
+        }),
+        provideConfiguratorMockGroupsService({
+          getCurrentGroupSource: () => currentGroupObservable,
+        }),
         {
           provide: BreakpointService,
-          useClass: MockBreakpointService,
+          useClass: MockConfiguratorProviderService.MockBreakpointService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorStorefrontUtilsService,
         },
       ],
     })

@@ -3,11 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { provideConfiguratorMockCommonsService } from '../../../../testing';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -61,13 +62,6 @@ const createTestValue = (
 
 const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
 
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoading$.asObservable();
-  }
-}
-
 @Component({
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
@@ -116,10 +110,9 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockCommonsService({
+          isConfigurationLoadingSource: () => isConfigurationLoading$,
+        }),
       ],
     }).compileComponents();
   });
