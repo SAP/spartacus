@@ -49,11 +49,17 @@ export class CpqConfiguratorOverviewNormalizer
       productCode: source.productSystemId,
       priceSummary:
         this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(source),
-      groups: source.tabs
-        ?.flatMap((tab) =>
-          this.convertTab(tab, source.currencyISOCode, source.sapContainers)
-        )
-        .filter((group) => this.hasOverviewContent(group)),
+      groups: [
+        ...(source.tabs
+          ?.flatMap((tab) =>
+            this.convertTab(tab, source.currencyISOCode, source.sapContainers)
+          )
+          .filter((group) => this.hasOverviewContent(group)) ?? []),
+        ...this.convertSubItemRows(
+          source.sapContainers,
+          source.currencyISOCode
+        ),
+      ],
       totalNumberOfIssues: this.calculateTotalNumberOfIssues(source),
     };
     return resultTarget;
@@ -171,8 +177,13 @@ export class CpqConfiguratorOverviewNormalizer
     const container = containers.find(
       (entry) => entry.stdAttrCode === attribute.stdAttrCode
     );
+    if (container?.renderRowsAsSubItems) {
+      return;
+    }
     container?.rows
-      ?.filter((row) => this.isSelectedContainerRow(row))
+      ?.filter((row) =>
+        this.cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow(row)
+      )
       .forEach((row) => {
         group.attributes?.push(
           this.convertContainerRowToAttribute(row, attribute, currency)
@@ -189,13 +200,6 @@ export class CpqConfiguratorOverviewNormalizer
           );
         }
       });
-  }
-
-  protected isSelectedContainerRow(row: Cpq.ContainerRow): boolean {
-    return (
-      row.selected === true &&
-      !row.actions?.includes(Cpq.ContainerRowAction.ADD)
-    );
   }
 
   protected convertContainerRowToAttribute(
@@ -234,15 +238,50 @@ export class CpqConfiguratorOverviewNormalizer
       .filter((group) => this.hasOverviewContent(group));
     const singleNestedGroup =
       nestedGroups.length === 1 ? nestedGroups[0] : undefined;
+    const subItemGroups = this.convertSubItemRows(source.containers, currency);
 
     return {
       id: rowGroupId,
       groupDescription: row.productName ?? row.productSystemId,
       attributes: singleNestedGroup?.attributes ?? [],
       subGroups: singleNestedGroup
-        ? (singleNestedGroup.subGroups ?? [])
-        : nestedGroups,
+        ? [...(singleNestedGroup.subGroups ?? []), ...subItemGroups]
+        : [...nestedGroups, ...subItemGroups],
     };
+  }
+
+  /**
+   * Turns selected rows of containers flagged with {@link Cpq.Container.renderRowsAsSubItems}
+   * into overview row groups (siblings of tabs at root level, or sub-groups of a parent row).
+   */
+  protected convertSubItemRows(
+    containers: Cpq.Container[] | undefined,
+    currency: string
+  ): Configurator.GroupOverview[] {
+    if (!this.isCpqContainerFeatureEnabled() || !containers?.length) {
+      return [];
+    }
+
+    return containers
+      .filter((container) => container.renderRowsAsSubItems)
+      .flatMap((container) =>
+        (container.rows ?? [])
+          .filter(
+            (row) =>
+              this.cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow(
+                row
+              ) && !!row.configuration
+          )
+          .map((row) =>
+            this.convertNestedConfiguration(
+              row.configuration as Cpq.NestedProductConfiguration,
+              row,
+              container.stdAttrCode,
+              currency
+            )
+          )
+          .filter((group) => this.hasOverviewContent(group))
+      );
   }
 
   protected hasOverviewContent(group: Configurator.GroupOverview): boolean {

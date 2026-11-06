@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   LanguageService,
@@ -888,6 +889,234 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       expect(fixedLens?.valuePrice?.value).toBe(250.5);
       expect(fixedLens?.valuePrice?.formattedValue).toBe('$250.50');
     });
+
+    describe('renderRowsAsSubItems', () => {
+      const subItemRowId = 'grinder';
+      const subItemRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${containerAttributeCode}@${subItemRowId}`;
+
+      function createConfigurationWithSubItemContainer(): Cpq.Configuration {
+        return {
+          productSystemId: PRODUCT_CODE,
+          currencyISOCode: CURRENCY,
+          tabs: [
+            {
+              id: rootTabId,
+              displayName: 'General',
+              attributes: [
+                {
+                  pA_ID: 1,
+                  stdAttrCode: 1,
+                  name: 'Color',
+                  displayAs: Cpq.DisplayAs.INPUT,
+                  dataType: Cpq.DataType.INPUT_STRING,
+                  userInput: 'Black',
+                  values: [],
+                },
+              ],
+            },
+          ],
+          sapContainers: [
+            {
+              stdAttrCode: containerAttributeCode,
+              renderRowsAsSubItems: true,
+              rows: [
+                {
+                  id: subItemRowId,
+                  productSystemId: 'CPQ_ESPRESSO_GRINDER',
+                  productName: 'Espresso Grinder',
+                  selected: true,
+                  configuration: {
+                    tabs: [
+                      {
+                        id: nestedTabId,
+                        displayName: 'Grinder options',
+                        attributes: [structuredClone(nestedInputAttribute)],
+                      },
+                    ],
+                  },
+                },
+                {
+                  id: 'not-selected',
+                  selected: false,
+                  configuration: {
+                    tabs: [
+                      {
+                        id: 99,
+                        attributes: [structuredClone(nestedInputAttribute)],
+                      },
+                    ],
+                  },
+                },
+                {
+                  id: 'add-row',
+                  selected: true,
+                  actions: [Cpq.ContainerRowAction.ADD],
+                  configuration: {
+                    tabs: [{ id: 98, attributes: [] }],
+                  },
+                },
+                {
+                  id: 'no-config',
+                  selected: true,
+                },
+              ],
+            },
+          ],
+        };
+      }
+
+      it('should add selected row groups as root siblings after tabs', () => {
+        const result = serviceUnderTest.convert(
+          createConfigurationWithSubItemContainer()
+        );
+
+        expect(result.groups?.length).toBe(2);
+        expect(result.groups?.[0].id).toBe(rootTabId.toString());
+        expect(result.groups?.[1].id).toBe(subItemRowGroupId);
+        expect(result.groups?.[1].groupDescription).toBe('Espresso Grinder');
+        expect(result.groups?.[1].attributes?.[0].value).toBe('Black');
+      });
+
+      it('should not attach flagged containers as bundle attributes on a tab', () => {
+        const source = createConfigurationWithContainers();
+        const rootTab = source.tabs?.[0];
+        const rootContainer = source.sapContainers?.[0];
+        if (!rootTab?.attributes || !rootContainer) {
+          throw new Error('Test configuration is incomplete');
+        }
+        rootTab.attributes.unshift({
+          pA_ID: 1,
+          stdAttrCode: 1,
+          name: 'Camera Type',
+          displayAs: Cpq.DisplayAs.DROPDOWN,
+          values: [{ paV_ID: 1, valueDisplay: 'DSLR', selected: true }],
+        });
+        source.sapContainers = [
+          { ...rootContainer, renderRowsAsSubItems: true },
+        ];
+
+        const result = serviceUnderTest.convert(source);
+        const tabGroup = result.groups?.find(
+          (group) => group.id === rootTabId.toString()
+        );
+
+        expect(tabGroup?.attributes?.length).toBe(1);
+        expect(tabGroup?.attributes?.[0].value).toBe('DSLR');
+        expect(tabGroup?.subGroups).toBeUndefined();
+        expect(result.groups?.some((group) => group.id.includes('@zoom'))).toBe(
+          true
+        );
+      });
+
+      it('should leave conversion unchanged when renderRowsAsSubItems is false or missing', () => {
+        const withFlag = serviceUnderTest.convert(
+          createConfigurationWithContainers()
+        );
+        const configurationWithContainers = createConfigurationWithContainers();
+        const container = configurationWithContainers.sapContainers?.[0];
+        if (!container) {
+          throw new Error('Test configuration is incomplete');
+        }
+        const flagFalse = serviceUnderTest.convert({
+          ...configurationWithContainers,
+          sapContainers: [{ ...container, renderRowsAsSubItems: false }],
+        });
+
+        expect(withFlag.groups?.[0].subGroups?.[0].id).toContain('@zoom');
+        expect(flagFalse.groups?.[0].subGroups?.[0].id).toContain('@zoom');
+      });
+
+      it('should add nested flagged row groups under the parent row group', () => {
+        const nestedSubItemAttrCode = 700;
+        const nestedSubItemRowId = 'water-tank';
+        const nestedSubItemRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${nestedSubItemAttrCode}@${nestedSubItemRowId}`;
+
+        const source = createConfigurationWithSubItemContainer();
+        const subItemContainer = source.sapContainers?.[0];
+        if (!subItemContainer) {
+          throw new Error('Test configuration is incomplete');
+        }
+        subItemContainer.rows = [
+          {
+            id: 'brewing',
+            productName: 'Espresso Brewing Unit',
+            selected: true,
+            configuration: {
+              tabs: [
+                {
+                  id: 88,
+                  displayName: 'Brewing',
+                  attributes: [structuredClone(nestedInputAttribute)],
+                },
+              ],
+              containers: [
+                {
+                  stdAttrCode: nestedSubItemAttrCode,
+                  renderRowsAsSubItems: true,
+                  rows: [
+                    {
+                      id: nestedSubItemRowId,
+                      productName: 'Espresso Water Tank',
+                      selected: true,
+                      configuration: {
+                        tabs: [
+                          {
+                            id: 2,
+                            attributes: [structuredClone(deepInputAttribute)],
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        ];
+
+        const result = serviceUnderTest.convert(source);
+        const brewingRowGroup = result.groups?.[1];
+
+        expect(brewingRowGroup?.attributes?.[0].value).toBe('Black');
+        expect(brewingRowGroup?.subGroups?.length).toBe(1);
+        expect(brewingRowGroup?.subGroups?.[0].id).toBe(
+          nestedSubItemRowGroupId
+        );
+        expect(brewingRowGroup?.subGroups?.[0].attributes?.[0].value).toBe(
+          'Clear'
+        );
+      });
+
+      it('should not create row groups when productConfiguratorCPQContainer is disabled', () => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            CpqConfiguratorOverviewNormalizer,
+            CpqConfiguratorNormalizerUtilsService,
+            {
+              provide: LanguageService,
+              useClass: MockLanguageService,
+            },
+            {
+              provide: TranslationService,
+              useClass: MockTranslationService,
+            },
+            ...provideMockFeatureToggles({
+              productConfiguratorCPQContainer: false,
+            }),
+          ],
+        });
+        const overviewNormalizerWithToggleOff = TestBed.inject(
+          CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
+        );
+
+        const result = overviewNormalizerWithToggleOff.convert(
+          createConfigurationWithSubItemContainer()
+        );
+
+        expect(result.groups?.length).toBe(1);
+      });
+    });
   });
 
   describe('convertContainerRowToAttribute', () => {
@@ -994,36 +1223,6 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
           CURRENCY
         ).valuePrice
       ).toBeUndefined();
-    });
-  });
-
-  describe('isSelectedContainerRow', () => {
-    it('should treat selected rows without ADD action as selected', () => {
-      expect(
-        serviceUnderTest['isSelectedContainerRow']({
-          id: 'selected',
-          selected: true,
-        })
-      ).toBe(true);
-    });
-
-    it('should treat unselected rows as not selected', () => {
-      expect(
-        serviceUnderTest['isSelectedContainerRow']({
-          id: 'unselected',
-          selected: false,
-        })
-      ).toBe(false);
-    });
-
-    it('should treat ADD placeholder rows as not selected even when marked selected', () => {
-      expect(
-        serviceUnderTest['isSelectedContainerRow']({
-          id: 'add',
-          selected: true,
-          actions: [Cpq.ContainerRowAction.ADD],
-        })
-      ).toBe(false);
     });
   });
 
