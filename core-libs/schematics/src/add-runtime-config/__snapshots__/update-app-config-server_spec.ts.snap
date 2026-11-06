@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateAppConfigServer (runtime config) should add provideEnvironmentServer() to app.config.server.ts providers 1`] = `
+"import { ApplicationConfig, mergeApplicationConfig } from '@angular/core';
+import { provideServerRendering } from '@angular/ssr';
+import { provideEnvironmentServer } from "@spartacus/setup";
+import { appConfig } from './app.config';
+
+const serverConfig: ApplicationConfig = {
+  providers: [// IMPORTANT: must be first — writes cx-runtime-config to TransferState
+    // before provideServerRendering's BEFORE_APP_SERIALIZED hook checks isEmpty.
+    // Moving it after provideServerRendering() silently breaks SSR config transfer.
+    provideEnvironmentServer(), provideServerRendering()],
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);
+"
+`;

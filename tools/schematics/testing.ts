@@ -95,16 +95,24 @@ const originalRegistryUrl = execSync('npm config get @spartacus:registry')
   .trim();
 
 function startVerdaccio(): ChildProcess {
+  // Wipe storage before boot so every publish run starts against a clean
+  // registry — no stale packages, no E409 conflicts. Unpublishing individual
+  // packages is not needed because the wipe is total and atomic.
   execSync('rm -rf ./scripts/install/storage');
 
   console.log('Waiting for verdaccio to boot...');
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
-  try {
-    execSync(`npx wait-on ${verdaccioRegistryUrl} --timeout 10000`);
-  } catch (error) {
-    console.log(chalk.red(`\n❌ Couldn't boot verdaccio:\n${error}`));
-    process.exit(1);
-  }
+  execSync(
+    `node -e "
+const http = require('http');
+const deadline = Date.now() + 10000;
+function poll() {
+  http.get('${verdaccioRegistryUrl}', r => { r.resume(); process.exit(0); })
+    .on('error', () => Date.now() < deadline ? setTimeout(poll, 500) : process.exit(1));
+}
+poll();
+"`
+  );
   console.log('Pointing npm to verdaccio');
   execSync(`npm config set @spartacus:registry ${verdaccioRegistryUrl}`);
   return res;
@@ -153,7 +161,7 @@ function publishPackage(packagePath: string): Promise<PackagePublishingResult> {
       fs.readFileSync(packagePath, 'utf-8')
     );
     const directory = path.dirname(packagePath);
-    const command = `cd ${directory} && npm publish --registry=${verdaccioRegistryUrl} --tag=latest --color always`;
+    const command = `cd ${directory} && npm publish --registry=${verdaccioRegistryUrl} --tag=latest --ignore-scripts --color always`;
     exec(command, {}, (error, stdout, stderr) => {
       if (error) {
         reject({
@@ -259,14 +267,6 @@ function printPackagesPublishingProgress(
  * Publish all packages to Verdaccio
  */
 async function publishAllPackages(): Promise<void> {
-  //Since migration to NPM, packages will be published with version that has been set in package.json files
-  //and before each subsequent release Verdaccio will be cleaned up so that there is no conflict due to the version of existing packages.
-  //Because of the strategy used by NPM to resolve peer dependencies, any upgrade of a package's version would also require upgrading the version of that package in all places where it is used as a peer dependency.
-  //This in turn would cause too much noise
-
-  //clear Verdaccio storage
-  execSync('rm -rf ./scripts/install/storage', { stdio: 'ignore' });
-
   const allFiles = getPackageJsonFiles();
   console.log(
     chalk.green(
