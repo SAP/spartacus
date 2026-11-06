@@ -157,7 +157,7 @@ export class ConfiguratorGroupMenuComponent {
         configuration.interactionState.currentGroup !== group.id;
       if (
         this.configuratorGroupsService.hasSubGroups(group) &&
-        !(isDifferentGroup && this.hasContainerRowSubGroups(group))
+        !(isDifferentGroup && this.isNavigableWithContainerRows(group))
       ) {
         this.configuratorGroupsService.setMenuParentGroup(
           configuration.owner,
@@ -263,6 +263,21 @@ export class ConfiguratorGroupMenuComponent {
         (subGroup) =>
           subGroup.groupType === Configurator.GroupType.CONTAINER_ROW_GROUP
       ) ?? false
+    );
+  }
+
+  /**
+   * Checks whether a group with container row children is itself a navigation
+   * target. A container row group never is, as it only carries the tabs of its
+   * nested configuration, even if inlined sub-item rows are among its children.
+   *
+   * @param group - Given group
+   * @return - `true` if clicking the group navigates to it instead of opening its submenu
+   */
+  protected isNavigableWithContainerRows(group: Configurator.Group): boolean {
+    return (
+      group.groupType !== Configurator.GroupType.CONTAINER_ROW_GROUP &&
+      this.hasContainerRowSubGroups(group)
     );
   }
 
