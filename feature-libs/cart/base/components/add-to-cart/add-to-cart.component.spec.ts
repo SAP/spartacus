@@ -47,6 +47,7 @@ const productCode = '1234';
 const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
+  price: { value: 10, formattedValue: '$10.00' },
   stock: {
     stockLevel: 333,
     stockLevelStatus: 'inStock',
@@ -489,6 +490,53 @@ describe('AddToCartComponent', () => {
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
         expect(el.query(By.css('button'))).toBeNull();
+      });
+
+      describe('isPurchasable', () => {
+        it('should hide the button when product has no price', () => {
+          addToCartComponent.productCode = null;
+          vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
+            of({
+              code: 'code1',
+              stock: { stockLevelStatus: 'inStock', stockLevel: 10 },
+            })
+          );
+          addToCartComponent.ngOnInit();
+          fixture.detectChanges();
+
+          expect(getButton()).toBeNull();
+        });
+
+        it('should hide the button when product.purchasable is false', () => {
+          addToCartComponent.productCode = null;
+          vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
+            of({
+              code: 'code1',
+              price: { value: 10, formattedValue: '$10.00' },
+              stock: { stockLevelStatus: 'inStock', stockLevel: 10 },
+              purchasable: false,
+            })
+          );
+          addToCartComponent.ngOnInit();
+          fixture.detectChanges();
+
+          expect(getButton()).toBeNull();
+        });
+
+        it('should show the button when product has price and purchasable is not set', () => {
+          addToCartComponent.productCode = null;
+          vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
+            of({
+              code: 'code1',
+              price: { value: 10, formattedValue: '$10.00' },
+              stock: { stockLevelStatus: 'inStock', stockLevel: 10 },
+            })
+          );
+          addToCartComponent.ngOnInit();
+          fixture.detectChanges();
+
+          expect(getButton()).not.toBeNull();
+        });
       });
     });
 
