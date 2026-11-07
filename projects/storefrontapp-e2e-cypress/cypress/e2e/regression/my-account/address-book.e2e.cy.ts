@@ -23,6 +23,8 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
     describe('address book test for anonymous user', () => {
+      // Verifies that anonymous users cannot access the address book page and are redirected to the login page.
+      // The final check ensures the URL pathname contains '/login'.
       it('should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/address-book');
         cy.location('pathname').should('contain', '/login');
@@ -53,12 +55,16 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         cy.restoreLocalStorage();
       });
 
+      // Tests the ability to add a first address to an empty address book by filling out the address form.
+      // The final check verifies that the newly added address is correctly displayed on the address card.
       it('should display new address form, add the first address and verify the address card', () => {
         cy.get('cx-address-form').should('exist');
         fillShippingAddress(newAddress);
         verifyNewAddress();
       });
 
+      // Tests editing an existing address by modifying the title, name, and phone fields.
+      // The final check verifies that the address book displays exactly one address card with the updated information.
       it('should edit the first address and verify the address card', () => {
         //edit the existing address:
         cy.get('button').contains('Edit').click();
@@ -80,6 +86,8 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         assertAddressForm(editedAddress);
       });
 
+      // Tests adding a second address to the address book and marking it as the default address.
+      // The final check verifies that the first card displays the default badge (✓ DEFAULT) and contains the new address name 'N Z'.
       it('should add a second address and set it as default', () => {
         //add the second address:
         const secondAddress = {
@@ -106,6 +114,8 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         firstCard.should('contain', 'N Z');
       });
 
+      // Tests deleting an address from the address book, including canceling and confirming the deletion action.
+      // The final check verifies that only one address remains and it is marked as the default address.
       it('should delete the existing address', () => {
         const firstCard = cy.get('cx-address-book cx-card').first();
 
