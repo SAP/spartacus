@@ -9,7 +9,8 @@ import { ConfiguratorMessageConfig } from './configurator-message.config';
 export const defaultConfiguratorMessageConfig: ConfiguratorMessageConfig = {
   productConfigurator: {
     updateConfigurationMessage: {
-      waitingTime: 1000,
+      waitingTime: 100,
+      hideWaitingTime: 1000,
     },
   },
 };

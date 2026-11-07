@@ -721,6 +721,17 @@ export interface FeatureTogglesInterface {
   productConfiguratorConsolidatedButtonDisabling?: boolean;
 
   /**
+   * When enabled, the configuration update message is pinned to the top of the
+   * viewport with `position: fixed` while an update is in progress, so it
+   * remains visible when the user has scrolled down the configuration page.
+   * When disabled, the message uses the previous sticky layout in the header
+   * slot and scrolls out of view with the page content.
+   *
+   * Affects: `ConfiguratorUpdateMessageComponent`
+   */
+  productConfiguratorUpdateMsg?: boolean;
+
+  /**
    * When enabled, CPQ `sapContainers` are converted for the storefront:
    * `CpqConfiguratorNormalizer` maps `CONTAINER` attributes to
    * `Configurator.UiType.CONTAINER`, attaches container rows and nested
@@ -1095,6 +1106,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  productConfiguratorUpdateMsg: false,
   productConfiguratorCPQContainer: false,
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
