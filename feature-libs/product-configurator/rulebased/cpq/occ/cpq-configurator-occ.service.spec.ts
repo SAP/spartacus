@@ -679,6 +679,37 @@ describe('CpqConfigurationOccService', () => {
     );
   });
 
+  it('should read the configuration for a cart entry read-only if requested', () => {
+    serviceUnderTest
+      .readConfigurationForCartEntry({
+        ...readConfigCartEntryParams,
+        readOnly: true,
+      })
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readCpqConfigurationForCartEntryFull'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForCartEntryFull',
+      {
+        urlParams: {
+          userId: userId,
+          cartId: documentId,
+          cartEntryNumber: '3',
+        },
+        queryParams: { readOnly: true },
+      }
+    );
+  });
+
   it('should read the configuration for an order entry and call normalizer', () => {
     serviceUnderTest
       .readConfigurationForOrderEntry(readConfigOrderEntryParams)

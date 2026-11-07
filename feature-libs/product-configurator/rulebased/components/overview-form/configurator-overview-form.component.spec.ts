@@ -1289,4 +1289,49 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result).toEqual('cx-group subgroup subgroupLevel3');
     });
   });
+
+  describe('read-only mode for display-only overview', () => {
+    let configuratorCommonsService: ConfiguratorCommonsService;
+
+    function setDisplayOnly(displayOnly: unknown): void {
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          params: { ...mockRouterState.state.params, displayOnly },
+        },
+      });
+    }
+
+    beforeEach(() => {
+      configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+      vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
+    });
+
+    it.each([true, 'true'])(
+      'should request a read-only configuration if displayOnly is %s',
+      (displayOnly) => {
+        setDisplayOnly(displayOnly);
+        initialize();
+
+        expect(
+          configuratorCommonsService.getOrCreateConfiguration
+        ).toHaveBeenCalledWith(expect.anything(), undefined, true);
+      }
+    );
+
+    it.each([false, 'false', undefined])(
+      'should not request a read-only configuration if displayOnly is %s',
+      (displayOnly) => {
+        setDisplayOnly(displayOnly);
+        initialize();
+
+        const calls = vi.mocked(
+          configuratorCommonsService.getOrCreateConfiguration
+        ).mock.calls;
+        expect(calls.length).toBeGreaterThan(0);
+        calls.forEach((args) => expect(args.length).toBe(1));
+      }
+    );
+  });
 });
