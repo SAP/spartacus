@@ -21,7 +21,7 @@ export const privateProviders = makeEnvironmentProviders([
     // Custom OCC backend configuration:
     backend: {
       occ: {
-        baseUrl: environment.occBaseUrl,
+        // baseUrl: environment.occBaseUrl, // disable this
         prefix: environment.occApiPrefix,
       },
       media: {
