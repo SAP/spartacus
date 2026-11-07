@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "skipLibCheck": true,
+    "outDir": "/tmp/bench-a",
+    "rootDir": "."
+  },
+  "include": [
+    "base-site-resolver.bench.ts",
+    "base-site-resolver.ts",
+    "pure-node-base-site-resolver.ts"
+  ]
+}
