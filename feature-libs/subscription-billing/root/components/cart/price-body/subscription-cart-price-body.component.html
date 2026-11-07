@@ -11,9 +11,23 @@
       </ng-container>
 
       <ng-template #noSubscriptions>
-        <span class="cx-value">
-          {{ item().basePrice?.formattedValue }}
-        </span>
+        <ng-container *ngIf="fixedDiscount(); else originalBasePrice">
+          <div class="cx-value">
+            <span class="cx-billing-value">{{
+              discountedBasePrice() | currency: currencyIso() : 'code'
+            }}</span>
+            <div class="cx-old">
+              <span class="cx-billing-value">{{
+                item().basePrice?.formattedValue
+              }}</span>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #originalBasePrice>
+          <span class="cx-value">
+            {{ item().basePrice?.formattedValue }}
+          </span>
+        </ng-template>
       </ng-template>
     </div>
   </td>
@@ -33,12 +47,27 @@
       "
     >
       <div class="cx-value">
-        <span class="cx-billing-value"
-          >{{ recurringCharge.price?.formattedValue }}/</span
-        >
-        <span class="cx-billing-name">{{
-          item().product?.sapSubscriptionTerm?.billingPlan?.billingTime?.name
-        }}</span>
+        <ng-container *ngIf="recurringDiscount(); else recurringOriginal">
+          <span class="cx-billing-value"
+            >{{
+              getRecurringCharge(recurringCharge)
+                | currency: currencyIso() : 'code'
+            }}/</span
+          >
+          <span class="cx-billing-name">{{ billingTimeName() }}</span>
+          <div class="cx-old">
+            <span class="cx-billing-value"
+              >{{ recurringCharge.price?.formattedValue }}/</span
+            >
+            <span class="cx-billing-name">{{ billingTimeName() }}</span>
+          </div>
+        </ng-container>
+        <ng-template #recurringOriginal>
+          <span class="cx-billing-value"
+            >{{ recurringCharge.price?.formattedValue }}/</span
+          >
+          <span class="cx-billing-name">{{ billingTimeName() }}</span>
+        </ng-template>
       </div>
     </ng-container>
   </div>
@@ -47,12 +76,33 @@
       *ngFor="let oneTimeCharge of item().product?.sapPricePlan?.oneTimeCharges"
     >
       <div class="cx-value">
-        <span class="cx-billing-value">
-          {{ oneTimeCharge.price?.formattedValue }}
-        </span>
-        <span class="cx-billing-name">
-          {{ oneTimeCharge.billingTime?.name | lowercase }}
-        </span>
+        <ng-container *ngIf="fixedDiscount(); else oneTimeOriginal">
+          <span class="cx-billing-value"
+            >{{
+              getOneTimeCharge(oneTimeCharge)
+                | currency: currencyIso() : 'code'
+            }}/</span
+          >
+          <span class="cx-billing-name">{{
+            oneTimeCharge.billingTime?.name | lowercase
+          }}</span>
+          <div class="cx-old">
+            <span class="cx-billing-value"
+              >{{ oneTimeCharge.price?.formattedValue }}/</span
+            >
+            <span class="cx-billing-name">{{
+              oneTimeCharge.billingTime?.name | lowercase
+            }}</span>
+          </div>
+        </ng-container>
+        <ng-template #oneTimeOriginal>
+          <span class="cx-billing-value"
+            >{{ oneTimeCharge.price?.formattedValue }}/</span
+          >
+          <span class="cx-billing-name">{{
+            oneTimeCharge.billingTime?.name | lowercase
+          }}</span>
+        </ng-template>
       </div>
     </ng-container>
   </div>

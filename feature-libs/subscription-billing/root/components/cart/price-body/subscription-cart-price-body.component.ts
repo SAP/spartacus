@@ -7,10 +7,15 @@
 import { CommonModule, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry, SapAppliedDiscountData } from '@spartacus/cart/base/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { SubscriptionProductService } from '../../../services/index';
 import { EMPTY } from 'rxjs';
+import {
+  OneTimeCharge,
+  RecurringCharge,
+  SapAppliedDiscountCodesForSubscription,
+} from '../../../model';
 
 @Component({
   selector: 'cx-subscription-cart-price-body',
@@ -31,4 +36,48 @@ export class SubscriptionCartPriceBodyComponent {
   item = computed(() => {
     return this.outletData().item;
   });
+
+  protected billingTimeName = computed(
+    () =>
+      this.item().product?.sapSubscriptionTerm?.billingPlan?.billingTime?.name
+  );
+  protected currencyIso = computed(() => this.item().basePrice?.currencyIso);
+
+  protected discounts = computed(() => this.item()?.sapAppliedDiscounts);
+  protected recurringDiscount = computed(() =>
+    this.discounts()?.find(
+      (discount: SapAppliedDiscountData) =>
+        discount.code === SapAppliedDiscountCodesForSubscription.RECURRING
+    )
+  );
+  protected fixedDiscount = computed(() =>
+    this.discounts()?.find(
+      (discount: SapAppliedDiscountData) =>
+        discount.code === SapAppliedDiscountCodesForSubscription.FIXED
+    )
+  );
+
+  private getDiscountedPrice(
+    originalPrice?: number,
+    discount?: SapAppliedDiscountData
+  ): number | undefined {
+    return discount?.value !== undefined && originalPrice !== undefined
+      ? originalPrice - discount.value
+      : originalPrice;
+  }
+
+  protected discountedBasePrice = computed(() =>
+    this.getDiscountedPrice(this.item()?.basePrice?.value, this.fixedDiscount())
+  );
+
+  protected getOneTimeCharge(charge?: OneTimeCharge): number | undefined {
+    return this.getDiscountedPrice(charge?.price?.value, this.fixedDiscount());
+  }
+
+  protected getRecurringCharge(charge?: RecurringCharge): number | undefined {
+    return this.getDiscountedPrice(
+      charge?.price?.value,
+      this.recurringDiscount()
+    );
+  }
 }
