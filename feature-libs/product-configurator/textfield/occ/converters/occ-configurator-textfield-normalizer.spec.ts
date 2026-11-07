@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ConverterService } from '@spartacus/core';
+import { ConverterTestingModule } from '@spartacus/core';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfield } from '../occ-configurator-textfield.models';
 import { OccConfiguratorTextfieldNormalizer } from './occ-configurator-textfield-normalizer';
@@ -16,19 +16,13 @@ const configuration: OccConfiguratorTextfield.Configuration = {
   ],
 };
 
-class MockConverterService {
-  convert() {}
-}
-
 describe('OccConfiguratorTextfieldNormalizer', () => {
   let occConfiguratorTextfieldNormalizer: OccConfiguratorTextfieldNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        OccConfiguratorTextfieldNormalizer,
-        { provide: ConverterService, useClass: MockConverterService },
-      ],
+      imports: [ConverterTestingModule],
+      providers: [OccConfiguratorTextfieldNormalizer],
     });
 
     occConfiguratorTextfieldNormalizer = TestBed.inject(

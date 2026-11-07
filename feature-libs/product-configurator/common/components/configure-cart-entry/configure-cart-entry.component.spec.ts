@@ -16,7 +16,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { cold } from 'jasmine-marbles';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import {
   CommonConfigurator,
@@ -26,6 +26,7 @@ import {
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
+import { MockRoutingService } from '@spartacus/core';
 
 const orderCode = '01008765';
 const savedCartCode = '0108336';
@@ -48,12 +49,6 @@ const mockBaseRouterState: any = {
 
 let mockRouterState: RouterState;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-}
-
 describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
@@ -69,7 +64,7 @@ describe('ConfigureCartEntryComponent', () => {
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
           provide: RoutingService,
-          useClass: MockRoutingService,
+          useFactory: () => { const m = new MockRoutingService(); vi.spyOn(m, 'getRouterState').mockImplementation(() => of(mockRouterState)); return m; },
         },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,

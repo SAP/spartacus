@@ -3,9 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
   Product,
-  ProductService,
+  ProductTestingModule,
   TranslatePipe,
-  TranslationService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -15,8 +14,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { CarouselComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -64,24 +62,6 @@ class MockCarouselComponent {
   @Input() hideIndicators: any;
 }
 
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of('Pre-configured Versions');
-  }
-}
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
-}
-
-class MockConfigRouterExtractorService {
-  extractRouterData() {
-    return of(router);
-  }
-}
-
 let configurationWithoutVariants: Configurator.Configuration =
   ConfiguratorTestUtils.createConfiguration(
     'a',
@@ -100,24 +80,9 @@ let configurationWithVariants: Configurator.Configuration =
     )
   );
 
-let configurationObs: any;
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
-
 let component: ConfiguratorVariantCarouselComponent;
 let fixture: ComponentFixture<ConfiguratorVariantCarouselComponent>;
 let htmlElem: HTMLElement;
-
-function initialize(configuration: Configurator.Configuration) {
-  configurationObs = of(configuration);
-  fixture = TestBed.createComponent(ConfiguratorVariantCarouselComponent);
-  component = fixture.componentInstance;
-  htmlElem = fixture.nativeElement;
-  fixture.detectChanges();
-}
 
 const router: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
@@ -129,19 +94,35 @@ const router: ConfiguratorRouter.Data = {
   ),
 };
 
+function initialize(configuration: Configurator.Configuration) {
+  vi.spyOn(
+    TestBed.inject(ConfiguratorCommonsService),
+    'getConfiguration'
+  ).mockReturnValue(of(configuration));
+  fixture = TestBed.createComponent(ConfiguratorVariantCarouselComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  fixture.detectChanges();
+}
+
+class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return configurationObs;
+  }
+}
+
 describe('ConfiguratorVariantCarouselComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorVariantCarouselComponent],
+      imports: [
+        ConfiguratorVariantCarouselComponent,
+        I18nTestingModule,
+        ProductTestingModule,
+      ],
       providers: [
         {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-        { provide: TranslationService, useClass: MockTranslationService },
-        {
           provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfigRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
         },
         {
           provide: ConfiguratorCommonsService,
@@ -158,6 +139,13 @@ describe('ConfiguratorVariantCarouselComponent', () => {
         },
       })
       .compileComponents();
+  });
+
+  beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockReturnValue(of(router));
   });
 
   it('should create a component without variants', () => {

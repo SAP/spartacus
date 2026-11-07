@@ -1,22 +1,11 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../price/configurator-price.component';
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
 
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-})
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }

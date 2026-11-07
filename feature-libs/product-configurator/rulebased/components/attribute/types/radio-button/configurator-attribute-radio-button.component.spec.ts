@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
@@ -9,28 +9,20 @@ import {
   ItemCounterComponent,
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { defaultNumericAttributeMetadata } from '../../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../../../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import {
-  ConfiguratorAttributeQuantityComponent,
-  ConfiguratorAttributeQuantityComponentOptions,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
-
 const VALUE_NAME_2 = 'val2';
 
 function createValue(code: string, name: string, isSelected: boolean) {
@@ -43,31 +35,15 @@ function createValue(code: string, name: string, isSelected: boolean) {
   return value;
 }
 
-class MockGroupService {}
-
-@Component({
-  selector: 'cx-configurator-attribute-quantity',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule],
-})
+const isCartEntryOrGroupVisited = true;
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
 }
 
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule],
-})
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-@Component({
-  selector: 'cx-configurator-show-more',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule],
-})
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
@@ -77,6 +53,7 @@ class MockConfiguratorShowMoreComponent {
   @Input() itemLabel?: string;
 }
 
+
 class MockConfiguratorCommonsService {
   isConfigurationLoading(): Observable<boolean> {
     return of(false);
@@ -84,12 +61,6 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-const isCartEntryOrGroupVisited = true;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -153,7 +124,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useFactory: () => { const m = new MockConfigUtilsService(); vi.spyOn(m, 'isCartEntryOrGroupVisited').mockImplementation(() => of(isCartEntryOrGroupVisited)); return m; },
         },
       ],
     })

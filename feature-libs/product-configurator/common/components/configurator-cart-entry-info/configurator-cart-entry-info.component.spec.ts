@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ControlContainer,
@@ -28,11 +28,6 @@ class MockCartItemContext implements Partial<CartItemContext> {
   );
 }
 
-@Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
-  imports: [ReactiveFormsModule, I18nTestingModule],
-})
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
   @Input() readOnly: boolean;

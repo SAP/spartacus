@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { LanguageService, LoggerTestingModule } from '@spartacus/core';
+import { LanguageService, LoggerTestingModule, SiteContextTestingModule } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
 
@@ -12,21 +12,14 @@ const VALUE_CODE2 = '2';
 const VALUE_CODE3 = '3';
 const VALUE_CODE4 = '4';
 
-class MockLanguageService {
-  getActive(): Observable<string> {
-    return of('en-US');
-  }
-}
-
 describe('CpqConfiguratorNormalizerUtilsService', () => {
   let cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LoggerTestingModule],
+      imports: [LoggerTestingModule, SiteContextTestingModule],
       providers: [
         CpqConfiguratorNormalizerUtilsService,
-        { provide: LanguageService, useClass: MockLanguageService },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });
@@ -34,6 +27,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     cpqConfiguratorNormalizerUtilsService = TestBed.inject(
       CpqConfiguratorNormalizerUtilsService
     );
+    vi.spyOn(TestBed.inject(LanguageService), 'getActive').mockReturnValue(of('en-US'));
   });
 
   it('should be created', () => {
@@ -884,15 +878,15 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       it('should not count nested container issues when the toggle is disabled', () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
-          imports: [LoggerTestingModule],
+          imports: [LoggerTestingModule, SiteContextTestingModule],
           providers: [
             CpqConfiguratorNormalizerUtilsService,
-            { provide: LanguageService, useClass: MockLanguageService },
             ...provideMockFeatureToggles({
               productConfiguratorCPQContainer: false,
             }),
           ],
         });
+        vi.spyOn(TestBed.inject(LanguageService), 'getActive').mockReturnValue(of('en-US'));
         const utilsWithToggleOff = TestBed.inject(
           CpqConfiguratorNormalizerUtilsService
         );
@@ -918,15 +912,15 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       it('should count root typed messages and incomplete attributes but ignore nested containers when the toggle is disabled', () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
-          imports: [LoggerTestingModule],
+          imports: [LoggerTestingModule, SiteContextTestingModule],
           providers: [
             CpqConfiguratorNormalizerUtilsService,
-            { provide: LanguageService, useClass: MockLanguageService },
             ...provideMockFeatureToggles({
               productConfiguratorCPQContainer: false,
             }),
           ],
         });
+        vi.spyOn(TestBed.inject(LanguageService), 'getActive').mockReturnValue(of('en-US'));
         const utilsWithToggleOff = TestBed.inject(
           CpqConfiguratorNormalizerUtilsService
         );

@@ -1,17 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
 import {
   FeatureLevelDirective,
-  I18nTestingModule,
   LoggerTestingModule,
 } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
@@ -20,27 +13,19 @@ import {
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { defaultNumericAttributeMetadata } from '../../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../../../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import {
-  ConfiguratorAttributeQuantityComponent,
-  ConfiguratorAttributeQuantityComponentOptions,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
-
 function createValue(
   code: string,
   name: string,
@@ -62,30 +47,19 @@ function createValue(
   return value;
 }
 
-@Component({
-  selector: 'cx-configurator-attribute-quantity',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-})
+let showRequiredErrorMessage: boolean;
+
+const ATTRIBUTE_VALUES_MISSING = 'attribute values are missing';
+
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
   @Output() changeQuantity = new EventEmitter<number>();
 }
 
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-})
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-@Component({
-  selector: 'cx-configurator-show-more',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-})
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
@@ -95,6 +69,7 @@ class MockConfiguratorShowMoreComponent {
   @Input() itemLabel?: string;
 }
 
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
   isConfigurationLoading(): Observable<boolean> {
@@ -102,21 +77,12 @@ class MockConfiguratorCommonsService {
   }
 }
 
-let showRequiredErrorMessage: boolean;
-
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(showRequiredErrorMessage);
-  }
-}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
     return of([]);
   }
 }
-
-const ATTRIBUTE_VALUES_MISSING = 'attribute values are missing';
 
 describe('ConfiguratorAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
@@ -193,7 +159,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useFactory: () => { const m = new MockConfigUtilsService(); vi.spyOn(m, 'isCartEntryOrGroupVisited').mockImplementation(() => of(showRequiredErrorMessage)); return m; },
         },
       ],
     })

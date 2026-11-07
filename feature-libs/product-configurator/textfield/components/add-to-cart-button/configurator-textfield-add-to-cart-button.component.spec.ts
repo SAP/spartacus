@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -14,9 +14,10 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
+import { TextfieldConfiguratorTestingModule } from '../../testing';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -41,12 +42,6 @@ const mockRouterState: any = {
   },
 };
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-  go(): void {}
-}
 
 class MockConfiguratorTextfieldService {
   addToCart(): void {}
@@ -78,16 +73,8 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
       imports: [
         ConfiguratorTextfieldAddToCartButtonComponent,
         RouterModule.forRoot([]),
-      ],
-      providers: [
-        {
-          provide: ConfiguratorTextfieldService,
-          useClass: MockConfiguratorTextfieldService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
+        RoutingTestingModule,
+        TextfieldConfiguratorTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
@@ -107,6 +94,11 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   });
 
   beforeEach(() => {
+    const routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockReturnValue(
+      of(mockRouterState)
+    );
+
     fixture = TestBed.createComponent(
       ConfiguratorTextfieldAddToCartButtonComponent
     );

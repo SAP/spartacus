@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  ActiveCartTestingModule,
+  Cart,
+} from '@spartacus/cart/base/root';
 import { LoggerTestingModule, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -22,7 +26,6 @@ import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorUtilsService } from './utils';
-
 const PRODUCT_CODE = 'CONF_LAPTOP';
 let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
@@ -87,48 +90,10 @@ const configurationStateWoLoading: ConfiguratorState = {
 
 let configCartObservable: Observable<Configurator.Configuration>;
 let configOrderObservable: Observable<Configurator.Configuration>;
-let configQuoteObservable: Observable<Configurator.Configuration>;
 let isStableObservable: Observable<boolean>;
 let cartObs: Observable<Cart>;
 
-class MockActiveCartService {
-  isStable(): Observable<boolean> {
-    return isStableObservable;
-  }
-  getActive(): Observable<Cart> {
-    return cartObs;
-  }
-}
 
-class MockconfiguratorUtilsService {
-  createConfigurationExtract(): Configurator.Configuration {
-    return productConfiguration;
-  }
-  isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    if (!configuration) {
-      return false;
-    }
-    const configId: String = configuration.configId;
-    return configId !== undefined && configId.length !== 0;
-  }
-  getConfigurationFromState(
-    configurationLoaderState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
-  ): Configurator.Configuration | undefined {
-    return configurationLoaderState.value;
-  }
-}
-
-class MockConfiguratorCartService {
-  readConfigurationForCartEntry() {
-    return configCartObservable;
-  }
-  readConfigurationForOrderEntry() {
-    return configOrderObservable;
-  }
-  readConfigurationForQuoteEntry() {
-    return configQuoteObservable;
-  }
-}
 
 function callGetOrCreate(
   serviceUnderTest: ConfiguratorCommonsService,
@@ -156,6 +121,19 @@ function callGetOrCreate(
   return configurationObs;
 }
 
+
+class MockConfiguratorCartService {
+  readConfigurationForCartEntry() {
+    return configCartObservable;
+  }
+  readConfigurationForOrderEntry() {
+    return configOrderObservable;
+  }
+  readConfigurationForQuoteEntry() {
+    return configQuoteObservable;
+  }
+}
+
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
@@ -164,7 +142,6 @@ describe('ConfiguratorCommonsService', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configurationWithOverview: Configurator.Configuration;
   configOrderObservable = of(productConfiguration);
-  configQuoteObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
   isStableObservable = of(true);
   const cart: Cart = {};
@@ -176,6 +153,7 @@ describe('ConfiguratorCommonsService', () => {
         LoggerTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ActiveCartTestingModule,
       ],
       providers: [
         ConfiguratorCommonsService,
@@ -184,12 +162,8 @@ describe('ConfiguratorCommonsService', () => {
           useClass: MockConfiguratorCartService,
         },
         {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartService,
-        },
-        {
           provide: ConfiguratorUtilsService,
-          useClass: MockconfiguratorUtilsService,
+          useClass: MockConfiguratorUtilsService,
         },
       ],
     });
@@ -200,6 +174,25 @@ describe('ConfiguratorCommonsService', () => {
     isStableObservable = of(true);
 
     serviceUnderTest = TestBed.inject(ConfiguratorCommonsService);
+    const cartServiceMock = TestBed.inject(ConfiguratorCartService);
+    vi.spyOn(cartServiceMock, 'readConfigurationForCartEntry').mockImplementation(
+      () => configCartObservable
+    );
+    vi.spyOn(cartServiceMock, 'readConfigurationForOrderEntry').mockImplementation(
+      () => configOrderObservable
+    );
+    const utilsServiceMock = TestBed.inject(ConfiguratorUtilsService);
+    vi.spyOn(utilsServiceMock, 'createConfigurationExtract').mockReturnValue(
+      productConfiguration
+    );
+    vi.spyOn(utilsServiceMock, 'getConfigurationFromState').mockImplementation(
+      (state) => state.value
+    );
+    const activeCartService = TestBed.inject(ActiveCartFacade);
+    vi.spyOn(activeCartService, 'isStable').mockImplementation(
+      () => isStableObservable
+    );
+    vi.spyOn(activeCartService, 'getActive').mockImplementation(() => cartObs);
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtilsService = TestBed.inject(ConfiguratorUtilsService);
 

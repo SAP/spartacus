@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
@@ -8,8 +8,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { EMPTY, NEVER, Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { EMPTY, NEVER, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -52,6 +51,10 @@ function initComponent() {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   isDisplayOnlyVariant = false;
+  vi.spyOn(
+    TestBed.inject(ConfiguratorStorefrontUtilsService),
+    'isDisplayOnlyVariant'
+  ).mockImplementation(() => of(isDisplayOnlyVariant));
 }
 
 function initMocks() {
@@ -69,15 +72,12 @@ function initMocks() {
   );
 }
 
-@Component({
-  selector: 'cx-configurator-overview-filter-bar',
-  template: '',
-})
+let isDisplayOnlyVariant: boolean;
+
 class MockConfiguratorOverviewFilterBarComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
 }
 
-let isDisplayOnlyVariant: boolean;
 
 class MockConfiguratorStorefrontUtilsService {
   isDisplayOnlyVariant(): Observable<boolean> {

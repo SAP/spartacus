@@ -2,12 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { getTestScheduler } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowOptionsComponent } from './configurator-show-options.component';
+
 
 class MockConfiguratorCommonsService {
   readAttributeDomain() {}
@@ -15,6 +14,7 @@ class MockConfiguratorCommonsService {
     return of(false);
   }
 }
+
 
 class MockConfiguratorStorefrontUtilsService {
   focusFirstActiveElement() {}

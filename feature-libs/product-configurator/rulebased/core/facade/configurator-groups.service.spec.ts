@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartTestingModule } from '@spartacus/cart/base/root';
 import { LoggerTestingModule } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import { firstValueFrom, Observable, of, Subject } from 'rxjs';
+import { firstValueFrom, of, Subject } from 'rxjs';
 import {
   CONFIG_ID,
   GROUP_ID_1,
@@ -35,7 +35,6 @@ const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
   },
 };
 
-class MockActiveCartService {}
 class MockConfiguratorCartService {
   checkForActiveCartUpdateDone(): Observable<boolean> {
     return of(true);
@@ -51,16 +50,16 @@ describe('ConfiguratorGroupsService', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoggerTestingModule, StoreModule.forRoot({})],
+      imports: [
+        LoggerTestingModule,
+        StoreModule.forRoot({}),
+        ActiveCartTestingModule,
+      ],
       providers: [
         ConfiguratorGroupsService,
         ConfiguratorCommonsService,
         ConfiguratorGroupStatusService,
         ConfiguratorUtilsService,
-        {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartService,
-        },
         {
           provide: ConfiguratorCartService,
           useClass: MockConfiguratorCartService,

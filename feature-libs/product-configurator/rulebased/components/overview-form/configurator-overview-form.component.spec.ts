@@ -1,8 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
   Injectable,
-  Input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,7 +13,9 @@ import {
   LoggerTestingModule,
   Product,
   ProductService,
+  ProductTestingModule,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -28,17 +28,13 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
-import { BehaviorSubject, NEVER, Observable, Subject, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { BehaviorSubject, NEVER, Subject, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
@@ -80,33 +76,6 @@ let component: ConfiguratorOverviewFormComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFormComponent>;
 let htmlElem: HTMLElement;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable
-      ? routerStateObservable
-      : defaultRouterStateObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    configCreate.productCode = productCode;
-    return configurationObservable
-      ? configurationObservable
-      : defaultConfigObservable;
-  }
-
-  getConfigurationWithOverview(
-    configuration: Configurator.Configuration
-  ): Observable<Configurator.Configuration> {
-    return overviewObservable ? overviewObservable : of(configuration);
-  }
-
-  removeConfiguration(): void {}
-}
-
 class MockConfiguratorStorefrontUtilsService {
   scrollToConfigurationElement = vi.fn();
 
@@ -132,14 +101,11 @@ class MockConfiguratorStorefrontUtilsService {
 const productForBundleOverview$: BehaviorSubject<Product> =
   new BehaviorSubject<Product>({ images: {} });
 
-class MockProductService {
-  get = () => productForBundleOverview$.asObservable();
-}
-
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
+  vi.spyOn(TestBed.inject(ProductService), 'get').mockReturnValue(productForBundleOverview$.asObservable());
   fixture.detectChanges();
 }
 
@@ -166,25 +132,35 @@ function checkConfigurationOverviewObs(
   );
 }
 
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [
-    I18nTestingModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    FeaturesConfigModule,
-  ],
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
 @Injectable()
 class MockDirectionService implements Partial<DirectionService> {
   getDirection(): DirectionMode {
     return DirectionMode.LTR;
   }
+}
+
+
+class MockConfiguratorCommonsService {
+  getOrCreateConfiguration(
+    productCode: string
+  ): Observable<Configurator.Configuration> {
+    configCreate.productCode = productCode;
+    return configurationObservable
+      ? configurationObservable
+      : defaultConfigObservable;
+  }
+
+  getConfigurationWithOverview(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return overviewObservable ? overviewObservable : of(configuration);
+  }
+
+  removeConfiguration(): void {}
+}
+
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
@@ -195,15 +171,13 @@ describe('ConfigurationOverviewFormComponent', () => {
         NgSelectModule,
         FeaturesConfigModule,
         LoggerTestingModule,
+        RoutingTestingModule,
+        ProductTestingModule,
         ConfiguratorOverviewFormComponent,
         ConfiguratorOverviewAttributeComponent,
       ],
       providers: [
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
@@ -212,7 +186,6 @@ describe('ConfigurationOverviewFormComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
-        { provide: ProductService, useClass: MockProductService },
         { provide: DirectionService, useClass: MockDirectionService },
       ],
     })
@@ -235,6 +208,17 @@ describe('ConfigurationOverviewFormComponent', () => {
     overviewObservable = null;
     defaultRouterStateObservable = of(mockRouterState);
     defaultConfigObservable = of(configCreate2);
+    vi.spyOn(TestBed.inject(RoutingService), 'getRouterState').mockImplementation(
+      () => routerStateObservable ?? defaultRouterStateObservable
+    );
+    const commonsService = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(commonsService, 'getOrCreateConfiguration').mockImplementation(
+      () => configurationObservable ?? defaultConfigObservable
+    );
+    vi.spyOn(commonsService, 'getConfigurationWithOverview').mockImplementation(
+      (config: Configurator.Configuration) =>
+        overviewObservable ?? of(config)
+    );
   });
 
   it('should create component', () => {
