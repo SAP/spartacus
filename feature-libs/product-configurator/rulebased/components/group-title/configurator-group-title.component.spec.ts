@@ -3,16 +3,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, RoutingTestingModule } from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import {
   BreakpointService,
+  BreakpointTestingModule,
   HamburgerMenuComponent,
   HamburgerMenuService,
   IconTestingModule,
 } from '@spartacus/storefront';
 import { NEVER, Observable, of, Subscription } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -29,15 +29,17 @@ let routerStateObservable: Observable<RouterState>;
 let currentGroupObservable: Observable<Configurator.Group>;
 const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
 class MockRouter {
   public events = of('');
 }
+
+@Component({
+  selector: 'cx-hamburger-menu',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule],
+})
+class MockHamburgerMenuComponent {}
+
 
 class MockConfiguratorGroupService {
   navigateToGroup(): void {}
@@ -46,6 +48,7 @@ class MockConfiguratorGroupService {
     return currentGroupObservable;
   }
 }
+
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
@@ -61,18 +64,6 @@ class MockConfiguratorCommonsService {
   }
 }
 
-class MockBreakpointService {
-  isDown(): void {}
-
-  isUp(): void {}
-}
-
-@Component({
-  selector: 'cx-hamburger-menu',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule],
-})
-class MockHamburgerMenuComponent {}
 
 class MockConfiguratorStorefrontUtilsService {
   changeStyling(): void {}
@@ -100,6 +91,8 @@ describe('ConfiguratorGroupTitleComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorGroupTitleComponent,
+        RoutingTestingModule,
+        BreakpointTestingModule,
       ],
       providers: [
         HamburgerMenuService,
@@ -108,20 +101,12 @@ describe('ConfiguratorGroupTitleComponent', () => {
           useClass: MockRouter,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
+          useClass: MockConfiguratorGroupsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
@@ -139,11 +124,21 @@ describe('ConfiguratorGroupTitleComponent', () => {
       .compileComponents();
   });
   beforeEach(() => {
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
+    vi.spyOn(configuratorGroupsService, 'getCurrentGroup').mockImplementation(
+      () => currentGroupObservable
+    );
+    const routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockImplementation(
+      () => routerStateObservable
+    );
+    const commonsService = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(commonsService, 'getConfiguration').mockReturnValue(of(config));
+    vi.spyOn(commonsService, 'readConfiguration').mockReturnValue(of(config));
+
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-
-    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(config.owner);

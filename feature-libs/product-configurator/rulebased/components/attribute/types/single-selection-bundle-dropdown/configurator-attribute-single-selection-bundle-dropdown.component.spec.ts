@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -13,90 +13,39 @@ import {
   FocusDirective,
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
-import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../../../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import {
-  ConfiguratorAttributeProductCardComponent,
-  ConfiguratorAttributeProductCardComponentOptions,
-} from '../../product-card/configurator-attribute-product-card.component';
-import {
-  ConfiguratorAttributeQuantityComponent,
-  ConfiguratorAttributeQuantityComponentOptions,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
-
 const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
-@Component({
-  selector: 'cx-configurator-attribute-product-card',
-  template: '',
-  imports: [
-    ReactiveFormsModule,
-    NgSelectModule,
-    I18nTestingModule,
-    UrlTestingModule,
-  ],
-})
-class MockProductCardComponent {
-  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+let showRequiredErrorMessage: boolean;
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
 }
 
-@Component({
-  selector: 'cx-configurator-attribute-quantity',
-  template: '',
-  imports: [
-    ReactiveFormsModule,
-    NgSelectModule,
-    I18nTestingModule,
-    UrlTestingModule,
-  ],
-})
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
 }
 
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [
-    ReactiveFormsModule,
-    NgSelectModule,
-    I18nTestingModule,
-    UrlTestingModule,
-  ],
-})
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
+
 
 class MockConfiguratorCommonsService {
   isConfigurationLoading(): Observable<boolean> {
     return of(false);
   }
   updateConfiguration(): void {}
-}
-
-let showRequiredErrorMessage: boolean;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(showRequiredErrorMessage);
-  }
-}
-
-class MockActivatedRoute {
-  constructor(public snapshot: any) {}
 }
 
 describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
@@ -237,7 +186,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useFactory: () => { const m = new MockConfigUtilsService(); vi.spyOn(m, 'isCartEntryOrGroupVisited').mockImplementation(() => of(showRequiredErrorMessage)); return m; },
         },
       ],
     })

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CxDatePipe,
   I18nTestingModule,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -14,30 +14,18 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
 let routerStateObservable: any = null;
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 let hasPendingChanges = false;
 let waitingTime: number | undefined = 1000;
-
-class MockConfiguratorCommonsService {
-  hasPendingChanges(): Observable<boolean> {
-    return of(hasPendingChanges);
-  }
-}
 
 class MockMessageConfig {
   productConfigurator = {
@@ -52,6 +40,13 @@ class MockMessageConfig {
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockCxSpinnerComponent {}
+
+class MockConfiguratorCommonsService {
+  hasPendingChanges(): Observable<boolean> {
+    return of(hasPendingChanges);
+  }
+}
+
 describe('ConfiguratorUpdateMessageComponent', () => {
   let component: ConfiguratorUpdateMessageComponent;
   let configuratorUtils: CommonConfiguratorUtilsService;
@@ -65,12 +60,9 @@ describe('ConfiguratorUpdateMessageComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorUpdateMessageComponent,
+        RoutingTestingModule,
       ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorMessageConfig,
           useClass: MockMessageConfig,
@@ -90,6 +82,15 @@ describe('ConfiguratorUpdateMessageComponent', () => {
     });
   });
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => routerStateObservable);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'hasPendingChanges'
+    ).mockImplementation(() => of(hasPendingChanges));
+
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;

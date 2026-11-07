@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injectable,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -11,39 +6,24 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import {
-  DirectionMode,
   DirectionService,
   FocusDirective,
   KeyboardFocusTestingModule,
+  MockDirectionService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../../../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-})
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-@Component({
-  selector: 'cx-configurator-show-more',
-  template: '',
-  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-})
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
@@ -53,9 +33,11 @@ class MockConfiguratorShowMoreComponent {
   @Input() itemLabel?: string;
 }
 
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
+
 
 class MockConfiguratorStorefrontUtilsService {
   lastSelected?: { attributeName: string; valueCode: string };
@@ -71,16 +53,10 @@ class MockConfiguratorStorefrontUtilsService {
   }
 }
 
+
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
     return of([]);
-  }
-}
-
-@Injectable()
-class MockDirectionService implements Partial<DirectionService> {
-  getDirection(): DirectionMode {
-    return DirectionMode.LTR;
   }
 }
 

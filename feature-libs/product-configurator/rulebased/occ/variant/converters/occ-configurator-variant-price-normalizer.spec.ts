@@ -1,23 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { ConverterService } from '@spartacus/core';
+import { ConverterTestingModule } from '@spartacus/core';
 import { OccConfiguratorTestUtils } from '../../../testing/occ-configurator-test-utils';
 import { OccConfiguratorVariantPriceNormalizer } from './occ-configurator-variant-price-normalizer';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-
-class MockConverterService {
-  convert() {}
-}
 
 describe('OccConfiguratorVariantPriceNormalizer', () => {
   let classUnderTest: OccConfiguratorVariantPriceNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        OccConfiguratorVariantPriceNormalizer,
-        { provide: ConverterService, useClass: MockConverterService },
-      ],
+      imports: [ConverterTestingModule],
+      providers: [OccConfiguratorVariantPriceNormalizer],
     });
 
     classUnderTest = TestBed.inject(OccConfiguratorVariantPriceNormalizer);

@@ -1,7 +1,5 @@
 import {
   ChangeDetectorRef,
-  Component,
-  Input,
   Pipe,
   PipeTransform,
 } from '@angular/core';
@@ -42,7 +40,6 @@ import {
   BehaviorSubject,
   EMPTY,
   firstValueFrom,
-  Observable,
   of,
   ReplaySubject,
   throwError,
@@ -51,33 +48,12 @@ import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
-
+import { MockProductService } from '@spartacus/core';
 @Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
   }
-}
-
-class MockProductService implements Partial<ProductService> {
-  get(): Observable<Product | undefined> {
-    return of(undefined);
-  }
-}
-
-@Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
-})
-class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
-  @Input() isBundleOverviewLink = false;
-  @Input() rowId?: string;
-  @Input() a11yDescriptionId?: string;
-  @Input() productName?: string;
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -122,6 +98,17 @@ function setConfiguratorTypeIntoFirstConfigInfo(
   if (configInfos && configInfos[0]) {
     configInfos[0].configuratorType = configuratorType;
   }
+}
+
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
+  @Input() isBundleOverviewLink = false;
+  @Input() rowId?: string;
+  @Input() a11yDescriptionId?: string;
+  @Input() productName?: string;
 }
 
 describe('ConfiguratorCartEntryBundleInfoComponent', () => {

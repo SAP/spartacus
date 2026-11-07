@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -18,6 +18,7 @@ let configuratorUISettingsConfigTemplate: ConfiguratorUISettingsConfig = {
     },
   },
 };
+
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>> {
@@ -58,7 +59,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     configuratorAttributePriceChangeService = TestBed.inject(
       ConfiguratorAttributePriceChangeService
     );
-    vi.spyOn(configuratorAttributePriceChangeService, 'getChangedPrices');
+    vi.spyOn(
+      configuratorAttributePriceChangeService,
+      'getChangedPrices'
+    ).mockReturnValue(of({ dummy: { value: 10, currencyIso: 'USD' } }));
 
     currentAttribute = {
       name: 'attributeId',

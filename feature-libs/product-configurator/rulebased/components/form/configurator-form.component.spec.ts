@@ -5,8 +5,10 @@ import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
+  GlobalMessageTestingModule,
   I18nTestingModule,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -17,6 +19,7 @@ import {
   KeyboardFocusService,
   LAUNCH_CALLER,
   LaunchDialogService,
+  LaunchDialogTestingModule,
 } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
@@ -24,7 +27,6 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -97,85 +99,6 @@ let configurationCreateObservable: Observable<Configurator.Configuration> =
   EMPTY;
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  removeConfiguration(): void {}
-
-  updateConfiguration(): void {}
-
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoadingObservable;
-  }
-
-  hasConflicts(): Observable<boolean> {
-    return hasConfigurationConflictsObservable;
-  }
-  checkConflictSolverDialog(): void {}
-}
-
-class MockConfiguratorGroupsService {
-  getCurrentGroup(): Observable<string> {
-    return currentGroupObservable;
-  }
-
-  getNextGroup(): Observable<string> {
-    return of('');
-  }
-
-  getPreviousGroup(): Observable<string> {
-    return of('');
-  }
-
-  isGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-
-  subscribeToUpdateConfiguration() {}
-
-  setGroupStatusVisited(): void {}
-
-  navigateToConflictSolver(): void {}
-
-  navigateToFirstAttributeGroup(): void {}
-
-  navigateToFirstIncompleteGroup(): void {}
-
-  navigateToContainerRow(): void {}
-
-  isConflictGroupType() {}
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive() {}
-}
-
-class MockLaunchDialogService {
-  openDialogAndSubscribe() {}
-}
-
-class MockGlobalMessageService {
-  add(): void {}
-}
 
 function checkConfigurationObs(
   routerMarbels: string,
@@ -268,16 +191,86 @@ let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 let keyboardFocusService: KeyboardFocusService;
 let featureToggles: MockFeatureTogglesController;
 
+
+class MockConfiguratorCommonsService {
+  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
+    return configurationCreateObservable;
+  }
+
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return configurationCreateObservable;
+  }
+
+  removeConfiguration(): void {}
+
+  updateConfiguration(): void {}
+
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoadingObservable;
+  }
+
+  hasConflicts(): Observable<boolean> {
+    return hasConfigurationConflictsObservable;
+  }
+  checkConflictSolverDialog(): void {}
+}
+
+
+class MockConfiguratorGroupsService {
+  getCurrentGroup(): Observable<string> {
+    return currentGroupObservable;
+  }
+
+  getNextGroup(): Observable<string> {
+    return of('');
+  }
+
+  getPreviousGroup(): Observable<string> {
+    return of('');
+  }
+
+  isGroupVisited(): Observable<boolean> {
+    return of(true);
+  }
+
+  subscribeToUpdateConfiguration() {}
+
+  setGroupStatusVisited(): void {}
+
+  navigateToConflictSolver(): void {}
+
+  navigateToFirstAttributeGroup(): void {}
+
+  navigateToFirstIncompleteGroup(): void {}
+
+  navigateToContainerRow(): void {}
+
+  isConflictGroupType() {}
+}
+
+
+class MockConfiguratorExpertModeService {
+  setExpModeRequested(): void {}
+
+  getExpModeRequested() {}
+
+  setExpModeActive(): void {}
+
+  getExpModeActive() {}
+}
+
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, ConfiguratorFormComponent],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorFormComponent,
+        RoutingTestingModule,
+        GlobalMessageTestingModule,
+        LaunchDialogTestingModule,
+      ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
@@ -289,10 +282,6 @@ describe('ConfiguratorFormComponent', () => {
         {
           provide: ConfiguratorExpertModeService,
           useClass: MockConfiguratorExpertModeService,
-        },
-        {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
         },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
@@ -323,17 +312,34 @@ describe('ConfiguratorFormComponent', () => {
     vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
     vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
     vi.spyOn(configuratorGroupsService, 'navigateToContainerRow');
+    vi.spyOn(configuratorGroupsService, 'getCurrentGroup').mockImplementation(
+      () => currentGroupObservable
+    );
 
     configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
-    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
-    vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
-    vi.spyOn(configuratorCommonsService, 'getConfiguration');
+    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading').mockImplementation(
+      () => isConfigurationLoadingObservable
+    );
+    vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration').mockImplementation(
+      () => configurationCreateObservable
+    );
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockImplementation(
+      () => configurationCreateObservable
+    );
     vi.spyOn(configuratorCommonsService, 'checkConflictSolverDialog');
+    vi.spyOn(configuratorCommonsService, 'hasConflicts').mockImplementation(
+      () => hasConfigurationConflictsObservable
+    );
 
     globalMessageService = TestBed.inject(GlobalMessageService);
     vi.spyOn(globalMessageService, 'add');
 
     isConfigurationLoadingObservable = of(false);
+
+    const routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockImplementation(
+      () => routerStateObservable
+    );
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');

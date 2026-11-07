@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -10,8 +10,9 @@ import {
   Product,
   ProductScope,
   ProductService,
-  RouterState,
+  ProductTestingModule,
   RoutingService,
+  RoutingTestingModule,
 } from '@spartacus/core';
 import {
   IconComponent,
@@ -27,12 +28,12 @@ import { ConfiguratorRouter } from '../../../common/components/service/configura
 import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
 import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
 import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
@@ -144,20 +145,6 @@ const mockInnerNestedProduct: Product = {
   },
 };
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return routerDataObservable;
-  }
-}
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go = () => Promise.resolve(true);
-}
-
 const mockRouterState: any = {
   state: {
     semanticRoute: ROUTE_CONFIGURATION,
@@ -171,40 +158,6 @@ const mockRouterState: any = {
 
 class MockRouter {
   public events = of('');
-}
-
-class MockProductService implements Partial<ProductService> {
-  get(_code?: string): Observable<Product> {
-    return productObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-}
-
-@Component({
-  template: '',
-  selector: 'cx-media',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: any;
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive(): Observable<boolean> {
-    return of(true);
-  }
 }
 
 let component: ConfiguratorProductTitleComponent;
@@ -420,12 +373,42 @@ function setDataForQuoteEntry() {
   mockRouterData.productCode = QUOTE_ENTRY_SUFFIX + PRODUCT_CODE;
 }
 
+
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return routerDataObservable;
+  }
+}
+
+
+class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return productConfigurationObservable;
+  }
+}
+
+
+class MockConfiguratorExpertModeService {
+  setExpModeRequested(): void {}
+
+  getExpModeRequested() {}
+
+  setExpModeActive(): void {}
+
+  getExpModeActive(): Observable<boolean> {
+    return of(true);
+  }
+}
+
 describe('ConfigProductTitleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
+        I18nTestingModule,
+        RoutingTestingModule,
+        ProductTestingModule,
         ConfiguratorProductTitleComponent,
       ],
       providers: [
@@ -434,20 +417,12 @@ describe('ConfigProductTitleComponent', () => {
           useClass: MockRouter,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockConfiguratorRouterExtractorService,
         },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
         },
         {
           provide: ConfiguratorExpertModeService,
@@ -476,11 +451,30 @@ describe('ConfigProductTitleComponent', () => {
 
   beforeEach(() => {
     mockRouterData = structuredClone(baseMockRouterData);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockImplementation(() => routerDataObservable);
+    vi.spyOn(TestBed.inject(RoutingService), 'getRouterState').mockImplementation(
+      () => routerStateObservable
+    );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(() => productConfigurationObservable);
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(
+      () => productObservable
+    );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorExpertModeService),
+      'getExpModeActive'
+    ).mockReturnValue(of(true));
     initialize();
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');
     vi.spyOn(configExpertModeService, 'setExpModeActive');
+    vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(of(true));
 
     featureToggles = TestBed.inject(MockFeatureTogglesController);
 

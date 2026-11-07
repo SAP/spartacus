@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -14,7 +14,6 @@ import {
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -41,14 +40,6 @@ let mockRouterState: any;
 
 let routerStateObservable: any = null;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go = () => Promise.resolve(true);
-}
-
 let configurationObs: Observable<Configurator.Configuration>;
 
 const configWithOverview: Configurator.Configuration = {
@@ -66,15 +57,13 @@ const mockRouterData: ConfiguratorRouter.Data = {
   owner: configWithOverview.owner,
 };
 
+
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
   }
 }
 
-class MockConfigUtilsService {
-  focusFirstActiveElement(): void {}
-}
 
 class MockConfiguratorGroupsService {}
 
@@ -93,19 +82,15 @@ describe('ConfigTabBarComponent', () => {
 
     routerStateObservable = of(mockRouterState);
     await TestBed.configureTestingModule({
-      imports: [RouterModule, ConfiguratorTabBarComponent],
+      imports: [RouterModule, ConfiguratorTabBarComponent, RoutingTestingModule],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: ConfiguratorGroupsService,
@@ -127,9 +112,10 @@ describe('ConfigTabBarComponent', () => {
       .compileComponents();
   });
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
-    component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
+    routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockImplementation(
+      () => routerStateObservable
+    );
     configurationObs = of(
       ConfiguratorTestUtils.createConfiguration(
         'a',
@@ -137,13 +123,19 @@ describe('ConfigTabBarComponent', () => {
       )
     );
     configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockImplementation(
+      () => configurationObs
+    );
+
+    fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
+    component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
     );
     keyboardFocusService = TestBed.inject(KeyboardFocusService);
     vi.spyOn(keyboardFocusService, 'clear');
     vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
-    routingService = TestBed.inject(RoutingService);
   });
 
   it('should create component', () => {

@@ -3,8 +3,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -12,9 +12,9 @@ import {
 } from '@spartacus/product-configurator/common';
 import { PageLayoutModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
+import { TextfieldConfiguratorTestingModule } from '../../testing';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from '../add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configurator-textfield-input-field.component';
 import { ConfiguratorTextfieldFormComponent } from './configurator-textfield-form.component';
@@ -38,13 +38,6 @@ const productConfig: ConfiguratorTextfield.Configuration = {
   configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return cold('-r', {
-      r: mockRouterState,
-    });
-  }
-}
 
 class MockConfiguratorTextfieldService {
   createConfiguration(): Observable<ConfiguratorTextfield.Configuration> {
@@ -86,23 +79,29 @@ describe('TextfieldFormComponent', () => {
         ConfiguratorTextfieldFormComponent,
         ConfiguratorTextfieldInputFieldComponent,
         ConfiguratorTextfieldAddToCartButtonComponent,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorTextfieldService,
-          useClass: MockConfiguratorTextfieldService,
-        },
+        RoutingTestingModule,
+        TextfieldConfiguratorTestingModule,
       ],
     }).compileComponents();
   });
   beforeEach(() => {
+    const routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockReturnValue(
+      cold('-r', { r: mockRouterState })
+    );
+    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
+    vi.spyOn(textfieldService, 'createConfiguration').mockReturnValue(
+      cold('-p', { p: productConfig })
+    );
+    vi.spyOn(textfieldService, 'readConfigurationForCartEntry').mockReturnValue(
+      cold('-p', { p: productConfig })
+    );
+    vi.spyOn(textfieldService, 'readConfigurationForOrderEntry').mockReturnValue(
+      cold('-p', { p: productConfig })
+    );
+
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;
-    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
   });
 
   it('should create component', () => {

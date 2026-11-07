@@ -21,6 +21,7 @@ import {
   ReadOnlyPostfix,
 } from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
+import { MockRoutingService } from '@spartacus/core';
 
 const productCode = 'CONF_LAPTOP';
 const configuratorType = ConfiguratorType.VARIANT;
@@ -58,10 +59,6 @@ class MockProductListItemContextReturnsNull
 
 class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
-}
-
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
 }
 
 let component: ConfigureProductComponent;
