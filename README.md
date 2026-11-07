@@ -1,3 +1,4 @@
+dummy change
 # ![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/spartacus)](https://api.reuse.software/info/github.com/SAP/spartacus)
