@@ -16,7 +16,7 @@ import { DirectionService } from '../direction.service';
  */
 @Injectable()
 export class MockDirectionService implements Partial<DirectionService> {
-  initialize(): Promise<any> {
+  initialize(): Promise<void> {
     return Promise.resolve();
   }
 

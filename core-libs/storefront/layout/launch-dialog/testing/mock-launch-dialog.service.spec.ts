@@ -24,7 +24,7 @@ describe('MockLaunchDialogService', () => {
 
   it('should allow spying on openDialog', () => {
     const spy = vi.spyOn(service, 'openDialog').mockReturnValue(of('opened'));
-    service.openDialog('caller' as any, undefined, undefined);
+    service.openDialog('caller', undefined, undefined);
     expect(spy).toHaveBeenCalled();
   });
 

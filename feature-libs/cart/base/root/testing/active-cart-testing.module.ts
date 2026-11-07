@@ -10,8 +10,6 @@ import { MockActiveCartService } from './mock-active-cart.service';
 
 /** Provides a default {@link MockActiveCartService} for {@link ActiveCartFacade}. */
 @NgModule({
-  providers: [
-    { provide: ActiveCartFacade, useClass: MockActiveCartService },
-  ],
+  providers: [{ provide: ActiveCartFacade, useClass: MockActiveCartService }],
 })
 export class ActiveCartTestingModule {}

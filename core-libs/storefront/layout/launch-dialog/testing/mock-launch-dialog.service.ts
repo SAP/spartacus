@@ -20,7 +20,7 @@ export class MockLaunchDialogService implements Partial<LaunchDialogService> {
     return EMPTY;
   }
 
-  get dialogClose(): Observable<any | undefined> {
+  get dialogClose(): Observable<any> {
     return of(undefined);
   }
 

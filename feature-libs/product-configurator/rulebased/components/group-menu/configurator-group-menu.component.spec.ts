@@ -29,7 +29,6 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
@@ -222,6 +221,13 @@ function initialize() {
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
   fixture.detectChanges();
+}
+
+
+class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return productConfigurationObservable;
+  }
 }
 
 describe('ConfiguratorGroupMenuComponent', () => {

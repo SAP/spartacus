@@ -41,6 +41,13 @@ class MockMessageConfig {
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockCxSpinnerComponent {}
+
+class MockConfiguratorCommonsService {
+  hasPendingChanges(): Observable<boolean> {
+    return of(hasPendingChanges);
+  }
+}
+
 describe('ConfiguratorUpdateMessageComponent', () => {
   let component: ConfiguratorUpdateMessageComponent;
   let configuratorUtils: CommonConfiguratorUtilsService;

@@ -27,7 +27,6 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -194,6 +193,74 @@ let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 let keyboardFocusService: KeyboardFocusService;
 let featureToggles: MockFeatureTogglesController;
+
+
+class MockConfiguratorCommonsService {
+  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
+    return configurationCreateObservable;
+  }
+
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return configurationCreateObservable;
+  }
+
+  removeConfiguration(): void {}
+
+  updateConfiguration(): void {}
+
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoadingObservable;
+  }
+
+  hasConflicts(): Observable<boolean> {
+    return hasConfigurationConflictsObservable;
+  }
+  checkConflictSolverDialog(): void {}
+}
+
+
+class MockConfiguratorGroupsService {
+  getCurrentGroup(): Observable<string> {
+    return currentGroupObservable;
+  }
+
+  getNextGroup(): Observable<string> {
+    return of('');
+  }
+
+  getPreviousGroup(): Observable<string> {
+    return of('');
+  }
+
+  isGroupVisited(): Observable<boolean> {
+    return of(true);
+  }
+
+  subscribeToUpdateConfiguration() {}
+
+  setGroupStatusVisited(): void {}
+
+  navigateToConflictSolver(): void {}
+
+  navigateToFirstAttributeGroup(): void {}
+
+  navigateToFirstIncompleteGroup(): void {}
+
+  navigateToContainerRow(): void {}
+
+  isConflictGroupType() {}
+}
+
+
+class MockConfiguratorExpertModeService {
+  setExpModeRequested(): void {}
+
+  getExpModeRequested() {}
+
+  setExpModeActive(): void {}
+
+  getExpModeActive() {}
+}
 
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {

@@ -23,6 +23,13 @@ const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
 })
 class ExampleConfiguratorAttributeSelectionComponent extends ConfiguratorAttributeSelectionBaseComponent {}
 
+
+class MockConfiguratorCommonsService {
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoading$.asObservable();
+  }
+}
+
 describe('ConfiguratorAttributeSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeSelectionComponent>;

@@ -28,6 +28,12 @@ describe('MockRoutingService', () => {
     await expect(service.go([])).resolves.toBe(true);
   });
 
+  it('should allow overriding getRouterState with vi.spyOn', async () => {
+    const state = { navigationId: 1 } as any;
+    vi.spyOn(service, 'getRouterState').mockReturnValue(of(state));
+    expect(await firstValueFrom(service.getRouterState())).toBe(state);
+  });
+
   it('should allow overriding a method return value with vi.spyOn', async () => {
     vi.spyOn(service, 'isNavigating').mockReturnValue(of(true));
     expect(await firstValueFrom(service.isNavigating())).toBe(true);

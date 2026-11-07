@@ -85,6 +85,14 @@ class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorA
   }
 }
 
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoading$.asObservable();
+  }
+}
+
 describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeSingleSelectionComponent>;

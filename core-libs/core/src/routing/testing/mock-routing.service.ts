@@ -23,7 +23,7 @@ export class MockRoutingService implements Partial<RoutingService> {
   }
 
   getRouterState(): Observable<RouterState> {
-    return of({} as RouterState);
+    return EMPTY;
   }
 
   getPageContext(): Observable<PageContext> {

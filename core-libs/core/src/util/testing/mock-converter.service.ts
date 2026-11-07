@@ -17,7 +17,10 @@ import { Converter, ConverterService } from '../converter.service';
  */
 @Injectable()
 export class MockConverterService implements Partial<ConverterService> {
-  convert<S, T>(source: S, _injectionToken: InjectionToken<Converter<S, T>>): T {
+  convert<S, T>(
+    source: S,
+    _injectionToken: InjectionToken<Converter<S, T>>
+  ): T {
     return source as unknown as T;
   }
 
@@ -40,7 +43,9 @@ export class MockConverterService implements Partial<ConverterService> {
     return (source$: Observable<S[]>) => source$ as unknown as Observable<T[]>;
   }
 
-  hasConverters<S, T>(_injectionToken: InjectionToken<Converter<S, T>>): boolean {
+  hasConverters<S, T>(
+    _injectionToken: InjectionToken<Converter<S, T>>
+  ): boolean {
     return false;
   }
 }
