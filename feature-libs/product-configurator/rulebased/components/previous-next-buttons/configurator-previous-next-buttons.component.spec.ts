@@ -15,6 +15,7 @@ import {
 import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -22,6 +23,9 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { GROUP_ID_1, PRODUCT_CODE } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
 let routerStateObservable: any = null;
@@ -84,42 +88,6 @@ const configWithSingleRootAndNestedGroups: Configurator.Configuration = {
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
-
-
-class MockConfiguratorGroupsService {
-  getCurrentGroupId() {
-    return of('');
-  }
-
-  getNextGroupId() {
-    return of('');
-  }
-
-  getPreviousGroupId() {
-    return of('');
-  }
-
-  navigateToGroup() {}
-
-  getPreviousGroupDescription() {
-    return of('previousGroupDescription');
-  }
-
-  getNextGroupDescription() {
-    return of('nextGroupDescription');
-  }
-}
-
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-}
 
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;

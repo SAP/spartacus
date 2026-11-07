@@ -49,6 +49,8 @@ import { CommonConfiguratorTestUtilsService } from '../../testing/common-configu
 import { CommonConfiguratorUISettingsConfig } from '../config/common-configurator-ui-settings.config';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 import { MockProductService } from '@spartacus/core';
+import { MockConfigureCartEntryComponent } from '../../testing/components/mock-configure-cart-entry.component';
+
 @Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
@@ -98,17 +100,6 @@ function setConfiguratorTypeIntoFirstConfigInfo(
   if (configInfos && configInfos[0]) {
     configInfos[0].configuratorType = configuratorType;
   }
-}
-
-class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
-  @Input() isBundleOverviewLink = false;
-  @Input() rowId?: string;
-  @Input() a11yDescriptionId?: string;
-  @Input() productName?: string;
 }
 
 describe('ConfiguratorCartEntryBundleInfoComponent', () => {

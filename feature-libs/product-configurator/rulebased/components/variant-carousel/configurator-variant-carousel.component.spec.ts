@@ -15,7 +15,10 @@ import {
 } from '@spartacus/product-configurator/common';
 import { CarouselComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { MockConfiguratorRouterExtractorService } from '../../../common/testing/services/mock-configurator-router-extractor.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
@@ -103,12 +106,6 @@ function initialize(configuration: Configurator.Configuration) {
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
   fixture.detectChanges();
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
 }
 
 describe('ConfiguratorVariantCarouselComponent', () => {

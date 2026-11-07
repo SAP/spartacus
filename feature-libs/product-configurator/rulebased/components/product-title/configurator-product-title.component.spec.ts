@@ -28,11 +28,15 @@ import { ConfiguratorRouter } from '../../../common/components/service/configura
 import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
 import { CommonConfigurator } from '../../../common/core/model/common-configurator.model';
 import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorExpertModeService } from '../../testing/services/mock-configurator-expert-mode.service';
+import { MockConfiguratorRouterExtractorService } from '../../../common/testing/services/mock-configurator-router-extractor.service';
 import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
@@ -371,33 +375,6 @@ function setDataForQuoteEntry() {
   mockRouterData.owner.type = CommonConfigurator.OwnerType.QUOTE_ENTRY;
   mockRouterData.owner.id = QUOTE_ENTRY_KEY;
   mockRouterData.productCode = QUOTE_ENTRY_SUFFIX + PRODUCT_CODE;
-}
-
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return routerDataObservable;
-  }
-}
-
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-}
-
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive(): Observable<boolean> {
-    return of(true);
-  }
 }
 
 describe('ConfigProductTitleComponent', () => {

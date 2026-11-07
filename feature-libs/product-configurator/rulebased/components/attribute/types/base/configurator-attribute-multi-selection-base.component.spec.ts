@@ -10,6 +10,8 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+
 const createTestValue = (
   price: number | undefined,
   total: number | undefined,
@@ -46,14 +48,6 @@ class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAt
   }
 }
 const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
-
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoading$.asObservable();
-  }
-}
 
 describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBaseComponent;

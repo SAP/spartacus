@@ -29,6 +29,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, NEVER, Subject, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -36,6 +37,8 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
 import { ConfiguratorPriceComponent } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorPriceComponent } from '../../testing/components/mock-configurator-price.component';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
 const owner: CommonConfigurator.Owner =
@@ -137,30 +140,6 @@ class MockDirectionService implements Partial<DirectionService> {
   getDirection(): DirectionMode {
     return DirectionMode.LTR;
   }
-}
-
-
-class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    configCreate.productCode = productCode;
-    return configurationObservable
-      ? configurationObservable
-      : defaultConfigObservable;
-  }
-
-  getConfigurationWithOverview(
-    configuration: Configurator.Configuration
-  ): Observable<Configurator.Configuration> {
-    return overviewObservable ? overviewObservable : of(configuration);
-  }
-
-  removeConfiguration(): void {}
-}
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 describe('ConfigurationOverviewFormComponent', () => {

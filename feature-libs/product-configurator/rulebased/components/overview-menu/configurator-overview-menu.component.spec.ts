@@ -13,6 +13,8 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 
 const OWNER: CommonConfigurator.Owner =
@@ -26,26 +28,6 @@ const CONFIGURATION: Configurator.ConfigurationWithOverview = {
   overview: ConfigurationTestData.productConfiguration
     .overview as Configurator.Overview,
 };
-
-class MockConfiguratorGroupsService {
-  setGroupStatusVisited = vi.fn();
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  getElementById = vi.fn();
-  getElements = vi.fn();
-  getPrefixId = vi.fn();
-  hasScrollbar = vi.fn();
-  getClosestElement = vi.fn();
-  changeStylingOfElement = vi.fn();
-  removeStylingOfElement = vi.fn();
-  createOvGroupId = vi.fn((_idPrefix?: string, _groupId?: string) => '');
-  createOvMenuItemId = vi.fn();
-  ensureElementVisible = vi.fn();
-  getSpareViewportHeight = vi.fn();
-  getVerticallyScrolledPixels = vi.fn();
-  navigateToOverviewGroup = vi.fn();
-}
 
 let component: ConfiguratorOverviewMenuComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
@@ -61,6 +43,30 @@ function initialize() {
   configuratorStorefrontUtilsService = TestBed.inject(
     ConfiguratorStorefrontUtilsService
   );
+  (
+    [
+      'getElementById',
+      'getElements',
+      'getPrefixId',
+      'hasScrollbar',
+      'getClosestElement',
+      'changeStylingOfElement',
+      'removeStylingOfElement',
+      'createOvMenuItemId',
+      'ensureElementVisible',
+      'getSpareViewportHeight',
+      'getVerticallyScrolledPixels',
+      'navigateToOverviewGroup',
+    ] as const
+  ).forEach((method) =>
+    vi
+      .spyOn(configuratorStorefrontUtilsService, method as any)
+      .mockReturnValue(undefined)
+  );
+  vi.spyOn(
+    configuratorStorefrontUtilsService,
+    'createOvGroupId'
+  ).mockReturnValue('');
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {

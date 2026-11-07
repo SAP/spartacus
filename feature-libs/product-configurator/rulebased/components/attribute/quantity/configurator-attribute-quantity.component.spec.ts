@@ -5,6 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
+import { MockConfiguratorItemCounterComponent } from '../../../testing/components/mock-configurator-item-counter.component';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 const fakeDebounceTime = 750;

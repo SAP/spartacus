@@ -8,22 +8,11 @@ import {
 import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorExpertModeService } from '../../testing/services/mock-configurator-expert-mode.service';
 import { ConfiguratorLogoutEventListener } from './configurator-logout-event.listener';
 
 const mockEventStream$ = new Subject<CxEvent>();
-
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-  getExpModeRequested() {}
-  setExpModeActive(): void {}
-  getExpModeActive() {}
-}
-
-
-class MockConfiguratorCommonsService {
-  removeProductBoundConfigurations(): void {}
-}
 
 describe(`ConfiguratorLogoutEventListener`, () => {
   let classUnderTest: ConfiguratorLogoutEventListener;

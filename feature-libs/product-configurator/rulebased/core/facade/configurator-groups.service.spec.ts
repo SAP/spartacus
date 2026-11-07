@@ -17,6 +17,7 @@ import {
   productConfigurationWithConflicts,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockConfiguratorCartService } from '../../testing/services/mock-configurator-cart.service';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { Configurator } from './../model/configurator.model';
@@ -34,12 +35,6 @@ const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
     isConflictResolutionMode: true,
   },
 };
-
-class MockConfiguratorCartService {
-  checkForActiveCartUpdateDone(): Observable<boolean> {
-    return of(true);
-  }
-}
 
 describe('ConfiguratorGroupsService', () => {
   let classUnderTest: ConfiguratorGroupsService;

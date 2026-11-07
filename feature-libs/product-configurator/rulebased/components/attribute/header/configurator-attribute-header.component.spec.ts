@@ -16,6 +16,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { getTestScheduler } from 'jasmine-marbles';
 import { firstValueFrom, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -26,6 +27,11 @@ import { ConfiguratorMessageService } from '../../service/configurator-message.s
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+import { MockConfiguratorShowMoreComponent } from '../../../testing/components/mock-configurator-show-more.component';
+import { MockConfiguratorStorefrontUtilsService as MockConfigUtilsService } from '../../../testing/services/mock-configurator-storefront-utils.service';
+import { MockConfiguratorCommonsService } from '../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorGroupsService } from '../../../testing/services/mock-configurator-groups.service';
+
 @Component({
   selector: 'cx-configurator-show-options',
   template: '',
@@ -44,31 +50,6 @@ const configConflict: Configurator.Configuration =
   ConfigurationTestData.productConfigurationWithConflicts;
 
 let config: Configurator.Configuration;
-
-class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
-}
-
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  isConfigurationLoading(): Observable<boolean> {
-    return of(true);
-  }
-}
-
-
-class MockConfiguratorGroupsService {
-  navigateToGroup(): void {}
-}
 
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;

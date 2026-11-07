@@ -11,6 +11,7 @@ import {
   MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -20,40 +21,13 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorGroupsService as MockGroupService } from '../../../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../../../testing/services/mock-configurator-storefront-utils.service';
+import { MockConfiguratorAttributePriceChangeService } from '../../../../testing/services/mock-configurator-attribute-price-change.service';
+
 const VALUE_NAME_3 = 'val3';
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
-
-
-class MockConfiguratorStorefrontUtilsService {
-  assembleValuesForMultiSelectAttributes(): void {}
-
-  lastSelected?: { attributeName: string; valueCode: string };
-  setLastSelected(attributeName: string, valueCode: string): void {
-    this.lastSelected = { attributeName, valueCode };
-  }
-  isLastSelected(attributeName: string, valueCode: string): boolean {
-    return (
-      !!this.lastSelected &&
-      this.lastSelected.attributeName === attributeName &&
-      this.lastSelected.valueCode === valueCode
-    );
-  }
-}
-
-
-class MockConfiguratorAttributePriceChangeService {
-  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
-    return of([]);
-  }
-}
 
 describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionImageComponent;

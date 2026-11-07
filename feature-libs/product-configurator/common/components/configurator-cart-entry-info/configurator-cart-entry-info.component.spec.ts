@@ -16,6 +16,7 @@ import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry';
+import { MockConfigureCartEntryComponent } from '../../testing/components';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
@@ -26,13 +27,6 @@ class MockCartItemContext implements Partial<CartItemContext> {
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.SaveForLater
   );
-}
-
-class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
 }
 
 describe('ConfiguratorCartEntryInfoComponent', () => {

@@ -10,6 +10,7 @@ import {
   DirectionService,
   DirectionTestingModule,
 } from '@spartacus/storefront';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
 

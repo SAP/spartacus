@@ -7,14 +7,10 @@ import {
 } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import { ConfiguratorLanguageSetEventListener } from '@spartacus/product-configurator/rulebased';
 
 const mockEventStream$ = new Subject<CxEvent>();
-
-
-class MockConfiguratorCommonsService {
-  removeProductBoundConfigurations(): void {}
-}
 
 describe(`ConfiguratorLanguageSetEventListener`, () => {
   let classUnderTest: ConfiguratorLanguageSetEventListener;

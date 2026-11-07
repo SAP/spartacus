@@ -13,12 +13,15 @@ import {
 } from '@spartacus/product-configurator/common';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -65,26 +68,6 @@ const defaultConfig: Configurator.Configuration = {
 };
 
 let routerStateObservable: Observable<RouterState>;
-
-
-class MockConfiguratorStorefrontUtilsService {
-  shouldHideBasePriceAndSelectedOptions(
-    configuration: Configurator.Configuration
-  ): boolean {
-    const configuratorType = configuration.owner?.configuratorType;
-    if (configuratorType === ConfiguratorType.CPQ) {
-      return !!TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator
-        ?.cpqHideBasePriceAndSelectedOptions;
-    }
-    return !!configuration.hideBasePriceAndSelectedOptions;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-}
 
 describe('ConfigPriceSummaryComponent', () => {
   let component: ConfiguratorPriceSummaryComponent;

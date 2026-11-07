@@ -6,6 +6,7 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { MockConfiguratorAttributePriceChangeService } from '../../../../testing/services/mock-configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 const attributeCode = 1;
@@ -18,13 +19,6 @@ let configuratorUISettingsConfigTemplate: ConfiguratorUISettingsConfig = {
     },
   },
 };
-
-
-class MockConfiguratorAttributePriceChangeService {
-  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>> {
-    return of({ dummy: { value: 10, currencyIso: 'USD' } });
-  }
-}
 
 describe('ConfiguratorAttributeBaseComponent', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;

@@ -27,11 +27,19 @@ import {
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
+import { MockConfiguratorRouterExtractorService } from '../../../common/testing/services/mock-configurator-router-extractor.service';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { MockConfiguratorAttributeProductCardComponent } from '../../testing/components/mock-configurator-attribute-product-card.component';
+import { MockConfiguratorPriceComponent } from '../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorExpertModeService } from '../../testing/services/mock-configurator-expert-mode.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionConfig } from '../attribute/composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionDirective } from '../attribute/composition/configurator-attribute-composition.directive';
 import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
@@ -149,91 +157,6 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
       },
     },
   };
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  removeConfiguration(): void {}
-
-  updateConfiguration(): void {}
-
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoadingObservable;
-  }
-
-  hasConflicts(): void {}
-}
-
-
-class MockConfiguratorGroupsService {
-  getCurrentGroup(): Observable<string> {
-    return currentGroupObservable;
-  }
-
-  getNextGroup(): Observable<string> {
-    return of('');
-  }
-
-  getPreviousGroup(): Observable<string> {
-    return of('');
-  }
-
-  isGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-
-  subscribeToUpdateConfiguration() {}
-
-  setGroupStatusVisited(): void {}
-
-  navigateToConflictSolver(): void {}
-
-  navigateToFirstIncompleteGroup(): void {}
-
-  isConflictGroupType() {}
-}
-
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive() {
-    return of(false);
-  }
-}
-
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData() {
-    return EMPTY;
-  }
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  createGroupId(groupId?: string): string | undefined {
-    if (groupId) {
-      return groupId + '-group';
-    }
-  }
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-  isLastSelected(): boolean {
-    return false;
-  }
-  createAttributeUiKey() {}
-}
 
 describe('ConfiguratorGroupComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;

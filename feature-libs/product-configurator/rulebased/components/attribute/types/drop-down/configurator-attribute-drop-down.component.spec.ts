@@ -14,6 +14,7 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
@@ -26,6 +27,13 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
+import { MockConfiguratorAttributeQuantityComponent } from '../../../../testing/components/mock-configurator-attribute-quantity.component';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorShowMoreComponent } from '../../../../testing/components/mock-configurator-show-more.component';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorStorefrontUtilsService as MockConfigUtilsService } from '../../../../testing/services/mock-configurator-storefront-utils.service';
+import { MockConfiguratorAttributePriceChangeService } from '../../../../testing/services/mock-configurator-attribute-price-change.service';
+
 function createValue(
   code: string,
   name: string,
@@ -50,39 +58,6 @@ function createValue(
 let showRequiredErrorMessage: boolean;
 
 const ATTRIBUTE_VALUES_MISSING = 'attribute values are missing';
-
-class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<number>();
-}
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
-}
-
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-}
-
-
-class MockConfiguratorAttributePriceChangeService {
-  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
-    return of([]);
-  }
-}
 
 describe('ConfiguratorAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;

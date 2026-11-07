@@ -14,11 +14,15 @@ import {
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -56,16 +60,6 @@ const mockRouterData: ConfiguratorRouter.Data = {
   isOwnerCartEntry: false,
   owner: configWithOverview.owner,
 };
-
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
-
-
-class MockConfiguratorGroupsService {}
 
 describe('ConfigTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;

@@ -40,6 +40,7 @@ import {
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { firstValueFrom, Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -48,6 +49,17 @@ import { ConfiguratorQuantityService } from '../../core/services/configurator-qu
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
+import {
+  MockConfiguratorCartService,
+  MockConfiguratorCommonsService,
+  MockConfiguratorGroupsService,
+  MockConfiguratorQuantityService,
+} from '../../testing/services';
+import {
+  MockCommonConfiguratorUtilsService,
+  MockConfiguratorRouterExtractorService,
+} from '../../../common/testing/services';
+
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '002+1';
 const PRODUCT_ENTRY_KEY = '003+1';
@@ -355,70 +367,6 @@ class MockConfiguratorStorefrontUtilsService {
   focusFirstActiveElement(): void {}
   getElement(): void {}
   changeStyling(): void {}
-}
-
-
-class MockConfiguratorQuantityService {
-  getQuantity(): Observable<number> {
-    return of(QUANTITY);
-  }
-
-  setQuantity(): void {}
-}
-
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-
-  getConfigurationWithOverview(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-
-  removeConfiguration() {}
-
-  removeUiState() {}
-
-  hasPendingChanges() {
-    return pendingChangesObservable;
-  }
-}
-
-
-class MockConfiguratorCartService {
-  updateCartEntry() {}
-
-  addToCart() {}
-
-  getEntry() {
-    return orderEntryObservable;
-  }
-}
-
-
-class MockConfiguratorGroupsService {
-  setGroupStatusVisited() {}
-}
-
-
-class MockCommonConfiguratorUtilsService {
-  decomposeOwnerId(ownerId: string): any {
-    const parts: string[] = ownerId.split('+');
-    const result = { documentId: parts[0], entryNumber: parts[1] };
-    return result;
-  }
-}
-
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(mockRouterData);
-  }
 }
 
 describe('ConfiguratorAddToCartButtonComponent', () => {

@@ -34,6 +34,9 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorExpertModeService } from '../../testing/services/mock-configurator-expert-mode.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 

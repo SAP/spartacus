@@ -18,7 +18,9 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, lastValueFrom, Observable, of, ReplaySubject } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
 
@@ -26,11 +28,6 @@ const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 const product: Product = { code: 'pCode' };
-
-
-class MockConfiguratorCommonsService {
-  forceNewConfiguration = vi.fn();
-}
 
 describe('ConfiguratorRestartDialogComponent', () => {
   let component: ConfiguratorRestartDialogComponent;

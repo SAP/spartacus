@@ -15,6 +15,7 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -26,26 +27,16 @@ import { ConfiguratorAttributeProductCardComponent } from '../../product-card/co
 import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
+import { MockConfiguratorAttributeProductCardComponent as MockProductCardComponent } from '../../../../testing/components/mock-configurator-attribute-product-card.component';
+import { MockConfiguratorAttributeQuantityComponent } from '../../../../testing/components/mock-configurator-attribute-quantity.component';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorStorefrontUtilsService as MockConfigUtilsService } from '../../../../testing/services/mock-configurator-storefront-utils.service';
+
 const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 let showRequiredErrorMessage: boolean;
 class MockActivatedRoute {
   constructor(public snapshot: any) {}
-}
-
-class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-}
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-
-class MockConfiguratorCommonsService {
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-  updateConfiguration(): void {}
 }
 
 describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {

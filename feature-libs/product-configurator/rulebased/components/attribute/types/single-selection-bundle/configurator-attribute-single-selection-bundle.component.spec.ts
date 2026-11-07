@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, ProductConnector } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
@@ -18,6 +19,12 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
+import { MockConfiguratorAttributeProductCardComponent as MockProductCardComponent } from '../../../../testing/components/mock-configurator-attribute-product-card.component';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorAttributeQuantityComponent } from '../../../../testing/components/mock-configurator-attribute-quantity.component';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../../../testing/services/mock-configurator-storefront-utils.service';
+
 function getSelected(
   component: ConfiguratorAttributeSingleSelectionBundleComponent,
   index: number
@@ -35,29 +42,6 @@ class MockProductConnector {}
 
 class MockActivatedRoute {
   constructor(public snapshot: any) {}
-}
-
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-}
-
-
-class MockConfiguratorStorefrontUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(false);
-  }
-}
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
 }
 
 describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {

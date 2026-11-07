@@ -49,6 +49,7 @@ import {
   productConfigurationWithConflicts,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';

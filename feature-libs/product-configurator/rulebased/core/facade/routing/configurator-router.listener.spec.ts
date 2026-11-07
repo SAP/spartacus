@@ -8,6 +8,9 @@ import { Subscription, of } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
 import { ConfiguratorRouterListener } from './configurator-router.listener';
 import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
+import { MockConfiguratorCartService } from '../../../testing/services/mock-configurator-cart.service';
+import { MockConfiguratorQuantityService } from '../../../testing/services/mock-configurator-quantity.service';
+
 let routerState: RouterState = {
   navigationId: 1,
   state: {
@@ -38,18 +41,6 @@ const routerStateCartRoute: RouterState = {
     semanticRoute: 'cart',
   },
 };
-
-class MockConfiguratorCartService {
-  removeCartBoundConfigurations() {}
-}
-
-
-class MockConfiguratorQuantityService {
-  getQuantity(): Observable<number> {
-    return of(QUANTITY);
-  }
-  setQuantity(): void {}
-}
 
 describe('ConfiguratorRouterListener', () => {
   let configuratorCartService: ConfiguratorCartService;

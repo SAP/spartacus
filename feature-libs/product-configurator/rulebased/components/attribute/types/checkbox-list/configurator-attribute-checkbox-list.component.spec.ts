@@ -14,6 +14,7 @@ import {
   FocusDirective,
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -25,58 +26,16 @@ import { ConfiguratorAttributePriceChangeService } from '../../price-change/conf
 import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
+import { MockConfiguratorAttributeQuantityComponent } from '../../../../testing/components/mock-configurator-attribute-quantity.component';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorShowMoreComponent } from '../../../../testing/components/mock-configurator-show-more.component';
+import { MockConfiguratorGroupsService as MockGroupService } from '../../../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../../../testing/services/mock-configurator-storefront-utils.service';
+import { MockConfiguratorAttributePriceChangeService } from '../../../../testing/services/mock-configurator-attribute-price-change.service';
+
 const VALUE_1 = 'val1';
 const VALUE_2 = 'val2';
-
-class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<number>();
-}
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
-}
-
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-}
-
-
-class MockConfiguratorStorefrontUtilsService {
-  assembleValuesForMultiSelectAttributes(): void {}
-
-  lastSelected?: { attributeName: string; valueCode: string };
-  setLastSelected(attributeName: string, valueCode: string): void {
-    this.lastSelected = { attributeName, valueCode };
-  }
-  isLastSelected(attributeName: string, valueCode: string): boolean {
-    return (
-      !!this.lastSelected &&
-      this.lastSelected.attributeName === attributeName &&
-      this.lastSelected.valueCode === valueCode
-    );
-  }
-}
-
-
-class MockConfiguratorAttributePriceChangeService {
-  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
-    return of([]);
-  }
-}
 
 describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;

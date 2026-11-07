@@ -26,6 +26,9 @@ import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorUtilsService } from './utils';
+import { MockConfiguratorCartService } from '../../testing/services/mock-configurator-cart.service';
+import { MockConfiguratorUtilsService } from '../../testing/services/mock-configurator-utils.service';
+
 const PRODUCT_CODE = 'CONF_LAPTOP';
 let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
@@ -119,19 +122,6 @@ function callGetOrCreate(
   });
   const configurationObs = serviceUnderTest.getOrCreateConfiguration(owner);
   return configurationObs;
-}
-
-
-class MockConfiguratorCartService {
-  readConfigurationForCartEntry() {
-    return configCartObservable;
-  }
-  readConfigurationForOrderEntry() {
-    return configOrderObservable;
-  }
-  readConfigurationForQuoteEntry() {
-    return configQuoteObservable;
-  }
 }
 
 describe('ConfiguratorCommonsService', () => {

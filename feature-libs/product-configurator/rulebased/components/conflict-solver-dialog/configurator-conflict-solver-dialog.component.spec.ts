@@ -23,16 +23,13 @@ import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feat
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorGroupComponent } from '../group';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  dismissConflictSolverDialog(): void {}
-}
 
 const mockRouterData: ConfiguratorRouter.Data = {
   owner: {
@@ -69,12 +66,6 @@ class MockConfiguratorDefaultFormComponent {
   @Input() isNavigationToGroupEnabled = true;
 }
 
-class MockConfigUtilsService {
-  scrollToConfigurationElement(): void {}
-
-  focusFirstAttribute(): void {}
-}
-
 describe('ConfiguratorConflictSolverDialogComponent', () => {
   let component: ConfiguratorConflictSolverDialogComponent;
   let fixture: ComponentFixture<ConfiguratorConflictSolverDialogComponent>;
@@ -90,7 +81,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       providers: [
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: ConfiguratorCommonsService,

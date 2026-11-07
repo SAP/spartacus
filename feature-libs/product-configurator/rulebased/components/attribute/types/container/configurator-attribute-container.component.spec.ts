@@ -14,6 +14,8 @@ import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-
 import { ConfiguratorUtilsService } from '../../../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorGroupsService } from '../../../../testing/services/mock-configurator-groups.service';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -74,29 +76,6 @@ class MockProductCardComponent {
   addAction = Configurator.ContainerRowAction.ADD;
   editAction = Configurator.ContainerRowAction.EDIT;
   copyAction = Configurator.ContainerRowAction.COPY;
-}
-
-class MockConfiguratorCommonsService {
-  configuration$ = new BehaviorSubject(
-    ConfiguratorTestUtils.createConfiguration('config-id')
-  );
-
-  addContainerRow(): void {}
-  removeContainerRow(): void {}
-  copyContainerRow(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return this.configuration$;
-  }
-}
-
-class MockConfiguratorGroupsService {
-  navigateToGroup(): void {}
-  getCurrentGroupId(): Observable<string> {
-    return of('testGroup');
-  }
 }
 
 describe('ConfiguratorAttributeContainerComponent', () => {

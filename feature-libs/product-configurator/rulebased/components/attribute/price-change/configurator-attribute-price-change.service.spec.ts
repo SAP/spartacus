@@ -1,12 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { EMPTY, Observable, Subject, of, skip } from 'rxjs';
+import { EMPTY, Subject, of, skip } from 'rxjs';
 import { ConfiguratorAttributePriceChangeService } from './configurator-attribute-price-change.service';
-
-import {
-  CommonConfigurator,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorRouterExtractorService } from '../../../../common/testing/services/mock-configurator-router-extractor.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 
@@ -22,20 +20,7 @@ const mockConfigTemplate: Configurator.Configuration = {
   ),
 };
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData() {
-    return of({ owner: mockConfigTemplate.owner });
-  }
-}
-
 const configSubject = new Subject<Configurator.Configuration>();
-class MockConfiguratorCommonsService {
-  getConfiguration(
-    owner: CommonConfigurator.Owner
-  ): Observable<Configurator.Configuration> {
-    return owner === mockConfigTemplate.owner ? configSubject : EMPTY;
-  }
-}
 
 describe('ConfiguratorAttributePriceChangeService', () => {
   let classUnderTest: ConfiguratorAttributePriceChangeService;
@@ -55,6 +40,15 @@ describe('ConfiguratorAttributePriceChangeService', () => {
         },
       ],
     });
+
+    const routerExtractor = TestBed.inject(ConfiguratorRouterExtractorService);
+    vi.spyOn(routerExtractor, 'extractRouterData').mockReturnValue(
+      of({ owner: mockConfigTemplate.owner }) as any
+    );
+    const commons = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(commons, 'getConfiguration').mockImplementation((owner: any) =>
+      owner === mockConfigTemplate.owner ? configSubject : EMPTY
+    );
 
     classUnderTest = TestBed.inject(ConfiguratorAttributePriceChangeService);
 

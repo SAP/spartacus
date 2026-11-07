@@ -13,6 +13,7 @@ import {
   IconTestingModule,
 } from '@spartacus/storefront';
 import { NEVER, Observable, of, Subscription } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -20,6 +21,9 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 
 const config: Configurator.Configuration =
@@ -39,37 +43,6 @@ class MockRouter {
   imports: [ReactiveFormsModule, NgSelectModule],
 })
 class MockHamburgerMenuComponent {}
-
-
-class MockConfiguratorGroupService {
-  navigateToGroup(): void {}
-
-  getCurrentGroup(): Observable<Configurator.Group> {
-    return currentGroupObservable;
-  }
-}
-
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
-  }
-
-  readConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-}
-
-
-class MockConfiguratorStorefrontUtilsService {
-  changeStyling(): void {}
-  focusFirstActiveElement(): void {}
-  removeStyling(): void {}
-}
 
 describe('ConfiguratorGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;

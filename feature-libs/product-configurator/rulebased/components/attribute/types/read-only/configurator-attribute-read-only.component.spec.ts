@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import {
@@ -12,6 +13,9 @@ import {
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorShowMoreComponent } from '../../../../testing/components/mock-configurator-show-more.component';
+import { MockConfiguratorAttributePriceChangeService } from '../../../../testing/services/mock-configurator-attribute-price-change.service';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 const priceDetails: Configurator.PriceDetails = {
@@ -43,26 +47,6 @@ const allValues: Configurator.Value[] = [
   },
 ];
 let myValues: Configurator.Value[];
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
-}
-
-
-class MockConfiguratorAttributePriceChangeService {
-  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
-    return of([]);
-  }
-}
 
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;

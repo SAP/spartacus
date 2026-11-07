@@ -10,6 +10,7 @@ import {
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -23,6 +24,14 @@ import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configura
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import { MockConfiguratorAttributeQuantityComponent } from '../../../../testing/components/mock-configurator-attribute-quantity.component';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorShowMoreComponent } from '../../../../testing/components/mock-configurator-show-more.component';
+import { MockConfiguratorGroupsService as MockGroupService } from '../../../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorStorefrontUtilsService as MockConfigUtilsService } from '../../../../testing/services/mock-configurator-storefront-utils.service';
+import { MockConfiguratorAttributePriceChangeService } from '../../../../testing/services/mock-configurator-attribute-price-change.service';
+
 const VALUE_NAME_2 = 'val2';
 
 function createValue(code: string, name: string, isSelected: boolean) {
@@ -36,38 +45,6 @@ function createValue(code: string, name: string, isSelected: boolean) {
 }
 
 const isCartEntryOrGroupVisited = true;
-class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-}
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
-}
-
-
-class MockConfiguratorCommonsService {
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-  updateConfiguration(): void {}
-}
-
-
-class MockConfiguratorAttributePriceChangeService {
-  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
-    return of([]);
-  }
-}
-
 describe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let htmlElem: HTMLElement;

@@ -15,9 +15,11 @@ import {
   IconTestingModule,
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../../../testing/services/mock-configurator-storefront-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -80,16 +82,6 @@ function checkForValidationMessage(
   expect(validationDiv).toBeDefined();
   expect(validationDiv.length).toBe(expectedMessages);
 }
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
-
-const isCartEntryOrGroupVisited = true;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-}
 
 describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfiguratorAttributeNumericInputFieldComponent;
@@ -137,7 +129,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: FeaturesConfig,

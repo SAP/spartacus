@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';

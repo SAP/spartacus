@@ -3,12 +3,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BreakpointService } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorPriceComponent } from '../price/configurator-price.component';
+import { MockConfiguratorPriceComponent } from '../../testing/components/mock-configurator-price.component';
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
 
 describe('ConfigurationOverviewAttributeComponent', () => {
   let component: ConfiguratorOverviewAttributeComponent;

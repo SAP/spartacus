@@ -38,32 +38,6 @@ const productConfig: ConfiguratorTextfield.Configuration = {
   configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
-
-class MockConfiguratorTextfieldService {
-  createConfiguration(): Observable<ConfiguratorTextfield.Configuration> {
-    return cold('-p', {
-      p: productConfig,
-    });
-  }
-  updateConfiguration(): void {}
-  readConfigurationForCartEntry(): Observable<ConfiguratorTextfield.Configuration> {
-    return cold('-p', {
-      p: productConfig,
-    });
-  }
-  readConfigurationForOrderEntry(): Observable<ConfiguratorTextfield.Configuration> {
-    return cold('-p', {
-      p: productConfig,
-    });
-  }
-
-  readConfigurationForQuoteEntry(): Observable<ConfiguratorTextfield.Configuration> {
-    return cold('-p', {
-      p: productConfig,
-    });
-  }
-}
-
 describe('TextfieldFormComponent', () => {
   let component: ConfiguratorTextfieldFormComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;

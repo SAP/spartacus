@@ -9,6 +9,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
 
 const owner: CommonConfigurator.Owner =
@@ -53,10 +54,6 @@ function initMocks() {
   mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
 }
 
-class MockConfigUtilsService {
-  getElementById(): void {}
-}
-
 describe('ConfiguratorOverviewFilterBarComponent', () => {
   beforeEach(async () => {
     initTestData();
@@ -70,7 +67,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
     })

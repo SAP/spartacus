@@ -4,6 +4,7 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import { MockConfiguratorRouterExtractorService } from '../../../common/testing/services/mock-configurator-router-extractor.service';
 import {
   BreakpointService,
   BreakpointTestingModule,

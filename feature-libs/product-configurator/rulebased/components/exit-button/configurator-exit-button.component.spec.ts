@@ -21,7 +21,10 @@ import {
   BreakpointTestingModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorRouterExtractorService } from '../../../common/testing/services/mock-configurator-router-extractor.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
@@ -77,20 +80,6 @@ function setRouterTestDataProduct() {
   mockRouterData.owner.type = CommonConfigurator.OwnerType.PRODUCT;
   mockRouterData.owner.id = PRODUCT_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
-}
-
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(mockRouterData);
-  }
-}
-
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(configuration);
-  }
 }
 
 describe('ConfiguratorExitButton', () => {

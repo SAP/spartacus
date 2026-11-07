@@ -30,6 +30,7 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { firstValueFrom, NEVER, Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -39,6 +40,7 @@ import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configur
 import { ConfiguratorOverviewFormComponent } from '../overview-form/configurator-overview-form.component';
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
 
 const OWNER: CommonConfigurator.Owner =
@@ -190,13 +192,6 @@ function initSidebarWithCpqContainerToggle(cpqContainerEnabled: boolean): void {
     () => defaultConfigObservable ?? of(CONFIGURATION)
   );
   fixture.detectChanges();
-}
-
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return defaultConfigObservable;
-  }
 }
 
 describe('ConfiguratorOverviewSidebarComponent', () => {

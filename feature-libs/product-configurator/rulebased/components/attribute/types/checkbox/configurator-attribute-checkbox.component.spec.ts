@@ -11,6 +11,7 @@ import {
   KeyboardFocusTestingModule,
   MockDirectionService,
 } from '@spartacus/storefront';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -18,47 +19,12 @@ import { ConfiguratorPriceComponent } from '../../../price/configurator-price.co
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorShowMoreComponent } from '../../../../testing/components/mock-configurator-show-more.component';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../../../testing/services/mock-configurator-storefront-utils.service';
+import { MockConfiguratorAttributePriceChangeService } from '../../../../testing/services/mock-configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
-}
-
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
-
-
-class MockConfiguratorStorefrontUtilsService {
-  lastSelected?: { attributeName: string; valueCode: string };
-  setLastSelected(attributeName: string, valueCode: string): void {
-    this.lastSelected = { attributeName, valueCode };
-  }
-  isLastSelected(attributeName: string, valueCode: string): boolean {
-    return (
-      !!this.lastSelected &&
-      this.lastSelected.attributeName === attributeName &&
-      this.lastSelected.valueCode === valueCode
-    );
-  }
-}
-
-
-class MockConfiguratorAttributePriceChangeService {
-  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
-    return of([]);
-  }
-}
 
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;

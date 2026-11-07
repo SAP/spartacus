@@ -36,6 +36,7 @@ import {
   throwError,
 } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorPriceComponent } from '../../price/configurator-price.component';
 import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
@@ -44,6 +45,10 @@ import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show
 import { ConfiguratorAttributeQuantityComponent } from '../quantity/configurator-attribute-quantity.component';
 import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
+import { MockConfiguratorPriceComponent } from '../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorAttributeQuantityComponent } from '../../../testing/components/mock-configurator-attribute-quantity.component';
+import { MockConfiguratorStorefrontUtilsService } from '../../../testing/services/mock-configurator-storefront-utils.service';
+
 const product: Product = {
   name: 'Product Name',
   code: 'PRODUCT_CODE',
@@ -102,22 +107,6 @@ function takeOneDisableQtyObs(
       .extractQuantityParameters()
       .disableQuantityActions$?.pipe(take(1)) ?? EMPTY
   );
-}
-
-
-class MockConfiguratorStorefrontUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-}
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<number>();
 }
 
 describe('ConfiguratorAttributeProductCardComponent', () => {

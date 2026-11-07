@@ -16,6 +16,7 @@ import {
 import { SpinnerComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';

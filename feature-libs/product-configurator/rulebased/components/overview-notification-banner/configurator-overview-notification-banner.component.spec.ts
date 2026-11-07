@@ -13,6 +13,8 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorRouterExtractorService } from '../../../common/testing/services/mock-configurator-router-extractor.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
   CONFIG_ID,
@@ -77,23 +79,20 @@ const orderRouterData: ConfiguratorRouter.Data = {
 };
 
 let routerObs: any;
-class MockConfigRouterExtractorService {
-  extractRouterData() {
-    return routerObs;
-  }
-}
-
 let configurationObs: Observable<Configurator.Configuration>;
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
 let component: ConfiguratorOverviewNotificationBannerComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewNotificationBannerComponent>;
 let htmlElem: HTMLElement;
 function initialize(router: ConfiguratorRouter.Data) {
   routerObs = of(router);
+  vi.spyOn(
+    TestBed.inject(ConfiguratorRouterExtractorService),
+    'extractRouterData'
+  ).mockImplementation(() => routerObs);
+  vi.spyOn(
+    TestBed.inject(ConfiguratorCommonsService),
+    'getConfiguration'
+  ).mockImplementation(() => configurationObs);
   fixture = TestBed.createComponent(
     ConfiguratorOverviewNotificationBannerComponent
   );
@@ -114,7 +113,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
           provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfigRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
         },
         {
           provide: ConfiguratorCommonsService,

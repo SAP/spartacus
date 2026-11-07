@@ -26,6 +26,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
 import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
@@ -113,13 +114,6 @@ class MockComponent {}
 let routerStateObservable: any = null;
 
 let product: Product;
-
-
-class MockConfiguratorGroupsService {
-  isGroupVisited(): Observable<boolean> {
-    return isGroupVisited;
-  }
-}
 
 describe('ConfiguratorStorefrontUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;

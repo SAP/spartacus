@@ -12,6 +12,7 @@ import {
   MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -21,23 +22,12 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorGroupsService as MockGroupService } from '../../../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorAttributePriceChangeService } from '../../../../testing/services/mock-configurator-attribute-price-change.service';
+
 const VALUE_DISPLAY_NAME = 'val2';
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
-
-
-class MockConfiguratorAttributePriceChangeService {
-  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
-    return of([]);
-  }
-}
-
 describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionImageComponent>;

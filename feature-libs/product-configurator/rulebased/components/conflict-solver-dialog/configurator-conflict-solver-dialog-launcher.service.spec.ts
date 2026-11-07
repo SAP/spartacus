@@ -13,6 +13,8 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorRouterExtractorService } from '../../../common/testing/services/mock-configurator-router-extractor.service';
 import { Configurator } from '../../core/model/configurator.model';
 
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -43,22 +45,6 @@ function createConflictGroup(): Configurator.Group {
 
 let group: Configurator.Group;
 let groupSubject: Subject<Configurator.Group | undefined>;
-
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return routerData$;
-  }
-}
-
-
-class MockConfiguratorGroupsService {
-  getConflictGroupForImmediateConflictResolution(): Observable<
-    Configurator.Group | undefined
-  > {
-    return groupSubject.asObservable();
-  }
-}
 
 describe('ConfiguratorConflictSolverDialogLauncherService', () => {
   let listener: ConfiguratorConflictSolverDialogLauncherService;

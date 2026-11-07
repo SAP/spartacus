@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -13,23 +13,13 @@ import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry';
+import { MockConfigureCartEntryComponent } from '../../testing/components';
 import {
   ConfigurationInfo,
   OrderEntryStatus,
   StatusSummary,
 } from './../../core/model/common-configurator.model';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
-
-@Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
-})
-class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
-}
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);

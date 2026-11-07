@@ -6,9 +6,11 @@ import { ConfiguratorProductScope } from '@spartacus/product-configurator/common
 import { MediaComponent } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { vi } from 'vitest';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceComponent } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorPriceComponent } from '../../testing/components/mock-configurator-price.component';
 import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
@@ -66,10 +68,6 @@ class MockConfiguratorStorefrontUtilsService {
       this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
     );
   });
-}
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 describe('ConfiguratorOverviewBundleAttributeComponent', () => {

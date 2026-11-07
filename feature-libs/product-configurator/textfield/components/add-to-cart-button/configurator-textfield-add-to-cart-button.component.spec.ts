@@ -42,12 +42,6 @@ const mockRouterState: any = {
   },
 };
 
-
-class MockConfiguratorTextfieldService {
-  addToCart(): void {}
-  updateCartEntry(): void {}
-}
-
 describe('ConfigTextfieldAddToCartButtonComponent', () => {
   let classUnderTest: ConfiguratorTextfieldAddToCartButtonComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldAddToCartButtonComponent>;

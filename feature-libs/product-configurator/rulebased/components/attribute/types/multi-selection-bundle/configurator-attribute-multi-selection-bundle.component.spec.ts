@@ -16,6 +16,7 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -29,6 +30,11 @@ import {
 } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
+import { MockConfiguratorAttributeProductCardComponent as MockProductCardComponent } from '../../../../testing/components/mock-configurator-attribute-product-card.component';
+import { MockConfiguratorAttributeQuantityComponent } from '../../../../testing/components/mock-configurator-attribute-quantity.component';
+import { MockConfiguratorPriceComponent } from '../../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
+
 function getSelected(
   component: ConfiguratorAttributeMultiSelectionBundleComponent,
   index: number
@@ -39,23 +45,6 @@ function getSelected(
 
 class MockActivatedRoute {
   constructor(public snapshot: any) {}
-}
-
-class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<number>();
-}
-
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
 }
 
 describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
