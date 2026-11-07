@@ -68,6 +68,7 @@ export namespace Cpq {
     maxRows?: number;
     productSystemId?: string;
     productName?: string;
+    basePrice?: string;
     selected?: boolean;
     actions?: ContainerRowAction[];
     configuration?: NestedProductConfiguration;

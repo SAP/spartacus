@@ -59,6 +59,28 @@ export class CpqConfiguratorNormalizerUtilsService {
   }
 
   /**
+   * Converts a price string to price details
+   *
+   * @param price - Price as string
+   * @param currency - Currency code ISO
+   * @returns - price details, or undefined when price is missing
+   */
+  convertPrice(
+    price: string | undefined,
+    currency: string
+  ): Configurator.PriceDetails | undefined {
+    if (!price) {
+      return undefined;
+    }
+    const priceDetails: Configurator.PriceDetails = {
+      currencyIso: currency,
+      value: Number.parseFloat(price),
+    };
+    this.formatPriceForLocale(priceDetails, this.getLanguage());
+    return priceDetails;
+  }
+
+  /**
    * Converts value price
    *
    * @param value - CPQ Value
@@ -69,15 +91,7 @@ export class CpqConfiguratorNormalizerUtilsService {
     value: Cpq.Value,
     currency: string
   ): Configurator.PriceDetails | undefined {
-    let price;
-    if (value.price) {
-      price = {
-        currencyIso: currency,
-        value: parseFloat(value.price),
-      };
-      this.formatPriceForLocale(price, this.getLanguage());
-    }
-    return price;
+    return this.convertPrice(value.price, currency);
   }
 
   /**
@@ -233,7 +247,7 @@ export class CpqConfiguratorNormalizerUtilsService {
           cpqConfiguration.responder.totalPrice.replace(currencySign, '');
         const totalPrice: Configurator.PriceDetails = {
           currencyIso: currency,
-          value: parseFloat(totalPriceAsString),
+          value: Number.parseFloat(totalPriceAsString),
         };
         this.formatPriceForLocale(totalPrice, this.getLanguage());
         priceSummary.currentTotal = totalPrice;
@@ -243,7 +257,7 @@ export class CpqConfiguratorNormalizerUtilsService {
           cpqConfiguration.responder.baseProductPrice;
         const basePrice: Configurator.PriceDetails = {
           currencyIso: currency,
-          value: parseFloat(basePriceAsString),
+          value: Number.parseFloat(basePriceAsString),
         };
         this.formatPriceForLocale(basePrice, this.getLanguage());
         priceSummary.basePrice = basePrice;
