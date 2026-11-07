@@ -21,3 +21,4 @@ export * from './services/index';
 export * from './store/actions';
 export { UserAuthModule } from './user-auth.module';
 export * from './utils/index';
+export * from './testing/index';
