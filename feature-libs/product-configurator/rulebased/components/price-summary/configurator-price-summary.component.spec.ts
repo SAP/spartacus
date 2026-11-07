@@ -4,6 +4,7 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  RoutingTestingModule,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -14,25 +15,14 @@ import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
-
-class MockConfiguratorStorefrontUtilsService {
-  shouldHideBasePriceAndSelectedOptions(
-    configuration: Configurator.Configuration
-  ): boolean {
-    const configuratorType = configuration.owner?.configuratorType;
-    if (configuratorType === ConfiguratorType.CPQ) {
-      return !!TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator
-        ?.cpqHideBasePriceAndSelectedOptions;
-    }
-    return !!configuration.hideBasePriceAndSelectedOptions;
-  }
-}
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -78,16 +68,6 @@ const defaultConfig: Configurator.Configuration = {
 };
 
 let routerStateObservable: Observable<RouterState>;
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-}
 
 describe('ConfigPriceSummaryComponent', () => {
   let component: ConfiguratorPriceSummaryComponent;
@@ -98,6 +78,7 @@ describe('ConfigPriceSummaryComponent', () => {
     routerStateObservable = of(mockRouterState);
     await TestBed.configureTestingModule({
       imports: [
+        RoutingTestingModule,
         I18nTestingModule,
         ConfiguratorPriceSummaryComponent,
         MockFeatureLevelDirective,
@@ -106,10 +87,6 @@ describe('ConfigPriceSummaryComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
         },
         {
           provide: ConfiguratorUISettingsConfig,
@@ -130,6 +107,14 @@ describe('ConfigPriceSummaryComponent', () => {
   });
   beforeEach(() => {
     config = { ...defaultConfig };
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => routerStateObservable);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(() => of(config));
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -207,6 +192,10 @@ describe('ConfigPriceSummaryComponent', () => {
       ConfiguratorType.VARIANT
     );
     config.hideBasePriceAndSelectedOptions = true;
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'shouldHideBasePriceAndSelectedOptions'
+    ).mockReturnValue(true);
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
@@ -230,6 +219,10 @@ describe('ConfigPriceSummaryComponent', () => {
     TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
       cpqHideBasePriceAndSelectedOptions: true,
     };
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'shouldHideBasePriceAndSelectedOptions'
+    ).mockReturnValue(true);
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  ConverterService,
+  ConverterTestingModule,
   OccConfig,
   TranslationService,
 } from '@spartacus/core';
@@ -283,10 +283,6 @@ function createValue(
   };
 }
 
-class MockConverterService {
-  convert() {}
-}
-
 class MockTranslationService {
   translate(key: string, options: any = {}): Observable<string> {
     switch (key) {
@@ -333,9 +329,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       mockConfiguratorUISettingsConfigTemplate
     );
     TestBed.configureTestingModule({
+      imports: [ConverterTestingModule],
       providers: [
         OccConfiguratorVariantNormalizer,
-        { provide: ConverterService, useClass: MockConverterService },
         { provide: OccConfig, useValue: mockOccModuleConfig },
         { provide: TranslationService, useClass: MockTranslationService },
         {

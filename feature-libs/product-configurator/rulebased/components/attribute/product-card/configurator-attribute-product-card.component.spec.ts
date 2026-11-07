@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -15,6 +9,7 @@ import {
   I18nTestingModule,
   Product,
   ProductService,
+  ProductTestingModule,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -43,19 +38,16 @@ import {
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../../price/configurator-price.component';
 import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
-import {
-  ConfiguratorAttributeQuantityComponent,
-  ConfiguratorAttributeQuantityComponentOptions,
-} from '../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponent } from '../quantity/configurator-attribute-quantity.component';
 import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
+import { MockConfiguratorPriceComponent } from '../../../testing/components/mock-configurator-price.component';
+import { MockConfiguratorAttributeQuantityComponent } from '../../../testing/components/mock-configurator-attribute-quantity.component';
+import { MockConfiguratorStorefrontUtilsService } from '../../../testing/services/mock-configurator-storefront-utils.service';
 
 const product: Product = {
   name: 'Product Name',
@@ -89,38 +81,7 @@ const productTransformed: Product = {
   name: 'Lorem Ipsum Dolor',
 };
 
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-}
-
 let focusService: KeyboardFocusService;
-
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-quantity',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
-})
-class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<number>();
-}
 
 function setProductBoundValueAttributes(
   component: ConfiguratorAttributeProductCardComponent,
@@ -188,15 +149,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        ProductTestingModule,
         ConfiguratorAttributeProductCardComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
       ],
       providers: [
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
@@ -257,6 +215,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockReturnValue(of(product));
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
     );

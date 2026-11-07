@@ -5,9 +5,10 @@ import { By } from '@angular/platform-browser';
 import {
   Product,
   ProductService,
-  RouterState,
   RoutingService,
   LoggerTestingModule,
+  ProductTestingModule,
+  RoutingTestingModule,
   WindowRef,
 } from '@spartacus/core';
 import {
@@ -25,6 +26,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
 import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
@@ -63,12 +65,6 @@ const mockRouterStateTemplate: any = {
     semanticRoute: CONFIGURATOR_ROUTE,
   },
 };
-
-class MockConfiguratorGroupsService {
-  isGroupVisited(): Observable<boolean> {
-    return isGroupVisited;
-  }
-}
 
 class MockKeyboardFocusService {
   findFocusable = vi.fn();
@@ -117,21 +113,7 @@ class MockComponent {}
 
 let routerStateObservable: any = null;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go() {}
-}
-
 let product: Product;
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
-}
 
 describe('ConfiguratorStorefrontUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
@@ -151,7 +133,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     routerStateObservable = of(mockRouterState);
 
     TestBed.configureTestingModule({
-      imports: [LoggerTestingModule, MockComponent],
+      imports: [LoggerTestingModule, RoutingTestingModule, ProductTestingModule, MockComponent],
       providers: [
         {
           provide: ConfiguratorGroupsService,
@@ -160,14 +142,6 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         {
           provide: KeyboardFocusService,
           useClass: MockKeyboardFocusService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
         },
         { provide: WindowRef, useClass: MockedWindowRef },
         {
@@ -178,6 +152,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
+    vi.spyOn(TestBed.inject(RoutingService), 'getRouterState').mockImplementation(() => routerStateObservable);
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(() => of(product));
+    vi.spyOn(TestBed.inject(ConfiguratorGroupsService), 'isGroupVisited').mockImplementation(() => isGroupVisited);
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
     fixture = TestBed.createComponent(MockComponent);
     htmlElem = fixture.nativeElement;

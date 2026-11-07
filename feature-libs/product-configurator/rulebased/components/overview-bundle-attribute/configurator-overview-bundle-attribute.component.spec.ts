@@ -1,24 +1,16 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  CxNumericPipe,
-  I18nTestingModule,
-  ImageType,
-  Product,
-  ProductService,
-} from '@spartacus/core';
+import { CxNumericPipe, ImageType, Product, ProductService, ProductTestingModule } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import { MediaComponent } from '@spartacus/storefront';
 import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { vi } from 'vitest';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
-import {
-  ConfiguratorPriceComponent,
-  ConfiguratorPriceComponentOptions,
-} from '../price/configurator-price.component';
+import { ConfiguratorPriceComponent } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorPriceComponent } from '../../testing/components/mock-configurator-price.component';
 import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
@@ -56,10 +48,6 @@ const noCommerceProduct = { images: {} };
 
 const product$: BehaviorSubject<Product> = new BehaviorSubject(mockProduct);
 
-class MockProductService {
-  get = () => product$.asObservable();
-}
-
 class MockConfiguratorStorefrontUtilsService {
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
     return idPrefix ? `${idPrefix}--${groupId}` : `cx--${groupId}`;
@@ -82,16 +70,6 @@ class MockConfiguratorStorefrontUtilsService {
   });
 }
 
-@Component({
-  // tslint:disable-next-line: component-selector
-  selector: 'cx-configurator-price',
-  template: '',
-  imports: [I18nTestingModule],
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
 describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   let component: ConfiguratorOverviewBundleAttributeComponent;
   let fixture: ComponentFixture<ConfiguratorOverviewBundleAttributeComponent>;
@@ -99,9 +77,11 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorOverviewBundleAttributeComponent],
+      imports: [
+        ConfiguratorOverviewBundleAttributeComponent,
+        ProductTestingModule,
+      ],
       providers: [
-        { provide: ProductService, useClass: MockProductService },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
@@ -124,6 +104,9 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   });
 
   beforeEach(() => {
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(
+      () => product$.asObservable()
+    );
     fixture = TestBed.createComponent(
       ConfiguratorOverviewBundleAttributeComponent
     );

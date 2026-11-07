@@ -3,10 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, RoutingTestingModule } from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import {
   BreakpointService,
+  BreakpointTestingModule,
   HamburgerMenuComponent,
   HamburgerMenuService,
   IconTestingModule,
@@ -20,6 +21,9 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 
 const config: Configurator.Configuration =
@@ -29,42 +33,8 @@ let routerStateObservable: Observable<RouterState>;
 let currentGroupObservable: Observable<Configurator.Group>;
 const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
 class MockRouter {
   public events = of('');
-}
-
-class MockConfiguratorGroupService {
-  navigateToGroup(): void {}
-
-  getCurrentGroup(): Observable<Configurator.Group> {
-    return currentGroupObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
-  }
-
-  readConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-}
-
-class MockBreakpointService {
-  isDown(): void {}
-
-  isUp(): void {}
 }
 
 @Component({
@@ -73,12 +43,6 @@ class MockBreakpointService {
   imports: [ReactiveFormsModule, NgSelectModule],
 })
 class MockHamburgerMenuComponent {}
-
-class MockConfiguratorStorefrontUtilsService {
-  changeStyling(): void {}
-  focusFirstActiveElement(): void {}
-  removeStyling(): void {}
-}
 
 describe('ConfiguratorGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
@@ -100,6 +64,8 @@ describe('ConfiguratorGroupTitleComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorGroupTitleComponent,
+        RoutingTestingModule,
+        BreakpointTestingModule,
       ],
       providers: [
         HamburgerMenuService,
@@ -108,20 +74,12 @@ describe('ConfiguratorGroupTitleComponent', () => {
           useClass: MockRouter,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
+          useClass: MockConfiguratorGroupsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
@@ -139,11 +97,21 @@ describe('ConfiguratorGroupTitleComponent', () => {
       .compileComponents();
   });
   beforeEach(() => {
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
+    vi.spyOn(configuratorGroupsService, 'getCurrentGroup').mockImplementation(
+      () => currentGroupObservable
+    );
+    const routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockImplementation(
+      () => routerStateObservable
+    );
+    const commonsService = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(commonsService, 'getConfiguration').mockReturnValue(of(config));
+    vi.spyOn(commonsService, 'readConfiguration').mockReturnValue(of(config));
+
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-
-    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(config.owner);

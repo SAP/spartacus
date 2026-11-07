@@ -15,7 +15,7 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { getTestScheduler } from 'jasmine-marbles';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
@@ -27,20 +27,10 @@ import { ConfiguratorMessageService } from '../../service/configurator-message.s
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
-
-@Component({
-  selector: 'cx-configurator-show-more',
-  template: '',
-  imports: [I18nTestingModule, IconTestingModule],
-})
-class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
-}
+import { MockConfiguratorShowMoreComponent } from '../../../testing/components/mock-configurator-show-more.component';
+import { MockConfiguratorStorefrontUtilsService as MockConfigUtilsService } from '../../../testing/services/mock-configurator-storefront-utils.service';
+import { MockConfiguratorCommonsService } from '../../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorGroupsService } from '../../../testing/services/mock-configurator-groups.service';
 
 @Component({
   selector: 'cx-configurator-show-options',
@@ -53,20 +43,6 @@ class MockConfiguratorShowOptionsComponent {
 
 let isCartEntryOrGroupVisited = true;
 
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-
-  focusValue(): void {}
-
-  scrollToConfigurationElement(): void {}
-
-  idSelector(id: string): string {
-    return '#' + id;
-  }
-}
-
 const configWithoutConflicts: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
@@ -74,20 +50,6 @@ const configConflict: Configurator.Configuration =
   ConfigurationTestData.productConfigurationWithConflicts;
 
 let config: Configurator.Configuration;
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  isConfigurationLoading(): Observable<boolean> {
-    return of(true);
-  }
-}
-
-class MockConfiguratorGroupsService {
-  navigateToGroup(): void {}
-}
 
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
@@ -142,11 +104,11 @@ describe('ConfigAttributeHeaderComponent', () => {
       providers: [
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useFactory: () => { const m = new MockConfigUtilsService(); vi.spyOn(m, 'isCartEntryOrGroupVisited').mockImplementation(() => of(isCartEntryOrGroupVisited)); return m; },
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useFactory: () => { const m = new MockConfiguratorCommonsService(); vi.spyOn(m, 'getConfiguration').mockImplementation(() => of(config)); vi.spyOn(m, 'isConfigurationLoading').mockReturnValue(of(true)); return m; },
         },
         {
           provide: ConfiguratorGroupsService,

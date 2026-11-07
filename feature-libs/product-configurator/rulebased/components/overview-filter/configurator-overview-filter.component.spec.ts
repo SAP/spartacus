@@ -1,17 +1,18 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
+import { MockConfiguratorOverviewFilterBarComponent } from '../../testing/components/mock-configurator-overview-filter-bar.component';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorOverviewFilterComponent } from './configurator-overview-filter.component';
 
 const owner: CommonConfigurator.Owner =
@@ -55,24 +56,14 @@ function initTestComponent() {
   component = fixture.componentInstance;
   component.config = overview;
   isDisplayOnlyVariant = false;
+  vi.spyOn(
+    TestBed.inject(ConfiguratorStorefrontUtilsService),
+    'isDisplayOnlyVariant'
+  ).mockImplementation(() => of(isDisplayOnlyVariant));
   component.ngOnChanges();
 }
 
-@Component({
-  selector: 'cx-configurator-overview-filter-bar',
-  template: '',
-  imports: [ReactiveFormsModule],
-})
-class MockConfiguratorOverviewFilterBarComponent {
-  @Input() config: Configurator.ConfigurationWithOverview;
-}
-
 let isDisplayOnlyVariant: boolean;
-class MockConfiguratorStorefrontUtilsService {
-  isDisplayOnlyVariant(): Observable<boolean> {
-    return of(isDisplayOnlyVariant);
-  }
-}
 
 describe('ConfiguratorOverviewFilterComponent', () => {
   function configureTestingModule(): TestBed {

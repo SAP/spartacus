@@ -5,8 +5,10 @@ import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
+  GlobalMessageTestingModule,
   I18nTestingModule,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -17,6 +19,7 @@ import {
   KeyboardFocusService,
   LAUNCH_CALLER,
   LaunchDialogService,
+  LaunchDialogTestingModule,
 } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
@@ -32,6 +35,9 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorExpertModeService } from '../../testing/services/mock-configurator-expert-mode.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 
@@ -97,85 +103,6 @@ let configurationCreateObservable: Observable<Configurator.Configuration> =
   EMPTY;
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  removeConfiguration(): void {}
-
-  updateConfiguration(): void {}
-
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoadingObservable;
-  }
-
-  hasConflicts(): Observable<boolean> {
-    return hasConfigurationConflictsObservable;
-  }
-  checkConflictSolverDialog(): void {}
-}
-
-class MockConfiguratorGroupsService {
-  getCurrentGroup(): Observable<string> {
-    return currentGroupObservable;
-  }
-
-  getNextGroup(): Observable<string> {
-    return of('');
-  }
-
-  getPreviousGroup(): Observable<string> {
-    return of('');
-  }
-
-  isGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-
-  subscribeToUpdateConfiguration() {}
-
-  setGroupStatusVisited(): void {}
-
-  navigateToConflictSolver(): void {}
-
-  navigateToFirstAttributeGroup(): void {}
-
-  navigateToFirstIncompleteGroup(): void {}
-
-  navigateToContainerRow(): void {}
-
-  isConflictGroupType() {}
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive() {}
-}
-
-class MockLaunchDialogService {
-  openDialogAndSubscribe() {}
-}
-
-class MockGlobalMessageService {
-  add(): void {}
-}
 
 function checkConfigurationObs(
   routerMarbels: string,
@@ -271,13 +198,15 @@ let featureToggles: MockFeatureTogglesController;
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, ConfiguratorFormComponent],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorFormComponent,
+        RoutingTestingModule,
+        GlobalMessageTestingModule,
+        LaunchDialogTestingModule,
+      ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
@@ -289,10 +218,6 @@ describe('ConfiguratorFormComponent', () => {
         {
           provide: ConfiguratorExpertModeService,
           useClass: MockConfiguratorExpertModeService,
-        },
-        {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
         },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
@@ -323,17 +248,34 @@ describe('ConfiguratorFormComponent', () => {
     vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
     vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
     vi.spyOn(configuratorGroupsService, 'navigateToContainerRow');
+    vi.spyOn(configuratorGroupsService, 'getCurrentGroup').mockImplementation(
+      () => currentGroupObservable
+    );
 
     configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
-    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
-    vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
-    vi.spyOn(configuratorCommonsService, 'getConfiguration');
+    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading').mockImplementation(
+      () => isConfigurationLoadingObservable
+    );
+    vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration').mockImplementation(
+      () => configurationCreateObservable
+    );
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockImplementation(
+      () => configurationCreateObservable
+    );
     vi.spyOn(configuratorCommonsService, 'checkConflictSolverDialog');
+    vi.spyOn(configuratorCommonsService, 'hasConflicts').mockImplementation(
+      () => hasConfigurationConflictsObservable
+    );
 
     globalMessageService = TestBed.inject(GlobalMessageService);
     vi.spyOn(globalMessageService, 'add');
 
     isConfigurationLoadingObservable = of(false);
+
+    const routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockImplementation(
+      () => routerStateObservable
+    );
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');

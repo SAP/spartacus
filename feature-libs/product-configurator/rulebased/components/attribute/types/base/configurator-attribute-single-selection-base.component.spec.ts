@@ -3,8 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../../../testing/services/mock-configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
@@ -60,13 +61,6 @@ const createTestValue = (
 });
 
 const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoading$.asObservable();
-  }
-}
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection',
@@ -126,6 +120,10 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
   beforeEach(() => {
     isConfigurationLoading$.next(false);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'isConfigurationLoading'
+    ).mockImplementation(() => isConfigurationLoading$.asObservable());
     fixture = TestBed.createComponent(
       ExampleConfiguratorAttributeSingleSelectionComponent
     );

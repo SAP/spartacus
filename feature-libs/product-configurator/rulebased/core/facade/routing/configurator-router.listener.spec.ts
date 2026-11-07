@@ -1,14 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterState, RoutingService } from '@spartacus/core';
-import { Observable, Subscription, of } from 'rxjs';
+import {
+  RouterState,
+  RoutingService,
+  RoutingTestingModule,
+} from '@spartacus/core';
+import { Subscription, of } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
 import { ConfiguratorRouterListener } from './configurator-router.listener';
 import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
-
-const QUANTITY = 99;
-class MockConfiguratorCartService {
-  removeCartBoundConfigurations() {}
-}
+import { MockConfiguratorCartService } from '../../../testing/services/mock-configurator-cart.service';
+import { MockConfiguratorQuantityService } from '../../../testing/services/mock-configurator-quantity.service';
 
 let routerState: RouterState = {
   navigationId: 1,
@@ -41,38 +42,17 @@ const routerStateCartRoute: RouterState = {
   },
 };
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(routerState);
-  }
-}
-
-class MockConfiguratorQuantityService {
-  getQuantity(): Observable<number> {
-    return of(QUANTITY);
-  }
-  setQuantity(): void {}
-}
-
-let mockConfiguratorCartService: MockConfiguratorCartService =
-  new MockConfiguratorCartService();
-
-let mockRoutingService: MockRoutingService = new MockRoutingService();
-
 describe('ConfiguratorRouterListener', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configuratorQuantityService: ConfiguratorQuantityService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RoutingTestingModule],
       providers: [
         {
           provide: ConfiguratorCartService,
-          useValue: mockConfiguratorCartService,
-        },
-        {
-          provide: RoutingService,
-          useValue: mockRoutingService,
+          useClass: MockConfiguratorCartService,
         },
         {
           provide: ConfiguratorQuantityService,
@@ -82,6 +62,10 @@ describe('ConfiguratorRouterListener', () => {
     }).compileComponents();
   });
   beforeEach(() => {
+    const routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockImplementation(() =>
+      of(routerState)
+    );
     configuratorCartService = TestBed.inject(ConfiguratorCartService);
     configuratorQuantityService = TestBed.inject(ConfiguratorQuantityService);
 

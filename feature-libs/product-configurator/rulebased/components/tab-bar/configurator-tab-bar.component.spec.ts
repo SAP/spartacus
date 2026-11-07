@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -20,6 +20,9 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorGroupsService } from '../../testing/services/mock-configurator-groups.service';
+import { MockConfiguratorStorefrontUtilsService } from '../../testing/services/mock-configurator-storefront-utils.service';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -41,14 +44,6 @@ let mockRouterState: any;
 
 let routerStateObservable: any = null;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go = () => Promise.resolve(true);
-}
-
 let configurationObs: Observable<Configurator.Configuration>;
 
 const configWithOverview: Configurator.Configuration = {
@@ -66,18 +61,6 @@ const mockRouterData: ConfiguratorRouter.Data = {
   owner: configWithOverview.owner,
 };
 
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
-
-class MockConfigUtilsService {
-  focusFirstActiveElement(): void {}
-}
-
-class MockConfiguratorGroupsService {}
-
 describe('ConfigTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
@@ -93,19 +76,15 @@ describe('ConfigTabBarComponent', () => {
 
     routerStateObservable = of(mockRouterState);
     await TestBed.configureTestingModule({
-      imports: [RouterModule, ConfiguratorTabBarComponent],
+      imports: [RouterModule, ConfiguratorTabBarComponent, RoutingTestingModule],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: ConfiguratorGroupsService,
@@ -127,9 +106,10 @@ describe('ConfigTabBarComponent', () => {
       .compileComponents();
   });
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
-    component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
+    routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockImplementation(
+      () => routerStateObservable
+    );
     configurationObs = of(
       ConfiguratorTestUtils.createConfiguration(
         'a',
@@ -137,13 +117,19 @@ describe('ConfigTabBarComponent', () => {
       )
     );
     configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockImplementation(
+      () => configurationObs
+    );
+
+    fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
+    component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
     );
     keyboardFocusService = TestBed.inject(KeyboardFocusService);
     vi.spyOn(keyboardFocusService, 'clear');
     vi.spyOn(configuratorStorefrontUtilsService, 'focusFirstActiveElement');
-    routingService = TestBed.inject(RoutingService);
   });
 
   it('should create component', () => {

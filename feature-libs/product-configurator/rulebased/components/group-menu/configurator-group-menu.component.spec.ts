@@ -6,6 +6,7 @@ import {
   I18nTestingModule,
   MockTranslationService,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -49,6 +50,7 @@ import {
   productConfigurationWithConflicts,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
@@ -57,12 +59,6 @@ let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
 let mockProductConfiguration: Configurator.Configuration =
   structuredClone(productConfiguration);
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
 
 const baseStyleClass = 'cx-menu-item';
 const completeStyleClass = ' COMPLETE';
@@ -174,12 +170,6 @@ class MockConfiguratorGroupService {
   }
 }
 
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-}
-
 class MockDirectionService {
   getDirection() {
     return direction;
@@ -240,6 +230,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
+        RoutingTestingModule,
         ConfiguratorGroupMenuComponent,
       ],
       providers: [
@@ -247,10 +238,6 @@ describe('ConfiguratorGroupMenuComponent', () => {
         {
           provide: Router,
           useClass: MockRouter,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
         },
         {
           provide: ConfiguratorCommonsService,
@@ -292,6 +279,13 @@ describe('ConfiguratorGroupMenuComponent', () => {
   });
 
   beforeEach(() => {
+    vi.spyOn(TestBed.inject(RoutingService), 'getRouterState').mockImplementation(
+      () => routerStateObservable
+    );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(() => productConfigurationObservable);
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     vi.spyOn(configuratorGroupsService, 'navigateToGroup').mockImplementation(
       () => {}

@@ -1,27 +1,18 @@
 import { TestBed } from '@angular/core/testing';
-import { CxEvent, EventService, LogoutEvent } from '@spartacus/core';
+import {
+  CxEvent,
+  EventService,
+  EventTestingModule,
+  LogoutEvent,
+} from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
+import { MockConfiguratorExpertModeService } from '../../testing/services/mock-configurator-expert-mode.service';
 import { ConfiguratorLogoutEventListener } from './configurator-logout-event.listener';
 
 const mockEventStream$ = new Subject<CxEvent>();
-
-class MockEventService implements Partial<EventService> {
-  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
-  dispatch = vi.fn();
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-  getExpModeRequested() {}
-  setExpModeActive(): void {}
-  getExpModeActive() {}
-}
-
-class MockConfiguratorCommonsService {
-  removeProductBoundConfigurations(): void {}
-}
 
 describe(`ConfiguratorLogoutEventListener`, () => {
   let classUnderTest: ConfiguratorLogoutEventListener;
@@ -30,12 +21,9 @@ describe(`ConfiguratorLogoutEventListener`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [EventTestingModule],
       providers: [
         ConfiguratorLogoutEventListener,
-        {
-          provide: EventService,
-          useClass: MockEventService,
-        },
         {
           provide: ConfiguratorExpertModeService,
           useClass: MockConfiguratorExpertModeService,
@@ -46,6 +34,11 @@ describe(`ConfiguratorLogoutEventListener`, () => {
         },
       ],
     });
+
+    const eventService = TestBed.inject(EventService);
+    vi.spyOn(eventService, 'get').mockReturnValue(
+      mockEventStream$.asObservable()
+    );
 
     classUnderTest = TestBed.inject(ConfiguratorLogoutEventListener);
 

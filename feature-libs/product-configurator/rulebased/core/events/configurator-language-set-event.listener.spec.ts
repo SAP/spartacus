@@ -1,19 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { CxEvent, EventService, LanguageSetEvent } from '@spartacus/core';
+import {
+  CxEvent,
+  EventService,
+  EventTestingModule,
+  LanguageSetEvent,
+} from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { MockConfiguratorCommonsService } from '../../testing/services/mock-configurator-commons.service';
 import { ConfiguratorLanguageSetEventListener } from '@spartacus/product-configurator/rulebased';
 
 const mockEventStream$ = new Subject<CxEvent>();
-
-class MockEventService implements Partial<EventService> {
-  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
-  dispatch = vi.fn();
-}
-
-class MockConfiguratorCommonsService {
-  removeProductBoundConfigurations(): void {}
-}
 
 describe(`ConfiguratorLanguageSetEventListener`, () => {
   let classUnderTest: ConfiguratorLanguageSetEventListener;
@@ -21,18 +18,20 @@ describe(`ConfiguratorLanguageSetEventListener`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [EventTestingModule],
       providers: [
         ConfiguratorLanguageSetEventListener,
-        {
-          provide: EventService,
-          useClass: MockEventService,
-        },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
       ],
     });
+
+    const eventService = TestBed.inject(EventService);
+    vi.spyOn(eventService, 'get').mockReturnValue(
+      mockEventStream$.asObservable()
+    );
 
     classUnderTest = TestBed.inject(ConfiguratorLanguageSetEventListener);
 

@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, TranslationService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import {
+  ConverterService,
+  ConverterTestingModule,
+  I18nTestingModule,
+  TranslationService,
+} from '@spartacus/core';
+import { of } from 'rxjs';
 import {
   GROUP_ID_1,
   GROUP_ID_2,
@@ -24,12 +29,6 @@ const groupId = '1';
 const configId = '1234-4568';
 const PRODUCT_CODE = 'PRODUCT';
 const totalNumberOfIssues = 2;
-
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of(generalGroupDescription);
-  }
-}
 
 const group3: OccConfigurator.GroupOverview = {
   id: '3',
@@ -102,23 +101,23 @@ const overview: OccConfigurator.Overview = {
 };
 Object.freeze(overview);
 
-class MockConverterService {
-  convert(source: OccConfigurator.Prices) {
-    return source.priceSummary;
-  }
-}
-
 describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantOverviewNormalizer: OccConfiguratorVariantOverviewNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        OccConfiguratorVariantOverviewNormalizer,
-        { provide: ConverterService, useClass: MockConverterService },
-        { provide: TranslationService, useClass: MockTranslationService },
-      ],
+      imports: [ConverterTestingModule, I18nTestingModule],
+      providers: [OccConfiguratorVariantOverviewNormalizer],
     });
+
+    const converterService = TestBed.inject(ConverterService);
+    vi.spyOn(converterService, 'convert').mockImplementation(
+      (source: any) => source.priceSummary
+    );
+    const translationService = TestBed.inject(TranslationService);
+    vi.spyOn(translationService, 'translate').mockReturnValue(
+      of(generalGroupDescription)
+    );
 
     occConfiguratorVariantOverviewNormalizer = TestBed.inject(
       OccConfiguratorVariantOverviewNormalizer

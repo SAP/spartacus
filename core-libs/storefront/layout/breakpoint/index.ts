@@ -5,3 +5,4 @@
  */
 
 export * from './breakpoint.service';
+export * from './testing/index';

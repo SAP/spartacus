@@ -4,26 +4,21 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
+import { MockConfiguratorRouterExtractorService } from '../../../common/testing/services/mock-configurator-router-extractor.service';
+import {
+  BreakpointService,
+  BreakpointTestingModule,
+  LayoutConfig,
+} from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
 
 const standardRouterData: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 let routerData: ConfiguratorRouter.Data;
-class MockRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(routerData);
-  }
-}
 let isLargeResolution: boolean;
-class MockBreakpointService {
-  isUp(): Observable<boolean> {
-    return of(isLargeResolution);
-  }
-}
 const displayOnlyHeaderSlotsLargeResolution = [
   'SiteContext',
   'SiteLinks',
@@ -67,14 +62,11 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [BreakpointTestingModule],
       providers: [
         {
           provide: ConfiguratorRouterExtractorService,
-          useClass: MockRouterExtractorService,
-        },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
+          useClass: MockConfiguratorRouterExtractorService,
         },
         {
           provide: LayoutConfig,
@@ -84,6 +76,16 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     }).compileComponents();
   });
   beforeEach(() => {
+    const routerExtractorService = TestBed.inject(
+      ConfiguratorRouterExtractorService
+    );
+    vi.spyOn(routerExtractorService, 'extractRouterData').mockImplementation(
+      () => of(routerData)
+    );
+    const breakpointService = TestBed.inject(BreakpointService);
+    vi.spyOn(breakpointService, 'isUp').mockImplementation(() =>
+      of(isLargeResolution)
+    );
     classUnderTest = TestBed.inject(VariantConfiguratorPageLayoutHandler);
   });
 
