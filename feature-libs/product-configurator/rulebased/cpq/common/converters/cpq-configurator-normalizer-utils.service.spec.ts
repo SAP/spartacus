@@ -55,20 +55,38 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     );
   });
 
-  it('should convert price string to price details', () => {
-    const priceDetails = cpqConfiguratorNormalizerUtilsService.convertPrice(
-      '123.45',
-      CURRENCY
-    );
-    expect(priceDetails?.currencyIso).toBe(CURRENCY);
-    expect(priceDetails?.value).toBe(123.45);
-    expect(priceDetails?.formattedValue).toBe('$123.45');
-  });
+  describe('convertPrice', () => {
+    it('should convert price string to price details', () => {
+      const priceDetails = cpqConfiguratorNormalizerUtilsService.convertPrice(
+        '123.45',
+        CURRENCY
+      );
+      expect(priceDetails?.currencyIso).toBe(CURRENCY);
+      expect(priceDetails?.value).toBe(123.45);
+      expect(priceDetails?.formattedValue).toBe('$123.45');
+    });
 
-  it('should not convert price when price string is undefined', () => {
-    expect(
-      cpqConfiguratorNormalizerUtilsService.convertPrice(undefined, CURRENCY)
-    ).toBeUndefined();
+    it('should convert price number to price details', () => {
+      const priceDetails = cpqConfiguratorNormalizerUtilsService.convertPrice(
+        123.45,
+        CURRENCY
+      );
+      expect(priceDetails?.currencyIso).toBe(CURRENCY);
+      expect(priceDetails?.value).toBe(123.45);
+      expect(priceDetails?.formattedValue).toBe('$123.45');
+    });
+
+    it('should return undefined when price is undefined', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.convertPrice(undefined, CURRENCY)
+      ).toBeUndefined();
+    });
+
+    it('should return undefined when price is an empty string', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.convertPrice('', CURRENCY)
+      ).toBeUndefined();
+    });
   });
 
   it('should convert price', () => {

@@ -875,7 +875,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       const source = createConfigurationWithContainers();
       source.sapContainers?.[0].rows?.forEach((row) => {
         if (row.id === 'fixed') {
-          row.basePrice = '250.50';
+          row.basePrice = 250.5;
         }
       });
 
@@ -1134,7 +1134,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
         productSystemId: 'SYS_ID',
         productName: 'Display Name',
         selected: true,
-        basePrice: '99.99',
+        basePrice: 99.99,
       };
 
       expect(

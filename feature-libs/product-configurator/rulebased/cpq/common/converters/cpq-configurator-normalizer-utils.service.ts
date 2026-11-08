@@ -59,22 +59,22 @@ export class CpqConfiguratorNormalizerUtilsService {
   }
 
   /**
-   * Converts a price string to price details
+   * Converts a price value to price details
    *
-   * @param price - Price as string
+   * @param price - Price as number or string
    * @param currency - Currency code ISO
    * @returns - price details, or undefined when price is missing
    */
   convertPrice(
-    price: string | undefined,
+    price: number | string | undefined,
     currency: string
   ): Configurator.PriceDetails | undefined {
-    if (!price) {
+    if (price === undefined || price === null || price === '') {
       return undefined;
     }
     const priceDetails: Configurator.PriceDetails = {
       currencyIso: currency,
-      value: Number.parseFloat(price),
+      value: typeof price === 'number' ? price : Number.parseFloat(price),
     };
     this.formatPriceForLocale(priceDetails, this.getLanguage());
     return priceDetails;

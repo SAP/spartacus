@@ -3769,14 +3769,14 @@ describe('CpqConfiguratorNormalizer', () => {
         subGroups: [],
       };
 
-      it('should convert basePrice when CPQ sends a price string', () => {
+      it('should convert basePrice when CPQ sends a price number', () => {
         const row = cpqConfiguratorNormalizer['convertContainerRow'](
           {
             id: '1',
             productSystemId: 'P1',
             productName: 'Product 1',
             selected: false,
-            basePrice: '123.45',
+            basePrice: 123.45,
           },
           cpqAttributeStdAttrCode,
           parentGroup,
@@ -3817,7 +3817,7 @@ describe('CpqConfiguratorNormalizer', () => {
                   productSystemId: 'P1',
                   productName: 'Product 1',
                   selected: false,
-                  basePrice: '99.00',
+                  basePrice: 99.0,
                 },
               ],
             },
