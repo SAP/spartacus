@@ -14,5 +14,6 @@ export * from './error-handling/index';
 export * from './logger/index';
 export * from './optimized-engine/index';
 export * from './providers/index';
+export * from './robots/robots-response';
 export * from './testing/index';
 export * from './tokens/express.tokens';
