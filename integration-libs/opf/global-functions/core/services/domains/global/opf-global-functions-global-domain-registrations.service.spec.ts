@@ -89,7 +89,12 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService> {}
+  implements Partial<OpfQuickBuyTransactionService>
+{
+  getCurrentCart = jasmine
+    .createSpy('getCurrentCart')
+    .and.returnValue(of(mockCart));
+}
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
   getApplePayWebSession = jasmine.createSpy('getApplePayWebSession');
