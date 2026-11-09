@@ -265,6 +265,16 @@ export class OpfGlobalFunctionsGlobalDomainService {
     });
   }
 
+  prepareTransactionCart(): Promise<Cart> {
+    return this.ngZone.run(() => {
+      return lastValueFrom(
+        this.opfQuickBuyTransactionService
+          .prepareTransactionCart()
+          .pipe(take(1))
+      );
+    });
+  }
+
   getApplePayWebSession(
     request: ApplePaySessionVerificationRequest
   ): Promise<ApplePaySessionVerificationResponse> {

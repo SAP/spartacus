@@ -181,6 +181,7 @@ describe('OpfGlobalFunctionsGlobalDomainRegistrationsService', () => {
       expect(container.submit).toBeDefined();
       expect(container.submitComplete).toBeDefined();
       expect((container as any).getApplePayWebSession).toBeDefined();
+      expect(container.prepareTransactionCart).toBeDefined();
     });
 
     it('should handle getCart through registered function', async () => {

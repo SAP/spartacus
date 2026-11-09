@@ -137,6 +137,9 @@ class MockOpfQuickBuyTransactionService
   createCartGuestUser = jasmine
     .createSpy('createCartGuestUser')
     .and.returnValue(of(true));
+  prepareTransactionCart = jasmine
+    .createSpy('prepareTransactionCart')
+    .and.returnValue(of(mockCart));
 }
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
@@ -390,6 +393,17 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     it('should normalize payment config from object', () => {
       const config = { configurationId: '2301' };
       expect(service['normalizePaymentConfig'](config)).toEqual(config);
+    });
+  });
+
+  describe('prepareTransactionCart', () => {
+    it('should call opfQuickBuyTransactionService.prepareTransactionCart and return cart', async () => {
+      const result = await service.prepareTransactionCart();
+
+      expect(
+        opfQuickBuyTransactionService.prepareTransactionCart
+      ).toHaveBeenCalled();
+      expect(result).toEqual(mockCart);
     });
   });
 
