@@ -170,7 +170,9 @@ describe('OpfQuickBuyTransactionService', () => {
     });
 
     service = TestBed.inject(OpfQuickBuyTransactionService);
-    service['transactionContext'] = OpfQuickBuyLocation.CART;
+    routingService.getRouterState.and.returnValue(
+      of({ state: { semanticRoute: 'cart' } } as RouterState)
+    );
   });
 
   describe('checkStableCart', () => {
@@ -514,6 +516,27 @@ describe('OpfQuickBuyTransactionService', () => {
     });
   });
 
+  describe('resolveContext', () => {
+    it('should re-read route on each call without caching stale values', (done) => {
+      routingService.getRouterState.and.returnValue(
+        of({ state: { semanticRoute: 'product' } } as RouterState)
+      );
+
+      service['resolveContext']().subscribe((first) => {
+        expect(first).toBe(OpfQuickBuyLocation.PRODUCT);
+
+        routingService.getRouterState.and.returnValue(
+          of({ state: { semanticRoute: 'cart' } } as RouterState)
+        );
+
+        service['resolveContext']().subscribe((second) => {
+          expect(second).toBe(OpfQuickBuyLocation.CART);
+          done();
+        });
+      });
+    });
+  });
+
   describe('getTransactionLocationContext', () => {
     it('should return OpfQuickBuyLocation', () => {
       const routerState = new BehaviorSubject<RouterState>({
@@ -621,7 +644,9 @@ describe('OpfQuickBuyTransactionService', () => {
     };
 
     beforeEach(() => {
-      service['transactionContext'] = OpfQuickBuyLocation.PRODUCT;
+      routingService.getRouterState.and.returnValue(
+        of({ state: { semanticRoute: 'product' } } as RouterState)
+      );
       singleProductTransactionService.prepareTransactionCart.and.returnValue(
         of(mockCart)
       );
