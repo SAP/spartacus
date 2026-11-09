@@ -10,7 +10,8 @@ import { Configurator } from '@spartacus/product-configurator/rulebased';
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorOverviewFilterService {
   /**
-   * Applies attribute and group filters to the unfiltered overview groups.
+   * Filters top-level groups by ID. Only top-level group IDs in groupFilters are
+   * matched; subgroup IDs are not traversed and are silently ignored.
    */
   filter(
     possibleGroups: Configurator.GroupOverview[],
@@ -43,8 +44,8 @@ export class CpqConfiguratorOverviewFilterService {
   }
 
   /**
-   * Keeps only priced attributes, preserving nested groups (e.g. container rows)
-   * as headers for the priced attributes they contain.
+   * Filters attributes keeping only ones that have a non zero price,
+   *  preserving nested groups (e.g. container rows) as headers for the priced attributes they contain.
    */
   protected filterByPrice(
     group: Configurator.GroupOverview
@@ -52,7 +53,7 @@ export class CpqConfiguratorOverviewFilterService {
     const filteredGroup: Configurator.GroupOverview = {
       id: group.id,
       groupDescription: group.groupDescription,
-      attributes: (group.attributes ?? []).filter((attr) =>
+      attributes: group.attributes?.filter((attr) =>
         this.isPriceRelevant(attr)
       ),
     };
@@ -68,7 +69,10 @@ export class CpqConfiguratorOverviewFilterService {
   protected isPriceRelevant(attr: Configurator.AttributeOverview): boolean {
     const valuePrice = attr.valuePrice?.value ?? 0;
     const valuePriceTotal = attr.valuePriceTotal?.value ?? 0;
-    return valuePrice !== 0 || valuePriceTotal !== 0;
+    return (
+      (valuePrice !== 0 && Number.isFinite(valuePrice)) ||
+      (valuePriceTotal !== 0 && Number.isFinite(valuePriceTotal))
+    );
   }
 
   protected hasOverviewContent(group: Configurator.GroupOverview): boolean {

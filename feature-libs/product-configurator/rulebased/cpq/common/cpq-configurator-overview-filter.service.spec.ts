@@ -78,6 +78,57 @@ describe('CpqConfiguratorOverviewFilterService', () => {
     ]);
   });
 
+  it('should not treat zero, NaN or infinite prices as price relevant', () => {
+    const group: Configurator.GroupOverview = {
+      id: '1',
+      attributes: [
+        {
+          attribute: 'Zero',
+          value: 'Z',
+          valuePrice: { currencyIso: 'USD', value: 0 },
+          valuePriceTotal: { currencyIso: 'USD', value: 0 },
+        },
+        {
+          attribute: 'NaN',
+          value: 'N',
+          valuePrice: { currencyIso: 'USD', value: NaN },
+          valuePriceTotal: { currencyIso: 'USD', value: NaN },
+        },
+        {
+          attribute: 'Infinite',
+          value: 'I',
+          valuePrice: { currencyIso: 'USD', value: Infinity },
+          valuePriceTotal: { currencyIso: 'USD', value: -Infinity },
+        },
+      ],
+    };
+
+    const result = service.filter(
+      [group],
+      [Configurator.OverviewFilter.PRICE_RELEVANT],
+      []
+    );
+
+    expect(result).toEqual([]);
+  });
+
+  it('should treat an attribute as price relevant if only its total price is valid', () => {
+    const totalOnlyAttr: Configurator.AttributeOverview = {
+      attribute: 'Total only',
+      value: 'T',
+      valuePrice: { currencyIso: 'USD', value: NaN },
+      valuePriceTotal: { currencyIso: 'USD', value: 20 },
+    };
+
+    const result = service.filter(
+      [{ id: '1', attributes: [totalOnlyAttr] }],
+      [Configurator.OverviewFilter.PRICE_RELEVANT],
+      []
+    );
+
+    expect(result[0].attributes).toEqual([totalOnlyAttr]);
+  });
+
   it('should keep the parent container header below its tab when price filter is active', () => {
     const tabWithRows: Configurator.GroupOverview = {
       id: '1',

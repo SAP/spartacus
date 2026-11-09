@@ -87,7 +87,7 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
   }
 
   /**
-   * Whether the "My selections" attribute filter is shown (not used for CPQ).
+   * Returns whether the "My selections" attribute filter is shown (not used for CPQ).
    */
   isMySelectionsFilterVisible(
     config: Configurator.ConfigurationWithOverview
