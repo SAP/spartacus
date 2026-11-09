@@ -66,6 +66,7 @@ export class OpfGlobalFunctionsGlobalDomainRegistrationsService {
       vcr
     );
     this.registerGetApplePayWebSession(container);
+    this.registerPrepareTransactionCart(container);
   }
 
   protected registerCtaScriptReady(container: OpfPaymentGlobalMethods): void {
@@ -185,5 +186,12 @@ export class OpfGlobalFunctionsGlobalDomainRegistrationsService {
       request: ApplePaySessionVerificationRequest
     ): Promise<ApplePaySessionVerificationResponse> =>
       this.domainService.getApplePayWebSession(request);
+  }
+
+  protected registerPrepareTransactionCart(
+    container: OpfPaymentGlobalMethods
+  ): void {
+    container.prepareTransactionCart = (): Promise<Cart> =>
+      this.domainService.prepareTransactionCart();
   }
 }
