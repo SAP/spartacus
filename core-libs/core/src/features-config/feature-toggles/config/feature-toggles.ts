@@ -788,6 +788,15 @@ export interface FeatureTogglesInterface {
   productConfiguratorCPQContainer?: boolean;
 
   /**
+   * When enabled, the rulebased product configurator drop-down attribute renders
+   * a custom dropdown widget (flex layout with price right-aligned and a separator
+   * line between options) instead of the native `<select>` element.
+   *
+   * Affects: `ConfiguratorAttributeDropDownComponent`
+   */
+  productConfiguratorDropDownList?: boolean;
+
+  /**
    * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
    * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
    * stays legible on the danger background in the high-contrast dark theme
@@ -1096,6 +1105,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   productConfiguratorCPQContainer: false,
+  productConfiguratorDropDownList: false,
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
