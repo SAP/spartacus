@@ -623,6 +623,45 @@ describe('ConfiguratorGroupMenuComponent', () => {
         configuratorGroupsService.setMenuParentGroup
       ).toHaveBeenCalledTimes(0);
     });
+
+    it('should open the submenu of a container row group that has container row subgroups', () => {
+      const subItemRowGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1051@tank',
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        attributes: [],
+        subGroups: [],
+      };
+      const rowTabGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1051@brewing@77',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [{ name: 'compression' }],
+        subGroups: [],
+      };
+      const rowGroup: Configurator.Group = {
+        id: 'CONTAINER_ROW@1051@brewing',
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        attributes: [],
+        subGroups: [rowTabGroup, subItemRowGroup],
+      };
+      const configWithSubItemRows = structuredClone(mockProductConfiguration);
+      configWithSubItemRows.groups = [
+        mockProductConfiguration.groups[0],
+        rowGroup,
+      ];
+      productConfigurationObservable = of(configWithSubItemRows);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(rowGroup);
+
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalledWith(
+        configWithSubItemRows.owner,
+        rowGroup.id
+      );
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        0
+      );
+    });
   });
 
   it('should return number of conflicts only for conflict header group', () => {
@@ -2611,6 +2650,34 @@ describe('ConfiguratorGroupMenuComponent', () => {
       };
 
       expect(component['hasContainerRowSubGroups'](group)).toBe(false);
+    });
+  });
+
+  describe('isNavigableWithContainerRows', () => {
+    const rowChild: Configurator.Group = {
+      id: 'row',
+      groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+      subGroups: [],
+    };
+
+    it('returns true for a tab with container row children', () => {
+      expect(
+        component['isNavigableWithContainerRows']({
+          id: 'tab',
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          subGroups: [rowChild],
+        })
+      ).toBe(true);
+    });
+
+    it('returns false for a container row group with container row children', () => {
+      expect(
+        component['isNavigableWithContainerRows']({
+          id: 'parentRow',
+          groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+          subGroups: [rowChild],
+        })
+      ).toBe(false);
     });
   });
 
