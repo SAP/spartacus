@@ -24,6 +24,7 @@ import {
   productConfigurationWithConflicts,
   productConfigurationWithoutIssues,
 } from '../../testing/configurator-test-data';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 const productConfigurationWithDetailedIssuesCountedInOverview: Configurator.Configuration =
@@ -93,6 +94,10 @@ class MockConfiguratorCommonsService {
     return configurationObs;
   }
 }
+class MockConfiguratorStorefrontUtilsService {
+  isDisplayOnly = vi.fn(() => false);
+}
+
 let component: ConfiguratorOverviewNotificationBannerComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewNotificationBannerComponent>;
 let htmlElem: HTMLElement;
@@ -123,6 +128,10 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         ...provideMockFeatureToggles({
           productConfiguratorReadOnlyCartEntryConfiguration: false,
@@ -336,14 +345,14 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     const errorLinkSelector = '.cx-error-msg button.cx-action-link';
     const conflictLinkSelector = '.cx-conflict-msg button.cx-action-link';
 
-    function initializeWithDisplayOnly(displayOnly: unknown): void {
+    function initializeWithDisplayOnly(displayOnly: boolean): void {
+      vi.mocked(
+        TestBed.inject(ConfiguratorStorefrontUtilsService).isDisplayOnly
+      ).mockReturnValue(displayOnly);
       configurationObs = of(
         productConfigurationWithDetailedIssuesCountedInOverview
       );
-      initialize({
-        ...routerData,
-        displayOnly: displayOnly as boolean | undefined,
-      });
+      initialize(routerData);
     }
 
     function expectLinks(present: boolean): void {
@@ -366,33 +375,27 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
         );
       });
 
-      it.each([true, 'true'])(
-        'should hide the resolve links but keep the messages if displayOnly is %s',
-        (displayOnly) => {
-          initializeWithDisplayOnly(displayOnly);
+      it('should hide the resolve links but keep the messages in display-only mode', () => {
+        initializeWithDisplayOnly(true);
 
-          expectLinks(false);
-          CommonConfiguratorTestUtilsService.expectElementPresent(
-            expect,
-            htmlElem,
-            '.cx-error-msg'
-          );
-          CommonConfiguratorTestUtilsService.expectElementPresent(
-            expect,
-            htmlElem,
-            '.cx-conflict-msg'
-          );
-        }
-      );
+        expectLinks(false);
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-conflict-msg'
+        );
+      });
 
-      it.each([false, 'false', undefined])(
-        'should display the resolve links if displayOnly is %s',
-        (displayOnly) => {
-          initializeWithDisplayOnly(displayOnly);
+      it('should display the resolve links if not in display-only mode', () => {
+        initializeWithDisplayOnly(false);
 
-          expectLinks(true);
-        }
-      );
+        expectLinks(true);
+      });
     });
 
     it('should display the resolve links in display-only mode if feature toggle productConfiguratorReadOnlyCartEntryConfiguration is inactive', () => {

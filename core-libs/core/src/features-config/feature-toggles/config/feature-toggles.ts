@@ -800,6 +800,8 @@ export interface FeatureTogglesInterface {
    *
    * Affects:
    * `ConfiguratorCartService`,
+   * `ConfiguratorCommonsService`,
+   * `ConfiguratorOverviewFormComponent`,
    * `ConfiguratorOverviewNotificationBannerComponent`
    */
   productConfiguratorReadOnlyCartEntryConfiguration?: boolean;

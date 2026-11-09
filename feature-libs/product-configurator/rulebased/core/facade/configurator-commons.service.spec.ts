@@ -675,7 +675,7 @@ describe('ConfiguratorCommonsService', () => {
 
       expect(
         configuratorCartService.readConfigurationForCartEntry
-      ).toHaveBeenCalledWith(OWNER_CART_ENTRY);
+      ).toHaveBeenCalledWith(OWNER_CART_ENTRY, false);
     });
 
     it('should delegate to config cart service with readOnly for cart bound configurations if read-only is requested', () => {
@@ -692,7 +692,7 @@ describe('ConfiguratorCommonsService', () => {
       ).toHaveBeenCalledWith(OWNER_CART_ENTRY, true);
     });
 
-    it('should delegate to config cart service without readOnly for cart bound configurations if read-only is not requested', () => {
+    it('should delegate to config cart service with readOnly false for cart bound configurations if read-only is not requested', () => {
       vi.spyOn(configuratorCartService, 'readConfigurationForCartEntry');
 
       serviceUnderTest.getOrCreateConfiguration(
@@ -703,7 +703,7 @@ describe('ConfiguratorCommonsService', () => {
 
       expect(
         configuratorCartService.readConfigurationForCartEntry
-      ).toHaveBeenCalledWith(OWNER_CART_ENTRY);
+      ).toHaveBeenCalledWith(OWNER_CART_ENTRY, false);
     });
 
     it('should ignore readOnly for order bound configurations', () => {

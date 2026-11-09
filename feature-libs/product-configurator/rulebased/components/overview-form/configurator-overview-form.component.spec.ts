@@ -109,6 +109,7 @@ class MockConfiguratorCommonsService {
 
 class MockConfiguratorStorefrontUtilsService {
   scrollToConfigurationElement = vi.fn();
+  isDisplayOnly = vi.fn(() => false);
 
   createOvGroupId(prefix: string, groupId: string): string {
     return `${this.getPrefixId(prefix, groupId)}-ovGroup`;
@@ -1292,45 +1293,27 @@ describe('ConfigurationOverviewFormComponent', () => {
 
   describe('read-only mode for display-only overview', () => {
     let configuratorCommonsService: ConfiguratorCommonsService;
-
-    function setDisplayOnly(displayOnly: unknown): void {
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          params: { ...mockRouterState.state.params, displayOnly },
-        },
-      });
-    }
+    let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
     beforeEach(() => {
       configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+      configuratorStorefrontUtilsService = TestBed.inject(
+        ConfiguratorStorefrontUtilsService
+      );
       vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
     });
 
-    it.each([true, 'true'])(
-      'should request a read-only configuration if displayOnly is %s',
+    it.each([true, false])(
+      'should request the configuration with readOnly %s depending on display-only mode',
       (displayOnly) => {
-        setDisplayOnly(displayOnly);
+        vi.mocked(
+          configuratorStorefrontUtilsService.isDisplayOnly
+        ).mockReturnValue(displayOnly);
         initialize();
 
         expect(
           configuratorCommonsService.getOrCreateConfiguration
-        ).toHaveBeenCalledWith(expect.anything(), undefined, true);
-      }
-    );
-
-    it.each([false, 'false', undefined])(
-      'should not request a read-only configuration if displayOnly is %s',
-      (displayOnly) => {
-        setDisplayOnly(displayOnly);
-        initialize();
-
-        const calls = vi.mocked(
-          configuratorCommonsService.getOrCreateConfiguration
-        ).mock.calls;
-        expect(calls.length).toBeGreaterThan(0);
-        calls.forEach((args) => expect(args.length).toBe(1));
+        ).toHaveBeenCalledWith(expect.anything(), undefined, displayOnly);
       }
     );
   });

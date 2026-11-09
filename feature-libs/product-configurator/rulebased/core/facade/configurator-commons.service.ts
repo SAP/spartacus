@@ -104,12 +104,10 @@ export class ConfiguratorCommonsService {
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
       case CommonConfigurator.OwnerType.CART_ENTRY: {
-        return readOnly
-          ? this.configuratorCartService.readConfigurationForCartEntry(
-              owner,
-              readOnly
-            )
-          : this.configuratorCartService.readConfigurationForCartEntry(owner);
+        return this.configuratorCartService.readConfigurationForCartEntry(
+          owner,
+          readOnly
+        );
       }
       case CommonConfigurator.OwnerType.ORDER_ENTRY:
       case CommonConfigurator.OwnerType.QUOTE_ENTRY:

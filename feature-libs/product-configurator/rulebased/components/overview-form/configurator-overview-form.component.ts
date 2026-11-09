@@ -16,10 +16,7 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, fromEvent, merge, timer } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -153,21 +150,18 @@ export class ConfiguratorOverviewFormComponent {
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
-        (this.isDisplayOnly(routerData)
-          ? this.configuratorCommonsService.getOrCreateConfiguration(
-              routerData.owner,
-              undefined,
-              true
-            )
-          : this.configuratorCommonsService.getOrCreateConfiguration(
-              routerData.owner
-            )
-        ).pipe(
-          map((configuration) => ({
-            configuration,
-            rowId: routerData.rowId,
-          }))
-        )
+        this.configuratorCommonsService
+          .getOrCreateConfiguration(
+            routerData.owner,
+            undefined,
+            this.configuratorStorefrontUtilsService.isDisplayOnly(routerData)
+          )
+          .pipe(
+            map((configuration) => ({
+              configuration,
+              rowId: routerData.rowId,
+            }))
+          )
       ),
       distinctUntilChanged(
         (previous, current) =>
@@ -204,20 +198,6 @@ export class ConfiguratorOverviewFormComponent {
         .pipe(takeUntilDestroyed())
         .subscribe((label) => (this.contentLabel = label));
     }
-  }
-
-  /**
-   * Verifies whether the overview is displayed in display-only mode.
-   * The route parameter arrives as string, hence both `true` and `'true'` are accepted.
-   *
-   * @param routerData - Router data
-   * @returns {boolean} - `true` if the overview is displayed in display-only mode
-   */
-  protected isDisplayOnly(routerData: ConfiguratorRouter.Data): boolean {
-    return (
-      routerData.displayOnly === true ||
-      String(routerData.displayOnly) === 'true'
-    );
   }
 
   /**

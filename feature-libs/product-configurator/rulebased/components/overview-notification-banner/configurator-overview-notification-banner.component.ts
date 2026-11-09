@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-overview-notification-banner',
@@ -78,6 +79,9 @@ export class ConfiguratorOverviewNotificationBannerComponent {
   iconTypes = ICON_TYPE;
 
   private featureToggles = inject(FeatureToggles);
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -91,13 +95,12 @@ export class ConfiguratorOverviewNotificationBannerComponent {
    * in display-only mode, as the configuration is then read without a draft.
    *
    * @param routerData - Router data
-   * @returns {boolean} - `true` if the links are hidden, otherwise `false`
+   * @returns - `true` if the links are hidden, otherwise `false`
    */
   isResolveLinkHidden(routerData: ConfiguratorRouter.Data): boolean {
     return (
       !!this.featureToggles.productConfiguratorReadOnlyCartEntryConfiguration &&
-      (routerData.displayOnly === true ||
-        String(routerData.displayOnly) === 'true')
+      this.configuratorStorefrontUtilsService.isDisplayOnly(routerData)
     );
   }
 }
