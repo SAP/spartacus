@@ -149,7 +149,7 @@ export class BadRequestHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || []).filter(
+    return (response.error?.errors ?? []).filter(
       (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError'
     );
   }
