@@ -86,10 +86,7 @@ export class OpfGlobalFunctionsGlobalDomainService {
       }
 
       return lastValueFrom(
-        this.reloadCartAndWaitForStable().pipe(
-          switchMap(() => this.activeCartFacade.takeActive()),
-          take(1)
-        )
+        this.opfQuickBuyTransactionService.getCurrentCart().pipe(take(1))
       );
     });
   }

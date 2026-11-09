@@ -140,6 +140,9 @@ class MockOpfQuickBuyTransactionService
   prepareTransactionCart = jasmine
     .createSpy('prepareTransactionCart')
     .and.returnValue(of(mockCart));
+  getCurrentCart = jasmine
+    .createSpy('getCurrentCart')
+    .and.returnValue(of(mockCart));
 }
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
@@ -213,16 +216,10 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
   });
 
   describe('getCart', () => {
-    it('should return active cart when cartId is not provided', async () => {
-      const activeCartFacade = TestBed.inject(
-        ActiveCartFacade
-      ) as jasmine.SpyObj<ActiveCartFacade>;
-
+    it('should delegate to opfQuickBuyTransactionService.getCurrentCart when cartId is not provided', async () => {
       const result = await service.getCart();
 
-      expect(activeCartFacade.reloadActiveCart).toHaveBeenCalled();
-      expect(activeCartFacade.isStable).toHaveBeenCalled();
-      expect(activeCartFacade.takeActive).toHaveBeenCalled();
+      expect(opfQuickBuyTransactionService.getCurrentCart).toHaveBeenCalled();
       expect(result).toEqual(mockCart);
     });
 
