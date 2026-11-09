@@ -13,7 +13,7 @@ import {
   OpfQuickBuyDeliveryType,
   OpfQuickBuyLocation,
 } from '@spartacus/opf/quick-buy/root';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { OpfQuickBuyActiveCartTransactionService } from './context/opf-quick-buy-active-cart-transaction.service';
 import { OpfQuickBuySingleProductTransactionService } from './context/opf-quick-buy-single-product-transaction.service';
@@ -171,10 +171,6 @@ export class OpfQuickBuyTransactionService {
   }
 
   protected resolveContext(): Observable<OpfQuickBuyLocation> {
-    if (this.transactionContext) {
-      return of(this.transactionContext);
-    }
-
     return this.getTransactionLocationContext();
   }
 

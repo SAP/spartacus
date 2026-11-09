@@ -74,6 +74,8 @@ export class OpfGlobalFunctionsSharedService {
   static readonly UPDATE_PAYMENT_TRANSACTION_RETRY_COUNT = 2;
   static readonly UPDATE_PAYMENT_TRANSACTION_RETRY_DELAY = 300;
 
+  protected isSubmitInProgress = false;
+
   protected winRef = inject(WindowRef);
   protected ngZone = inject(NgZone);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
@@ -108,6 +110,10 @@ export class OpfGlobalFunctionsSharedService {
     paymentSessionId?: string,
     vcr?: ViewContainerRef
   ): Promise<boolean> {
+    if (this.isSubmitInProgress) {
+      return Promise.resolve(false);
+    }
+
     return this.ngZone.run(() => {
       const finalPaymentSessionId = this.requirePaymentSessionId(
         options.paymentSessionId ?? paymentSessionId
@@ -147,6 +153,8 @@ export class OpfGlobalFunctionsSharedService {
         onCancel: submitCancel,
       };
 
+      this.isSubmitInProgress = true;
+
       return lastValueFrom(
         this.opfPaymentFacade
           .submitPayment({
@@ -160,6 +168,7 @@ export class OpfGlobalFunctionsSharedService {
           .pipe(
             last(() => true, true),
             finalize(() => {
+              this.isSubmitInProgress = false;
               if (overlayedSpinner) {
                 this.stopLoaderSpinner(overlayedSpinner);
               }
