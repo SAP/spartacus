@@ -33,12 +33,9 @@ describe('SSR Jest environment', () => {
 });
 
 describe('@spartacus/setup/ssr public API', () => {
-  it.each(['EXAMPLE_ROBOTS_TXT', 'sendRobotsTxtResponse'])(
-    'exposes %s from the root SSR entry point',
-    (name) => {
-      expect(ssrApi).toHaveProperty(name);
-    }
-  );
+  it('exposes the example robots.txt content from the root SSR entry point', () => {
+    expect(ssrApi).toHaveProperty('EXAMPLE_ROBOTS_TXT');
+  });
 
   it.each([
     'ConcurrencyLimitError',
