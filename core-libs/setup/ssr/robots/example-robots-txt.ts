@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { type Response } from 'express';
-
 /** General example robots.txt content for a Spartacus storefront. */
 export const EXAMPLE_ROBOTS_TXT = `# SAP Spartacus example robots.txt.
 # Adapt paths to your storefront's routing and URL prefixes.
@@ -28,6 +26,39 @@ Disallow: /checkout$
 Disallow: /checkout/
 Disallow: /checkout?
 
+# Checkout under a base-site, language, or currency prefix.
+Disallow: /*/checkout$
+Disallow: /*/checkout/
+Disallow: /*/checkout?
+
+# Checkout login.
+Disallow: /checkout-login$
+Disallow: /checkout-login/
+Disallow: /checkout-login?
+Disallow: /*/checkout-login$
+Disallow: /*/checkout-login/
+Disallow: /*/checkout-login?
+
+# Order confirmation.
+Disallow: /order-confirmation$
+Disallow: /order-confirmation/
+Disallow: /order-confirmation?
+Disallow: /*/order-confirmation$
+Disallow: /*/order-confirmation/
+Disallow: /*/order-confirmation?
+
+# Replenishment confirmation.
+Disallow: /replenishment/confirmation$
+Disallow: /replenishment/confirmation/
+Disallow: /replenishment/confirmation?
+Disallow: /*/replenishment/confirmation$
+Disallow: /*/replenishment/confirmation/
+Disallow: /*/replenishment/confirmation?
+
+# Guest order details: /guest/order/:orderCode.
+Disallow: /guest/order/
+Disallow: /*/guest/order/
+
 # Customer account.
 Disallow: /my-account$
 Disallow: /my-account/
@@ -38,13 +69,3 @@ Disallow: /*/my-account$
 Disallow: /*/my-account/
 Disallow: /*/my-account?
 `;
-
-/** Sends robots.txt content with the response headers expected by crawlers. */
-export function sendRobotsTxtResponse(
-  res: Response,
-  content: string = EXAMPLE_ROBOTS_TXT
-): void {
-  res.status(200);
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-  res.send(content);
-}
