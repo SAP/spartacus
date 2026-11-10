@@ -781,6 +781,25 @@ export interface FeatureTogglesInterface {
   productConfiguratorCPQContainer?: boolean;
 
   /**
+   * When enabled, a configuration attached to an entry of the active cart is
+   * read with `readOnly=true` if it is only displayed (route parameter
+   * `displayOnly`). The backend then returns the configuration attached to the
+   * cart entry without creating a draft. In display-only mode, the overview
+   * notification banner no longer offers the 'Resolve Issues' and
+   * 'Resolve Conflicts' links.
+   *
+   * Requires a SAP Commerce backend whose OCC cart entry configuration
+   * endpoints support the `readOnly` query parameter (VC and CPQ).
+   *
+   * Affects:
+   * `ConfiguratorCartService`,
+   * `ConfiguratorCommonsService`,
+   * `ConfiguratorOverviewFormComponent`,
+   * `ConfiguratorOverviewNotificationBannerComponent`
+   */
+  productConfiguratorReadOnlyCartEntryConfiguration?: boolean;
+
+  /**
    * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
    * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
    * stays legible on the danger background in the high-contrast dark theme
@@ -1088,6 +1107,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   productConfiguratorCPQContainer: false,
+  productConfiguratorReadOnlyCartEntryConfiguration: false,
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
