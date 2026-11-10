@@ -112,6 +112,9 @@ class MockConfiguratorStorefrontUtilsService {
   getSpareViewportHeight(): void {}
   getVerticallyScrolledPixels(): void {}
   isDisplayOnlyVariant(): void {}
+  isDisplayOnly(): boolean {
+    return false;
+  }
   isOverviewMenuFilterTabVisible(
     configuratorType: string | undefined
   ): boolean {

@@ -19,7 +19,7 @@ export class ConsentManagementComponentService {
    */
   getRequiredConsents(_templateList: ConsentTemplate[]): string[] {
     return (
-      this.anonymousConsentsConfig?.anonymousConsents?.requiredConsents || []
+      this.anonymousConsentsConfig?.anonymousConsents?.requiredConsents ?? []
     );
   }
 }
