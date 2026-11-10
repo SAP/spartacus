@@ -90,6 +90,15 @@ export interface OpfPaymentGlobalMethods {
   ): Promise<OpfPaymentVerificationResponse>;
   updateCartGuestUserEmail?(email: string): Promise<boolean>;
   createCartGuestUser?(): Promise<boolean>;
+  /**
+   * Initialises the transaction cart for the current page context.
+   *
+   * On a Product Detail Page this creates an isolated single-product cart and
+   * stores its ID so that subsequent cart-mutation calls (setDeliveryAddress,
+   * setDeliveryMode, createCartGuestUser, etc.) can resolve it.  Must be called
+   * before any cart-mutation method when running as a PDP_QUICK_BUY script.
+   */
+  prepareTransactionCart?(): Promise<Cart>;
   handle3DSRedirect?(threeDsURL: string): Promise<void>;
 }
 

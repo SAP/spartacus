@@ -172,13 +172,6 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
-   * When enabled, translates the "Password expired" error message
-   * to the user's selected language using Spartacus i18n.
-   * Affects: `LoginComponent`
-   */
-  enablePasswordExpiredErrorTranslation?: boolean;
-
-  /**
    * When enabled, the media prefix from the backend config will be used
    * when constructing media URLs in the MediaService.
    * Affects: `MediaService`
@@ -1047,7 +1040,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFutureStockAccordionAriaControls: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-  enablePasswordExpiredErrorTranslation: true,
   enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,

@@ -316,7 +316,6 @@ if (environment.cpq) {
         a11yFutureStockAccordionAriaControls: true,
         authorizationCodeFlowByDefault: true,
         mergeGuestCartOnCodeFlowLogin: true,
-        enablePasswordExpiredErrorTranslation: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
         a11yMessagingListKeyboardFocus: true,
