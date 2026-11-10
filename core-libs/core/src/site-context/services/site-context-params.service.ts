@@ -36,7 +36,7 @@ export class SiteContextParamsService {
   }
 
   getUrlEncodingParameters(): string[] {
-    return (this.config.context && this.config.context.urlParameters) || [];
+    return this.config.context?.urlParameters ?? [];
   }
 
   getParamValues(param: string): string[] {

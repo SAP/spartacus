@@ -47,7 +47,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
 
   protected getActionCategory(type: QuoteActionType): QuoteAction {
     const primaryActions: QuoteActionType[] =
-      this.quoteCoreConfig.quote?.actions?.primaryActions || [];
+      this.quoteCoreConfig.quote?.actions?.primaryActions ?? [];
 
     return { type, isPrimary: primaryActions.includes(type) };
   }
