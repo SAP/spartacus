@@ -1257,10 +1257,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       );
     });
 
-    it('should return false for CLOUD CPQ configurator type by default', () => {
+    it('should return true for CLOUD CPQ configurator type by default', () => {
       expect(
         classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.CPQ)
-      ).toBe(false);
+      ).toBe(true);
     });
 
     it('should return true for variant configurator type by default', () => {
