@@ -33,6 +33,11 @@ export namespace CommonConfigurator {
     cartId?: string;
     cartEntryNumber?: string;
     owner: CommonConfigurator.Owner;
+    /**
+     * If true, the configuration attached to the cart entry is read for display
+     * only. No draft is created and the configuration cannot be updated.
+     */
+    readOnly?: boolean;
   }
 
   export interface ReadConfigurationFromOrderEntryParameters {

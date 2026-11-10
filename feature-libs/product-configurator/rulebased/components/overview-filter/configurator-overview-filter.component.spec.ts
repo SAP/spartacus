@@ -3,7 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -124,6 +127,36 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         '.cx-overview-filter-option',
         4 //2 default + 2 groups
       );
+    });
+
+    it('should hide My selections filter for CPQ configurator type', () => {
+      overview.owner = {
+        ...overview.owner,
+        configuratorType: ConfiguratorType.CPQ,
+      };
+      component.config = overview;
+      fixture.detectChanges();
+      expect(
+        htmlElem.querySelector(
+          '#cx-configurator-overview-filter-option-mySelections'
+        )
+      ).toBeNull();
+      expect(component.isMySelectionsFilterVisible(overview)).toBe(false);
+    });
+
+    it('should show My selections filter for variant configurator type', () => {
+      overview.owner = {
+        ...overview.owner,
+        configuratorType: ConfiguratorType.VARIANT,
+      };
+      component.config = overview;
+      fixture.detectChanges();
+      expect(
+        htmlElem.querySelector(
+          '#cx-configurator-overview-filter-option-mySelections'
+        )
+      ).not.toBeNull();
+      expect(component.isMySelectionsFilterVisible(overview)).toBe(true);
     });
 
     it('should render both filter headers', () => {
