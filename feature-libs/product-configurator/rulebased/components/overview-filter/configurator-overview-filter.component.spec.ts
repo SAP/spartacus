@@ -1,14 +1,17 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import {
+  MockConfiguratorOverviewFilterBarComponent,
+  MockConfiguratorProviderService,
+  provideConfiguratorMockStorefrontUtilsService,
+} from '../../testing';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
@@ -22,7 +25,7 @@ let component: ConfiguratorOverviewFilterComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterComponent>;
 let htmlElem: HTMLElement;
 
-let mockConfigCommonsService: ConfiguratorCommonsService;
+let configuratorCommonsService: ConfiguratorCommonsService;
 let overview: Configurator.ConfigurationWithOverview;
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
@@ -40,13 +43,10 @@ const mockRouterState: any = {
 function initTestData() {
   overview = structuredClone({
     ...ConfiguratorTestUtils.createConfiguration(configId, owner),
-    overview: ConfigurationTestData.productConfiguration.overview,
+    overview: ConfigurationTestData.productConfiguration
+      .overview as Configurator.Overview,
   });
   overview.overview.possibleGroups = structuredClone(overview.overview.groups);
-}
-
-function initMocks() {
-  mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
 }
 
 function initTestComponent() {
@@ -58,22 +58,7 @@ function initTestComponent() {
   component.ngOnChanges();
 }
 
-@Component({
-  selector: 'cx-configurator-overview-filter-bar',
-  template: '',
-  imports: [ReactiveFormsModule],
-})
-class MockConfiguratorOverviewFilterBarComponent {
-  @Input() config: Configurator.ConfigurationWithOverview;
-}
-
 let isDisplayOnlyVariant: boolean;
-class MockConfiguratorStorefrontUtilsService {
-  isDisplayOnlyVariant(): Observable<boolean> {
-    return of(isDisplayOnlyVariant);
-  }
-}
-
 describe('ConfiguratorOverviewFilterComponent', () => {
   function configureTestingModule(): TestBed {
     mockRouterState.state.params.displayOnly = false;
@@ -83,12 +68,12 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       providers: [
         {
           provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
+        provideConfiguratorMockStorefrontUtilsService({
+          isDisplayOnlyVariantSource: () => of(isDisplayOnlyVariant),
+        }),
       ],
     }).overrideComponent(ConfiguratorOverviewFilterComponent, {
       remove: {
@@ -105,8 +90,8 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
   beforeEach(async () => {
     initTestData();
-    initMocks();
     await configureTestingModule().compileComponents();
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     initTestComponent();
   });
 
@@ -217,7 +202,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         });
 
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledTimes(4); // Price Relevant, My Selections, Group 1, Group 2
     });
 
@@ -372,7 +357,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       ];
       component.onFilter(overview);
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith({
         ...overview,
         overview: {

@@ -2,10 +2,8 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
-  Product,
   ProductService,
   TranslatePipe,
-  TranslationService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -15,65 +13,27 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { CarouselComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+} from '../../testing';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
 
-const PRODUCT_DESCRIPTION = 'Here is a product description';
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const PRODUCT_NAME = 'productName';
-const imageURL = 'some URL';
-const altText = 'some text';
-
-const product: Product = {
-  name: PRODUCT_NAME,
-  code: PRODUCT_CODE,
-  description: PRODUCT_DESCRIPTION,
-  images: {
-    PRIMARY: {
-      thumbnail: {
-        url: imageURL,
-        altText: altText,
-      },
-    },
-  },
-  price: {
-    formattedValue: '$1.500',
-  },
-  priceRange: {
-    maxPrice: {
-      formattedValue: '$1.500',
-    },
-    minPrice: {
-      formattedValue: '$1.000',
-    },
-  },
-};
 
 @Component({
   selector: 'cx-carousel',
   template: '',
 })
 class MockCarouselComponent {
-  @Input() items: any;
-  @Input() template: any;
-  @Input() itemWidth: any;
-  @Input() hideIndicators: any;
-}
-
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of('Pre-configured Versions');
-  }
-}
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
+  @Input() items;
+  @Input() template;
+  @Input() itemWidth;
+  @Input() hideIndicators;
 }
 
 class MockConfigRouterExtractorService {
@@ -101,12 +61,6 @@ let configurationWithVariants: Configurator.Configuration =
   );
 
 let configurationObs: any;
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
-
 let component: ConfiguratorVariantCarouselComponent;
 let fixture: ComponentFixture<ConfiguratorVariantCarouselComponent>;
 let htmlElem: HTMLElement;
@@ -136,17 +90,15 @@ describe('ConfiguratorVariantCarouselComponent', () => {
       providers: [
         {
           provide: ProductService,
-          useClass: MockProductService,
+          useClass: MockConfiguratorProviderService.MockProductService,
         },
-        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockConfigRouterExtractorService,
         },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => configurationObs,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorVariantCarouselComponent, {

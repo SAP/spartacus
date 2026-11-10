@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
+  LoggerTestingModule,
   Product,
   ProductService,
   RouterState,
   RoutingService,
-  LoggerTestingModule,
   WindowRef,
 } from '@spartacus/core';
 import {
@@ -172,7 +172,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         { provide: WindowRef, useClass: MockedWindowRef },
         {
           provide: ConfiguratorUISettingsConfig,
-          useValue: defaultConfiguratorUISettingsConfig,
+          useValue: structuredClone(defaultConfiguratorUISettingsConfig),
         },
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
@@ -1248,8 +1248,11 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
 
     it('should honor customer config for custom configurator types', () => {
-      TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator = {
+      const uiSettings = TestBed.inject(ConfiguratorUISettingsConfig);
+      uiSettings.productConfigurator = {
+        ...uiSettings.productConfigurator,
         overviewMenuFilterTabVisible: {
+          ...uiSettings.productConfigurator?.overviewMenuFilterTabVisible,
           MYCUSTOMTYPE: true,
         },
       };

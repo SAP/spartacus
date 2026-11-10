@@ -4,9 +4,10 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
+import { LayoutConfig } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { provideConfiguratorMockBreakpointService } from '../../testing';
 import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
 
 const standardRouterData: ConfiguratorRouter.Data = {
@@ -19,11 +20,6 @@ class MockRouterExtractorService {
   }
 }
 let isLargeResolution: boolean;
-class MockBreakpointService {
-  isUp(): Observable<boolean> {
-    return of(isLargeResolution);
-  }
-}
 const displayOnlyHeaderSlotsLargeResolution = [
   'SiteContext',
   'SiteLinks',
@@ -72,10 +68,9 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockRouterExtractorService,
         },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
+        provideConfiguratorMockBreakpointService({
+          isUpSource: () => of(isLargeResolution),
+        }),
         {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,

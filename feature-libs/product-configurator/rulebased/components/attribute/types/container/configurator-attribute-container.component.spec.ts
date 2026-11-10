@@ -1,18 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,
   IconTestingModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { ConfiguratorUtilsService } from '../../../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { MockConfiguratorProviderService } from '../../../../testing';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
@@ -74,29 +75,6 @@ class MockProductCardComponent {
   addAction = Configurator.ContainerRowAction.ADD;
   editAction = Configurator.ContainerRowAction.EDIT;
   copyAction = Configurator.ContainerRowAction.COPY;
-}
-
-class MockConfiguratorCommonsService {
-  configuration$ = new BehaviorSubject(
-    ConfiguratorTestUtils.createConfiguration('config-id')
-  );
-
-  addContainerRow(): void {}
-  removeContainerRow(): void {}
-  copyContainerRow(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return this.configuration$;
-  }
-}
-
-class MockConfiguratorGroupsService {
-  navigateToGroup(): void {}
-  getCurrentGroupId(): Observable<string> {
-    return of('testGroup');
-  }
 }
 
 describe('ConfiguratorAttributeContainerComponent', () => {
@@ -165,7 +143,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorAttributeContainerComponent],
+      imports: [I18nTestingModule, ConfiguratorAttributeContainerComponent],
       providers: [
         {
           provide: ConfiguratorUISettingsConfig,
@@ -177,11 +155,13 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorGroupsService,
         },
         ConfiguratorUtilsService,
         {
@@ -195,19 +175,9 @@ describe('ConfiguratorAttributeContainerComponent', () => {
     })
       .overrideComponent(ConfiguratorAttributeContainerComponent, {
         remove: {
-          imports: [
-            IconComponent,
-            ConfiguratorAttributeProductCardComponent,
-            TranslatePipe,
-          ],
+          imports: [IconComponent, ConfiguratorAttributeProductCardComponent],
         },
-        add: {
-          imports: [
-            IconTestingModule,
-            MockProductCardComponent,
-            I18nTestingModule,
-          ],
-        },
+        add: { imports: [IconTestingModule, MockProductCardComponent] },
       })
       .compileComponents();
   });

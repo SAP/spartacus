@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { Configurator } from '../../../../core/model/configurator.model';
 import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-import { Configurator } from '../../../../core/model/configurator.model';
 
 describe('ConfigAttributeNumericInputFieldService', () => {
   let serviceUnderTest: ConfiguratorAttributeNumericInputFieldService;

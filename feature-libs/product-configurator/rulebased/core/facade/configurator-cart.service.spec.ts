@@ -103,7 +103,7 @@ describe('ConfiguratorCartService', () => {
   beforeEach(async () => {
     cartObs = of(cart);
     isStableObs = of(true);
-    checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
+    checkoutLoadingObs = of({ loading: false, error: false, data: undefined });
     await TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),

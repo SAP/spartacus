@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
-import { OccConfiguratorTestUtils } from '../../../testing/occ-configurator-test-utils';
-import { OccConfiguratorVariantPriceNormalizer } from './occ-configurator-variant-price-normalizer';
-import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { OccConfiguratorTestUtils } from '../../../testing/occ-configurator-test-utils';
+import { OccConfigurator } from '../variant-configurator-occ.models';
+import { OccConfiguratorVariantPriceNormalizer } from './occ-configurator-variant-price-normalizer';
 
 class MockConverterService {
   convert() {}

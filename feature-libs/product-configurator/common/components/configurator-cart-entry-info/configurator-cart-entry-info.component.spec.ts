@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ControlContainer,
@@ -12,11 +12,12 @@ import {
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import { ConfiguratorType } from '@spartacus/product-configurator/common';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
+import { MockConfigureCartEntryComponent } from '../../testing/components/mock-configure-cart-entry.component';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry';
-import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -26,18 +27,6 @@ class MockCartItemContext implements Partial<CartItemContext> {
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.SaveForLater
   );
-}
-
-@Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
-  imports: [ReactiveFormsModule, I18nTestingModule],
-})
-class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
 }
 
 describe('ConfiguratorCartEntryInfoComponent', () => {

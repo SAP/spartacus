@@ -1,4 +1,4 @@
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorModelUtils } from './configurator-model-utils';
 describe('ConfiguratorModelUtils', () => {
   const PRODUCT_CODE = 'CONF_LAPTOP';

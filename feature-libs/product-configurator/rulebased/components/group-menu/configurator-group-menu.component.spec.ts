@@ -5,7 +5,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   I18nTestingModule,
   MockTranslationService,
-  RoutingService,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -16,7 +15,6 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
-  BreakpointService,
   DirectionMode,
   DirectionService,
   FocusDirective,
@@ -29,11 +27,18 @@ import {
 import { BehaviorSubject, firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockBreakpointService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockGroupsService,
+  provideConfiguratorMockRoutingService,
+  provideConfiguratorMockStorefrontUtilsService,
+} from '../../testing';
 import {
   ATTRIBUTE_1_CHECKBOX,
   CONFIGURATOR_ROUTE,
@@ -57,12 +62,6 @@ let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
 let mockProductConfiguration: Configurator.Configuration =
   structuredClone(productConfiguration);
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
 
 const baseStyleClass = 'cx-menu-item';
 const completeStyleClass = ' COMPLETE';
@@ -121,10 +120,6 @@ const incompleteConfig: Configurator.Configuration = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
-class MockRouter {
-  public events = of('');
-}
-
 const mockRouterStateIssueNavigation: any = {
   state: {
     params: {
@@ -136,74 +131,9 @@ const mockRouterStateIssueNavigation: any = {
   },
 };
 
-class MockConfiguratorGroupService {
-  setMenuParentGroup(): void {}
-
-  getGroupStatus() {
-    return of(null);
-  }
-
-  isGroupVisited() {
-    return groupVisitedObservable;
-  }
-
-  findParentGroup() {
-    return null;
-  }
-
-  navigateToGroup(): void {}
-
-  getCurrentGroup(): Observable<Configurator.Group> {
-    return of(mockProductConfiguration.groups[0]);
-  }
-
-  getMenuParentGroup(): Observable<Configurator.Group | undefined> {
-    return of(undefined);
-  }
-
-  hasSubGroups(group: Configurator.Group): boolean {
-    return group.subGroups ? group.subGroups.length > 0 : false;
-  }
-
-  getParentGroup(): Configurator.Group | undefined {
-    return undefined;
-  }
-
-  isConflictGroupType() {
-    return isConflictGroupType;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-}
-
 class MockDirectionService {
   getDirection() {
     return direction;
-  }
-}
-
-class MockBreakpointService {
-  isDown(): Observable<boolean> {
-    return breakpointObservable;
-  }
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  createGroupId(groupId?: string): string | undefined {
-    if (groupId) {
-      return groupId + '-group';
-    }
-  }
-
-  scrollToConfigurationElement(): void {}
-  setFocus(): void {}
-  focusFirstActiveElement(): void {}
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(mockGroupVisited);
   }
 }
 
@@ -246,32 +176,27 @@ describe('ConfiguratorGroupMenuComponent', () => {
         HamburgerMenuService,
         {
           provide: Router,
-          useClass: MockRouter,
+          useClass: MockConfiguratorProviderService.MockRouter,
         },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
+        provideConfiguratorMockRoutingService(() => routerStateObservable),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => productConfigurationObservable,
+        }),
+        provideConfiguratorMockGroupsService({
+          isGroupVisitedSource: () => groupVisitedObservable,
+          getCurrentGroupSource: () => of(mockProductConfiguration.groups[0]),
+        }),
         {
           provide: DirectionService,
           useClass: MockDirectionService,
         },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
+        provideConfiguratorMockBreakpointService({
+          isDownSource: () => breakpointObservable,
+        }),
+        provideConfiguratorMockStorefrontUtilsService({
+          isCartEntryOrGroupVisitedSource: () => of(mockGroupVisited),
+          groupMenuBehavior: true,
+        }),
         {
           provide: TranslationService,
           useClass: MockTranslationService,
@@ -302,7 +227,10 @@ describe('ConfiguratorGroupMenuComponent', () => {
     ).mockImplementation(() => {});
     vi.spyOn(configuratorGroupsService, 'isGroupVisited');
     isConflictGroupType = false;
-    vi.spyOn(configuratorGroupsService, 'isConflictGroupType');
+    vi.spyOn(
+      configuratorGroupsService,
+      'isConflictGroupType'
+    ).mockImplementation(() => isConflictGroupType);
 
     hamburgerMenuService = TestBed.inject(HamburgerMenuService);
     vi.spyOn(hamburgerMenuService, 'toggle').mockImplementation(() => {});
@@ -1995,7 +1923,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
           'getMenuParentGroup'
         ).mockReturnValue(of(mockProductConfiguration.groups[0]));
         vi.spyOn(configuratorGroupsService, 'getParentGroup').mockReturnValue(
-          of(mockProductConfiguration.groups[0])
+          mockProductConfiguration.groups[0]
         );
         vi.spyOn(component as any, 'setFocusOnNavigateUp').mockImplementation(
           () => {}
@@ -2621,184 +2549,194 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
   });
 
-  describe('hasContainerRowSubGroups', () => {
-    it('returns true when a direct child is a container row group', () => {
-      const group: Configurator.Group = {
-        id: 'parent',
-        subGroups: [
-          {
-            id: 'row',
-            groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
-            subGroups: [],
-          },
-        ],
-      };
-
-      expect(component['hasContainerRowSubGroups'](group)).toBe(true);
-    });
-
-    it('returns false when no container row children exist', () => {
-      const group: Configurator.Group = {
-        id: 'parent',
-        subGroups: [
-          {
-            id: 'child',
-            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-            subGroups: [],
-          },
-        ],
-      };
-
-      expect(component['hasContainerRowSubGroups'](group)).toBe(false);
-    });
-  });
-
-  describe('isNavigableWithContainerRows', () => {
-    const rowChild: Configurator.Group = {
-      id: 'row',
-      groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
-      subGroups: [],
-    };
-
-    it('returns true for a tab with container row children', () => {
-      expect(
-        component['isNavigableWithContainerRows']({
-          id: 'tab',
-          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-          subGroups: [rowChild],
-        })
-      ).toBe(true);
-    });
-
-    it('returns false for a container row group with container row children', () => {
-      expect(
-        component['isNavigableWithContainerRows']({
-          id: 'parentRow',
-          groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
-          subGroups: [rowChild],
-        })
-      ).toBe(false);
-    });
-  });
-
-  describe('isCondensed', () => {
-    it('returns false when the single child is a container row group', () => {
-      const group: Configurator.Group = {
-        id: 'parent',
-        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        subGroups: [
-          {
-            id: 'row',
-            groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
-            subGroups: [],
-          },
-        ],
-      };
-
-      expect(component['isCondensed'](group)).toBe(false);
-    });
-
-    it('returns true for a single non-conflict child', () => {
-      const group: Configurator.Group = {
-        id: 'parent',
-        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        subGroups: [
-          {
-            id: 'child',
-            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-            subGroups: [],
-          },
-        ],
-      };
-
-      expect(component['isCondensed'](group)).toBe(true);
-    });
-  });
-
-  describe('hasNoAttributes', () => {
-    it('returns true when attributes are missing or empty', () => {
-      expect(component['hasNoAttributes']({ id: 'group', subGroups: [] })).toBe(
-        true
+  describe('component helpers without menu focus setup', () => {
+    beforeEach(() => {
+      productConfigurationObservable = of(
+        structuredClone(mockProductConfiguration)
       );
-      expect(
-        component['hasNoAttributes']({
-          id: 'group',
-          attributes: [],
-          subGroups: [],
-        })
-      ).toBe(true);
+      routerStateObservable = of(mockRouterState);
+      initialize();
     });
 
-    it('returns false when the group carries attributes', () => {
-      expect(
-        component['hasNoAttributes']({
-          id: 'group',
-          attributes: [{ name: 'attr' }],
-          subGroups: [],
-        })
-      ).toBe(false);
-    });
-  });
+    describe('hasContainerRowSubGroups', () => {
+      it('returns true when a direct child is a container row group', () => {
+        const group: Configurator.Group = {
+          id: 'parent',
+          subGroups: [
+            {
+              id: 'row',
+              groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+              subGroups: [],
+            },
+          ],
+        };
 
-  describe('isDialogActive', () => {
-    it('returns true when showConflictSolverDialog is set', () => {
-      expect(
-        component.isDialogActive({
-          interactionState: { showConflictSolverDialog: true },
-        } as Configurator.Configuration)
-      ).toBe(true);
-    });
+        expect(component['hasContainerRowSubGroups'](group)).toBe(true);
+      });
 
-    it('returns false when showConflictSolverDialog is unset', () => {
-      expect(
-        component.isDialogActive({
-          interactionState: {},
-        } as Configurator.Configuration)
-      ).toBe(false);
-    });
-  });
+      it('returns false when no container row children exist', () => {
+        const group: Configurator.Group = {
+          id: 'parent',
+          subGroups: [
+            {
+              id: 'child',
+              groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+              subGroups: [],
+            },
+          ],
+        };
 
-  describe('createIconId', () => {
-    it('concatenates icon prefix, type and group id', () => {
-      expect(component.createIconId(ICON_TYPE.ERROR, 'group-1')).toBe(
-        'ICON' + ICON_TYPE.ERROR + 'group-1'
-      );
-    });
-  });
-
-  describe('isConflictHeader', () => {
-    it('returns true for conflict header groups', () => {
-      expect(
-        component.isConflictHeader({
-          groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
-        } as Configurator.Group)
-      ).toBe(true);
+        expect(component['hasContainerRowSubGroups'](group)).toBe(false);
+      });
     });
 
-    it('returns false for attribute groups', () => {
-      expect(
-        component.isConflictHeader({
+    describe('isNavigableWithContainerRows', () => {
+      const rowChild: Configurator.Group = {
+        id: 'row',
+        groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+        subGroups: [],
+      };
+
+      it('returns true for a tab with container row children', () => {
+        expect(
+          component['isNavigableWithContainerRows']({
+            id: 'tab',
+            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+            subGroups: [rowChild],
+          })
+        ).toBe(true);
+      });
+
+      it('returns false for a container row group with container row children', () => {
+        expect(
+          component['isNavigableWithContainerRows']({
+            id: 'parentRow',
+            groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+            subGroups: [rowChild],
+          })
+        ).toBe(false);
+      });
+    });
+
+    describe('isCondensed', () => {
+      it('returns false when the single child is a container row group', () => {
+        const group: Configurator.Group = {
+          id: 'parent',
           groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        } as Configurator.Group)
-      ).toBe(false);
-    });
-  });
+          subGroups: [
+            {
+              id: 'row',
+              groupType: Configurator.GroupType.CONTAINER_ROW_GROUP,
+              subGroups: [],
+            },
+          ],
+        };
 
-  describe('isConflictGroup', () => {
-    it('returns true for conflict groups', () => {
-      expect(
-        component.isConflictGroup({
-          groupType: Configurator.GroupType.CONFLICT_GROUP,
-        } as Configurator.Group)
-      ).toBe(true);
-    });
+        expect(component['isCondensed'](group)).toBe(false);
+      });
 
-    it('returns false for attribute groups', () => {
-      expect(
-        component.isConflictGroup({
+      it('returns true for a single non-conflict child', () => {
+        const group: Configurator.Group = {
+          id: 'parent',
           groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        } as Configurator.Group)
-      ).toBe(false);
+          subGroups: [
+            {
+              id: 'child',
+              groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+              subGroups: [],
+            },
+          ],
+        };
+
+        expect(component['isCondensed'](group)).toBe(true);
+      });
+    });
+
+    describe('hasNoAttributes', () => {
+      it('returns true when attributes are missing or empty', () => {
+        expect(
+          component['hasNoAttributes']({ id: 'group', subGroups: [] })
+        ).toBe(true);
+        expect(
+          component['hasNoAttributes']({
+            id: 'group',
+            attributes: [],
+            subGroups: [],
+          })
+        ).toBe(true);
+      });
+
+      it('returns false when the group carries attributes', () => {
+        expect(
+          component['hasNoAttributes']({
+            id: 'group',
+            attributes: [{ name: 'attr' }],
+            subGroups: [],
+          })
+        ).toBe(false);
+      });
+    });
+
+    describe('isDialogActive', () => {
+      it('returns true when showConflictSolverDialog is set', () => {
+        expect(
+          component.isDialogActive({
+            interactionState: { showConflictSolverDialog: true },
+          } as Configurator.Configuration)
+        ).toBe(true);
+      });
+
+      it('returns false when showConflictSolverDialog is unset', () => {
+        expect(
+          component.isDialogActive({
+            interactionState: {},
+          } as Configurator.Configuration)
+        ).toBe(false);
+      });
+    });
+
+    describe('createIconId', () => {
+      it('concatenates icon prefix, type and group id', () => {
+        expect(component.createIconId(ICON_TYPE.ERROR, 'group-1')).toBe(
+          'ICON' + ICON_TYPE.ERROR + 'group-1'
+        );
+      });
+    });
+
+    describe('isConflictHeader', () => {
+      it('returns true for conflict header groups', () => {
+        expect(
+          component.isConflictHeader({
+            groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+          } as Configurator.Group)
+        ).toBe(true);
+      });
+
+      it('returns false for attribute groups', () => {
+        expect(
+          component.isConflictHeader({
+            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          } as Configurator.Group)
+        ).toBe(false);
+      });
+    });
+
+    describe('isConflictGroup', () => {
+      it('returns true for conflict groups', () => {
+        expect(
+          component.isConflictGroup({
+            groupType: Configurator.GroupType.CONFLICT_GROUP,
+          } as Configurator.Group)
+        ).toBe(true);
+      });
+
+      it('returns false for attribute groups', () => {
+        expect(
+          component.isConflictGroup({
+            groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          } as Configurator.Group)
+        ).toBe(false);
+      });
     });
   });
 });

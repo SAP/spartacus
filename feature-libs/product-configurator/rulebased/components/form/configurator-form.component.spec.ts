@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -6,7 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
   I18nTestingModule,
-  RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -29,23 +28,18 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import {
+  MockConfiguratorGroupComponent,
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockGroupsService,
+  provideConfiguratorMockRoutingService,
+} from '../../testing';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorFormComponent } from './configurator-form.component';
-
-@Component({
-  selector: 'cx-configurator-group',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockConfiguratorGroupComponent {
-  @Input() group: Configurator.Group;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() isNavigationToGroupEnabled = true;
-  @Input() isPricingAsync?: boolean;
-}
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
@@ -95,87 +89,8 @@ const configRead2: Configurator.Configuration = {
 let routerStateObservable: Observable<RouterState> = EMPTY;
 let configurationCreateObservable: Observable<Configurator.Configuration> =
   EMPTY;
-let currentGroupObservable: Observable<string> = EMPTY;
+let currentGroupObservable: Observable<Configurator.Group | undefined> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  removeConfiguration(): void {}
-
-  updateConfiguration(): void {}
-
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoadingObservable;
-  }
-
-  hasConflicts(): Observable<boolean> {
-    return hasConfigurationConflictsObservable;
-  }
-  checkConflictSolverDialog(): void {}
-}
-
-class MockConfiguratorGroupsService {
-  getCurrentGroup(): Observable<string> {
-    return currentGroupObservable;
-  }
-
-  getNextGroup(): Observable<string> {
-    return of('');
-  }
-
-  getPreviousGroup(): Observable<string> {
-    return of('');
-  }
-
-  isGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-
-  subscribeToUpdateConfiguration() {}
-
-  setGroupStatusVisited(): void {}
-
-  navigateToConflictSolver(): void {}
-
-  navigateToFirstAttributeGroup(): void {}
-
-  navigateToFirstIncompleteGroup(): void {}
-
-  navigateToContainerRow(): void {}
-
-  isConflictGroupType() {}
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive() {}
-}
-
-class MockLaunchDialogService {
-  openDialogAndSubscribe() {}
-}
-
-class MockGlobalMessageService {
-  add(): void {}
-}
 
 function checkConfigurationObs(
   routerMarbels: string,
@@ -271,28 +186,34 @@ let featureToggles: MockFeatureTogglesController;
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, ConfiguratorFormComponent],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorFormComponent,
+        I18nTestingModule,
+      ],
       providers: [
+        provideConfiguratorMockRoutingService(() => routerStateObservable),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => configurationCreateObservable,
+          isConfigurationLoadingSource: () => isConfigurationLoadingObservable,
+          hasConflictsSource: () => hasConfigurationConflictsObservable,
+        }),
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+          provide: GlobalMessageService,
+          useClass: MockConfiguratorProviderService.MockGlobalMessageService,
         },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
+        provideConfiguratorMockGroupsService({
+          getCurrentGroupSource: () => currentGroupObservable,
+        }),
         {
           provide: ConfiguratorExpertModeService,
-          useClass: MockConfiguratorExpertModeService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorExpertModeService,
         },
         {
           provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+          useClass: MockConfiguratorProviderService.MockLaunchDialogService,
         },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,

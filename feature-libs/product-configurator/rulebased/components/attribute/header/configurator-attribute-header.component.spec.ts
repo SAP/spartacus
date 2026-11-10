@@ -1,25 +1,26 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  I18nTestingModule,
-  LoggerTestingModule,
-  TranslatePipe,
-} from '@spartacus/core';
+import { I18nTestingModule, LoggerTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { IconComponent, IconTestingModule } from '@spartacus/storefront';
+import { IconTestingModule } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { getTestScheduler } from 'jasmine-marbles';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../core/model/configurator.model';
+import {
+  MockConfiguratorProviderService,
+  provideConfiguratorMockCommonsService,
+  provideConfiguratorMockStorefrontUtilsService,
+} from '../../../testing';
 import * as ConfigurationTestData from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
@@ -53,20 +54,6 @@ class MockConfiguratorShowOptionsComponent {
 
 let isCartEntryOrGroupVisited = true;
 
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-
-  focusValue(): void {}
-
-  scrollToConfigurationElement(): void {}
-
-  idSelector(id: string): string {
-    return '#' + id;
-  }
-}
-
 const configWithoutConflicts: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
@@ -74,20 +61,6 @@ const configConflict: Configurator.Configuration =
   ConfigurationTestData.productConfigurationWithConflicts;
 
 let config: Configurator.Configuration;
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  isConfigurationLoading(): Observable<boolean> {
-    return of(true);
-  }
-}
-
-class MockConfiguratorGroupsService {
-  navigateToGroup(): void {}
-}
 
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
@@ -134,23 +107,24 @@ describe('ConfigAttributeHeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        I18nTestingModule,
         LoggerTestingModule,
+        IconTestingModule,
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
         MockConfiguratorShowOptionsComponent,
       ],
       providers: [
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        provideConfiguratorMockStorefrontUtilsService({
+          isCartEntryOrGroupVisitedSource: () => of(isCartEntryOrGroupVisited),
+        }),
+        provideConfiguratorMockCommonsService({
+          configurationSource: () => of(config),
+        }),
         {
           provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorGroupsService,
         },
         {
           provide: ConfiguratorUISettingsConfig,
@@ -166,21 +140,16 @@ describe('ConfigAttributeHeaderComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        remove: {
-          imports: [TranslatePipe, IconComponent],
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
         },
-        add: {
-          imports: [I18nTestingModule, IconTestingModule],
-        },
-      })
-      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
 
   beforeEach(() => {
-    config = configWithoutConflicts;
+    isCartEntryOrGroupVisited = true;
+    config = structuredClone(configWithoutConflicts);
     fixture = TestBed.createComponent(ConfiguratorAttributeHeaderComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -297,7 +266,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         'div.cx-hidden-msg',
-        'WARNING configurator.attribute.notVisibleAttributeMsg'
+        'configurator.attribute.notVisibleAttributeMsg'
       );
     });
 

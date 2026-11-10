@@ -5,22 +5,13 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 import { ConfiguratorLogoutEventListener } from './configurator-logout-event.listener';
 
+import { MockConfiguratorProviderService } from '../../testing';
+
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
   get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
   dispatch = vi.fn();
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-  getExpModeRequested() {}
-  setExpModeActive(): void {}
-  getExpModeActive() {}
-}
-
-class MockConfiguratorCommonsService {
-  removeProductBoundConfigurations(): void {}
 }
 
 describe(`ConfiguratorLogoutEventListener`, () => {
@@ -38,11 +29,13 @@ describe(`ConfiguratorLogoutEventListener`, () => {
         },
         {
           provide: ConfiguratorExpertModeService,
-          useClass: MockConfiguratorExpertModeService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorExpertModeService,
         },
         {
           provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+          useClass:
+            MockConfiguratorProviderService.MockConfiguratorCommonsService,
         },
       ],
     });
