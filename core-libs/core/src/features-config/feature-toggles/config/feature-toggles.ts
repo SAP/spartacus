@@ -1065,7 +1065,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useEnhancedSecurePasswordValidators: true,
   enableApplyVoucherEndpoint: false,
   enableRemoveVoucherEndpoint: true,
-   enableCustomPageTemplate: false,
+  enableCustomPageTemplate: false,
   showSortFieldsOnlyAtTop: true,
   showRequiredAsterisks: true,
   enableExpiredRefreshTokenHandlers: true,
