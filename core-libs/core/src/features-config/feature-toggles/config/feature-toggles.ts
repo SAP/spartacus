@@ -172,13 +172,6 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
-   * When enabled, translates the "Password expired" error message
-   * to the user's selected language using Spartacus i18n.
-   * Affects: `LoginComponent`
-   */
-  enablePasswordExpiredErrorTranslation?: boolean;
-
-  /**
    * When enabled, the media prefix from the backend config will be used
    * when constructing media URLs in the MediaService.
    * Affects: `MediaService`
@@ -1019,22 +1012,21 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useAdvancedGoogleMarkers: false,
   useGoogleMapsAsyncLoading: false,
-  alignNavigationMenuWithHeader: false,
+  alignNavigationMenuWithHeader: true,
   a11yKeyboardAccessibleZoom: true,
   a11yPreventCartItemsFormRedundantRecreation: true,
   a11yStoreFinderLabel: true,
   a11yStoreFinderFocusOnBackButton: false,
-  a11yB2BRegisterComponent: false,
+  a11yB2BRegisterComponent: true,
   a11yIncreaseContastGlobalMessageCloseButton: false,
   a11yLinkBtnsToTertiaryBtns: true,
   a11yAddPaddingToCarouselPanel: true,
   a11yNgSelectUnicodeCarets: true,
-  a11yPreventWindowsHighContrastOverride: false,
-  productListItemSummaryReadMore: false,
+  a11yPreventWindowsHighContrastOverride: true,
+  productListItemSummaryReadMore: true,
   a11yFutureStockAccordionAriaControls: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-  enablePasswordExpiredErrorTranslation: true,
   enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
@@ -1073,12 +1065,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useEnhancedSecurePasswordValidators: true,
   enableApplyVoucherEndpoint: false,
   enableRemoveVoucherEndpoint: true,
-  enableCustomPageTemplate: false,
-  showSortFieldsOnlyAtTop: false,
+   enableCustomPageTemplate: false,
+  showSortFieldsOnlyAtTop: true,
   showRequiredAsterisks: true,
   enableExpiredRefreshTokenHandlers: true,
-  enableCartReloadOnContextChange: false,
-  opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
+  enableCartReloadOnContextChange: true,
+  opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
   a11yQuickOrderResetFocus: false,
   a11yCouponNotificationChannelsLinkStyling: false,
   a11ySiteContextCaretClick: false,

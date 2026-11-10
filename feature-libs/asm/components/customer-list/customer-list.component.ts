@@ -255,7 +255,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   private updateCustomerListColumns(): void {
-    const columns = this.customerListConfig?.columns || [];
+    const columns = this.customerListConfig?.columns ?? [];
 
     for (const column of columns) {
       if (
