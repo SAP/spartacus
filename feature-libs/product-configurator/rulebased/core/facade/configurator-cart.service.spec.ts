@@ -18,6 +18,10 @@ import {
   ConfiguratorType,
   OrderEntryStatus,
 } from '@spartacus/product-configurator/common';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -124,6 +128,9 @@ describe('ConfiguratorCartService', () => {
           provide: UserIdService,
           useClass: MockUserIdService,
         },
+        ...provideMockFeatureToggles({
+          productConfiguratorReadOnlyCartEntryConfiguration: false,
+        }),
       ],
     }).compileComponents();
   });
@@ -273,6 +280,101 @@ describe('ConfiguratorCartService', () => {
       expect(
         serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
       ).toBeObservable(cold('--|'));
+    });
+
+    describe('with readOnly', () => {
+      let featureToggles: MockFeatureTogglesController;
+
+      const expectedParams = {
+        cartEntryNumber: CART_ENTRY_ID,
+        cartId: CART_GUID,
+        userId: USER_ID,
+      };
+
+      function readAndGetDispatchedParams(
+        readOnly?: boolean
+      ): CommonConfigurator.ReadConfigurationFromCartEntryParameters {
+        checkoutLoadingObs = of({
+          loading: false,
+          error: false,
+          data: undefined,
+        });
+        const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+          {
+            value: {
+              ...ConfiguratorTestUtils.createConfiguration(
+                '',
+                ConfiguratorModelUtils.createInitialOwner()
+              ),
+            },
+          };
+        vi.spyOn(store, 'pipe').mockImplementationOnce((..._ops: any[]) => {
+          return of(productConfigurationLoaderState).pipe(..._ops.slice(1));
+        });
+        vi.spyOn(store, 'dispatch');
+
+        (readOnly === undefined
+          ? serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY)
+          : serviceUnderTest.readConfigurationForCartEntry(
+              OWNER_CART_ENTRY,
+              readOnly
+            )
+        )
+          .subscribe()
+          .unsubscribe();
+
+        const action = vi.mocked(store.dispatch).mock
+          .calls[0][0] as ConfiguratorActions.ReadCartEntryConfiguration;
+        return action.payload;
+      }
+
+      beforeEach(() => {
+        featureToggles = TestBed.inject(MockFeatureTogglesController);
+      });
+
+      it('should request a read-only configuration if feature toggle is active and readOnly is requested', () => {
+        featureToggles.set(
+          'productConfiguratorReadOnlyCartEntryConfiguration',
+          true
+        );
+
+        expect(readAndGetDispatchedParams(true)).toEqual({
+          ...expectedParams,
+          owner: OWNER_CART_ENTRY,
+          readOnly: true,
+        });
+      });
+
+      it('should not request a read-only configuration if feature toggle is active but readOnly is not requested', () => {
+        featureToggles.set(
+          'productConfiguratorReadOnlyCartEntryConfiguration',
+          true
+        );
+
+        const params = readAndGetDispatchedParams(false);
+        expect(params).toEqual({ ...expectedParams, owner: OWNER_CART_ENTRY });
+        expect('readOnly' in params).toBe(false);
+      });
+
+      it('should not request a read-only configuration if feature toggle is active and readOnly is omitted', () => {
+        featureToggles.set(
+          'productConfiguratorReadOnlyCartEntryConfiguration',
+          true
+        );
+
+        expect('readOnly' in readAndGetDispatchedParams()).toBe(false);
+      });
+
+      it('should not request a read-only configuration if feature toggle is inactive', () => {
+        featureToggles.set(
+          'productConfiguratorReadOnlyCartEntryConfiguration',
+          false
+        );
+
+        const params = readAndGetDispatchedParams(true);
+        expect(params).toEqual({ ...expectedParams, owner: OWNER_CART_ENTRY });
+        expect('readOnly' in params).toBe(false);
+      });
     });
   });
 
