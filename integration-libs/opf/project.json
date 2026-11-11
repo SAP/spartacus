@@ -6,7 +6,7 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "@angular/build:ng-packagr",
       "options": {
         "tsConfig": "integration-libs/opf/tsconfig.lib.json",
         "project": "integration-libs/opf/ng-package.json"
@@ -18,7 +18,7 @@
       }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "main": "integration-libs/opf/test.ts",
         "tsConfig": "integration-libs/opf/tsconfig.spec.json",
@@ -29,7 +29,7 @@
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npm run test:schematics",
+        "command": "npm run test:schematics --",
         "cwd": "integration-libs/opf"
       }
     },

@@ -4,12 +4,11 @@
   "sourceRoot": "tools/eslint-rules",
   "tags": ["type:util"],
   "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
+    "test-jest": {
+      "executor": "nx:run-commands",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "tools/eslint-rules/jest.config.ts",
-        "passWithNoTests": true
+        "command": "node node_modules/jest/bin/jest.js --config tools/eslint-rules/jest.config.ts --coverageDirectory ../../coverage/tools/eslint-rules --passWithNoTests"
       }
     },
     "lint": {

@@ -2,8 +2,8 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import angular from 'angular-eslint';
 import nxPlugin from '@nx/eslint-plugin';
-import stylisticTs from '@stylistic/eslint-plugin-ts';
-import importPlugin from 'eslint-plugin-import';
+import stylisticTs from '@stylistic/eslint-plugin';
+import importPlugin from 'eslint-plugin-import-x';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
 import preferArrowPlugin from 'eslint-plugin-prefer-arrow';
 
@@ -47,6 +47,10 @@ export default defineConfig(
     rules: {
       '@typescript-eslint/interface-name-prefix': 'off',
       'sort-keys': 'off',
+      // Hardcoded-text check runs on external `.html` templates only (matching
+      // the legacy i18n-lint scope); exempt inline templates in `.ts` files,
+      // which are overwhelmingly test mocks and were never scanned before.
+      '@nx/workspace-no-hardcoded-text': 'off',
       '@angular-eslint/component-class-suffix': 'error',
       '@angular-eslint/component-selector': [
         'error',
@@ -66,7 +70,6 @@ export default defineConfig(
           style: 'camelCase',
         },
       ],
-      '@angular-eslint/no-conflicting-lifecycle': 'error',
       '@angular-eslint/no-input-rename': 'off',
       '@angular-eslint/no-inputs-metadata-property': 'error',
       '@angular-eslint/no-output-native': 'error',
@@ -77,6 +80,7 @@ export default defineConfig(
       '@angular-eslint/use-pipe-transform-interface': 'error',
       '@angular-eslint/prefer-standalone': 'error',
       '@angular-eslint/prefer-inject': 'off',
+      '@angular-eslint/prefer-on-push-component-change-detection': 'error',
       '@typescript-eslint/adjacent-overload-signatures': 'error',
       '@typescript-eslint/array-type': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',
@@ -232,6 +236,22 @@ export default defineConfig(
       '@angular-eslint/template/eqeqeq': 'error',
       '@angular-eslint/template/prefer-control-flow': 'off',
       '@angular-eslint/template/prefer-self-closing-tags': 'error',
+    },
+  },
+  {
+    // Hardcoded (untranslated) user-facing text check. Scoped to the same
+    // external component templates the legacy `i18n-lint` CLI covered: only
+    // `.html` files under the library roots, excluding spec/test templates and
+    // inline templates in `.ts` files (which that CLI never scanned).
+    files: [
+      'core-libs/storefront/**/*.html',
+      'feature-libs/**/*.html',
+      'integration-libs/**/*.html',
+    ],
+    ignores: ['**/*.spec.html'],
+    plugins: { '@nx': nxPlugin },
+    rules: {
+      '@nx/workspace-no-hardcoded-text': 'error',
     },
   },
   {

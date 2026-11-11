@@ -6,7 +6,7 @@
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npm run test",
+        "command": "npm run test -- --runInBand",
         "cwd": "core-libs/styles"
       }
     }

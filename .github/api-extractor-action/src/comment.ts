@@ -4,18 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Context } from '@actions/github/lib/context';
+import { context as githubContext } from '@actions/github';
+import { structuredPatch } from 'diff';
 import * as fs from 'fs';
+import normalizeNewline from 'normalize-newline';
 import {
   EntryPoints,
   EntryPointStatus,
   FailedStatus,
   Status,
-} from './api-extractor';
-import { BASE_BRANCH_DIR, REPORT_DIR } from './const';
+} from './api-extractor.js';
+import { BASE_BRANCH_DIR, REPORT_DIR } from './const.js';
 
-const diff = require('diff-lines');
-const normalizeNewline = require('normalize-newline');
+type Context = typeof githubContext;
 
 const COMMENT_HEADER = '## Public API changes';
 
@@ -174,9 +175,17 @@ function getDiff(report: string): string {
     `${baseBranchReportDirectory}/${report}`
   );
 
-  return diff(baseBranchSnippet, headBranchSnippet, {
-    n_surrounding: 3,
-  });
+  return structuredPatch(
+    report,
+    report,
+    baseBranchSnippet,
+    headBranchSnippet,
+    '',
+    '',
+    { context: 3 }
+  )
+    .hunks.map((hunk) => hunk.lines.join(String.fromCharCode(10)))
+    .join(String.fromCharCode(10) + '@@' + String.fromCharCode(10));
 }
 
 /**

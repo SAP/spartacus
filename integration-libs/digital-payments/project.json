@@ -6,7 +6,7 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "@angular/build:ng-packagr",
       "options": {
         "tsConfig": "integration-libs/digital-payments/tsconfig.lib.json",
         "project": "integration-libs/digital-payments/ng-package.json"
@@ -27,7 +27,7 @@
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npm run test:schematics",
+        "command": "npm run test:schematics --",
         "cwd": "integration-libs/digital-payments"
       }
     },

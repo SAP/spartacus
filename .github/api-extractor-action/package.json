@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc index.ts"
+    "build": "tsc -p ."
   },
   "author": "",
   "license": "ISC",
@@ -16,16 +16,18 @@
     "brace-expansion@^5": "5.0.12"
   },
   "dependencies": {
-    "@actions/cache": "^6.0.0",
-    "@actions/core": "^3.0.0",
+    "@actions/cache": "^6.3.0",
+    "@actions/core": "^3.0.1",
     "@actions/exec": "^3.0.0",
-    "@actions/github": "^9.0.0",
-    "@actions/glob": "^0.5.0",
-    "@actions/io": "^3.0.0",
-    "diff-lines": "^1.1.1",
-    "normalize-newline": "^4.0.0"
+    "@actions/github": "^9.1.1",
+    "@actions/glob": "^0.7.0",
+    "@actions/io": "^3.0.2",
+    "normalize-newline": "^5.0.0",
+    "diff": "^9.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
-  }
+    "typescript": "^7.0.2",
+    "@types/node": "^26.6.6"
+  },
+  "type": "module"
 }

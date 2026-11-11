@@ -1,6 +1,7 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.spec.json');
 const { defaultTransformerOptions } = require('jest-preset-angular/presets');
+const { esmMatchers } = require('../../jest-esm-matchers');
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
@@ -32,6 +33,10 @@ module.exports = {
       },
     ],
   },
+  // `@angular/ssr/node` (used by @spartacus/setup/ssr) pulls in ESM-only deps
+  // (css-select & its cheerio/htmlparser2 chain). Let Jest transform them
+  // instead of ignoring node_modules wholesale, else they fail to load as CJS.
+  transformIgnorePatterns: [`node_modules/(?!${esmMatchers.join('|')})`],
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],

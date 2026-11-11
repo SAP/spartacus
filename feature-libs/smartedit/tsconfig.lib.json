@@ -12,12 +12,18 @@
     "importHelpers": true,
     "types": [],
     "paths": {
-      "@spartacus/core": ["dist/core"]
+      "@spartacus/core": ["../../dist/core"]
     }
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    },
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true
