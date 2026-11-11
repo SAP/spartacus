@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgStyle } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -22,14 +22,12 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import {
   FeatureToggles,
-  PageTemplateService,
   PageType,
   RoutingService,
-  SectionItem,
   useFeatureStyles,
 } from '@spartacus/core';
-import { Observable, of, Subscription, tap } from 'rxjs';
-import { distinctUntilChanged, switchMap, take } from 'rxjs/operators';
+import { Observable, Subscription, tap } from 'rxjs';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
 import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
 import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
@@ -57,7 +55,6 @@ import { StorefrontOutlets } from './storefront-outlets.model';
   imports: [
     RouterModule,
     NgIf,
-    NgFor,
     PageLayoutComponent,
     PageSlotComponent,
     FocusDirective,
@@ -65,7 +62,6 @@ import { StorefrontOutlets } from './storefront-outlets.model';
     SkipLinkDirective,
     GlobalMessageComponent,
     AsyncPipe,
-    NgStyle,
     OutletDirective,
     PageTemplateDirective,
   ],
@@ -90,21 +86,10 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   });
 
   protected readonly pageLayoutService = inject(PageLayoutService);
-  protected readonly pageTemplateService = inject(PageTemplateService);
+  private readonly featureToggles = inject(FeatureToggles);
 
   readonly isCustomTemplate = toSignal(
     this.pageLayoutService.isCustomTemplate$
-  );
-
-  readonly pageTemplateSections = toSignal(
-    this.pageLayoutService.page$.pipe(
-      switchMap((page) =>
-        page?.templateId
-          ? this.pageTemplateService.getPageTemplateSections(page.templateId)
-          : of([])
-      )
-    ),
-    { initialValue: [] }
   );
 
   @HostBinding('class.start-navigating') startNavigating: boolean;
@@ -128,8 +113,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       event
     );
   }
-
-  private readonly featureToggles = inject(FeatureToggles);
 
   protected categoryPageFocusSelector = 'cx-breadcrumb nav a';
 
@@ -255,34 +238,5 @@ export class StorefrontComponent implements OnInit, OnDestroy {
         this.skipLinkService?.scrollToTarget('cx-main');
       }
     }
-  }
-
-  convertToStyle(item: SectionItem): { [key: string]: string | number } {
-    if (!item || !this.isValidGridItem(item)) {
-      return {};
-    }
-    return {
-      'grid-row-start': item.rowStart,
-      'grid-column-start': item.colStart,
-      'grid-row-end': `span ${item.rowSpan}`,
-      'grid-column-end': `span ${item.colSpan}`,
-    };
-  }
-
-  private isValidGridItem(item: SectionItem): boolean {
-    const hasValidNumbers =
-      typeof item.rowStart === 'number' &&
-      typeof item.colStart === 'number' &&
-      typeof item.rowSpan === 'number' &&
-      typeof item.colSpan === 'number';
-    if (!hasValidNumbers) {
-      return false;
-    }
-    return (
-      item.rowSpan > 0 &&
-      item.colSpan > 0 &&
-      !Number.isNaN(item.rowStart) &&
-      !Number.isNaN(item.colStart)
-    );
   }
 }

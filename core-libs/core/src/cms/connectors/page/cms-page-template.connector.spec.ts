@@ -36,9 +36,16 @@ describe('CmsPageTemplateConnector', () => {
     });
 
     it('should return the Observable from the adapter', () => {
-      let result: CustomPageTemplate | undefined;
+      let result: CustomPageTemplate | null | undefined;
       connector.get('testTemplate').subscribe((res) => (result = res));
       expect(result).toEqual(mockTemplate);
+    });
+
+    it('should return of(null) when no adapter is provided', () => {
+      const noAdapterConnector = new CmsPageTemplateConnector(null as any);
+      let result: CustomPageTemplate | null | undefined;
+      noAdapterConnector.get('testTemplate').subscribe((res) => (result = res));
+      expect(result).toBeNull();
     });
   });
 });

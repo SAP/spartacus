@@ -7,6 +7,7 @@
 import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
 import {
   CmsService,
+  FeatureToggles,
   isNotUndefined,
   LoggerService,
   Page,
@@ -15,6 +16,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import {
+  catchError,
   distinctUntilChanged,
   filter,
   map,
@@ -41,6 +43,7 @@ export class PageLayoutService implements OnDestroy {
 
   protected logger = inject(LoggerService);
   protected pageTemplateService = inject(PageTemplateService);
+  private readonly featureToggles = inject(FeatureToggles);
 
   constructor(
     private readonly cms: CmsService,
@@ -82,22 +85,36 @@ export class PageLayoutService implements OnDestroy {
     );
   }
 
-  // Shared shell template fetch — one request per page, result cached and
-  // replayed to all section subscribers.
-  private get shellTemplate$(): Observable<string> {
+  get customSections$() {
     return this.page$.pipe(
-      distinctUntilChanged(
-        (a, b) =>
-          a.templateId === b.templateId && a.templateOrigin === b.templateOrigin
-      ),
       switchMap((page) =>
-        page.templateOrigin === 'CUSTOM' && page.templateId
-          ? this.pageTemplateService.getShellTemplate(page.templateId)
-          : of('')
-      ),
-      shareReplay(1)
+        this.featureToggles.enableCustomPageTemplate &&
+        page.templateOrigin === 'CUSTOM' &&
+        page.templateId
+          ? this.pageTemplateService
+              .getPageTemplateSections(page.templateId)
+              .pipe(catchError(() => of(null)))
+          : of(null)
+      )
     );
   }
+
+  // Shared shell template fetch — one request per page, result cached and
+  // replayed to all section subscribers.
+  private readonly shellTemplate$ = this.page$.pipe(
+    distinctUntilChanged(
+      (a, b) =>
+        a.templateId === b.templateId && a.templateOrigin === b.templateOrigin
+    ),
+    switchMap((page) =>
+      page.templateOrigin === 'CUSTOM' && page.templateId
+        ? this.pageTemplateService
+            .getShellTemplate(page.templateId)
+            .pipe(catchError(() => of('')))
+        : of('')
+    ),
+    shareReplay(1)
+  );
 
   getSlots(section?: string): Observable<string[]> {
     return this.page$.pipe(
@@ -175,6 +192,7 @@ export class PageLayoutService implements OnDestroy {
     section: string | undefined
   ): Observable<string | undefined> {
     if (
+      this.featureToggles.enableCustomPageTemplate &&
       page.templateOrigin === 'CUSTOM' &&
       SHELL_TEMPLATE_SECTIONS.includes(section || '')
     ) {

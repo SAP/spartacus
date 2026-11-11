@@ -1,16 +1,24 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Directive,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { provideRouter, RouterOutlet } from '@angular/router';
 import {
   FeatureDirective,
   FeatureToggles,
   PageContext,
   PageType,
-  PageTemplateService,
   RoutingService,
-  SectionItem,
 } from '@spartacus/core';
 import { GlobalMessageComponent } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import {
   OutletDirective,
   PageLayoutComponent,
@@ -39,7 +47,9 @@ class MockGlobalMessageComponent {}
   selector: 'cx-page-slot',
   template: '',
 })
-class DynamicSlotComponent {}
+class DynamicSlotComponent {
+  @Input() position: string;
+}
 
 @Component({
   selector: 'cx-footer',
@@ -66,7 +76,9 @@ class MockSchemaComponent {}
   selector: 'cx-page-layout',
   template: '',
 })
-class MockPageLayoutComponent {}
+class MockPageLayoutComponent {
+  @Input() section: string;
+}
 
 class MockHamburgerMenuService {
   toggle(_forceCollapse?: boolean): void {}
@@ -74,14 +86,26 @@ class MockHamburgerMenuService {
 }
 
 @Directive({ selector: '[cxOutlet]' })
-class MockOutletDirective implements Partial<OutletDirective> {
+class MockOutletDirective implements Partial<OutletDirective>, OnInit {
   @Input() cxOutlet: string;
+
+  constructor(
+    private templateRef: TemplateRef<unknown>,
+    private viewContainerRef: ViewContainerRef
+  ) {}
+
+  ngOnInit(): void {
+    this.viewContainerRef.createEmbeddedView(this.templateRef);
+  }
 }
 
 @Directive({ selector: '[cxPageTemplateStyle]' })
 class MockPageTemplateDirective implements Partial<PageTemplateDirective> {}
 
 class MockSkipLinkService implements Partial<SkipLinkService> {
+  add(_key: string, _target: HTMLElement): void {}
+  remove(_key: string): void {}
+
   getSkipLinks() {
     return of([
       {
@@ -95,14 +119,7 @@ class MockSkipLinkService implements Partial<SkipLinkService> {
 }
 
 class MockPageLayoutService implements Partial<PageLayoutService> {
-  isCustomTemplate$ = of(false);
-  page$ = EMPTY;
-}
-
-class MockPageTemplateService implements Partial<PageTemplateService> {
-  getPageTemplateSections(_templateId: string) {
-    return of([]);
-  }
+  readonly isCustomTemplate$ = new BehaviorSubject(false);
 }
 
 describe('StorefrontComponent', () => {
@@ -116,6 +133,7 @@ describe('StorefrontComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
+        provideRouter([]),
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -131,10 +149,6 @@ describe('StorefrontComponent', () => {
         {
           provide: PageLayoutService,
           useClass: MockPageLayoutService,
-        },
-        {
-          provide: PageTemplateService,
-          useClass: MockPageTemplateService,
         },
       ],
     })
@@ -159,7 +173,6 @@ describe('StorefrontComponent', () => {
             FeatureDirective,
             OutletDirective,
             PageSlotComponent,
-            PageLayoutComponent,
             PageTemplateDirective,
           ],
         },
@@ -354,61 +367,33 @@ describe('StorefrontComponent', () => {
     });
   });
 
-  describe('convertToStyle', () => {
-    const validItem: SectionItem = {
-      name: 'section',
-      position: 'main',
-      rowStart: 1,
-      colStart: 1,
-      rowSpan: 2,
-      colSpan: 3,
-    };
-
-    it('should return correct grid style object for a valid item', () => {
-      expect(component.convertToStyle(validItem)).toEqual({
-        'grid-row-start': 1,
-        'grid-column-start': 1,
-        'grid-row-end': 'span 2',
-        'grid-column-end': 'span 3',
-      });
-    });
-
-    it('should return empty object for null input', () => {
-      expect(component.convertToStyle(null as any)).toEqual({});
-    });
-
-    it('should return empty object when spans are zero', () => {
-      expect(component.convertToStyle({ ...validItem, rowSpan: 0 })).toEqual(
-        {}
-      );
-      expect(component.convertToStyle({ ...validItem, colSpan: 0 })).toEqual(
-        {}
-      );
-    });
-
-    it('should return empty object when values are not numbers', () => {
-      expect(
-        component.convertToStyle({ ...validItem, rowStart: 'abc' as any })
-      ).toEqual({});
-    });
-
-    it('should return empty object when values are NaN', () => {
-      expect(component.convertToStyle({ ...validItem, rowStart: NaN })).toEqual(
-        {}
-      );
-    });
-  });
-
   describe('isInCustomTemplate', () => {
-    it('should return false when feature toggle is disabled', () => {
-      featureToggles.enableCustomPageTemplate = false;
-      expect(component.isInCustomTemplate()).toBe(false);
-    });
+    it.each([
+      { enabled: false, custom: false, expected: false },
+      { enabled: false, custom: true, expected: false },
+      { enabled: true, custom: false, expected: false },
+      { enabled: true, custom: true, expected: true },
+    ])(
+      'should keep the router outlet and show BottomHeaderSlot unless custom templates are active (enabled=$enabled, custom=$custom)',
+      ({ enabled, custom, expected }) => {
+        featureToggles.enableCustomPageTemplate = enabled;
+        const pageLayoutService = TestBed.inject(
+          PageLayoutService
+        ) as unknown as MockPageLayoutService;
+        pageLayoutService.isCustomTemplate$.next(custom);
 
-    it('should return false when feature toggle is enabled but isCustomTemplate signal is false', () => {
-      featureToggles.enableCustomPageTemplate = true;
-      fixture.detectChanges();
-      expect(component.isInCustomTemplate()).toBe(false);
-    });
+        fixture.detectChanges();
+
+        expect(component.isInCustomTemplate()).toBe(expected);
+        expect(el.query(By.directive(RouterOutlet))).not.toBeNull();
+        const bottomHeaderSlots = el
+          .queryAll(By.directive(DynamicSlotComponent))
+          .filter(
+            (slot) => slot.componentInstance.position === 'BottomHeaderSlot'
+          );
+        expect(bottomHeaderSlots).toHaveLength(expected ? 0 : 1);
+        expect(el.query(By.css('.custom-section'))).toBeNull();
+      }
+    );
   });
 });

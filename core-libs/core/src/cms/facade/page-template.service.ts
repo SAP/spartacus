@@ -12,7 +12,10 @@ import { CustomPageTemplate, CustomSection } from '../model/page.model';
 
 @Injectable({ providedIn: 'root' })
 export class PageTemplateService {
-  private readonly cache = new Map<string, Observable<CustomPageTemplate>>();
+  private readonly cache = new Map<
+    string,
+    Observable<CustomPageTemplate | null>
+  >();
 
   constructor(protected connector: CmsPageTemplateConnector) {}
 
