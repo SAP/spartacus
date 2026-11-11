@@ -35,9 +35,9 @@ jobs:
         uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
+      - uses: ./.github/actions/setup-node
         with:
-          node-version: '20'
+          node-version: '22'
       - name: NPM
         run: npm ci
       - name: Get changed files
@@ -52,7 +52,12 @@ jobs:
               pull_number: context.payload.pull_request.number,
               per_page: 100,
             });
-            return files.map((file) => file.filename).join('\n');
+            // The lock checker only consumes manifests and lock files. Passing
+            // the full PR diff can exceed the per-variable OS environment limit.
+            return files
+              .map((file) => file.filename)
+              .filter((filename) => /(^|\/)package(-lock)?\.json$/.test(filename))
+              .join('\n');
       - name: Check configurations
         run: npm run config:check
         env:
