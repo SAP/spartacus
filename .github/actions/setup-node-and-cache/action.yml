@@ -4,7 +4,7 @@ inputs:
   node-version:
     description: 'Node.js version to use'
     required: false
-    default: '20'
+    default: '22'
   cache-key:
     description: 'Base cache key'
     required: true
@@ -12,7 +12,8 @@ runs:
   using: 'composite'
   steps:
     - name: Setup node
-      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
+      id: setup-node
+      uses: ./.github/actions/setup-node
       with:
         node-version: ${{ inputs.node-version }}
 
@@ -24,8 +25,8 @@ runs:
           node_modules
           projects/storefrontapp-e2e-cypress/node_modules
           ~/.cache/Cypress
-        key: nodemodules-${{ inputs.cache-key }}-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: nodemodules-${{ inputs.cache-key }}-
+        key: nodemodules-node${{ inputs.node-version }}-npm${{ steps.setup-node.outputs.npm-version }}-${{ inputs.cache-key }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: nodemodules-node${{ inputs.node-version }}-npm${{ steps.setup-node.outputs.npm-version }}-${{ inputs.cache-key }}-
 
     - name: Package installation
       if: steps.cache-node-modules.outputs.cache-hit != 'true'

@@ -103,6 +103,9 @@ jobs:
           echo "Updated PUBLISHING_VERSION in ./tools/config/const.ts."
       
 
+      - name: Setup node and npm
+        uses: ./.github/actions/setup-node
+
       - name: Package installation
         run: npm ci
         
