@@ -52,6 +52,26 @@ const detail = await calculate(input);
 
 Keep the engine's runtime imports inside its module. Import shared types with `import type`. Leave a pending/error state and handle rapid requests according to the feature's contract. Starting the import while initializing the host defeats the boundary. A split moves download and evaluation to first use. Profile heavy computation there and use the [interaction guide](performance-interactions.md) if it blocks feedback. Keep inexpensive controls already needed at startup together.
 
+## Overlap a slow first use with deliberate intent
+
+When loading on the final action protects arrival but makes the result slow, look for an earlier **intentional change within the same workflow**. A meaningful first edit or committed choice can start the code transfer while the shopper continues. A page view, idle callback, scroll past the control or focus on the way to another control offers weaker evidence of intent. Keep optional bytes off the cold route. If no earlier interaction naturally exists, preserve direct activation and measure it.
+
+Keep preparation free of business effects. The final action still reads the current inputs and performs the operation once. Preserve a direct path for someone who skips the earlier step. Skip optional preparation when the app's data-saving policy or the browser's supported `navigator.connection.saveData` indicates reduced data. A requested action can still load its requirements. A dynamic import already started may complete even if the shopper leaves. Share code across calls where appropriate and keep user-specific state scoped to its owner. [Network Information API](https://wicg.github.io/netinfo/#dom-networkinformation-savedata)
+
+The [typed loader](../assets/intent-loader.ts) can be copied into the application when its existing code has no equivalent. Create it once on the feature instance:
+
+```typescript
+private readonly engine = createIntentLoader(() => import('./feature-engine'));
+
+// Inside the meaningful change handler, after the state changes:
+this.engine.prepare(allowEarlyTransfer);
+
+// Inside the existing final-action handler, with its pending/error UI:
+const { run } = await this.engine.get();
+```
+
+Compute `allowEarlyTransfer` in the browser from the existing app policy and supported data-saving signal. Keep a single shared import for both paths. If optional preparation fails, let activation try again through the project's error handling. Keep final-action errors visible. Validate immediate activation with no earlier input, repeated edits while loading, the updated final value, a repeat or reopen, and reduced-data mode. In Chrome check which phase first fetched the chunk and count body transfers. Compare both final-click-to-result and first-intent-to-result time under the same interaction cadence. A faster last click can simply mean the shopper waited earlier.
+
 ## Prove where it loaded
 
 1. Build the production application with `ng build --configuration production --stats-json` or the project's equivalent and serve that exact output. Use the [browser verifier](browser-verification.md) to capture a cold landing, first use, close and reopen. Assert the real result, selected image and usable navigation in each applicable state. Unexpected early requests in DevTools have an initiator pointing to the host, stylesheet or preload responsible.
