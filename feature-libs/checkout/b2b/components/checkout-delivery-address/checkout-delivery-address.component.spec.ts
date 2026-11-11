@@ -41,9 +41,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
-class MockCheckoutDeliveryAddressFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressFacade implements Partial<CheckoutDeliveryAddressFacade> {
   createAndSetAddress = vi.fn().mockReturnValue(of({}));
   setDeliveryAddress = vi.fn().mockReturnValue(EMPTY);
   getDeliveryAddressState = vi
@@ -51,9 +49,7 @@ class MockCheckoutDeliveryAddressFacade
     .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
-class MockCheckoutFlowOrchestratorService
-  implements Partial<CheckoutFlowOrchestratorService>
-{
+class MockCheckoutFlowOrchestratorService implements Partial<CheckoutFlowOrchestratorService> {
   getCheckoutFlow = vi.fn();
 }
 
@@ -72,9 +68,7 @@ class MockUserCostCenterService implements Partial<UserCostCenterService> {
   getCostCenterAddresses = vi.fn().mockReturnValue(of(mockAddresses));
 }
 
-class MockCheckoutCostCenterService
-  implements Partial<CheckoutCostCenterFacade>
-{
+class MockCheckoutCostCenterService implements Partial<CheckoutCostCenterFacade> {
   getCostCenterState = vi.fn().mockReturnValue(
     of({
       loading: false,
@@ -88,9 +82,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = vi.fn();
 }
 
-class MockCheckoutDeliveryModesFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModesFacade implements Partial<CheckoutDeliveryModesFacade> {
   clearCheckoutDeliveryMode = vi.fn().mockReturnValue(EMPTY);
 }
 

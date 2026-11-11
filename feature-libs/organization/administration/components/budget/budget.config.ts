@@ -125,8 +125,3 @@ export const budgetTableConfig: TableConfig = {
     },
   },
 };
-
-/**
- * @deprecated Use `budgetTableConfig` instead.
- */
-export const newBudgetTableConfig: TableConfig = budgetTableConfig;

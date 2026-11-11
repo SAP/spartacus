@@ -36,7 +36,9 @@ export class LoadCmsNavigationItemsFail
   }
 }
 
-export class LoadCmsNavigationItemsSuccess extends StateUtils.EntitySuccessAction {
+export class LoadCmsNavigationItemsSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_SUCCESS;
 
   constructor(public payload: { nodeId: string; components: any[] }) {

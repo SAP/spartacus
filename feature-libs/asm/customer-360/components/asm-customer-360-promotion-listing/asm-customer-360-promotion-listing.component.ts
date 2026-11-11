@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +18,7 @@ import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-promotion-listing',
   templateUrl: './asm-customer-360-promotion-listing.component.html',
-  imports: [NgIf, MessageComponent, NgFor, IconComponent, TranslatePipe],
+  imports: [MessageComponent, IconComponent, TranslatePipe],
 })
 export class AsmCustomer360PromotionListingComponent {
   @Input() headerText: string;

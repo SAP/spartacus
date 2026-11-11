@@ -9,9 +9,7 @@ import { of } from 'rxjs';
 import { CartGuestUserConnector } from '../connectors';
 import { CartGuestUserService } from './cart-guest-user.service';
 
-class MockCartCartGuestUserConnector
-  implements Partial<CartGuestUserConnector>
-{
+class MockCartCartGuestUserConnector implements Partial<CartGuestUserConnector> {
   createCartGuestUser = vi.fn().mockImplementation(() => of({}));
   updateCartGuestUser = vi.fn().mockImplementation(() => of({}));
 }

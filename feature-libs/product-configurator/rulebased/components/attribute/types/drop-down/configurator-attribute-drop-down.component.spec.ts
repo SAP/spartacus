@@ -218,7 +218,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeDropDownComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

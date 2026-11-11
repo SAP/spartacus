@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +19,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -28,9 +28,14 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-tab-bar',
   templateUrl: './configurator-tab-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorTabBarComponent {
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
   @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
 
@@ -39,27 +44,15 @@ export class ConfiguratorTabBarComponent {
   protected configUtils = inject(ConfiguratorStorefrontUtilsService);
   protected focusService = inject(KeyboardFocusService);
 
-  /**
-   * @deprecated since 221121.23 - Prefer the `#ghostTabBar` template
-   * (`.cx-ghost-tab-bar.ghost`) for loading UI. Host `class.ghost` via
-   * `@HostBinding` was removed because CMS slots do not refresh host bindings
-   * when the tab bar data resolves. This flag is still cleared when data
-   * arrives for compatibility; it no longer affects the host. Will be removed
-   * in the next major.
-   */
-  ghostStyle = true;
-
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
   configuration$: Observable<Configurator.Configuration> =
     this.routerData$.pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner).pipe(
-          tap(() => {
-            this.ghostStyle = false;
-          })
-        )
+        this.configuratorCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe()
       )
     );
 
@@ -211,9 +204,4 @@ export class ConfiguratorTabBarComponent {
       }
     }
   }
-
-  constructor(
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
 }

@@ -39,9 +39,7 @@ class MockEventService implements Partial<EventService> {
   dispatch = vi.fn();
 }
 
-class MockScheduledReplenishmentOrderConnector
-  implements Partial<ScheduledReplenishmentOrderConnector>
-{
+class MockScheduledReplenishmentOrderConnector implements Partial<ScheduledReplenishmentOrderConnector> {
   scheduleReplenishmentOrder = vi
     .fn()
     .mockReturnValue(of(mockReplenishmentOrder));

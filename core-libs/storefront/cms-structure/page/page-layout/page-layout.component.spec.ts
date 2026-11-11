@@ -99,9 +99,7 @@ class MockDeferLoaderService {
   }
 }
 
-class MockDirectiveStateTransferService
-  implements Partial<DirectiveStateTransferService>
-{
+class MockDirectiveStateTransferService implements Partial<DirectiveStateTransferService> {
   _data: Record<string, string> = {};
 
   get(_el: HTMLElement, key: string): string | undefined {

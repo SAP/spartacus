@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   AsmCustomer360SectionConfig,
@@ -35,9 +36,17 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-map',
   templateUrl: './asm-customer-360-map.component.html',
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
+  source = inject<AsmCustomer360SectionContext<AsmCustomer360StoreLocation>>(
+    AsmCustomer360SectionContext
+  );
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+  protected storeFinderService = inject(StoreFinderService);
+  protected translationService = inject(TranslationService);
+  protected storeFinderConfig = inject(StoreFinderConfig);
+
   storeData: StoreFinderSearchPage;
 
   selectedStore: PointOfService | undefined;
@@ -49,14 +58,6 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
   >;
 
   protected subscription = new Subscription();
-
-  constructor(
-    public source: AsmCustomer360SectionContext<AsmCustomer360StoreLocation>,
-    protected changeDetectorRef: ChangeDetectorRef,
-    protected storeFinderService: StoreFinderService,
-    protected translationService: TranslationService,
-    protected storeFinderConfig: StoreFinderConfig
-  ) {}
 
   ngOnInit(): void {
     this.dataSource$ = combineLatest([this.source.config$, this.source.data$]);

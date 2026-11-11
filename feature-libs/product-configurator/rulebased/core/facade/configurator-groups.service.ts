@@ -22,14 +22,14 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupsService {
-  protected logger = inject(LoggerService);
+  protected store = inject<Store<StateWithConfigurator>>(Store);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+  protected configuratorGroupStatusService = inject(
+    ConfiguratorGroupStatusService
+  );
 
-  constructor(
-    protected store: Store<StateWithConfigurator>,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorUtilsService: ConfiguratorUtilsService,
-    protected configuratorGroupStatusService: ConfiguratorGroupStatusService
-  ) {}
+  protected logger = inject(LoggerService);
 
   /**
    * Returns the current group Id.

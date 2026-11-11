@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface S4ServiceOccEndpoints {
   /**
@@ -13,7 +13,7 @@ export interface S4ServiceOccEndpoints {
    * @member {string} [cancelServiceOrder]
    */
 
-  cancelServiceOrder?: string | OccEndpoint;
+  cancelServiceOrder?: string | CoreOccEndpoint;
 
   /**
    * Reschedule service order
@@ -21,12 +21,12 @@ export interface S4ServiceOccEndpoints {
    * @member {string} [rescheduleService]
    */
 
-  rescheduleService?: string | OccEndpoint;
+  rescheduleService?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {
   interface OccEndpoints extends S4ServiceOccEndpoints {
-    cancelServiceOrder?: string | OccEndpoint;
-    rescheduleService?: string | OccEndpoint;
+    cancelServiceOrder?: string | CoreOccEndpoint;
+    rescheduleService?: string | CoreOccEndpoint;
   }
 }

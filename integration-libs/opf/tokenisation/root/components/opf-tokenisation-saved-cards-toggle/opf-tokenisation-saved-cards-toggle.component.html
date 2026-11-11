@@ -1,5 +1,5 @@
-<ng-container *ngIf="context$ | async as ctx">
-  <ng-container *ngIf="ctx.hasSavedCards === true">
+@if (context$ | async; as ctx) {
+  @if (ctx.hasSavedCards === true) {
     <div
       class="cx-payment-options-section"
       [attr.aria-label]="
@@ -14,7 +14,6 @@
         }}
       </h3>
     </div>
-
     <div class="form-check cx-saved-cards-option">
       <input
         id="paymentId-saved-cards"
@@ -27,7 +26,6 @@
         [disabled]="ctx.disabled"
         (change)="onSavedCardsSelected()"
       />
-
       <label
         class="cx-payment-type-label form-check-label form-radio-label"
         for="paymentId-saved-cards"
@@ -40,5 +38,5 @@
         </div>
       </label>
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

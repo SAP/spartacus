@@ -7,8 +7,6 @@
 import {
   AsyncPipe,
   NgClass,
-  NgFor,
-  NgIf,
   NgTemplateOutlet,
   SlicePipe,
 } from '@angular/common';
@@ -64,10 +62,8 @@ import { CarouselService } from './carousel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     NgClass,
     IconComponent,
-    NgFor,
     NgTemplateOutlet,
     AsyncPipe,
     SlicePipe,
@@ -76,6 +72,9 @@ import { CarouselService } from './carousel.service';
   ],
 })
 export class CarouselComponent implements OnInit, OnChanges {
+  protected el = inject(ElementRef);
+  protected service = inject(CarouselService);
+
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.
@@ -137,10 +136,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   private featureToggles = inject(FeatureToggles);
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected el: ElementRef,
-    protected service: CarouselService
-  ) {
+  constructor() {
     useFeatureStyles('a11yAddPaddingToCarouselPanel');
   }
 

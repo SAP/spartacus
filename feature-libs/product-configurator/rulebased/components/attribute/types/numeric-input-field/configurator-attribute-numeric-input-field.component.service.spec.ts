@@ -422,6 +422,29 @@ describe('ConfigAttributeNumericInputFieldService', () => {
   describe('parseInput', () => {
     const locale = 'en';
 
+    it('parses and validates French input without Angular locale registration', () => {
+      const input = '5 998,23';
+      expect(serviceUnderTest['parseInput'](input, 'fr-FR')).toBe(5998.23);
+      expect(
+        serviceUnderTest['getValidationErrorsNumericFormat'](
+          input,
+          'fr-FR',
+          2,
+          6,
+          false
+        )
+      ).toBeNull();
+      expect(
+        serviceUnderTest.getPatternForValidationMessage(2, 6, false, 'fr-FR')
+      ).toBe('# ###,##');
+    });
+
+    it('keeps Latin digits in numeric input formatting', () => {
+      expect(serviceUnderTest.formatIntervalValue(1234.5, 2, 'ar')).toBe(
+        '1,234.50'
+      );
+    });
+
     it('should ignore single group separator', () => {
       const input = '5,998';
       expect(serviceUnderTest['parseInput'](input, locale)).toBe(5998);
@@ -439,9 +462,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
 
     it('should work with german locale', () => {
       const input = '5.998,23';
-      expect(serviceUnderTest['parseInputForSeparators'](input, '.', ',')).toBe(
-        5998.23
-      );
+      expect(serviceUnderTest['parseInput'](input, 'de-DE')).toBe(5998.23);
     });
 
     it('should digest group separators included in the decimal part', () => {

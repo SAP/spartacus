@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -45,9 +45,18 @@ import { ConfiguratorGroupComponent } from '../group/configurator-group.componen
   selector: 'cx-configurator-form',
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, ConfiguratorGroupComponent, NgFor, AsyncPipe],
+  imports: [ConfiguratorGroupComponent, AsyncPipe],
 })
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   protected subscription = new Subscription();
 
   protected keyboardFocusService = inject(KeyboardFocusService);
@@ -74,15 +83,6 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configExpertModeService: ConfiguratorExpertModeService,
-    protected launchDialogService: LaunchDialogService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

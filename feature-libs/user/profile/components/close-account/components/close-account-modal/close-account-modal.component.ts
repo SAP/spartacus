@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   AuthService,
@@ -37,7 +38,6 @@ import { first } from 'rxjs/operators';
   templateUrl: './close-account-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FocusDirective,
     IconComponent,
     SpinnerComponent,
@@ -46,6 +46,14 @@ import { first } from 'rxjs/operators';
   ],
 })
 export class CloseAccountModalComponent implements OnInit {
+  protected authService = inject(AuthService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected routingService = inject(RoutingService);
+  protected translationService = inject(TranslationService);
+  protected userProfile = inject(UserProfileFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -63,16 +71,6 @@ export class CloseAccountModalComponent implements OnInit {
       this.dismissModal('Cross click');
     }
   }
-
-  constructor(
-    protected authService: AuthService,
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    protected translationService: TranslationService,
-    protected userProfile: UserProfileFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   get isLoading$(): Observable<boolean> {
     return this.loading$.asObservable();

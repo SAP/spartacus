@@ -20,8 +20,9 @@ import { CartActions } from '../store/actions';
   providedIn: 'root',
 })
 export class ProductImportInfoService {
+  protected actionsSubject = inject(ActionsSubject);
+
   protected logger = inject(LoggerService);
-  protected constructor(protected actionsSubject: ActionsSubject) {}
 
   /**
    * Get emission of add entry results from actions subject

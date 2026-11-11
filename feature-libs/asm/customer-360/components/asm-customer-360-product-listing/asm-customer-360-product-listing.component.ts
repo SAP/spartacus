@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,6 +13,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import { Product, TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
@@ -32,16 +27,16 @@ import { ProductItem } from './product-item.model';
   templateUrl: './asm-customer-360-product-listing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     NgClass,
-    NgFor,
     AsmCustomer360ProductItemComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class AsmCustomer360ProductListingComponent implements OnInit {
+  protected breakpointService = inject(BreakpointService);
+
   @Input()
   emptyResultDescription: string;
 
@@ -66,8 +61,6 @@ export class AsmCustomer360ProductListingComponent implements OnInit {
   numberofColumns$: Observable<number>;
 
   showMore: boolean;
-
-  constructor(protected breakpointService: BreakpointService) {}
 
   ngOnInit(): void {
     this.numberofColumns$ = this.getNumberofColumns();

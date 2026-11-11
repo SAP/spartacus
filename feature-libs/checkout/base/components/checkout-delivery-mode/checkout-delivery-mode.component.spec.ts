@@ -54,9 +54,7 @@ const selectedDeliveryModeState$ = new BehaviorSubject<
   data: undefined,
 });
 
-class MockCheckoutDeliveryModeService
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModeService implements Partial<CheckoutDeliveryModesFacade> {
   loadSupportedDeliveryModes = vi.fn();
   setDeliveryMode = vi.fn().mockReturnValue(EMPTY);
   getSupportedDeliveryModes = () => supportedDeliveryModes$.asObservable();

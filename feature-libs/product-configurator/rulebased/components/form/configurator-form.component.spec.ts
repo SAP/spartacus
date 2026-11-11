@@ -308,7 +308,7 @@ describe('ConfiguratorFormComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });
@@ -409,10 +409,10 @@ describe('ConfiguratorFormComponent', () => {
     });
 
     it('should not call setExpMode method', () => {
-      (routerStateObservable = mockRouterStateWithQueryParams({
+      ((routerStateObservable = mockRouterStateWithQueryParams({
         expMode: 'false',
       })),
-        createComponentWithData().ngOnInit();
+        createComponentWithData().ngOnInit());
       expect(configExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(
         0
       );

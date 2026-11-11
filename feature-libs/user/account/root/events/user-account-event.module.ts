@@ -4,15 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule, inject } from '@angular/core';
+import { NgModule, inject, provideEnvironmentInitializer } from '@angular/core';
 import { UserLoginCurrencyService } from '../services/user-login-currency.service';
 import { UserAccountEventListener } from './user-account-event.listener';
 
-@NgModule({})
+@NgModule({
+  providers: [
+    provideEnvironmentInitializer(() => {
+      inject(UserAccountEventListener);
+    }),
+  ],
+})
 export class UserAccountEventModule {
   protected _userLoginCurrencyService = inject(UserLoginCurrencyService);
-
-  constructor(_userAccountEventListener: UserAccountEventListener) {
-    // Intentional empty constructor
-  }
 }

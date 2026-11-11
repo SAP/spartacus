@@ -20,9 +20,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OccCheckoutBillingAddressAdapter
-  implements CheckoutBillingAddressAdapter
-{
+export class OccCheckoutBillingAddressAdapter implements CheckoutBillingAddressAdapter {
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);
   protected occEndpoints = inject(OccEndpointsService);

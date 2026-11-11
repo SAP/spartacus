@@ -22,6 +22,9 @@ import { OrganizationActions, PermissionActions } from '../actions';
 
 @Injectable()
 export class PermissionEffects {
+  private actions$ = inject(Actions);
+  private permissionConnector = inject(PermissionConnector);
+
   protected logger = inject(LoggerService);
 
   loadPermission$: Observable<
@@ -170,9 +173,4 @@ export class PermissionEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private permissionConnector: PermissionConnector
-  ) {}
 }

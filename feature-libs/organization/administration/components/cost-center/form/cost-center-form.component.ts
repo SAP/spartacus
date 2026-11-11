@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -54,7 +59,6 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,
@@ -66,6 +70,10 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   ],
 })
 export class CostCenterFormComponent {
+  protected itemService = inject<ItemService<CostCenter>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+  protected currencyService = inject(CurrencyService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
   /**
    * Initialize the business unit for the cost center.
@@ -96,12 +104,6 @@ export class CostCenterFormComponent {
       }
     })
   );
-
-  constructor(
-    protected itemService: ItemService<CostCenter>,
-    protected unitService: OrgUnitService,
-    protected currencyService: CurrencyService
-  ) {}
 
   createCodeWithName(
     name: AbstractControl | null,

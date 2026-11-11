@@ -14,6 +14,8 @@ import { CartModification } from '@spartacus/cart/base/root';
   providedIn: 'root',
 })
 export class CartValidationStateService implements OnDestroy {
+  protected routingService = inject(RoutingService);
+
   protected NAVIGATION_SKIPS = 2;
   protected navigationIdCount = 0;
   private featureToggles = inject(FeatureToggles);
@@ -23,7 +25,7 @@ export class CartValidationStateService implements OnDestroy {
     CartModification[]
   >(1) as Observable<CartModification[]>;
 
-  constructor(protected routingService: RoutingService) {
+  constructor() {
     this.setInitialState();
   }
 

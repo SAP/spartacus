@@ -32,7 +32,9 @@ export class LoadActiveCostCentersFail
   }
 }
 
-export class LoadActiveCostCentersSuccess extends StateUtils.LoaderSuccessAction {
+export class LoadActiveCostCentersSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = LOAD_ACTIVE_COST_CENTERS_SUCCESS;
   constructor(public payload: CostCenter[]) {
     super(USER_COST_CENTERS);

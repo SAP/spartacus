@@ -17,9 +17,10 @@ import { Order } from '@spartacus/order/root';
 @Injectable({
   providedIn: 'root',
 })
-export class OpfGiftCardOrderOccNormalizer
-  implements Converter<Occ.Order, Order>
-{
+export class OpfGiftCardOrderOccNormalizer implements Converter<
+  Occ.Order,
+  Order
+> {
   convert(source: Occ.Order, target?: Order): Order {
     target ??= { ...(source as any) } as Order;
 

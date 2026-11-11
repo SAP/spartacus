@@ -11,14 +11,14 @@ import { RouteConfig } from './routes-config';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingConfigService {
+  protected config = inject(RoutingConfig);
+
   /**
    * Reversed routing config for quick lookup of the route name by the configured path.
    */
   protected routeNamesByPath: { [path: string]: string };
 
   protected logger = inject(LoggerService);
-
-  constructor(protected config: RoutingConfig) {}
 
   /**
    * Returns the route config for the given route name.

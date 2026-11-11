@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +12,7 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -32,8 +33,6 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
-    NgFor,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,
@@ -42,6 +41,10 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
   ],
 })
 export class StockNotificationDialogComponent implements OnInit, OnDestroy {
+  private interestsService = inject(UserInterestsService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   private subscription = new Subscription();
 
   subscribeSuccess$: Observable<boolean>;
@@ -60,12 +63,6 @@ export class StockNotificationDialogComponent implements OnInit, OnDestroy {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    private interestsService: UserInterestsService,
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   close(reason?: any) {
     this.launchDialogService.closeDialog(reason);

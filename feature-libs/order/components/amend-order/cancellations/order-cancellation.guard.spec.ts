@@ -18,9 +18,7 @@ const mockForm = new UntypedFormGroup({
   any: mockControl,
 });
 
-class MockOrderCancellationService
-  implements Partial<OrderCancellationService>
-{
+class MockOrderCancellationService implements Partial<OrderCancellationService> {
   getForm(): Observable<UntypedFormGroup> {
     return of(new UntypedFormGroup({}));
   }

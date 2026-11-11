@@ -1,4 +1,4 @@
-<ng-container *ngIf="order">
+@if (order) {
   <div class="cx-order-details-actions row">
     <div class="cx-view-all-orders">
       <span class="col-xs-12 col-md-4 col-lg-3">
@@ -15,34 +15,38 @@
     </div>
     <div class="cx-other-actions">
       <span class="col-xs-12 col-md-4 col-lg-3">
-        <span *ngIf="order.cancellable" class="cx-action-button">
-          <button
-            id="cancel-items-btn"
-            [routerLink]="
-              {
-                cxRoute: 'orderCancel',
-                params: order,
-              } | cxUrl
-            "
-            class="btn btn-block btn-secondary"
-          >
-            {{ 'myAccountV2OrderDetails.cancelItems' | cxTranslate }}
-          </button>
-        </span>
-        <span *ngIf="order.returnable" class="cx-action-button">
-          <button
-            id="return-items-btn"
-            [routerLink]="
-              {
-                cxRoute: 'orderReturn',
-                params: order,
-              } | cxUrl
-            "
-            class="btn btn-block btn-secondary"
-          >
-            {{ 'myAccountV2OrderDetails.returnItems' | cxTranslate }}
-          </button>
-        </span>
+        @if (order.cancellable) {
+          <span class="cx-action-button">
+            <button
+              id="cancel-items-btn"
+              [routerLink]="
+                {
+                  cxRoute: 'orderCancel',
+                  params: order,
+                } | cxUrl
+              "
+              class="btn btn-block btn-secondary"
+            >
+              {{ 'myAccountV2OrderDetails.cancelItems' | cxTranslate }}
+            </button>
+          </span>
+        }
+        @if (order.returnable) {
+          <span class="cx-action-button">
+            <button
+              id="return-items-btn"
+              [routerLink]="
+                {
+                  cxRoute: 'orderReturn',
+                  params: order,
+                } | cxUrl
+              "
+              class="btn btn-block btn-secondary"
+            >
+              {{ 'myAccountV2OrderDetails.returnItems' | cxTranslate }}
+            </button>
+          </span>
+        }
         <span class="cx-action-button">
           <button
             id="download-invoices-btn"
@@ -55,4 +59,4 @@
       </span>
     </div>
   </div>
-</ng-container>
+}

@@ -42,9 +42,7 @@ class MockCxIconComponent {
   selector: '[cxHorizontalScrollingPosition]',
   exportAs: 'cxHorizontalScrollingPosition',
 })
-class MockHorizontalScrollingPositionDirective
-  implements Partial<HorizontalScrollingPositionDirective>
-{
+class MockHorizontalScrollingPositionDirective implements Partial<HorizontalScrollingPositionDirective> {
   @Input() scrollingArea: HTMLElement;
   @Input() scrollingAreaStart: HTMLElement;
   @Input() scrollingAreaEnd: HTMLElement;

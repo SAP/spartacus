@@ -10,6 +10,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  inject,
 } from '@angular/core';
 import { CmsPageTitleComponent, PageMetaService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -23,13 +24,11 @@ import { getPageTitle } from './page-title.utils';
   imports: [AsyncPipe],
 })
 export class PageTitleComponent implements OnInit, AfterViewInit {
+  component = inject<CmsComponentData<CmsPageTitleComponent>>(CmsComponentData);
+  protected pageMetaService = inject(PageMetaService);
+
   title$: Observable<string>;
   lastestTitle$: Observable<string>;
-
-  constructor(
-    public component: CmsComponentData<CmsPageTitleComponent>,
-    protected pageMetaService: PageMetaService
-  ) {}
 
   ngOnInit(): void {
     this.setTitle();

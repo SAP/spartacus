@@ -1,20 +1,20 @@
+import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import {
   I18nTestingModule,
   LanguageService,
   TranslationService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { SubscriptionBillingListComponent } from '@spartacus/subscription-billing/components';
 import {
   SubscriptionBill,
   SubscriptionBillingFacade,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
-import { ElementRef, Pipe, PipeTransform } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { SubscriptionBillingListComponent } from '@spartacus/subscription-billing/components';
-import { ActivatedRoute } from '@angular/router';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 const listWithData: SubscriptionBillsList = {
   pagination: {
@@ -134,9 +134,7 @@ const listWithNoData: SubscriptionBillsList = {
   sorts: [],
 };
 
-class MockSubscriptionBillingFacade
-  implements Partial<SubscriptionBillingFacade>
-{
+class MockSubscriptionBillingFacade implements Partial<SubscriptionBillingFacade> {
   getSubscriptionBillsList(
     _pageSize?: number,
     _currentPage?: number,
@@ -276,20 +274,19 @@ describe('SubscriptionBillingListComponent', () => {
 
   it('should set the date filter correctly', () => {
     fixture.detectChanges(); // initialize component so async pipe stabilizes
-    component.billsDateFilterForm.controls.from.setValue('2026-01-31');
-    component.billsDateFilterForm.controls.to.setValue('2026-12-31');
-    component.onFilterDateChange();
+    component.minDate = '2026-01-31';
+    component.maxDate = '2026-12-31';
     expect(component.minDate).toEqual('2026-01-31');
     expect(component.maxDate).toEqual('2026-12-31');
 
-    component.onDateFilterSubmit();
+    component.onDateRangeSelection();
     expect(component.listParams).toEqual({
       pageNumber: 0,
       sortCode: undefined,
       dateFilter: `startAt:${component.minDate}:endAt:${component.maxDate}`,
     });
 
-    component.onResetFilterDate();
+    component.onResetDateRange();
     expect(component.minDate).toBeNull();
     expect(component.maxDate).toBeNull();
     expect(component.listParams).toEqual({
@@ -300,7 +297,7 @@ describe('SubscriptionBillingListComponent', () => {
 
     component.minDate = '2026-12-31';
     component.maxDate = '2026-12-31';
-    component.onResetFilterDate();
+    component.onResetDateRange();
     expect(component.minDate).toBeNull();
     expect(component.maxDate).toBeNull();
     expect(component.listParams).toEqual({

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Converter,
   ConverterService,
@@ -19,10 +19,11 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class OccBudgetListNormalizer
-  implements Converter<Occ.BudgetsList, EntitiesModel<Budget>>
-{
-  constructor(private converter: ConverterService) {}
+export class OccBudgetListNormalizer implements Converter<
+  Occ.BudgetsList,
+  EntitiesModel<Budget>
+> {
+  private converter = inject(ConverterService);
 
   convert(
     source: Occ.BudgetsList,

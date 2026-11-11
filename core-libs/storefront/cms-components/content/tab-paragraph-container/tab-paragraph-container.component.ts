@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   inject,
-  OnInit,
   QueryList,
   TemplateRef,
   ViewChildren,
@@ -46,38 +45,22 @@ const defaultTabConfig = {
   templateUrl: './tab-paragraph-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     TabComponent,
-    NgFor,
     OutletDirective,
     ComponentWrapperDirective,
     AsyncPipe,
   ],
 })
-export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
-  protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  /**
-   * @deprecated This method will be removed.
-   */
-  activeTabNum = 0;
-  /**
-   * @deprecated This method will be removed.
-   */
-  ariaLabel: string;
+export class TabParagraphContainerComponent implements AfterViewInit {
+  componentData =
+    inject<CmsComponentData<CMSTabParagraphContainer>>(CmsComponentData);
+  protected cmsService = inject(CmsService);
+  protected winRef = inject(WindowRef);
 
-  /**
-   * @deprecated This method will be removed.
-   */
-  @ViewChildren(ComponentWrapperDirective)
-  children!: QueryList<ComponentWrapperDirective>;
+  protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   @ViewChildren('tabRef')
   tabRefs: QueryList<TemplateRef<any>>;
-
-  /**
-   * @deprecated This method will be removed.
-   */
-  tabTitleParams: (Observable<any> | null)[] = [];
 
   tabConfig$: BehaviorSubject<TabConfig> = new BehaviorSubject<TabConfig>(
     defaultTabConfig
@@ -90,17 +73,8 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     Map<string, Observable<any> | null>
   >(new Map());
 
-  constructor(
-    public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    protected cmsService: CmsService,
-    protected winRef: WindowRef
-  ) {}
-
   components$: Observable<any[]> = this.componentData.data$.pipe(
     distinctUntilChanged((x, y) => x?.components === y?.components),
-    tap((data: CMSTabParagraphContainer) => {
-      this.ariaLabel = `${data?.uid}.tabPanelContainerRegion`;
-    }),
     switchMap((data) =>
       combineLatest(
         (data?.components ?? '').split(' ').map((component) =>
@@ -141,38 +115,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
 
   tabs$: Observable<Tab[]>;
 
-  /**
-   * @deprecated This method will be removed.
-   */
-  select(tabNum: number, event?: MouseEvent): void {
-    this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
-    if (event && event?.target) {
-      const target = event.target as HTMLElement;
-      const parentNode = target.parentNode as HTMLElement;
-      this.winRef?.nativeWindow?.scrollTo({
-        left: 0,
-        top: parentNode.offsetTop,
-        behavior: 'smooth',
-      });
-    }
-  }
-
-  /**
-   * @deprecated This method will be removed.
-   */
-  ngOnInit(): void {
-    this.cdr.markForCheck();
-    this.activeTabNum =
-      this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
-  }
-
   ngAfterViewInit(): void {
-    // If the sub cms components data exist, the components created before ngAfterViewInit are called.
-    // In this case, the title parameters are directly pulled from them.
-    if (this.children.length > 0) {
-      this.getTitleParams(this.children);
-    }
-
     // Render the tabs after the templates have completed loading in the view.
     this.tabs$ = combineLatest([
       this.components$,
@@ -200,7 +143,6 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   }
 
   tabCompLoaded(componentRef: any, componentId?: string): void {
-    this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
     if (componentId) {
       const currentParams = this.tabTitleParams$.getValue();
       // We need to check if the componentId is already in the map
@@ -210,11 +152,5 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
         this.tabTitleParams$.next(currentParams);
       }
     }
-  }
-
-  protected getTitleParams(children: QueryList<ComponentWrapperDirective>) {
-    children.forEach((comp) => {
-      this.tabTitleParams.push(comp['cmpRef']?.instance.tabTitleParam$ ?? null);
-    });
   }
 }

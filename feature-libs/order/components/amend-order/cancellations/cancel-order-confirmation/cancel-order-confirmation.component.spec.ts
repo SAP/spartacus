@@ -26,7 +26,7 @@ import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.co
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
-  imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -38,7 +38,7 @@ class MockAmendOrderActionComponent {
 @Component({
   template: '',
   selector: 'cx-amend-order-items',
-  imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];

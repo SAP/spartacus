@@ -88,9 +88,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   getCheckoutStep = vi.fn().mockReturnValue({});
 }
 
-class MockCheckoutCostCenterService
-  implements Partial<CheckoutCostCenterFacade>
-{
+class MockCheckoutCostCenterService implements Partial<CheckoutCostCenterFacade> {
   getCostCenterState(): Observable<QueryState<CostCenter | undefined>> {
     return of({ loading: false, error: false, data: undefined });
   }
@@ -98,9 +96,7 @@ class MockCheckoutCostCenterService
 
 // initial it as ACCOUNT payment
 const isAccount: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-class MockCheckoutPaymentTypeService
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
   isAccountPayment(): Observable<boolean> {
     return isAccount;
   }
@@ -111,17 +107,13 @@ class MockCheckoutPaymentTypeService
   }
 }
 
-class MockCheckoutDeliveryAddressFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressFacade implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return of({ loading: false, error: false, data: undefined });
   }
 }
 
-class MockCheckoutDeliveryModeFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModeFacade implements Partial<CheckoutDeliveryModesFacade> {
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   > {

@@ -39,6 +39,9 @@ const ARIA_HIDDEN = 'aria-hidden';
 
 @Directive({ selector: '[cxNgSelectA11y]' })
 export class NgSelectA11yDirective implements AfterViewInit {
+  private renderer = inject(Renderer2);
+  private elementRef = inject(ElementRef);
+
   /**
    * Use directive to bind aria attribute to inner element of ng-select
    * Angular component for accessibility compliance. If ng-select controls itself
@@ -95,10 +98,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     });
   }
 
-  constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef
-  ) {
+  constructor() {
     useFeatureStyles('a11yNgSelectUnicodeCarets');
     if (this.featureToggles.a11yVocalizeDropdownItemCount) {
       this.vocalizeItemCount();

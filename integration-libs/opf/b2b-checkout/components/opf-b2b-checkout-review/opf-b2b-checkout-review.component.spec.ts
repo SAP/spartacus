@@ -49,9 +49,7 @@ class MockOpfCheckoutPaymentsComponent {
   @Input() isPaymentInfoMessageEnabled: boolean;
 }
 
-class MockCheckoutPaymentTypeFacade
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeFacade implements Partial<CheckoutPaymentTypeFacade> {
   setPaymentType = () => of({});
   getPurchaseOrderNumberState = () =>
     of({
@@ -61,9 +59,7 @@ class MockCheckoutPaymentTypeFacade
     } as QueryState<string>);
 }
 
-class MockCheckoutCostCenterFacade
-  implements Partial<CheckoutCostCenterFacade>
-{
+class MockCheckoutCostCenterFacade implements Partial<CheckoutCostCenterFacade> {
   getCostCenterState = () =>
     of({
       data: { code: 'CC123', name: 'Test Cost Center' },

@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -60,7 +61,6 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,
@@ -73,6 +73,9 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
 })
 export class UnitFormComponent implements OnInit {
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+
   @Input() i18nRoot = 'orgUnit';
 
   @Input() createChildUnit = false;
@@ -106,11 +109,6 @@ export class UnitFormComponent implements OnInit {
       filter(isNotUndefined),
       filter((items) => items.length > 0)
     );
-
-  constructor(
-    protected itemService: ItemService<B2BUnit>,
-    protected unitService: OrgUnitService
-  ) {}
 
   ngOnInit(): void {
     this.unitService.loadList();

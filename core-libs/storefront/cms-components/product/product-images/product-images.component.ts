@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   TrackByFunction,
+  inject,
 } from '@angular/core';
 import { ImageGroup, Product, isNotNullable } from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
@@ -23,7 +24,6 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     LcpContextDirective,
     MediaComponent,
     CarouselScrollingComponent,
@@ -31,6 +31,8 @@ import { CurrentProductService } from '../current-product.service';
   ],
 })
 export class ProductImagesComponent {
+  protected currentProductService = inject(CurrentProductService);
+
   protected mainMediaContainer = new BehaviorSubject<any>(null);
 
   protected product$: Observable<Product> = this.currentProductService
@@ -51,8 +53,6 @@ export class ProductImagesComponent {
     this.product$,
     this.mainMediaContainer,
   ]).pipe(map(([, container]) => container));
-
-  constructor(protected currentProductService: CurrentProductService) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
@@ -109,5 +109,5 @@ export class ProductImagesComponent {
   }
 
   trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
-    item?.code;
+    item?.code ?? item;
 }

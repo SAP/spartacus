@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -14,7 +19,7 @@ import { TranslationService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { FocusDirective } from '@spartacus/storefront';
 import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -32,10 +37,8 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-inpu
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
-    NgIf,
     ConfiguratorAttributeQuantityComponent,
     ConfiguratorPriceComponent,
-    NgFor,
     FormsModule,
     ReactiveFormsModule,
     FocusDirective,
@@ -49,23 +52,21 @@ export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
-  attributeRadioButtonForm = new UntypedFormControl('');
+  protected override quantityService = inject(
+    ConfiguratorAttributeQuantityService
+  );
+  protected override translation = inject(TranslationService);
+  protected override attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected override configuratorCommonsService = inject(
+    ConfiguratorCommonsService
+  );
+  protected override configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
 
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
-    super(
-      quantityService,
-      translation,
-      attributeComponentContext,
-      configuratorCommonsService,
-      configuratorStorefrontUtilsService
-    );
-  }
+  attributeRadioButtonForm = new UntypedFormControl('');
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);

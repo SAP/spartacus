@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -41,7 +41,6 @@ import { ProductListService } from '../product-list.service';
     LcpContextDirective,
     MediaComponent,
     OutletDirective,
-    NgIf,
     StarRatingComponent,
     InnerComponentsHostDirective,
     AsyncPipe,
@@ -50,6 +49,8 @@ import { ProductListService } from '../product-list.service';
   ],
 })
 export class ProductGridItemComponent implements OnChanges {
+  protected productListItemContextSource = inject(ProductListItemContextSource);
+
   protected productListService = inject(ProductListService);
   hideAddToCartButton = false;
 
@@ -65,9 +66,7 @@ export class ProductGridItemComponent implements OnChanges {
    */
   @Input() itemIndex?: number;
 
-  constructor(
-    protected productListItemContextSource: ProductListItemContextSource
-  ) {
+  constructor() {
     useFeatureStyles('a11yProductListItemNameMargin');
   }
 

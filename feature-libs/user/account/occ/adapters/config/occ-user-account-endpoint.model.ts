@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface UserAccountOccEndpoints {
   /**
    * Get user account details
    */
-  user?: string | OccEndpoint;
+  user?: string | CoreOccEndpoint;
 
   /**
    * Create one time password for user login
    */
-  createVerificationToken?: string | OccEndpoint;
+  createVerificationToken?: string | CoreOccEndpoint;
 }
 declare module '@spartacus/core' {
   interface OccEndpoints extends UserAccountOccEndpoints {}

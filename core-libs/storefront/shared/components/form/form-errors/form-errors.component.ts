@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -34,15 +34,17 @@ import { map, startWith } from 'rxjs/operators';
   selector: 'cx-form-errors',
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class FormErrorsComponent implements DoCheck {
+  protected ChangeDetectionRef = inject(ChangeDetectorRef);
+
   protected elementRef = inject(ElementRef, { optional: true });
   protected ariaLiveToken = inject(new HostAttributeToken('aria-live'), {
     optional: true,
   });
 
-  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {
+  constructor() {
     useFeatureStyles('a11yFormErrorIconContrast');
   }
 

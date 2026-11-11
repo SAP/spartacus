@@ -39,9 +39,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isGuestCart = createSpy().and.returnValue(of(false));
 }
 
-class MockCheckoutDeliveryAddressFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressFacade implements Partial<CheckoutDeliveryAddressFacade> {
   createAndSetAddress = createSpy().and.returnValue(of({}));
   setDeliveryAddress = createSpy().and.returnValue(EMPTY);
   getDeliveryAddressState = createSpy().and.returnValue(
@@ -55,9 +53,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   getBackBntText = createSpy().and.returnValue('common.back');
 }
 
-class MockCheckoutFlowOrchestratorService
-  implements Partial<CheckoutFlowOrchestratorService>
-{
+class MockCheckoutFlowOrchestratorService implements Partial<CheckoutFlowOrchestratorService> {
   getCheckoutFlow = createSpy();
 }
 
@@ -65,9 +61,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-class MockCheckoutDeliveryModesFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModesFacade implements Partial<CheckoutDeliveryModesFacade> {
   clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
 }
 
@@ -147,8 +141,7 @@ class MockCardComponent {
   selector: 'cx-opf-b2b-checkout-cost-center',
   template: '',
 })
-class MockOpfB2bCheckoutCostCenterComponent
-  implements Partial<OpfB2bCheckoutCostCenterComponent> {}
+class MockOpfB2bCheckoutCostCenterComponent implements Partial<OpfB2bCheckoutCostCenterComponent> {}
 
 describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
   let component: OpfB2bCheckoutDeliveryAddressComponent;

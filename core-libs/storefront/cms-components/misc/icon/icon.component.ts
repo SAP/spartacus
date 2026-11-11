@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
   HostBinding,
   Input,
   Renderer2,
+  inject,
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
@@ -42,9 +42,13 @@ type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 @Component({
   selector: 'cx-icon,[cxIcon]',
   templateUrl: './icon.component.html',
-  imports: [NgIf],
+  imports: [],
 })
 export class IconComponent {
+  protected iconLoader = inject(IconLoaderService);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected renderer = inject(Renderer2);
+
   /**
    * The cxIcon directive is bound to the icon type. You can feed the `ICON_TYPE` to
    * accomplish a configurable button in the UI.
@@ -81,12 +85,6 @@ export class IconComponent {
    * icon type changes at run time.
    */
   protected styleClasses: string[];
-
-  constructor(
-    protected iconLoader: IconLoaderService,
-    protected elementRef: ElementRef<HTMLElement>,
-    protected renderer: Renderer2
-  ) {}
 
   protected setIcon(type: ICON_TYPE): void {
     if (!type || <string>type === '') {

@@ -45,6 +45,16 @@ import { UserIdService } from './user-id.service';
   providedIn: 'root',
 })
 export class AuthService {
+  protected store = inject<Store<StateWithClientAuth>>(Store);
+  protected userIdService = inject(UserIdService);
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
+  protected authStorageService = inject(AuthStorageService);
+  protected authRedirectService = inject(AuthRedirectService);
+  protected routingService = inject(RoutingService);
+  protected authMultisiteIsolationService? = inject(
+    AuthMultisiteIsolationService
+  );
+
   protected crossSiteRequestForgeryService = inject(
     CrossSiteRequestForgeryService
   );
@@ -72,15 +82,7 @@ export class AuthService {
 
   protected authNotificationService = inject(AuthNotificationService);
 
-  constructor(
-    protected store: Store<StateWithClientAuth>,
-    protected userIdService: UserIdService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected authStorageService: AuthStorageService,
-    protected authRedirectService: AuthRedirectService,
-    protected routingService: RoutingService,
-    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
-  ) {
+  constructor() {
     this.subscribeToAuthNotifications();
   }
 

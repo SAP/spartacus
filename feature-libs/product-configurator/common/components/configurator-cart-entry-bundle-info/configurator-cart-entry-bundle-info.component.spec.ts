@@ -185,7 +185,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     breakpointService = TestBed.inject(BreakpointService);
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
-    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
+    changeDetectorRef = fixture.changeDetectorRef;
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
@@ -768,8 +768,9 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(getLinkComponent().disabled).toBe(false);
 
         quantityControl.disable({ emitEvent: false });
-        // Same FormControl reference: default CD must refresh [disabled] without
-        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        // CartItemListRowComponent republishes this control on quantityDisabled changes.
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        // Check from the fixture root after the context notification.
         changeDetectorRef.detectChanges();
 
         expect(getLinkComponent().disabled).toBe(true);
@@ -1510,7 +1511,9 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
 
         quantityControl.disable({ emitEvent: false });
-        // See shouldShowButton regression test for why not fixture.detectChanges().
+        // CartItemListRowComponent republishes this control on quantityDisabled changes.
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        // Check the nested link from the fixture root after the context notification.
         changeDetectorRef.detectChanges();
 
         expect(getNestedConfigureLinks()[0].componentInstance.disabled).toBe(

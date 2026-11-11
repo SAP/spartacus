@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,8 +42,6 @@ import { map, skip, take } from 'rxjs/operators';
   templateUrl: './saved-cart-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,
@@ -53,6 +51,11 @@ import { map, skip, take } from 'rxjs/operators';
   ],
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
+  protected routing = inject(RoutingService);
+  protected savedCartService = inject(SavedCartFacade);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   private subscription = new Subscription();
   protected readonly siteContextService = inject(SiteContextComponentService, {
     optional: true,
@@ -74,13 +77,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
       })
     )
   );
-
-  constructor(
-    protected routing: RoutingService,
-    protected savedCartService: SavedCartFacade,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();

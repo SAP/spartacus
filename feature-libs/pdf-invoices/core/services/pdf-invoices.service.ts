@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import {
   InvoiceQueryParams,
@@ -17,16 +17,16 @@ import { PDFInvoicesConnector } from '../connectors/pdf-invoices.connector';
 
 @Injectable()
 export class PDFInvoicesService implements PDFInvoicesFacade, OnDestroy {
+  private routingService = inject(RoutingService);
+  private userIdService = inject(UserIdService);
+  protected pdfInvoicesConnector = inject(PDFInvoicesConnector);
+
   protected subscriptions = new Subscription();
 
   userId: string;
   orderId: string;
 
-  constructor(
-    private routingService: RoutingService,
-    private userIdService: UserIdService,
-    protected pdfInvoicesConnector: PDFInvoicesConnector
-  ) {
+  constructor() {
     this.subscriptions.add(
       this.userIdService
         .takeUserId()

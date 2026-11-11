@@ -15,6 +15,9 @@ import { SiteContextActions } from '../actions/index';
 
 @Injectable()
 export class BaseSiteEffects {
+  private actions$ = inject(Actions);
+  private siteConnector = inject(SiteConnector);
+
   protected logger = inject(LoggerService);
 
   loadBaseSite$: Observable<
@@ -66,9 +69,4 @@ export class BaseSiteEffects {
       })
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private siteConnector: SiteConnector
-  ) {}
 }

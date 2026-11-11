@@ -34,18 +34,14 @@ import { UnitTreeService } from './unit-tree.service';
   providedIn: 'root',
 })
 export class UnitListService extends ListService<B2BUnitTreeNode> {
+  protected override tableService = inject(TableService);
+  protected unitService = inject(OrgUnitService);
+  protected unitItemService = inject(UnitItemService);
+  protected unitTreeService = inject(UnitTreeService);
+
   protected tableType = OrganizationTableType.UNIT;
 
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected tableService: TableService,
-    protected unitService: OrgUnitService,
-    protected unitItemService: UnitItemService,
-    protected unitTreeService: UnitTreeService
-  ) {
-    super(tableService);
-  }
 
   override isSearchEnabled(): boolean {
     return !!this.featureToggles.enableB2BUnitSearch;

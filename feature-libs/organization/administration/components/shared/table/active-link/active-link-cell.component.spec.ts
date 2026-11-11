@@ -8,6 +8,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { OutletContextData } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { of } from 'rxjs';
 import { ActiveLinkCellComponent } from '..';
 
 const mockContext = {
@@ -39,7 +40,7 @@ describe('ActiveLinkCellComponent', () => {
       providers: [
         {
           provide: OutletContextData,
-          useValue: { context: mockContext },
+          useValue: { context$: of(mockContext) },
         },
         ...provideMockFeatureToggles({ a11yTableKeyboardNavigation: false }),
       ],

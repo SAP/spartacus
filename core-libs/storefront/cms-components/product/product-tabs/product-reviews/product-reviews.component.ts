@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -54,9 +54,7 @@ import { CurrentProductService } from '../../current-product.service';
   templateUrl: './product-reviews.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     StarRatingComponent,
-    NgFor,
     FeatureDirective,
     ReadMoreComponent,
     FormRequiredLegendComponent,
@@ -71,6 +69,11 @@ import { CurrentProductService } from '../../current-product.service';
   ],
 })
 export class ProductReviewsComponent {
+  protected reviewService = inject(ProductReviewService);
+  protected currentProductService = inject(CurrentProductService);
+  private fb = inject(UntypedFormBuilder);
+  protected cd = inject(ChangeDetectorRef);
+
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;
   @ViewChild('writeReviewButton', { static: false })
   writeReviewButton: ElementRef;
@@ -106,15 +109,9 @@ export class ProductReviewsComponent {
     })
   );
 
-  constructor(
-    protected reviewService: ProductReviewService,
-    protected currentProductService: CurrentProductService,
-    private fb: UntypedFormBuilder,
-    protected cd: ChangeDetectorRef
-  ) {
+  constructor() {
     useFeatureStyles('a11yHighContrastFix');
   }
-
   initiateWriteReview(): void {
     this.isWritingReview = true;
 

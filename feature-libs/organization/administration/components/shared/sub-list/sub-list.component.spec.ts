@@ -54,7 +54,6 @@ const mockEmptyList: EntitiesModel<any> = {
   selector: 'cx-table',
   template: '',
   imports: [
-    CommonModule,
     CardTestingModule,
     MessageTestingModule,
     I18nTestingModule,

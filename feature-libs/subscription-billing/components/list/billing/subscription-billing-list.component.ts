@@ -5,9 +5,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -16,7 +15,6 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import {
-  CustomFormValidators,
   DatePickerService,
   ICON_TYPE,
   IconComponent,
@@ -38,8 +36,6 @@ import { Observable } from 'rxjs';
   selector: 'cx-billing-list',
   templateUrl: './subscription-billing-list.component.html',
   imports: [
-    NgIf,
-    NgFor,
     SpinnerComponent,
     TranslatePipe,
     PaginationComponent,
@@ -75,11 +71,6 @@ export class SubscriptionBillingListComponent {
   iconTypes = ICON_TYPE;
 
   constructor() {
-    this.billsDateFilterForm.addValidators(
-      CustomFormValidators.dateRange('from', 'to', (value: string) =>
-        this.datePickerService.getDate(value)
-      ) as ValidatorFn
-    );
     this.launchDialogService.dialogClose.subscribe((data) => {
       if (typeof data === 'object' && data !== null) {
         this.minDate = data.minDate;
@@ -91,11 +82,6 @@ export class SubscriptionBillingListComponent {
 
   billingList$: Observable<SubscriptionBillsList | undefined> =
     this.subscriptionBillsFacade.getSubscriptionBillsList(this.PAGE_SIZE);
-
-  billsDateFilterForm = new FormGroup({
-    from: new FormControl(''),
-    to: new FormControl(''),
-  });
 
   onSortCodeChange(sortCode: string): void {
     this.listParams = {
@@ -114,17 +100,6 @@ export class SubscriptionBillingListComponent {
     this.getSubscriptionBillsList();
   }
 
-  /**
-   * @deprecated - Selection of date range and relevant methods have been moved to DateRangeModalComponent
-   */
-  onFilterDateChange(): void {
-    this.minDate = this.billsDateFilterForm.controls.from.value;
-    this.maxDate = this.billsDateFilterForm.controls.to.value;
-
-    this.billsDateFilterForm.controls['from'].updateValueAndValidity();
-    this.billsDateFilterForm.controls['to'].updateValueAndValidity();
-  }
-
   private getSubscriptionBillsList(): void {
     const { pageNumber, sortCode, dateFilter } = this.listParams;
     this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
@@ -133,38 +108,6 @@ export class SubscriptionBillingListComponent {
       sortCode,
       dateFilter
     );
-  }
-
-  /**
-   * @deprecated - Selection of date range and relevant methods have been moved to DateRangeModalComponent
-   */
-  onResetFilterDate(): void {
-    if (this.minDate || this.maxDate) {
-      this.billsDateFilterForm.reset();
-      this.minDate = null;
-      this.maxDate = null;
-      this.listParams = {
-        ...this.listParams,
-        dateFilter: undefined,
-        pageNumber: 0,
-      };
-      this.getSubscriptionBillsList();
-    }
-  }
-
-  /**
-   * @deprecated - Selection of date range and relevant methods have been moved to DateRangeModalComponent
-   */
-  onDateFilterSubmit(): void {
-    if (this.minDate && this.maxDate && this.billsDateFilterForm.valid) {
-      const dateFilterParam = this.buildDateFilter(this.minDate, this.maxDate);
-      this.listParams = {
-        ...this.listParams,
-        dateFilter: dateFilterParam,
-        pageNumber: 0,
-      };
-      this.getSubscriptionBillsList();
-    }
   }
 
   private buildDateFilter(startDate: string, endDate: string): string {

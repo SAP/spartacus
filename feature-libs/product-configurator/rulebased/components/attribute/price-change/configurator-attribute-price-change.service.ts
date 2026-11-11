@@ -34,8 +34,7 @@ export class ConfiguratorAttributePriceChangeService {
   );
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
   protected lastAttributeSupplement:
-    | Configurator.AttributeSupplement
-    | undefined;
+    Configurator.AttributeSupplement | undefined;
 
   /**
    * Retrieves an observable that emits whenever the price of a monitored attribute (identified by the provided attribute key) changes,

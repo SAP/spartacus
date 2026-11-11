@@ -37,9 +37,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockReplenishmentOrderHistoryFacade
-  implements Partial<ReplenishmentOrderHistoryFacade>
-{
+class MockReplenishmentOrderHistoryFacade implements Partial<ReplenishmentOrderHistoryFacade> {
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return of(mockReplenishmentOrder);
   }

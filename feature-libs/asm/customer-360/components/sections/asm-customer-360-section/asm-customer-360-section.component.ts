@@ -11,6 +11,7 @@ import {
   OnDestroy,
   Output,
   Type,
+  inject,
 } from '@angular/core';
 import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
@@ -33,6 +34,10 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   imports: [NgComponentOutlet],
 })
 export class AsmCustomer360SectionComponent implements OnDestroy {
+  protected source = inject<AsmCustomer360SectionContextSource<unknown>>(
+    AsmCustomer360SectionContextSource
+  );
+
   @Input()
   component: Type<unknown>;
 
@@ -56,7 +61,9 @@ export class AsmCustomer360SectionComponent implements OnDestroy {
 
   protected subscription = new Subscription();
 
-  constructor(protected source: AsmCustomer360SectionContextSource<unknown>) {
+  constructor() {
+    const source = this.source;
+
     this.subscription.add(
       source.navigate$.subscribe((urlCommand) => this.navigate.emit(urlCommand))
     );

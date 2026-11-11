@@ -50,9 +50,9 @@ export class OccUserWishlistAdapter implements UserWishlistAdapter {
             queryParams: { pageSize: 1000 },
           });
           return this.http
-            .get<
-              { wishlistEntries?: WishlistEntry[] } | WishlistEntry[]
-            >(entriesUrl)
+            .get<{ wishlistEntries?: WishlistEntry[] } | WishlistEntry[]>(
+              entriesUrl
+            )
             .pipe(
               map((res: any) => {
                 // API may return { wishlistEntries: [...] } or a plain array

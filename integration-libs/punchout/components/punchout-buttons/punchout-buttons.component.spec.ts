@@ -10,9 +10,7 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PunchoutButtonsComponent } from './punchout-buttons.component';
 
-class MockPunchoutUiRestrictionService
-  implements Partial<PunchoutUiRestrictionService>
-{
+class MockPunchoutUiRestrictionService implements Partial<PunchoutUiRestrictionService> {
   isPunchoutSessionActive = jasmine.createSpy().and.returnValue(of(true));
 }
 

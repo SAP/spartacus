@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
   UserGroup,
@@ -18,12 +18,8 @@ import { CurrentItemService } from '../../shared/current-item.service';
   providedIn: 'root',
 })
 export class CurrentUserGroupService extends CurrentItemService<UserGroup> {
-  constructor(
-    protected routingService: RoutingService,
-    protected userGroupService: UserGroupService
-  ) {
-    super(routingService);
-  }
+  protected override routingService = inject(RoutingService);
+  protected userGroupService = inject(UserGroupService);
 
   protected getParamKey() {
     return ROUTE_PARAMS.userGroupCode;

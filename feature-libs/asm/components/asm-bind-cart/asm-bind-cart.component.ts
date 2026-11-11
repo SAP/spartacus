@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +12,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   FormControl,
@@ -67,13 +68,21 @@ import { AsmComponentService } from '../services/asm-component.service';
     FormsModule,
     NgClass,
     ReactiveFormsModule,
-    NgIf,
     DotSpinnerComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
+  protected globalMessageService = inject(GlobalMessageService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected asmBindCartFacade = inject(AsmBindCartFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected savedCartFacade = inject(SavedCartFacade);
+  protected asmComponentService? = inject(AsmComponentService);
+  protected routing? = inject(RoutingService);
+
   activeCartValidator: ValidatorFn = (control) => {
     if (control.value === this.activeCartId) {
       return { activeCartError: true };
@@ -109,17 +118,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   saveInactiveCartElemRef: ElementRef<HTMLButtonElement>;
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected multiCartFacade: MultiCartFacade,
-    protected asmBindCartFacade: AsmBindCartFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected savedCartFacade: SavedCartFacade,
-    protected asmComponentService?: AsmComponentService,
-    protected routing?: RoutingService
-  ) {}
 
   ngOnInit(): void {
     this.subscribeForDeeplinkCart();

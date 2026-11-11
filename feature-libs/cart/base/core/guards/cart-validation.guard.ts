@@ -27,15 +27,13 @@ import { CartValidationStateService } from '../services/cart-validation-state.se
   providedIn: 'root',
 })
 export class CartValidationGuard {
-  constructor(
-    protected cartValidationService: CartValidationFacade,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router,
-    protected globalMessageService: GlobalMessageService,
-    protected activeCartService: ActiveCartFacade,
-    protected cartValidationStateService: CartValidationStateService,
-    protected cartConfigService: CartConfigService
-  ) {}
+  protected cartValidationService = inject(CartValidationFacade);
+  protected semanticPathService = inject(SemanticPathService);
+  protected router = inject(Router);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected activeCartService = inject(ActiveCartFacade);
+  protected cartValidationStateService = inject(CartValidationStateService);
+  protected cartConfigService = inject(CartConfigService);
 
   private featureToggles = inject(FeatureToggles);
 

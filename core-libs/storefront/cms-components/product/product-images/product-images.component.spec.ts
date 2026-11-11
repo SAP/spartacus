@@ -1,5 +1,5 @@
-import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { Component, Input, TrackByFunction } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeaturesConfigModule, Product } from '@spartacus/core';
@@ -11,7 +11,7 @@ import {
   LcpPresence,
   MediaComponent,
 } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
 
@@ -75,17 +75,18 @@ class MockMediaComponent {
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
-    <ng-container *ngFor="let item$ of items">
+    @for (item$ of items; track item$) {
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
       />
-    </ng-container>
+    }
   `,
-  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
+  imports: [FeaturesConfigModule, NgTemplateOutlet, AsyncPipe],
 })
 class MockCarouselScrollingComponent {
   @Input() items;
   @Input() template;
+  @Input() trackByFn: TrackByFunction<any>;
 }
 
 describe('ProductImagesComponent', () => {
@@ -140,6 +141,18 @@ describe('ProductImagesComponent', () => {
     it('should be created', () => {
       fixture.detectChanges();
       expect(component).toBeTruthy();
+    });
+
+    it('provides distinct tracking keys for lazy gallery thumbnails', async () => {
+      fixture.detectChanges();
+      const carousel = fixture.debugElement.query(
+        By.directive(MockCarouselScrollingComponent)
+      ).componentInstance;
+      const items = await firstValueFrom(component.thumbs$);
+      const keys = items.map((item, index) => carousel.trackByFn(index, item));
+      expect(keys.length).toBeGreaterThan(1);
+      expect(keys.every((key) => key != null)).toBe(true);
+      expect(new Set(keys).size).toBe(items.length);
     });
 
     it('should have mainImage$', () => {

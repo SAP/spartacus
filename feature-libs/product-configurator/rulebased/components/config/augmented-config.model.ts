@@ -13,7 +13,8 @@ import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/product-configurator/common' {
   interface ProductConfiguratorConfig
-    extends ProductConfiguratorUISettingsConfig,
+    extends
+      ProductConfiguratorUISettingsConfig,
       ProductConfiguratorMessageConfig,
       ConfiguratorAttributeComposition,
       ProductConfiguratorCoreConfig {}

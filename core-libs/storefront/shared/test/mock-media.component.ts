@@ -19,8 +19,7 @@ export class MockMediaComponent {
 
   get src(): string | undefined {
     const container = this.container as
-      | { product?: { url?: string }; url?: string }
-      | undefined;
+      { product?: { url?: string }; url?: string } | undefined;
     return container?.product?.url ?? container?.url;
   }
 }

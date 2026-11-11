@@ -85,6 +85,7 @@ describe('CpqQuoteOfferComponent', () => {
     });
     it('should be displayed if model provides data', () => {
       mockCartItemContext.item$.next({
+        basePrice: { value: 100 },
         cpqDiscounts: [
           {
             appliedValue: 1,

@@ -14,9 +14,7 @@ import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
 import { OpfGlobalFunctionsRedirectDomainService } from './opf-global-functions-redirect-domain.service';
 
-class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService>
-{
+class MockOpfQuickBuyTransactionService implements Partial<OpfQuickBuyTransactionService> {
   getCurrentCartId = jasmine
     .createSpy('getCurrentCartId')
     .and.returnValue(of('test-cart-id'));

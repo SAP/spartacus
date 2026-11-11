@@ -95,6 +95,7 @@ describe('FutureStockAccordionComponent', () => {
 
     beforeEach(() => {
       component.futureStocks$ = of({});
+      fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
       button = fixture.debugElement.query(
         By.css('.cx-future-stock-accordion-header')
@@ -128,6 +129,7 @@ describe('FutureStockAccordionComponent', () => {
   describe('Show Future Stocks', () => {
     it('should show no stocks message', () => {
       component.futureStocks$ = of({});
+      fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
       let button = fixture.debugElement.query(
@@ -147,6 +149,7 @@ describe('FutureStockAccordionComponent', () => {
 
     it('should show mocked future stocks', () => {
       component.futureStocks$ = of(mockFutureStocks);
+      fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
       let button = fixture.debugElement.query(

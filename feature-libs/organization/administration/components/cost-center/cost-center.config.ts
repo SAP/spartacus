@@ -152,8 +152,3 @@ export const costCenterTableConfig: TableConfig = {
     },
   },
 };
-
-/**
- * @deprecated Use `costCenterTableConfig` instead.
- */
-export const newCostCenterTableConfig: TableConfig = costCenterTableConfig;

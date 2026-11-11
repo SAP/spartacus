@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { ComponentFactoryResolver, inject, NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
@@ -61,7 +61,6 @@ import { defaultReorderLayoutConfig } from './reoder-layout.config';
 function registerOrderOutletFactory(): () => void {
   const isMyAccountV2 = inject(USE_MY_ACCOUNT_V2_ORDER);
   const outletService = inject(OutletService);
-  const componentFactoryResolver = inject(ComponentFactoryResolver);
   return () => {
     const config: ProvideOutletOptions = {
       component: MyAccountV2ConsignmentTrackingComponent,
@@ -69,10 +68,7 @@ function registerOrderOutletFactory(): () => void {
       position: OutletPosition.REPLACE,
     };
     if (isMyAccountV2) {
-      const template = componentFactoryResolver.resolveComponentFactory(
-        config.component
-      );
-      outletService.add(config.id, template, config.position);
+      outletService.add(config.id, config.component, config.position);
     }
   };
 }

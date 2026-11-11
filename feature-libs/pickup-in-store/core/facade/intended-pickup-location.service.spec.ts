@@ -75,9 +75,7 @@ describe('IntendedPickupLocationService', () => {
   });
 });
 
-export class MockIntendedPickupLocationService
-  implements IntendedPickupLocationFacade
-{
+export class MockIntendedPickupLocationService implements IntendedPickupLocationFacade {
   getIntendedLocation(
     _productCode: string
   ): Observable<AugmentedPointOfService | undefined> {

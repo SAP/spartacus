@@ -18,9 +18,7 @@ const consentTemplateVersion = 0;
 class MockCdcUserConsentService implements Partial<CdcUserConsentService> {
   updateCdcUserPreferences = vi.fn();
 }
-class MockCdcConsentsLocalStorageService
-  implements Partial<CdcConsentsLocalStorageService>
-{
+class MockCdcConsentsLocalStorageService implements Partial<CdcConsentsLocalStorageService> {
   syncCdcConsentsState = vi.fn();
   checkIfConsentExists = vi.fn();
 }

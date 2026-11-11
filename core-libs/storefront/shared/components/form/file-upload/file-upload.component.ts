@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -32,7 +32,7 @@ import { TranslatePipe } from '@spartacus/core';
       multi: true,
     },
   ],
-  imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe],
+  imports: [NgTemplateOutlet, TranslatePipe],
 })
 export class FileUploadComponent implements ControlValueAccessor {
   /**

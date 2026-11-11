@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -39,7 +39,6 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form', ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     SpinnerComponent,
     FormRequiredLegendComponent,
     FormsModule,
@@ -53,12 +52,12 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   ],
 })
 export class UpdatePasswordComponent {
+  protected service = inject(UpdatePasswordComponentService);
+
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
   protected pageMetaService = inject(PageMetaService);
-
-  constructor(protected service: UpdatePasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

@@ -40,7 +40,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     expect(CpqConfiguratorNormalizerUtilsService).toBeTruthy();
   });
 
-  it('should fall back to en when locale data is missing for the active language', () => {
+  it('should fall back to en when the active locale is unsupported', () => {
     const warnSpy = vi.spyOn(
       cpqConfiguratorNormalizerUtilsService['logger'],
       'warn'
@@ -51,7 +51,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
 
     expect(cpqConfiguratorNormalizerUtilsService['getLanguage']()).toBe('en');
     expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('No locale data registered')
+      expect.stringContaining('Unsupported locale')
     );
   });
 
@@ -253,6 +253,41 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       locale
     );
     expect(price.formattedValue).toBe('$1,123.45');
+  });
+
+  it.each([
+    {
+      locale: 'de-DE',
+      currencyIso: 'EUR',
+      value: 1123.45,
+      expected: '1.123,45\u00a0€',
+    },
+    {
+      locale: 'fr-FR',
+      currencyIso: 'EUR',
+      value: 1123.45,
+      expected: '1\u202f123,45\u00a0€',
+    },
+    { locale: 'en-US', currencyIso: 'JPY', value: 1234.56, expected: '¥1,235' },
+  ])(
+    'formats $currencyIso prices in $locale using currency fraction digits',
+    ({ locale, currencyIso, value, expected }) => {
+      const price: Configurator.PriceDetails = { value, currencyIso };
+      cpqConfiguratorNormalizerUtilsService['formatPriceForLocale'](
+        price,
+        locale
+      );
+      expect(price.formattedValue).toBe(expected);
+    }
+  );
+
+  it('uses Intl-supported locales without Angular locale registration', () => {
+    vi.spyOn(TestBed.inject(LanguageService), 'getActive').mockReturnValue(
+      of('fr_FR')
+    );
+    expect(cpqConfiguratorNormalizerUtilsService['getLanguage']()).toBe(
+      'fr-FR'
+    );
   });
 
   it('should format price with missing fraction digits', () => {

@@ -28,6 +28,9 @@ import {
 
 @Injectable()
 export class UserGroupEffects {
+  private actions$ = inject(Actions);
+  private userGroupConnector = inject(UserGroupConnector);
+
   protected logger = inject(LoggerService);
 
   loadUserGroup$: Observable<
@@ -462,9 +465,4 @@ export class UserGroupEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private userGroupConnector: UserGroupConnector
-  ) {}
 }

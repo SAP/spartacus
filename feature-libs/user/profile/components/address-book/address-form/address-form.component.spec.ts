@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  DebugElement,
-  Directive,
-  Input,
-} from '@angular/core';
+import { DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -200,7 +195,6 @@ describe('AddressFormComponent', () => {
     })
       .overrideComponent(AddressFormComponent, {
         add: {
-          changeDetection: ChangeDetectionStrategy.Eager,
           imports: [MockFeatureDirective],
         },
         remove: {
@@ -955,11 +949,7 @@ describe('AddressFormComponent — enableFormFieldMaxLength', () => {
         },
         ...provideMockFeatureToggles({ enableFormFieldMaxLength: enabled }),
       ],
-    })
-      .overrideComponent(AddressFormComponent, {
-        add: { changeDetection: ChangeDetectionStrategy.Eager },
-      })
-      .compileComponents();
+    }).compileComponents();
 
   describe('when enabled', () => {
     let component: AddressFormComponent;

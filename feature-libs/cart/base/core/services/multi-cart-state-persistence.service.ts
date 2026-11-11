@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { CartType } from '@spartacus/cart/base/root';
 import {
@@ -22,13 +22,11 @@ import { StateWithMultiCart } from '../store/multi-cart-state';
   providedIn: 'root',
 })
 export class MultiCartStatePersistenceService implements OnDestroy {
-  protected subscription = new Subscription();
+  protected statePersistenceService = inject(StatePersistenceService);
+  protected store = inject<Store<StateWithMultiCart>>(Store);
+  protected siteContextParamsService = inject(SiteContextParamsService);
 
-  constructor(
-    protected statePersistenceService: StatePersistenceService,
-    protected store: Store<StateWithMultiCart>,
-    protected siteContextParamsService: SiteContextParamsService
-  ) {}
+  protected subscription = new Subscription();
 
   public initSync() {
     this.subscription.add(

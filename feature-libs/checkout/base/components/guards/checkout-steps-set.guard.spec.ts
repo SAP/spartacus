@@ -73,17 +73,13 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   getCheckoutStep = vi.fn().mockReturnValue(testStep);
 }
 
-class MockCheckoutDeliveryAddressFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressFacade implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState = vi
     .fn()
     .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
-class MockCheckoutDeliveryModesFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModesFacade implements Partial<CheckoutDeliveryModesFacade> {
   getSelectedDeliveryModeState = vi
     .fn()
     .mockReturnValue(of({ loading: false, error: false, data: undefined }));

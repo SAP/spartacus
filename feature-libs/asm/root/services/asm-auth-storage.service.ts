@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AuthStorageService,
   AuthToken,
@@ -35,6 +35,8 @@ interface PersistedAsmAuthState {
   providedIn: 'root',
 })
 export class AsmAuthStorageService extends AuthStorageService {
+  protected statePersistenceService? = inject(StatePersistenceService);
+
   protected _tokenTarget$: Observable<TokenTarget> =
     new BehaviorSubject<TokenTarget>(TokenTarget.User);
 
@@ -49,7 +51,7 @@ export class AsmAuthStorageService extends AuthStorageService {
     undefined
   );
 
-  constructor(protected statePersistenceService?: StatePersistenceService) {
+  constructor() {
     super();
     this.restorePersistedAsmAuthState();
   }

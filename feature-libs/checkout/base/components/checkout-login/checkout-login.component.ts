@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -35,6 +35,10 @@ import { Subscription } from 'rxjs';
   ],
 })
 export class CheckoutLoginComponent implements OnDestroy {
+  protected formBuilder = inject(UntypedFormBuilder);
+  protected authRedirectService = inject(AuthRedirectService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   checkoutLoginForm: UntypedFormGroup = this.formBuilder.group(
     {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
@@ -48,12 +52,6 @@ export class CheckoutLoginComponent implements OnDestroy {
     }
   );
   sub: Subscription;
-
-  constructor(
-    protected formBuilder: UntypedFormBuilder,
-    protected authRedirectService: AuthRedirectService,
-    protected activeCartFacade: ActiveCartFacade
-  ) {}
 
   onSubmit() {
     if (this.checkoutLoginForm.valid) {

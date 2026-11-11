@@ -46,9 +46,7 @@ class LocalMockWinRef extends MockWinRef {
   override sessionStorage: any = undefined;
 }
 
-class MockFormComponentService
-  implements Partial<VerificationTokenFormComponentService>
-{
+class MockFormComponentService implements Partial<VerificationTokenFormComponentService> {
   form: UntypedFormGroup = new UntypedFormGroup({
     tokenId: new UntypedFormControl(),
     tokenCode: new UntypedFormControl(),

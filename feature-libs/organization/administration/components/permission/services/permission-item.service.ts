@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
   OrganizationItemStatus,
@@ -20,14 +20,10 @@ import { CurrentPermissionService } from './current-permission.service';
   providedIn: 'root',
 })
 export class PermissionItemService extends ItemService<Permission> {
-  constructor(
-    protected currentItemService: CurrentPermissionService,
-    protected routingService: RoutingService,
-    protected formService: PermissionFormService,
-    protected permissionService: PermissionService
-  ) {
-    super(currentItemService, routingService, formService);
-  }
+  protected override currentItemService = inject(CurrentPermissionService);
+  protected override routingService = inject(RoutingService);
+  protected override formService = inject(PermissionFormService);
+  protected permissionService = inject(PermissionService);
 
   load(code: string): Observable<Permission> {
     this.permissionService.loadPermission(code);

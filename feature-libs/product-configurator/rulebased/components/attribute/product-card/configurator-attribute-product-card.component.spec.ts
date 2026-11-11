@@ -1,3 +1,4 @@
+import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -54,7 +55,6 @@ import {
   ConfiguratorAttributeQuantityComponent,
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../quantity/configurator-attribute-quantity.component';
-import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 const product: Product = {
@@ -250,7 +250,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });
@@ -286,9 +286,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       },
       singleDropdown: false,
       withQuantity: true,
-      attributeId: 123,
-      attributeLabel: 'Attribute Label',
-      attributeName: 'Attribute Name',
       itemCount: 3,
       itemIndex: 1,
     };
@@ -304,22 +301,11 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   it('create a focus config with key', () => {
     expect(component.focusConfig.key).toContain(
-      component.productCardOptions.attributeId.toString()
+      component.productCardOptions.attribute.attrCode.toString()
     );
     const valueCode =
       component.productCardOptions.productBoundValue?.valueCode ?? 'noCode';
     expect(component.focusConfig.key).toContain(valueCode);
-  });
-
-  it('should resolve label, name and focus key from deprecated fields when attribute is omitted', () => {
-    delete component.productCardOptions.attribute;
-    component.productCardOptions.attributeId = 456;
-    component.productCardOptions.attributeLabel = 'Legacy Label';
-    component.productCardOptions.attributeName = 'Legacy Name';
-
-    expect(component.productCardAttributeLabel).toBe('Legacy Label');
-    expect(component.productCardAttributeName).toBe('Legacy Name');
-    expect(component.focusConfig.key).toContain('456');
   });
 
   it('should indicate loading state when fetching product data', () => {
@@ -663,9 +649,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         singleDropdown: false,
         withQuantity: true,
         disableAllButtons: true,
-        attributeId: 123,
-        attributeLabel: 'Attribute Label',
-        attributeName: 'Attribute Name',
         itemCount: 3,
         itemIndex: 1,
       };
@@ -750,9 +733,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
         singleDropdown: false,
         withQuantity: true,
-        attributeId: 123,
-        attributeLabel: 'Attribute Label',
-        attributeName: 'Attribute Name',
         itemCount: 3,
         itemIndex: 1,
       };
@@ -856,9 +836,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
         singleDropdown: false,
         withQuantity: true,
-        attributeId: 123,
-        attributeLabel: 'Attribute Label',
-        attributeName: 'Attribute Name',
         itemCount: 3,
         itemIndex: 1,
       };
@@ -1360,7 +1337,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelSingleSelectedNoButton(product)).toBe(
         'configurator.a11y.itemOfAttributeSelectedWithPrice attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1388,7 +1365,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelSingleSelectedNoButton(product)).toBe(
         'configurator.a11y.itemOfAttributeSelected attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1421,7 +1398,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelSingleSelected(product)).toBe(
         'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1449,7 +1426,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelSingleSelected(product)).toBe(
         'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1482,7 +1459,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelMultiSelected(product)).toBe(
         'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1510,7 +1487,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelMultiSelected(product)).toBe(
         'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1543,7 +1520,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelMultiUnselected(product)).toBe(
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1571,7 +1548,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelMultiUnselected(product)).toBe(
         'configurator.a11y.itemOfAttributeUnselected attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1604,7 +1581,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelSingleUnselected(product)).toBe(
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1632,7 +1609,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       expect(component.getAriaLabelSingleUnselected(product)).toBe(
         'configurator.a11y.itemOfAttributeUnselected attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +
@@ -1659,7 +1636,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         component.getAriaLabelSingleUnselected({ ...product, name: '' })
       ).toBe(
         'configurator.a11y.itemOfAttributeUnselected attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.code +
           ' itemCount:' +
@@ -1675,7 +1652,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const itemIndex = component.productCardOptions.itemIndex + 1;
       expect(component.getAriaLabelSingleUnselected(product)).toBe(
         'configurator.a11y.selectNoItemOfAttribute attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' itemCount:' +
           component.productCardOptions.itemCount +
           ' itemIndex:' +
@@ -1695,7 +1672,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         0,
         'aria-label',
         'configurator.a11y.itemOfAttribute attribute:' +
-          component.productCardOptions.attributeLabel
+          component.productCardOptions.attribute.label
       );
     });
 
@@ -1723,7 +1700,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         0,
         'aria-label',
         'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
-          component.productCardOptions.attributeLabel +
+          component.productCardOptions.attribute.label +
           ' item:' +
           product.name +
           ' itemCount:' +

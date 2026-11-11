@@ -206,21 +206,6 @@ describe('Cart Actions', () => {
   });
 
   describe('MergeCart Actions', () => {
-    describe('MergeCart', () => {
-      it('should create the action', () => {
-        const payload = {
-          userId: 'xxx@xxx.xxx',
-          cartId: 'testCartId',
-          tempCartId: 'tempCartId',
-        };
-        const action = new CartActions.MergeCart(payload);
-        expect({ ...action }).toEqual({
-          type: CartActions.MERGE_CART,
-          payload,
-        });
-      });
-    });
-
     describe('MergeCartAndIncrementProcessesCount', () => {
       it('should create the action', () => {
         const payload = {

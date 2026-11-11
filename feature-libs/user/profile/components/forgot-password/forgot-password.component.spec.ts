@@ -20,9 +20,7 @@ import { ForgotPasswordComponentService } from './forgot-password-component.serv
 import { ForgotPasswordComponent } from './forgot-password.component';
 
 const isBusySubject = new BehaviorSubject(false);
-class MockForgotPasswordService
-  implements Partial<ForgotPasswordComponentService>
-{
+class MockForgotPasswordService implements Partial<ForgotPasswordComponentService> {
   form: UntypedFormGroup = new UntypedFormGroup({
     userEmail: new UntypedFormControl(),
   });

@@ -71,24 +71,7 @@ describe('SiteContextInterceptor', () => {
         { provide: OccConfig, useValue: mockSiteContextConfig },
         {
           provide: HTTP_INTERCEPTORS,
-          useFactory: (
-            lang: MockLanguageService,
-            curr: MockCurrencyService,
-            occ: MockOccEndpointsService,
-            cfg: SiteContextConfig
-          ) =>
-            new SiteContextInterceptor(
-              lang as any,
-              curr as any,
-              occ as any,
-              cfg
-            ),
-          deps: [
-            LanguageService,
-            CurrencyService,
-            OccEndpointsService,
-            SiteContextConfig,
-          ],
+          useClass: SiteContextInterceptor,
           multi: true,
         },
         provideHttpClient(withInterceptorsFromDi()),

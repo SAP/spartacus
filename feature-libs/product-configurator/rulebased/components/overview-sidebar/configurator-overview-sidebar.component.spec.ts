@@ -252,7 +252,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorOverviewSidebarComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
     initTestComponent();

@@ -1,16 +1,17 @@
-<ng-container *ngIf="punchoutRequisition$ | async as pchtReq">
-  <form
-    *ngIf="pchtReq?.orderAsCXML && pchtReq?.browseFormPostUrl"
-    action="{{ pchtReq.browseFormPostUrl }}"
-    method="POST"
-    [formGroup]="punchoutFormGroup"
-    #punchoutFormElement
-  >
-    <input
-      name="cxml-base64"
-      formControlName="{{ FORM_CONTROL_NAME.ORDER }}"
-      type="hidden"
-      value=""
-    />
-  </form>
-</ng-container>
+@if (punchoutRequisition$ | async; as pchtReq) {
+  @if (pchtReq?.orderAsCXML && pchtReq?.browseFormPostUrl) {
+    <form
+      action="{{ pchtReq.browseFormPostUrl }}"
+      method="POST"
+      [formGroup]="punchoutFormGroup"
+      #punchoutFormElement
+    >
+      <input
+        name="cxml-base64"
+        formControlName="{{ FORM_CONTROL_NAME.ORDER }}"
+        type="hidden"
+        value=""
+      />
+    </form>
+  }
+}

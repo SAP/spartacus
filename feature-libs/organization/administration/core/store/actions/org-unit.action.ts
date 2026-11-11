@@ -270,7 +270,9 @@ export class LoadApprovalProcessesFail
   }
 }
 
-export class LoadApprovalProcessesSuccess extends StateUtils.EntitySuccessAction {
+export class LoadApprovalProcessesSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = LOAD_APPROVAL_PROCESSES_SUCCESS;
 
   constructor(public payload: B2BApprovalProcess[]) {

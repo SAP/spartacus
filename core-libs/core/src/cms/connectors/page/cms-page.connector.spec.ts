@@ -2,7 +2,6 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  CmsPageAdapter,
   CmsStructureConfigService,
   CmsStructureModel,
   PageContext,
@@ -10,6 +9,7 @@ import {
 import { firstValueFrom, Observable, of, throwError } from 'rxjs';
 import { Mock } from 'vitest';
 import { PageType } from '../../../model/cms.model';
+import { CmsPageAdapter } from './cms-page.adapter';
 import { CmsPageConnector } from './cms-page.connector';
 
 const context: PageContext = {
@@ -25,9 +25,7 @@ class MockCmsPageAdapter implements Partial<CmsPageAdapter> {
 }
 
 @Injectable()
-class MockCmsStructureConfigService
-  implements Partial<CmsStructureConfigService>
-{
+class MockCmsStructureConfigService implements Partial<CmsStructureConfigService> {
   mergePageStructure(
     _pageId: string,
     pageStructure: CmsStructureModel

@@ -9,6 +9,7 @@ import {
   ComponentRef,
   ElementRef,
   ViewContainerRef,
+  inject as inject_1,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
@@ -31,9 +32,7 @@ import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { OpfGlobalFunctionsCheckoutDomainService } from './opf-global-functions-checkout-domain.service';
 
-class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService>
-{
+class MockOpfQuickBuyTransactionService implements Partial<OpfQuickBuyTransactionService> {
   getCurrentCartId = jasmine
     .createSpy('getCurrentCartId')
     .and.returnValue(of('test-cart-id'));
@@ -41,7 +40,7 @@ class MockOpfQuickBuyTransactionService
 
 @Component({ template: '' })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

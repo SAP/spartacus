@@ -45,9 +45,7 @@ class MockEventService implements Partial<EventService> {
   dispatch = vi.fn();
 }
 
-class MockCheckoutDeliveryModesConnector
-  implements Partial<CheckoutDeliveryModesConnector>
-{
+class MockCheckoutDeliveryModesConnector implements Partial<CheckoutDeliveryModesConnector> {
   getSupportedModes = vi.fn().mockReturnValue(of(mockSupportedDeliveryModes));
   setMode = vi.fn().mockReturnValue(of('setMode'));
   clearCheckoutDeliveryMode = vi

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AsmAuthStorageService, AsmUi, TokenTarget } from '@spartacus/asm/root';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
@@ -29,13 +29,11 @@ export interface SyncedAsmState {
   providedIn: 'root',
 })
 export class AsmStatePersistenceService implements OnDestroy {
-  protected subscription = new Subscription();
+  protected statePersistenceService = inject(StatePersistenceService);
+  protected store = inject<Store<StateWithAsm>>(Store);
+  protected authStorageService = inject(AsmAuthStorageService);
 
-  constructor(
-    protected statePersistenceService: StatePersistenceService,
-    protected store: Store<StateWithAsm>,
-    protected authStorageService: AsmAuthStorageService
-  ) {}
+  protected subscription = new Subscription();
 
   /**
    * Identifier used for storage key.

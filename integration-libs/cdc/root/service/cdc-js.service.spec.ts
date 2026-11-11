@@ -55,9 +55,7 @@ class LanguageServiceStub implements Partial<LanguageService> {
   }
 }
 
-class MockCdcConsentsLocalStorageService
-  implements Partial<CdcConsentsLocalStorageService>
-{
+class MockCdcConsentsLocalStorageService implements Partial<CdcConsentsLocalStorageService> {
   persistCdcConsentsToStorage(_siteConsent: CdcSiteConsentTemplate) {}
 }
 

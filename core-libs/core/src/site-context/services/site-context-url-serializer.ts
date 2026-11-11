@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { SiteContextParamsService } from './site-context-params.service';
 
@@ -29,6 +29,8 @@ export interface UrlTreeWithSiteContext extends UrlTree {
  */
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
+  private siteContextParams = inject(SiteContextParamsService);
+
   /**
    * Splits the URL into 2 parts: path and the query/fragment part
    */
@@ -46,10 +48,6 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
    */
   protected get hasContextInRoutes(): boolean {
     return this.urlEncodingParameters.length > 0;
-  }
-
-  constructor(private siteContextParams: SiteContextParamsService) {
-    super();
   }
 
   /**

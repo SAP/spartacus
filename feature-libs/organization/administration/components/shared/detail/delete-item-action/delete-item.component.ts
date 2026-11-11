@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, Input, OnDestroy, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -23,9 +23,13 @@ import { BaseItem } from '../../organization.model';
   selector: 'cx-org-delete-item',
   templateUrl: './delete-item.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService =
+    inject<MessageService<ConfirmationMessageData>>(MessageService);
+
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -59,11 +63,6 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
 
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData> | null;
-
-  constructor(
-    protected itemService: ItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>
-  ) {}
 
   delete(item: T) {
     if (!this.confirmation) {

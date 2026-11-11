@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -32,7 +32,7 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
   selector: 'cx-opf-payment-method-details',
   templateUrl: './opf-payment-method-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe, OutletModule],
+  imports: [CardComponent, AsyncPipe, OutletModule],
 })
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

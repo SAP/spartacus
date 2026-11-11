@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -36,7 +36,8 @@ import { DatePickerService } from './date-picker.service';
   ],
 })
 export class DatePickerComponent {
-  constructor(protected service: DatePickerService) {}
+  protected service = inject(DatePickerService);
+
   @Input() control: UntypedFormControl;
   @Input() min?: string;
   @Input() max?: string;

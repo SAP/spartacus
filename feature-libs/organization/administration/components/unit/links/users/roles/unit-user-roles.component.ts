@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -44,18 +49,21 @@ import { UnitUserRolesItemService } from './unit-user-roles-item.service';
     },
   ],
   imports: [
-    NgIf,
     FormsModule,
     CardComponent,
     FocusDirective,
     RouterLink,
     ReactiveFormsModule,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class UnitUserRolesFormComponent {
+  protected itemService = inject<ItemService<B2BUser>>(ItemService);
+  protected formService = inject(UnitUserRolesFormService);
+  protected userService = inject(B2BUserService);
+  protected userItemService = inject(UserItemService);
+
   protected item: B2BUser | undefined;
 
   @ViewChild(MessageService, { read: MessageService })
@@ -75,13 +83,6 @@ export class UnitUserRolesFormComponent {
 
   availableRoles: B2BUserRole[] = this.userService.getAllRoles();
   availableRights: B2BUserRight[] = this.userService.getAllRights();
-
-  constructor(
-    protected itemService: ItemService<B2BUser>,
-    protected formService: UnitUserRolesFormService,
-    protected userService: B2BUserService,
-    protected userItemService: UserItemService
-  ) {}
 
   save(form: UntypedFormGroup) {
     form.disable();

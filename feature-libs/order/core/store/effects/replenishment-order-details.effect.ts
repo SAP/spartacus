@@ -20,6 +20,12 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class ReplenishmentOrderDetailsEffect {
+  private actions$ = inject(Actions);
+  private replenishmentOrderConnector = inject(
+    ReplenishmentOrderHistoryConnector
+  );
+  private globalMessageService = inject(GlobalMessageService);
+
   protected logger = inject(LoggerService);
 
   loadReplenishmentOrderDetails$: Observable<OrderActions.ReplenishmentOrderDetailsAction> =
@@ -86,10 +92,4 @@ export class ReplenishmentOrderDetailsEffect {
         })
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector,
-    private globalMessageService: GlobalMessageService
-  ) {}
 }

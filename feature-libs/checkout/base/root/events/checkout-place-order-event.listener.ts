@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { RemoveCartEvent } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
@@ -15,9 +15,11 @@ import { CheckoutQueryResetEvent } from './checkout.events';
   providedIn: 'root',
 })
 export class CheckoutPlaceOrderEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {
+  constructor() {
     this.onOrderPlaced();
   }
 

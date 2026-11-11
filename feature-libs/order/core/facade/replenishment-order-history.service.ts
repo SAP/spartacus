@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ProcessSelectors,
@@ -26,14 +26,10 @@ import {
 import { OrderSelectors } from '../store/selectors/index';
 
 @Injectable()
-export class ReplenishmentOrderHistoryService
-  implements ReplenishmentOrderHistoryFacade
-{
-  constructor(
-    protected store: Store<StateWithOrder>,
-    protected processStateStore: Store<StateWithProcess<void>>,
-    protected userIdService: UserIdService
-  ) {}
+export class ReplenishmentOrderHistoryService implements ReplenishmentOrderHistoryFacade {
+  protected store = inject<Store<StateWithOrder>>(Store);
+  protected processStateStore = inject<Store<StateWithProcess<void>>>(Store);
+  protected userIdService = inject(UserIdService);
 
   /**
    * Returns replenishment order details for a given 'current' user

@@ -27,16 +27,12 @@ const headers = new HttpHeaders({
 });
 
 @Injectable()
-export class OccUserNotificationPreferenceAdapter
-  implements UserNotificationPreferenceAdapter
-{
-  protected logger = inject(LoggerService);
+export class OccUserNotificationPreferenceAdapter implements UserNotificationPreferenceAdapter {
+  protected http = inject(HttpClient);
+  protected converter = inject(ConverterService);
+  protected occEndpoints = inject(OccEndpointsService);
 
-  constructor(
-    protected http: HttpClient,
-    protected converter: ConverterService,
-    protected occEndpoints: OccEndpointsService
-  ) {}
+  protected logger = inject(LoggerService);
 
   loadAll(userId: string): Observable<NotificationPreference[]> {
     return this.http

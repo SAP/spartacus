@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   CustomerCouponService,
   GlobalMessageService,
@@ -18,13 +18,11 @@ import { Subscription } from 'rxjs';
   selector: 'cx-coupon-claim',
 })
 export class CouponClaimComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
+  protected couponService = inject(CustomerCouponService);
+  protected routingService = inject(RoutingService);
+  protected messageService = inject(GlobalMessageService);
 
-  constructor(
-    protected couponService: CustomerCouponService,
-    protected routingService: RoutingService,
-    protected messageService: GlobalMessageService
-  ) {}
+  subscription: Subscription;
 
   ngOnInit(): void {
     this.routingService

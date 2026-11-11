@@ -279,7 +279,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       .overrideComponent(
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
+          set: { changeDetection: ChangeDetectionStrategy.Eager },
         }
       )
       .compileComponents();

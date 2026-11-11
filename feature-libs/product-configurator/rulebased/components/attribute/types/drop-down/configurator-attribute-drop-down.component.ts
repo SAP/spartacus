@@ -11,7 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -38,12 +38,10 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-inpu
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
-    NgIf,
     FormsModule,
     NgClass,
     ReactiveFormsModule,
     FocusDirective,
-    NgFor,
     ConfiguratorShowMoreComponent,
     ConfiguratorPriceComponent,
     ConfiguratorAttributeQuantityComponent,
@@ -57,27 +55,28 @@ export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
+  protected override quantityService = inject(
+    ConfiguratorAttributeQuantityService
+  );
+  protected override translation = inject(TranslationService);
+  protected override attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected override configuratorCommonsService = inject(
+    ConfiguratorCommonsService
+  );
+  protected override configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   attributeDropDownForm = new UntypedFormControl('');
   group: string;
 
   protected config = inject(Config);
 
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
-    super(
-      quantityService,
-      translation,
-      attributeComponentContext,
-      configuratorCommonsService,
-      configuratorStorefrontUtilsService
-    );
-
-    this.group = attributeComponentContext.group.id;
+  constructor() {
+    super();
+    this.group = this.attributeComponentContext.group.id;
   }
 
   ngOnInit() {

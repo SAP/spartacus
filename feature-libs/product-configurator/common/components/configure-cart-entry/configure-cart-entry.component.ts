@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -38,7 +38,6 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   templateUrl: './configure-cart-entry.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     RouterLink,
     AsyncPipe,
@@ -48,6 +47,8 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   ],
 })
 export class ConfigureCartEntryComponent {
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+
   private static readonly DISPLAY_CONFIGURATION_HEADER =
     'configurator.header.displayConfiguration';
 
@@ -340,8 +341,4 @@ export class ConfigureCartEntryComponent {
       })
     );
   }
-
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
-  ) {}
 }

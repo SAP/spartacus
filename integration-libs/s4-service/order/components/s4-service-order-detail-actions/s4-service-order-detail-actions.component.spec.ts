@@ -183,9 +183,10 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
 
     it('should not display action buttons when service is cancelled', () => {
       fixture.detectChanges();
-      component.displayActions$.subscribe((res) => {
-        expect(res).toBe(false);
-      });
+      expect(
+        el.queryAll(By.css('#cancel-service-btn, #reschedule-service-btn'))
+          .length
+      ).toBe(0);
     });
   });
 
@@ -200,11 +201,12 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       expect(elements.length).toEqual(0);
     });
 
-    it('should display action buttons row as a failsafe', () => {
+    it('should keep actions hidden when the API disables them', () => {
       fixture.detectChanges();
-      component.displayActions$.subscribe((res) => {
-        expect(res).toBe(true);
-      });
+      expect(
+        el.queryAll(By.css('#cancel-service-btn, #reschedule-service-btn'))
+          .length
+      ).toBe(0);
     });
   });
 });

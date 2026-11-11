@@ -1,3 +1,5 @@
+import { UserAddressAdapter } from './user-address.adapter';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Address } from '../../../model/address.model';
 import { UserAddressConnector } from './user-address.connector';
@@ -25,7 +27,13 @@ describe('UserAddressConnector', () => {
       update: vi.fn().mockReturnValue(of({})),
       verify: vi.fn().mockImplementation((userId) => of(`verify-${userId}`)),
     };
-    service = new UserAddressConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        UserAddressConnector,
+        { provide: UserAddressAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(UserAddressConnector);
   });
 
   it('should be created', () => {

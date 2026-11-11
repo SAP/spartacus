@@ -22,9 +22,7 @@ class MockUserIdService implements Partial<UserIdService> {
   takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
-class MockCheckoutBillingAddressConnector
-  implements Partial<CheckoutBillingAddressConnector>
-{
+class MockCheckoutBillingAddressConnector implements Partial<CheckoutBillingAddressConnector> {
   setBillingAddress = vi.fn().mockReturnValue(of('setAddress'));
 }
 

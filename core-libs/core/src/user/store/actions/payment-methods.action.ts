@@ -47,7 +47,9 @@ export class LoadUserPaymentMethodsFail
   }
 }
 
-export class LoadUserPaymentMethodsSuccess extends StateUtils.LoaderSuccessAction {
+export class LoadUserPaymentMethodsSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = LOAD_USER_PAYMENT_METHODS_SUCCESS;
 
   constructor(public payload: PaymentDetails[]) {
@@ -74,7 +76,9 @@ export class SetDefaultUserPaymentMethodFail
   }
 }
 
-export class SetDefaultUserPaymentMethodSuccess extends StateUtils.LoaderSuccessAction {
+export class SetDefaultUserPaymentMethodSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS;
 
   constructor(public payload: any) {
@@ -101,7 +105,9 @@ export class DeleteUserPaymentMethodFail
   }
 }
 
-export class DeleteUserPaymentMethodSuccess extends StateUtils.LoaderSuccessAction {
+export class DeleteUserPaymentMethodSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = DELETE_USER_PAYMENT_METHOD_SUCCESS;
 
   constructor(public payload: any) {

@@ -16,6 +16,11 @@ import { ClientAuthActions } from '../actions/index';
 
 @Injectable()
 export class ClientTokenEffect {
+  private actions$ = inject(Actions);
+  private clientAuthenticationTokenService = inject(
+    ClientAuthenticationTokenService
+  );
+
   protected logger = inject(LoggerService);
 
   loadClientToken$: Observable<ClientAuthActions.ClientTokenAction> =
@@ -40,9 +45,4 @@ export class ClientTokenEffect {
         })
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private clientAuthenticationTokenService: ClientAuthenticationTokenService
-  ) {}
 }

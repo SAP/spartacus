@@ -51,15 +51,11 @@ class MockOpfCheckoutPaymentsComponent {
   @Input() forceDefaultPaymentOptionInputSelection: boolean;
 }
 
-class MockOpfCheckoutBillingAddressFormService
-  implements Partial<OpfCheckoutBillingAddressFormService>
-{
+class MockOpfCheckoutBillingAddressFormService implements Partial<OpfCheckoutBillingAddressFormService> {
   paymentOptionsDisabled$ = of(false);
 }
 
-class MockCheckoutPaymentTypeFacade
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeFacade implements Partial<CheckoutPaymentTypeFacade> {
   setPaymentType = () => of({});
   getPurchaseOrderNumberState = () =>
     of({

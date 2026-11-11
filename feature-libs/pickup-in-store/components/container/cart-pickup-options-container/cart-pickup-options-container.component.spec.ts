@@ -67,9 +67,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
-export class MockAnonymousUserActiveCartFacade
-  implements Partial<ActiveCartFacade>
-{
+export class MockAnonymousUserActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return of({
       name: 'test-active-cart',

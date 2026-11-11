@@ -43,7 +43,9 @@ export class LoadUserReplenishmentOrdersFail
   }
 }
 
-export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccessAction {
+export class LoadUserReplenishmentOrdersSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS;
 
   constructor(public payload: ReplenishmentOrderList) {

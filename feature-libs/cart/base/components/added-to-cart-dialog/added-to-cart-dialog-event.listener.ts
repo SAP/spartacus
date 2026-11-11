@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
@@ -20,12 +20,12 @@ import { AddedToCartDialogComponentData } from './added-to-cart-dialog.component
   providedIn: 'root',
 })
 export class AddedToCartDialogEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+  protected launchDialogService = inject(LaunchDialogService);
+
   protected subscription = new Subscription();
 
-  constructor(
-    protected eventService: EventService,
-    protected launchDialogService: LaunchDialogService
-  ) {
+  constructor() {
     this.onAddToCart();
   }
 

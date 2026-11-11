@@ -49,9 +49,7 @@ class MockUserAccountFacade implements Partial<UserAccountFacade> {
 
 const mockStorage: { [key: string]: string | undefined } = {};
 
-class MockUserLoginCurrencyPersistenceService
-  implements Partial<UserLoginCurrencyPersistenceService>
-{
+class MockUserLoginCurrencyPersistenceService implements Partial<UserLoginCurrencyPersistenceService> {
   savePreLoginCurrency = vi.fn().mockImplementation((isocode: string) => {
     mockStorage[PRE_LOGIN_CURRENCY_STORAGE_KEY] = JSON.stringify(isocode);
   });

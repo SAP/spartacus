@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
@@ -16,15 +16,11 @@ import { OrganizationTableType } from '../../../shared/organization.model';
   providedIn: 'root',
 })
 export class UnitCostCenterListService extends SubListService<B2BUser> {
+  protected override tableService = inject(TableService);
+  protected unitService = inject(OrgUnitService);
+
   protected tableType = OrganizationTableType.UNIT_COST_CENTERS;
   protected _domainType = OrganizationTableType.COST_CENTER;
-
-  constructor(
-    protected tableService: TableService,
-    protected unitService: OrgUnitService
-  ) {
-    super(tableService);
-  }
 
   protected load(
     _pagination: PaginationModel,

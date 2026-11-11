@@ -41,8 +41,6 @@ import {
 } from 'rxjs/operators';
 
 export type OpfSharedPaymentSubmitOptions = {
-  /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
-  cartId?: string;
   additionalData: Array<OpfKeyValueMap>;
   submitSuccess: OpfPaymentMerchantCallback;
   submitPending: OpfPaymentMerchantCallback;
@@ -54,8 +52,6 @@ export type OpfSharedPaymentSubmitOptions = {
 };
 
 export type OpfSharedPaymentSubmitCompleteOptions = {
-  /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
-  cartId?: string;
   additionalData: Array<OpfKeyValueMap>;
   submitSuccess: OpfPaymentMerchantCallback;
   submitPending: OpfPaymentMerchantCallback;

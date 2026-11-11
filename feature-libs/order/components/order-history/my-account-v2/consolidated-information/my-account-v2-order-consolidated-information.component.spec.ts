@@ -53,9 +53,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockMyAccountV2OrderConsignmentsService
-  implements Partial<MyAccountV2OrderConsignmentsService>
-{
+class MockMyAccountV2OrderConsignmentsService implements Partial<MyAccountV2OrderConsignmentsService> {
   getGroupedConsignments = vi.fn();
   getUnconsignedEntries = vi.fn();
 }

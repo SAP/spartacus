@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
+  inject,
 } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -37,7 +37,6 @@ const DISABLED_STATUS = 'DISABLED';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   imports: [
-    NgIf,
     FormsModule,
     CardComponent,
     ItemActiveDirective,
@@ -48,6 +47,9 @@ const DISABLED_STATUS = 'DISABLED';
   ],
 })
 export class FormComponent<T> implements OnInit, OnDestroy {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject(MessageService, { optional: true });
+
   /**
    * i18n root for all localizations. The i18n root key is suffixed with
    * either `.edit` or `.create`, depending on the usage of the component.
@@ -81,11 +83,6 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     switchMap((form) => form?.statusChanges ?? EMPTY),
     map((status) => status === DISABLED_STATUS)
   );
-
-  constructor(
-    protected itemService: ItemService<T>,
-    @Optional() protected messageService: MessageService
-  ) {}
 
   save(form: UntypedFormGroup): void {
     this.itemService.key$

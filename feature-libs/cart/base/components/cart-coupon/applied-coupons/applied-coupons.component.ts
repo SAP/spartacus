@@ -4,8 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -14,9 +18,11 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, IconComponent, TranslatePipe],
+  imports: [IconComponent, TranslatePipe],
 })
 export class AppliedCouponsComponent {
+  protected cartVoucherService = inject(CartVoucherFacade);
+
   @Input()
   vouchers: Voucher[];
   @Input()
@@ -25,8 +31,6 @@ export class AppliedCouponsComponent {
   isReadOnly = false;
 
   iconTypes = ICON_TYPE;
-
-  constructor(protected cartVoucherService: CartVoucherFacade) {}
 
   public get sortedVouchers(): Voucher[] {
     this.vouchers ??= [];

@@ -14,6 +14,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -28,7 +29,7 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { TranslatePipe, User } from '@spartacus/core';
 import {
   DirectionMode,
@@ -50,15 +51,19 @@ import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     IconComponent,
-    NgFor,
     DotSpinnerComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
+  protected fb = inject(UntypedFormBuilder);
+  protected asmService = inject(AsmService);
+  protected config = inject(AsmConfig);
+  protected directionService = inject(DirectionService);
+  protected launchDialogService = inject(LaunchDialogService);
+
   customerSelectionForm: UntypedFormGroup;
   protected subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
@@ -84,14 +89,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   @ViewChildren('searchResultItem') searchResultItems: QueryList<
     ElementRef<HTMLElement>
   >;
-
-  constructor(
-    protected fb: UntypedFormBuilder,
-    protected asmService: AsmService,
-    protected config: AsmConfig,
-    protected directionService: DirectionService,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   ngOnInit(): void {
     this.customerSelectionForm = this.fb.group({

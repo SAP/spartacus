@@ -32,12 +32,14 @@
       </span>
     </div>
 
-    <div class="property" *ngIf="model.approvalProcess?.name">
-      <label>{{ 'orgUnit.approvalProcess' | cxTranslate }}</label>
-      <span class="value">
-        {{ model.approvalProcess?.name }}
-      </span>
-    </div>
+    @if (model.approvalProcess?.name) {
+      <div class="property">
+        <label>{{ 'orgUnit.approvalProcess' | cxTranslate }}</label>
+        <span class="value">
+          {{ model.approvalProcess?.name }}
+        </span>
+      </div>
+    }
   </div>
 </ng-template>
 

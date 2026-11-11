@@ -17,13 +17,11 @@ import { LOGIN_EVENTS } from '../tokens/login-events.token';
   providedIn: 'root',
 })
 export class ProfileTagLifecycleService {
-  private readonly loginEnvelopes$ = inject(LOGIN_EVENTS);
+  protected consentService = inject(ConsentService);
+  protected config = inject(CdsConfig);
+  protected actionsSubject = inject(ActionsSubject);
 
-  constructor(
-    protected consentService: ConsentService,
-    protected config: CdsConfig,
-    protected actionsSubject: ActionsSubject
-  ) {}
+  private readonly loginEnvelopes$ = inject(LOGIN_EVENTS);
 
   consentChanged(): Observable<ConsentChangedPushEvent> {
     return this.consentService

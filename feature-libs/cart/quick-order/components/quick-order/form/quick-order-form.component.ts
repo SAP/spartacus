@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -22,7 +22,10 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import {
+  QuickOrderConfig,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
 import {
   Config,
   FeatureToggles,
@@ -54,15 +57,18 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     IconComponent,
-    NgFor,
     MediaComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
+  config = inject<Config & QuickOrderConfig>(Config);
+  protected cd = inject(ChangeDetectorRef);
+  protected quickOrderService = inject(QuickOrderFacade);
+  protected winRef = inject(WindowRef);
+
   form: UntypedFormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
@@ -77,15 +83,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected searchSubscription = new Subscription();
   private featureToggles = inject(FeatureToggles);
 
-  constructor(
-    public config: Config,
-    protected cd: ChangeDetectorRef,
-    protected quickOrderService: QuickOrderFacade,
-    protected winRef: WindowRef
-  ) {
+  constructor() {
     useFeatureStyles('a11yHighContrastFix');
   }
-
   ngOnInit(): void {
     this.buildForm();
     this.subscription.add(this.watchProductAdd());

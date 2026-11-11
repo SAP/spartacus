@@ -94,7 +94,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         ConfiguratorIssuesNotificationComponent
       );
       component = fixture.componentInstance;
-      changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
+      changeDetectorRef = fixture.changeDetectorRef;
       htmlElem = fixture.nativeElement;
       mockCartItemContext = TestBed.inject(
         CartItemContext
@@ -289,8 +289,9 @@ describe('ConfigureIssuesNotificationComponent', () => {
         expect(getLinkComponent().disabled).toBe(false);
 
         quantityControl.disable({ emitEvent: false });
-        // Same FormControl reference: default CD must refresh [disabled] without
-        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        // CartItemListRowComponent republishes this control on quantityDisabled changes.
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        // Check from the fixture root after the context notification.
         changeDetectorRef.detectChanges();
 
         expect(getLinkComponent().disabled).toBe(true);

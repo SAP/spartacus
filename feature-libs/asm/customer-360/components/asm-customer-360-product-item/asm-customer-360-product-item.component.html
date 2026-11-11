@@ -17,15 +17,18 @@
   >
     <span title="{{ product?.name }}">{{ product?.name }}</span>
   </button>
-  <ng-container *ngIf="isOrderEntry; else notOrderEntryTemplate">
+  @if (isOrderEntry) {
     <div class="cx-asm-customer-360-product-item-code">
       {{ product?.code }}
     </div>
-    <div class="cx-asm-customer-360-product-item-quantity" *ngIf="quantity">
-      {{
-        'asmCustomer360.productItem.quantity' | cxTranslate: { count: quantity }
-      }}
-    </div>
+    @if (quantity) {
+      <div class="cx-asm-customer-360-product-item-quantity">
+        {{
+          'asmCustomer360.productItem.quantity'
+            | cxTranslate: { count: quantity }
+        }}
+      </div>
+    }
     <div class="cx-asm-customer-360-product-item-price">
       {{
         'asmCustomer360.productItem.itemPrice'
@@ -33,13 +36,11 @@
             : { price: product?.basePrice ?? product?.price?.formattedValue }
       }}
     </div>
-  </ng-container>
-  <ng-template #notOrderEntryTemplate>
-    <div
-      class="cx-asm-customer-360-product-item-out-of-stock"
-      *ngIf="product.stock?.stockLevelStatus === 'outOfStock'"
-    >
-      {{ 'asmCustomer360.productItem.outOfStock' | cxTranslate }}
-    </div>
-  </ng-template>
+  } @else {
+    @if (product.stock?.stockLevelStatus === 'outOfStock') {
+      <div class="cx-asm-customer-360-product-item-out-of-stock">
+        {{ 'asmCustomer360.productItem.outOfStock' | cxTranslate }}
+      </div>
+    }
+  }
 </div>

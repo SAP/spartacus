@@ -12,9 +12,7 @@ import { ProductAvailabilityAdapter } from '../../../product/connectors/product/
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
-export class OccProductAvailabilityAdapter
-  implements ProductAvailabilityAdapter
-{
+export class OccProductAvailabilityAdapter implements ProductAvailabilityAdapter {
   protected http = inject(HttpClient);
   protected occEndpoints = inject(OccEndpointsService);
 

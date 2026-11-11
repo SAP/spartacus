@@ -81,9 +81,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockSiteContextComponentService
-  implements Partial<SiteContextComponentService>
-{
+class MockSiteContextComponentService implements Partial<SiteContextComponentService> {
   getActiveItem = () =>
     interval(100).pipe(
       map(() => 'en'),

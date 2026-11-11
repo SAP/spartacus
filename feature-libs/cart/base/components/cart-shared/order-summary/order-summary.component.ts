@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -15,15 +14,17 @@ import { AppliedCouponsComponent } from '../../cart-coupon/applied-coupons/appli
 @Component({
   selector: 'cx-order-summary',
   templateUrl: './order-summary.component.html',
-  imports: [NgIf, AppliedCouponsComponent, TranslatePipe],
+  imports: [AppliedCouponsComponent, TranslatePipe],
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
+  protected outlet? = inject(OutletContextData, {
+    optional: true,
+  });
+
   @Input()
   cart: Cart;
 
   protected subscription = new Subscription();
-
-  constructor(@Optional() protected outlet?: OutletContextData<any>) {}
 
   ngOnInit(): void {
     if (this.outlet?.context$) {

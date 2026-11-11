@@ -4,11 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  formatCurrency,
-  getCurrencySymbol,
-  getLocaleId,
-} from '@angular/common';
 import { Injectable, inject, isDevMode } from '@angular/core';
 import {
   FeatureToggles,
@@ -23,10 +18,10 @@ import { Cpq } from '../cpq.models';
  */
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorNormalizerUtilsService {
+  protected languageService = inject(LanguageService);
+
   protected logger = inject(LoggerService);
   private featureToggles = inject(FeatureToggles);
-
-  constructor(protected languageService: LanguageService) {}
 
   /**
    * Converts quantity to be shown in the overview page
@@ -149,17 +144,14 @@ export class CpqConfiguratorNormalizerUtilsService {
     price: Configurator.PriceDetails,
     availableLocale: string
   ): void {
-    const currencySymbol: string = getCurrencySymbol(
-      price.currencyIso,
-      'narrow',
-      availableLocale
-    );
-    price.formattedValue = formatCurrency(
-      price.value,
-      availableLocale,
-      currencySymbol,
-      price.currencyIso
-    );
+    price.formattedValue = new Intl.NumberFormat(
+      availableLocale.replace(/_/g, '-'),
+      {
+        style: 'currency',
+        currency: price.currencyIso,
+        currencyDisplay: 'narrowSymbol',
+      }
+    ).format(price.value);
   }
 
   /**
@@ -450,13 +442,16 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   protected getLanguage(): string {
     const lang = this.getActiveLanguage();
+    const normalizedLocale = lang.replace(/_/g, '-');
     try {
-      getLocaleId(lang);
-      return lang;
+      if (Intl.NumberFormat.supportedLocalesOf(normalizedLocale).length > 0) {
+        return normalizedLocale;
+      }
     } catch {
-      this.reportMissingLocaleData(lang);
-      return 'en';
+      // Malformed locale tags also use the English fallback.
     }
+    this.reportMissingLocaleData(lang);
+    return 'en';
   }
 
   /**
@@ -482,7 +477,7 @@ export class CpqConfiguratorNormalizerUtilsService {
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
       this.logger.warn(
-        `CpqConfiguratorNormalizerUtilsService: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+        `CpqConfiguratorNormalizerUtilsService: Unsupported locale '${lang}' for Intl number formatting.`
       );
     }
   }

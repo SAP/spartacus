@@ -232,8 +232,6 @@ function initialize(options?: {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   if (!options?.keepGhostStyle) {
-    // Stabilizes first CD while deprecated ghostStyle is still updated in tap().
-    component.ghostStyle = false;
   }
   if (options?.detectChanges !== false) {
     fixture.detectChanges();
@@ -597,7 +595,7 @@ describe('ConfigProductTitleComponent', () => {
     });
   });
 
-  describe('product$', () => {
+  describe('productTitleData$', () => {
     beforeEach(() => {
       vi.spyOn(productService, 'get').mockReturnValue(productObservable);
     });
@@ -703,7 +701,9 @@ describe('ConfigProductTitleComponent', () => {
       initialize();
 
       let emitted = false;
-      component.product$.subscribe(() => (emitted = true)).unsubscribe();
+      component.productTitleData$
+        .subscribe(() => (emitted = true))
+        .unsubscribe();
 
       expect(emitted).toBe(false);
     });
@@ -714,7 +714,9 @@ describe('ConfigProductTitleComponent', () => {
       initialize();
 
       let emitted = false;
-      component.product$.subscribe(() => (emitted = true)).unsubscribe();
+      component.productTitleData$
+        .subscribe(() => (emitted = true))
+        .unsubscribe();
 
       expect(emitted).toBe(false);
     });
@@ -724,8 +726,8 @@ describe('ConfigProductTitleComponent', () => {
       initialize();
 
       let product: Product | undefined;
-      component.product$
-        .subscribe((emitted) => (product = emitted))
+      component.productTitleData$
+        .subscribe((emitted) => (product = emitted.product))
         .unsubscribe();
 
       expect(product).toEqual(mockProduct);

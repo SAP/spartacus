@@ -1,15 +1,11 @@
+import { Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FeatureToggles, ScriptLoader } from '@spartacus/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
 import { GoogleMapRendererService } from './google-map-renderer.service';
 import { StoreLocationService } from './store-location.service';
-import { Provider } from '@angular/core';
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
 const MOCK_MAPS_API_KEY = `mock-maps-api-key`;
@@ -186,8 +182,8 @@ describe('GoogleMapRendererService', () => {
 
     // given
     vi.spyOn(scriptLoaderMock, 'embedScript');
-    vi.spyOn(storeFinderServiceMock, 'getStoreLatitude');
-    vi.spyOn(storeFinderServiceMock, 'getStoreLongitude');
+    vi.spyOn(storeLocationServiceMock, 'getStoreLatitude');
+    vi.spyOn(storeLocationServiceMock, 'getStoreLongitude');
 
     // when
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
@@ -199,8 +195,8 @@ describe('GoogleMapRendererService', () => {
       attributes: { type: 'text/javascript' },
       callback: expect.any(Function) as any,
     });
-    expect(storeFinderServiceMock.getStoreLatitude).toHaveBeenCalled();
-    expect(storeFinderServiceMock.getStoreLongitude).toHaveBeenCalled();
+    expect(storeLocationServiceMock.getStoreLatitude).toHaveBeenCalled();
+    expect(storeLocationServiceMock.getStoreLongitude).toHaveBeenCalled();
 
     await vi.advanceTimersByTimeAsync(0);
     expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
@@ -211,8 +207,8 @@ describe('GoogleMapRendererService', () => {
 
     // given
     vi.spyOn(scriptLoaderMock, 'embedScript');
-    vi.spyOn(storeFinderServiceMock, 'getStoreLatitude');
-    vi.spyOn(storeFinderServiceMock, 'getStoreLongitude');
+    vi.spyOn(storeLocationServiceMock, 'getStoreLatitude');
+    vi.spyOn(storeLocationServiceMock, 'getStoreLongitude');
 
     // when
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
@@ -224,8 +220,8 @@ describe('GoogleMapRendererService', () => {
       attributes: { type: 'text/javascript' },
       callback: expect.any(Function) as any,
     });
-    expect(storeFinderServiceMock.getStoreLatitude).toHaveBeenCalled();
-    expect(storeFinderServiceMock.getStoreLongitude).toHaveBeenCalled();
+    expect(storeLocationServiceMock.getStoreLatitude).toHaveBeenCalled();
+    expect(storeLocationServiceMock.getStoreLongitude).toHaveBeenCalled();
 
     await vi.advanceTimersByTimeAsync(0);
     expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
@@ -250,16 +246,16 @@ describe('GoogleMapRendererService', () => {
     await vi.advanceTimersByTimeAsync(0);
 
     vi.spyOn(scriptLoaderMock, 'embedScript');
-    vi.spyOn(storeFinderServiceMock, 'getStoreLatitude');
-    vi.spyOn(storeFinderServiceMock, 'getStoreLongitude');
+    vi.spyOn(storeLocationServiceMock, 'getStoreLatitude');
+    vi.spyOn(storeLocationServiceMock, 'getStoreLongitude');
 
     // when rendering the map one more time
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
 
     // then google js is not loaded again
     expect(scriptLoaderMock.embedScript).toHaveBeenCalledTimes(0);
-    expect(storeFinderServiceMock.getStoreLatitude).toHaveBeenCalled();
-    expect(storeFinderServiceMock.getStoreLongitude).toHaveBeenCalled();
+    expect(storeLocationServiceMock.getStoreLatitude).toHaveBeenCalled();
+    expect(storeLocationServiceMock.getStoreLongitude).toHaveBeenCalled();
   });
 
   it('should embed the script with an empty src when apiUrl is not configured', () => {

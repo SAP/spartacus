@@ -38,9 +38,10 @@ export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http
-      .get<
-        OrderSubsequentDocument[]
-      >(this.getSubsequentDocumentsUrl(orderId, userId), { headers })
+      .get<OrderSubsequentDocument[]>(
+        this.getSubsequentDocumentsUrl(orderId, userId),
+        { headers }
+      )
       .pipe(
         catchError((error: HttpErrorResponse) => {
           throw tryNormalizeHttpError(error, this.logger);
@@ -57,9 +58,15 @@ export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http
-      .get<
-        OrderSubsequentDocumentEntry[]
-      >(this.getSubsequentDocumentsEntriesUrl(orderId, userId, documentCategory, documentId), { headers })
+      .get<OrderSubsequentDocumentEntry[]>(
+        this.getSubsequentDocumentsEntriesUrl(
+          orderId,
+          userId,
+          documentCategory,
+          documentId
+        ),
+        { headers }
+      )
       .pipe(
         catchError((error: HttpErrorResponse) => {
           throw tryNormalizeHttpError(error, this.logger);

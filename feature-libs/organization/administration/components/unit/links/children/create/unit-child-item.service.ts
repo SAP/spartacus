@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import {
@@ -20,14 +20,10 @@ import { CurrentUnitChildService } from './current-unit-child.service';
   providedIn: 'root',
 })
 export class UnitChildItemService extends UnitItemService {
-  constructor(
-    protected currentItemService: CurrentUnitChildService,
-    protected routingService: RoutingService,
-    protected formService: UnitFormService,
-    protected unitService: OrgUnitService
-  ) {
-    super(currentItemService, routingService, formService, unitService);
-  }
+  protected override currentItemService = inject(CurrentUnitChildService);
+  protected override routingService = inject(RoutingService);
+  protected override formService = inject(UnitFormService);
+  protected override unitService = inject(OrgUnitService);
 
   save(
     form: UntypedFormGroup,

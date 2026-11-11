@@ -49,9 +49,7 @@ let isEmulated$: BehaviorSubject<boolean>;
 let tokenTarget$: BehaviorSubject<TokenTarget>;
 let authToken$: BehaviorSubject<AuthToken>;
 
-class MockAuthMultisiteIsolationService
-  implements Partial<AuthMultisiteIsolationService>
-{
+class MockAuthMultisiteIsolationService implements Partial<AuthMultisiteIsolationService> {
   decorateUserId(userId: string): Observable<string> {
     return of(userId);
   }
@@ -94,9 +92,7 @@ class MockRoutingService {
   go = vi.fn();
 }
 
-class MockCrossSiteRequestForgeryService
-  implements Partial<CrossSiteRequestForgeryService>
-{
+class MockCrossSiteRequestForgeryService implements Partial<CrossSiteRequestForgeryService> {
   getCsrfToken() {
     return of({
       headerName: 'CSFR',

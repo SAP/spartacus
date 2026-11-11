@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { asapScheduler, BehaviorSubject, interval, Observable, of } from 'rxjs';
@@ -27,13 +28,14 @@ import { FacetListComponent } from './facet-list/facet-list.component';
   imports: [
     IconComponent,
     ActiveFacetsComponent,
-    NgIf,
     FacetListComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class ProductFacetNavigationComponent {
+  protected breakpointService = inject(BreakpointService);
+
   iconTypes = ICON_TYPE;
 
   /**
@@ -80,8 +82,6 @@ export class ProductFacetNavigationComponent {
     //  applied after the DOM is created
     observeOn(asapScheduler)
   );
-
-  constructor(protected breakpointService: BreakpointService) {}
 
   launch() {
     this.open$.next(true);

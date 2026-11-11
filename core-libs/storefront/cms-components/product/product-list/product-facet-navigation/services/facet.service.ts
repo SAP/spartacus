@@ -5,7 +5,7 @@
  */
 
 import { HttpUrlEncodingCodec } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Facet } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -25,14 +25,14 @@ import { ProductFacetService } from './product-facet.service';
   providedIn: 'root',
 })
 export class FacetService {
+  protected productFacetService = inject(ProductFacetService);
+
   /**
    * An internal map where we keep the UI state of the facets.
    */
   protected facetState = new Map<string, BehaviorSubject<FacetCollapseState>>();
 
   protected readonly codec = new HttpUrlEncodingCodec();
-
-  constructor(protected productFacetService: ProductFacetService) {}
 
   /**
    * Observes the facets for the given page and configures the initial UI state.

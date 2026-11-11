@@ -12,9 +12,7 @@ const mockOrganizationUser: OrganizationUserRegistration = {
   message: 'Please register my account',
 };
 
-class MockUserRegistrationConnector
-  implements Partial<UserRegistrationConnector>
-{
+class MockUserRegistrationConnector implements Partial<UserRegistrationConnector> {
   registerUser = vi
     .fn()
     .mockImplementation((mockOrganizationUser: OrganizationUserRegistration) =>

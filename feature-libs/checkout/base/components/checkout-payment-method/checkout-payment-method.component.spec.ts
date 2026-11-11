@@ -111,9 +111,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
     return EMPTY;
   }
 }
-class MockCheckoutDeliveryFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return of({ loading: false, error: false, data: undefined });
   }

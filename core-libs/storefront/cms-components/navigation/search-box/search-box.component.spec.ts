@@ -1,7 +1,6 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
@@ -125,9 +124,7 @@ describe('SearchBoxComponent', () => {
     return <HTMLElement>document.activeElement;
   }
 
-  class SearchBoxComponentServiceSpy
-    implements Partial<SearchBoxComponentService>
-  {
+  class SearchBoxComponentServiceSpy implements Partial<SearchBoxComponentService> {
     chosenWord = new ReplaySubject<string>();
     sharedEvent = new ReplaySubject<KeyboardEvent>();
     emptyOuterResults$ = new Subject<void>();
@@ -155,11 +152,7 @@ describe('SearchBoxComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        RouterModule.forRoot([]),
-        SearchBoxComponent,
-      ],
+      imports: [RouterModule.forRoot([]), SearchBoxComponent],
       providers: [
         {
           provide: ProductSearchService,
@@ -811,9 +804,7 @@ class MockFeatureStylesService {
   unregisterUsage = vi.fn();
 }
 
-class SearchBoxComponentServiceMock
-  implements Partial<SearchBoxComponentService>
-{
+class SearchBoxComponentServiceMock implements Partial<SearchBoxComponentService> {
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
   emptyOuterResults$ = new Subject<void>();

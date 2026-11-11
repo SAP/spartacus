@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,7 +25,7 @@ export enum ViewModes {
   selector: 'cx-product-view',
   templateUrl: './product-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, NgIf, IconComponent, TranslatePipe],
+  imports: [NgClass, IconComponent, TranslatePipe],
 })
 export class ProductViewComponent {
   iconTypes = ICON_TYPE;

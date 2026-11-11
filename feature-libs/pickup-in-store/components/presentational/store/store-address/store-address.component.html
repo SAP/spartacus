@@ -1,25 +1,39 @@
 <div class="cx-store-address">
-  <div *ngIf="storeDetails?.displayName" class="cx-store-name">
-    {{ storeDetails?.displayName }}
-  </div>
+  @if (storeDetails?.displayName) {
+    <div class="cx-store-name">
+      {{ storeDetails?.displayName }}
+    </div>
+  }
   <div class="cx-store-full-address">
-    <div *ngIf="storeDetails?.address?.line1">
-      {{ storeDetails.address?.line1 }}
-    </div>
-    <div *ngIf="storeDetails?.address?.line2">
-      {{ storeDetails.address?.line2 }}
-    </div>
-    <div *ngIf="storeDetails?.address?.town">
-      {{ storeDetails.address?.town }}
-    </div>
-    <div *ngIf="storeDetails?.address?.region">
-      {{ storeDetails.address?.region }}
-    </div>
-    <div *ngIf="storeDetails?.address?.district">
-      {{ storeDetails.address?.district }}
-    </div>
-    <div *ngIf="storeDetails?.address?.phone">
-      {{ storeDetails.address?.phone }}
-    </div>
+    @if (storeDetails?.address?.line1) {
+      <div>
+        {{ storeDetails.address?.line1 }}
+      </div>
+    }
+    @if (storeDetails?.address?.line2) {
+      <div>
+        {{ storeDetails.address?.line2 }}
+      </div>
+    }
+    @if (storeDetails?.address?.town) {
+      <div>
+        {{ storeDetails.address?.town }}
+      </div>
+    }
+    @if (storeDetails?.address?.region) {
+      <div>
+        {{ storeDetails.address?.region }}
+      </div>
+    }
+    @if (storeDetails?.address?.district) {
+      <div>
+        {{ storeDetails.address?.district }}
+      </div>
+    }
+    @if (storeDetails?.address?.phone) {
+      <div>
+        {{ storeDetails.address?.phone }}
+      </div>
+    }
   </div>
 </div>

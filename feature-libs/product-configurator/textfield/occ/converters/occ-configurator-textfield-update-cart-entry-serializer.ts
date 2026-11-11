@@ -13,13 +13,10 @@ import { OccConfiguratorTextfield } from '../occ-configurator-textfield.models';
 export const CONFIGURATOR_TYPE_TEXTFIELD = 'TEXTFIELD';
 
 @Injectable({ providedIn: 'root' })
-export class OccConfiguratorTextfieldUpdateCartEntrySerializer
-  implements
-    Converter<
-      ConfiguratorTextfield.UpdateCartEntryParameters,
-      OccConfiguratorTextfield.UpdateCartEntryParameters
-    >
-{
+export class OccConfiguratorTextfieldUpdateCartEntrySerializer implements Converter<
+  ConfiguratorTextfield.UpdateCartEntryParameters,
+  OccConfiguratorTextfield.UpdateCartEntryParameters
+> {
   constructor() {
     // Intentional empty constructor
   }

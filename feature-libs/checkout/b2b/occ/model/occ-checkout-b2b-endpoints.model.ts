@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface CheckoutB2BOccEndpoints {
   /**
    * Returns a list of the available payment types.
    */
-  paymentTypes?: string | OccEndpoint;
+  paymentTypes?: string | CoreOccEndpoint;
   /**
    * Sets the cost center for the checkout cart.
    */
-  setCartCostCenter?: string | OccEndpoint;
+  setCartCostCenter?: string | CoreOccEndpoint;
   /**
    * Sets the payment type for the checkout cart
    */
-  setCartPaymentType?: string | OccEndpoint;
+  setCartPaymentType?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {

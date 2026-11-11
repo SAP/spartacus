@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AsmSessionCreationOptions,
   BindCartParams,
@@ -21,7 +21,7 @@ import { AsmAdapter } from './asm.adapter';
   providedIn: 'root',
 })
 export class AsmConnector {
-  constructor(protected asmAdapter: AsmAdapter) {}
+  protected asmAdapter = inject(AsmAdapter);
 
   customerSearch(
     options: CustomerSearchOptions

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,7 +36,6 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   templateUrl: './pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgFor,
     RouterLink,
     FocusDirective,
     AsyncPipe,
@@ -45,6 +44,9 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   ],
 })
 export class PaginationComponent {
+  private paginationBuilder = inject(PaginationBuilder);
+  private activatedRoute = inject(ActivatedRoute);
+
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
   @Input() pageRoute: string = '.';
 
@@ -118,11 +120,6 @@ export class PaginationComponent {
 
   translationService = inject(TranslationService);
   private readonly featureToggles = inject(FeatureToggles);
-
-  constructor(
-    private paginationBuilder: PaginationBuilder,
-    private activatedRoute: ActivatedRoute
-  ) {}
 
   protected render(pagination: PaginationModel): void {
     if (!pagination) {

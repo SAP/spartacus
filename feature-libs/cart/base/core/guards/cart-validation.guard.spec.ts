@@ -63,9 +63,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   reloadActiveCart = vi.fn().mockImplementation(() => {});
   getEntries = () => mockEntriesSubject.asObservable();
 }
-class MockCartValidationStateService
-  implements Partial<CartValidationStateService>
-{
+class MockCartValidationStateService implements Partial<CartValidationStateService> {
   NAVIGATION_SKIPS = 2;
   navigationIdCount = 0;
 

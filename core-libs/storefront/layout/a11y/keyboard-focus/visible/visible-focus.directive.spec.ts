@@ -4,6 +4,7 @@ import {
   Directive,
   ElementRef,
   Input,
+  inject as inject_1,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -15,25 +16,37 @@ import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/fe
 
 @Directive({ selector: '[cxVisibleFocus]' })
 class CustomFocusDirective extends VisibleFocusDirective {
+  protected elementRef: ElementRef<HTMLElement>;
+  protected service: BaseFocusService;
+
   @Input('cxVisibleFocus') protected config: VisibleFocusConfig;
 
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
-  ) {
+  constructor() {
+    const elementRef = inject_1<ElementRef<HTMLElement>>(ElementRef);
+    const service = inject_1(BaseFocusService);
+
     super(elementRef, service);
+
+    this.elementRef = elementRef;
+    this.service = service;
   }
 }
 
 @Directive({ selector: '[cxCustomFocus]' })
 class CustomFakeFocusDirective extends VisibleFocusDirective {
+  protected elementRef: ElementRef<HTMLElement>;
+  protected service: BaseFocusService;
+
   protected defaultConfig = {};
 
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
-  ) {
+  constructor() {
+    const elementRef = inject_1<ElementRef<HTMLElement>>(ElementRef);
+    const service = inject_1(BaseFocusService);
+
     super(elementRef, service);
+
+    this.elementRef = elementRef;
+    this.service = service;
   }
 }
 

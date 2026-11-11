@@ -21,9 +21,7 @@ import { ResetPasswordComponent } from './reset-password.component';
 const isBusySubject = new BehaviorSubject(false);
 const tokenSubject: BehaviorSubject<any> = new BehaviorSubject('123');
 
-class MockResetPasswordService
-  implements Partial<ResetPasswordComponentService>
-{
+class MockResetPasswordService implements Partial<ResetPasswordComponentService> {
   resetToken$ = tokenSubject;
   form: UntypedFormGroup = new UntypedFormGroup({
     password: new UntypedFormControl(),

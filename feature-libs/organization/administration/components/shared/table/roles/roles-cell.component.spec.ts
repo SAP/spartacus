@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
 import { RolesCellComponent } from '..';
 
 describe('RolesCellComponent', () => {
@@ -16,9 +17,9 @@ describe('RolesCellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: {
+            context$: of({
               roles: ['approver', 'worker'],
-            },
+            }),
           },
         },
       ],
