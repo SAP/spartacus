@@ -21,9 +21,7 @@ import {
  *          so it's prone to under-estimation!
  *          It's not recommended to cache error objects.
  */
-export class DefaultCacheEntrySizeCalculator
-  implements CacheEntrySizeCalculator
-{
+export class DefaultCacheEntrySizeCalculator implements CacheEntrySizeCalculator {
   calculateSize(entry: RenderingEntry): number {
     // entry should have either `html` or `err` property
     if (entry.html) {

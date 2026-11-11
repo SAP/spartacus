@@ -51,9 +51,7 @@ export class NgExpressEngineDecorator {
 export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
   optimizationOptions:
-    | SsrOptimizationOptions
-    | null
-    | undefined = defaultSsrOptimizationOptions
+    SsrOptimizationOptions | null | undefined = defaultSsrOptimizationOptions
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance = ngExpressEngine({
