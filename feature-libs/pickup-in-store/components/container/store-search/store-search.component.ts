@@ -5,7 +5,7 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { CurrentLocationService } from '../../services/current-location.service';
 
@@ -31,7 +31,7 @@ export class StoreSearchComponent {
   @Output() showSpinner = new EventEmitter<boolean>();
 
   constructor(protected currentLocationService: CurrentLocationService) {
-    // Intentional empty constructor
+    useFeatureStyles('a11yHighContrastFix');
   }
 
   /** Initiate a free text location search */

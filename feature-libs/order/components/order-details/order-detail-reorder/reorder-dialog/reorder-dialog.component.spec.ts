@@ -6,18 +6,23 @@ import {
   CartModificationList,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusDirective,
-  IconComponent,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
   PromotionsModule,
   SpinnerComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { ReorderDialogComponent } from './reorder-dialog.component';
 
 const mockData = {
@@ -88,6 +93,10 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   emitData(_data: any): void {}
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add(_text: any, _type: GlobalMessageType): void {}
+}
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -112,6 +121,8 @@ describe('ReorderDialogComponent', () => {
   let fixture: ComponentFixture<ReorderDialogComponent>;
   let el: DebugElement;
   let reorderOrderFacade: ReorderOrderFacade;
+  let launchDialogService: LaunchDialogService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -131,6 +142,10 @@ describe('ReorderDialogComponent', () => {
         {
           provide: MultiCartFacade,
           useClass: MockMultiCartService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
         },
       ],
     })
@@ -160,6 +175,8 @@ describe('ReorderDialogComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     reorderOrderFacade = TestBed.inject(ReorderOrderFacade);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should create', () => {
@@ -194,6 +211,41 @@ describe('ReorderDialogComponent', () => {
       fixture.detectChanges();
       expect(el.query(By.css('.success')).nativeElement).toBeDefined();
     });
+    it('should display the unavailable message for unavailable cart modifications', () => {
+      component.showDecisionPrompt$.next(true);
+      vi.spyOn(reorderOrderFacade, 'reorder').mockReturnValue(
+        of({
+          cartModifications: [
+            {
+              entry: {
+                product: {
+                  code: '325414',
+                  name: 'EASYSHARE Z730 Zoom Digital Camera',
+                },
+                quantity: 0,
+              },
+              quantity: 1,
+              quantityAdded: 0,
+              statusCode: 'unavailable',
+            },
+          ],
+        })
+      );
+      fixture.detectChanges();
+      el.queryAll(
+        By.css('.cx-reorder-dialog-footer div button')
+      )[1].nativeElement.dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+      const message = el.query(
+        By.css('.cx-cart-mod-entry-container')
+      ).nativeElement;
+      expect(message.textContent).toContain(
+        'reorder.dialog.messages.unavailable'
+      );
+      expect(message.textContent).toContain(
+        'productName:EASYSHARE Z730 Zoom Digital Camera'
+      );
+    });
     it('should restore focus after content updates', () => {
       fixture.detectChanges();
       const closeEl = el.query(By.css('.close')).nativeElement;
@@ -206,6 +258,39 @@ describe('ReorderDialogComponent', () => {
         By.css('.cx-reorder-dialog-footer div button')
       )[1].nativeElement.dispatchEvent(new MouseEvent('click'));
       expect(closeEl.focus).toHaveBeenCalled();
+    });
+
+    describe('on reorder HTTP error', () => {
+      beforeEach(() => {
+        vi.spyOn(reorderOrderFacade, 'reorder').mockReturnValue(
+          throwError(() => new Error('403 Forbidden'))
+        );
+        fixture.detectChanges();
+        el.queryAll(
+          By.css('.cx-reorder-dialog-footer div button')
+        )[1].nativeElement.dispatchEvent(new MouseEvent('click'));
+      });
+
+      it('should add an error global message', () => {
+        vi.spyOn(globalMessageService, 'add');
+        component.createCartFromOrder('test');
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'reorder.dialog.error' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+
+      it('should stop the loading spinner', () => {
+        expect(component.loading$.getValue()).toBe(false);
+      });
+
+      it('should close the dialog', () => {
+        vi.spyOn(launchDialogService, 'closeDialog');
+        component.createCartFromOrder('test');
+        expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+          'Error creating cart from order'
+        );
+      });
     });
   });
 });

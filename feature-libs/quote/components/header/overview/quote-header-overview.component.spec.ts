@@ -390,6 +390,10 @@ describe('QuoteHeaderOverviewComponent', () => {
             title: 'quote.header.overview.description',
             text: ['-'],
           },
+          {
+            title: 'quote.header.overview.purchaseOrderNumber',
+            text: ['-'],
+          },
         ],
       };
 
@@ -421,7 +425,6 @@ describe('QuoteHeaderOverviewComponent', () => {
         ],
       };
 
-      component.enablePurchaseOrderNumber = true;
       component
         .getQuoteInformation(undefined, undefined, undefined)
         .subscribe((result) => {
@@ -447,8 +450,6 @@ describe('QuoteHeaderOverviewComponent', () => {
       const name = 'Updated name';
       const description = 'Updated description';
       const purchaseOrderNumber = 'PO12345';
-
-      component.enablePurchaseOrderNumber = true;
 
       const expected = {
         name: 'Updated name',

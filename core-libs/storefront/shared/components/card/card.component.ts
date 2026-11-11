@@ -13,7 +13,7 @@ import {
   NgTemplateOutlet,
 } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
@@ -153,7 +153,7 @@ export class CardComponent implements OnInit {
   }
 
   constructor() {
-    // Intentional empty constructor
+    useFeatureStyles('a11yHighContrastFix');
   }
 
   /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
