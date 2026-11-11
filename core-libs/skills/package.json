@@ -1,7 +1,7 @@
 {
   "name": "@spartacus/skills",
-  "version": "221121.21.0",
-  "description": "Spartacus AI skills — Agent Skills guidance for building custom Spartacus storefront apps",
+  "version": "221121.22.0",
+  "description": "Spartacus AI skills \u2014 Agent Skills guidance for building custom Spartacus storefront apps",
   "keywords": [
     "spartacus",
     "storefront",
@@ -13,7 +13,7 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/core-libs/skills",
   "license": "Apache-2.0",
   "engines": {
-    "node": "^22.22.0"
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -4,16 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   root: import.meta.dirname,
-  plugins: [angular(), nxViteTsPaths()],
+  plugins: [angular()],
   resolve: {
+    tsconfigPaths: true,
     alias: {
       'core-libs/core/src/features-config/feature-toggles/testing': `${import.meta.dirname}/../../core-libs/core/src/features-config/feature-toggles/testing`,
+      // Resolve the core/user barrels to source so DI tokens (e.g. FeatureToggles)
+      // are a single class identity. Without this, the base `LoginAsGuestGuard`
+      // (from @spartacus/user) injects a prebundled FeatureToggles while
+      // `provideMockFeatureToggles` overrides the source one — the tokens don't
+      // match, the mocked toggle is never seen, and the guard takes the wrong
+      // branch. Keep AFTER the more-specific `core-libs/*` alias.
+      '@spartacus/core': `${import.meta.dirname}/../../core-libs/core/public_api.ts`,
+      '@spartacus/storefront': `${import.meta.dirname}/../../core-libs/storefront/public_api.ts`,
     },
   },
   test: {

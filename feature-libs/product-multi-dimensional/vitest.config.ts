@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import angular from '@analogjs/vite-plugin-angular';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   root: import.meta.dirname,
-  plugins: [angular(), nxViteTsPaths()],
+  resolve: { tsconfigPaths: true },
+  plugins: [angular()],
   test: {
     pool: 'forks',
     watch: false,

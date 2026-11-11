@@ -6,7 +6,7 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "@angular/build:ng-packagr",
       "options": {
         "tsConfig": "core-libs/assets/tsconfig.lib.json",
         "project": "core-libs/assets/ng-package.json"

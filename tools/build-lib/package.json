@@ -11,12 +11,12 @@
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/node": "^12.12.27",
-    "ts-node": "^10.0.0",
-    "typescript": "^5.0.0"
+    "@types/node": "^26.6.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@angular-devkit/architect": "^0.2102.17"
+    "@angular-devkit/architect": "^0.2202.6"
   },
   "overrides": {
     "fast-uri@^3": "3.1.8"

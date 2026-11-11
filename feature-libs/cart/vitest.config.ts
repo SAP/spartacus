@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
+import { defineConfig } from 'vitest/config';
 
 const root = `${import.meta.dirname}/../..`;
 
 export default defineConfig({
   root: import.meta.dirname,
-  plugins: [angular(), nxViteTsPaths()],
+  plugins: [angular()],
   resolve: {
+    tsconfigPaths: true,
     alias: {
       '@spartacus/core/testing/mock-feature-toggles': `${root}/core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
       '@spartacus/core/testing/process-reducers': `${root}/core-libs/core/src/process/store/reducers/index.ts`,
@@ -24,6 +24,14 @@ export default defineConfig({
       '@spartacus/storefront/testing/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive.ts`,
       '@spartacus/storefront/testing/mock-feature-level-directive': `${root}/core-libs/storefront/shared/test/mock-feature-level-directive.ts`,
       'core-libs/storefront/shared/test/mock-window-ref': `${root}/core-libs/storefront/shared/test/mock-window-ref.ts`,
+      // Resolve the core barrel to source so DI tokens like
+      // FeatureConfigService/FeatureToggles are a single class identity. Without
+      // this, the service's `@spartacus/core` `inject(FeatureToggles)` reads a
+      // prebundled token while `provideMockFeatureToggles` overrides the source
+      // one — the tokens don't match, the mocked toggle is never seen, and
+      // feature-gated code (e.g. mini-cart `getUpdating`) takes the disabled path.
+      // Must come AFTER the more-specific `@spartacus/core/testing/*` aliases.
+      '@spartacus/core': `${root}/core-libs/core/public_api.ts`,
     },
   },
   test: {

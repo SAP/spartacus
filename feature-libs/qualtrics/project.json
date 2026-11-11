@@ -6,7 +6,7 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "@angular/build:ng-packagr",
       "options": {
         "tsConfig": "feature-libs/qualtrics/tsconfig.lib.json",
         "project": "feature-libs/qualtrics/ng-package.json"
@@ -27,7 +27,7 @@
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npm run test:schematics",
+        "command": "npm run test:schematics --",
         "cwd": "feature-libs/qualtrics"
       }
     },
