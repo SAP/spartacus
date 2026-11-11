@@ -58,7 +58,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.21'
+      level: '221121.22'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -239,17 +239,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product-configurator.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -311,7 +301,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.21'
+      level: '221121.22'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -482,17 +472,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product-configurator.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -550,7 +530,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.21'
+      level: '221121.22'
     }
   })]
 })
@@ -704,17 +684,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product-configurator.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -892,17 +862,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product-configurator.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

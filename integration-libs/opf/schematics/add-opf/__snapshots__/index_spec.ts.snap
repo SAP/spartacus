@@ -166,17 +166,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/opf.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

@@ -55,7 +55,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.21'
+      level: '221121.22'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -228,17 +228,7 @@ exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling 
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/quote.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

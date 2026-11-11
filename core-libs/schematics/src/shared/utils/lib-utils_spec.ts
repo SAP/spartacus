@@ -286,6 +286,34 @@ describe('Lib utils', () => {
 
       expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
     });
+
+    it('should configure assets and styles through the unit-test build target', async () => {
+      const tree = await firstValueFrom(
+        schematicRunner.callRule(
+          addLibraryFeature(BASE_OPTIONS, {
+            ...BASE_FEATURE_CONFIG,
+            assets: {
+              input: 'smartedit/assets',
+              glob: '**/*',
+              output: 'assets/',
+            },
+          }),
+          appTree
+        )
+      );
+      const workspace = JSON.parse(tree.readText('/angular.json'));
+      const { build, test } = workspace.projects['schematics-test'].architect;
+
+      expect(build.options.assets).toContainEqual({
+        input: './node_modules/@spartacus/smartedit/assets',
+        glob: '**/*',
+        output: 'assets/',
+      });
+      expect(build.options.styles).toContain(scssFilePath);
+      expect(test.builder).toBe('@angular/build:unit-test');
+      expect(test.options?.styles).toBeUndefined();
+      expect(test.options?.assets).toBeUndefined();
+    });
     it('should add i18n config in feature module', async () => {
       appTree = await firstValueFrom(
         schematicRunner.callRule(
