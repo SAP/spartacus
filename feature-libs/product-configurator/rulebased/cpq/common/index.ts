@@ -6,4 +6,5 @@
 
 export * from './converters/index';
 export * from './cpq-configurator-common.module';
+export * from './cpq-configurator-overview-filter.service';
 export * from './cpq.models';

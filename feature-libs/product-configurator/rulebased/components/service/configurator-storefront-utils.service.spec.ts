@@ -13,6 +13,7 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorRouter,
   ConfiguratorType,
   ReadOnlyPostfix,
 } from '@spartacus/product-configurator/common';
@@ -1214,6 +1215,41 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
+  describe('isDisplayOnly', () => {
+    const owner = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.CART_ENTRY,
+      '1',
+      ConfiguratorType.VARIANT
+    );
+
+    function createRouterData(displayOnly: unknown): ConfiguratorRouter.Data {
+      return {
+        pageType: ConfiguratorRouter.PageType.OVERVIEW,
+        isOwnerCartEntry: true,
+        owner,
+        displayOnly: displayOnly as boolean | undefined,
+      };
+    }
+
+    it.each([true, 'true'])(
+      'should return true if displayOnly is %s',
+      (displayOnly) => {
+        expect(
+          classUnderTest.isDisplayOnly(createRouterData(displayOnly))
+        ).toBe(true);
+      }
+    );
+
+    it.each([false, 'false', undefined])(
+      'should return false if displayOnly is %s',
+      (displayOnly) => {
+        expect(
+          classUnderTest.isDisplayOnly(createRouterData(displayOnly))
+        ).toBe(false);
+      }
+    );
+  });
+
   describe('isOverviewMenuFilterTabVisible', () => {
     it('should return false if configurator type is undefined', () => {
       expect(classUnderTest.isOverviewMenuFilterTabVisible(undefined)).toBe(
@@ -1221,10 +1257,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       );
     });
 
-    it('should return false for CLOUD CPQ configurator type by default', () => {
+    it('should return true for CLOUD CPQ configurator type by default', () => {
       expect(
         classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.CPQ)
-      ).toBe(false);
+      ).toBe(true);
     });
 
     it('should return true for variant configurator type by default', () => {

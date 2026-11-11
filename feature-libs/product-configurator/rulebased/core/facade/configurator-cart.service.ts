@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
-import { StateUtils, UserIdService } from '@spartacus/core';
+import { FeatureToggles, StateUtils, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -23,6 +23,8 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
+  private featureToggles = inject(FeatureToggles);
+
   constructor(
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartFacade,
@@ -36,11 +38,17 @@ export class ConfiguratorCartService {
    * Reads a configuration that is attached to a cart entry, dispatching the respective action.
    *
    * @param owner Configuration owner
+   * @param readOnly If true, the configuration is read for display only, without creating a draft.
+   *                 Only considered if feature toggle `productConfiguratorReadOnlyCartEntryConfiguration` is active.
    * @returns Observable of product configurations
    */
   readConfigurationForCartEntry(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    readOnly = false
   ): Observable<Configurator.Configuration> {
+    const readOnlyRequested =
+      readOnly &&
+      !!this.featureToggles.productConfiguratorReadOnlyCartEntryConfiguration;
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -74,6 +82,7 @@ export class ConfiguratorCartService {
                       cartId: this.commonConfigUtilsService.getCartId(cart),
                       cartEntryNumber: owner.id,
                       owner: owner,
+                      ...(readOnlyRequested ? { readOnly: true } : {}),
                     };
                   this.store.dispatch(
                     new ConfiguratorActions.ReadCartEntryConfiguration(
