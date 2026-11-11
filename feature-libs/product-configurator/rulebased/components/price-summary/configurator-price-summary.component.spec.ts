@@ -96,7 +96,7 @@ describe('ConfigPriceSummaryComponent', () => {
 
   beforeEach(async () => {
     routerStateObservable = of(mockRouterState);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ConfiguratorPriceSummaryComponent,

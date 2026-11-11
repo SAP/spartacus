@@ -1,14 +1,8 @@
-import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  CxDatePipe,
-  MockDatePipe,
-  MockTranslatePipe,
-  TranslatePipe,
-} from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -59,13 +53,6 @@ function initMocks() {
   mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
 }
 
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
 class MockConfigUtilsService {
   getElementById(): void {}
 }
@@ -74,7 +61,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
   beforeEach(async () => {
     initTestData();
     initMocks();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterBarComponent],
       providers: [
         {
@@ -90,7 +77,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       .overrideComponent(ConfiguratorOverviewFilterBarComponent, {
         remove: { imports: [TranslatePipe, CxDatePipe, IconComponent] },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+          imports: [I18nTestingModule, IconTestingModule],
         },
       })
       .compileComponents();
@@ -102,7 +89,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     component = fixture.componentInstance;
     component.config = ovConfig;
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
   });
   describe('in a component test environment', () => {
@@ -119,7 +106,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.byPrice'
+        'configurator.overviewFilter.byPrice CLOSE'
       );
     });
 
@@ -131,7 +118,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.mySelections'
+        'configurator.overviewFilter.mySelections CLOSE'
       );
     });
 
@@ -143,7 +130,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'Group 1',
+        'Group 1 CLOSE',
         0
       );
 
@@ -151,7 +138,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'Group 2',
+        'Group 2 CLOSE',
         1
       );
     });
@@ -165,7 +152,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.overviewFilter.removeAll',
+        'configurator.overviewFilter.removeAll CLOSE',
         2
       );
     });

@@ -4,12 +4,11 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CartItemContext,
   OrderEntry,
@@ -19,17 +18,11 @@ import {
   CxDatePipe,
   CxNumericPipe,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   Product,
   ProductService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
@@ -40,6 +33,11 @@ import {
   LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import {
   BehaviorSubject,
   EMPTY,
@@ -58,13 +56,6 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
-  }
-}
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): string {
-    return '';
   }
 }
 
@@ -147,9 +138,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ConfiguratorCartEntryBundleInfoComponent,
-        I18nTestingModule,
         RouterModule.forRoot([]),
-        MockUrlPipe,
       ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
@@ -174,11 +163,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
+            I18nTestingModule,
+            UrlTestingModule,
             MockNumericPipe,
             MockConfigureCartEntryComponent,
-            MockUrlPipe,
           ],
         },
       })
@@ -186,19 +174,15 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   });
 
   beforeEach(() => {
-    commonConfigUtilsService = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    commonConfigUtilsService = TestBed.inject(CommonConfiguratorUtilsService);
     configCartEntryBundleInfoService = TestBed.inject(
-      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
+      ConfiguratorCartEntryBundleInfoService
     );
 
     vi.spyOn(commonConfigUtilsService, 'isBundleBasedConfigurator');
     vi.spyOn(configCartEntryBundleInfoService, 'retrieveLineItems');
 
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
+    breakpointService = TestBed.inject(BreakpointService);
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
     changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
@@ -768,6 +752,27 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
             .length
         ).toBe(1);
+      });
+
+      it('should disable the edit configuration link when the quantity control is disabled after render', () => {
+        mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$?.next(false);
+        const quantityControl = new UntypedFormControl();
+        mockCartItemContext.quantityControl$?.next(quantityControl);
+        fixture.detectChanges();
+
+        const getLinkComponent = () =>
+          fixture.debugElement.query(By.css('cx-configure-cart-entry'))
+            .componentInstance;
+
+        expect(getLinkComponent().disabled).toBe(false);
+
+        quantityControl.disable({ emitEvent: false });
+        // Same FormControl reference: default CD must refresh [disabled] without
+        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        changeDetectorRef.detectChanges();
+
+        expect(getLinkComponent().disabled).toBe(true);
       });
     });
 
@@ -1486,6 +1491,33 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(linkComponent.productName).toBe('Configurable item');
       });
 
+      it('should disable the nested edit link when the quantity control is disabled after render', () => {
+        const quantityControl = new UntypedFormControl();
+        vi.mocked(
+          configCartEntryBundleInfoService.retrieveLineItems
+        ).mockReturnValue([configurableLineItem]);
+        mockCartItemContext.item$.next({
+          entryNumber: 1,
+          configurationInfos: configurationInfos,
+        });
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        fixture.detectChanges();
+
+        expect(getNestedConfigureLinks()[0].componentInstance.disabled).toBe(
+          false
+        );
+
+        quantityControl.disable({ emitEvent: false });
+        // See shouldShowButton regression test for why not fixture.detectChanges().
+        changeDetectorRef.detectChanges();
+
+        expect(getNestedConfigureLinks()[0].componentInstance.disabled).toBe(
+          true
+        );
+      });
+
       it('should not render the edit link for a non-configurable line item', () => {
         emitCartEntry([{ ...configurableLineItem, configurable: false }]);
 
@@ -1512,10 +1544,33 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent],
+    await TestBed.configureTestingModule({
+      imports: [
+        ConfiguratorCartEntryBundleInfoComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [{ provide: ProductService, useClass: MockProductService }],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CxNumericPipe,
+            ConfigureCartEntryComponent,
+            UrlPipe,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            UrlTestingModule,
+            MockNumericPipe,
+            MockConfigureCartEntryComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

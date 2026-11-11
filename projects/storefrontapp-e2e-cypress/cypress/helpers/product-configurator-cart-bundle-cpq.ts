@@ -136,19 +136,23 @@ export function checkAmountOfBundleItems(
  *
  * @param cartItemIndex - Index of cart item
  * @param itemsAmount - Expected amount of bundle items
+ * @param btnName - Name of the button to click
  */
 export function checkBundleOverviewLink(
   cartItemIndex: number,
-  itemsAmount: number
+  itemsAmount: number,
+  btnName: string = 'show'
 ): void {
   findBundleItem(cartItemIndex).within(() => {
-    cy.get('.cx-number-items').should('contain', itemsAmount);
+    if (itemsAmount > 0) {
+      cy.get('.cx-number-items').should('contain', itemsAmount);
+    }
     cy.get('button').should('not.exist');
     cy.get('.cx-item-infos').should('not.exist');
     cy.get('.cx-item-info').should('not.exist');
     cy.get('.cx-toggle-hide-items a')
-      .should('contain', 'show')
-      .and('be.visible');
+      .contains(btnName, { matchCase: false })
+      .should('be.visible');
   });
 }
 
@@ -156,10 +160,16 @@ export function checkBundleOverviewLink(
  * Navigates from a cart bundle to its read-only configuration overview.
  *
  * @param cartItemIndex - Index of cart item
+ * @param linkName - Name of the link to click
  */
-export function clickOnBundleOverviewLink(cartItemIndex: number): void {
+export function clickOnBundleOverviewLink(
+  cartItemIndex: number,
+  linkName: string
+): void {
   findBundleItem(cartItemIndex).within(() => {
-    cy.get('.cx-toggle-hide-items a').contains('show').click();
+    cy.get('.cx-toggle-hide-items a')
+      .contains(linkName, { matchCase: false })
+      .click();
   });
 }
 

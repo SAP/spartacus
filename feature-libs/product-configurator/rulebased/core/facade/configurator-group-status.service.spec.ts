@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -26,17 +25,15 @@ describe('ConfiguratorGroupStatusService', () => {
   let store: Store<StateWithConfigurator>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [ConfiguratorUtilsService, ConfiguratorGroupStatusService],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    classUnderTest = TestBed.inject(
-      ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
-    );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
+    classUnderTest = TestBed.inject(ConfiguratorGroupStatusService);
+    store = TestBed.inject(Store);
 
     vi.spyOn(store, 'dispatch').mockImplementation(() => {});
     vi.spyOn(store, 'pipe').mockReturnValue(of(productConfiguration));

@@ -1,15 +1,18 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { IconComponent } from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -21,17 +24,8 @@ import {
   productConfigurationWithConflicts,
   productConfigurationWithoutIssues,
 } from '../../testing/configurator-test-data';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 
 const productConfigurationWithDetailedIssuesCountedInOverview: Configurator.Configuration =
   {
@@ -100,6 +94,10 @@ class MockConfiguratorCommonsService {
     return configurationObs;
   }
 }
+class MockConfiguratorStorefrontUtilsService {
+  isDisplayOnly = vi.fn(() => false);
+}
+
 let component: ConfiguratorOverviewNotificationBannerComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewNotificationBannerComponent>;
 let htmlElem: HTMLElement;
@@ -112,14 +110,6 @@ function initialize(router: ConfiguratorRouter.Data) {
   htmlElem = fixture.nativeElement;
   fixture.detectChanges();
 }
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [RouterModule],
-})
-class MockCxIconComponent {
-  @Input() type: any;
-}
 
 class MockActivatedRoute {
   constructor(public snapshot: any) {}
@@ -127,7 +117,7 @@ class MockActivatedRoute {
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [RouterModule, ConfiguratorOverviewNotificationBannerComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
@@ -139,6 +129,13 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        ...provideMockFeatureToggles({
+          productConfiguratorReadOnlyCartEntryConfiguration: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorOverviewNotificationBannerComponent, {
@@ -146,7 +143,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           imports: [TranslatePipe, UrlPipe, IconComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockUrlPipe, MockCxIconComponent],
+          imports: [I18nTestingModule, UrlTestingModule, IconTestingModule],
         },
       })
       .compileComponents();
@@ -340,5 +337,75 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
       htmlElem,
       '.cx-error-msg'
     );
+  });
+
+  describe('resolve links in display-only mode', () => {
+    let featureToggles: MockFeatureTogglesController;
+
+    const errorLinkSelector = '.cx-error-msg button.cx-action-link';
+    const conflictLinkSelector = '.cx-conflict-msg button.cx-action-link';
+
+    function initializeWithDisplayOnly(displayOnly: boolean): void {
+      vi.mocked(
+        TestBed.inject(ConfiguratorStorefrontUtilsService).isDisplayOnly
+      ).mockReturnValue(displayOnly);
+      configurationObs = of(
+        productConfigurationWithDetailedIssuesCountedInOverview
+      );
+      initialize(routerData);
+    }
+
+    function expectLinks(present: boolean): void {
+      const check = present
+        ? CommonConfiguratorTestUtilsService.expectElementPresent
+        : CommonConfiguratorTestUtilsService.expectElementNotPresent;
+      check(expect, htmlElem, errorLinkSelector);
+      check(expect, htmlElem, conflictLinkSelector);
+    }
+
+    beforeEach(() => {
+      featureToggles = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('with feature toggle productConfiguratorReadOnlyCartEntryConfiguration active', () => {
+      beforeEach(() => {
+        featureToggles.set(
+          'productConfiguratorReadOnlyCartEntryConfiguration',
+          true
+        );
+      });
+
+      it('should hide the resolve links but keep the messages in display-only mode', () => {
+        initializeWithDisplayOnly(true);
+
+        expectLinks(false);
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-conflict-msg'
+        );
+      });
+
+      it('should display the resolve links if not in display-only mode', () => {
+        initializeWithDisplayOnly(false);
+
+        expectLinks(true);
+      });
+    });
+
+    it('should display the resolve links in display-only mode if feature toggle productConfiguratorReadOnlyCartEntryConfiguration is inactive', () => {
+      featureToggles.set(
+        'productConfiguratorReadOnlyCartEntryConfiguration',
+        false
+      );
+      initializeWithDisplayOnly(true);
+
+      expectLinks(true);
+    });
   });
 });

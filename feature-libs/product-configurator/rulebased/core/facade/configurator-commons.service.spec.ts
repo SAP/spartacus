@@ -1,8 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { LoggerTestingModule, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -174,6 +173,7 @@ describe('ConfiguratorCommonsService', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
@@ -199,15 +199,9 @@ describe('ConfiguratorCommonsService', () => {
     configCartObservable = of(productConfiguration);
     isStableObservable = of(true);
 
-    serviceUnderTest = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorUtilsService = TestBed.inject(
-      ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
-    );
+    serviceUnderTest = TestBed.inject(ConfiguratorCommonsService);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
+    configuratorUtilsService = TestBed.inject(ConfiguratorUtilsService);
 
     OWNER_PRODUCT = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
@@ -242,10 +236,8 @@ describe('ConfiguratorCommonsService', () => {
       ...productConfiguration,
       loading: undefined,
     };
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
-    configuratorCartService = TestBed.inject(
-      ConfiguratorCartService as Type<ConfiguratorCartService>
-    );
+    store = TestBed.inject(Store);
+    configuratorCartService = TestBed.inject(ConfiguratorCartService);
     vi.spyOn(configuratorUtilsService, 'createConfigurationExtract');
     vi.spyOn(store, 'dispatch');
   });
@@ -683,7 +675,49 @@ describe('ConfiguratorCommonsService', () => {
 
       expect(
         configuratorCartService.readConfigurationForCartEntry
-      ).toHaveBeenCalledWith(OWNER_CART_ENTRY);
+      ).toHaveBeenCalledWith(OWNER_CART_ENTRY, false);
+    });
+
+    it('should delegate to config cart service with readOnly for cart bound configurations if read-only is requested', () => {
+      vi.spyOn(configuratorCartService, 'readConfigurationForCartEntry');
+
+      serviceUnderTest.getOrCreateConfiguration(
+        OWNER_CART_ENTRY,
+        undefined,
+        true
+      );
+
+      expect(
+        configuratorCartService.readConfigurationForCartEntry
+      ).toHaveBeenCalledWith(OWNER_CART_ENTRY, true);
+    });
+
+    it('should delegate to config cart service with readOnly false for cart bound configurations if read-only is not requested', () => {
+      vi.spyOn(configuratorCartService, 'readConfigurationForCartEntry');
+
+      serviceUnderTest.getOrCreateConfiguration(
+        OWNER_CART_ENTRY,
+        undefined,
+        false
+      );
+
+      expect(
+        configuratorCartService.readConfigurationForCartEntry
+      ).toHaveBeenCalledWith(OWNER_CART_ENTRY, false);
+    });
+
+    it('should ignore readOnly for order bound configurations', () => {
+      vi.spyOn(configuratorCartService, 'readConfigurationForOrderEntry');
+
+      serviceUnderTest.getOrCreateConfiguration(
+        OWNER_ORDER_ENTRY,
+        undefined,
+        true
+      );
+
+      expect(
+        configuratorCartService.readConfigurationForOrderEntry
+      ).toHaveBeenCalledWith(OWNER_ORDER_ENTRY);
     });
 
     it('should delegate to config cart service for order bound configurations', () => {

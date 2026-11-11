@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,11 +7,13 @@ import {
   ProductService,
   RouterState,
   RoutingService,
+  LoggerTestingModule,
   WindowRef,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorRouter,
   ConfiguratorType,
   ReadOnlyPostfix,
 } from '@spartacus/product-configurator/common';
@@ -39,6 +41,7 @@ let mockedWindow: {
   scrollY: 1000,
   scroll() {},
 };
+@Injectable()
 class MockedWindowRef extends WindowRef {
   get nativeWindow(): Window | undefined {
     return this.isBrowser() ? <any>mockedWindow : undefined;
@@ -109,6 +112,7 @@ function createFocusedElements(
       <label id="ATTR_1--value_3">value_3</label>
     </cx-configurator-form>
   `,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 class MockComponent {}
 
@@ -148,7 +152,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     routerStateObservable = of(mockRouterState);
 
     TestBed.configureTestingModule({
-      imports: [MockComponent],
+      imports: [LoggerTestingModule, MockComponent],
       providers: [
         {
           provide: ConfiguratorGroupsService,
@@ -182,9 +186,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     mockedWindow.innerHeight = 1000;
     mockedWindow.innerWidth = 1000;
     mockedWindow.scrollY = 1000;
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
   });
 
   afterEach(() => {
@@ -1213,6 +1215,41 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
+  describe('isDisplayOnly', () => {
+    const owner = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.CART_ENTRY,
+      '1',
+      ConfiguratorType.VARIANT
+    );
+
+    function createRouterData(displayOnly: unknown): ConfiguratorRouter.Data {
+      return {
+        pageType: ConfiguratorRouter.PageType.OVERVIEW,
+        isOwnerCartEntry: true,
+        owner,
+        displayOnly: displayOnly as boolean | undefined,
+      };
+    }
+
+    it.each([true, 'true'])(
+      'should return true if displayOnly is %s',
+      (displayOnly) => {
+        expect(
+          classUnderTest.isDisplayOnly(createRouterData(displayOnly))
+        ).toBe(true);
+      }
+    );
+
+    it.each([false, 'false', undefined])(
+      'should return false if displayOnly is %s',
+      (displayOnly) => {
+        expect(
+          classUnderTest.isDisplayOnly(createRouterData(displayOnly))
+        ).toBe(false);
+      }
+    );
+  });
+
   describe('isOverviewMenuFilterTabVisible', () => {
     it('should return false if configurator type is undefined', () => {
       expect(classUnderTest.isOverviewMenuFilterTabVisible(undefined)).toBe(
@@ -1220,10 +1257,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       );
     });
 
-    it('should return false for CLOUD CPQ configurator type by default', () => {
+    it('should return true for CLOUD CPQ configurator type by default', () => {
       expect(
         classUnderTest.isOverviewMenuFilterTabVisible(ConfiguratorType.CPQ)
-      ).toBe(false);
+      ).toBe(true);
     });
 
     it('should return true for variant configurator type by default', () => {

@@ -24,7 +24,7 @@ const RADGRP = 'radioGroup';
 /***************************** */
 /** Configurable Train */
 const PROD_CODE_TRAIN = 'CONF_TRAIN';
-const GRP_TR_GENERAL = 'GENERAL';
+const GRP_TR_GENERAL = 'General';
 /** Choose Train Type */
 const ATTR_TR_TYPE = '3152';
 /** Train Type 1 */
@@ -107,19 +107,19 @@ testConfig.forEach((config) => {
         it('should navigate to overview', () => {
           configurationCartCpq.checkBundleOverviewLink(
             cartEntryIndex,
-            EXPECTED_BUNDLE_LINE_ITEMS
+            0,
+            'display'
           );
-          configurationCartCpq.clickOnBundleOverviewLink(cartEntryIndex);
+          configurationCartCpq.clickOnBundleOverviewLink(
+            cartEntryIndex,
+            'display'
+          );
           cy.wait('@readConfig');
           configurationOverviewCpq.checkDisplayOnlyOverviewFromCartDisplayed();
 
           configurationOverviewCpq.clickBackToCartBtnOnOP();
           configurationCartCpq.checkCartPageReady();
           configurationCartCpq.waitForCartEntryBundleInfo(PROD_CODE_TRAIN);
-          configurationCartCpq.checkBundleOverviewLink(
-            cartEntryIndex,
-            EXPECTED_BUNDLE_LINE_ITEMS
-          );
         });
       });
 

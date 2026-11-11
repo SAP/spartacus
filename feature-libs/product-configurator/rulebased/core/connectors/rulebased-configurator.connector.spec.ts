@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -177,12 +176,8 @@ describe('RulebasedConfiguratorConnector', () => {
         },
       ],
     });
-    service = TestBed.inject(
-      RulebasedConfiguratorConnector as Type<RulebasedConfiguratorConnector>
-    );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    service = TestBed.inject(RulebasedConfiguratorConnector);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     adapter = TestBed.inject(
       RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST
     );
@@ -498,6 +493,34 @@ describe('RulebasedConfiguratorConnector', () => {
       expect(adapter[0].updateConfigurationOverview).toHaveBeenCalledWith(
         overview
       );
+      expect(result).toBe(
+        'updateConfigurationOverview' + productConfiguration.configId
+      );
+    });
+
+    it('should enrich overview with price summary and issue count from configuration', () => {
+      const priceSummary: Configurator.PriceSummary = {
+        currentTotal: { currencyIso: 'USD', value: 42 },
+      };
+      const overview: Configurator.Overview = {
+        configId: productConfiguration.configId,
+        productCode: productConfiguration.productCode,
+      };
+      const configWithOverview: Configurator.Configuration = {
+        ...productConfiguration,
+        priceSummary,
+        totalNumberOfIssues: 3,
+        overview,
+      };
+      let result;
+      service
+        .updateConfigurationOverview(configWithOverview)
+        .subscribe((res) => (result = res));
+      expect(adapter[0].updateConfigurationOverview).toHaveBeenCalledWith({
+        ...overview,
+        priceSummary,
+        totalNumberOfIssues: 3,
+      });
       expect(result).toBe(
         'updateConfigurationOverview' + productConfiguration.configId
       );

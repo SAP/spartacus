@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -6,14 +6,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
   I18nTestingModule,
-  MockTranslatePipe,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -23,6 +18,10 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -271,13 +270,8 @@ let featureToggles: MockFeatureTogglesController;
 
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        NgSelectModule,
-        ConfiguratorFormComponent,
-        I18nTestingModule,
-      ],
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, NgSelectModule, ConfiguratorFormComponent],
       providers: [
         {
           provide: RoutingService,
@@ -310,9 +304,11 @@ describe('ConfiguratorFormComponent', () => {
           imports: [TranslatePipe, ConfiguratorGroupComponent],
         },
         add: {
-          imports: [MockConfiguratorGroupComponent, MockTranslatePipe],
-          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [MockConfiguratorGroupComponent, I18nTestingModule],
         },
+      })
+      .overrideComponent(ConfiguratorFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -321,44 +317,32 @@ describe('ConfiguratorFormComponent', () => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', false);
 
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
     vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
     vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
     vi.spyOn(configuratorGroupsService, 'navigateToContainerRow');
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
     vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
     vi.spyOn(configuratorCommonsService, 'getConfiguration');
     vi.spyOn(configuratorCommonsService, 'checkConflictSolverDialog');
 
-    globalMessageService = TestBed.inject(
-      GlobalMessageService as Type<GlobalMessageService>
-    );
+    globalMessageService = TestBed.inject(GlobalMessageService);
     vi.spyOn(globalMessageService, 'add');
 
     isConfigurationLoadingObservable = of(false);
 
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     vi.spyOn(configExpertModeService, 'setExpModeRequested');
 
     hasConfigurationConflictsObservable = of(false);
 
-    launchDialogService = TestBed.inject(
-      LaunchDialogService as Type<LaunchDialogService>
-    );
+    launchDialogService = TestBed.inject(LaunchDialogService);
     vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
     vi.spyOn(keyboardFocusService, 'clear');
     configuration = structuredClone(productConfiguration);
   });

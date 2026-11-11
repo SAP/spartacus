@@ -59,6 +59,28 @@ export class CpqConfiguratorNormalizerUtilsService {
   }
 
   /**
+   * Converts a price value to price details
+   *
+   * @param price - Price as number or string
+   * @param currency - Currency code ISO
+   * @returns - price details, or undefined when price is missing
+   */
+  convertPrice(
+    price: number | string | undefined,
+    currency: string
+  ): Configurator.PriceDetails | undefined {
+    if (price === undefined || price === null || price === '') {
+      return undefined;
+    }
+    const priceDetails: Configurator.PriceDetails = {
+      currencyIso: currency,
+      value: typeof price === 'number' ? price : Number.parseFloat(price),
+    };
+    this.formatPriceForLocale(priceDetails, this.getLanguage());
+    return priceDetails;
+  }
+
+  /**
    * Converts value price
    *
    * @param value - CPQ Value
@@ -69,15 +91,7 @@ export class CpqConfiguratorNormalizerUtilsService {
     value: Cpq.Value,
     currency: string
   ): Configurator.PriceDetails | undefined {
-    let price;
-    if (value.price) {
-      price = {
-        currencyIso: currency,
-        value: parseFloat(value.price),
-      };
-      this.formatPriceForLocale(price, this.getLanguage());
-    }
-    return price;
+    return this.convertPrice(value.price, currency);
   }
 
   /**
@@ -233,7 +247,7 @@ export class CpqConfiguratorNormalizerUtilsService {
           cpqConfiguration.responder.totalPrice.replace(currencySign, '');
         const totalPrice: Configurator.PriceDetails = {
           currencyIso: currency,
-          value: parseFloat(totalPriceAsString),
+          value: Number.parseFloat(totalPriceAsString),
         };
         this.formatPriceForLocale(totalPrice, this.getLanguage());
         priceSummary.currentTotal = totalPrice;
@@ -243,7 +257,7 @@ export class CpqConfiguratorNormalizerUtilsService {
           cpqConfiguration.responder.baseProductPrice;
         const basePrice: Configurator.PriceDetails = {
           currencyIso: currency,
-          value: parseFloat(basePriceAsString),
+          value: Number.parseFloat(basePriceAsString),
         };
         this.formatPriceForLocale(basePrice, this.getLanguage());
         priceSummary.basePrice = basePrice;
@@ -268,6 +282,21 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
     return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
+  }
+
+  /**
+   * Verifies whether a CPQ container row represents selected content. Rows that
+   * carry the ADD action are only offered for adding and therefore do not count
+   * as selected, even if CPQ flags them as selected.
+   *
+   * @param row - CPQ container row
+   * @returns - true, if the row is selected and carries no ADD action
+   */
+  isSelectedContainerRow(row: Cpq.ContainerRow): boolean {
+    return (
+      row.selected === true &&
+      !row.actions?.includes(Cpq.ContainerRowAction.ADD)
+    );
   }
 
   /**

@@ -105,6 +105,13 @@ export class CpqConfiguratorNormalizer
       );
     }
 
+    this.attachSubItemRows(
+      source.sapContainers,
+      source.currencyISOCode,
+      resultTarget.groups,
+      resultTarget.flatGroups
+    );
+
     this.compileRootGroupComplete(source, resultTarget.groups);
 
     return resultTarget;
@@ -979,6 +986,9 @@ export class CpqConfiguratorNormalizer
       const sourceContainer = containers.find(
         (container) => container.stdAttrCode === attribute.attrCode
       );
+      if (sourceContainer?.renderRowsAsSubItems) {
+        return;
+      }
       if (sourceContainer) {
         attribute.container = this.convertContainer(
           sourceContainer,
@@ -990,6 +1000,48 @@ export class CpqConfiguratorNormalizer
         this.compileAttributeIncomplete(attribute);
       }
     });
+  }
+
+  /**
+   * Turns selected rows of containers flagged with {@link Cpq.Container.renderRowsAsSubItems}
+   * into {@link Configurator.GroupType.CONTAINER_ROW_GROUP} entries on `groupList` (siblings of
+   * tabs at root level, or sub-groups of a parent row group when nested).
+   */
+  protected attachSubItemRows(
+    containers: Cpq.Container[] | undefined,
+    currency: string,
+    groupList: Configurator.Group[],
+    flatGroupList: Configurator.Group[],
+    ancestorGroups: Configurator.Group[] = []
+  ): void {
+    if (!this.isCpqContainerFeatureEnabled() || !containers?.length) {
+      return;
+    }
+
+    containers
+      .filter((container) => container.renderRowsAsSubItems)
+      .forEach((container) => {
+        const attrCode = container.stdAttrCode;
+        (container.rows ?? [])
+          .filter(
+            (row) =>
+              this.cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow(
+                row
+              ) && !!row.configuration
+          )
+          .forEach((row) => {
+            const rowGroup = this.convertNestedConfiguration(
+              row.configuration as Cpq.NestedProductConfiguration,
+              row,
+              attrCode,
+              currency,
+              flatGroupList,
+              undefined,
+              ancestorGroups
+            );
+            groupList.push(rowGroup);
+          });
+      });
   }
 
   protected convertContainer(
@@ -1029,6 +1081,10 @@ export class CpqConfiguratorNormalizer
       maxRows: source.maxRows,
       productSystemId: source.productSystemId,
       productName: source.productName,
+      basePrice: this.cpqConfiguratorNormalizerUtilsService.convertPrice(
+        source.basePrice,
+        currency
+      ),
       selected: source.selected,
       actions: this.convertContainerRowActions(source.actions),
     };
@@ -1077,7 +1133,8 @@ export class CpqConfiguratorNormalizer
     attrCode: number,
     currency: string,
     flatGroupList: Configurator.Group[],
-    parentGroup: Configurator.Group
+    parentGroup?: Configurator.Group,
+    ancestorGroups: Configurator.Group[] = []
   ): Configurator.Group {
     const rowGroup: Configurator.Group = {
       id: `${Configurator.ContainerRowGroupIdPrefix}@${attrCode}@${row.id}`,
@@ -1092,7 +1149,9 @@ export class CpqConfiguratorNormalizer
       messages: this.convertMessages(source.messages),
     };
 
-    const ancestors = [parentGroup];
+    const tabAncestors = parentGroup
+      ? [parentGroup, ...ancestorGroups]
+      : ancestorGroups;
     source.tabs?.forEach((tab) =>
       this.convertGroup(
         tab,
@@ -1104,11 +1163,19 @@ export class CpqConfiguratorNormalizer
         row.id,
         rowGroup.id,
         rowGroup,
-        ancestors
+        tabAncestors
       )
     );
 
-    this.compileGroupComplete(rowGroup, ancestors);
+    this.attachSubItemRows(
+      source.containers,
+      currency,
+      rowGroup.subGroups,
+      flatGroupList,
+      [rowGroup, ...tabAncestors]
+    );
+
+    this.compileGroupComplete(rowGroup, tabAncestors);
 
     return rowGroup;
   }

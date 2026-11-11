@@ -86,10 +86,7 @@ export class OpfGlobalFunctionsGlobalDomainService {
       }
 
       return lastValueFrom(
-        this.reloadCartAndWaitForStable().pipe(
-          switchMap(() => this.activeCartFacade.takeActive()),
-          take(1)
-        )
+        this.opfQuickBuyTransactionService.getCurrentCart().pipe(take(1))
       );
     });
   }
@@ -262,6 +259,16 @@ export class OpfGlobalFunctionsGlobalDomainService {
         this.opfQuickBuyTransactionService.deleteUserAddresses([addressId]);
         resolve();
       });
+    });
+  }
+
+  prepareTransactionCart(): Promise<Cart> {
+    return this.ngZone.run(() => {
+      return lastValueFrom(
+        this.opfQuickBuyTransactionService
+          .prepareTransactionCart()
+          .pipe(take(1))
+      );
     });
   }
 

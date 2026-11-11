@@ -1,4 +1,3 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
@@ -8,7 +7,14 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { cold } from 'jasmine-marbles';
 import { firstValueFrom, Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
@@ -18,10 +24,6 @@ import {
   OrderEntryStatus,
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
@@ -38,10 +40,6 @@ class MockAbstractOrderContext {
   key$ = of({ id: quoteCode, type: AbstractOrderType.QUOTE });
 }
 
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 const mockBaseRouterState: any = {
   state: {
     semanticRoute: 'home',
@@ -66,12 +64,7 @@ describe('ConfigureCartEntryComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterModule,
-        ConfigureCartEntryComponent,
-        MockUrlPipe,
-      ],
+      imports: [RouterModule, ConfigureCartEntryComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
@@ -82,6 +75,9 @@ describe('ConfigureCartEntryComponent', () => {
           productConfiguratorCPQContainer: false,
         }),
       ],
+    }).overrideComponent(ConfigureCartEntryComponent, {
+      remove: { imports: [TranslatePipe, UrlPipe] },
+      add: { imports: [I18nTestingModule, UrlTestingModule] },
     });
   }
 
@@ -96,8 +92,8 @@ describe('ConfigureCartEntryComponent', () => {
   }
 
   describe('Without abstract order context', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
 
@@ -117,8 +113,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('getRoute', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
 
@@ -151,8 +147,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('getCpqContainerFragment', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
       component.readOnly = true;
       component.rowId = 'row-1';
@@ -198,8 +194,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('getDisplayOnly', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
     it('should return true in case readOnly is true', () => {
@@ -239,8 +235,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('isInCheckout', () => {
-    beforeEach(() => {
-      configureTestingModule().compileComponents();
+    beforeEach(async () => {
+      await configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
     it('should return false in case the url does not contain checkoutReviewOrder', async () => {
@@ -262,8 +258,8 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('With abstract order context', () => {
-    beforeEach(() => {
-      configureTestingModule()
+    beforeEach(async () => {
+      await configureTestingModule()
         .overrideProvider(AbstractOrderContext, {
           useValue: new MockAbstractOrderContext(),
         })
@@ -600,9 +596,9 @@ describe('ConfigureCartEntryComponent', () => {
           );
         });
 
-        it('should render CPQ container link text when productConfiguratorCPQContainer is enabled', () => {
+        it('should render CPQ container link text when productConfiguratorCPQContainer is enabled', async () => {
           TestBed.resetTestingModule();
-          configureTestingModule()
+          await configureTestingModule()
             .overrideProvider(AbstractOrderContext, {
               useValue: new MockAbstractOrderContext(),
             })

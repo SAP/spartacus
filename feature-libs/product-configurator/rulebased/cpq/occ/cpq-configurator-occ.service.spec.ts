@@ -2,7 +2,6 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CART_MODIFICATION_NORMALIZER,
@@ -182,19 +181,11 @@ describe('CpqConfigurationOccService', () => {
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-    occEnpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
-    serviceUnderTest = TestBed.inject(
-      CpqConfiguratorOccService as Type<CpqConfiguratorOccService>
-    );
+    serviceUnderTest = TestBed.inject(CpqConfiguratorOccService);
 
     vi.spyOn(occEnpointsService, 'buildUrl');
     vi.spyOn(converterService, 'pipeable');
@@ -686,6 +677,67 @@ describe('CpqConfigurationOccService', () => {
         },
       }
     );
+  });
+
+  it('should read the configuration for a cart entry read-only if requested', () => {
+    serviceUnderTest
+      .readConfigurationForCartEntry({
+        ...readConfigCartEntryParams,
+        readOnly: true,
+      })
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readCpqConfigurationForCartEntryFull'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForCartEntryFull',
+      {
+        urlParams: {
+          userId: userId,
+          cartId: documentId,
+          cartEntryNumber: '3',
+        },
+        queryParams: { readOnly: true },
+      }
+    );
+  });
+
+  it('should read the configuration for a cart entry without readOnly query parameter if read-only is not requested', () => {
+    serviceUnderTest
+      .readConfigurationForCartEntry({
+        ...readConfigCartEntryParams,
+        readOnly: false,
+      })
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readCpqConfigurationForCartEntryFull'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    const buildUrlOptions = vi.mocked(occEnpointsService.buildUrl).mock
+      .calls[0][1];
+    expect(buildUrlOptions).toEqual({
+      urlParams: {
+        userId: userId,
+        cartId: documentId,
+        cartEntryNumber: '3',
+      },
+    });
+    expect(buildUrlOptions).not.toHaveProperty('queryParams');
   });
 
   it('should read the configuration for an order entry and call normalizer', () => {

@@ -4,13 +4,16 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
+import {
+  LoggerTestingModule,
+  MockLoggerService,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -137,14 +140,6 @@ const cartModificationWithoutEntry: CartModification = {};
 
 let readFromCartEntryObs: Observable<Configurator.Configuration>;
 
-class MockLoggerService {
-  log(): void {}
-  warn(): void {}
-  error(): void {}
-  info(): void {}
-  debug(): void {}
-}
-
 describe('ConfiguratorCartEffect', () => {
   let addToCartMock: vi.Mock;
   let updateCartEntryMock: vi.Mock;
@@ -170,6 +165,7 @@ describe('ConfiguratorCartEffect', () => {
     }
     TestBed.configureTestingModule({
       imports: [
+        LoggerTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
@@ -184,16 +180,13 @@ describe('ConfiguratorCartEffect', () => {
           provide: ConfiguratorUtilsService,
           useClass: ConfiguratorUtilsService,
         },
-        { provide: LoggerService, useClass: MockLoggerService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });
 
-    configCartEffects = TestBed.inject(
-      fromEffects.ConfiguratorCartEffects as Type<fromEffects.ConfiguratorCartEffects>
-    );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
+    configCartEffects = TestBed.inject(fromEffects.ConfiguratorCartEffects);
+    store = TestBed.inject(Store);
 
     payloadInputUpdateConfiguration = {
       userId: userId,

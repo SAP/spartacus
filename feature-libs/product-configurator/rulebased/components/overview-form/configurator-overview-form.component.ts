@@ -13,6 +13,7 @@ import {
   afterNextRender,
   inject,
   isDevMode,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -53,8 +54,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-form',
   templateUrl: './configurator-overview-form.component.html',
-  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     NgTemplateOutlet,
@@ -75,7 +75,15 @@ export class ConfiguratorOverviewFormComponent {
    */
   static readonly OVERVIEW_CONTENT_ID = 'cx-configurator-overview-content';
 
-  @HostBinding('class.ghost') ghostStyle = true;
+  /**
+   * @deprecated since 221121.23 - Prefer the `#ghostForm` template
+   * (`.cx-ghost-group.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when overview data resolves. This flag is still cleared when data arrives
+   * for compatibility; it no longer affects the host. Will be removed in the
+   * next major.
+   */
+  ghostStyle = true;
 
   private featureToggles = inject(FeatureToggles);
   protected translationService = inject(TranslationService);
@@ -97,11 +105,20 @@ export class ConfiguratorOverviewFormComponent {
    */
   protected readonly containerRowDetailsKeepInPlaceTime = 3000;
 
+  protected readonly contentLabelState = signal<string | null>(null);
+
   /**
    * Accessible name of the overview content region.
    * Only set if in-page navigation is enabled.
    */
-  @HostBinding('attr.aria-label') contentLabel: string | null = null;
+  @HostBinding('attr.aria-label')
+  get contentLabel(): string | null {
+    return this.contentLabelState();
+  }
+
+  set contentLabel(value: string | null) {
+    this.contentLabelState.set(value);
+  }
 
   /**
    * Whether the overview form acts as target of the accessible in-page
@@ -134,7 +151,11 @@ export class ConfiguratorOverviewFormComponent {
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService
-          .getOrCreateConfiguration(routerData.owner)
+          .getOrCreateConfiguration(
+            routerData.owner,
+            undefined,
+            this.configuratorStorefrontUtilsService.isDisplayOnly(routerData)
+          )
           .pipe(
             map((configuration) => ({
               configuration,
@@ -367,6 +388,26 @@ export class ConfiguratorOverviewFormComponent {
   }
 
   /**
+   * Verifies whether the group is a configuration details section for a
+   * container bundle item listed in the parent group. Inlined sub-item row
+   * groups share the same ID shape but have no matching bundle attribute.
+   *
+   * @param group - Overview group
+   * @param parentGroup - Parent group in the overview hierarchy
+   * @return - `true` when the configuration details header and anchor apply
+   */
+  isContainerRowDetailsSection(
+    group: Configurator.GroupOverview,
+    parentGroup?: Configurator.GroupOverview
+  ): boolean {
+    return (
+      !!parentGroup &&
+      this.isContainerRowDetailsGroup(group) &&
+      !!this.getBundleAttributeForContainerRowGroup(parentGroup, group)
+    );
+  }
+
+  /**
    * Resolves the container attribute label for a configuration details section.
    *
    * @param parentGroup - Group that lists the container item
@@ -377,20 +418,31 @@ export class ConfiguratorOverviewFormComponent {
     parentGroup: Configurator.GroupOverview,
     containerRowGroup: Configurator.GroupOverview
   ): string {
+    return (
+      this.getBundleAttributeForContainerRowGroup(
+        parentGroup,
+        containerRowGroup
+      )?.attribute ?? ''
+    );
+  }
+
+  protected getBundleAttributeForContainerRowGroup(
+    parentGroup: Configurator.GroupOverview,
+    containerRowGroup: Configurator.GroupOverview
+  ): Configurator.AttributeOverview | undefined {
     const match = new RegExp(
       `^${Configurator.ContainerRowGroupIdPrefix}@([^@]+)@([^@]+)$`
     ).exec(containerRowGroup.id);
     if (!match || !parentGroup.attributes) {
-      return '';
+      return undefined;
     }
     const [, attributeId, valueId] = match;
-    const bundleAttribute = parentGroup.attributes.find(
+    return parentGroup.attributes.find(
       (attributeOverview) =>
         attributeOverview.type === Configurator.AttributeOverviewType.BUNDLE &&
         attributeOverview.attributeId === attributeId &&
         attributeOverview.valueId === valueId
     );
-    return bundleAttribute?.attribute ?? '';
   }
 
   /**

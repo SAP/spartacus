@@ -4,7 +4,6 @@ import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 import { ConfiguratorLogoutEventListener } from './configurator-logout-event.listener';
-import { Type } from '@angular/core';
 
 const mockEventStream$ = new Subject<CxEvent>();
 
@@ -51,14 +50,12 @@ describe(`ConfiguratorLogoutEventListener`, () => {
     classUnderTest = TestBed.inject(ConfiguratorLogoutEventListener);
 
     configuratorExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+      ConfiguratorExpertModeService
     );
     vi.spyOn(configuratorExpertModeService, 'setExpModeRequested');
     vi.spyOn(configuratorExpertModeService, 'setExpModeActive');
 
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
 
     vi.spyOn(configuratorCommonsService, 'removeProductBoundConfigurations');
   });

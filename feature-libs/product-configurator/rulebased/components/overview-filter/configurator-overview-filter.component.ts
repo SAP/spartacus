@@ -5,13 +5,20 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, Input, OnChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  OnChanges,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
   UntypedFormControl,
 } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
+import { ConfiguratorType } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -21,6 +28,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-filter',
   templateUrl: './configurator-overview-filter.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     ConfiguratorOverviewFilterBarComponent,
@@ -76,6 +84,15 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
    */
   isDisplayOnlyVariant(): Observable<boolean> {
     return this.configuratorStorefrontUtilsService.isDisplayOnlyVariant();
+  }
+
+  /**
+   * Returns whether the "My selections" attribute filter is shown (not used for CPQ).
+   */
+  isMySelectionsFilterVisible(
+    config: Configurator.ConfigurationWithOverview
+  ): boolean {
+    return config.owner.configuratorType !== ConfiguratorType.CPQ;
   }
 
   protected extractGroupFilterState(

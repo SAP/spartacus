@@ -6,6 +6,7 @@
 
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Optional,
@@ -42,12 +43,13 @@ import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 
 /**
- * Requires default change detection strategy, as the disabled state of the quantity from control may change,
- * which would not be proper detected with onPush strategy.
+ * Requires default change detection strategy, as the disabled state of the quantity form control may change,
+ * which would not be properly detected with OnPush strategy.
  */
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     NgIf,
     NgFor,

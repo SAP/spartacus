@@ -1,6 +1,5 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { LanguageService } from '@spartacus/core';
+import { LanguageService, LoggerTestingModule } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
@@ -24,6 +23,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [LoggerTestingModule],
       providers: [
         CpqConfiguratorNormalizerUtilsService,
         { provide: LanguageService, useClass: MockLanguageService },
@@ -32,7 +32,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     });
 
     cpqConfiguratorNormalizerUtilsService = TestBed.inject(
-      CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+      CpqConfiguratorNormalizerUtilsService
     );
   });
 
@@ -53,6 +53,40 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining('No locale data registered')
     );
+  });
+
+  describe('convertPrice', () => {
+    it('should convert price string to price details', () => {
+      const priceDetails = cpqConfiguratorNormalizerUtilsService.convertPrice(
+        '123.45',
+        CURRENCY
+      );
+      expect(priceDetails?.currencyIso).toBe(CURRENCY);
+      expect(priceDetails?.value).toBe(123.45);
+      expect(priceDetails?.formattedValue).toBe('$123.45');
+    });
+
+    it('should convert price number to price details', () => {
+      const priceDetails = cpqConfiguratorNormalizerUtilsService.convertPrice(
+        123.45,
+        CURRENCY
+      );
+      expect(priceDetails?.currencyIso).toBe(CURRENCY);
+      expect(priceDetails?.value).toBe(123.45);
+      expect(priceDetails?.formattedValue).toBe('$123.45');
+    });
+
+    it('should return undefined when price is undefined', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.convertPrice(undefined, CURRENCY)
+      ).toBeUndefined();
+    });
+
+    it('should return undefined when price is an empty string', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.convertPrice('', CURRENCY)
+      ).toBeUndefined();
+    });
   });
 
   it('should convert price', () => {
@@ -537,6 +571,51 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
     ).toBe('');
   });
 
+  describe('isSelectedContainerRow', () => {
+    it('should return true for a selected row without actions', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+          selected: true,
+        })
+      ).toBe(true);
+    });
+
+    it('should return true for a selected row with actions other than ADD', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+          selected: true,
+          actions: [Cpq.ContainerRowAction.EDIT, Cpq.ContainerRowAction.DELETE],
+        })
+      ).toBe(true);
+    });
+
+    it('should return false for a selected row carrying the ADD action', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+          selected: true,
+          actions: [Cpq.ContainerRowAction.ADD],
+        })
+      ).toBe(false);
+    });
+
+    it('should return false for a row that is not selected', () => {
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+          selected: false,
+        })
+      ).toBe(false);
+      expect(
+        cpqConfiguratorNormalizerUtilsService.isSelectedContainerRow({
+          id: 'row',
+        })
+      ).toBe(false);
+    });
+  });
+
   describe('issue counting', () => {
     const ERROR_MSG = 'This is an error message';
     const VALIDATION_MSG = 'this is a failed validation';
@@ -839,6 +918,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       it('should not count nested container issues when the toggle is disabled', () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
+          imports: [LoggerTestingModule],
           providers: [
             CpqConfiguratorNormalizerUtilsService,
             { provide: LanguageService, useClass: MockLanguageService },
@@ -848,7 +928,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ],
         });
         const utilsWithToggleOff = TestBed.inject(
-          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+          CpqConfiguratorNormalizerUtilsService
         );
         expect(
           utilsWithToggleOff.calculateTotalNumberOfIssues({
@@ -872,6 +952,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
       it('should count root typed messages and incomplete attributes but ignore nested containers when the toggle is disabled', () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
+          imports: [LoggerTestingModule],
           providers: [
             CpqConfiguratorNormalizerUtilsService,
             { provide: LanguageService, useClass: MockLanguageService },
@@ -881,7 +962,7 @@ describe('CpqConfiguratorNormalizerUtilsService', () => {
           ],
         });
         const utilsWithToggleOff = TestBed.inject(
-          CpqConfiguratorNormalizerUtilsService as Type<CpqConfiguratorNormalizerUtilsService>
+          CpqConfiguratorNormalizerUtilsService
         );
         expect(
           utilsWithToggleOff.calculateTotalNumberOfIssues({
