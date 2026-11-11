@@ -236,14 +236,7 @@ exports[`Lib utils assets options should update angular.json file with assets 1`
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            }
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -365,24 +358,7 @@ exports[`Lib utils assets options should update angular.json file with assets 2`
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/xxx.scss"
-            ],
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@spartacus/smartedit/assets",
-                "output": "assets/"
-              }
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

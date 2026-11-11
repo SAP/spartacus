@@ -173,17 +173,7 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/pickup-in-store.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

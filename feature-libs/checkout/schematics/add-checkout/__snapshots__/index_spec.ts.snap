@@ -63,7 +63,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.21'
+      level: '221121.22'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -245,17 +245,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/checkout.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -436,17 +426,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/checkout.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -528,7 +508,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.21'
+      level: '221121.22'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -721,17 +701,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/checkout.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

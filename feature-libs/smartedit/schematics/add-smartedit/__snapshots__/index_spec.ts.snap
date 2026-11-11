@@ -136,21 +136,7 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@spartacus/smartedit/assets",
-                "output": "assets/"
-              }
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

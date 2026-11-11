@@ -11,9 +11,7 @@ import {
 } from '../add-spartacus/schema';
 
 export interface CxCmsComponentSchema
-  extends Schema,
-    AngularComponentSchema,
-    AngularModuleSchema {
+  extends Schema, AngularComponentSchema, AngularModuleSchema {
   /**
    * Where to declare the generated CMS component. If omitted, a new module is generated.
    */
