@@ -29,7 +29,7 @@ const rescheduleOrderAlias = 'rescheduleOrder';
 describe('Reschedule Service Order Flow ', () => {
   beforeEach(() => {
     cy.restoreLocalStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
     cy.visit('/powertools-spa/en/USD/login');
     loginUser(serviceUser);
     cy.get('button').contains('Allow All').click();

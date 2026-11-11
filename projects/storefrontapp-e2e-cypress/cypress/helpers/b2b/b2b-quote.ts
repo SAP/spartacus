@@ -26,7 +26,7 @@ export const STATUS_BUYER_SUBMIT = 'status_buyer_submit';
 export const STATUS_BUYER_CANCEL = 'status_buyer_cancel';
 export const STATUS_BUYER_CHECKOUT = 'status_buyer_checkout';
 export const STATUS_SALES_REPORTER_SUBMIT = 'status_sales_reporter_submit';
-const SHOP_NAME = Cypress.env('BASE_SITE'); //Powertools-spa
+const SHOP_NAME = Cypress.expose('BASE_SITE'); //Powertools-spa
 const QUOTE_LIST_PATH = `${SHOP_NAME}/en/USD/my-account/quotes`;
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
@@ -1171,7 +1171,7 @@ function clickCancelQuoteBtn(editMode: boolean) {
  */
 export function goToQuoteListPage(): void {
   log('Go to the quote list page', goToQuoteListPage.name);
-  const location = `${Cypress.env('BASE_SITE')}/en/USD/my-account/quotes`;
+  const location = `${Cypress.expose('BASE_SITE')}/en/USD/my-account/quotes`;
   cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     checkQuoteListDisplayed();
@@ -1710,7 +1710,7 @@ export function registerReadQuoteRoute() {
   log('Registers read quote route.', registerReadQuoteRoute.name);
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes/*`,
+    path: `${Cypress.expose('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes/*`,
   }).as(READ_QUOTE.substring(1)); // strip the '@'
 }
 
@@ -1721,7 +1721,7 @@ export function registerAddQuoteCommentRoute() {
   log('Registers add quote comment route.', registerAddQuoteCommentRoute.name);
   cy.intercept({
     method: 'POST',
-    path: `${Cypress.env(
+    path: `${Cypress.expose(
       'OCC_PREFIX'
     )}/${SHOP_NAME}/users/**/quotes/**/comments*`,
   }).as(ADD_QUOTE_COMMENT.substring(1)); // strip the '@'
@@ -1737,7 +1737,7 @@ export function registerPerformQuoteActionRoute() {
   );
   cy.intercept({
     method: 'POST',
-    path: `${Cypress.env(
+    path: `${Cypress.expose(
       'OCC_PREFIX'
     )}/${SHOP_NAME}/users/**/quotes/**/action*`,
   }).as(PERFORM_QUOTE_ACTION.substring(1)); // strip the '@'
@@ -1750,7 +1750,7 @@ export function registerUpdateQuoteItemRoute() {
   log('Registers update quote item route.', registerUpdateQuoteItemRoute.name);
   cy.intercept({
     method: 'PATCH',
-    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/**/quotes/**`,
+    path: `${Cypress.expose('OCC_PREFIX')}/${SHOP_NAME}/users/**/quotes/**`,
   }).as(UPDATE_QUOTE_ITEM.substring(1)); // strip the '@'
 }
 
@@ -1761,7 +1761,7 @@ export function registerUpdateCartItemRoute() {
   log('Registers update cart item route.', registerUpdateCartItemRoute.name);
   cy.intercept({
     method: 'PATCH',
-    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/current/carts/**`,
+    path: `${Cypress.expose('OCC_PREFIX')}/${SHOP_NAME}/users/current/carts/**`,
   }).as(UPDATE_CART_ITEM.substring(1)); // strip the '@'
 }
 
@@ -1772,7 +1772,7 @@ export function registerDeleteQuoteItemRoute() {
   log('Registers delete quote item route.', registerDeleteQuoteItemRoute.name);
   cy.intercept({
     method: 'DELETE',
-    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/current/carts/**`,
+    path: `${Cypress.expose('OCC_PREFIX')}/${SHOP_NAME}/users/current/carts/**`,
   }).as(DELETE_QUOTE_ITEM.substring(1)); // strip the '@'
 }
 

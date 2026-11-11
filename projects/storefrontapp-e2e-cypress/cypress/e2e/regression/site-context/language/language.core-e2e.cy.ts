@@ -11,7 +11,7 @@ context('Language Switcher', () => {
 
   beforeEach(() => {
     cy.intercept({
-      pathname: `${Cypress.env('OCC_PREFIX')}/${
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${
         siteContextSelector.CONTENT_CATALOG
       }/languages`,
       query: {

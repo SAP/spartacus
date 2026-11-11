@@ -71,7 +71,7 @@ describe('Payment Methods', () => {
       it('should set additional payment method as default', () => {
         cy.intercept({
           method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/*/paymentdetails`,
           query: {

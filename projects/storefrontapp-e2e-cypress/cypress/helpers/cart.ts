@@ -104,7 +104,7 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
       .click({ force: true });
   } else {
     cy.intercept(
-      `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/products/search?fields=*&query=${id}&*`
     ).as('ProductSearch');
@@ -229,13 +229,13 @@ export function validateEmptyCart() {
 }
 
 function getOccUrlPrefix() {
-  return `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}`;
+  return `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}`;
 }
 
 function getBaseUrlPrefix() {
-  return `/${Cypress.env('BASE_SITE')}/${Cypress.env(
+  return `/${Cypress.expose('BASE_SITE')}/${Cypress.expose(
     'BASE_LANG'
-  )}/${Cypress.env('BASE_CURRENCY')}`;
+  )}/${Cypress.expose('BASE_CURRENCY')}`;
 }
 
 export function registerCartPageRoute() {

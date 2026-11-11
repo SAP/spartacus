@@ -13,7 +13,7 @@ const CART_FROM_ORDER_ERROR_ALIAS = 'cartFromOrderError';
 describe('Reorder dialog error handling', () => {
   before(() => {
     clearAllStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
     goToB2BOrderHistoryPage();
   });
 
@@ -24,7 +24,7 @@ describe('Reorder dialog error handling', () => {
 
     cy.intercept(
       'POST',
-      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/orgUsers/current/cartFromOrder?*`,
       {

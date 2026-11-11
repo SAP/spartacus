@@ -17,9 +17,9 @@ describe('Replenishment order details', { testIsolation: false }, () => {
   isolateTests();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
-    Cypress.env('OCC_PREFIX_USER_ENDPOINT', USER_REQUEST_ENDPOINT);
-    Cypress.env('OCC_PREFIX_ORDER_ENDPOINT', ORDER_REQUEST_ENDPOINT);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('OCC_PREFIX_USER_ENDPOINT', USER_REQUEST_ENDPOINT);
+    Cypress.expose('OCC_PREFIX_ORDER_ENDPOINT', ORDER_REQUEST_ENDPOINT);
   });
 
   it('should login and cancel a replenishment order details', () => {

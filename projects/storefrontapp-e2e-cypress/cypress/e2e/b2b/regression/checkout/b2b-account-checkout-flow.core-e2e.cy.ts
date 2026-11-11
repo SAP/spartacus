@@ -15,7 +15,7 @@ import {
 
 context('B2B - Account Checkout flow', () => {
   before(() => {
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
   it('Should checkout using an account payment type', () => {

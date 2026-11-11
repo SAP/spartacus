@@ -140,7 +140,7 @@ export function checkQuantityStepper(cartItemIndex: number, quantity: number) {
 export function registerQuantityPatchRoute() {
   cy.intercept(
     'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/*/carts/*/entries/0?lang=en&curr=USD`
   ).as(PATCH_QUANTITY_IN_CART_ALIAS.substring(1));
@@ -152,7 +152,7 @@ export function registerQuantityPatchRoute() {
 export function registerCartRoute() {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/*/carts/*?fields=DEFAULT*`
   ).as(GET_CART_ALIAS.substring(1));

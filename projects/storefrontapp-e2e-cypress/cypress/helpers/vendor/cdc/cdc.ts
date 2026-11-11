@@ -63,9 +63,9 @@ export function interceptGetB2BUser() {
   const interceptName = 'currentB2BUser';
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
-    )}/${Cypress.env('OCC_PREFIX_USER_ENDPOINT')}/current?*`,
+    )}/${Cypress.expose('OCC_PREFIX_USER_ENDPOINT')}/current?*`,
   }).as('currentB2BUser');
 
   return interceptName;
@@ -86,7 +86,7 @@ export function updateCustomerIdForB2BUser(interceptName: string) {
 export function waitForCmsComponentsToLoad(baseSite: string) {
   cy.intercept({
     method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${baseSite}/${cmsEndpoints.components}`,
+    pathname: `${Cypress.expose('OCC_PREFIX')}/${baseSite}/${cmsEndpoints.components}`,
   }).as('getComponents');
   cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
 }

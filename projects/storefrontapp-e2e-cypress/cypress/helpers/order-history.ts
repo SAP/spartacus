@@ -68,7 +68,7 @@ export function doPlaceOrder(productData?: any) {
 export function interceptCartPageEndpoint() {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/${cmsEndpoints.pages}?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as(CART_PAGE_ALIAS);
@@ -91,7 +91,7 @@ export function waitForResponse(alias: string) {
 export function interceptAddToCartEndpoint() {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}/${Cypress.expose(
       'OCC_PREFIX_USER_ENDPOINT'
     )}/*/carts/*/entries*`
   ).as(ADD_TO_CART_ENDPOINT_ALIAS);
@@ -102,7 +102,7 @@ export function interceptAddToCartEndpoint() {
 export function interceptOrdersEndpoint(): string {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orders?*`
   ).as(ORDERS_ALIAS);
@@ -113,7 +113,7 @@ export function interceptOrdersEndpoint(): string {
 export function interceptCartFromOrderEndpoint(): string {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/orgUsers/current/cartFromOrder?*`
   ).as(CART_FROM_ORDER_ALIAS);

@@ -91,7 +91,7 @@ const ATTR_NAMES = {
   ],
 };
 
-const CPQ_BACKEND_URL = `${Cypress.env('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`;
+const CPQ_BACKEND_URL = `${Cypress.expose('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`;
 
 context('CPQ Configuration', () => {
   beforeEach(() => {

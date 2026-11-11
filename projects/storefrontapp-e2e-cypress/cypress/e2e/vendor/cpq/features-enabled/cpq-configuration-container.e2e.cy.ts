@@ -87,7 +87,7 @@ const CPQ_CONTAINER_DROP_DOWN_LIST_THRESHOLD = 2;
 const testConfig = [
   {
     name: 'CPQ Configuration Container',
-    backendURL: `${Cypress.env('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
+    backendURL: `${Cypress.expose('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
   },
 ];
 

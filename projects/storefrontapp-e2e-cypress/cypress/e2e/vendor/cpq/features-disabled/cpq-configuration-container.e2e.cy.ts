@@ -85,7 +85,7 @@ const TRAIN_CONTAINER_PRODUCTS = [
 const testConfig = [
   {
     name: 'CPQ Configuration Container',
-    backendURL: `${Cypress.env('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
+    backendURL: `${Cypress.expose('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
   },
 ];
 

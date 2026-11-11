@@ -28,8 +28,8 @@ const oppsTester = {
 describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
   beforeEach(() => {
     cy.restoreLocalStorage();
-    Cypress.env('BASE_SITE', APPAREL_BASESITE);
-    Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
+    Cypress.expose('BASE_SITE', APPAREL_BASESITE);
+    Cypress.expose('BASE_CURRENCY', APPAREL_CURRENCY);
     cy.cxConfig({
       opps: {
         couponcodes: {
@@ -47,7 +47,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
     it('should fetch appropriate banner customization based on coupon codes', () => {
       interceptGet('couponCodesApi', `${cmsEndpoints.pages}*`);
       cy.visit(
-        `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+        `${Cypress.expose('BASE_SITE')}/${Cypress.expose('BASE_LANG')}/${Cypress.expose(
           'BASE_CURRENCY'
         )}/?${e2eUrlParam}=Summer100`
       );
@@ -61,7 +61,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
     beforeEach(() => {
       cy.intercept({
         method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
           'BASE_SITE'
         )}/${cmsEndpoints.pages}?pageType=ProductPage**`,
       }).as('productPage');
@@ -70,7 +70,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       visitLoginPage();
       loginUser(oppsTester);
       cy.visit(
-        `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+        `${Cypress.expose('BASE_SITE')}/${Cypress.expose('BASE_LANG')}/${Cypress.expose(
           'BASE_CURRENCY'
         )}/product/${oppsProduct.productID}/${
           oppsProduct.productName
@@ -82,7 +82,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
     });
     it('should redirect to login page if user is not logged in, and once user logs in, show PDP', () => {
       cy.visit(
-        `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+        `${Cypress.expose('BASE_SITE')}/${Cypress.expose('BASE_LANG')}/${Cypress.expose(
           'BASE_CURRENCY'
         )}/product/${oppsProduct.productID}/${
           oppsProduct.productName
@@ -100,14 +100,14 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
     beforeEach(() => {
       cy.intercept({
         method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
           'BASE_SITE'
         )}/${cmsEndpoints.pages}?pageType=ProductPage**`,
       }).as('productPage');
     });
     it('should fetch appropriate banner customization based on coupon codes & show login page if user is not logged in', () => {
       cy.visit(
-        `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+        `${Cypress.expose('BASE_SITE')}/${Cypress.expose('BASE_LANG')}/${Cypress.expose(
           'BASE_CURRENCY'
         )}/product/${oppsProduct.productID}/${
           oppsProduct.productName

@@ -14,11 +14,11 @@ export const productID = 'PCS-01-ART148'; //use s9 system
 
 describe('Promotions in PDP', () => {
   beforeEach(() => {
-    Cypress.env('BASE_SITE', APPAREL_BASESITE);
-    Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
+    Cypress.expose('BASE_SITE', APPAREL_BASESITE);
+    Cypress.expose('BASE_CURRENCY', APPAREL_CURRENCY);
     cy.intercept({
       method: 'GET',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/${cmsEndpoints.pages}?pageType=ProductPage**`,
     }).as('productPage');

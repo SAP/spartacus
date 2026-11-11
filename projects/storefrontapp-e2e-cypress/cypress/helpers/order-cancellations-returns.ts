@@ -52,7 +52,7 @@ export function getStubbedCancellableOrderDetails() {
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orders/${ORDER_CODE}`,
     },
@@ -64,7 +64,7 @@ export function getStubbedReturnableOrderDetails() {
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orders/${ORDER_CODE}`,
     },
@@ -76,7 +76,7 @@ export function confirmCancelOrder() {
   cy.intercept(
     {
       method: 'POST',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orders/${ORDER_CODE}/cancellation`,
     },
@@ -88,7 +88,7 @@ export function confirmReturnOrder() {
   cy.intercept(
     {
       method: 'POST',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderReturns`,
     },
@@ -100,7 +100,7 @@ export function getStubbedReturnRequestList() {
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderReturns`,
     },
@@ -119,7 +119,7 @@ export function getStubbedReturnRequestDetails() {
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderReturns/${RMA}`,
     },
@@ -141,7 +141,7 @@ export function cancelReturnRequest() {
   cy.intercept(
     {
       method: 'PATCH',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderReturns/${RMA}`,
     },
@@ -156,7 +156,7 @@ export function getStubbedReturnRequestListAfterCancel() {
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderReturns`,
     },
@@ -168,7 +168,7 @@ export function getStubbedReturnRequestDetailsAfterCancel() {
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderReturns/${RMA}`,
     },

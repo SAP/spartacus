@@ -31,7 +31,7 @@ Cypress.Commands.add('requireCostCenterAddressSelected', (auth, cartId) => {
   function getCostCenters() {
     return cy.request({
       method: 'GET',
-      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/costcenters`,
       form: false,
@@ -44,7 +44,7 @@ Cypress.Commands.add('requireCostCenterAddressSelected', (auth, cartId) => {
   function addCostCenter(costCenterCode: string) {
     return cy.request({
       method: 'PUT',
-      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/carts/${cartCode}/costcenter?costCenterId=${costCenterCode}`,
       form: false,
@@ -57,7 +57,7 @@ Cypress.Commands.add('requireCostCenterAddressSelected', (auth, cartId) => {
   function addDeliveryAddress(addressId: string) {
     return cy.request({
       method: 'PUT',
-      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/orgUsers/current/carts/${cartCode}/addresses/delivery?addressId=${addressId}`,
       form: false,

@@ -67,7 +67,7 @@ export function stubForCartsRefresh() {
   stubForCartRefresh();
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
   ).as('refresh_selectivecart');
@@ -75,7 +75,7 @@ export function stubForCartsRefresh() {
 export function stubForCartRefresh() {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');

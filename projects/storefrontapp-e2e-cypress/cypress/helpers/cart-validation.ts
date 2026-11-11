@@ -16,7 +16,7 @@ export function validateStock(mockResponse = {}, alias = 'validate') {
   cy.intercept(
     {
       method: 'POST',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/carts/*/validate`,
     },

@@ -88,7 +88,7 @@ describe('Profile-tag events', () => {
     it('should send CartModified and CartSnapshot events on modifying the cart', () => {
       cy.intercept({
         method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
           'BASE_SITE'
         )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');
@@ -139,7 +139,7 @@ describe('Profile-tag events', () => {
     it('should send RemovedFromCart and CartSnapshot events on removing an item from the cart', () => {
       cy.intercept({
         method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
           'BASE_SITE'
         )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');

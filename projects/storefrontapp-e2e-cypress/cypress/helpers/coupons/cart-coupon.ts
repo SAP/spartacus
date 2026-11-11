@@ -127,7 +127,7 @@ export function ApplyMyCoupons(
 export function claimCoupon(couponCode: string) {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
@@ -314,7 +314,7 @@ export function verifyNoCouponInOrder() {
 export function registerOrderDetailsRoute(orderCode: string) {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orders/${orderCode}?fields=*&lang=en&curr=USD`
   ).as('order_details');
@@ -420,7 +420,7 @@ export function getCartUserForExpressCheckout() {
 function registerProductDetailsRoute(productCode: string) {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/products/${productCode}?fields=*&lang=en&curr=USD`,
   }).as('product_details');
@@ -430,7 +430,7 @@ function registerCartRefreshRoute(userType = UserType.LOGGED) {
   //TODO matchers don't have proper regex (digits only). This might fail with a lot of carts in the system.
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/${userType}/carts/${
       userType === UserType.ANONYMOUS ? '*' : '[0-9]*'
@@ -441,7 +441,7 @@ function registerCartRefreshRoute(userType = UserType.LOGGED) {
 function registerReviewOrderRoute(cartId?: string) {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}//users/${
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}//users/${
       cartId ? UserType.LOGGED : UserType.ANONYMOUS
     }/carts/${cartId || '*'}?fields=DEFAULT*`,
   }).as('review_order');
@@ -483,7 +483,7 @@ function verifyLoginPageForGuestCheckout() {
 function interceptVoucherPostRequest() {
   cy.intercept({
     method: 'POST',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/*/carts/*/vouchers?voucherId=*&lang=en&curr=USD`,
   }).as(`fetchVoucher`);

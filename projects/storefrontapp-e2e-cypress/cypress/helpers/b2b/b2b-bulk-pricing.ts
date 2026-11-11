@@ -16,7 +16,7 @@ export function visitProduct(productCode) {
 
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/orgProducts/${productCode}*`
   ).as(bulkPricingAlias);
@@ -34,7 +34,7 @@ export function addOneToCart() {
 export function addAndverifyTotal(quantity) {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/orgUsers/*/carts/*/entries?*`
   ).as('totalAlias');
@@ -57,7 +57,7 @@ export function addAndverifyTotal(quantity) {
 export function updateAndverifyTotal(newQuantity) {
   cy.intercept(
     'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/*/carts/*/entries/0?lang=en&curr=USD`
   ).as('newTotalAlias');

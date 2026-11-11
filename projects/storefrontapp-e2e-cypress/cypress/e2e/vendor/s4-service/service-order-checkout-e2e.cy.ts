@@ -12,7 +12,7 @@ import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 describe('Service Order Checkout Flow ', () => {
   beforeEach(() => {
     cy.restoreLocalStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
     cy.visit('/powertools-spa/en/USD/login');
     loginUser(helper.serviceUser);
     cy.get('button').contains('Allow All').click();
