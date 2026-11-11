@@ -82,7 +82,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
               const propertyStart = node.range[0];
 
               // Get any decorators before the property
-              const decorators = node.decorators || [];
+              const decorators = node.decorators ?? [];
 
               // If there's a 'protected' or 'public' modifier, we need to replace it
               if (

@@ -100,7 +100,7 @@ export class ConfigurableRoutesService {
         return {
           ...route,
           matcher: this.urlMatcherService.getFromPaths(
-            routeConfig?.paths || []
+            routeConfig?.paths ?? []
           ),
         };
       }
