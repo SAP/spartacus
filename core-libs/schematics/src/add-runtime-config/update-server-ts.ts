@@ -12,11 +12,25 @@ import { createImports } from '../shared/utils/import-utils';
 import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
-// Proxy route inserted before the Angular catch-all. Keeps the { value: "..." }
-// wrapper intact so the browser's getRuntimeEnvironment() parses ConfigJson itself.
-// Flattening here (parseConfigJson) causes a double-parse bug where entry.value
-// becomes undefined and provideRuntimeOccConfig() receives no OCC URL.
-const CONFIG_JSON_PROXY_ROUTE = `server.get('/config.json', async (_req, res) => {
+// Always registered. CONFIG_URL is an SSR concept — the Node process fetches config from it
+// per render (server-to-server). This route bridges the CSR fallback path (SSR timeout):
+// when SSR times out, the browser receives plain HTML with no TransferState, Angular
+// bootstraps in CSR mode, and getRuntimeEnvironment() fetches /config.json from the same
+// host as the app (creating the requirement for this route) — this route re-fetches
+// CONFIG_URL upstream and returns the result. In Spartacus Classic (Express is the public
+// entry point) this route is actively required. With Caddy in front, Caddy serves
+// /config.json on the same host before Express sees it, making this route unreachable
+// but harmless.
+//
+// Keeps the { value: "..." } wrapper intact so the browser's getRuntimeEnvironment() parses
+// ConfigJson itself. Flattening here (parseConfigJson) causes a double-parse bug where
+// entry.value becomes undefined and provideRuntimeOccConfig() receives no OCC URL.
+const CONFIG_JSON_PROXY_ROUTE = `// CSR fallback route (SSR timeout only). CONFIG_URL is an SSR concept — the Node process
+  // fetches config from it per render. When SSR times out, Angular bootstraps in CSR mode
+  // and getRuntimeEnvironment() fetches /config.json from the same host as the app — this
+  // route re-fetches CONFIG_URL upstream and returns the result. Safe to keep when Caddy
+  // is in front (Caddy intercepts /config.json before Express).
+  server.get('/config.json', async (_req, res) => {
     const configUrl = process.env['CONFIG_URL'];
     if (!configUrl) {
       res.json({});
