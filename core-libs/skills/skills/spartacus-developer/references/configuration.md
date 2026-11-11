@@ -86,6 +86,8 @@ export class AppOccConfigModule {}
 
 ## Troubleshooting — "my config isn't applied"
 
+For media loading, picture formats or first-view CMS prioritization, read [performance.md](performance.md) before changing defaults. It gives the installed `lcpCmsComponents.ids`/`imageLoadingStrategy` shape, explains CMS UID selection and preserves global lazy loading. Put this configuration where it is available before first CMS rendering; verify the merged config and emitted native image rather than assuming a config entry affects every template.
+
 When a config value isn't taking effect at runtime, see [configuration-troubleshooting.md](./configuration-troubleshooting.md) for the full debug flow (live-config logging plus the three common root causes).
 
 ## Source reference (in `node_modules/@spartacus/*`)

@@ -1,10 +1,14 @@
 ---
 name: spartacus-developer
-description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration. Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
+description: Build and customize SAP Spartacus (SAP Commerce Cloud composable storefront) Angular applications, including CMS components, configuration, styling, state and backend integration. Apply storefront loading, layout and interaction safeguards as part of ordinary feature development. Read the relevant references before changing Spartacus-specific behavior.
 license: Apache-2.0
 ---
 
 # Spartacus Storefront — AI Development Guidelines
+
+Complete the requested feature using the installed Spartacus APIs and existing application conventions. For new or changed UI, identify what appears on first render, what remains offscreen/closed/inactive, and what work runs on interaction. Preserve CMS content, accessibility and business results while choosing loading, layout and scheduling behavior for those states. When a local preview and browser tools are available, run the relevant [browser acceptance checks](references/browser-verification.md), inspect actual requests/DOM and repair failures before finishing. Report unavailable verification honestly. Do not turn a small feature into unrelated optimization work.
+
+For a feature with several states, trace each substantial dependency to its **first visible use** before wiring the component. Keep the existing CMS host, first visible content and keyboard controls eager. Insert only the active state's media into the DOM. Start optional data requests, imports and expensive preparation when a shopper first needs them. Put heavy dependencies inside that boundary, including data subscriptions and the code that parses them. Verify a cold production load and the first use separately. Use the [on-demand implementation and bundle check](references/on-demand-content.md) when adding selectable content or a closed tool.
 
 ## Sub-topics
 
@@ -26,7 +30,9 @@ Each topic lives in its own `.md` file in the `references/` folder. Read a topic
 - [facades-not-store.md](references/facades-not-store.md) — read when reading or writing Spartacus state from a component.
 - [ssr-safety.md](references/ssr-safety.md) — read when touching `window`, `document`, `localStorage`, or any browser-only API.
 - [outlets.md](references/outlets.md) — read when sprinkling new UI into an existing Spartacus page without replacing it.
-- [performance.md](references/performance.md) — read when a component renders images, a hero/banner, a carousel, or any responsive layout where paint performance or layout stability matters.
+- [performance.md](references/performance.md) — read for CMS first-view media, carousels, closed panels, responsive artwork or LCP/CLS diagnosis. For a leading image, trace its discovery from the delivered document through CMS rendering and use the [initial image discovery guide](references/initial-image-discovery.md) when Angular or CMS delays its request.
+- [performance-interactions.md](references/performance-interactions.md) — read when adding handlers that calculate, rank, filter, parse or render substantial data, or investigating slow interactions. Covers profiling, bounded yielding, workers, cancellation and exact results.
+- [browser-verification.md](references/browser-verification.md) — read when verifying changed UI. Covers actual responsive requests/geometry, functional interactions and reusable local browser evidence; a passing build is not browser acceptance.
 
 Some topics link to further deep-dive material in the same `references/` folder.
 
@@ -52,8 +58,12 @@ Components and SSR:
 - ALWAYS use `ChangeDetectionStrategy.OnPush` on new components, paired with the `async` pipe (preserve `Default` when extending a Spartacus component that uses it).
 - AVOID `.subscribe()` in components when the data drives the template; if you reach for `markForCheck()`, the data should be a stream.
 - NEVER reference `window`/`document`/`localStorage` without guarding via `WindowRef.isBrowser()`.
-- NEVER add `loading="lazy"` to the hero/LCP image — above-the-fold images must load immediately.
-- ALWAYS set `width` and `height` (or CSS `aspect-ratio`) on every image container to prevent layout shift (CLS).
+- NEVER add `loading="lazy"` to the hero/LCP image — avoid deferring its fetch until viewport detection.
+- For a predictable first-view image, inspect the navigation response and publish the hint only for an exact public placement. Use its site, language, currency and route scope for both the visible feature and the hint. Account or audience-dependent content needs its actual authorization/data boundary.
+- ALWAYS reserve image space with accurate `width`/`height` attributes on the image or CSS sizing such as `aspect-ratio` to prevent layout shift (CLS).
+- For different artwork crops, use one responsive `<picture>` through the supported media API or native markup; CSS-hiding separate eager images can still download both. See [performance.md](references/performance.md).
+- Fit the generated `cx-media` picture/img as well as reserving its host. Parent component-scoped styles do not reach child-view internals; use a narrowly scoped global rule when needed.
+- Keep initial LCP prioritization selective, global media lazy loading intact, and closed/inactive media unrequested when required. Immediate interaction feedback must be followed by genuinely yielding or off-thread work, not one deferred long task.
 
 Configuration:
 - ALWAYS use `provideConfig()` (not `provideDefaultConfig()`)

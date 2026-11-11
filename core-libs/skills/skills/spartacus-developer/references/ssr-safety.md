@@ -2,7 +2,7 @@
 
 ## Rule
 
-If this app was installed with `--ssr` (or set up via `ng add @spartacus/setup --ssr`), it runs Server-Side Rendering in production. A single unguarded `window.something` reference crashes the server render: the initial SSR HTML comes back blank, then transitions to the CSR page after a delay. First paint is delayed, Core Web Vitals suffer, and SEO crawling sees the blank page.
+An SSR-enabled app can serve rendered HTML, a shared CSR shell or a route-specific fallback. Inspect the production document and rendering strategy for the route. On account or loyalty pages, establish where authenticated data first becomes available. Use a neutral SSR shell when per-request authorization and private caching are unverified. An unguarded browser API can fail a server render and delay first paint.
 
 If a component or service uses `window`, `document`, `localStorage`, `sessionStorage`, `IntersectionObserver`, `navigator`, a browser-only third-party widget (maps, analytics, chat, video players), or any API that doesn't exist in Node — guard the browser-only code with `WindowRef.isBrowser()`.
 

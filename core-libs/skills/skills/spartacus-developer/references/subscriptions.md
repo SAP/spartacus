@@ -91,4 +91,6 @@ export class MyService {
 
 ## Supplemental Information
 
+- [performance-interactions.md](performance-interactions.md) — for expensive event work, pending feedback, exact results and cancellation. An Observable/async pipe or OnPush does not make a synchronous computation non-blocking; cancel the underlying operation as well as unsubscribing.
+
 - [anti-patterns.md](anti-patterns.md) — three concrete subscription anti-patterns (copying a stream into a property, `subscribe()` + `markForCheck()` after a Command, manual `Subscription` field + `ngOnDestroy`) with paired fixes.

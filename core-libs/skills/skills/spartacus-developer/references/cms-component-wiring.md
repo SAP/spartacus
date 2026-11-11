@@ -32,6 +32,8 @@ provideConfig({
 })
 ```
 
+If an override targets one banner in a shared CMS type, render other placements with the installed stock component and its actual host (for example, `<cx-banner>` where the installed mapping uses it). Stock styles can scope the clickable image area to that host. Copying its inner HTML into a different host can leave the same image and link URL with an unreachable pointer target.
+
 ## CMS Component Data
 
 CMS components receive their CMS-managed data via `CmsComponentData<T>` injection:
@@ -101,10 +103,10 @@ If your component type isn't listed in any slot, the CMS backoffice hasn't place
 
 ## Source reference (in `node_modules/@spartacus/*`)
 
-- `CmsConfig`, `provideConfig`, `CmsComponentData`, `CmsService` from `@spartacus/core`.
+- `CmsConfig`, `provideConfig`, `CmsService` from `@spartacus/core`; `CmsComponentData` from `@spartacus/storefront` in the installed public API (verify the package export for your version).
 - `BannerModule`, `OutletDirective` from `@spartacus/storefront`.
 
 ## Supplemental Information
 
 - [placement-mechanisms.md](placement-mechanisms.md) — the three placement mechanisms in detail, including the `cmsStructure` config for development/demo.
-- If this component displays a hero banner or the page's main image, read [performance.md](./performance.md) before writing the template — it covers `fetchpriority`, image dimensions, and layout-stability rules.
+- Before implementing media or responsive CMS content, read [performance.md](performance.md): choose its initial visible/closed/inactive state, wire selective LCP context by the real CMS UID, and fit/reserve the generated image. For substantial interaction work, read [performance-interactions.md](performance-interactions.md). CMS registration alone does not establish correct loading or responsiveness.

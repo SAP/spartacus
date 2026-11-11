@@ -24,7 +24,7 @@ Keep one SCSS file per component you override (e.g. `cx-mini-cart.scss`, `cx-pag
 
 ### Case B — Brand-new custom component
 
-The component is yours, lives under your own selector (`app-*`), and renders content the CMS doesn't already own. Here either approach works — pick one and stay consistent across the app:
+The component is yours, lives under your own selector (`app-*`), and implements your custom feature, including a new CMS-mapped component. Here either approach works — pick one and stay consistent across the app:
 
 - **Component-scoped styles** (`styleUrls` / `styles`) are fine. They keep CSS local and avoid polluting the global cascade.
 - **Global SCSS** scoped by the component's element selector is also fine, and is what Spartacus itself uses.
@@ -40,6 +40,8 @@ export class RecentlyViewedComponent {}
 ```
 
 Do NOT use the `cx-` prefix for your custom components — that prefix is reserved for Spartacus.
+
+A custom view's scoped styles can style a nested `cx-media` **host**, but Angular Emulated encapsulation prevents them from reaching the child's generated `picture`/`img`. Reserving the host with `aspect-ratio` does not automatically fit those descendants. Use the narrowly selector-scoped global fitting rules in [performance.md](performance.md), or owned native markup. Check both pre-load reservation and loaded geometry at each crop ratio. Do not remove encapsulation or use `::ng-deep` across the whole application just to fix one media region.
 
 ## How to customize Spartacus theme
 

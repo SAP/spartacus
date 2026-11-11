@@ -2,3 +2,4 @@
 project.json
 sub-folder/
 .pipeline/
+evals/
