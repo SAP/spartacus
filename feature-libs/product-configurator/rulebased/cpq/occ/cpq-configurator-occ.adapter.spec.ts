@@ -7,7 +7,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CpqConfiguratorOccAdapter } from './cpq-configurator-occ.adapter';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
@@ -264,18 +264,19 @@ describe('CpqConfiguratorOccAdapter', () => {
       totalNumberOfIssues: 0,
     };
 
+    let overview: Configurator.Overview | undefined;
     adapterUnderTest
       .updateConfigurationOverview(overviewInput)
-      .subscribe((overview) => {
-        expect(
-          mockedOccService.readConfigurationOverview
-        ).not.toHaveBeenCalled();
-        expect(overview.possibleGroups).toBe(possibleGroups);
-        expect(overview.priceSummary).toBe(priceSummary);
-        expect(overview.groups).toHaveLength(1);
-        expect(overview.groups?.[0].id).toBe('1');
-        expect(overview.groups?.[0].attributes).toHaveLength(1);
+      .subscribe((result) => {
+        overview = result;
       });
+
+    expect(mockedOccService.readConfigurationOverview).not.toHaveBeenCalled();
+    expect(overview?.possibleGroups).toBe(possibleGroups);
+    expect(overview?.priceSummary).toBe(priceSummary);
+    expect(overview?.groups).toHaveLength(1);
+    expect(overview?.groups?.[0].id).toBe('1');
+    expect(overview?.groups?.[0].attributes).toHaveLength(1);
   });
 
   it('should delegate update value quantity to OCC service and map owner', () => {

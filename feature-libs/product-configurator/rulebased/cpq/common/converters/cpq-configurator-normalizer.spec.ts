@@ -3761,6 +3761,77 @@ describe('CpqConfiguratorNormalizer', () => {
       ).toEqual([]);
     });
 
+    describe('convertContainerRow', () => {
+      const parentGroup: Configurator.Group = {
+        id: '1',
+        name: 'Group',
+        attributes: [],
+        subGroups: [],
+      };
+
+      it('should convert basePrice when CPQ sends a price number', () => {
+        const row = cpqConfiguratorNormalizer['convertContainerRow'](
+          {
+            id: '1',
+            productSystemId: 'P1',
+            productName: 'Product 1',
+            selected: false,
+            basePrice: 123.45,
+          },
+          cpqAttributeStdAttrCode,
+          parentGroup,
+          CURRENCY,
+          []
+        );
+
+        expect(row.basePrice?.currencyIso).toBe(CURRENCY);
+        expect(row.basePrice?.value).toBe(123.45);
+        expect(row.basePrice?.formattedValue).toBe('$123.45');
+      });
+
+      it('should leave basePrice undefined when CPQ omits it', () => {
+        const row = cpqConfiguratorNormalizer['convertContainerRow'](
+          {
+            id: '1',
+            productSystemId: 'P1',
+            productName: 'Product 1',
+            selected: false,
+          },
+          cpqAttributeStdAttrCode,
+          parentGroup,
+          CURRENCY,
+          []
+        );
+
+        expect(row.basePrice).toBeUndefined();
+      });
+
+      it('should map basePrice on container rows during configuration conversion', () => {
+        const result = cpqConfiguratorNormalizer.convert(
+          configurationWithContainers([
+            {
+              stdAttrCode: cpqAttributeStdAttrCode,
+              rows: [
+                {
+                  id: '1',
+                  productSystemId: 'P1',
+                  productName: 'Product 1',
+                  selected: false,
+                  basePrice: 99.0,
+                },
+              ],
+            },
+          ])
+        );
+
+        const convertedRow =
+          result.groups[0].attributes?.[0].container?.rows[0];
+        expect(convertedRow?.basePrice?.currencyIso).toBe(CURRENCY);
+        expect(convertedRow?.basePrice?.value).toBe(99);
+        expect(convertedRow?.basePrice?.formattedValue).toBe('$99.00');
+      });
+    });
+
     it('should return no tab attributes when the tab is not selected and full state is absent', () => {
       expect(
         cpqConfiguratorNormalizer['getTabAttributes'](

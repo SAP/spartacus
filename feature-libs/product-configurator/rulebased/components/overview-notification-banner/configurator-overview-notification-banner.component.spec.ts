@@ -8,6 +8,10 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconComponent, IconTestingModule } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
@@ -20,6 +24,7 @@ import {
   productConfigurationWithConflicts,
   productConfigurationWithoutIssues,
 } from '../../testing/configurator-test-data';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 const productConfigurationWithDetailedIssuesCountedInOverview: Configurator.Configuration =
@@ -89,6 +94,10 @@ class MockConfiguratorCommonsService {
     return configurationObs;
   }
 }
+class MockConfiguratorStorefrontUtilsService {
+  isDisplayOnly = vi.fn(() => false);
+}
+
 let component: ConfiguratorOverviewNotificationBannerComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewNotificationBannerComponent>;
 let htmlElem: HTMLElement;
@@ -120,6 +129,13 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        ...provideMockFeatureToggles({
+          productConfiguratorReadOnlyCartEntryConfiguration: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorOverviewNotificationBannerComponent, {
@@ -321,5 +337,75 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
       htmlElem,
       '.cx-error-msg'
     );
+  });
+
+  describe('resolve links in display-only mode', () => {
+    let featureToggles: MockFeatureTogglesController;
+
+    const errorLinkSelector = '.cx-error-msg button.cx-action-link';
+    const conflictLinkSelector = '.cx-conflict-msg button.cx-action-link';
+
+    function initializeWithDisplayOnly(displayOnly: boolean): void {
+      vi.mocked(
+        TestBed.inject(ConfiguratorStorefrontUtilsService).isDisplayOnly
+      ).mockReturnValue(displayOnly);
+      configurationObs = of(
+        productConfigurationWithDetailedIssuesCountedInOverview
+      );
+      initialize(routerData);
+    }
+
+    function expectLinks(present: boolean): void {
+      const check = present
+        ? CommonConfiguratorTestUtilsService.expectElementPresent
+        : CommonConfiguratorTestUtilsService.expectElementNotPresent;
+      check(expect, htmlElem, errorLinkSelector);
+      check(expect, htmlElem, conflictLinkSelector);
+    }
+
+    beforeEach(() => {
+      featureToggles = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('with feature toggle productConfiguratorReadOnlyCartEntryConfiguration active', () => {
+      beforeEach(() => {
+        featureToggles.set(
+          'productConfiguratorReadOnlyCartEntryConfiguration',
+          true
+        );
+      });
+
+      it('should hide the resolve links but keep the messages in display-only mode', () => {
+        initializeWithDisplayOnly(true);
+
+        expectLinks(false);
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-error-msg'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-conflict-msg'
+        );
+      });
+
+      it('should display the resolve links if not in display-only mode', () => {
+        initializeWithDisplayOnly(false);
+
+        expectLinks(true);
+      });
+    });
+
+    it('should display the resolve links in display-only mode if feature toggle productConfiguratorReadOnlyCartEntryConfiguration is inactive', () => {
+      featureToggles.set(
+        'productConfiguratorReadOnlyCartEntryConfiguration',
+        false
+      );
+      initializeWithDisplayOnly(true);
+
+      expectLinks(true);
+    });
   });
 });

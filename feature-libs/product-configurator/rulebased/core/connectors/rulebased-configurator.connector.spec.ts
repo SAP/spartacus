@@ -512,12 +512,18 @@ describe('RulebasedConfiguratorConnector', () => {
         totalNumberOfIssues: 3,
         overview,
       };
-      service.updateConfigurationOverview(configWithOverview).subscribe();
+      let result;
+      service
+        .updateConfigurationOverview(configWithOverview)
+        .subscribe((res) => (result = res));
       expect(adapter[0].updateConfigurationOverview).toHaveBeenCalledWith({
         ...overview,
         priceSummary,
         totalNumberOfIssues: 3,
       });
+      expect(result).toBe(
+        'updateConfigurationOverview' + productConfiguration.configId
+      );
     });
     it('should retrieve overview if not available (exception case)', () => {
       let result;

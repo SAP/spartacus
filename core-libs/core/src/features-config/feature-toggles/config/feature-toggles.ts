@@ -172,13 +172,6 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
-   * When enabled, translates the "Password expired" error message
-   * to the user's selected language using Spartacus i18n.
-   * Affects: `LoginComponent`
-   */
-  enablePasswordExpiredErrorTranslation?: boolean;
-
-  /**
    * When enabled, the media prefix from the backend config will be used
    * when constructing media URLs in the MediaService.
    * Affects: `MediaService`
@@ -797,6 +790,25 @@ export interface FeatureTogglesInterface {
   productConfiguratorDropDownList?: boolean;
 
   /**
+   * When enabled, a configuration attached to an entry of the active cart is
+   * read with `readOnly=true` if it is only displayed (route parameter
+   * `displayOnly`). The backend then returns the configuration attached to the
+   * cart entry without creating a draft. In display-only mode, the overview
+   * notification banner no longer offers the 'Resolve Issues' and
+   * 'Resolve Conflicts' links.
+   *
+   * Requires a SAP Commerce backend whose OCC cart entry configuration
+   * endpoints support the `readOnly` query parameter (VC and CPQ).
+   *
+   * Affects:
+   * `ConfiguratorCartService`,
+   * `ConfiguratorCommonsService`,
+   * `ConfiguratorOverviewFormComponent`,
+   * `ConfiguratorOverviewNotificationBannerComponent`
+   */
+  productConfiguratorReadOnlyCartEntryConfiguration?: boolean;
+
+  /**
    * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
    * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
    * stays legible on the danger background in the high-contrast dark theme
@@ -1037,7 +1049,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFutureStockAccordionAriaControls: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-  enablePasswordExpiredErrorTranslation: true,
   enableMediaPrefix: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
@@ -1106,6 +1117,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productConfiguratorConsolidatedButtonDisabling: false,
   productConfiguratorCPQContainer: false,
   productConfiguratorDropDownList: false,
+  productConfiguratorReadOnlyCartEntryConfiguration: false,
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
