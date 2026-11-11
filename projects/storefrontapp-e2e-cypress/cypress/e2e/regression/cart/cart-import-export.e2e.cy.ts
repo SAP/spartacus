@@ -279,7 +279,7 @@ context('Cart Import/Export', () => {
         cy.log('MALFORMED CSVs - SHOULD NOT IMPORT EMPTY CSV FILE:');
         const CSV = 'empty.csv';
         cy.writeFile(`cypress/downloads/${CSV}`, '');
-        importExport.attemptUpload(`../downloads/${CSV}`);
+        importExport.attemptUpload(`cypress/downloads/${CSV}`);
 
         cy.get('cx-import-entries-dialog cx-form-errors p').contains(
           'File should not be empty'
@@ -290,7 +290,7 @@ context('Cart Import/Export', () => {
         cy.log('MALFORMED CSVs - SHOULD NOT IMPORT MALFORMED CSV FILE:');
         const CSV = 'malformed.csv';
         cy.writeFile(`cypress/downloads/${CSV}`, 'I am wrong :(');
-        importExport.attemptUpload(`../downloads/${CSV}`);
+        importExport.attemptUpload(`cypress/downloads/${CSV}`);
 
         cy.get('cx-import-entries-dialog cx-form-errors p').contains(
           'File is not parsable'
@@ -306,7 +306,7 @@ context('Cart Import/Export', () => {
         cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as(
           'import'
         );
-        importExport.attemptUpload(`../downloads/${CSV}`);
+        importExport.attemptUpload(`cypress/downloads/${CSV}`);
         cy.wait('@import').its('response.statusCode').should('eq', 200);
 
         cy.get('.cx-import-entries-summary-warnings p').contains(

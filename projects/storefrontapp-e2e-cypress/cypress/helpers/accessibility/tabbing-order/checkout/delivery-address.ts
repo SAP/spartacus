@@ -63,7 +63,7 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
 
   cy.intercept({
     method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/**/addresses/delivery*`,
   }).as('setAddress');
@@ -83,7 +83,7 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
 
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts/*`,
   }).as('getCart');

@@ -6,7 +6,7 @@
 
 import { standardUser } from '../sample-data/shared-users';
 import { AccountData } from '../support/require-logged-in.commands';
-import { config } from '../support/utils/login';
+import { config, getClientCredentials } from '../support/utils/login';
 import * as authForms from './auth-forms';
 import { generateMail, randomString } from './user';
 import { cmsEndpoints } from './cms-endpoints';
@@ -30,7 +30,7 @@ export function createUser(): AccountData {
   cy.requireLoggedIn(user);
   cy.intercept({
     method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/${cmsEndpoints.pages}`,
     query: {
@@ -62,17 +62,19 @@ export function revokeAccessToken() {
     const accessToken = JSON.parse(win.localStorage.getItem(AUTH_STORAGE_KEY))
       .token.access_token;
 
-    return cy
-      .request({
-        method: 'POST',
-        url: config.revokeTokenUrl,
-        body: {
-          ...config.client,
-          token_type_hint: 'access_token',
-          token: accessToken,
-        },
-        form: true,
-      })
+    return getClientCredentials()
+      .then((client) =>
+        cy.request({
+          method: 'POST',
+          url: config.revokeTokenUrl,
+          body: {
+            ...client,
+            token_type_hint: 'access_token',
+            token: accessToken,
+          },
+          form: true,
+        })
+      )
       .then(() => {
         Cypress.log({
           name: 'revokeAccessToken',
@@ -160,7 +162,7 @@ export function visitAndWaitForRedirections(path: string) {
   cy.visit(path);
   cy.location('pathname', { timeout: 30000 }).should(
     'contain',
-    `/${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+    `/${Cypress.expose('BASE_SITE')}/${Cypress.expose('BASE_LANG')}/${Cypress.expose(
       'BASE_CURRENCY'
     )}`
   );

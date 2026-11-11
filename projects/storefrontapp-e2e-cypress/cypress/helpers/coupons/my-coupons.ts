@@ -20,7 +20,7 @@ export const CouponWithProducts = 'midautumn'; //Buy PowerShot A480 and get $20 
 export const PageSize = 10;
 export const NumberInPage2 = 1;
 
-export const pageUrl = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+export const pageUrl = `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
   'BASE_SITE'
 )}`;
 

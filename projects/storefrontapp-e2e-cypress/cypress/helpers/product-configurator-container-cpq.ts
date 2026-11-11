@@ -18,8 +18,7 @@ export const SELECTED_PRODUCTS = 'selected-products' as const;
 export const AVAILABLE_PRODUCTS = 'available-products' as const;
 
 export type containerSection =
-  | typeof SELECTED_PRODUCTS
-  | typeof AVAILABLE_PRODUCTS;
+  typeof SELECTED_PRODUCTS | typeof AVAILABLE_PRODUCTS;
 
 /**
  * Overflow-menu actions on a selected product card.

@@ -38,13 +38,13 @@ export function waitForPage(page: string, alias: string): string {
     page === 'homepage'
       ? {
           method: 'GET',
-          path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/${cmsEndpoints.pages}?lang=en&curr=*`,
         }
       : {
           method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/${cmsEndpoints.pages}`,
           query: {
@@ -61,7 +61,7 @@ export function waitForCategoryPage(
 ): string {
   cy.intercept({
     method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/${cmsEndpoints.pages}`,
     query: {

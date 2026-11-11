@@ -655,7 +655,7 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
 export function searchForProduct(productName: string): void {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/products/suggestions?term=${productName}*`,
   }).as('productSearch');

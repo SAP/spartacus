@@ -16,7 +16,7 @@ export function myAccountV2UserProfileManagementTabbingOrder(
 ) {
   cy.intercept({
     method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/${cmsEndpoints.components}`,
   }).as('getComponents');

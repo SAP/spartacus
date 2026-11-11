@@ -12,7 +12,7 @@ import { signOutUser } from '../../../helpers/checkout-flow';
 describe('Subscription - PDP, Order Placement, List, Details', () => {
   it('place subscription order and validate it under my-account', () => {
     cy.restoreLocalStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
 
     cy.visit('/powertools-spa/en/USD/login');
     login(
@@ -30,7 +30,7 @@ describe('Subscription - PDP, Order Placement, List, Details', () => {
         const match = text.match(/Confirmation of Order:\s*(\d+)/);
         if (match) {
           const orderNumber = match[1].trim();
-          Cypress.env('subscriptionOrderNumber', orderNumber);
+          Cypress.expose('subscriptionOrderNumber', orderNumber);
         } else {
           throw new Error('Order number not found in confirmation message');
         }
@@ -45,7 +45,7 @@ describe('Subscription - PDP, Order Placement, List, Details', () => {
   describe('Subscription Bills', () => {
     it('validate subscription bill list and detail pages', () => {
       cy.restoreLocalStorage();
-      Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+      Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
 
       cy.visit('/powertools-spa/en/USD/login');
       login(

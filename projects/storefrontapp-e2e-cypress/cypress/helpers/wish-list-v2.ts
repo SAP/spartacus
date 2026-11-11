@@ -7,7 +7,7 @@
 import { WishListUser } from './wish-list';
 
 function occBase(): string {
-  return `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}`;
+  return `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}`;
 }
 
 export const WISHLISTS_PATH = `${occBase()}/users/*/wishlists`;

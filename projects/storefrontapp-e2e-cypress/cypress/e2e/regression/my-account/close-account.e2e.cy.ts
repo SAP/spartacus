@@ -67,7 +67,7 @@ describe('My Account - Close Account', () => {
 
         cy.intercept(
           'DELETE',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
+          `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}/users/*`
         ).as('deleteQuery');
 
         cy.location('pathname').should('contain', CLOSE_ACCOUNT_URL);

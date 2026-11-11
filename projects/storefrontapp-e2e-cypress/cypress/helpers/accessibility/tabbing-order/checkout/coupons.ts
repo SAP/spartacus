@@ -14,7 +14,7 @@ const appliedCouponsContainerSelector = 'cx-applied-coupons';
 export function checkoutCouponsTabbingOrder(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts*`,
   }).as('getCarts');
@@ -26,7 +26,7 @@ export function checkoutCouponsTabbingOrder(config: TabElement[]) {
 export function checkoutAppliedCouponsTabbingOrder(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts*`,
   }).as('getCarts');

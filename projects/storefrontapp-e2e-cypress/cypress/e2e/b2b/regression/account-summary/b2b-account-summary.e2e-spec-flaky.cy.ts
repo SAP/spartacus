@@ -9,7 +9,7 @@ import * as sampleData from '../../../../sample-data/b2b-account-summary';
 
 describe(`My Company - Account Summary`, () => {
   before(() => {
-    Cypress.env('BASE_SITE', sampleData.POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', sampleData.POWERTOOLS_BASESITE);
   });
 
   beforeEach(() => {

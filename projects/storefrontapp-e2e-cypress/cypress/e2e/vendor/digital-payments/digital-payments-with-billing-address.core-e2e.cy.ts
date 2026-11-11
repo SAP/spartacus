@@ -27,8 +27,8 @@ import { fillBillingAddress } from '../../../helpers/checkout-forms';
 
 describe('checkout using digital-payments with billing address', () => {
   beforeEach(() => {
-    Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
-    Cypress.env('BASE_CURRENCY', ELECTRONICS_CURRENCY);
+    Cypress.expose('BASE_SITE', ELECTRONICS_BASESITE);
+    Cypress.expose('BASE_CURRENCY', ELECTRONICS_CURRENCY);
   });
   it('checkout using digital-payments with billing address', () => {
     interceptDigitalPaymentsRequest();

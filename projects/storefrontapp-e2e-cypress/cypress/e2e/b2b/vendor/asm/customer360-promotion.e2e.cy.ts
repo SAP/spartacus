@@ -31,10 +31,10 @@ context('Assisted Service Module', () => {
 
   before(() => {
     clearAllStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
   });
   after(() => {
-    Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
+    Cypress.expose('BASE_SITE', ELECTRONICS_BASESITE);
   });
 
   describe('B2B Asm Customer360 Promotion', () => {

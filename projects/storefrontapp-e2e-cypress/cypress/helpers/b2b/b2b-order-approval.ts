@@ -46,7 +46,7 @@ export function getStubbedPendingOrderDetails() {
   cy.intercept(
     {
       method: 'GET',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orders/*`,
     },
@@ -58,7 +58,7 @@ export function getStubbedOrderApprovalList() {
   cy.intercept(
     {
       method: 'GET',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderapprovals?*`,
     },
@@ -70,7 +70,7 @@ export function getStubbedOrderApprovalDetail() {
   cy.intercept(
     {
       method: 'GET',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     },
@@ -82,7 +82,7 @@ export function makeStubbedDecision() {
   cy.intercept(
     {
       method: 'POST',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderapprovals/${approvalOrderDetail.code}/decision?*`,
     },
@@ -94,7 +94,7 @@ export function getStubbedRejectedOrderApprovalDetail() {
   cy.intercept(
     {
       method: 'GET',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     },
@@ -106,7 +106,7 @@ export function getStubbedApprovedOrderApprovalDetail() {
   cy.intercept(
     {
       method: 'GET',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/orderapprovals/${approvalOrderDetail.code}?*`,
     },

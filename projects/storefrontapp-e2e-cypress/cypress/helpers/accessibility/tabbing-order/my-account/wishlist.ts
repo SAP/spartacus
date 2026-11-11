@@ -12,7 +12,7 @@ const containerSelector = '.AccountPageTemplate';
 export function wishlistTabbingOrder(config: TabElement[]) {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts/*/entries?lang=en&curr=USD`
   ).as('addToWishlist');

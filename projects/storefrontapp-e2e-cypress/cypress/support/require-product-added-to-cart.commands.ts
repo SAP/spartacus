@@ -33,9 +33,9 @@ Cypress.Commands.add(
     function createCart() {
       return cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}${Cypress.env(
+        url: `${Cypress.expose('API_URL')}${Cypress.expose(
           'OCC_PREFIX'
-        )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
+        )}/${Cypress.expose('BASE_SITE')}/users/current/carts`,
         body: {
           fields: 'DEFAULT',
         },
@@ -48,12 +48,12 @@ Cypress.Commands.add(
 
     function addToCart(cartCode: any, productData: any) {
       // B2B add to cart
-      if (Cypress.env('OCC_PREFIX_USER_ENDPOINT') !== 'users') {
+      if (Cypress.expose('OCC_PREFIX_USER_ENDPOINT') !== 'users') {
         return cy.request({
           method: 'POST',
-          url: `${Cypress.env('API_URL')}${Cypress.env(
+          url: `${Cypress.expose('API_URL')}${Cypress.expose(
             'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+          )}/${Cypress.expose('BASE_SITE')}/${Cypress.expose(
             'OCC_PREFIX_USER_ENDPOINT'
           )}/current/carts/${cartCode}/entries`,
           body: {
@@ -70,9 +70,9 @@ Cypress.Commands.add(
       // B2C add to cart
       return cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}${Cypress.env(
+        url: `${Cypress.expose('API_URL')}${Cypress.expose(
           'OCC_PREFIX'
-        )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+        )}/${Cypress.expose('BASE_SITE')}/${Cypress.expose(
           'OCC_PREFIX_USER_ENDPOINT'
         )}/current/carts/${cartCode}/entries`,
         body: {

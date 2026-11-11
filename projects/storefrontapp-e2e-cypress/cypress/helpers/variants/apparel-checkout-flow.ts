@@ -24,7 +24,7 @@ export function configureProductWithVariants() {
 export function addVariantOfSameProductToCart() {
   cy.intercept({
     method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/products/${products[1].code}/reviews`,
   }).as('getProductPageReviews');

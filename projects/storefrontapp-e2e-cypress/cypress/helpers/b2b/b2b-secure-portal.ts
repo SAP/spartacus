@@ -23,7 +23,7 @@ export function getStubbedBasesites() {
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/basesites`,
+      pathname: `${Cypress.expose('OCC_PREFIX')}/basesites`,
     },
     { body: baseSites }
   );

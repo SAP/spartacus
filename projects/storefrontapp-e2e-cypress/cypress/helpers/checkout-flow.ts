@@ -38,7 +38,7 @@ export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:fir
 
 export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
   const alias = newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
-  const url = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  const url = `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
     'BASE_SITE'
   )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`;
 
@@ -67,7 +67,7 @@ export function waitForProductPage(
 ): string {
   cy.intercept({
     method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/${cmsEndpoints.pages}`,
     query: {
@@ -214,7 +214,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
    */
   cy.intercept({
     method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
@@ -295,7 +295,7 @@ export function placeOrder() {
     .should(
       'have.attr',
       'href',
-      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
+      `/${Cypress.expose('BASE_SITE')}/en/USD/terms-and-conditions`
     );
   cy.get('.form-check-input').check();
   cy.get('cx-place-order button.btn-primary').click();
@@ -450,7 +450,7 @@ export function fillAddressFormWithCheapProduct(
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.intercept({
     method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
@@ -502,7 +502,7 @@ export function fillPaymentFormWithCheapProductWithMock(
 
   cy.intercept({
     method: 'POST',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/**/payment/sop/response*`,
   }).as('submitPayment');
@@ -543,7 +543,7 @@ export function fillPaymentFormWithCheapProduct(
 
   cy.intercept({
     method: 'POST',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/**/payment/sop/response*`,
   }).as('submitPayment');
@@ -605,7 +605,7 @@ export function placeOrderWithCheapProduct(
     .should(
       'have.attr',
       'href',
-      `/${Cypress.env('BASE_SITE')}/en/${currency}/terms-and-conditions`
+      `/${Cypress.expose('BASE_SITE')}/en/${currency}/terms-and-conditions`
     );
   cy.get('input[formcontrolname="termsAndConditions"]').check();
   const orderConfirmationPage = waitForPage(
@@ -714,14 +714,14 @@ export function checkoutFirstDisplayedProduct(
 ) {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/*/carts/*/entries?lang=en&curr=USD`
   ).as('addToCart');
 
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts?fields*`
   ).as('carts');
@@ -743,7 +743,7 @@ export function checkoutFirstDisplayedProduct(
 
     cy.intercept(
       'GET',
-      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/carts/${code}?fields=DEFAULT*`
     ).as('userCart');

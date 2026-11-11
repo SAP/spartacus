@@ -23,7 +23,7 @@ export function testMyCompanyFeatureFromConfig(
     () => {
       isolateTests();
       before(() => {
-        Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+        Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
       });
 
       beforeEach(() => {

@@ -75,7 +75,7 @@ export function loginB2bUser() {
 export function addB2bUser(access_token: string, user: any) {
   return cy.request({
     method: 'POST',
-    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orgCustomers?lang=en&curr=USD`,
     headers: {
@@ -101,7 +101,7 @@ export function setB2bPassword(
 ) {
   return cy.request({
     method: 'PATCH',
-    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orgCustomers/${customerId}?lang=en&curr=USD`,
     headers: {
@@ -190,7 +190,7 @@ export function selectAccountPayment() {
 
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts/*?fields=DEFAULT*`
   ).as('getCart');
@@ -399,7 +399,7 @@ export function reviewB2bReviewOrderPage(
     .should(
       'have.attr',
       'href',
-      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
+      `/${Cypress.expose('BASE_SITE')}/en/USD/terms-and-conditions`
     );
 
   cy.get('input[formcontrolname="termsAndConditions"]').check();
@@ -578,7 +578,7 @@ export function interceptPaymentTypesEndpoint(): string {
   cy.intercept(
     {
       method: 'GET',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/paymenttypes*`,
     },
@@ -596,7 +596,7 @@ export function interceptCostCenterEndpoint() {
   const alias = 'getCostCenters';
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/costcenters?fields=DEFAULT*`,
     (req) => {
@@ -623,7 +623,7 @@ export function interceptCheckoutB2BDetailsEndpoint(
   const alias = 'getCheckoutDetails';
   const request = {
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
   };
@@ -647,7 +647,7 @@ export function interceptPutDeliveryModeEndpoint() {
   const alias = 'putDeliveryMode';
   cy.intercept({
     method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/**/deliverymode?deliveryModeId=*`,
   }).as(alias);

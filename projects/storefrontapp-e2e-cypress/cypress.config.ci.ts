@@ -22,7 +22,6 @@ export default defineConfig({
   retries: {
     runMode: 2,
   },
-  videoUploadOnPasses: false,
   env: {
     API_URL,
     BASE_SITE: 'electronics-spa',

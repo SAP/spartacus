@@ -40,7 +40,7 @@ context('Redirect after auth', () => {
   it('should redirect back after the forced login when access token expired and http call was made', () => {
     cy.intercept({
       method: 'POST',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/*/consents`,
     }).as('consentsRequest');

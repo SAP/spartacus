@@ -39,7 +39,7 @@ export function viewportContext(
 ) {
   // When we set `CYPRESS_VIEWPORT` with one of the viewport name value we only want to run tests in this viewport.
   // eg. with `CYPRESS_VIEWPORT="desktop" tests will be run only in desktop viewport size
-  const viewportFromConfig = Cypress.env('VIEWPORT');
+  const viewportFromConfig = Cypress.expose('VIEWPORT');
   const viewports = viewportConfigs
     .filter((conf) => viewportList.includes(conf.viewport))
     .filter((conf) =>

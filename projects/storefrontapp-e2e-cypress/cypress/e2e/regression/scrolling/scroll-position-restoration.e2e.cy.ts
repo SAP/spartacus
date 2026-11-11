@@ -10,7 +10,7 @@ context('scroll Position Restoration', () => {
   it('should restore scroll position', () => {
     cy.intercept({
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/${cmsEndpoints.pages}`,
       query: {
@@ -20,7 +20,7 @@ context('scroll Position Restoration', () => {
 
     cy.intercept({
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/${cmsEndpoints.pages}`,
       query: {

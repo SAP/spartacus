@@ -95,7 +95,7 @@ describe('OPF billing address', () => {
 
         cy.intercept(
           'PUT',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/current/carts/*/addresses/billing?lang=en&curr=USD`
         ).as('billing');
@@ -129,7 +129,7 @@ describe('OPF billing address', () => {
 
         cy.intercept(
           'PUT',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/current/carts/*/addresses/billing?lang=en&curr=USD`
         ).as('billing');
@@ -148,7 +148,7 @@ describe('OPF billing address', () => {
 
         cy.intercept(
           'PUT',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/current/carts/*/addresses/billing?lang=en&curr=USD`
         ).as('billing');
@@ -169,7 +169,7 @@ describe('OPF billing address', () => {
 
         cy.intercept(
           'PUT',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/current/carts/*/addresses/billing?lang=en&curr=USD`
         ).as('billing');

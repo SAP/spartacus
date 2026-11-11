@@ -81,7 +81,7 @@ function interceptAndAlias(
   cy.intercept({
     method: method,
     path: baseSitePrefix
-      ? `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}${path}`
+      ? `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}${path}`
       : path,
   }).as(aliasName);
   return `@${aliasName}`;

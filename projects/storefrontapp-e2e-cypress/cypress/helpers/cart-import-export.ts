@@ -301,12 +301,13 @@ export function importCartTestFromConfig(config: ImportConfig) {
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-import-order-entries button').contains('Import Products').click();
+  const importFile = `${DOWNLOADS_FOLDER}/${config.fileName}.csv`;
   cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
-    cy.writeFile(`cypress/downloads/${config.fileName}.csv`, file);
+    cy.writeFile(importFile, file);
   });
   cy.get(
     'cx-import-entries-dialog cx-file-upload input[type="file"]'
-  ).attachFile({ filePath: `../downloads/${config.fileName}.csv` });
+  ).selectFile(importFile, { force: true });
   cy.get('cx-message .cx-message-success').should('be.visible');
 
   if (config.savedCartConfig) {
@@ -363,7 +364,7 @@ export function attemptUpload(csvPath: string) {
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.get(
     'cx-import-entries-dialog cx-file-upload input[type="file"]'
-  ).attachFile({ filePath: csvPath }, { allowEmpty: true });
+  ).selectFile(csvPath, { force: true });
   cy.get('cx-import-entries-dialog input[formcontrolname="name"]')
     .clear()
     .type('Test Cart');

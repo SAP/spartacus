@@ -35,9 +35,9 @@ Cypress.Commands.add(
     function saveCart(cartCode: string) {
       return cy.request({
         method: 'PATCH',
-        url: `${Cypress.env('API_URL')}${Cypress.env(
+        url: `${Cypress.expose('API_URL')}${Cypress.expose(
           'OCC_PREFIX'
-        )}/${Cypress.env(
+        )}/${Cypress.expose(
           'BASE_SITE'
         )}/users/current/carts/${cartCode}/save?saveCartName=${
           savedCartForm.name

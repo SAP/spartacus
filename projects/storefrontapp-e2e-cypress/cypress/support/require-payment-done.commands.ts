@@ -29,7 +29,7 @@ Cypress.Commands.add('requirePaymentDone', (token, cartId) => {
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
-      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/carts/${cartCode}/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
@@ -43,7 +43,7 @@ Cypress.Commands.add('requirePaymentDone', (token, cartId) => {
     data = prepareCardData(data);
     return cy.request({
       method: 'POST',
-      url: `${Cypress.env('API_URL')}/acceleratorservices/sop-mock/process`,
+      url: `${Cypress.expose('API_URL')}/acceleratorservices/sop-mock/process`,
       body: data,
       form: true,
       headers: {
@@ -64,7 +64,7 @@ Cypress.Commands.add('requirePaymentDone', (token, cartId) => {
 
     return cy.request({
       method: 'POST',
-      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/carts/${cartCode}/payment/sop/response`,
       body: data,

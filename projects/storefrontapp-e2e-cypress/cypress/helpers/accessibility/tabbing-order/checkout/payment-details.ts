@@ -18,11 +18,11 @@ const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cardtypes*`,
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}/cardtypes*`,
   }).as('cardTypes');
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/countries?type=BILLING*`,
   }).as('countries');

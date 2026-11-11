@@ -18,7 +18,7 @@ export function interceptToSetBaseSiteTheme(theme: string) {
 }
 
 function interceptCmsPageToAddThemeComponent() {
-  const path = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  const path = `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
     'BASE_SITE'
   )}/${cmsEndpoints.pages}?lang=en&curr=USD`;
   cy.log(`Intercepting ${path}`);

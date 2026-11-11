@@ -57,7 +57,7 @@ function navigateToReviewOrderPage() {
 describe('Order Replenishment Accessibility', { testIsolation: false }, () => {
   before(() => {
     clearAllStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
     cy.a11yContinuumSetup();
     loginB2bUser();
     navigateToReviewOrderPage();

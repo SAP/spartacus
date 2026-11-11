@@ -23,7 +23,7 @@ context('B2B - ASM Account Checkout', () => {
 
   before(() => {
     clearAllStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
   it('should show error on invalid cost center', () => {

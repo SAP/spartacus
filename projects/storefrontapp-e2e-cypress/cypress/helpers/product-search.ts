@@ -14,7 +14,7 @@ export const pageLinkSelector = 'cx-pagination a.page.current';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} .cx-product-name`;
-export const searchUrlPrefix = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+export const searchUrlPrefix = `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
   'BASE_SITE'
 )}/products/search`;
 
