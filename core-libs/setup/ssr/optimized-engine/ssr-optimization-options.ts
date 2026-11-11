@@ -132,17 +132,6 @@ export interface SsrOptimizationOptions {
   reuseCurrentRendering?: boolean;
 
   /**
-   * @deprecated - This flag is not used anymore since v2211.27.
-   *
-   * Now all the information about the traffic and rendering is logged unconditionally:
-   * - receiving requests
-   * - responding to requests (either with HTML result, error or fallback to CSR)
-   * - start and end of renders
-   * - timeout of renders (due to passing `maxRenderTime`)
-   */
-  debug?: boolean;
-
-  /**
    * Config for improving logged messages with context and JSON structure.
    *
    * It enhances the logs in SSR by adding context, including the request's details,
