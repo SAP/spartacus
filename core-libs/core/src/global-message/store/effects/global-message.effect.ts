@@ -5,7 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -28,6 +28,11 @@ import { GlobalMessageSelectors } from '../selectors/index';
 
 @Injectable()
 export class GlobalMessageEffect {
+  private actions$ = inject(Actions);
+  private store = inject<Store<StateWithGlobalMessage>>(Store);
+  private config = inject(GlobalMessageConfig);
+  private platformId = inject(PLATFORM_ID);
+
   removeDuplicated$: Observable<GlobalMessageActions.RemoveMessage> =
     createEffect(() =>
       this.actions$.pipe(
@@ -68,47 +73,46 @@ export class GlobalMessageEffect {
     );
 
   hideAfterDelay$:
-    | Observable<GlobalMessageActions.RemoveMessage>
-    | (() => Observable<never>) = createEffect(() =>
-    isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
-      ? this.actions$.pipe(
-          ofType(GlobalMessageActions.ADD_MESSAGE),
-          map((action) => (action as GlobalMessageActions.AddMessage).payload),
-          concatMap((message) => {
-            const config = this.config.globalMessages?.[message.type];
-            return this.store.pipe(
-              select(
-                GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
-              ),
-              take(1),
-              filter(
-                (count: number) =>
-                  ((config && config.timeout !== undefined) ||
-                    message.timeout !== undefined) &&
-                  count > 0
-              ),
-              delay((message.timeout as number) || (config?.timeout as number)),
-              switchMap(() =>
-                of(
-                  new GlobalMessageActions.RemoveMessage({
-                    type: message.type,
-                    index: 0,
-                  })
+    Observable<GlobalMessageActions.RemoveMessage> | (() => Observable<never>) =
+    createEffect(() =>
+      isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
+        ? this.actions$.pipe(
+            ofType(GlobalMessageActions.ADD_MESSAGE),
+            map(
+              (action) => (action as GlobalMessageActions.AddMessage).payload
+            ),
+            concatMap((message) => {
+              const config = this.config.globalMessages?.[message.type];
+              return this.store.pipe(
+                select(
+                  GlobalMessageSelectors.getGlobalMessageCountByType(
+                    message.type
+                  )
+                ),
+                take(1),
+                filter(
+                  (count: number) =>
+                    ((config && config.timeout !== undefined) ||
+                      message.timeout !== undefined) &&
+                    count > 0
+                ),
+                delay(
+                  (message.timeout as number) || (config?.timeout as number)
+                ),
+                switchMap(() =>
+                  of(
+                    new GlobalMessageActions.RemoveMessage({
+                      type: message.type,
+                      index: 0,
+                    })
+                  )
                 )
-              )
-            );
-          })
-        )
-      : // workaround is required due to NGRX mutating a global static
-        // observable EMPTY, causing to throw an error if we have
-        // effect registered on the same observable twice
-        () => EMPTY
-  );
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<StateWithGlobalMessage>,
-    private config: GlobalMessageConfig,
-    @Inject(PLATFORM_ID) private platformId: any
-  ) {}
+              );
+            })
+          )
+        : // workaround is required due to NGRX mutating a global static
+          // observable EMPTY, causing to throw an error if we have
+          // effect registered on the same observable twice
+          () => EMPTY
+    );
 }

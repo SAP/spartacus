@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -34,7 +34,6 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper', ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
@@ -49,15 +48,13 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   ],
 })
 export class UserChangePasswordFormComponent {
+  protected itemService = inject(UserItemService);
+  protected formService = inject(UserChangePasswordFormService);
+  protected messageService = inject(MessageService);
+
   form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
     map((item) => this.formService.getForm(item))
   );
-
-  constructor(
-    protected itemService: UserItemService,
-    protected formService: UserChangePasswordFormService,
-    protected messageService: MessageService
-  ) {}
 
   save(form: UntypedFormGroup): void {
     this.itemService.current$

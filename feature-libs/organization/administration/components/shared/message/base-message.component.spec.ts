@@ -21,7 +21,6 @@ const MockMessageData: Partial<MessageData> = {
 @Component({
   template: '',
   imports: [
-    CommonModule,
     PaginationTestingModule,
     KeyboardFocusTestingModule,
     I18nTestingModule,

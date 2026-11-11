@@ -19,7 +19,9 @@ export const PRODUCT_SEARCH_LOAD_BY_CODE_FAIL =
 export const CLEAR_PRODUCT_SEARCH_BY_CODE_STATE =
   '[Product] Clear Product Search By Code State';
 
-export class ProductSearchLoadByCode extends EntityScopedLoaderActions.EntityScopedLoadAction {
+export class ProductSearchLoadByCode
+  extends EntityScopedLoaderActions.EntityScopedLoadAction
+{
   readonly type = PRODUCT_SEARCH_LOAD_BY_CODE;
   constructor(
     public payload: {
@@ -31,7 +33,9 @@ export class ProductSearchLoadByCode extends EntityScopedLoaderActions.EntitySco
   }
 }
 
-export class ProductSearchLoadByCodeSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
+export class ProductSearchLoadByCodeSuccess
+  extends EntityScopedLoaderActions.EntityScopedSuccessAction
+{
   readonly type = PRODUCT_SEARCH_LOAD_BY_CODE_SUCCESS;
   constructor(payload: { product: Product; code: string; scope: string }) {
     super(
@@ -58,7 +62,9 @@ export class ProductSearchLoadByCodeFail
   }
 }
 
-export class ClearProductSearchByCodeState extends StateUtils.EntityRemoveAllAction {
+export class ClearProductSearchByCodeState
+  extends StateUtils.EntityRemoveAllAction
+{
   readonly type = CLEAR_PRODUCT_SEARCH_BY_CODE_STATE;
   constructor() {
     super(PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY);

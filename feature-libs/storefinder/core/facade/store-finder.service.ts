@@ -5,13 +5,12 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
 import {
   GeoPoint,
   GlobalMessageService,
   GlobalMessageType,
-  PointOfService,
   RoutingService,
   SearchConfig,
   WindowRef,
@@ -27,16 +26,16 @@ import { StateWithStoreFinder } from '../store/store-finder-state';
   providedIn: 'root',
 })
 export class StoreFinderService implements OnDestroy {
+  protected store = inject<Store<StateWithStoreFinder>>(Store);
+  protected winRef = inject(WindowRef);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected routingService = inject(RoutingService);
+  protected platformId = inject(PLATFORM_ID);
+
   private geolocationWatchId: number | null = null;
   protected subscription = new Subscription();
 
-  constructor(
-    protected store: Store<StateWithStoreFinder>,
-    protected winRef: WindowRef,
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId: any
-  ) {
+  constructor() {
     this.reloadStoreEntitiesOnContextChange();
   }
 
@@ -225,36 +224,5 @@ export class StoreFinderService implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
-  }
-
-  /**
-   * @deprecated Please use StoreLocationService instead,
-   * Returns store latitude
-   * @param location store location
-   */
-  getStoreLatitude(location: PointOfService): number | undefined {
-    return location?.geoPoint?.latitude;
-  }
-
-  /**
-   * @deprecated Please use StoreLocationService instead,
-   * Returns store longitude
-   * @param location store location
-   */
-  getStoreLongitude(location: PointOfService): number | undefined {
-    return location?.geoPoint?.longitude;
-  }
-
-  /**
-   * @deprecated Please use StoreLocationService instead,
-   * Generates a link leading to the directions of the given store location
-   * @param location store location
-   * @returns URL for directions to the store
-   */
-  getDirections(location: PointOfService): string {
-    const url = 'https://www.google.com/maps/dir/Current+Location/';
-    const latitude = this.getStoreLatitude(location);
-    const longitude = this.getStoreLongitude(location);
-    return url + latitude + ',' + longitude;
   }
 }

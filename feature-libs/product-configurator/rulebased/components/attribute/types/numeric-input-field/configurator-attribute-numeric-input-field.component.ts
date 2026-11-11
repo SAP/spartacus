@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, getLocaleId, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -52,7 +52,6 @@ class DefaultSettings {
   templateUrl: './configurator-attribute-numeric-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     NgClass,
@@ -66,6 +65,21 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeInputFieldComponent
   implements OnInit, OnDestroy
 {
+  protected configAttributeNumericInputFieldService = inject(
+    ConfiguratorAttributeNumericInputFieldService
+  );
+  protected override config = inject(ConfiguratorUISettingsConfig);
+  protected translation = inject(TranslationService);
+  protected override attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected override configuratorCommonsService = inject(
+    ConfiguratorCommonsService
+  );
+  protected override configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   numericFormatPattern: string;
   locale: string;
   iconType = ICON_TYPE;
@@ -74,21 +88,9 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config: ConfiguratorUISettingsConfig,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
-    super(
-      config,
-      attributeComponentContext,
-      configuratorCommonsService,
-      configuratorStorefrontUtilsService
-    );
-    this.language = attributeComponentContext.language;
+  constructor() {
+    super();
+    this.language = this.attributeComponentContext.language;
   }
 
   /**
@@ -414,19 +416,22 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   }
 
   protected getInstalledLocale(locale: string): string {
+    const normalizedLocale = locale.replace(/_/g, '-');
     try {
-      getLocaleId(locale);
-      return locale;
+      if (Intl.NumberFormat.supportedLocalesOf(normalizedLocale).length > 0) {
+        return normalizedLocale;
+      }
     } catch {
-      this.reportMissingLocaleData(locale);
-      return 'en';
+      // Malformed locale tags also use the English fallback.
     }
+    this.reportMissingLocaleData(locale);
+    return 'en';
   }
 
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
       this.logger.warn(
-        `ConfigAttributeNumericInputFieldComponent: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+        `ConfigAttributeNumericInputFieldComponent: Unsupported locale '${lang}' for Intl number formatting.`
       );
     }
   }

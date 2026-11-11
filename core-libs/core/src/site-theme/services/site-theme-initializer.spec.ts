@@ -40,15 +40,11 @@ class MockSiteThemeService implements Partial<SiteThemeService> {
   }
 }
 
-class MockSiteThemePersistenceService
-  implements Partial<SiteThemePersistenceService>
-{
+class MockSiteThemePersistenceService implements Partial<SiteThemePersistenceService> {
   initSync = vi.fn().mockReturnValue(of(EMPTY));
 }
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable = () => of(mockSiteContextConfig);
 }
 

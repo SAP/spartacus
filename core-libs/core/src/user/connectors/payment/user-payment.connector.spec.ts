@@ -1,3 +1,5 @@
+import { UserPaymentAdapter } from './user-payment.adapter';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserPaymentConnector } from './user-payment.connector';
 
@@ -15,7 +17,13 @@ describe('UserPaymentConnector', () => {
       loadAll: vi.fn().mockImplementation((userId) => of(`loadList-${userId}`)),
       setDefault: vi.fn().mockReturnValue(of({})),
     };
-    service = new UserPaymentConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        UserPaymentConnector,
+        { provide: UserPaymentAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(UserPaymentConnector);
   });
 
   it('should be created', () => {

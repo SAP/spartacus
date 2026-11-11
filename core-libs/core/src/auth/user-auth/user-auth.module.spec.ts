@@ -12,9 +12,7 @@ class MockAuthService implements Partial<AuthService> {
   refreshAuthConfig = vi.fn().mockImplementation(() => {});
 }
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable() {
     return of({});
   }

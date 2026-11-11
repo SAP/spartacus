@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -42,7 +42,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   templateUrl: './checkout-review-shipping.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CardComponent,
     RouterLink,
     IconComponent,
@@ -53,6 +52,14 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   ],
 })
 export class CheckoutReviewShippingComponent {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected translationService = inject(TranslationService);
+  protected checkoutStepService = inject(CheckoutStepService);
+
   private featureToggles = inject(FeatureToggles);
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
@@ -63,14 +70,6 @@ export class CheckoutReviewShippingComponent {
   deliveryModeStepRoute = this.checkoutStepService.getCheckoutStepRoute(
     CheckoutStepType.DELIVERY_MODE
   );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService
-  ) {}
 
   entries$: Observable<OrderEntry[]> =
     this.activeCartFacade.getDeliveryEntries();

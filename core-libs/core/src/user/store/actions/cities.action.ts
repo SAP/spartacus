@@ -52,7 +52,4 @@ export class ClearCities implements Action {
 }
 
 export type CitiesAction =
-  | LoadCities
-  | LoadCitiesFail
-  | LoadCitiesSuccess
-  | ClearCities;
+  LoadCities | LoadCitiesFail | LoadCitiesSuccess | ClearCities;

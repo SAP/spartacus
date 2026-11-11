@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressClearedEvent,
@@ -28,9 +28,16 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 
 @Injectable()
-export class CheckoutDeliveryAddressService
-  implements CheckoutDeliveryAddressFacade
-{
+export class CheckoutDeliveryAddressService implements CheckoutDeliveryAddressFacade {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected eventService = inject(EventService);
+  protected commandService = inject(CommandService);
+  protected checkoutDeliveryAddressConnector = inject(
+    CheckoutDeliveryAddressConnector
+  );
+  protected checkoutQueryFacade = inject(CheckoutQueryFacade);
+
   protected createDeliveryAddressCommand: Command<Address, unknown> =
     this.commandService.create<Address>(
       (payload) =>
@@ -117,15 +124,6 @@ export class CheckoutDeliveryAddressService
         strategy: CommandStrategy.CancelPrevious,
       }
     );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
-    protected eventService: EventService,
-    protected commandService: CommandService,
-    protected checkoutDeliveryAddressConnector: CheckoutDeliveryAddressConnector,
-    protected checkoutQueryFacade: CheckoutQueryFacade
-  ) {}
 
   /**
    * Performs the necessary checkout preconditions.

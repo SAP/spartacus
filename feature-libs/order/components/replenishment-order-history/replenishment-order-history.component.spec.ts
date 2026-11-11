@@ -94,9 +94,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockReplenishmentOrderHistoryFacade
-  implements Partial<ReplenishmentOrderHistoryFacade>
-{
+class MockReplenishmentOrderHistoryFacade implements Partial<ReplenishmentOrderHistoryFacade> {
   getReplenishmentOrderHistoryList(): Observable<ReplenishmentOrderList> {
     return replenishmentOrderHistory.asObservable();
   }

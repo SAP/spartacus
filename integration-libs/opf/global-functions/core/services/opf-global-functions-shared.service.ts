@@ -11,11 +11,11 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
-import { UserIdService, WindowRef } from '@spartacus/core';
 import {
   ActiveCartFacade,
   CartAccessCodeFacade,
 } from '@spartacus/cart/base/root';
+import { UserIdService, WindowRef } from '@spartacus/core';
 import {
   OpfKeyValueMap,
   OpfMetadataStoreService,
@@ -43,8 +43,6 @@ import {
 } from 'rxjs/operators';
 
 export type OpfSharedPaymentSubmitOptions = {
-  /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
-  cartId?: string;
   additionalData: Array<OpfKeyValueMap>;
   submitSuccess: OpfPaymentMerchantCallback;
   submitPending: OpfPaymentMerchantCallback;
@@ -56,8 +54,6 @@ export type OpfSharedPaymentSubmitOptions = {
 };
 
 export type OpfSharedPaymentSubmitCompleteOptions = {
-  /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
-  cartId?: string;
   additionalData: Array<OpfKeyValueMap>;
   submitSuccess: OpfPaymentMerchantCallback;
   submitPending: OpfPaymentMerchantCallback;

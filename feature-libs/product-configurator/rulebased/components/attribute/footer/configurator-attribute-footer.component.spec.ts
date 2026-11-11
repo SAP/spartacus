@@ -86,7 +86,7 @@ describe('ConfigAttributeFooterComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeFooterComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

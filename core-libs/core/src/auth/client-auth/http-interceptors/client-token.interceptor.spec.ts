@@ -40,9 +40,7 @@ class MockClientTokenService implements Partial<ClientTokenService> {
   }
 }
 
-class MockClientErrorHandlingService
-  implements Partial<ClientErrorHandlingService>
-{
+class MockClientErrorHandlingService implements Partial<ClientErrorHandlingService> {
   handleExpiredClientToken(req, next) {
     return of(next.handle(req));
   }

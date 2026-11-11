@@ -55,9 +55,7 @@ class MockCDCJsService implements Partial<CdcJsService> {
   loginUserWithoutScreenSet = vi.fn().mockReturnValueOnce(of(true));
 }
 
-class MockLoginFormComponentService
-  implements Partial<LoginFormComponentService>
-{
+class MockLoginFormComponentService implements Partial<LoginFormComponentService> {
   login = vi.fn();
 }
 
@@ -77,9 +75,7 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
   isLoginDomain?: boolean | undefined = false;
 }
 
-class MockAuthMultisiteIsolationService
-  implements Partial<AuthMultisiteIsolationService>
-{
+class MockAuthMultisiteIsolationService implements Partial<AuthMultisiteIsolationService> {
   decorateUserId(userId: string): Observable<string> {
     return of(userId);
   }

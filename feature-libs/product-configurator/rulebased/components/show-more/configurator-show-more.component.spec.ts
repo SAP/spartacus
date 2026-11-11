@@ -15,7 +15,7 @@ describe('ConfiguratorShowMoreComponent', () => {
     })
       .overrideComponent(ConfiguratorShowMoreComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
         },
       })
       .compileComponents();

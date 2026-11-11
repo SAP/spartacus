@@ -1,12 +1,13 @@
-<ng-container *ngIf="items$ | async as items">
-  <cx-carousel-scrolling
-    *ngIf="items.length"
-    [title]="title$ | async"
-    [items]="items"
-    [template]="carouselItem"
-    [trackByFn]="trackByFn"
-  />
-</ng-container>
+@if (items$ | async; as items) {
+  @if (items.length) {
+    <cx-carousel-scrolling
+      [title]="title$ | async"
+      [items]="items"
+      [template]="carouselItem"
+      [trackByFn]="trackByFn"
+    />
+  }
+}
 
 <ng-template #carouselItem let-item="item">
   <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">

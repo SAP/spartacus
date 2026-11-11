@@ -75,8 +75,7 @@ class MockPromotionsComponent {
   selector: 'cx-pick-up-in-store-items-details',
   template: '',
 })
-class MockPickUpItemsDetailsComponent
-  implements Partial<PickUpItemsDetailsComponent> {}
+class MockPickUpItemsDetailsComponent implements Partial<PickUpItemsDetailsComponent> {}
 
 describe('OpfCheckoutReviewCartDetailsComponent', () => {
   let component: OpfCheckoutReviewCartDetailsComponent;

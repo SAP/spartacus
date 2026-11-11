@@ -1,6 +1,5 @@
-<ng-container *ngIf="this.showBillingAddressForm; else showSpinner">
+@if (this.showBillingAddressForm) {
   <cx-checkout-billing-address-form />
-
   <!-- BUTTON SECTION -->
   <div class="cx-checkout-btns row">
     <div class="col-md-12 col-lg-6">
@@ -14,9 +13,7 @@
       </button>
     </div>
   </div>
-</ng-container>
-
-<ng-template #showSpinner>
+} @else {
   <div class="text-center">{{ 'dpPaymentForm.callback' | cxTranslate }}</div>
   <div class="cx-spinner"><cx-spinner /></div>
-</ng-template>
+}

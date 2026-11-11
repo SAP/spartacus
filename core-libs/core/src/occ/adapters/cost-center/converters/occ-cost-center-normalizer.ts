@@ -12,9 +12,10 @@ import { Occ } from '../../../occ-models/occ.models';
 @Injectable({
   providedIn: 'root',
 })
-export class OccCostCenterNormalizer
-  implements Converter<Occ.CostCenter, CostCenter>
-{
+export class OccCostCenterNormalizer implements Converter<
+  Occ.CostCenter,
+  CostCenter
+> {
   convert(source: Occ.CostCenter, target?: CostCenter): CostCenter {
     if (target === undefined) {
       target = { ...(source as any) } as CostCenter;

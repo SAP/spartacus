@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 
@@ -18,9 +18,11 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-configurator-show-more',
   templateUrl: './configurator-show-more.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
+  protected cdRef = inject(ChangeDetectorRef);
+
   showMore = false;
   showHiddenText = false;
   textToShow: string;
@@ -45,8 +47,6 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
    * accessible name of the show more/less button, together with `attributeLabel`.
    */
   @Input() itemLabel?: string;
-
-  constructor(protected cdRef: ChangeDetectorRef) {}
 
   /**
    * Translation key for the accessible name of the show more/less button.

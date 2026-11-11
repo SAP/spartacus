@@ -10,6 +10,7 @@ import {
   HttpHeaders,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -86,9 +87,7 @@ export class MockOpfEndpointsService implements Partial<OpfEndpointsService> {
   }
 }
 
-class MockOpfMetadataStatePersistanceService
-  implements Partial<OpfMetadataStatePersistanceService>
-{
+class MockOpfMetadataStatePersistanceService implements Partial<OpfMetadataStatePersistanceService> {
   getActiveLanguage(): string {
     return 'en-us';
   }
@@ -137,7 +136,7 @@ describe(`OpfApiPaymentAdapter`, () => {
           provide: OpfMetadataStatePersistanceService,
           useClass: MockOpfMetadataStatePersistanceService,
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

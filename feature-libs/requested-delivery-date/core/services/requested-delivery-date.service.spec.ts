@@ -7,9 +7,7 @@ const mockUserId = 'userId1';
 const mockCartId = '00012345';
 const mockRequestedDate = '15-09-2023';
 
-class MockRequestedDeliveryDateConnector
-  implements Partial<RequestedDeliveryDateConnector>
-{
+class MockRequestedDeliveryDateConnector implements Partial<RequestedDeliveryDateConnector> {
   setRequestedDeliveryDate = vi.fn().mockImplementation(() => of());
 }
 

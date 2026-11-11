@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +13,7 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -30,9 +31,15 @@ import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-add-to-saved-cart',
   templateUrl: './add-to-saved-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
+  imports: [RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class AddToSavedCartComponent implements OnInit, OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected authService = inject(AuthService);
+  protected routingService = inject(RoutingService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   protected subscription = new Subscription();
   protected loggedIn = false;
 
@@ -44,14 +51,6 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
    * Whether to show the "Save cart for later" button. Contingent on whether there are actual entries to save.
    */
   disableSaveCartForLater$: Observable<boolean>;
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected authService: AuthService,
-    protected routingService: RoutingService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   ngOnInit(): void {
     this.cart$ = combineLatest([

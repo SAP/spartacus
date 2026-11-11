@@ -48,9 +48,7 @@ import { UpdatePasswordComponent } from './update-password.component';
 class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
-class MockUpdatePasswordService
-  implements Partial<UpdatePasswordComponentService>
-{
+class MockUpdatePasswordService implements Partial<UpdatePasswordComponentService> {
   form: UntypedFormGroup = new UntypedFormGroup({
     oldPassword: new UntypedFormControl(),
     newPassword: new UntypedFormControl(),

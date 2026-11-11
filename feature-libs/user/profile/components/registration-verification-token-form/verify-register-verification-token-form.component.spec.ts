@@ -53,9 +53,7 @@ class MockRoutingService {
   go = vi.fn();
 }
 
-class MockFormComponentService
-  implements Partial<RegistrationVerificationTokenFormComponentService>
-{
+class MockFormComponentService implements Partial<RegistrationVerificationTokenFormComponentService> {
   form: UntypedFormGroup = new UntypedFormGroup({
     tokenId: new UntypedFormControl(),
     tokenCode: new UntypedFormControl(),
@@ -71,9 +69,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe = vi.fn().mockImplementation(() => {});
 }
 
-class MockRegistrationVerificationTokenFormComponentService
-  implements Partial<RegistrationVerificationTokenFormComponentService>
-{
+class MockRegistrationVerificationTokenFormComponentService implements Partial<RegistrationVerificationTokenFormComponentService> {
   postRegisterMessage = vi.fn();
   displayMessage = vi.fn();
 }

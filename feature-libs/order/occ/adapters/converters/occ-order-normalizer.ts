@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
-  OrderEntry,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
-  PromotionResult,
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
   Converter,
@@ -20,7 +19,7 @@ import { Order } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
-  constructor(private converter: ConverterService) {}
+  private converter = inject(ConverterService);
 
   convert(source: Occ.Order, target?: Order): Order {
     if (target === undefined) {
@@ -39,7 +38,9 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
 
     if (source.consignments) {
       target.consignments = source.consignments.map((consignment) => ({
-        ...consignment,
+        ...(consignment as unknown as NonNullable<
+          Order['consignments']
+        >[number]),
         entries: consignment.entries?.map((entry) => ({
           ...entry,
           orderEntry: this.convertOrderEntry(
@@ -67,10 +68,10 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
   private convertOrderEntry(
     source?: Occ.OrderEntry,
     code?: string,
-    promotions?: PromotionResult[]
+    promotions?: Occ.PromotionResult[]
   ): OrderEntry {
     return {
-      ...source,
+      ...(source as unknown as OrderEntry),
       product: this.converter.convert(source?.product, PRODUCT_NORMALIZER),
       orderCode: code,
       promotions: this.converter.convert(

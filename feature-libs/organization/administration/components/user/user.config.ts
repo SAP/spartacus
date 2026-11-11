@@ -249,8 +249,3 @@ export const userTableConfig: TableConfig = {
     },
   },
 };
-
-/**
- * @deprecated Use `userTableConfig` instead.
- */
-export const newUserTableConfig: TableConfig = userTableConfig;

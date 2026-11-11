@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   Address,
@@ -29,21 +30,19 @@ import { map, switchMap } from 'rxjs/operators';
   selector: 'cx-account-summary-header',
   templateUrl: './account-summary-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, NgFor, AsyncPipe, TranslatePipe],
+  imports: [CardComponent, AsyncPipe, TranslatePipe],
 })
 export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
+  protected accountSummaryFacade = inject(AccountSummaryFacade);
+  protected languageService = inject(LanguageService);
+  protected translation = inject(TranslationService);
+
   notApplicable: string;
   headerDetails$: Observable<AccountSummaryDetails> = this.languageService
     .getActive()
     .pipe(switchMap(() => this.accountSummaryFacade.getAccountSummary()));
 
   protected subscriptions = new Subscription();
-
-  constructor(
-    protected accountSummaryFacade: AccountSummaryFacade,
-    protected languageService: LanguageService,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

@@ -22,7 +22,7 @@
   min-width: var(--cx-popover-min-width);
   max-width: var(--cx-popover-max-width);
   font-size: var(--cx-popover-font-size);
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   background-color: var(--cx-popover-background);
   background-clip: padding-box;
   border: var(--cx-popover-border-width) solid var(--cx-popover-border-color);

@@ -28,7 +28,8 @@
     }
 
     #cx-error-msg {
-      word-break: break-word;
+      word-break: normal;
+      overflow-wrap: anywhere;
       padding-inline-end: 15px;
 
       @include media-breakpoint-down(sm) {

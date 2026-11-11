@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Inject, Injectable, isDevMode, Optional } from '@angular/core';
+import { inject, Injectable, isDevMode } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { LoggerService } from '../../logger';
@@ -22,15 +22,13 @@ import {
   providedIn: 'root',
 })
 export class ConfigInitializerService {
-  protected logger = inject(LoggerService);
+  protected config = inject(Config);
+  protected initializerGuard = inject(CONFIG_INITIALIZER_FORROOT_GUARD, {
+    optional: true,
+  });
+  protected rootConfig = inject<Config>(RootConfig);
 
-  constructor(
-    protected config: Config,
-    @Optional()
-    @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
-    protected initializerGuard: any,
-    @Inject(RootConfig) protected rootConfig: Config
-  ) {}
+  protected logger = inject(LoggerService);
 
   protected ongoingScopes$ = new BehaviorSubject<string[] | undefined>(
     undefined
@@ -40,7 +38,10 @@ export class ConfigInitializerService {
    * Returns true if config is stable, i.e. all CONFIG_INITIALIZERS resolved correctly
    */
   get isStable(): boolean {
-    return !this.initializerGuard || this.ongoingScopes$.value?.length === 0;
+    return (
+      !(this.initializerGuard as unknown) ||
+      this.ongoingScopes$.value?.length === 0
+    );
   }
 
   /**

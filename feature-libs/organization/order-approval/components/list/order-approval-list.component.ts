@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -28,10 +33,8 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
   templateUrl: './order-approval-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     AsyncPipe,
     UrlPipe,
@@ -41,11 +44,9 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
   ],
 })
 export class OrderApprovalListComponent implements OnInit {
-  constructor(
-    protected routing: RoutingService,
-    protected orderApprovalService: OrderApprovalService,
-    protected translation: TranslationService
-  ) {}
+  protected routing = inject(RoutingService);
+  protected orderApprovalService = inject(OrderApprovalService);
+  protected translation = inject(TranslationService);
 
   sortLabels$: Observable<{ byDate: string; byOrderNumber: string }>;
   protected PAGE_SIZE = 5;

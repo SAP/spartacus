@@ -23,16 +23,12 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OccCheckoutDeliveryAddressAdapter
-  implements CheckoutDeliveryAddressAdapter
-{
-  protected logger = inject(LoggerService);
+export class OccCheckoutDeliveryAddressAdapter implements CheckoutDeliveryAddressAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   public createAddress(
     userId: string,

@@ -40,9 +40,7 @@ class MockRoutingConfigService {
   getLoadStrategy = () => {};
 }
 
-class MockBeforeCmsPageGuardService
-  implements Partial<BeforeCmsPageGuardService>
-{
+class MockBeforeCmsPageGuardService implements Partial<BeforeCmsPageGuardService> {
   canActivate = () => of(true);
 }
 const mockActivatedRouteSnapshot: ActivatedRouteSnapshot = {} as any;

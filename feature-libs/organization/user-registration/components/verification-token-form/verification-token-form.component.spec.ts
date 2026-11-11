@@ -29,9 +29,7 @@ import { RegisterVerificationTokenFormComponentService } from './verification-to
 import { RegisterVerificationTokenFormComponent } from './verification-token-form.component';
 const isBusySubject = new BehaviorSubject(false);
 
-class MockFormComponentService
-  implements Partial<RegisterVerificationTokenFormComponentService>
-{
+class MockFormComponentService implements Partial<RegisterVerificationTokenFormComponentService> {
   form: UntypedFormGroup = new UntypedFormGroup({
     tokenId: new UntypedFormControl(),
     tokenCode: new UntypedFormControl(),

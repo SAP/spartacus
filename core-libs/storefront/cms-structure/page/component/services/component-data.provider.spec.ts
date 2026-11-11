@@ -67,6 +67,26 @@ describe('ComponentDataProvider', () => {
     expect(result.foo).toEqual('bar');
   });
 
+  it('should skip cleared CMS data and continue emitting component updates', () => {
+    const data$ = new BehaviorSubject<CmsComponent>(null);
+    vi.spyOn(cmsService, 'getComponentData').mockReturnValue(
+      data$.asObservable()
+    );
+    const next = vi.fn();
+    const subscription = service.get('123').subscribe(next);
+
+    expect(next).not.toHaveBeenCalled();
+    data$.next({ uid: '123', name: 'First' });
+    data$.next(null);
+    data$.next({ uid: '123', name: 'Updated' });
+
+    expect(next.mock.calls).toEqual([
+      [{ uid: '123', name: 'First' }],
+      [{ uid: '123', name: 'Updated' }],
+    ]);
+    subscription.unsubscribe();
+  });
+
   it('should load static data for component type', () => {
     vi.spyOn(cmsComponentsService, 'getStaticData');
     service.get('123', 'BannerComponent').subscribe().unsubscribe();

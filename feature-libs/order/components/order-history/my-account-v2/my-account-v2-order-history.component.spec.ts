@@ -85,9 +85,7 @@ class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
   clearOrderList() {}
 }
 
-class MockMyAccountV2OrderHistoryService
-  implements Partial<MyAccountV2OrderHistoryService>
-{
+class MockMyAccountV2OrderHistoryService implements Partial<MyAccountV2OrderHistoryService> {
   getOrderHistoryList(): Observable<OrderHistoryList> {
     return of(mockOrders);
   }
@@ -105,9 +103,7 @@ class MockTranslationService {
   }
 }
 
-class MockReplenishmentOrderHistoryFacade
-  implements Partial<ReplenishmentOrderHistoryFacade>
-{
+class MockReplenishmentOrderHistoryFacade implements Partial<ReplenishmentOrderHistoryFacade> {
   getReplenishmentOrderDetails() {
     return of({});
   }

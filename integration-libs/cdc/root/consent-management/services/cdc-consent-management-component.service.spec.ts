@@ -15,9 +15,7 @@ const mockStore = [
 ];
 const mockRequiredOutput = ['terms.of.use'];
 const mockActiveOutput = ['terms.of.use', 'others.survey'];
-class MockCdcConsentsLocalStorageService
-  implements Partial<CdcConsentsLocalStorageService>
-{
+class MockCdcConsentsLocalStorageService implements Partial<CdcConsentsLocalStorageService> {
   readCdcConsentsFromStorage = vi.fn();
 }
 

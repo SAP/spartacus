@@ -1,4 +1,4 @@
-<ng-container *ngIf="mainImage$ | async as main">
+@if (mainImage$ | async; as main) {
   <cx-media
     [container]="main"
     (click)="triggerZoom(true)"
@@ -10,24 +10,25 @@
     [galleryIndex]="selectedIndex"
     (dialogClose)="triggerZoom(false)"
   />
-</ng-container>
+}
 
-<ng-container *ngIf="thumbs$ | async as thumbs">
-  <ng-container *ngIf="product$ | async as product">
-    <cx-carousel-scrolling
-      role="region"
-      [attr.aria-label]="
-        'carousel.carouselForProduct' | cxTranslate: { product: product.name }
-      "
-      tabindex="-1"
-      *ngIf="thumbs.length"
-      class="thumbs"
-      [items]="thumbs"
-      [template]="thumb"
-      [trackByFn]="trackByFn"
-    />
-  </ng-container>
-</ng-container>
+@if (thumbs$ | async; as thumbs) {
+  @if (product$ | async; as product) {
+    @if (thumbs.length) {
+      <cx-carousel-scrolling
+        role="region"
+        [attr.aria-label]="
+          'carousel.carouselForProduct' | cxTranslate: { product: product.name }
+        "
+        tabindex="-1"
+        class="thumbs"
+        [items]="thumbs"
+        [template]="thumb"
+        [trackByFn]="trackByFn"
+      />
+    }
+  }
+}
 
 <ng-template #thumb let-item="item">
   <cx-media

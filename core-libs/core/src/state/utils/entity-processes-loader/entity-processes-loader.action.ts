@@ -19,8 +19,7 @@ export const ENTITY_PROCESSES_INCREMENT_ACTION = '[ENTITY] PROCESSES INCREMENT';
 export const ENTITY_PROCESSES_DECREMENT_ACTION = '[ENTITY] PROCESSES DECREMENT';
 
 export interface EntityProcessesLoaderMeta
-  extends EntityMeta,
-    ProcessesLoaderMeta {}
+  extends EntityMeta, ProcessesLoaderMeta {}
 
 export interface EntityProcessesLoaderAction extends Action {
   readonly payload?: any;
@@ -57,9 +56,7 @@ export function entityProcessesDecrementMeta(
   };
 }
 
-export class EntityProcessesLoaderResetAction
-  implements EntityProcessesLoaderAction
-{
+export class EntityProcessesLoaderResetAction implements EntityProcessesLoaderAction {
   type = ENTITY_PROCESSES_LOADER_RESET_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
@@ -67,9 +64,7 @@ export class EntityProcessesLoaderResetAction
   }
 }
 
-export class EntityProcessesIncrementAction
-  implements EntityProcessesLoaderAction
-{
+export class EntityProcessesIncrementAction implements EntityProcessesLoaderAction {
   type = ENTITY_PROCESSES_INCREMENT_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
@@ -77,9 +72,7 @@ export class EntityProcessesIncrementAction
   }
 }
 
-export class EntityProcessesDecrementAction
-  implements EntityProcessesLoaderAction
-{
+export class EntityProcessesDecrementAction implements EntityProcessesLoaderAction {
   type = ENTITY_PROCESSES_DECREMENT_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {

@@ -41,7 +41,9 @@ export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadReplenishmentOrderDetailsSuccess extends StateUtils.LoaderSuccessAction {
+export class LoadReplenishmentOrderDetailsSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS;
 
   constructor(public payload: ReplenishmentOrder) {
@@ -60,7 +62,9 @@ export class LoadReplenishmentOrderDetailsFail
   }
 }
 
-export class ClearReplenishmentOrderDetails extends StateUtils.LoaderResetAction {
+export class ClearReplenishmentOrderDetails
+  extends StateUtils.LoaderResetAction
+{
   readonly type = ClEAR_REPLENISHMENT_ORDER_DETAILS;
 
   constructor() {
@@ -81,7 +85,9 @@ export class CancelReplenishmentOrder extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CancelReplenishmentOrderSuccess extends StateUtils.EntitySuccessAction {
+export class CancelReplenishmentOrderSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = CANCEL_REPLENISHMENT_ORDER_SUCCESS;
 
   constructor(public payload: ReplenishmentOrder) {
@@ -100,7 +106,9 @@ export class CancelReplenishmentOrderFail
   }
 }
 
-export class ClearCancelReplenishmentOrder extends StateUtils.EntityLoaderResetAction {
+export class ClearCancelReplenishmentOrder
+  extends StateUtils.EntityLoaderResetAction
+{
   readonly type = CLEAR_CANCEL_REPLENISHMENT_ORDER;
 
   constructor() {

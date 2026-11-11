@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -43,8 +43,6 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
   templateUrl: './configurator-attribute-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     IconComponent,
     ConfiguratorShowOptionsComponent,
     ConfiguratorShowMoreComponent,
@@ -58,6 +56,14 @@ export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configuratorUiSettings = inject(ConfiguratorUISettingsConfig);
+  protected attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+
   attribute: Configurator.Attribute;
   owner: CommonConfigurator.Owner;
   groupId: string;
@@ -72,14 +78,10 @@ export class ConfiguratorAttributeHeaderComponent
   protected config = inject(Config);
   protected configuratorMessageService = inject(ConfiguratorMessageService);
 
-  constructor(
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorUiSettings: ConfiguratorUISettingsConfig,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
-  ) {
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.owner = attributeComponentContext.owner;
     this.groupId = attributeComponentContext.group.id;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BCheckoutDeliveryAddressComponent } from '@spartacus/checkout/b2b/components';
 import { TranslatePipe } from '@spartacus/core';
@@ -17,8 +17,6 @@ import { OpfB2bCheckoutCostCenterComponent } from '../opf-b2b-checkout-cost-cent
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     OpfB2bCheckoutCostCenterComponent,
-    NgIf,
-    NgFor,
     CardComponent,
     AddressFormComponent,
     SpinnerComponent,

@@ -44,9 +44,7 @@ class MockCheckoutServiceDetailsFacade {
     return of({ success: true });
   }
 }
-class MockCheckoutServiceSchedulePickerService
-  implements Partial<CheckoutServiceSchedulePickerService>
-{
+class MockCheckoutServiceSchedulePickerService implements Partial<CheckoutServiceSchedulePickerService> {
   getMinDateForService = vi.fn().mockReturnValue(of('2024-06-25'));
   getScheduledServiceTimes = vi
     .fn()

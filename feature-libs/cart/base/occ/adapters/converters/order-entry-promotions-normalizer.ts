@@ -12,13 +12,10 @@ import {
 import { Converter, Occ } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
-export class OrderEntryPromotionsNormalizer
-  implements
-    Converter<
-      { item?: Occ.OrderEntry; promotions?: PromotionResult[] },
-      PromotionResult[]
-    >
-{
+export class OrderEntryPromotionsNormalizer implements Converter<
+  { item?: Occ.OrderEntry; promotions?: PromotionResult[] },
+  PromotionResult[]
+> {
   convert(
     source: { item?: Occ.OrderEntry; promotions?: PromotionResult[] },
     target?: PromotionResult[]

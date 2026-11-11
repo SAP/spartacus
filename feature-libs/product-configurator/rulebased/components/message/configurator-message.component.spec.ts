@@ -28,7 +28,7 @@ describe('ConfiguratorMessageComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorMessageComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });
@@ -75,6 +75,19 @@ describe('ConfiguratorMessageComponent', () => {
     });
 
     describe('when messages are provided', () => {
+      it('renders repeated messages with distinct accessible IDs', () => {
+        const warn = vi.spyOn(console, 'warn');
+        component.messages = ['Repeated message', 'Repeated message'];
+        fixture.detectChanges();
+
+        const rows = htmlElem.querySelectorAll('.cx-error-message');
+        expect(rows).toHaveLength(2);
+        expect(rows[0].textContent).toContain('Repeated message');
+        expect(rows[1].textContent).toContain('Repeated message');
+        expect(rows[0].id).not.toBe(rows[1].id);
+        expect(warn).not.toHaveBeenCalled();
+      });
+
       it('renders one row per message with messageClass and text', () => {
         fixture.detectChanges();
 

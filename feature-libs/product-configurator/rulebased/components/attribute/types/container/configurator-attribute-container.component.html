@@ -10,35 +10,39 @@
             | cxTranslate: { count: selectedProducts.length }
         }}
       </span>
-      <button
-        *ngIf="selectedProducts.length > 0"
-        type="button"
-        (click)="toggleSelectedProducts()"
-        [attr.aria-expanded]="selectedProductsExpanded"
-        [attr.aria-controls]="
-          createAttributeUiKey('selected-products', attribute.name)
-        "
-        [attr.aria-label]="
-          (selectedProductsExpanded
-            ? 'configurator.a11y.collapseSelectedProducts'
-            : 'configurator.a11y.expandSelectedProducts'
-          ) | cxTranslate: { attribute: attribute.label }
-        "
-      >
-        <cx-icon [type]="selectedProductsToggleIcon" aria-hidden="true" />
-      </button>
+      @if (selectedProducts.length > 0) {
+        <button
+          type="button"
+          (click)="toggleSelectedProducts()"
+          [attr.aria-expanded]="selectedProductsExpanded"
+          [attr.aria-controls]="
+            createAttributeUiKey('selected-products', attribute.name)
+          "
+          [attr.aria-label]="
+            (selectedProductsExpanded
+              ? 'configurator.a11y.collapseSelectedProducts'
+              : 'configurator.a11y.expandSelectedProducts'
+            ) | cxTranslate: { attribute: attribute.label }
+          "
+        >
+          <cx-icon [type]="selectedProductsToggleIcon" aria-hidden="true" />
+        </button>
+      }
     </div>
-    <ng-container *ngIf="selectedProductsExpanded && selectedProducts.length">
-      <cx-configurator-attribute-product-card
-        *ngFor="let row of selectedProducts; let i = index"
-        id="{{ createValueUiKey('selected-products', attribute.name, row.id) }}"
-        (handleDeselect)="onRemove(row)"
-        (handleRowAction)="onRowAction(row, $event)"
-        [productCardOptions]="
-          extractProductCardParameters(row, i, selectedProducts.length)
-        "
-      />
-    </ng-container>
+    @if (selectedProductsExpanded && selectedProducts.length) {
+      @for (row of selectedProducts; track row; let i = $index) {
+        <cx-configurator-attribute-product-card
+          id="{{
+            createValueUiKey('selected-products', attribute.name, row.id)
+          }}"
+          (handleDeselect)="onRemove(row)"
+          (handleRowAction)="onRowAction(row, $event)"
+          [productCardOptions]="
+            extractProductCardParameters(row, i, selectedProducts.length)
+          "
+        />
+      }
+    }
   </section>
   <section
     class="cx-accordion"
@@ -51,28 +55,27 @@
             | cxTranslate: { count: availableProducts.length }
         }}
       </span>
-      <button
-        *ngIf="availableProducts.length > 0"
-        type="button"
-        (click)="toggleAvailableProducts()"
-        [attr.aria-expanded]="availableProductsExpanded"
-        [attr.aria-controls]="
-          createAttributeUiKey('available-products', attribute.name)
-        "
-        [attr.aria-label]="
-          (availableProductsExpanded
-            ? 'configurator.a11y.collapseAvailableProducts'
-            : 'configurator.a11y.expandAvailableProducts'
-          ) | cxTranslate: { attribute: attribute.label }
-        "
-      >
-        <cx-icon [type]="availableProductsToggleIcon" aria-hidden="true" />
-      </button>
+      @if (availableProducts.length > 0) {
+        <button
+          type="button"
+          (click)="toggleAvailableProducts()"
+          [attr.aria-expanded]="availableProductsExpanded"
+          [attr.aria-controls]="
+            createAttributeUiKey('available-products', attribute.name)
+          "
+          [attr.aria-label]="
+            (availableProductsExpanded
+              ? 'configurator.a11y.collapseAvailableProducts'
+              : 'configurator.a11y.expandAvailableProducts'
+            ) | cxTranslate: { attribute: attribute.label }
+          "
+        >
+          <cx-icon [type]="availableProductsToggleIcon" aria-hidden="true" />
+        </button>
+      }
     </div>
-    <ng-container *ngIf="availableProductsExpanded && availableProducts.length">
-      <ng-container
-        *ngIf="showAvailableProductsAsDropdown; else availableProductsList"
-      >
+    @if (availableProductsExpanded && availableProducts.length) {
+      @if (showAvailableProductsAsDropdown) {
         <div class="cx-drop-down">
           <div
             class="cx-trigger"
@@ -117,48 +120,43 @@
               />
             </button>
           </div>
-          <div
-            class="cx-list"
-            *ngIf="isAvailableProductsDropdownOpen"
-            (click)="$event.stopPropagation()"
-          >
-            <ng-container *ngFor="let row of filteredAvailableProducts">
-              <ng-container
-                *ngTemplateOutlet="
-                  availableProductCard;
-                  context: {
-                    $implicit: row,
-                    index: getAvailableProductIndex(row),
-                  }
-                "
-              />
-            </ng-container>
-
-            <div
-              *ngIf="filteredAvailableProducts.length === 0"
-              class="cx-no-results"
-            >
-              {{
-                'configurator.attribute.noAvailableProductsFound' | cxTranslate
-              }}
+          @if (isAvailableProductsDropdownOpen) {
+            <div class="cx-list" (click)="$event.stopPropagation()">
+              @for (row of filteredAvailableProducts; track row) {
+                <ng-container
+                  *ngTemplateOutlet="
+                    availableProductCard;
+                    context: {
+                      $implicit: row,
+                      index: getAvailableProductIndex(row),
+                    }
+                  "
+                />
+              }
+              @if (filteredAvailableProducts.length === 0) {
+                <div class="cx-no-results">
+                  {{
+                    'configurator.attribute.noAvailableProductsFound'
+                      | cxTranslate
+                  }}
+                </div>
+              }
             </div>
-          </div>
+          }
         </div>
-      </ng-container>
-    </ng-container>
+      } @else {
+        @for (row of availableProducts; track row; let i = $index) {
+          <ng-container
+            *ngTemplateOutlet="
+              availableProductCard;
+              context: { $implicit: row, index: i }
+            "
+          />
+        }
+      }
+    }
   </section>
 </div>
-
-<ng-template #availableProductsList>
-  <ng-container *ngFor="let row of availableProducts; let i = index">
-    <ng-container
-      *ngTemplateOutlet="
-        availableProductCard;
-        context: { $implicit: row, index: i }
-      "
-    />
-  </ng-container>
-</ng-template>
 
 <ng-template #availableProductCard let-row let-i="index">
   <cx-configurator-attribute-product-card

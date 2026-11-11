@@ -4,61 +4,61 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface CheckoutOccEndpoints {
   /**
    * Endpoint for set delivery address to cart
    */
-  setDeliveryAddress?: string | OccEndpoint;
+  setDeliveryAddress?: string | CoreOccEndpoint;
   /**
    * Get a list of supported payment card types.
    */
-  cardTypes?: string | OccEndpoint;
+  cardTypes?: string | CoreOccEndpoint;
   /**
    * Sets credit card payment details for the cart.
    */
-  setCartPaymentDetails?: string | OccEndpoint;
+  setCartPaymentDetails?: string | CoreOccEndpoint;
   /**
    *  Get information needed for create subscription
    */
-  paymentProviderSubInfo?: string | OccEndpoint;
+  paymentProviderSubInfo?: string | CoreOccEndpoint;
   /**
    * Handles response from payment provider and create payment details
    */
-  createPaymentDetails?: string | OccEndpoint;
+  createPaymentDetails?: string | CoreOccEndpoint;
   /**
    * Get checkout details
    */
-  getCheckoutDetails?: string | OccEndpoint;
+  getCheckoutDetails?: string | CoreOccEndpoint;
   /**
    * Endpoint for create delivery address
    */
-  createDeliveryAddress?: string | OccEndpoint;
+  createDeliveryAddress?: string | CoreOccEndpoint;
   /**
    * Endpoint for delete deliver address
    */
-  removeDeliveryAddress?: string | OccEndpoint;
+  removeDeliveryAddress?: string | CoreOccEndpoint;
   /**
    * Endpoint for get the delivery mode selected for the cart.
    */
-  deliveryMode?: string | OccEndpoint;
+  deliveryMode?: string | CoreOccEndpoint;
   /**
    * Endpoint for sets the delivery mode for a cart.
    */
-  setDeliveryMode?: string | OccEndpoint;
+  setDeliveryMode?: string | CoreOccEndpoint;
   /**
    * Endpoint for deletes the delivery mode from the cart.
    */
-  clearDeliveryMode?: string | OccEndpoint;
+  clearDeliveryMode?: string | CoreOccEndpoint;
   /**
    *Endpoint for get all delivery modes for the current store and delivery address.
    */
-  deliveryModes?: string | OccEndpoint;
+  deliveryModes?: string | CoreOccEndpoint;
   /**
    * Endpoint for set billing address to cart
    */
-  setBillingAddress?: string | OccEndpoint;
+  setBillingAddress?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {

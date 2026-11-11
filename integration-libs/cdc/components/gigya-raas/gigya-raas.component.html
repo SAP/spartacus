@@ -1,25 +1,31 @@
-<div *ngIf="component.data$ | async as data">
-  <div *ngIf="jsLoaded$ | async">
-    <div *ngIf="language$ | async as lang">
-      <div
-        *ngIf="displayInEmbedMode(data); else popupLink"
-        [attr.id]="data.containerID"
-      >
-        {{ displayScreenSet(data, lang) }}
+@if (component.data$ | async; as data) {
+  <div>
+    @if (jsLoaded$ | async) {
+      <div>
+        @if (language$ | async; as lang) {
+          <div>
+            @if (displayInEmbedMode(data)) {
+              <div [attr.id]="data.containerID">
+                {{ displayScreenSet(data, lang) }}
+              </div>
+            } @else {
+              <a
+                class="popup-link"
+                [attr.data-cdc-id]="data.uid"
+                [attr.data-profile-edit]="data.profileEdit"
+                (click)="showScreenSet(data, lang)"
+                >{{ data.linkText }}</a
+              >
+            }
+          </div>
+        }
       </div>
-      <ng-template #popupLink>
-        <a
-          class="popup-link"
-          [attr.data-cdc-id]="data.uid"
-          [attr.data-profile-edit]="data.profileEdit"
-          (click)="showScreenSet(data, lang)"
-          >{{ data.linkText }}</a
-        >
-      </ng-template>
-    </div>
+    }
+    @if (jsError$ | async) {
+      <div class="js-error">
+        {{ 'errorHandlers.scriptFailedToLoad' | cxTranslate }}
+        {{ 'errorHandlers.refreshThePage' | cxTranslate }}
+      </div>
+    }
   </div>
-  <div *ngIf="jsError$ | async" class="js-error">
-    {{ 'errorHandlers.scriptFailedToLoad' | cxTranslate }}
-    {{ 'errorHandlers.refreshThePage' | cxTranslate }}
-  </div>
-</div>
+}

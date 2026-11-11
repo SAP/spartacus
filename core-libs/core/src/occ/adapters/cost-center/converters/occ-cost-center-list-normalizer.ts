@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { COST_CENTER_NORMALIZER } from '../../../../cost-center/connectors/cost-center/converters';
 import { EntitiesModel } from '../../../../model/misc.model';
 import { CostCenter } from '../../../../model/org-unit.model';
@@ -17,10 +17,11 @@ import { Occ } from '../../../occ-models/occ.models';
 @Injectable({
   providedIn: 'root',
 })
-export class OccCostCenterListNormalizer
-  implements Converter<Occ.CostCentersList, EntitiesModel<CostCenter>>
-{
-  constructor(private converter: ConverterService) {}
+export class OccCostCenterListNormalizer implements Converter<
+  Occ.CostCentersList,
+  EntitiesModel<CostCenter>
+> {
+  private converter = inject(ConverterService);
 
   convert(
     source: Occ.CostCentersList,

@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface OccOpfGiftCardEndpoints {
   /**
    * Endpoint for applying gift card and getting balance
    */
-  applyGiftCard?: string | OccEndpoint;
+  applyGiftCard?: string | CoreOccEndpoint;
   /**
    * Endpoint for removing a gift card
    */
-  removeGiftCard?: string | OccEndpoint;
+  removeGiftCard?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {

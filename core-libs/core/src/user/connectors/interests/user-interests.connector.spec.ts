@@ -1,3 +1,5 @@
+import { UserInterestsAdapter } from './user-interests.adapter';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import {
   NotificationType,
@@ -21,7 +23,13 @@ describe('UserInterestsConnector', () => {
       removeInterest: vi.fn().mockReturnValue(of([])),
       addInterest: vi.fn(),
     };
-    service = new UserInterestsConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        UserInterestsConnector,
+        { provide: UserInterestsAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(UserInterestsConnector);
   });
 
   it('should be created', () => {

@@ -22,7 +22,7 @@ describe('ConfigurationConflictDescriptionComponent', () => {
       })
       .overrideComponent(ConfiguratorConflictDescriptionComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
         },
       })
       .compileComponents();

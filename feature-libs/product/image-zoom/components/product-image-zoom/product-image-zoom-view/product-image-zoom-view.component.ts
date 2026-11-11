@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -61,7 +61,6 @@ import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumb
   templateUrl: './product-image-zoom-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     IconComponent,
     FeatureDirective,
     MediaComponent,
@@ -71,6 +70,11 @@ import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumb
   ],
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
+  protected currentProductService = inject(CurrentProductService);
+  protected renderer = inject(Renderer2);
+  protected cdRef = inject(ChangeDetectorRef);
+  protected breakpointService = inject(BreakpointService);
+
   iconType = ICON_TYPE;
 
   @Input() galleryIndex: number;
@@ -178,12 +182,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     this.mainMediaContainer$,
   ]).pipe(map(([, container]) => container));
 
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected renderer: Renderer2,
-    protected cdRef: ChangeDetectorRef,
-    protected breakpointService: BreakpointService
-  ) {
+  constructor() {
     useFeatureStyles('a11yKeyboardAccessibleZoom');
   }
 

@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -26,7 +31,6 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
-    NgIf,
     FormsModule,
     FocusDirective,
     ReactiveFormsModule,
@@ -39,6 +43,11 @@ export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   attribute: Configurator.Attribute;
   group: string;
   ownerKey: string;
@@ -47,11 +56,10 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
-  constructor(
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;

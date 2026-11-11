@@ -3,9 +3,7 @@ import { of } from 'rxjs';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { I18nConfigInitializer } from './i18n-config-initializer';
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable() {
     return of({ context: { language: ['testLang'] } });
   }

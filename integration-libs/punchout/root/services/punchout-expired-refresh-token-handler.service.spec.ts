@@ -19,9 +19,7 @@ const mockPunchoutSession: PunchoutSession = {
   },
 };
 
-class MockPunchoutDetectionService
-  implements Partial<PunchoutDetectionService>
-{
+class MockPunchoutDetectionService implements Partial<PunchoutDetectionService> {
   isPunchoutSessionPage(): boolean {
     return true;
   }

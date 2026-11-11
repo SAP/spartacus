@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CART_MODIFICATION_NORMALIZER,
   CartModification,
@@ -24,14 +24,10 @@ import { ConfiguratorTextfield } from '../core/model/configurator-textfield.mode
 import { OccConfiguratorTextfield } from './occ-configurator-textfield.models';
 
 @Injectable()
-export class OccConfiguratorTextfieldAdapter
-  implements ConfiguratorTextfieldAdapter
-{
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
-  ) {}
+export class OccConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
 
   createConfiguration(
     productCode: string,

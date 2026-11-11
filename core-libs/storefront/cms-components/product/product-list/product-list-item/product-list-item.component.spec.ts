@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   Directive,
   Injector,
@@ -51,11 +50,7 @@ class MockStarRatingComponent {
 })
 class MockMediaComponent {
   @Input() container:
-    | MediaContainer
-    | Image
-    | ImageGroup
-    | ImageGroup[]
-    | undefined;
+    MediaContainer | Image | ImageGroup | ImageGroup[] | undefined;
   @Input() alt: string;
   @Input() fetchPriority: ImageFetchPriority | null | undefined;
 }
@@ -124,7 +119,6 @@ describe('ProductListItemComponent in product-list', () => {
     })
       .overrideComponent(ProductListItemComponent, {
         add: {
-          changeDetection: ChangeDetectionStrategy.Eager,
           imports: [
             MockMediaComponent,
             MockStarRatingComponent,

@@ -100,8 +100,3 @@ export const permisionTableConfig: TableConfig = {
     },
   },
 };
-
-/**
- * @deprecated Use `permisionTableConfig` instead.
- */
-export const newPermissionTableConfig: TableConfig = permisionTableConfig;

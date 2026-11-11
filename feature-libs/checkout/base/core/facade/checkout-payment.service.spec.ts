@@ -51,9 +51,7 @@ class MockEventService implements Partial<EventService> {
   dispatch = vi.fn();
 }
 
-class MockCheckoutPaymentConnector
-  implements Partial<CheckoutPaymentConnector>
-{
+class MockCheckoutPaymentConnector implements Partial<CheckoutPaymentConnector> {
   getPaymentCardTypes = vi.fn().mockReturnValue(of(mockCardTypes));
   createPaymentDetails = vi.fn().mockReturnValue(of(mockPaymentInfo));
   setPaymentDetails = vi.fn().mockReturnValue(of('set'));

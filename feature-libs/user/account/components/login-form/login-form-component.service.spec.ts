@@ -89,9 +89,7 @@ class MockCsrfStateService implements Partial<CsrfStateService> {
   set = vi.fn().mockImplementation(() => {});
 }
 
-class MockAuthMultisiteIsolationService
-  implements Partial<AuthMultisiteIsolationService>
-{
+class MockAuthMultisiteIsolationService implements Partial<AuthMultisiteIsolationService> {
   decorateUserId(userId: string): Observable<string> {
     return of(userId);
   }

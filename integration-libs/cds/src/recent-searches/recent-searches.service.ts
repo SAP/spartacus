@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { interval, last, of, ReplaySubject } from 'rxjs';
 import { concatMap, map, take, takeWhile } from 'rxjs/operators';
 import { WindowRef } from '@spartacus/core';
@@ -12,9 +12,11 @@ import { ProfileTagWindowObject } from '../profiletag/model/profile-tag.model';
 
 @Injectable({ providedIn: 'root' })
 export class RecentSearchesService {
+  protected winRef = inject(WindowRef);
+
   private readonly recentSearchesSource = new ReplaySubject<string[]>();
   public recentSearches$ = this.recentSearchesSource.asObservable();
-  constructor(protected winRef: WindowRef) {
+  constructor() {
     if (this.winRef.isBrowser()) {
       this.addRecentSearchesListener();
     }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -16,6 +16,9 @@ import { CmsRoute } from '../../models/cms-route';
 
 @Injectable()
 export class RouterEffects {
+  private actions$ = inject(Actions);
+  private router = inject(Router);
+
   clearCmsRoutes$: Observable<Action> = createEffect(
     () =>
       this.actions$.pipe(
@@ -35,9 +38,4 @@ export class RouterEffects {
       ),
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private router: Router
-  ) {}
 }

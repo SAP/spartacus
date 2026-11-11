@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { take } from 'rxjs/operators';
@@ -13,15 +13,13 @@ import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 
 @Injectable({ providedIn: 'root' })
-export class OccConfiguratorVariantNormalizer
-  implements
-    Converter<OccConfigurator.Configuration, Configurator.Configuration>
-{
-  constructor(
-    protected config: OccConfig,
-    protected translation: TranslationService,
-    protected uiSettingsConfig: ConfiguratorUISettingsConfig
-  ) {}
+export class OccConfiguratorVariantNormalizer implements Converter<
+  OccConfigurator.Configuration,
+  Configurator.Configuration
+> {
+  protected config = inject(OccConfig);
+  protected translation = inject(TranslationService);
+  protected uiSettingsConfig = inject(ConfiguratorUISettingsConfig);
 
   convert(
     source: OccConfigurator.Configuration,
@@ -126,8 +124,7 @@ export class OccConfiguratorVariantNormalizer
     }
     const uiType = this.convertAttributeType(sourceAttribute);
     const firstConflict = sourceAttribute.conflicts?.[0] as unknown as
-      | { text?: string }
-      | undefined;
+      { text?: string } | undefined;
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,

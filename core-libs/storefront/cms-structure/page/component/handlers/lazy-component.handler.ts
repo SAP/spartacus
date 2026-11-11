@@ -28,9 +28,8 @@ import { ComponentHandler } from './component-handler';
   providedIn: 'root',
 })
 export class LazyComponentHandler implements ComponentHandler {
+  protected defaultHandler = inject(DefaultComponentHandler);
   protected pendingTasks = inject(PendingTasks);
-
-  constructor(protected defaultHandler: DefaultComponentHandler) {}
 
   /**
    * We want to mach dynamic import signature () => import('')

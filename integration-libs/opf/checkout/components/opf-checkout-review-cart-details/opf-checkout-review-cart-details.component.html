@@ -19,30 +19,32 @@
 
   <ng-template [cxOutlet]="cartOutlets.OPF_CHECKOUT_PICKUP_ITEMS" />
 
-  <ng-container *ngIf="cart?.deliveryItemsQuantity">
+  @if (cart?.deliveryItemsQuantity) {
     <div class="cx-items-to-ship-label">
       {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
     </div>
-    <div class="cx-opf-review-card-wrapper" *ngIf="isAddressCardVisible">
-      <cx-opf-checkout-review-card
-        *ngIf="deliveryAddress$ | async as deliveryAddress"
-        [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
-        [editConfig]="{
-          route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
-          ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
-        }"
-      />
-
-      <cx-opf-checkout-review-card
-        *ngIf="deliveryMode$ | async as deliveryMode"
-        [cardContent$]="getDeliveryModeCard(deliveryMode)"
-        [editConfig]="{
-          route: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
-          ariaLabelKey: 'checkoutReview.editDeliveryMode',
-        }"
-      />
-    </div>
-
+    @if (isAddressCardVisible) {
+      <div class="cx-opf-review-card-wrapper">
+        @if (deliveryAddress$ | async; as deliveryAddress) {
+          <cx-opf-checkout-review-card
+            [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
+            [editConfig]="{
+              route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
+              ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
+            }"
+          />
+        }
+        @if (deliveryMode$ | async; as deliveryMode) {
+          <cx-opf-checkout-review-card
+            [cardContent$]="getDeliveryModeCard(deliveryMode)"
+            [editConfig]="{
+              route: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
+              ariaLabelKey: 'checkoutReview.editDeliveryMode',
+            }"
+          />
+        }
+      </div>
+    }
     <ng-template
       [cxOutlet]="cartOutlets.CART_ITEM_LIST"
       [cxOutletContext]="{
@@ -51,5 +53,5 @@
         promotionLocation: promotionLocation,
       }"
     />
-  </ng-container>
+  }
 </div>

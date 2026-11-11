@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   PointOfService,
@@ -15,7 +14,7 @@ import {
 @Component({
   selector: 'cx-schedule',
   templateUrl: './schedule.component.html',
-  imports: [NgIf, NgFor, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class ScheduleComponent implements OnInit {
   @Input()

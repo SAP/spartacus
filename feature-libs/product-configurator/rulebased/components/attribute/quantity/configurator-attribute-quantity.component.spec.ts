@@ -67,7 +67,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
       })
       .overrideComponent(ConfiguratorAttributeQuantityComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
         },
       })
       .compileComponents();

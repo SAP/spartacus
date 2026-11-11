@@ -175,7 +175,9 @@ function setErrorLoader(
   };
 }
 
-export class UpdateConfiguration extends StateUtils.EntityProcessesIncrementAction {
+export class UpdateConfiguration
+  extends StateUtils.EntityProcessesIncrementAction
+{
   readonly type = UPDATE_CONFIGURATION;
 
   constructor(public payload: Configurator.Configuration) {
@@ -200,7 +202,9 @@ export class UpdateConfigurationFail
   }
 }
 
-export class UpdateConfigurationSuccess extends StateUtils.EntityProcessesDecrementAction {
+export class UpdateConfigurationSuccess
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = UPDATE_CONFIGURATION_SUCCESS;
 
   constructor(public payload: Configurator.Configuration) {
@@ -218,8 +222,8 @@ export class AddContainerRow extends StateUtils.EntityProcessesIncrementAction {
 }
 
 abstract class ContainerRowFailAction<
-    T extends { owner: CommonConfigurator.Owner },
-  >
+  T extends { owner: CommonConfigurator.Owner },
+>
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
@@ -244,7 +248,9 @@ export class AddContainerRowFail
   readonly type = ADD_CONTAINER_ROW_FAIL;
 }
 
-export class AddContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
+export class AddContainerRowSuccess
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = ADD_CONTAINER_ROW_SUCCESS;
 
   constructor(public payload: Configurator.Configuration) {
@@ -252,7 +258,9 @@ export class AddContainerRowSuccess extends StateUtils.EntityProcessesDecrementA
   }
 }
 
-export class CopyContainerRow extends StateUtils.EntityProcessesIncrementAction {
+export class CopyContainerRow
+  extends StateUtils.EntityProcessesIncrementAction
+{
   readonly type = COPY_CONTAINER_ROW;
 
   constructor(public payload: Configurator.CopyContainerRowParameters) {
@@ -268,7 +276,9 @@ export class CopyContainerRowFail
   readonly type = COPY_CONTAINER_ROW_FAIL;
 }
 
-export class CopyContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
+export class CopyContainerRowSuccess
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = COPY_CONTAINER_ROW_SUCCESS;
 
   constructor(public payload: Configurator.Configuration) {
@@ -276,7 +286,9 @@ export class CopyContainerRowSuccess extends StateUtils.EntityProcessesDecrement
   }
 }
 
-export class RemoveContainerRow extends StateUtils.EntityProcessesIncrementAction {
+export class RemoveContainerRow
+  extends StateUtils.EntityProcessesIncrementAction
+{
   readonly type = REMOVE_CONTAINER_ROW;
 
   constructor(public payload: Configurator.RemoveContainerRowParameters) {
@@ -292,7 +304,9 @@ export class RemoveContainerRowFail
   readonly type = REMOVE_CONTAINER_ROW_FAIL;
 }
 
-export class RemoveContainerRowSuccess extends StateUtils.EntityProcessesDecrementAction {
+export class RemoveContainerRowSuccess
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = REMOVE_CONTAINER_ROW_SUCCESS;
 
   constructor(public payload: Configurator.Configuration) {
@@ -300,7 +314,9 @@ export class RemoveContainerRowSuccess extends StateUtils.EntityProcessesDecreme
   }
 }
 
-export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccessAction {
+export class UpdateConfigurationFinalizeSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = UPDATE_CONFIGURATION_FINALIZE_SUCCESS;
 
   constructor(public payload: Configurator.Configuration) {
@@ -399,7 +415,9 @@ export class GetConfigurationOverviewFail
   }
 }
 
-export class GetConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
+export class GetConfigurationOverviewSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = GET_CONFIGURATION_OVERVIEW_SUCCESS;
 
   constructor(
@@ -428,7 +446,9 @@ export class UpdateConfigurationOverviewFail
   }
 }
 
-export class UpdateConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
+export class UpdateConfigurationOverviewSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = UPDATE_CONFIGURATION_OVERVIEW_SUCCESS;
 
   constructor(

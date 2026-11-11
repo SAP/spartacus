@@ -162,9 +162,7 @@ class MockRoutingService implements Partial<RoutingService> {
   getParams = vi.fn().mockReturnValue(of(mockRoutingParams));
 }
 
-class MockCustomerTicketingConnector
-  implements Partial<CustomerTicketingConnector>
-{
+class MockCustomerTicketingConnector implements Partial<CustomerTicketingConnector> {
   getTicket = vi.fn().mockReturnValue(of(mockTicketDetails));
   getTickets = vi.fn().mockReturnValue(of(mockTicketList));
   createTicketEvent = vi.fn().mockReturnValue(of(mockCreateEventResponse));

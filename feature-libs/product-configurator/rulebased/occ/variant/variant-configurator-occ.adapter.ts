@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CART_MODIFICATION_NORMALIZER,
   CartModification,
@@ -37,15 +37,11 @@ import {
 import { OccConfigurator } from './variant-configurator-occ.models';
 
 @Injectable()
-export class VariantConfiguratorOccAdapter
-  implements RulebasedConfiguratorAdapter
-{
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService,
-    protected configExpertModeService: ConfiguratorExpertModeService
-  ) {}
+export class VariantConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
 
   getConfiguratorType(): string {
     return ConfiguratorType.VARIANT;

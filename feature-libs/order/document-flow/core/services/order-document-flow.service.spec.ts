@@ -74,9 +74,7 @@ const subsequentDocumentEntryData: OrderSubsequentDocumentEntry[] = [
   },
 ];
 
-class MockOrderDocumentFlowConnector
-  implements Partial<OrderDocumentFlowConnector>
-{
+class MockOrderDocumentFlowConnector implements Partial<OrderDocumentFlowConnector> {
   getOrderSubsequentDocuments() {
     return of(subsequentDocumentsData);
   }

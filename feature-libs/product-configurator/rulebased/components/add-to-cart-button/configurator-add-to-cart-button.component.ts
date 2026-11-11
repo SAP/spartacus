@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -63,15 +63,25 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
   selector: CX_SELECTOR,
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    ItemCounterComponent,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [ItemCounterComponent, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
+  protected routingService = inject(RoutingService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorCartService = inject(ConfiguratorCartService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected globalMessageService = inject(GlobalMessageService);
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected commonConfiguratorUtilsService = inject(
+    CommonConfiguratorUtilsService
+  );
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected intersectionService = inject(IntersectionService);
+  protected configuratorQuantityService = inject(ConfiguratorQuantityService);
+
   protected subscription = new Subscription();
   protected multiCartFacade = inject(MultiCartFacade);
   protected focusService = inject(KeyboardFocusService);
@@ -106,20 +116,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         )
     )
   );
-
-  constructor(
-    protected routingService: RoutingService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorCartService: ConfiguratorCartService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected globalMessageService: GlobalMessageService,
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected intersectionService: IntersectionService,
-    protected configuratorQuantityService: ConfiguratorQuantityService
-  ) {}
 
   ngOnInit(): void {
     this.makeAddToCartButtonSticky();

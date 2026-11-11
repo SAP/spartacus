@@ -21,9 +21,7 @@ import { catchError, Observable } from 'rxjs';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
-export class OccSubscriptionActionsAdapter
-  implements SubscriptionActionsAdapter
-{
+export class OccSubscriptionActionsAdapter implements SubscriptionActionsAdapter {
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);
   protected occEndpoints = inject(OccEndpointsService);

@@ -101,8 +101,7 @@ export enum DeferLoadingStrategy {
 }
 
 export interface CMSComponentConfig
-  extends StandardCmsComponentConfig,
-    JspIncludeCmsComponentConfig {
+  extends StandardCmsComponentConfig, JspIncludeCmsComponentConfig {
   [componentType: string]: CmsComponentMapping | undefined;
 }
 

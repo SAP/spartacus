@@ -26,9 +26,7 @@ class MockSpinnerComponent {}
 class MockGlobalMessageService {
   add = vi.fn();
 }
-class MockCheckoutPaymentTypeService
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
   getPaymentTypes = vi.fn().mockReturnValue(of(mockPaymentTypes));
   setPaymentType = vi.fn().mockReturnValue(of('setPaymentType'));
   getSelectedPaymentTypeState = vi
@@ -39,9 +37,7 @@ class MockCheckoutPaymentTypeService
     .mockReturnValue(of({ loading: false, error: false, data: 'test-po' }));
 }
 
-class MockCheckoutOnePaymentTypeService
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutOnePaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
   getPaymentTypes = vi.fn().mockReturnValue(of(mockDisableOnePaymentTypes));
   setPaymentType = vi.fn().mockReturnValue(of(undefined));
   getSelectedPaymentTypeState = vi

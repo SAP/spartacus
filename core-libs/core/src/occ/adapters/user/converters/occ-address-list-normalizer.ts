@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Address } from '../../../../model/address.model';
 import { EntitiesModel } from '../../../../model/misc.model';
 import { ADDRESS_NORMALIZER } from '../../../../user/connectors/address/converters';
@@ -17,10 +17,11 @@ import { Occ } from '../../../occ-models/occ.models';
 @Injectable({
   providedIn: 'root',
 })
-export class OccAddressListNormalizer
-  implements Converter<Occ.AddressList, EntitiesModel<Address>>
-{
-  constructor(private converter: ConverterService) {}
+export class OccAddressListNormalizer implements Converter<
+  Occ.AddressList,
+  EntitiesModel<Address>
+> {
+  private converter = inject(ConverterService);
 
   convert(
     source: Occ.AddressList,

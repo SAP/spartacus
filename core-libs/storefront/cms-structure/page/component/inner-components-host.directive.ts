@@ -9,24 +9,20 @@ import {
   Injector,
   OnDestroy,
   OnInit,
-  Renderer2,
-  ViewContainerRef,
+  inject,
+  runInInjectionContext,
 } from '@angular/core';
-import {
-  CmsComponent,
-  DynamicAttributeService,
-  EventService,
-} from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { CmsComponentsService } from '../../services/cms-components.service';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CmsInjectorService } from './services/cms-injector.service';
-import { ComponentHandlerService } from './services/component-handler.service';
 
 @Directive({ selector: '[cxInnerComponentsHost]' })
 export class InnerComponentsHostDirective implements OnInit, OnDestroy {
+  protected data = inject<CmsComponentData<CmsComponent>>(CmsComponentData);
+  protected injector = inject(Injector);
+
   protected innerComponents$ = this.data.data$.pipe(
     map((data) => data?.composition?.inner ?? []),
     distinctUntilChanged()
@@ -34,19 +30,6 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
 
   protected componentWrappers: any[] = [];
   protected subscription?: Subscription;
-
-  constructor(
-    protected data: CmsComponentData<CmsComponent>,
-    protected vcr: ViewContainerRef,
-    // dependencies required for ComponentWrapper directive
-    protected cmsComponentsService: CmsComponentsService,
-    protected injector: Injector,
-    protected dynamicAttributeService: DynamicAttributeService,
-    protected renderer: Renderer2,
-    protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService,
-    protected eventService: EventService
-  ) {}
 
   ngOnInit(): void {
     this.subscription = this.innerComponents$.subscribe((x) => {
@@ -60,15 +43,9 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   }
 
   protected renderComponent(component: string) {
-    const componentWrapper = new ComponentWrapperDirective(
-      this.vcr,
-      this.cmsComponentsService,
+    const componentWrapper = runInInjectionContext(
       this.injector,
-      this.dynamicAttributeService,
-      this.renderer,
-      this.componentHandler,
-      this.cmsInjector,
-      this.eventService
+      () => new ComponentWrapperDirective()
     );
     componentWrapper.cxComponentWrapper = { flexType: component, uid: '' };
     componentWrapper.ngOnInit();

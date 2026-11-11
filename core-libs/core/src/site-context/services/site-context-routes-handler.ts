@@ -5,7 +5,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable, Injector, OnDestroy } from '@angular/core';
+import { Injectable, Injector, OnDestroy, inject } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -23,11 +23,9 @@ import { SiteContextUrlSerializer } from './site-context-url-serializer';
   providedIn: 'root',
 })
 export class SiteContextRoutesHandler implements OnDestroy {
-  constructor(
-    private siteContextParams: SiteContextParamsService,
-    private serializer: SiteContextUrlSerializer,
-    private injector: Injector
-  ) {}
+  private siteContextParams = inject(SiteContextParamsService);
+  private serializer = inject(SiteContextUrlSerializer);
+  private injector = inject(Injector);
 
   private subscription = new Subscription();
 
@@ -44,16 +42,6 @@ export class SiteContextRoutesHandler implements OnDestroy {
    * - `subscribeRouting` method updates the site context state on navigation
    */
   private isNavigating = false;
-
-  /**
-   * Initializes the two-way synchronization between the site context state and the URL.
-   *
-   * @deprecated since 2211.32. Use `initOnce()` instead for safe idempotent initialization.
-   * This method now delegates to `initOnce()` internally.
-   */
-  init(): void {
-    this.initOnce();
-  }
 
   /**
    * ReplaySubject to track initialization state.

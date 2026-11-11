@@ -12,7 +12,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
@@ -170,76 +170,20 @@ describe('TabParagraphContainerComponent', () => {
     ]);
   });
 
-  it('should be able to get the active tab number', () => {
-    windowRef.nativeWindow.history.pushState(
-      {
-        activeTab: 1,
-      },
-      null
+  it('should resolve title parameters for a component loaded before view initialization', () => {
+    vi.spyOn(cmsService, 'getComponentData').mockReturnValue(
+      of(mockTabComponentData1)
     );
-    component.ngOnInit();
-    // reset the state
-    windowRef.nativeWindow.history.replaceState(null, null);
-    expect(component.activeTabNum).toEqual(1);
-  });
-
-  it('active tab number must be -1', () => {
-    windowRef.nativeWindow.history.pushState(
-      {
-        activeTab: -1,
-      },
-      null
-    );
-    component.ngOnInit();
-    // reset the state
-    windowRef.nativeWindow.history.replaceState(null, null);
-    expect(component.activeTabNum).toEqual(-1);
-  });
-
-  it('should be able to get tab title parameters from children', () => {
-    vi.spyOn(cmsService, 'getComponentData').mockImplementation(
-      <MockCmsComponent>(uid: string): Observable<MockCmsComponent> => {
-        switch (uid) {
-          case 'ProductDetailsTabComponent':
-            return of(mockTabComponentData1) as Observable<MockCmsComponent>;
-          case 'ProductSpecsTabComponent':
-            return of(mockTabComponentData2) as Observable<MockCmsComponent>;
-          case 'ProductReviewsTabComponent':
-            return of(mockTabComponentData3) as Observable<MockCmsComponent>;
-          default:
-            return throwError(() => `Tab id ${uid}`);
-        }
-      }
-    );
-
-    let childCompFixture: ComponentFixture<TestComponent>;
-    childCompFixture = TestBed.createComponent(TestComponent);
+    const child = TestBed.createComponent(TestComponent);
+    component.tabCompLoaded(child.componentRef, mockTabComponentData1.uid);
     fixture.detectChanges();
-    component.children.first['cmpRef'] = childCompFixture.componentRef;
-    component.ngAfterViewInit();
 
-    let param = '';
-    component.tabTitleParams.forEach((param$) => {
-      if (param$ != null) {
-        param$.subscribe((value) => (param = value)).unsubscribe();
-      }
-    });
-
-    expect(param).toEqual('title param');
-  });
-
-  it('should be able to get tab title after tab component created', () => {
-    let childCompFixture: ComponentFixture<TestComponent>;
-    childCompFixture = TestBed.createComponent(TestComponent);
-
-    component.tabCompLoaded(childCompFixture.componentRef);
-
-    let param = '';
-    component.tabTitleParams.forEach((param$) => {
-      if (param$ != null) {
-        param$.subscribe((value) => (param = value)).unsubscribe();
-      }
-    });
+    let param: unknown;
+    component.tabs$
+      .subscribe((tabs) => {
+        param = tabs[0].headerParams?.param;
+      })
+      .unsubscribe();
 
     expect(param).toEqual('title param');
   });
@@ -256,12 +200,5 @@ describe('TabParagraphContainerComponent', () => {
       .mockReturnValueOnce(of(mockTabComponentData3));
 
     expect(() => fixture.detectChanges()).not.toThrow();
-  });
-
-  it('should be able to get ariaLabel', () => {
-    fixture.detectChanges();
-    expect(component.ariaLabel).toEqual(
-      'TabPanelContainer.tabPanelContainerRegion'
-    );
   });
 });

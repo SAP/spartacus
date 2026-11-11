@@ -11,9 +11,10 @@ import { ScheduleReplenishmentForm } from '@spartacus/order/root';
 @Injectable({
   providedIn: 'root',
 })
-export class OccScheduledReplenishmentOrderFormSerializer
-  implements Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm>
-{
+export class OccScheduledReplenishmentOrderFormSerializer implements Converter<
+  Occ.ScheduleReplenishmentForm,
+  ScheduleReplenishmentForm
+> {
   convert(
     source: Occ.ScheduleReplenishmentForm,
     target?: ScheduleReplenishmentForm

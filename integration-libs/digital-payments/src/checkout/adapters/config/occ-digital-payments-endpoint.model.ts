@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface DigitalPaymentsOccEndpoints {
-  paymentRequest?: string | OccEndpoint;
-  paymentDetails?: string | OccEndpoint;
+  paymentRequest?: string | CoreOccEndpoint;
+  paymentDetails?: string | CoreOccEndpoint;
 }
 declare module '@spartacus/core' {
   interface OccEndpoints extends DigitalPaymentsOccEndpoints {}

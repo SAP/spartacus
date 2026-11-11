@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   CheckoutCostCenterFacade,
@@ -28,9 +29,13 @@ import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-cost-center',
   templateUrl: './checkout-cost-center.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
+  protected userCostCenterService = inject(UserCostCenterService);
+  protected checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+
   protected subscription = new Subscription();
   protected userCostCenters$: Observable<CostCenter[]> =
     this.userCostCenterService
@@ -45,12 +50,6 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
   get disabled() {
     return !this.isAccountPayment;
   }
-
-  constructor(
-    protected userCostCenterService: UserCostCenterService,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

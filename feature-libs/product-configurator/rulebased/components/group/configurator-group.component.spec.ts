@@ -364,7 +364,7 @@ describe('ConfiguratorGroupComponent', () => {
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
         },
       })
       .compileComponents();

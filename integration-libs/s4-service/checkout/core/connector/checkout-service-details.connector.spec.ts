@@ -5,9 +5,7 @@ import { CheckoutServiceDetailsAdapter } from './checkout-service-details.adapte
 import { CheckoutServiceDetailsConnector } from './checkout-service-details.connector';
 import { ServiceDetails } from '@spartacus/s4-service/root';
 
-class MockServiceDetailsAdapter
-  implements Partial<CheckoutServiceDetailsAdapter>
-{
+class MockServiceDetailsAdapter implements Partial<CheckoutServiceDetailsAdapter> {
   setServiceScheduleSlot = vi.fn().mockReturnValue(of([]));
 }
 

@@ -38,9 +38,7 @@ class MockEventService implements Partial<EventService> {
   dispatch = vi.fn();
 }
 
-class MockCheckoutDeliveryAddressConnector
-  implements Partial<CheckoutDeliveryAddressConnector>
-{
+class MockCheckoutDeliveryAddressConnector implements Partial<CheckoutDeliveryAddressConnector> {
   createAddress = vi.fn().mockReturnValue(of(mockAddress));
   setAddress = vi.fn().mockReturnValue(of('setAddress'));
   clearCheckoutDeliveryAddress = vi

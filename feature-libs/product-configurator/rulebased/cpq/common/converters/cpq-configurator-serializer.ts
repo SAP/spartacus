@@ -13,9 +13,10 @@ import { CpqConfiguratorUtils } from '../../rest/cpq-configurator-utils';
 const VALUE_SEPARATOR = ',';
 
 @Injectable()
-export class CpqConfiguratorSerializer
-  implements Converter<Configurator.Configuration, Cpq.UpdateAttribute>
-{
+export class CpqConfiguratorSerializer implements Converter<
+  Configurator.Configuration,
+  Cpq.UpdateAttribute
+> {
   convert(source: Configurator.Configuration): Cpq.UpdateAttribute {
     const attribute: Configurator.Attribute =
       CpqConfiguratorUtils.findFirstChangedAttribute(source);

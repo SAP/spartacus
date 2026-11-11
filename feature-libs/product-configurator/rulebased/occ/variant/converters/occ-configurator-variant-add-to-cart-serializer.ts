@@ -10,13 +10,10 @@ import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 
 @Injectable({ providedIn: 'root' })
-export class OccConfiguratorVariantAddToCartSerializer
-  implements
-    Converter<
-      Configurator.AddToCartParameters,
-      OccConfigurator.AddToCartParameters
-    >
-{
+export class OccConfiguratorVariantAddToCartSerializer implements Converter<
+  Configurator.AddToCartParameters,
+  OccConfigurator.AddToCartParameters
+> {
   constructor() {
     // Intentional empty constructor
   }

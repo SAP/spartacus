@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { B2BUnit, UrlPipe } from '@spartacus/core';
 import {
@@ -19,37 +19,38 @@ import { CellComponent } from '../../../../shared/table/cell.component';
 @Component({
   selector: 'cx-org-link-cell',
   template: `
-    <ng-container *ngIf="unitKey$ | async as uid">
-      <a
-        *ngIf="linkable; else text"
-        [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
-        [tabIndex]="tabIndex"
-      >
-        <ng-container *ngTemplateOutlet="text" />
-      </a>
-    </ng-container>
+    @if (unitKey$ | async; as uid) {
+      @if (linkable) {
+        <a
+          [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
+          [tabIndex]="tabIndex"
+        >
+          <ng-container *ngTemplateOutlet="text" />
+        </a>
+      } @else {
+        <span class="text" title="{{ property }}">{{ property }}</span>
+      }
+    }
 
     <ng-template #text>
       <span class="text" title="{{ property }}">{{ property }}</span>
     </ng-template>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, NgTemplateOutlet, AsyncPipe, UrlPipe],
+  imports: [RouterLink, NgTemplateOutlet, AsyncPipe, UrlPipe],
 })
 export class LinkCellComponent extends CellComponent {
+  protected override outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+
   unitKey$: Observable<string> = this.itemService.key$;
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: ItemService<B2BUnit>
-  ) {
-    super(outlet);
-  }
 
   get tabIndex() {
     return 0;
   }
 
   getRouterModel(uid: string): any {
-    return { ...this.outlet.context, uid };
+    return { ...this.model, uid };
   }
 }

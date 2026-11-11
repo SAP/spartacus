@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   GetOrderEntriesContext,
   OrderEntriesSource,
@@ -18,14 +18,10 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitOrderDetailsOrderEntriesContext
-  implements GetOrderEntriesContext
-{
-  readonly type = OrderEntriesSource.UNIT_ORDER_DETAILS;
+export class UnitOrderDetailsOrderEntriesContext implements GetOrderEntriesContext {
+  protected unitLevelOrderDetailService = inject(UnitLevelOrderDetailService);
 
-  constructor(
-    protected unitLevelOrderDetailService: UnitLevelOrderDetailService
-  ) {}
+  readonly type = OrderEntriesSource.UNIT_ORDER_DETAILS;
 
   getEntries(): Observable<OrderEntry[]> {
     return this.unitLevelOrderDetailService

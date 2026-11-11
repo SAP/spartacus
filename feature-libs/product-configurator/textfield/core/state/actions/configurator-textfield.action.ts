@@ -124,7 +124,9 @@ export class ReadCartEntryConfiguration extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class ReadCartEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
+export class ReadCartEntryConfigurationSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = READ_CART_ENTRY_CONFIGURATION_SUCCESS;
 
   constructor(public payload: ConfiguratorTextfield.Configuration) {
@@ -153,7 +155,9 @@ export class ReadOrderEntryConfiguration extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class ReadOrderEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
+export class ReadOrderEntryConfigurationSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_SUCCESS;
 
   constructor(public payload: ConfiguratorTextfield.Configuration) {

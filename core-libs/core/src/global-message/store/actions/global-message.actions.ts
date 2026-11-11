@@ -31,6 +31,4 @@ export class RemoveMessagesByType implements Action {
 }
 
 export type GlobalMessageAction =
-  | AddMessage
-  | RemoveMessage
-  | RemoveMessagesByType;
+  AddMessage | RemoveMessage | RemoveMessagesByType;

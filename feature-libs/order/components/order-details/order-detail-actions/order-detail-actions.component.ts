@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { BtnLikeLinkDirective } from '@spartacus/storefront';
@@ -16,7 +16,6 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-details-actions',
   templateUrl: './order-detail-actions.component.html',
   imports: [
-    NgIf,
     RouterLink,
     BtnLikeLinkDirective,
     AsyncPipe,
@@ -25,7 +24,7 @@ import { OrderDetailsService } from '../order-details.service';
   ],
 })
 export class OrderDetailActionsComponent {
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  protected orderDetailsService = inject(OrderDetailsService);
 
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
 }

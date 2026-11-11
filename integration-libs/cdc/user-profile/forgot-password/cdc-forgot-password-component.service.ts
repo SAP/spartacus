@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthConfigService,
@@ -21,22 +21,13 @@ export class CDCForgotPasswordComponentService
   extends ForgotPasswordComponentService
   implements OnDestroy
 {
-  protected subscription = new Subscription();
+  protected override userPasswordService = inject(UserPasswordFacade);
+  protected override routingService = inject(RoutingService);
+  protected override authConfigService = inject(AuthConfigService);
+  protected override globalMessage = inject(GlobalMessageService);
+  protected cdcJsService = inject(CdcJsService);
 
-  constructor(
-    protected userPasswordService: UserPasswordFacade,
-    protected routingService: RoutingService,
-    protected authConfigService: AuthConfigService,
-    protected globalMessage: GlobalMessageService,
-    protected cdcJsService: CdcJsService
-  ) {
-    super(
-      userPasswordService,
-      routingService,
-      authConfigService,
-      globalMessage
-    );
-  }
+  protected subscription = new Subscription();
 
   /**
    * Sends an email to through CDC SDK to reset the password.

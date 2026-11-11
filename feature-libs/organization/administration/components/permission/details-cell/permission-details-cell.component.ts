@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -15,6 +14,6 @@ import { CellComponent } from '../../shared';
   selector: 'cx-org-permission-details-cell',
   templateUrl: './permission-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, NgIf, PopoverDirective, TranslatePipe, UrlPipe],
+  imports: [RouterLink, PopoverDirective, TranslatePipe, UrlPipe],
 })
 export class PermissionDetailsCellComponent extends CellComponent {}

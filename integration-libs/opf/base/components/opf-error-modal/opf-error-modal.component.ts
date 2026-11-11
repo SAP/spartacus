@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -28,7 +28,7 @@ import { OpfErrorModalService } from './opf-error-modal.service';
   selector: 'cx-opf-error-modal',
   templateUrl: './opf-error-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, NgIf, AsyncPipe],
+  imports: [FocusDirective, AsyncPipe],
 })
 export class OpfErrorModalComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);

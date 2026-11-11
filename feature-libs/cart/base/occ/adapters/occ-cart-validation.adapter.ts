@@ -22,13 +22,11 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartValidationAdapter implements CartValidationAdapter {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   validate(cartId: string, userId: string): Observable<CartModificationList> {
     const url = this.occEndpoints.buildUrl('validate', {

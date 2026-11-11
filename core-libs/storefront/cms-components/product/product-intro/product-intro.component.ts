@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   EventService,
+  FeatureDirective,
   Product,
   TranslatePipe,
   TranslationService,
   WindowRef,
-  FeatureDirective,
 } from '@spartacus/core';
 import { Observable, defer, merge, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -28,7 +28,6 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     StarRatingComponent,
     AsyncPipe,
     DecimalPipe,
@@ -37,17 +36,15 @@ import { CurrentProductService } from '../current-product.service';
   ],
 })
 export class ProductIntroComponent {
+  protected currentProductService = inject(CurrentProductService);
+  protected translationService = inject(TranslationService);
+  protected winRef = inject(WindowRef);
+  protected eventService = inject(EventService);
+
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
 
-  /**
-   * Observable that checks the reviews component availability on the page.
-   *
-   * @deprecated This observable controlled whether we should show reviews based
-   * on the review component's existence. Instead, we are now using the "product.averageRating"
-   * to check whether reviews should exist. This observable with therefore be removed.
-   */
-  areReviewsAvailable$: Observable<boolean> = merge(
+  protected reviewsAvailable$: Observable<boolean> = merge(
     // Check if reviews component is already defined:
     defer(() => of(!!this.getReviewsComponent())),
 
@@ -65,13 +62,6 @@ export class ProductIntroComponent {
   protected reviewsComponentId = 'ProductReviewsTabComponent';
 
   protected reviewsTranslationKey = `TabPanelContainer.tabs.${this.reviewsComponentId}`;
-
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected translationService: TranslationService,
-    protected winRef: WindowRef,
-    protected eventService: EventService
-  ) {}
 
   /**
    * Scroll to views component on page and click "Reviews" tab

@@ -114,9 +114,7 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   },
 };
 
-class MockRegisterComponentService
-  implements Partial<RegisterComponentService>
-{
+class MockRegisterComponentService implements Partial<RegisterComponentService> {
   getTitles = vi.fn().mockReturnValue(of(mockTitlesList));
   getAdditionalConsents = vi.fn();
   generateAdditionalConsentsFormControl = vi.fn();
@@ -146,9 +144,7 @@ class MockLanguageService {
   }
 }
 
-class MockClientAuthenticationTokenService
-  implements Partial<ClientAuthenticationTokenService>
-{
+class MockClientAuthenticationTokenService implements Partial<ClientAuthenticationTokenService> {
   loadClientAuthenticationToken = vi.fn().mockReturnValue(of(undefined));
 }
 

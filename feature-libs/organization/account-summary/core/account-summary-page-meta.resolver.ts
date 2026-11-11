@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   BreadcrumbMeta,
   ContentPageMetaResolver,
@@ -29,14 +29,10 @@ export const ACCOUNT_SUMMARY_LIST_TRANSLATION_KEY =
   providedIn: 'root',
 })
 export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver {
-  constructor(
-    protected contentPageMetaResolver: ContentPageMetaResolver,
-    protected translation: TranslationService,
-    protected semanticPath: SemanticPathService,
-    protected routingService: RoutingService
-  ) {
-    super(contentPageMetaResolver, translation, semanticPath, routingService);
-  }
+  protected override contentPageMetaResolver = inject(ContentPageMetaResolver);
+  protected override translation = inject(TranslationService);
+  protected override semanticPath = inject(SemanticPathService);
+  protected override routingService = inject(RoutingService);
 
   protected readonly ACCOUNT_SUMMARY_SEMANTIC_ROUTE = 'orgAccountSummary';
   protected readonly ACCOUNT_SUMMARY_LIST_LABEL = 'Account Summaries';

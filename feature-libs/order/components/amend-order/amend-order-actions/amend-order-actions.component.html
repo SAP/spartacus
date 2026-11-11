@@ -13,22 +13,21 @@
   </a>
 </div>
 <div class="col-xs-12 col-md-4 col-lg-3">
-  <button
-    *ngIf="forwardRoute"
-    class="btn btn-block btn-primary"
-    (click)="continue($event)"
-  >
-    {{ 'common.continue' | cxTranslate }}
-  </button>
+  @if (forwardRoute) {
+    <button class="btn btn-block btn-primary" (click)="continue($event)">
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  }
 
-  <button
-    *ngIf="!forwardRoute"
-    class="btn btn-block btn-primary"
-    type="submit"
-    [attr.aria-label]="
-      'orderDetails.cancellationAndReturn.submitDescription' | cxTranslate
-    "
-  >
-    {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
-  </button>
+  @if (!forwardRoute) {
+    <button
+      class="btn btn-block btn-primary"
+      type="submit"
+      [attr.aria-label]="
+        'orderDetails.cancellationAndReturn.submitDescription' | cxTranslate
+      "
+    >
+      {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
+    </button>
+  }
 </div>

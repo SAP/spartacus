@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -21,15 +21,13 @@ import { DpLocalStorageService } from '../../../facade/dp-local-storage.service'
   imports: [SpinnerComponent, TranslatePipe],
 })
 export class DpPaymentFormComponent implements OnInit {
+  private dpPaymentService = inject(DpCheckoutPaymentService);
+  private dpStorageService = inject(DpLocalStorageService);
+  private globalMsgService = inject(GlobalMessageService);
+  private winRef = inject(WindowRef);
+
   @Output()
   closeForm = new EventEmitter<any>();
-
-  constructor(
-    private dpPaymentService: DpCheckoutPaymentService,
-    private dpStorageService: DpLocalStorageService,
-    private globalMsgService: GlobalMessageService,
-    private winRef: WindowRef
-  ) {}
 
   ngOnInit(): void {
     this.dpPaymentService

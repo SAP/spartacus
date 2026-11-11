@@ -13,6 +13,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import { ConverterService, LoggerService } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
@@ -26,9 +27,7 @@ import { ApplePaySessionVerificationRequest } from '@spartacus/opf/quick-buy/roo
 import { catchError, Observable, throwError } from 'rxjs';
 import { OpfApiQuickBuyAdapter } from './opf-api-quick-buy.adapter';
 
-class MockOpfMetadataStatePersistanceService
-  implements Partial<OpfMetadataStatePersistanceService>
-{
+class MockOpfMetadataStatePersistanceService implements Partial<OpfMetadataStatePersistanceService> {
   getActiveLanguage(): string {
     return 'en-us';
   }
@@ -79,7 +78,7 @@ describe('OpfApiQuickBuyAdapter', () => {
           provide: OpfMetadataStatePersistanceService,
           useClass: MockOpfMetadataStatePersistanceService,
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

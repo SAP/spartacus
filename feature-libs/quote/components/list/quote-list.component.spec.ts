@@ -108,9 +108,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockCommerceQuotesListComponentService
-  implements Partial<QuoteListComponentService>
-{
+class MockCommerceQuotesListComponentService implements Partial<QuoteListComponentService> {
   sortOptions?: SortModel[] | undefined = mockSorts;
   sortLabels$ = of({
     byDate: 'sorting.date',

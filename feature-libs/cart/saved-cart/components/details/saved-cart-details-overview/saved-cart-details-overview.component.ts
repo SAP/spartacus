@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslatePipe, TranslationService } from '@spartacus/core';
@@ -29,16 +30,14 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 @Component({
   selector: 'cx-saved-cart-details-overview',
   templateUrl: './saved-cart-details-overview.component.html',
-  imports: [
-    NgIf,
-    CardComponent,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-    CxDatePipe,
-  ],
+  imports: [CardComponent, IconComponent, AsyncPipe, TranslatePipe, CxDatePipe],
 })
 export class SavedCartDetailsOverviewComponent implements OnDestroy {
+  protected savedCartDetailsService = inject(SavedCartDetailsService);
+  protected translation = inject(TranslationService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   private subscription = new Subscription();
 
   @ViewChild('element') element: ElementRef;
@@ -46,13 +45,6 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
   iconTypes = ICON_TYPE;
   savedCart$: Observable<Cart | undefined> =
     this.savedCartDetailsService.getCartDetails();
-
-  constructor(
-    protected savedCartDetailsService: SavedCartDetailsService,
-    protected translation: TranslationService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   getCartName(cartName: string): Observable<Card> {
     return this.translation.translate('savedCartDetails.cartName').pipe(

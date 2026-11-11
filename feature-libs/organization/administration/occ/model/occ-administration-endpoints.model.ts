@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 declare module '@spartacus/core' {
   interface OccEndpoints {
@@ -13,228 +13,228 @@ declare module '@spartacus/core' {
      *
      * @member {string}
      */
-    b2bUsers?: string | OccEndpoint;
+    b2bUsers?: string | CoreOccEndpoint;
     /**
      * Endpoint for organization customer
      *
      * @member {string}
      */
-    b2bUser?: string | OccEndpoint;
+    b2bUser?: string | CoreOccEndpoint;
     /**
      * Endpoint for organization customer approvers
      *
      * @member {string}
      */
-    b2bUserApprovers?: string | OccEndpoint;
+    b2bUserApprovers?: string | CoreOccEndpoint;
     /**
      * Endpoint for organization customer approver
      *
      * @member {string}
      */
-    b2bUserApprover?: string | OccEndpoint;
+    b2bUserApprover?: string | CoreOccEndpoint;
     /**
      * Endpoint for organization customer user groups
      *
      * @member {string}
      */
-    b2bUserUserGroups?: string | OccEndpoint;
+    b2bUserUserGroups?: string | CoreOccEndpoint;
     /**
      * Endpoint for organization customer user group
      *
      * @member {string}
      */
-    b2bUserUserGroup?: string | OccEndpoint;
+    b2bUserUserGroup?: string | CoreOccEndpoint;
     /**
      * Endpoint for organization customer permissions
      *
      * @member {string}
      */
-    b2bUserPermissions?: string | OccEndpoint;
+    b2bUserPermissions?: string | CoreOccEndpoint;
     /**
      * Endpoint for organization customer permission
      *
      * @member {string}
      */
-    b2bUserPermission?: string | OccEndpoint;
+    b2bUserPermission?: string | CoreOccEndpoint;
     /**
      * Endpoint for userGroupOrderApprovalPermission
      *
      * @member {string}
      */
-    budget?: string | OccEndpoint;
+    budget?: string | CoreOccEndpoint;
     /**
      * Endpoint for budgets list
      *
      * @member {string}
      */
-    budgets?: string | OccEndpoint;
+    budgets?: string | CoreOccEndpoint;
     /**
      * Endpoint for all costCenters
      *
      * @member {string}
      */
-    costCentersAll?: string | OccEndpoint;
+    costCentersAll?: string | CoreOccEndpoint;
     /**
      * Endpoint for costCenter
      *
      * @member {string}
      */
-    costCenter?: string | OccEndpoint;
+    costCenter?: string | CoreOccEndpoint;
     /**
      * Endpoint for userGroupOrderApprovalPermission
      *
      * @member {string}
      */
-    costCenters?: string | OccEndpoint;
+    costCenters?: string | CoreOccEndpoint;
     /**
      * Endpoint for budgets assigned to costCenter
      *
      * @member {string}
      */
-    costCenterBudgets?: string | OccEndpoint;
+    costCenterBudgets?: string | CoreOccEndpoint;
     /**
      * Endpoint for budget assigned to costCenter
      *
      * @member {string}
      */
-    costCenterBudget?: string | OccEndpoint;
+    costCenterBudget?: string | CoreOccEndpoint;
     /**
      * Endpoint for organizations
      *
      * @member {string}
      */
-    orgUnits?: string | OccEndpoint;
+    orgUnits?: string | CoreOccEndpoint;
     /**
      * Endpoint for organizations list
      *
      * @member {string}
      */
-    orgUnitsAvailable?: string | OccEndpoint;
+    orgUnitsAvailable?: string | CoreOccEndpoint;
     /**
      * Endpoint for organization units tree
      *
      * @member {string}
      */
-    orgUnitsTree?: string | OccEndpoint;
+    orgUnitsTree?: string | CoreOccEndpoint;
     /**
      * Endpoint for approval processes for organization units
      *
      * @member {string}
      */
-    orgUnitsApprovalProcesses?: string | OccEndpoint;
+    orgUnitsApprovalProcesses?: string | CoreOccEndpoint;
     /**
      * Endpoint for organization
      *
      * @member {string}
      */
-    orgUnit?: string | OccEndpoint;
+    orgUnit?: string | CoreOccEndpoint;
     /**
      * Endpoint for orgUnitUsers:
      *
      * @member {string}
      */
-    orgUnitUsers?: string | OccEndpoint;
+    orgUnitUsers?: string | CoreOccEndpoint;
     /**
      * Endpoint for add orgUnitUserRoles (except approver):
      *
      * @member {string}
      */
-    orgUnitUserRoles?: string | OccEndpoint;
+    orgUnitUserRoles?: string | CoreOccEndpoint;
     /**
      * Endpoint for remove orgUnitUserRole (except approver):
      *
      * @member {string}
      */
-    orgUnitUserRole?: string | OccEndpoint;
+    orgUnitUserRole?: string | CoreOccEndpoint;
     /**
      * Endpoint for add orgUnitApprovers:
      *
      * @member {string}
      */
-    orgUnitApprovers?: string | OccEndpoint;
+    orgUnitApprovers?: string | CoreOccEndpoint;
     /**
      * Endpoint for delete orgUnitApprover:
      *
      * @member {string}
      */
-    orgUnitApprover?: string | OccEndpoint;
+    orgUnitApprover?: string | CoreOccEndpoint;
     /**
      * Endpoint for organizational unit addresses
      *
      * @member {string}
      */
-    orgUnitsAddresses?: string | OccEndpoint;
+    orgUnitsAddresses?: string | CoreOccEndpoint;
     /**
      * Endpoint for organizational unit address
      *
      * @member {string}
      */
-    orgUnitsAddress?: string | OccEndpoint;
+    orgUnitsAddress?: string | CoreOccEndpoint;
     /**
      * Endpoint for permission list
      *
      * @member {string}
      */
-    permissions?: string | OccEndpoint;
+    permissions?: string | CoreOccEndpoint;
     /**
      * Endpoint for permission
      *
      * @member {string}
      */
-    permission?: string | OccEndpoint;
+    permission?: string | CoreOccEndpoint;
     /**
      * Endpoint for order approval permission types
      *
      * @member {string}
      */
-    orderApprovalPermissionTypes?: string | OccEndpoint;
+    orderApprovalPermissionTypes?: string | CoreOccEndpoint;
     /**
      * Endpoint for organizational unit user groups list
      *
      * @member {string}
      */
-    userGroups?: string | OccEndpoint;
+    userGroups?: string | CoreOccEndpoint;
     /**
      * Endpoint for organizational unit user group
      *
      * @member {string}
      */
-    userGroup?: string | OccEndpoint;
+    userGroup?: string | CoreOccEndpoint;
     /**
      * Endpoint for costCenter list
      *
      * @member {string}
      */
-    userGroupAvailableOrderApprovalPermissions?: string | OccEndpoint;
+    userGroupAvailableOrderApprovalPermissions?: string | CoreOccEndpoint;
     /**
      * Endpoint for userGroupAvailableOrderApprovalPermissions list
      *
      * @member {string}
      */
-    userGroupAvailableOrgCustomers?: string | OccEndpoint;
+    userGroupAvailableOrgCustomers?: string | CoreOccEndpoint;
     /**
      * Endpoint for userGroupAvailableOrgCustomers list
      *
      * @member {string}
      */
-    userGroupMembers?: string | OccEndpoint;
+    userGroupMembers?: string | CoreOccEndpoint;
     /**
      * Endpoint for userGroupMembers list
      *
      * @member {string}
      */
-    userGroupMember?: string | OccEndpoint;
+    userGroupMember?: string | CoreOccEndpoint;
     /**
      * Endpoint for userGroupMember
      *
      * @member {string}
      */
-    userGroupOrderApprovalPermissions?: string | OccEndpoint;
+    userGroupOrderApprovalPermissions?: string | CoreOccEndpoint;
     /**
      * Endpoint for userGroupOrderApprovalPermissions list
      *
      * @member {string}
      */
-    userGroupOrderApprovalPermission?: string | OccEndpoint;
+    userGroupOrderApprovalPermission?: string | CoreOccEndpoint;
   }
 }

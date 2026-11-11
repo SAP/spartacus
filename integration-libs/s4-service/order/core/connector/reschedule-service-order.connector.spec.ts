@@ -4,9 +4,7 @@ import { RescheduleServiceOrderConnector } from './reschedule-service-order.conn
 import { RescheduleServiceOrderAdapter } from './reschedule-service-order.adapter';
 import { firstValueFrom, of } from 'rxjs';
 
-class MockRescheduleServiceOrderAdapter
-  implements Partial<RescheduleServiceOrderAdapter>
-{
+class MockRescheduleServiceOrderAdapter implements Partial<RescheduleServiceOrderAdapter> {
   rescheduleServiceOrder = vi.fn().mockReturnValue(of({}));
 }
 

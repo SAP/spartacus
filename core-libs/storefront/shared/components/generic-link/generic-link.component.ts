@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { Params, Router, RouterLink } from '@angular/router';
 import { GenericLinkComponentService } from './generic-link-component.service';
 
@@ -27,13 +33,11 @@ interface RouteParts {
 @Component({
   selector: 'cx-generic-link',
   templateUrl: './generic-link.component.html',
-  imports: [NgIf, NgTemplateOutlet, RouterLink],
+  imports: [NgTemplateOutlet, RouterLink],
 })
 export class GenericLinkComponent implements OnChanges {
-  constructor(
-    protected router: Router,
-    protected service: GenericLinkComponentService
-  ) {}
+  protected router = inject(Router);
+  protected service = inject(GenericLinkComponentService);
 
   /**
    * Used to split url into 2 parts:

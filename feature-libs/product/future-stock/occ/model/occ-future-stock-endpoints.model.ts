@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface FutureStockOccEndpoints {
   /**
    * Get a specific future stock.
    */
-  futureStock?: string | OccEndpoint;
+  futureStock?: string | CoreOccEndpoint;
   /**
    * Get all future stocks.
    */
-  futureStocks?: string | OccEndpoint;
+  futureStocks?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {

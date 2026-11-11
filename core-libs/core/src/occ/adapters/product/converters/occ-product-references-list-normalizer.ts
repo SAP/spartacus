@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProductReference } from '../../../../model/product.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import {
@@ -14,10 +14,11 @@ import {
 import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable({ providedIn: 'root' })
-export class OccProductReferencesListNormalizer
-  implements Converter<Occ.ProductReferenceList, ProductReference[]>
-{
-  constructor(private converter: ConverterService) {}
+export class OccProductReferencesListNormalizer implements Converter<
+  Occ.ProductReferenceList,
+  ProductReference[]
+> {
+  private converter = inject(ConverterService);
 
   convert(
     source: Occ.ProductReferenceList,

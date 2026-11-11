@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DebugElement,
-  Input,
-} from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -171,9 +166,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
     .mockReturnValue(of({ loading: false }));
 }
 
-class MockCheckoutDeliveryService
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState = vi
     .fn()
     .mockReturnValue(of({ loading: false, error: false, data: undefined }));
@@ -201,9 +194,7 @@ class MockUserAddressService implements Partial<UserAddressService> {
   verifyAddress = vi.fn().mockReturnValue(of({}));
 }
 
-class MockCheckoutBillingAddressFormService
-  implements Partial<CheckoutBillingAddressFormService>
-{
+class MockCheckoutBillingAddressFormService implements Partial<CheckoutBillingAddressFormService> {
   getBillingAddress(): Address {
     return mockBillingAddress;
   }
@@ -273,7 +264,6 @@ describe('CheckoutPaymentFormComponent', () => {
           ],
         },
         add: {
-          changeDetection: ChangeDetectionStrategy.Eager,
           imports: [
             MockTranslatePipe,
             MockDatePipe,

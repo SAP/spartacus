@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   InterceptorUtil,
   OccEndpointsService,
@@ -14,13 +14,9 @@ import {
 import { RequestedDeliveryDateAdapter } from '@spartacus/requested-delivery-date/core';
 
 @Injectable()
-export class OccRequestedDeliveryDateAdapter
-  implements RequestedDeliveryDateAdapter
-{
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService
-  ) {}
+export class OccRequestedDeliveryDateAdapter implements RequestedDeliveryDateAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
 
   setRequestedDeliveryDate(
     userId: string,

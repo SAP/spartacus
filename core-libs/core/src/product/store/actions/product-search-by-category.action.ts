@@ -17,7 +17,9 @@ export const PRODUCT_SEARCH_LOAD_BY_CATEGORY_SUCCESS =
 export const PRODUCT_SEARCH_LOAD_BY_CATEGORY_FAIL =
   '[Product] Product Search Load By Category Fail';
 
-export class ProductSearchLoadByCategory extends EntityScopedLoaderActions.EntityScopedLoadAction {
+export class ProductSearchLoadByCategory
+  extends EntityScopedLoaderActions.EntityScopedLoadAction
+{
   readonly type = PRODUCT_SEARCH_LOAD_BY_CATEGORY;
   constructor(
     public payload: {
@@ -33,7 +35,9 @@ export class ProductSearchLoadByCategory extends EntityScopedLoaderActions.Entit
   }
 }
 
-export class ProductSearchLoadByCategorySuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
+export class ProductSearchLoadByCategorySuccess
+  extends EntityScopedLoaderActions.EntityScopedSuccessAction
+{
   readonly type = PRODUCT_SEARCH_LOAD_BY_CATEGORY_SUCCESS;
   constructor(payload: {
     products: Product[];

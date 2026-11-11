@@ -13,12 +13,10 @@ import { CdsBackendNotificationAdapter } from './cds-backend-notification-adapte
 
 @Injectable()
 export class OccBackendNotification implements CdsBackendNotificationAdapter {
-  private userIdService = inject(UserIdService);
+  private http = inject(HttpClient);
+  private occEndpoints = inject(OccEndpointsService);
 
-  constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService
-  ) {}
+  private userIdService = inject(UserIdService);
   notifySuccessfulLogin(): Observable<void> {
     return this.userIdService
       .takeUserId(true)

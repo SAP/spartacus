@@ -19,9 +19,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-class MockOrganizationUserRegistrationFacade
-  implements Partial<UserRegistrationFacade>
-{
+class MockOrganizationUserRegistrationFacade implements Partial<UserRegistrationFacade> {
   registerUser(userData: OrganizationUserRegistration) {
     return of(userData);
   }

@@ -51,7 +51,4 @@ export class ClearRegions implements Action {
 }
 
 export type RegionsAction =
-  | LoadRegions
-  | LoadRegionsFail
-  | LoadRegionsSuccess
-  | ClearRegions;
+  LoadRegions | LoadRegionsFail | LoadRegionsSuccess | ClearRegions;

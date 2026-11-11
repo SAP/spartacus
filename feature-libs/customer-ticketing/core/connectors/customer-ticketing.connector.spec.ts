@@ -22,9 +22,7 @@ const mockTicketStarter: TicketStarter = {
   message: 'mockMessage',
 };
 
-class MockCustomerTicketingAdapter
-  implements Partial<CustomerTicketingAdapter>
-{
+class MockCustomerTicketingAdapter implements Partial<CustomerTicketingAdapter> {
   getTicket = vi.fn().mockReturnValue(of(mockTicketDetails));
   getTickets = vi.fn().mockReturnValue(EMPTY);
   getTicketCategories = vi.fn().mockReturnValue(EMPTY);

@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { provideLocationInitializerFactory } from '../../routing/location-initialized-multi/location-initialized-multi';
-import { Config } from '../config-tokens';
 import {
   CONFIG_INITIALIZER,
   CONFIG_INITIALIZER_FORROOT_GUARD,
@@ -27,15 +26,6 @@ export function configInitializerFactory(
 ): () => Promise<void> {
   const isReady = () => configInitializer.initialize(initializers);
   return isReady;
-}
-
-/**
- * @deprecated since 2211.22  - should not be a public API
- */
-export function locationInitializedFactory(
-  configInitializer: ConfigInitializerService
-): Promise<Config> {
-  return lastValueFrom(configInitializer.getStable());
 }
 
 @NgModule({})

@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RoutingService, UrlPipe } from '@spartacus/core';
 import {
@@ -35,7 +40,6 @@ import { MerchandisingCarouselModel } from './model/index';
   templateUrl: './merchandising-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     AttributesDirective,
     CarouselComponent,
     RouterLink,
@@ -45,15 +49,17 @@ import { MerchandisingCarouselModel } from './model/index';
   ],
 })
 export class MerchandisingCarouselComponent {
+  protected componentData = inject<CmsComponentData<model>>(CmsComponentData);
+  protected merchandisingCarouselComponentService = inject(
+    MerchandisingCarouselComponentService
+  );
+  protected routingService = inject(RoutingService);
+  protected intersectionService = inject(IntersectionService);
+  protected el = inject(ElementRef);
+
   protected lastEventModelId: string;
 
-  constructor(
-    protected componentData: CmsComponentData<model>,
-    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
-    protected routingService: RoutingService,
-    protected intersectionService: IntersectionService,
-    protected el: ElementRef
-  ) {
+  constructor() {
     this.lastEventModelId = '';
   }
 

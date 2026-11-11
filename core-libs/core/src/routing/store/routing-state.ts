@@ -10,8 +10,7 @@ import { PageContext } from '../models/page-context.model';
 
 export const ROUTING_FEATURE = 'router';
 
-export interface RouterState
-  extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
+export interface RouterState extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
   nextState?: ActivatedRouterStateSnapshot;
 }
 

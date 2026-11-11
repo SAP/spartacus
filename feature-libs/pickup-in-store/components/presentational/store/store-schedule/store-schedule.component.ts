@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
 import { PointOfService, TranslatePipe } from '@spartacus/core';
 
@@ -20,7 +19,7 @@ type OpeningTime = {
 @Component({
   selector: 'cx-store-schedule',
   templateUrl: 'store-schedule.component.html',
-  imports: [NgFor, NgIf, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class StoreScheduleComponent implements OnChanges {
   /** The details of the store */

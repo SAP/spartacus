@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 declare module '@spartacus/core' {
   interface OccEndpoints {
-    readTextfieldConfigurationForOrderEntry?: string | OccEndpoint;
-    readTextfieldConfigurationForQuoteEntry?: string | OccEndpoint;
+    readTextfieldConfigurationForOrderEntry?: string | CoreOccEndpoint;
+    readTextfieldConfigurationForQuoteEntry?: string | CoreOccEndpoint;
   }
 }

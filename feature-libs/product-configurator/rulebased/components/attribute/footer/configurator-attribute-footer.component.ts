@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -20,21 +25,25 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
   selector: 'cx-configurator-attribute-footer',
   templateUrl: './configurator-attribute-footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorAttributeFooterComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+
   attribute: Configurator.Attribute;
   owner: CommonConfigurator.Owner;
   groupId: string;
 
-  constructor(
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
-  ) {
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.owner = attributeComponentContext.owner;
     this.groupId = attributeComponentContext.group.id;

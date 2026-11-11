@@ -14,9 +14,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class OpfQuickBuyDefaultSingleProductService
-  implements OpfQuickBuySingleProductCartOptionsFacade
-{
+export class OpfQuickBuyDefaultSingleProductService implements OpfQuickBuySingleProductCartOptionsFacade {
   protected cartItemQuantityService = inject(CartItemQuantityService);
 
   getSingleProductCartOptions(

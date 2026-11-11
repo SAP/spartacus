@@ -20,9 +20,7 @@ const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   daysOfWeek: [],
 };
 
-class MockCheckoutReplenishmentFormService
-  implements Partial<CheckoutReplenishmentFormService>
-{
+class MockCheckoutReplenishmentFormService implements Partial<CheckoutReplenishmentFormService> {
   getOrderType = vi.fn().mockReturnValue(of(ORDER_TYPE.PLACE_ORDER));
   setOrderType = vi.fn();
   getScheduleReplenishmentFormData = vi.fn().mockReturnValue(of({}));

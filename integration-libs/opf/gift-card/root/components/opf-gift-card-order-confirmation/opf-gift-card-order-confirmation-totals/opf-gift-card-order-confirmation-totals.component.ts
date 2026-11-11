@@ -10,7 +10,7 @@ import {
   OnDestroy,
   inject,
 } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Order, OrderFacade } from '@spartacus/order/root';
 
 import { CartOutlets } from '@spartacus/cart/base/root';
@@ -22,7 +22,7 @@ import { OutletModule } from '@spartacus/storefront';
   selector: 'cx-opf-gift-card-order-confirmation-totals',
   templateUrl: './opf-gift-card-order-confirmation-totals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, OutletModule, NgIf, OpfGiftCardOrderSummaryComponent],
+  imports: [CommonModule, OutletModule, OpfGiftCardOrderSummaryComponent],
 })
 export class OpfGiftCardOrderConfirmationTotalsComponent implements OnDestroy {
   protected orderFacade = inject(OrderFacade);

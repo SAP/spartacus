@@ -1,3 +1,5 @@
+import { CustomerCouponAdapter } from './customer-coupon.adapter';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CustomerCouponConnector } from './customer-coupon.connector';
 
@@ -35,7 +37,13 @@ describe('CustomerCouponConnector', () => {
         .fn()
         .mockImplementation((userId) => of(`disclaim-${userId}`)),
     };
-    service = new CustomerCouponConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        CustomerCouponConnector,
+        { provide: CustomerCouponAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(CustomerCouponConnector);
   });
 
   it('should be created', () => {

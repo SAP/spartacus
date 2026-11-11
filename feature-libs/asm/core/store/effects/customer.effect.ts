@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerSearchPage } from '@spartacus/asm/root';
 import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
@@ -15,6 +15,10 @@ import { AsmActions } from '../actions/index';
 
 @Injectable()
 export class CustomerEffects {
+  private actions$ = inject(Actions);
+  private asmConnector = inject(AsmConnector);
+  private logger = inject(LoggerService);
+
   customerSearch$: Observable<AsmActions.CustomerAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(AsmActions.CUSTOMER_SEARCH),
@@ -65,10 +69,4 @@ export class CustomerEffects {
         )
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private asmConnector: AsmConnector,
-    private logger: LoggerService
-  ) {}
 }

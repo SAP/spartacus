@@ -39,15 +39,11 @@ export interface UserModel {
   providedIn: 'root',
 })
 export class UserListService extends ListService<UserModel> {
+  protected override tableService = inject(TableService);
+  protected userService = inject(B2BUserService);
+
   protected tableType = OrganizationTableType.USER;
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected tableService: TableService,
-    protected userService: B2BUserService
-  ) {
-    super(tableService);
-  }
 
   key(): string {
     return 'customerId';

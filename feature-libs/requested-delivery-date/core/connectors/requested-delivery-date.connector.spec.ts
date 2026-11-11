@@ -8,9 +8,7 @@ const mockUserId = 'userId1';
 const mockCartId = '00012345';
 const mockRequestedDate = '15-09-2023';
 
-class MockRequestedDeliveryDateAdapter
-  implements Partial<RequestedDeliveryDateAdapter>
-{
+class MockRequestedDeliveryDateAdapter implements Partial<RequestedDeliveryDateAdapter> {
   setRequestedDeliveryDate = vi
     .fn()
     .mockImplementation((_userId: string, _cartId: string, _date: Date) =>

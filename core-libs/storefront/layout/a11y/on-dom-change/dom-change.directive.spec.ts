@@ -1,7 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { firstValueFrom } from 'rxjs';
 import { DomChangeDirective } from './dom-change.directive';
 
@@ -22,7 +21,7 @@ describe('DomChangeDirective', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, TestHostComponent, DomChangeDirective],
+      imports: [TestHostComponent, DomChangeDirective],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);

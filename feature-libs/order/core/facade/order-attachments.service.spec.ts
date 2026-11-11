@@ -26,9 +26,7 @@ const attachmentsData: OrderAttachments = {
 };
 const blobData: Blob = new Blob(['mock content'], { type: 'application/pdf' });
 
-class MockOrderAttachmentsConnector
-  implements Partial<OrderAttachmentsConnector>
-{
+class MockOrderAttachmentsConnector implements Partial<OrderAttachmentsConnector> {
   getOrderAttachments() {
     return of(attachmentsData);
   }

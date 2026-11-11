@@ -23,7 +23,9 @@ export const SET_CART_DATA = '[Cart] Set cart data';
  * Increases process counter on cart entities
  * All actions that cause computations on cart should extend EntityProcessesIncrementAction instead of dispatching this action.
  */
-export class CartProcessesIncrement extends StateUtils.EntityProcessesIncrementAction {
+export class CartProcessesIncrement
+  extends StateUtils.EntityProcessesIncrementAction
+{
   readonly type = CART_PROCESSES_INCREMENT;
   constructor(public payload: string) {
     super(MULTI_CART_DATA, payload);
@@ -34,7 +36,9 @@ export class CartProcessesIncrement extends StateUtils.EntityProcessesIncrementA
  * Decrement process counter on cart entities
  * All actions that cause computations on cart should extend EntityProcessesDecrementAction instead of dispatching this action.
  */
-export class CartProcessesDecrement extends StateUtils.EntityProcessesDecrementAction {
+export class CartProcessesDecrement
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = CART_PROCESSES_DECREMENT;
   constructor(public payload: string) {
     super(MULTI_CART_DATA, payload);

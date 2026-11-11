@@ -46,9 +46,9 @@ export class LoadCmsComponentFail
   }
 }
 
-export class LoadCmsComponentSuccess<
-  T extends CmsComponent,
-> extends StateUtils.EntitySuccessAction {
+export class LoadCmsComponentSuccess<T extends CmsComponent>
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = LOAD_CMS_COMPONENT_SUCCESS;
 
   constructor(
@@ -62,9 +62,9 @@ export class LoadCmsComponentSuccess<
   }
 }
 
-export class CmsGetComponentFromPage<
-  T extends CmsComponent,
-> extends StateUtils.EntitySuccessAction {
+export class CmsGetComponentFromPage<T extends CmsComponent>
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = CMS_GET_COMPONENT_FROM_PAGE;
 
   constructor(

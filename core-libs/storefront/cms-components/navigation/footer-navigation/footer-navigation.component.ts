@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CmsNavigationComponent, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,9 +18,13 @@ import { NavigationService } from '../navigation/navigation.service';
   selector: 'cx-footer-navigation',
   templateUrl: './footer-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NavigationUIComponent, NgClass, AsyncPipe, TranslatePipe],
+  imports: [NavigationUIComponent, NgClass, AsyncPipe, TranslatePipe],
 })
 export class FooterNavigationComponent {
+  protected componentData =
+    inject<CmsComponentData<CmsNavigationComponent>>(CmsComponentData);
+  protected service = inject(NavigationService);
+
   node$: Observable<NavigationNode> = this.service.getNavigationNode(
     this.componentData.data$
   );
@@ -28,9 +32,4 @@ export class FooterNavigationComponent {
   styleClass$: Observable<string | undefined> = this.componentData.data$.pipe(
     map((d) => d?.styleClass)
   );
-
-  constructor(
-    protected componentData: CmsComponentData<CmsNavigationComponent>,
-    protected service: NavigationService
-  ) {}
 }

@@ -25,17 +25,13 @@ import { catchError, map } from 'rxjs/operators';
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
 export class OccOpfTokenisationUserPaymentAdapter extends OccUserPaymentAdapter {
+  protected override http = inject(HttpClient);
+  protected override occEndpoints = inject(OccEndpointsService);
+  protected override converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
   protected translationService = inject(TranslationService);
   protected rawPaymentDetailsById = new Map<string, Occ.PaymentDetails>();
-
-  constructor(
-    protected override http: HttpClient,
-    protected override occEndpoints: OccEndpointsService,
-    protected override converter: ConverterService
-  ) {
-    super(http, occEndpoints, converter);
-  }
 
   override loadAll(userId: string): Observable<PaymentDetails[]> {
     const url = this.occEndpoints.buildUrl('paymentDetailsAll', {

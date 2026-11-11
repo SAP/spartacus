@@ -16,9 +16,7 @@ import { ServiceDetails } from '@spartacus/s4-service/root';
 import { catchError, Observable } from 'rxjs';
 
 @Injectable()
-export class OccRescheduleServiceOrderAdapter
-  implements RescheduleServiceOrderAdapter
-{
+export class OccRescheduleServiceOrderAdapter implements RescheduleServiceOrderAdapter {
   protected http = inject(HttpClient);
   protected logger = inject(LoggerService);
   protected occEndpoints = inject(OccEndpointsService);

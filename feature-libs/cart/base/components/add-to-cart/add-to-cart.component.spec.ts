@@ -2,7 +2,6 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ActiveCartFacade,
   Cart,
@@ -160,7 +159,6 @@ describe('AddToCartComponent', () => {
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule,
         SpinnerModule,
         ReactiveFormsModule,
         OutletModule,

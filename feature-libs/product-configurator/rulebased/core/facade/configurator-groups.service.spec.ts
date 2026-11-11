@@ -694,8 +694,7 @@ describe('ConfiguratorGroupsService', () => {
       let configurationWithConflicts = structuredClone(
         productConfigurationWithConflicts
       );
-      configurationWithConflicts.interactionState.showConflictSolverDialog =
-        false;
+      configurationWithConflicts.interactionState.showConflictSolverDialog = false;
       vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configurationWithConflicts)
       );
@@ -713,8 +712,7 @@ describe('ConfiguratorGroupsService', () => {
       let configurationWithConflicts = structuredClone(
         productConfigurationWithConflicts
       );
-      configurationWithConflicts.interactionState.showConflictSolverDialog =
-        true;
+      configurationWithConflicts.interactionState.showConflictSolverDialog = true;
       vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
         of(configurationWithConflicts)
       );

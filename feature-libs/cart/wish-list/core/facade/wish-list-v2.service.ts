@@ -65,14 +65,12 @@ export class WishListV2Service implements WishListFacade {
         const productMap = new Map(products.map((p) => [p.code, p]));
         return {
           ...wishlist,
-          entries: entries.map(
-            (entry): WishlistEntry => ({
-              ...entry,
-              product:
-                productMap.get(entry.productCode ?? '') ??
-                ({ code: entry.productCode } as Product),
-            })
-          ),
+          entries: entries.map((entry): WishlistEntry => ({
+            ...entry,
+            product:
+              productMap.get(entry.productCode ?? '') ??
+              ({ code: entry.productCode } as Product),
+          })),
         };
       }),
       catchError(() => of(wishlist))

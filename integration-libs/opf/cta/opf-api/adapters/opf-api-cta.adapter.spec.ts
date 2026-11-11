@@ -27,6 +27,7 @@ import { OpfApiCtaAdapter } from './opf-api-cta.adapter';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 
 const mockCtaScriptsRequest: OpfCtaScriptsRequest = {
@@ -67,9 +68,7 @@ const mockOpfConfig: OpfConfig = {
   },
 };
 
-class MockOpfMetadataStatePersistanceService
-  implements Partial<OpfMetadataStatePersistanceService>
-{
+class MockOpfMetadataStatePersistanceService implements Partial<OpfMetadataStatePersistanceService> {
   getActiveLanguage(): string {
     return 'en-us';
   }
@@ -98,7 +97,7 @@ describe('OpfApiCtaAdapter', () => {
           useClass: MockOpfMetadataStatePersistanceService,
         },
         LoggerService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

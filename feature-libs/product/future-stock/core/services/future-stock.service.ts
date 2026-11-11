@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
 import {
@@ -18,6 +18,10 @@ import { ProductFutureStock } from '../model';
 
 @Injectable()
 export class FutureStockService implements FutureStockFacade {
+  protected userIdService = inject(UserIdService);
+  protected futureStockConnector = inject(FutureStockConnector);
+  protected routingService = inject(RoutingService);
+
   protected readonly PRODUCT_KEY = 'productCode';
 
   protected futureStockState$: Observable<ProductFutureStock | undefined> =
@@ -39,10 +43,4 @@ export class FutureStockService implements FutureStockFacade {
   getFutureStock(): Observable<ProductFutureStock | undefined> {
     return this.futureStockState$;
   }
-
-  constructor(
-    protected userIdService: UserIdService,
-    protected futureStockConnector: FutureStockConnector,
-    protected routingService: RoutingService
-  ) {}
 }

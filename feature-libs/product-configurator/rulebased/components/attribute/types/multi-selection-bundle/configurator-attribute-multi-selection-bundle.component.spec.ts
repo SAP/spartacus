@@ -197,7 +197,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

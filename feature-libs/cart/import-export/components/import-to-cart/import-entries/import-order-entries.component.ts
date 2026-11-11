@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   ORDER_ENTRIES_CONTEXT,
@@ -27,16 +28,14 @@ import { Observable, Subscription } from 'rxjs';
   selector: 'cx-import-order-entries',
   templateUrl: './import-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ImportOrderEntriesComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected contextService = inject(ContextService);
+
   protected subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected contextService: ContextService
-  ) {}
 
   orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);

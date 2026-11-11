@@ -35,17 +35,13 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
   }
 }
 
-class MockSiteContextParamsService
-  implements Partial<SiteContextParamsService>
-{
+class MockSiteContextParamsService implements Partial<SiteContextParamsService> {
   getUrlEncodingParameters() {
     return [];
   }
 }
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable(..._scopes: string[]): Observable<Config> {
     return of({});
   }
@@ -114,8 +110,7 @@ describe('AuthConfigInitializer', () => {
   describe('configFactory()', () => {
     describe('when addBaseSiteToRedirectUri is false', () => {
       beforeEach(() => {
-        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
-          false;
+        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri = false;
       });
 
       describe('when redirectUri is undefined', () => {
@@ -161,8 +156,7 @@ describe('AuthConfigInitializer', () => {
 
     describe('when addBaseSiteToRedirectUri is true', () => {
       beforeEach(() => {
-        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
-          true;
+        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri = true;
       });
 
       describe('when oauthCallbackPage is disabled', () => {
@@ -529,8 +523,7 @@ describe('AuthConfigInitializer', () => {
       let expected: Config;
       beforeEach(() => {
         authConfig.authentication.initializerOptions.baseSiteSuffix = true;
-        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
-          true;
+        authConfig.authentication.initializerOptions.addBaseSiteToRedirectUri = true;
 
         expected = <Config>{
           authentication: {

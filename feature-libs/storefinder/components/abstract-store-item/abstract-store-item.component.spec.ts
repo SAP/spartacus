@@ -1,7 +1,11 @@
+import { TestBed } from '@angular/core/testing';
+import {
+  StoreFinderService,
+  StoreLocationService,
+} from '@spartacus/storefinder/core';
 import { AbstractStoreItemComponent } from './abstract-store-item.component';
-import { StoreFinderService } from '@spartacus/storefinder/core';
 
-export class MockStoreFinderService implements Partial<StoreFinderService> {
+export class MockStoreLocationService implements Partial<StoreLocationService> {
   getStoreLatitude(): number {
     return 1;
   }
@@ -19,11 +23,18 @@ export class MockStoreFinderService implements Partial<StoreFinderService> {
 
 describe('AbstractStoreItemComponent', () => {
   let component: AbstractStoreItemComponent;
-  const mockStoreFinderService: MockStoreFinderService =
-    new MockStoreFinderService();
+  const mockStoreLocationService: MockStoreLocationService =
+    new MockStoreLocationService();
 
   beforeEach(() => {
-    component = new AbstractStoreItemComponent(<any>mockStoreFinderService);
+    TestBed.configureTestingModule({
+      providers: [
+        AbstractStoreItemComponent,
+        { provide: StoreFinderService, useValue: {} },
+        { provide: StoreLocationService, useValue: mockStoreLocationService },
+      ],
+    });
+    component = TestBed.inject(AbstractStoreItemComponent);
   });
 
   it('should create', () => {

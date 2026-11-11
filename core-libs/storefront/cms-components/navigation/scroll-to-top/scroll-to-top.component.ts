@@ -12,6 +12,7 @@ import {
   HostListener,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   CmsScrollToTopComponent,
@@ -32,6 +33,11 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
   imports: [IconComponent, TranslatePipe],
 })
 export class ScrollToTopComponent implements OnInit {
+  protected winRef = inject(WindowRef);
+  protected componentData =
+    inject<CmsComponentData<CmsScrollToTopComponent>>(CmsComponentData);
+  protected selectFocusUtility = inject(SelectFocusUtility);
+
   iconTypes = ICON_TYPE;
 
   @HostBinding('class.display')
@@ -44,12 +50,6 @@ export class ScrollToTopComponent implements OnInit {
 
   @ViewChild('button')
   button: ElementRef;
-
-  constructor(
-    protected winRef: WindowRef,
-    protected componentData: CmsComponentData<CmsScrollToTopComponent>,
-    protected selectFocusUtility: SelectFocusUtility
-  ) {}
 
   ngOnInit(): void {
     this.setConfig();

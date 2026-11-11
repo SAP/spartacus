@@ -17,16 +17,18 @@ import {
 import {
   GoogleMapRendererService,
   StoreFinderService,
+  StoreLocationService,
 } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { EMPTY } from 'rxjs';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
 import { LocationDisplayMode } from './store-finder-list.model';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const location: PointOfService = {
   displayName: 'Test Store',
+  geoPoint: { latitude: 35.528984, longitude: 139.700168 },
 };
 const stores: Array<PointOfService> = [location];
 const locations = { stores: stores, pagination: { currentPage: 0 } };
@@ -98,8 +100,8 @@ describe('StoreFinderListComponent', () => {
     storeFinderService = TestBed.inject(StoreFinderService);
     googleMapRendererService = TestBed.inject(GoogleMapRendererService);
 
-    vi.spyOn(storeFinderService, 'getStoreLatitude');
-    vi.spyOn(storeFinderService, 'getStoreLongitude');
+    vi.spyOn(TestBed.inject(StoreLocationService), 'getStoreLatitude');
+    vi.spyOn(TestBed.inject(StoreLocationService), 'getStoreLongitude');
     vi.spyOn(googleMapRendererService, 'centerMap');
   });
 
@@ -122,9 +124,16 @@ describe('StoreFinderListComponent', () => {
 
     component.centerStoreOnMapByIndex(0, location);
 
-    expect(storeMapComponent.centerMap).toHaveBeenCalled();
-    expect(storeFinderService.getStoreLatitude).toHaveBeenCalled();
-    expect(storeFinderService.getStoreLongitude).toHaveBeenCalled();
+    expect(storeMapComponent.centerMap).toHaveBeenCalledWith(
+      35.528984,
+      139.700168
+    );
+    expect(
+      TestBed.inject(StoreLocationService).getStoreLatitude
+    ).toHaveBeenCalled();
+    expect(
+      TestBed.inject(StoreLocationService).getStoreLongitude
+    ).toHaveBeenCalled();
   });
 
   it('should select store from list', () => {

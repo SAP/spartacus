@@ -37,9 +37,7 @@ class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
   clearState = () => {};
 }
 
-class MockPunchoutDetectionService
-  implements Partial<PunchoutDetectionService>
-{
+class MockPunchoutDetectionService implements Partial<PunchoutDetectionService> {
   isPunchoutSessionPage = () => false;
 }
 

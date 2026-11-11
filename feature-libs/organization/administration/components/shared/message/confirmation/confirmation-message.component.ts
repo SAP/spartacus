@@ -4,13 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
   OnInit,
-  PLATFORM_ID,
+  inject,
 } from '@angular/core';
 import { Translatable, TranslatePipe } from '@spartacus/core';
 import { FocusDirective, IconComponent } from '@spartacus/storefront';
@@ -26,26 +24,21 @@ import { ConfirmationMessageData } from './confirmation-message.model';
   selector: 'cx-org-confirmation',
   templateUrl: './confirmation-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe],
+  imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class ConfirmationMessageComponent
   extends BaseMessageComponent
   implements OnInit
 {
+  protected data = inject<MessageData<ConfirmationMessageData>>(MessageData);
+  protected messageService = inject(MessageService);
+
   cancelText: Translatable = {
     key: 'organization.confirmation.cancel',
   };
   confirmText: Translatable = {
     key: 'organization.confirmation.confirm',
   };
-
-  constructor(
-    protected data: MessageData<ConfirmationMessageData>,
-    @Inject(PLATFORM_ID) protected platformId: any,
-    protected messageService: MessageService
-  ) {
-    super(data, platformId);
-  }
 
   ngOnInit() {
     super.ngOnInit();

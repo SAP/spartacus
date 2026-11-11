@@ -23,16 +23,12 @@ import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
-export class OccAnonymousConsentTemplatesAdapter
-  implements AnonymousConsentTemplatesAdapter
-{
-  protected logger = inject(LoggerService);
+export class OccAnonymousConsentTemplatesAdapter implements AnonymousConsentTemplatesAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
     const url = this.occEndpoints.buildUrl('anonymousConsentTemplates');

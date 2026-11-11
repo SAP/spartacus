@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,7 +13,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -32,11 +31,13 @@ import { Order } from '@spartacus/order/root';
   selector: 'cx-opf-gift-card-payment-method-detail',
   templateUrl: './opf-gift-card-payment-method-detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe, TranslatePipe],
+  imports: [CardComponent, AsyncPipe, TranslatePipe],
 })
 export class OpfGiftCardPaymentMethodDetailComponent
   implements OnInit, OnDestroy
 {
+  protected orderOutlet? = inject(OutletContextData, { optional: true });
+
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
@@ -47,7 +48,6 @@ export class OpfGiftCardPaymentMethodDetailComponent
   order: Order;
 
   protected routingService = inject(RoutingService);
-  constructor(@Optional() protected orderOutlet?: OutletContextData) {}
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {

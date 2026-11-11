@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -40,7 +40,6 @@ import { DateValidationService } from '../shared/date-validation.service';
   templateUrl: './delivery-mode-date-picker.component.html',
   providers: [CxDatePipe],
   imports: [
-    NgIf,
     CardComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -51,15 +50,13 @@ import { DateValidationService } from '../shared/date-validation.service';
   ],
 })
 export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
-  constructor(
-    protected datePipe: CxDatePipe,
-    protected requestedDelDateFacade: RequestedDeliveryDateFacade,
-    protected dateValidationService: DateValidationService,
-    protected eventService: EventService,
-    protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService,
-    @Optional() protected deliveryOutlet?: OutletContextData
-  ) {}
+  protected datePipe = inject(CxDatePipe);
+  protected requestedDelDateFacade = inject(RequestedDeliveryDateFacade);
+  protected dateValidationService = inject(DateValidationService);
+  protected eventService = inject(EventService);
+  protected translation = inject(TranslationService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected deliveryOutlet? = inject(OutletContextData, { optional: true });
 
   protected cartEntry: Cart = {};
   protected subscription = new Subscription();

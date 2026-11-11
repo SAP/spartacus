@@ -67,9 +67,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockCrossSiteRequestForgeryService
-  implements Partial<CrossSiteRequestForgeryService>
-{
+class MockCrossSiteRequestForgeryService implements Partial<CrossSiteRequestForgeryService> {
   getCsrfToken() {
     return of({
       headerName: 'CSFR',

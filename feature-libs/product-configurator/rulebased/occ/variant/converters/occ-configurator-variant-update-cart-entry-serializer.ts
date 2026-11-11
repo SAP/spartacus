@@ -11,13 +11,10 @@ import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 
 @Injectable({ providedIn: 'root' })
-export class OccConfiguratorVariantUpdateCartEntrySerializer
-  implements
-    Converter<
-      Configurator.UpdateConfigurationForCartEntryParameters,
-      OccConfigurator.UpdateConfigurationForCartEntryParameters
-    >
-{
+export class OccConfiguratorVariantUpdateCartEntrySerializer implements Converter<
+  Configurator.UpdateConfigurationForCartEntryParameters,
+  OccConfigurator.UpdateConfigurationForCartEntryParameters
+> {
   convert(
     source: Configurator.UpdateConfigurationForCartEntryParameters,
     target?: OccConfigurator.UpdateConfigurationForCartEntryParameters

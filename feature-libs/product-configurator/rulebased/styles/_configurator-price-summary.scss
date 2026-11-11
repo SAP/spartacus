@@ -30,7 +30,7 @@
           }
 
           .cx-amount {
-            word-wrap: break-word;
+            overflow-wrap: break-word;
             text-align: end;
             flex-grow: 1;
           }
