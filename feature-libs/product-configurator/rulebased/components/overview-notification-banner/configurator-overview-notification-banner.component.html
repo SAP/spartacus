@@ -11,6 +11,7 @@
             | cxTranslate: { count: numberOfIssues }
         }}
         <button
+          *ngIf="!isResolveLinkHidden(routerData)"
           class="link cx-action-link"
           aria-describedby="cx-configurator-overview-error-msg"
           [routerLink]="
@@ -44,6 +45,7 @@
             | cxTranslate: { count: numberOfConflicts }
         }}
         <button
+          *ngIf="!isResolveLinkHidden(routerData)"
           class="link cx-action-link"
           aria-describedby="cx-configurator-overview-conflict-msg"
           [routerLink]="

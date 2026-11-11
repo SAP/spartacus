@@ -205,7 +205,7 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
     );
 
     this.additionalRegistrationConsents =
-      this.registerComponentService?.getAdditionalConsents() || [];
+      this.registerComponentService?.getAdditionalConsents() ?? [];
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

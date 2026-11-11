@@ -60,7 +60,7 @@ export class PageLayoutService implements OnDestroy {
       }),
       switchMap(({ slots, pageTemplate, breakpoint }) => {
         let result = of(slots);
-        for (const handler of this.handlers || []) {
+        for (const handler of this.handlers ?? []) {
           result = handler.handle(result, pageTemplate, section, breakpoint);
         }
         return result;
