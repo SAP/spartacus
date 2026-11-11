@@ -29,7 +29,6 @@ export const environment: Environment = {
   cdp: buildProcess.env.CX_CDP ?? false,
   cpq: buildProcess.env.CX_CPQ ?? false,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
-  epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION ?? false,
   s4om: buildProcess.env.CX_S4OM ?? false,
   opf: buildProcess.env.CX_OPF ?? false,
   omf: buildProcess.env.CX_OMF ?? false,
