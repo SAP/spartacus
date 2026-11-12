@@ -28,6 +28,7 @@ export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig =
       ],
       overviewMenuFilterTabVisible: {
         [ConfiguratorType.VARIANT]: true,
+        [ConfiguratorType.CPQ]: true,
       },
     },
   };
