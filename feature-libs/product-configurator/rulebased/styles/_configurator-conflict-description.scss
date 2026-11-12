@@ -1,23 +1,24 @@
 %cx-configurator-conflict-description {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-inline-start: 5px;
-  padding-inline-end: 5px;
-  padding-block-start: 5px;
-  padding-block-end: 5px;
-  background-color: mix(#ffffff, theme-color('warning'), 78%);
-  @include cx-highContrastTheme-dark {
-    color: var(--cx-color-light);
-  }
+  .alert {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: start;
 
-  cx-icon {
-    color: var(--cx-color-warning);
-    align-self: center;
-    font-size: 30px;
+    min-height: auto;
+    text-align: start;
     padding-inline-start: 15px;
     padding-inline-end: 15px;
-    padding-block-start: 5px;
+    padding-block-start: 15px;
     padding-block-end: 15px;
+    margin-block-start: 10px;
+    margin-block-end: 0;
+  }
+
+  @include cx-highContrastTheme-dark {
+    .alert {
+      color: var(--cx-color-light);
+    }
   }
 }
