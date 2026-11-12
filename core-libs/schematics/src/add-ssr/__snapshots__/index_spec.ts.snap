@@ -34,6 +34,11 @@ export function app(): express.Express {
   server.use(getOriginValidationMiddleware({
     allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
   }));
+  // CSR fallback route (SSR timeout only). CONFIG_URL is an SSR concept — the Node process
+  // fetches config from it per render. When SSR times out, Angular bootstraps in CSR mode
+  // and getRuntimeEnvironment() fetches /config.json from the same host as the app — this
+  // route re-fetches CONFIG_URL upstream and returns the result. Safe to keep when Caddy
+  // is in front (Caddy intercepts /config.json before Express).
   server.get('/config.json', async (_req, res) => {
     const configUrl = process.env['CONFIG_URL'];
     if (!configUrl) {
