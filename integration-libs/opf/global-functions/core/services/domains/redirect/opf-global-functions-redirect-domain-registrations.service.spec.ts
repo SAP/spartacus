@@ -12,10 +12,19 @@ import { OpfPaymentGlobalMethods } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { WindowRef } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { OpfGlobalFunctionsRedirectDomainRegistrationsService } from './opf-global-functions-redirect-domain-registrations.service';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
 import { OpfGlobalFunctionsSharedRegistrationsService } from '../../opf-global-functions-shared-registrations.service';
 import { OpfGlobalFunctionsRedirectDomainService } from './opf-global-functions-redirect-domain.service';
+
+class MockOpfQuickBuyTransactionService
+  implements Partial<OpfQuickBuyTransactionService>
+{
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
+    .and.returnValue(of('test-cart-id'));
+}
 
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
   return jasmine.createSpyObj('OpfPaymentFacade', [
@@ -49,6 +58,10 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
         OpfGlobalFunctionsRedirectDomainRegistrationsService,
         WindowRef,
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
         {
           provide: LaunchDialogService,
           useValue: jasmine.createSpyObj('LaunchDialogService', [
