@@ -52,6 +52,31 @@ const detail = await calculate(input);
 
 Keep the engine's runtime imports inside its module. Import shared types with `import type`. Leave a pending/error state and handle rapid requests according to the feature's contract. Starting the import while initializing the host defeats the boundary. A split moves download and evaluation to first use. Profile heavy computation there and use the [interaction guide](performance-interactions.md) if it blocks feedback. Keep inexpensive controls already needed at startup together.
 
+## An operation behind an always-visible control
+
+Read the implementation of the imported action, including local wrappers, re-exports, and its actual runtime dependencies. A visible button, title, inputs or status message can render without the engine behind Submit. When that engine adds substantial code or data, keep the existing adapter's API and import the adapter on demand. Its internal static imports can then travel in the same asynchronous dependency graph. Check that no other eager provider, barrel or initializer retains a runtime path to the engine.
+
+Copy [the shared loader](../assets/intent-loader.ts) next to the customer component. This example uses a procedure with a typed request and an existing `runOperation` export. Substitute the project's actual contract and module path. Creating the loader does not start a request.
+
+```typescript
+import type { OperationRequest } from './action-adapter';
+import { createIntentLoader } from './intent-loader';
+
+// Inside the component or feature-scoped service:
+private readonly operation = createIntentLoader(() => import('./action-adapter'));
+
+onCommittedEdit(allowPreparation: boolean): void {
+  this.operation.prepare(allowPreparation);
+}
+
+async submit(request: OperationRequest): Promise<void> {
+  const { runOperation } = await this.operation.get();
+  await runOperation(request);
+}
+```
+
+Connect optional preparation only to a meaningful edit or confirmed choice and pass the site's reduced-data decision. The submit path must work with an untouched form or an already-in-progress import. Read the latest inputs on submit, show progress and surface a recoverable error using the project's conventions. In production stats look up a substantive engine source, bundled font or dataset **inside** the adapter. Cross-check that output against cold navigation, direct activation and deliberate preparation in the browser. A chunk named for a wrapper proves little if a separate eager import still brings in its engine. [Angular build options](https://angular.dev/cli/build) · [TypeScript erased imports](https://www.typescriptlang.org/docs/handbook/modules/reference.html#type-only-imports-and-exports)
+
 ## Overlap a slow first use with deliberate intent
 
 When loading on the final action protects arrival but makes the result slow, look for an earlier **intentional change within the same workflow**. A meaningful first edit or committed choice can start the code transfer while the shopper continues. A page view, idle callback, scroll past the control or focus on the way to another control offers weaker evidence of intent. Keep optional bytes off the cold route. If no earlier interaction naturally exists, preserve direct activation and measure it.
