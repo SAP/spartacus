@@ -6,7 +6,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { Address } from '@spartacus/core';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import {
@@ -95,15 +95,6 @@ class MockRoutingService implements Partial<RoutingService> {
   }
 }
 
-class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine
-    .createSpy('getActiveCartId')
-    .and.returnValue(of('test-cart-id'));
-  takeActive = jasmine.createSpy('takeActive').and.returnValue(of(mockCart));
-  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
-  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
-}
-
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart = jasmine.createSpy('getCart').and.returnValue(of(mockCart));
   reloadCart = jasmine.createSpy('reloadCart');
@@ -190,7 +181,6 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
           provide: OpfMetadataStoreService,
           useClass: MockOpfMetadataStoreService,
         },
-        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },

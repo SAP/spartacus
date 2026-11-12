@@ -12,7 +12,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import {
-  ActiveCartFacade,
   Cart,
   CartAccessCodeFacade,
   DeliveryMode,
@@ -44,7 +43,7 @@ import {
 } from '@spartacus/opf/quick-buy/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, combineLatest, lastValueFrom, throwError } from 'rxjs';
-import { filter, map, skip, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
 
 @Injectable()
@@ -55,7 +54,6 @@ export class OpfGlobalFunctionsGlobalDomainService {
   protected launchDialogService = inject(LaunchDialogService);
   protected opfCtaFacade = inject(OpfCtaFacade);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
-  protected activeCartFacade = inject(ActiveCartFacade);
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
@@ -198,7 +196,7 @@ export class OpfGlobalFunctionsGlobalDomainService {
       return lastValueFrom(
         this.opfQuickBuyTransactionService
           .setBillingAddress(address)
-          .pipe(switchMap(() => this.reloadCartAndWaitForStable()))
+          .pipe(take(1))
       );
     });
   }
@@ -329,14 +327,5 @@ export class OpfGlobalFunctionsGlobalDomainService {
       config: configWithDefaults,
     };
     return this.opfPaymentFacade.initiatePayment(fullConfig);
-  }
-
-  protected reloadCartAndWaitForStable(): Observable<boolean> {
-    this.activeCartFacade.reloadActiveCart();
-    return this.activeCartFacade.isStable().pipe(
-      skip(1),
-      filter((isStable: boolean) => isStable),
-      take(1)
-    );
   }
 }
