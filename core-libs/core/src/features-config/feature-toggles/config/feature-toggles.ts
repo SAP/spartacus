@@ -781,6 +781,15 @@ export interface FeatureTogglesInterface {
   productConfiguratorCPQContainer?: boolean;
 
   /**
+   * When enabled, the rule-based configurator drop-down attribute uses
+   * a custom listbox (Angular CDK `CdkListbox`) with flex layout and
+   * right-aligned option prices instead of the native `<select>` element.
+   *
+   * Affects: `ConfiguratorAttributeDropDownComponent`
+   */
+  productConfiguratorDropDownList?: boolean;
+
+  /**
    * When enabled, a configuration attached to an entry of the active cart is
    * read with `readOnly=true` if it is only displayed (route parameter
    * `displayOnly`). The backend then returns the configuration attached to the
@@ -1107,6 +1116,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   productConfiguratorCPQContainer: false,
+  productConfiguratorDropDownList: false,
   productConfiguratorReadOnlyCartEntryConfiguration: false,
   mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
