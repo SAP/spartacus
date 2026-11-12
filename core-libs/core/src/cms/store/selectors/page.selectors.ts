@@ -43,7 +43,7 @@ const getPageComponentTypesSelector: (page: Page) => string[] = (
   const componentTypes = new Set<string>();
   if (page && page.slots) {
     for (const slot of Object.keys(page.slots)) {
-      for (const component of page.slots[slot].components || []) {
+      for (const component of page.slots[slot].components ?? []) {
         componentTypes.add(component.flexType ?? '');
       }
     }

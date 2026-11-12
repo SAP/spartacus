@@ -42,7 +42,7 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     componentData?: ContentSlotComponentData
   ) {
-    (getLastValueSync(this.componentDecorators$) || []).forEach((decorator) =>
+    getLastValueSync(this.componentDecorators$)?.forEach((decorator) =>
       decorator.decorate(element, renderer, componentData)
     );
   }
@@ -58,7 +58,7 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     slotData?: ContentSlotData
   ) {
-    (getLastValueSync(this.slotDecorators$) || []).forEach((decorator) =>
+    getLastValueSync(this.slotDecorators$)?.forEach((decorator) =>
       decorator.decorate(element, renderer, slotData)
     );
   }

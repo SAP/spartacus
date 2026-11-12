@@ -73,6 +73,7 @@ export namespace Configurator {
     maxRows?: number;
     productSystemId?: string;
     productName?: string;
+    basePrice?: PriceDetails;
     selected?: boolean;
     actions?: ContainerRowAction[];
     /** Id of the group carrying the nested configuration of this row.

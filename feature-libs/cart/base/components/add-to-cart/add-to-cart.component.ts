@@ -97,6 +97,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   disabled: boolean = false;
 
   hasStock: boolean = false;
+  isPurchasable: boolean = false;
   inventoryThreshold: boolean = false;
 
   showInventory$: Observable<boolean | undefined> | undefined =
@@ -154,14 +155,16 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
     if (this.product) {
       this.productCode = this.product.code ?? '';
+      this.isPurchasable = this.isProductPurchasable(this.product);
       this.setStockInfo(this.product);
       this.unavailable = !this.productCatalogService.isProductInCatalog(
         this.product
       );
     } else if (this.productCode) {
-      // force hasStock and quantity for the time being, as we do not have more info:
+      // force hasStock, isPurchasable and quantity for the time being, as we do not have more info:
       this.quantity = 1;
       this.hasStock = true;
+      this.isPurchasable = true;
       this.cd.markForCheck();
     } else {
       let product$: Observable<Product | null>;
@@ -179,6 +182,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         product$.pipe(filter(isNotNullable)).subscribe((product) => {
           this.productCode = product.code ?? '';
           this.product = product;
+          this.isPurchasable = this.isProductPurchasable(product);
           this.setStockInfo(product);
           this.unavailable =
             !this.productCatalogService.isProductInCatalog(product);
@@ -198,6 +202,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.cartItemQuantityService.setQuantity(quantity ?? 1)
         )
     );
+  }
+
+  protected isProductPurchasable(product: Product): boolean {
+    return Boolean(product.price) && product.purchasable !== false;
   }
 
   protected setStockInfo(product: Product): void {

@@ -6,10 +6,10 @@
 
 import { Injectable } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Order, Consignment, ReplenishmentOrder } from '@spartacus/order/root';
+import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
 import {
-  completedValues,
   cancelledValues,
+  completedValues,
 } from './order-detail-items/order-consigned-entries/order-consigned-entries.model';
 
 @Injectable({
@@ -53,7 +53,7 @@ export class MyAccountV2OrderConsignmentsService {
     const grouped = consignments?.reduce(
       (result, current) => {
         const key = this.getStatusGroupKey(current.status || '');
-        result[key] = result[key] || [];
+        result[key] ??= [];
         result[key].push(current);
         return result;
       },
@@ -61,7 +61,7 @@ export class MyAccountV2OrderConsignmentsService {
     );
 
     return grouped
-      ? [...(grouped[1] || []), ...(grouped[0] || []), ...(grouped[-1] || [])]
+      ? [...(grouped[1] ?? []), ...(grouped[0] ?? []), ...(grouped[-1] ?? [])]
       : undefined;
   }
 
