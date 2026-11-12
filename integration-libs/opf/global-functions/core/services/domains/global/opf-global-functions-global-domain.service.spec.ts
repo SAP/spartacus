@@ -143,6 +143,15 @@ class MockOpfQuickBuyTransactionService
   getCurrentCart = jasmine
     .createSpy('getCurrentCart')
     .and.returnValue(of(mockCart));
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
+    .and.returnValue(of('test-cart-id'));
+  getDeliveryAddress = jasmine
+    .createSpy('getDeliveryAddress')
+    .and.returnValue(of(mockDeliveryAddress));
+  getSelectedDeliveryMode = jasmine
+    .createSpy('getSelectedDeliveryMode')
+    .and.returnValue(of(mockDeliveryMode));
 }
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
@@ -240,11 +249,15 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
   describe('addresses and delivery', () => {
     it('should handle getBillingAddress', async () => {
       const result = await service.getBillingAddress();
+      expect(opfQuickBuyTransactionService.getCurrentCart).toHaveBeenCalled();
       expect(result).toEqual(mockBillingAddress);
     });
 
     it('should handle getDeliveryAddress', async () => {
       const result = await service.getDeliveryAddress();
+      expect(
+        opfQuickBuyTransactionService.getDeliveryAddress
+      ).toHaveBeenCalled();
       expect(result).toEqual(mockDeliveryAddress);
     });
 
@@ -277,6 +290,9 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
 
     it('should handle getDeliveryMode', async () => {
       const result = await service.getDeliveryMode();
+      expect(
+        opfQuickBuyTransactionService.getSelectedDeliveryMode
+      ).toHaveBeenCalled();
       expect(result).toEqual(mockDeliveryMode);
     });
 
@@ -365,8 +381,9 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     });
 
     it('should reject when cartId is missing', async () => {
-      const activeCartFacade = TestBed.inject(ActiveCartFacade) as any;
-      activeCartFacade.getActiveCartId.and.returnValue(of(undefined));
+      opfQuickBuyTransactionService.getCurrentCartId = jasmine
+        .createSpy('getCurrentCartId')
+        .and.returnValue(of(undefined));
 
       await expectAsync(service.initiatePayment('2301')).toBeRejectedWithError(
         'Cart ID is required. No active cart found.'

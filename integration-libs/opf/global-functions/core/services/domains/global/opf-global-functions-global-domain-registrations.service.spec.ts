@@ -94,6 +94,15 @@ class MockOpfQuickBuyTransactionService
   getCurrentCart = jasmine
     .createSpy('getCurrentCart')
     .and.returnValue(of(mockCart));
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
+    .and.returnValue(of('test-cart-id'));
+  getDeliveryAddress = jasmine
+    .createSpy('getDeliveryAddress')
+    .and.returnValue(of(undefined));
+  getSelectedDeliveryMode = jasmine
+    .createSpy('getSelectedDeliveryMode')
+    .and.returnValue(of(undefined));
 }
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
