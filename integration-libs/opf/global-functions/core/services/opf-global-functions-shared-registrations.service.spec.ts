@@ -21,6 +21,7 @@ import {
   OpfPaymentMethod,
 } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { OpfGlobalFunctionsSharedRegistrationsService } from './opf-global-functions-shared-registrations.service';
@@ -42,6 +43,14 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActiveCartId = jasmine
     .createSpy('getActiveCartId')
+    .and.returnValue(of('test-cart-id'));
+}
+
+class MockOpfQuickBuyTransactionService
+  implements Partial<OpfQuickBuyTransactionService>
+{
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
     .and.returnValue(of('test-cart-id'));
 }
 
@@ -92,6 +101,10 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
       ],
     });
     service = TestBed.inject(OpfGlobalFunctionsSharedRegistrationsService);

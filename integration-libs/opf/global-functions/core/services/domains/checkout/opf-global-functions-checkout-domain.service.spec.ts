@@ -28,7 +28,16 @@ import {
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { OpfGlobalFunctionsCheckoutDomainService } from './opf-global-functions-checkout-domain.service';
+
+class MockOpfQuickBuyTransactionService
+  implements Partial<OpfQuickBuyTransactionService>
+{
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
+    .and.returnValue(of('test-cart-id'));
+}
 
 @Component({ template: '' })
 class TestContainerComponent {
@@ -136,6 +145,10 @@ describe('OpfGlobalFunctionsCheckoutDomainService', () => {
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
         { provide: UserIdService, useClass: MockUserIdService },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
       ],
     });
     service = TestBed.inject(OpfGlobalFunctionsCheckoutDomainService);
