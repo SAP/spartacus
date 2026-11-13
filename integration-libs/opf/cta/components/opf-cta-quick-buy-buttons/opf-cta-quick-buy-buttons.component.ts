@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
   templateUrl: './opf-cta-quick-buy-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, NgFor, AsyncPipe, OpfCtaElementComponent],
+  imports: [AsyncPipe, OpfCtaElementComponent],
 })
 export class OpfCtaQuickBuyButtonsComponent {
   protected opfCtaScriptService = inject(OpfCtaScriptsService);

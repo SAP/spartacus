@@ -32,9 +32,7 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockPunchoutUiRestrictionService
-  implements Partial<PunchoutUiRestrictionService>
-{
+class MockPunchoutUiRestrictionService implements Partial<PunchoutUiRestrictionService> {
   isPunchoutSessionActive() {
     return of(true);
   }

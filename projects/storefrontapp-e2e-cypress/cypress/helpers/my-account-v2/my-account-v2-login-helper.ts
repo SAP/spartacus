@@ -27,8 +27,8 @@ export function listenForUserVerficationCodeEmailReceive(
   limitCount: number
 ) {
   const mailCCV2Url =
-    Cypress.env('MAIL_CCV2_URL') +
-    Cypress.env('MAIL_CCV2_PREFIX') +
+    Cypress.expose('MAIL_CCV2_URL') +
+    Cypress.expose('MAIL_CCV2_PREFIX') +
     '/search?query=' +
     customerEmail +
     '&limit=' +
@@ -80,7 +80,9 @@ export function registerAndLogin(email: string, password: string) {
   listenForUserVerficationCodeEmailReceive(email, 1);
 
   const mailCCV2Url =
-    Cypress.env('MAIL_CCV2_URL') + Cypress.env('MAIL_CCV2_PREFIX') + '/search';
+    Cypress.expose('MAIL_CCV2_URL') +
+    Cypress.expose('MAIL_CCV2_PREFIX') +
+    '/search';
 
   cy.request({
     method: 'GET',
@@ -142,7 +144,9 @@ export function loginWithOTP(
   listenForUserVerficationCodeEmailReceive(email, mailMessageLimitCount);
 
   const mailCCV2UrlV2 =
-    Cypress.env('MAIL_CCV2_URL') + Cypress.env('MAIL_CCV2_PREFIX') + '/search';
+    Cypress.expose('MAIL_CCV2_URL') +
+    Cypress.expose('MAIL_CCV2_PREFIX') +
+    '/search';
 
   cy.request({
     method: 'GET',

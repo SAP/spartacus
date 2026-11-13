@@ -6,6 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
+import type { Request } from 'express';
 import { formatWithOptions } from 'util';
 import { REQUEST } from '../../tokens/express.tokens';
 import { getLoggerInspectOptions } from '../get-logger-inspect-options';
@@ -23,7 +24,7 @@ import { EXPRESS_SERVER_LOGGER } from '../loggers';
  */
 @Injectable({ providedIn: 'root' })
 export class ExpressLoggerService implements LoggerService {
-  request = inject(REQUEST);
+  request: Request = inject(REQUEST);
   serverLogger = inject(EXPRESS_SERVER_LOGGER);
 
   log(...args: Parameters<typeof console.log>): void {

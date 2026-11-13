@@ -34,8 +34,8 @@ describe('Tabbing order for B2B OTP registration', () => {
         cy.get('cx-verification-token-form').should('exist');
         listenForUserVerficationCodeEmailReceive(email);
         const mailCCV2Url =
-          Cypress.env('MAIL_CCV2_URL') +
-          Cypress.env('MAIL_CCV2_PREFIX') +
+          Cypress.expose('MAIL_CCV2_URL') +
+          Cypress.expose('MAIL_CCV2_PREFIX') +
           '/search?query=' +
           email +
           '&limit=1';
@@ -104,7 +104,7 @@ export function listenForOrgUserRegistrationRequest(): string {
   const aliasName = 'OrgUserRegistration';
   cy.intercept({
     method: 'POST',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/orgUsers?*`,
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}/orgUsers?*`,
   }).as(aliasName);
 
   return `@${aliasName}`;
@@ -114,8 +114,8 @@ export function listenForUserVerficationCodeEmailReceive(
   customerEmail: string
 ) {
   const mailCCV2Url =
-    Cypress.env('MAIL_CCV2_URL') +
-    Cypress.env('MAIL_CCV2_PREFIX') +
+    Cypress.expose('MAIL_CCV2_URL') +
+    Cypress.expose('MAIL_CCV2_PREFIX') +
     '/search?query=' +
     customerEmail +
     '&limit=1';

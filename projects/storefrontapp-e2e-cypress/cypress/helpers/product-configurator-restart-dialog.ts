@@ -80,7 +80,7 @@ export function checkRestartButtonDisplayed() {
  */
 export function close(productId: string) {
   cy.get(COMPONENT_SELECTOR).within(() => cy.get('button.close').click());
-  const pdpUrl = `/${Cypress.env('BASE_SITE')}/en/USD/product/${productId}/`;
+  const pdpUrl = `/${Cypress.expose('BASE_SITE')}/en/USD/product/${productId}/`;
   cy.location('pathname').should('contain', pdpUrl);
   cy.get('.ProductDetailsPageTemplate').should('be.visible');
 }

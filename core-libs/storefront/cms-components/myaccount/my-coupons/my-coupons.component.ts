@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -36,10 +36,8 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
   selector: 'cx-my-coupons',
   templateUrl: './my-coupons.component.html',
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     CouponCardComponent,
     IconComponent,
     RouterLink,
@@ -50,6 +48,9 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
   ],
 })
 export class MyCouponsComponent implements OnInit, OnDestroy {
+  protected couponService = inject(CustomerCouponService);
+  protected myCouponsComponentService = inject(MyCouponsComponentService);
+
   couponResult$: Observable<CustomerCouponSearchResult>;
   couponsLoading$: Observable<boolean>;
   couponSubscriptionLoading$: Observable<boolean>;
@@ -98,10 +99,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   protected host = inject(ElementRef<HTMLElement>);
   protected router = inject(Router);
 
-  constructor(
-    protected couponService: CustomerCouponService,
-    protected myCouponsComponentService: MyCouponsComponentService
-  ) {
+  constructor() {
     useFeatureStyles('a11yCouponNotificationChannelsLinkStyling');
   }
 

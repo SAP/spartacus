@@ -11,14 +11,14 @@ import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 export const subscriptionComponentSelector = 'cx-subscription-list';
 describe('Subscription Billing - Cancel, Withdraw, Resubscribe', () => {
   before(() => {
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
     cy.visit('/powertools-spa/en/USD/login');
     loginUser(helper.subscriptionUser);
   });
 
   beforeEach(() => {
     cy.restoreLocalStorage();
-    cy.visit(`${Cypress.env('BASE_SITE')}/en/USD/my-account/subscriptions`);
+    cy.visit(`${Cypress.expose('BASE_SITE')}/en/USD/my-account/subscriptions`);
   });
 
   it('should perform cancel,resubscribe,widthdraw actions on a subscription', () => {
@@ -28,7 +28,7 @@ describe('Subscription Billing - Cancel, Withdraw, Resubscribe', () => {
     helper.clickViewAllSubscriptions();
     helper.clickManageServiceForCancellSubscription();
     helper.resubscribeSubscriptionIfPossible();
-    cy.visit(`${Cypress.env('BASE_SITE')}/en/USD/my-account/subscriptions`);
+    cy.visit(`${Cypress.expose('BASE_SITE')}/en/USD/my-account/subscriptions`);
     cy.get(subscriptionComponentSelector, { timeout: 10000 }).should(
       'be.visible'
     );
@@ -37,7 +37,7 @@ describe('Subscription Billing - Cancel, Withdraw, Resubscribe', () => {
   });
   it('should extend subscription by particular frequency', () => {
     cy.restoreLocalStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
 
     cy.visit('/powertools-spa/en/USD/login');
     login(
@@ -55,7 +55,7 @@ describe('Subscription Billing - Cancel, Withdraw, Resubscribe', () => {
         const match = text.match(/Confirmation of Order:\s*(\d+)/);
         if (match) {
           const orderNumber = match[1].trim();
-          Cypress.env('subscriptionOrderNumber', orderNumber);
+          Cypress.expose('subscriptionOrderNumber', orderNumber);
         } else {
           throw new Error('Order number not found in confirmation message');
         }
@@ -73,7 +73,7 @@ describe('Subscription Billing - Cancel, Withdraw, Resubscribe', () => {
       .then((interception) => {
         expect(interception.response.body['contractFrequency']).to.not
           .undefined;
-        Cypress.env(
+        Cypress.expose(
           'subscriptionContractFrequency',
           interception.response.body['contractFrequency']
         );

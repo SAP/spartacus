@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
@@ -37,6 +37,11 @@ export class CategoryPageMetaResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver
 {
+  protected productSearchService = inject(ProductSearchService);
+  protected cms = inject(CmsService);
+  protected translation = inject(TranslationService);
+  protected basePageMetaResolver = inject(BasePageMetaResolver);
+
   // reusable observable for search page data
   protected searchPage$: Observable<ProductSearchPage | Page> = this.cms
     .getCurrentPage()
@@ -53,12 +58,7 @@ export class CategoryPageMetaResolver
       )
     );
 
-  constructor(
-    protected productSearchService: ProductSearchService,
-    protected cms: CmsService,
-    protected translation: TranslationService,
-    protected basePageMetaResolver: BasePageMetaResolver
-  ) {
+  constructor() {
     super();
     this.pageType = PageType.CATEGORY_PAGE;
   }

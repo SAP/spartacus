@@ -22,9 +22,7 @@ const mockCostCenters: CostCenter[] = [
   },
 ];
 
-class MockCheckoutCostCenterService
-  implements Partial<CheckoutCostCenterFacade>
-{
+class MockCheckoutCostCenterService implements Partial<CheckoutCostCenterFacade> {
   getCostCenterState = vi
     .fn()
     .mockReturnValue(
@@ -35,9 +33,7 @@ class MockCheckoutCostCenterService
 }
 
 const accountPayment$ = new BehaviorSubject<boolean>(false);
-class MockCheckoutPaymentTypeFacade
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeFacade implements Partial<CheckoutPaymentTypeFacade> {
   isAccountPayment(): Observable<boolean> {
     return accountPayment$.asObservable();
   }

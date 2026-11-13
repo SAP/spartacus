@@ -96,9 +96,7 @@ const mockForm: FormGroup = new FormGroup({
   message: new FormControl(),
 });
 
-class MockUserRegistrationFormService
-  implements Partial<UserRegistrationFormService>
-{
+class MockUserRegistrationFormService implements Partial<UserRegistrationFormService> {
   getTitles(): Observable<Title[]> {
     return of(mockTitles);
   }

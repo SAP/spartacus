@@ -7,7 +7,7 @@
 import { of, Subscription } from 'rxjs';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
 import { StatePersistenceService } from '@spartacus/core';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 
 const KEY = 'digital-payment.checkout.request';
 
@@ -15,7 +15,8 @@ const KEY = 'digital-payment.checkout.request';
   providedIn: 'root',
 })
 export class DpLocalStorageService implements OnDestroy {
-  constructor(protected statePersistenceService: StatePersistenceService) {}
+  protected statePersistenceService = inject(StatePersistenceService);
+
   protected subscription = new Subscription();
 
   syncCardRegistrationState(request: DpPaymentRequest): void {

@@ -9,6 +9,7 @@ import {
 import { OutletContextData } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { of } from 'rxjs';
 import { DateRangeCellComponent } from '..';
 
 describe('DateRangeCellComponent', () => {
@@ -22,10 +23,10 @@ describe('DateRangeCellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: {
+            context$: of({
               startDate: '2020-07-15T11:00:00+0000',
               endDate: '2020-07-15T11:59:00+0000',
-            },
+            }),
           },
         },
       ],

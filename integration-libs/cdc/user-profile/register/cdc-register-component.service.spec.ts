@@ -89,17 +89,13 @@ const mockedGlobalMessageService = {
 class MockConverterService implements Partial<ConverterService> {
   convert = vi.fn();
 }
-class MockCdcConsentManagementService
-  implements Partial<CdcConsentManagementComponentService>
-{
+class MockCdcConsentManagementService implements Partial<CdcConsentManagementComponentService> {
   getCdcConsentIDs = vi.fn();
   isConsentMandatory(_id: string): boolean {
     return true;
   }
 }
-class MockAnonymousConsentsService
-  implements Partial<AnonymousConsentsService>
-{
+class MockAnonymousConsentsService implements Partial<AnonymousConsentsService> {
   getTemplates = vi.fn();
 }
 class MockUntypedFormBuilder implements Partial<UntypedFormBuilder> {

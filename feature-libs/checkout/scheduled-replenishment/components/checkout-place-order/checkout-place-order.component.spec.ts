@@ -51,15 +51,11 @@ class MockOrderFacade implements Partial<OrderFacade> {
   clearPlacedOrder = vi.fn();
 }
 
-class MockScheduledReplenishmentOrderFacade
-  implements Partial<ScheduledReplenishmentOrderFacade>
-{
+class MockScheduledReplenishmentOrderFacade implements Partial<ScheduledReplenishmentOrderFacade> {
   scheduleReplenishmentOrder = vi.fn().mockReturnValue(EMPTY);
 }
 
-class MockCheckoutReplenishmentFormService
-  implements Partial<CheckoutReplenishmentFormService>
-{
+class MockCheckoutReplenishmentFormService implements Partial<CheckoutReplenishmentFormService> {
   getOrderType = vi
     .fn()
     .mockReturnValue(of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER));

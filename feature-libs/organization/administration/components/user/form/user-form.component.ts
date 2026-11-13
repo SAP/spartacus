@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -63,20 +64,23 @@ import { UserItemService } from '../services/user-item.service';
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,
     NgSelectComponent,
     FormErrorsComponent,
     FormRequiredAsterisksComponent,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
     FeatureDirective,
   ],
 })
 export class UserFormComponent implements OnInit {
+  protected itemService = inject<ItemService<B2BUser>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+  protected userProfileFacade = inject(UserProfileFacade);
+  protected b2bUserService = inject(B2BUserService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
 
   /**
@@ -105,13 +109,6 @@ export class UserFormComponent implements OnInit {
 
   availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
   availableRights: B2BUserRight[] = this.b2bUserService.getAllRights();
-
-  constructor(
-    protected itemService: ItemService<B2BUser>,
-    protected unitService: OrgUnitService,
-    protected userProfileFacade: UserProfileFacade,
-    protected b2bUserService: B2BUserService
-  ) {}
 
   ngOnInit(): void {
     this.unitService.loadList();

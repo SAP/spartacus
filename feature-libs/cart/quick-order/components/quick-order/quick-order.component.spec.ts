@@ -100,9 +100,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   }
 }
 
-class MockQuickOrderStatePersistenceService
-  implements Partial<QuickOrderStatePersistenceService>
-{
+class MockQuickOrderStatePersistenceService implements Partial<QuickOrderStatePersistenceService> {
   initSync(): void {}
 }
 

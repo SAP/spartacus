@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,7 +19,7 @@ import { ProductItem } from '../asm-customer-360-product-listing/product-item.mo
   selector: 'cx-asm-customer-360-product-item',
   templateUrl: './asm-customer-360-product-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MediaComponent, NgIf, TranslatePipe],
+  imports: [MediaComponent, TranslatePipe],
 })
 export class AsmCustomer360ProductItemComponent {
   @Input() product: ProductItem;

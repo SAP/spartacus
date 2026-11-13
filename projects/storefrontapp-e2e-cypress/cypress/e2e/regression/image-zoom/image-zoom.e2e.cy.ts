@@ -22,7 +22,7 @@ describe('Image zoom', { testIsolation: false }, () => {
       cy.visit(`/product/${productId}`);
       cy.intercept(
         'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
           'BASE_SITE'
         )}/products/${productId}?fields=*stock(DEFAULT)*&lang=en&curr=USD`
       ).as('getProductDetails');

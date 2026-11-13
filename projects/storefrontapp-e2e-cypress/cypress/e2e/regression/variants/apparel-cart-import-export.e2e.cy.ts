@@ -15,8 +15,8 @@ context('Apparel - Cart Import/Export', () => {
   viewportContext(['desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      Cypress.env('BASE_SITE', APPAREL_BASESITE);
-      Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
+      Cypress.expose('BASE_SITE', APPAREL_BASESITE);
+      Cypress.expose('BASE_CURRENCY', APPAREL_CURRENCY);
     });
 
     beforeEach(() => {

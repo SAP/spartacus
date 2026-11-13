@@ -365,7 +365,7 @@
 
         a {
           display: grid;
-          grid-column-gap: 16px;
+          column-gap: 16px;
 
           &.has-media {
             // create a grid layout in case we show an image

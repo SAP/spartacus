@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Command, CommandService } from '@spartacus/core';
 import {
   UserRegistrationFacade,
@@ -15,6 +15,9 @@ import { UserRegistrationConnector } from '../connectors/user-registration.conne
 
 @Injectable()
 export class UserRegistrationService implements UserRegistrationFacade {
+  protected userRegistrationConnector = inject(UserRegistrationConnector);
+  protected command = inject(CommandService);
+
   protected registerOrganizationUserCommand: Command<
     {
       userData: OrganizationUserRegistration;
@@ -23,11 +26,6 @@ export class UserRegistrationService implements UserRegistrationFacade {
   > = this.command.create((payload) =>
     this.userRegistrationConnector.registerUser(payload.userData)
   );
-
-  constructor(
-    protected userRegistrationConnector: UserRegistrationConnector,
-    protected command: CommandService
-  ) {}
 
   /**
    * Register a new org user.

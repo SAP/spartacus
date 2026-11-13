@@ -1,31 +1,43 @@
-<div *ngIf="consignment" class="cx-list-status">
-  <span>
-    <span *ngIf="consignment.status">
-      {{ 'orderDetails.deliveryStatus_' + consignment.status | cxTranslate }}
+@if (consignment) {
+  <div class="cx-list-status">
+    <span>
+      @if (consignment.status) {
+        <span>
+          {{
+            'orderDetails.deliveryStatus_' + consignment.status | cxTranslate
+          }}
+        </span>
+      }
+      @if (consignmentStatus.includes(consignment.status ?? '')) {
+        <span class="cx-item-list-tracking-id">
+          @if (consignment.trackingID) {
+            <span>
+              {{
+                'orderDetails.consignmentTracking.dialog.trackingId'
+                  | cxTranslate
+              }}:
+              <a
+                class="cx-tracking-id-link"
+                (click)="openTrackingDialog(consignment)"
+              >
+                {{ consignment.trackingID }}
+              </a>
+            </span>
+          } @else {
+            <a
+              class="cx-tracking-id-link"
+              (click)="openTrackingDialog(consignment)"
+            >
+              {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}
+            </a>
+          }
+        </span>
+      }
     </span>
-    <span
-      *ngIf="consignmentStatus.includes(consignment.status ?? '')"
-      class="cx-item-list-tracking-id"
-    >
-      <span *ngIf="consignment.trackingID; else showNoTrackingMessage">
-        {{
-          'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate
-        }}:
-        <a
-          class="cx-tracking-id-link"
-          (click)="openTrackingDialog(consignment)"
-        >
-          {{ consignment.trackingID }}
-        </a>
+    @if (consignment?.statusDate) {
+      <span class="cx-consignment-status-date">
+        {{ consignment.statusDate | cxDate }}
       </span>
-    </span>
-  </span>
-  <span *ngIf="consignment?.statusDate" class="cx-consignment-status-date">
-    {{ consignment.statusDate | cxDate }}
-  </span>
-  <ng-template #showNoTrackingMessage>
-    <a class="cx-tracking-id-link" (click)="openTrackingDialog(consignment)">
-      {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}
-    </a>
-  </ng-template>
-</div>
+    }
+  </div>
+}

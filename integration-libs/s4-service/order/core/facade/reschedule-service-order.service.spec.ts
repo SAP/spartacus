@@ -11,9 +11,7 @@ const mockDateTime: ServiceDateTime = `2222-90-89T67:89:00-04:00`;
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockOrderCode = '12345';
 
-class MockRescheduleServiceOrderConnector
-  implements Partial<RescheduleServiceOrderConnector>
-{
+class MockRescheduleServiceOrderConnector implements Partial<RescheduleServiceOrderConnector> {
   rescheduleServiceOrder = vi.fn().mockReturnValue(of('service-details'));
 }
 

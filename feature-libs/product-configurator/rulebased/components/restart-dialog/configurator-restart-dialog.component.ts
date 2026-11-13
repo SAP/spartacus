@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
+  isNotNullable,
   Product,
   ProductService,
   RoutingService,
@@ -20,31 +21,21 @@ import {
   IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { defer, Observable } from 'rxjs';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
-/**
- * Requires default change detection strategy. The dialog is inserted by
- * {@link LaunchDialogService} into a dynamic outlet, and the visible UI is gated by nested
- * `async` pipes on shared {@link LaunchDialogService.data$} (filtered dialog payload) and
- * {@link ProductService.get}.
- * With OnPush, those emissions are not always reflected, so the
- * modal container can appear without title and actions.
- */
 @Component({
   selector: 'cx-configurator-restart-dialog',
   templateUrl: './configurator-restart-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
-  imports: [NgIf, FocusDirective, IconComponent, AsyncPipe, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FocusDirective, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorRestartDialogComponent {
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected routingService: RoutingService,
-    protected productService: ProductService
-  ) {}
+  protected launchDialogService = inject(LaunchDialogService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected routingService = inject(RoutingService);
+  protected productService = inject(ProductService);
 
   dialogData$: Observable<{ owner: CommonConfigurator.Owner }> =
     this.launchDialogService.data$.pipe(
@@ -54,6 +45,17 @@ export class ConfiguratorRestartDialogComponent {
 
   product$ = this.dialogData$.pipe(
     switchMap((dialogData) => this.productService.get(dialogData.owner.id))
+  );
+
+  /**
+   * Subscribe to the product stream before the payload arrives, so a product
+   * emission cannot be missed while a nested async view is being created.
+   * Read the public streams on subscription to preserve customer overrides.
+   */
+  viewModel$ = defer(() => this.product$).pipe(
+    filter(isNotNullable),
+    withLatestFrom(defer(() => this.dialogData$)),
+    map(([product, dialogData]) => ({ product, owner: dialogData.owner }))
   );
 
   iconTypes = ICON_TYPE;

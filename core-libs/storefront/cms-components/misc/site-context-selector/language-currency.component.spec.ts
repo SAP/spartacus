@@ -1,7 +1,6 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   CmsComponent,
   CmsService,
@@ -16,12 +15,12 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { MockTranslationService } from '@spartacus/core/testing/i18n';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 
 @Component({
   selector: 'cx-icon',
@@ -90,7 +89,6 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule,
         LanguageCurrencyComponent,
         SiteContextSelectorComponent,
         I18nTestingModule,

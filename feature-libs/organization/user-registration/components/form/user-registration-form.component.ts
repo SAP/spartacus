@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -38,7 +38,6 @@ import { UserRegistrationFormService } from './user-registration-form.service';
   templateUrl: './user-registration-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,
@@ -54,6 +53,8 @@ import { UserRegistrationFormService } from './user-registration-form.service';
   ],
 })
 export class UserRegistrationFormComponent implements OnDestroy {
+  protected userRegistrationFormService = inject(UserRegistrationFormService);
+
   titles$: Observable<Title[]> = this.userRegistrationFormService.getTitles();
 
   countries$: Observable<Country[]> =
@@ -71,10 +72,6 @@ export class UserRegistrationFormComponent implements OnDestroy {
   protected globalMessageService = inject(GlobalMessageService, {
     optional: true,
   });
-
-  constructor(
-    protected userRegistrationFormService: UserRegistrationFormService
-  ) {}
 
   submit(): void {
     if (this.registerForm.valid) {

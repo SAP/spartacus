@@ -73,7 +73,7 @@ export function placeSubscriptionOrder() {
       .should(
         'have.attr',
         'href',
-        `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
+        `/${Cypress.expose('BASE_SITE')}/en/USD/terms-and-conditions`
       );
     cy.get('input[formcontrolname="termsAndConditions"]').check();
   });
@@ -118,7 +118,7 @@ export function validateSubscriptionDetailsPage() {
     cy.contains('Order Code:').should('exist');
     cy.contains('div', 'Order Code:')
       .find('a')
-      .should('contain.text', Cypress.env('subscriptionOrderNumber'));
+      .should('contain.text', Cypress.expose('subscriptionOrderNumber'));
 
     cy.contains('Order Code:')
       .find('a')
@@ -144,7 +144,7 @@ export function extendSubscriptionByFrequency(extendDuration: number) {
     cy.wait(2000);
 
     cy.contains(
-      `${extendDuration} ${Cypress.env('subscriptionContractFrequency')}`
+      `${extendDuration} ${Cypress.expose('subscriptionContractFrequency')}`
     )
       .should('be.visible')
       .click();

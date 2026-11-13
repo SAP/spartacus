@@ -5,9 +5,7 @@ import { take } from 'rxjs/operators';
 import { CheckoutCostCenterAdapter } from './checkout-cost-center.adapter';
 import { CheckoutCostCenterConnector } from './checkout-cost-center.connector';
 
-class MockCheckoutCostCenterAdapter
-  implements Partial<CheckoutCostCenterAdapter>
-{
+class MockCheckoutCostCenterAdapter implements Partial<CheckoutCostCenterAdapter> {
   setCostCenter = vi.fn().mockReturnValue(of({}));
 }
 

@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -32,25 +33,24 @@ import { take } from 'rxjs/operators';
   imports: [
     BtnLikeLinkDirective,
     RouterLink,
-    NgIf,
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
   ],
 })
 export class ReplenishmentOrderCancellationComponent implements OnDestroy {
+  protected replenishmentOrderHistoryFacade = inject(
+    ReplenishmentOrderHistoryFacade
+  );
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   @ViewChild('element') element: ElementRef;
 
   private subscription = new Subscription();
 
   replenishmentOrder$: Observable<ReplenishmentOrder> =
     this.replenishmentOrderHistoryFacade.getReplenishmentOrderDetails();
-
-  constructor(
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   openDialog() {
     const dialog = this.launchDialogService.openDialog(

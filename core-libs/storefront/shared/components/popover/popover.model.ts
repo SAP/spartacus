@@ -20,9 +20,7 @@ export type PopoverPosition =
   | 'right-bottom';
 
 export type PopoverPositionArray =
-  | PopoverPosition
-  | Array<PopoverPosition>
-  | string;
+  PopoverPosition | Array<PopoverPosition> | string;
 
 export enum PopoverEvent {
   INSIDE_CLICK = 'insideClick',

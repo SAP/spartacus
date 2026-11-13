@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   NotificationPreference,
   TranslatePipe,
@@ -20,24 +25,17 @@ import { SpinnerComponent } from '../../../shared/components/spinner/spinner.com
   selector: 'cx-notification-preference',
   templateUrl: './notification-preference.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslatePipe,
-    FocusDirective,
-  ],
+  imports: [SpinnerComponent, AsyncPipe, TranslatePipe, FocusDirective],
 })
 export class NotificationPreferenceComponent implements OnInit {
+  private notificationPreferenceService = inject(
+    UserNotificationPreferenceService
+  );
+
   preferences$: Observable<NotificationPreference[]>;
   isLoading$: Observable<boolean>;
 
   protected preferences: NotificationPreference[] = [];
-
-  constructor(
-    private notificationPreferenceService: UserNotificationPreferenceService
-  ) {}
 
   ngOnInit() {
     this.notificationPreferenceService.resetNotificationPreferences();

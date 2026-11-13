@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
-  Optional,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -45,8 +44,6 @@ const CLOSE_BUTTON_SELECTOR = 'button.close';
   templateUrl: './recent-searches.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     AsyncPipe,
     TranslatePipe,
@@ -58,15 +55,16 @@ const CLOSE_BUTTON_SELECTOR = 'button.close';
   ],
 })
 export class RecentSearchesComponent implements OnInit {
+  protected outletContext = inject<OutletContextData<SearchBoxOutlet>>(
+    OutletContextData,
+    { optional: true }
+  );
+
   public result$: Observable<string[]>;
   public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
   private readonly featureToggles = inject(FeatureToggles);
-
-  constructor(
-    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
-  ) {}
 
   ngOnInit() {
     this.result$ = combineLatest([

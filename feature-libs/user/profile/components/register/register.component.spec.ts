@@ -136,9 +136,7 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   },
 };
 
-class MockRegisterComponentService
-  implements Partial<RegisterComponentService>
-{
+class MockRegisterComponentService implements Partial<RegisterComponentService> {
   getTitles = vi.fn().mockReturnValue(of(mockTitlesList));
   register = vi.fn().mockReturnValue(of(undefined));
   postRegisterMessage = vi.fn();

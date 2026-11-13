@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,6 +13,7 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -29,9 +29,13 @@ import { take } from 'rxjs/operators';
   selector: 'cx-consignment-tracking',
   templateUrl: './consignment-tracking.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   consignmentStatus: string[] = [
     'SHIPPED',
     'IN_TRANSIT',
@@ -46,12 +50,6 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   @Input()
   orderCode: string;
   consignmentTracking$: Observable<ConsignmentTracking>;
-
-  constructor(
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   ngOnInit() {
     this.consignmentTracking$ =

@@ -10,10 +10,10 @@ import { Converter, Occ, OrderApprovalPermissionType } from '@spartacus/core';
 @Injectable({
   providedIn: 'root',
 })
-export class OccPermissionTypeNormalizer
-  implements
-    Converter<Occ.OrderApprovalPermissionType, OrderApprovalPermissionType>
-{
+export class OccPermissionTypeNormalizer implements Converter<
+  Occ.OrderApprovalPermissionType,
+  OrderApprovalPermissionType
+> {
   constructor() {
     // Intentional empty constructor
   }

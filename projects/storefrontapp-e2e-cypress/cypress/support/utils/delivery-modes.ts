@@ -12,7 +12,7 @@ export function getDefaultDeliveryModeCode(
   return cy
     .request({
       method: 'GET',
-      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/carts/${cartQueryValue}/deliverymodes`,
       headers: {

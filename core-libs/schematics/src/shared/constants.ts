@@ -367,7 +367,6 @@ export const USER_PROFILE_FACADE = 'UserProfileFacade';
 export const USER_REGISTER_FACADE = 'UserRegisterFacade';
 export const UNIT_ADDRESS_FORM_SERVICE = 'UnitAddressFormService';
 export const GUEST_REGISTER_FORM_COMPONENT = 'GuestRegisterFormComponent';
-export const EPD_VISUALIZATION_CONFIG = 'EpdVisualizationConfig';
 export const CART_EVENT_BUILDER = 'CartEventBuilder';
 export const REGISTER_DELETE_CART = 'registerDeleteCart';
 
@@ -1167,6 +1166,13 @@ export const NEW_ZONE_IMPORT = 'zone.js/node';
 export const NGUNIVERSAL_IMPORT = '@nguniversal/express-engine';
 export const SSR_SETUP_IMPORT = '@spartacus/setup/ssr';
 export const EXPRESS_TOKENS = 'express.tokens';
+
+/**
+ * Prefix added to the `serve:ssr:<app>` npm script. Angular 22's SSR engine
+ * rejects requests whose hostname is not in `NG_ALLOWED_HOSTS`, so without this
+ * `serve:ssr` responds with HTTP 500. Mirrors the Spartacus storefrontapp scripts.
+ */
+export const NG_ALLOWED_HOSTS_PREFIX = 'NG_ALLOWED_HOSTS=localhost';
 
 export const APP_ROUTING_MODULE = 'AppRoutingModule';
 export const APP_ROUTING_MODULE_LOCAL_PATH = './app-routing.module';

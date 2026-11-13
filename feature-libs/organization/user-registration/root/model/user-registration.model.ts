@@ -14,8 +14,7 @@ export interface OrganizationUserRegistration {
   verificationTokenCode?: string;
 }
 
-export interface OrganizationUserRegistrationForm
-  extends OrganizationUserRegistration {
+export interface OrganizationUserRegistrationForm extends OrganizationUserRegistration {
   companyName?: string;
   addressLine1?: string;
   addressLine2?: string;

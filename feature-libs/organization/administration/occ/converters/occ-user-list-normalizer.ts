@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   B2BUser,
   Converter,
@@ -17,10 +17,11 @@ import { B2B_USER_NORMALIZER } from '@spartacus/organization/administration/core
 @Injectable({
   providedIn: 'root',
 })
-export class OccUserListNormalizer
-  implements Converter<Occ.OrgUnitUserList, EntitiesModel<B2BUser>>
-{
-  constructor(private converter: ConverterService) {}
+export class OccUserListNormalizer implements Converter<
+  Occ.OrgUnitUserList,
+  EntitiesModel<B2BUser>
+> {
+  private converter = inject(ConverterService);
 
   convert(
     source: Occ.OrgUnitUserList,

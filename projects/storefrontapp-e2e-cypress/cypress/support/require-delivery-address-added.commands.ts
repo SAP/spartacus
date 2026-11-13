@@ -55,9 +55,9 @@ Cypress.Commands.add(
     function addAddress() {
       return cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}${Cypress.env(
+        url: `${Cypress.expose('API_URL')}${Cypress.expose(
           'OCC_PREFIX'
-        )}/${Cypress.env(
+        )}/${Cypress.expose(
           'BASE_SITE'
         )}/users/current/carts/${cartCode}/addresses/delivery`,
         body: _address,
@@ -98,9 +98,9 @@ Cypress.Commands.add(
     function addAddress() {
       return cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}${Cypress.env(
+        url: `${Cypress.expose('API_URL')}${Cypress.expose(
           'OCC_PREFIX'
-        )}/${Cypress.env(
+        )}/${Cypress.expose(
           'BASE_SITE'
         )}/users/current/carts/${cartCode}/addresses/delivery`,
         body: _address,

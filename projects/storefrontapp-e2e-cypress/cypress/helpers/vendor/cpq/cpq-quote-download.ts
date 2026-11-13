@@ -7,7 +7,7 @@
 export const READ_QUOTE = '@READ_QUOTE';
 export const READ_VENDOR_QUOTE = '@READ_VENDOR_QUOTE';
 export const DOWNLOAD_ATTACHMENT = '@DOWNLOAD_ATTACHMENT';
-const SHOP_NAME = Cypress.env('BASE_SITE'); //Powertools-spa
+const SHOP_NAME = Cypress.expose('BASE_SITE'); //Powertools-spa
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
 
 /**
@@ -47,7 +47,7 @@ export function downloadVendorQuoteAttachment() {
 export function registerReadVendorQuoteRoute() {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes*`,
+    path: `${Cypress.expose('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes*`,
   }).as(READ_VENDOR_QUOTE.substring(1)); // strip the '@'
 }
 
@@ -57,7 +57,7 @@ export function registerReadVendorQuoteRoute() {
 export function registerDownloadAttachmentRoute() {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env(
+    path: `${Cypress.expose(
       'OCC_PREFIX'
     )}/${SHOP_NAME}/users/*/quotes/*/attachments/*`,
   }).as(DOWNLOAD_ATTACHMENT.substring(1)); // strip the '@'

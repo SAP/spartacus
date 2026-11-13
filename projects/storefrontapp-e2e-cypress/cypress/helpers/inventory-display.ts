@@ -14,7 +14,7 @@ export const GET_PRODUCT_DETAILS_ENDPOINT_ALIAS = 'getProductDetails';
 export function interceptProductDetails(productCode: string) {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/products/${productCode}?fields=*stock(DEFAULT)*&lang=en&curr=USD`
   ).as(GET_PRODUCT_DETAILS_ENDPOINT_ALIAS);

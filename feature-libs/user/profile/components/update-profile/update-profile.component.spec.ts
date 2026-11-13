@@ -51,9 +51,7 @@ class MockNgSelectA11yDirective {
 }
 const isBusySubject = new BehaviorSubject(false);
 
-class MockUpdateProfileService
-  implements Partial<UpdateProfileComponentService>
-{
+class MockUpdateProfileService implements Partial<UpdateProfileComponentService> {
   user$ = of({});
   titles$ = of([]);
   form: UntypedFormGroup = new UntypedFormGroup({

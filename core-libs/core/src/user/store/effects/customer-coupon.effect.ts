@@ -16,6 +16,9 @@ import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 
 @Injectable()
 export class CustomerCouponEffects {
+  private actions$ = inject(Actions);
+  private customerCouponConnector = inject(CustomerCouponConnector);
+
   protected logger = inject(LoggerService);
 
   loadCustomerCoupons$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
@@ -167,9 +170,4 @@ export class CustomerCouponEffects {
         })
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private customerCouponConnector: CustomerCouponConnector
-  ) {}
 }

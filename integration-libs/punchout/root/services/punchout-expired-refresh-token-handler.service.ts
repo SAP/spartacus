@@ -14,9 +14,7 @@ import { PunchoutDetectionService } from './punchout-detection.service';
 @Injectable({
   providedIn: 'root',
 })
-export class PunchoutExpiredRefreshTokenHandler
-  implements ExpiredRefreshTokenHandler
-{
+export class PunchoutExpiredRefreshTokenHandler implements ExpiredRefreshTokenHandler {
   protected punchoutDetectionService = inject(PunchoutDetectionService);
   protected punchoutFacade = inject(PunchoutFacade);
 

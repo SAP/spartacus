@@ -1,4 +1,11 @@
-import { AbstractType, ElementRef, ViewContainerRef } from '@angular/core';
+import {
+  AbstractType,
+  createEnvironmentInjector,
+  ElementRef,
+  EnvironmentInjector,
+  importProvidersFrom,
+  ViewContainerRef,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CartAddEntryFailEvent,
@@ -9,6 +16,7 @@ import { CxEvent, EventService, PointOfService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, NEVER, Observable } from 'rxjs';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
+import { AddedToCartDialogModule } from './added-to-cart-dialog.module';
 import { OrderEntry } from '../../root/models';
 import { cold } from 'jasmine-marbles';
 
@@ -90,6 +98,29 @@ describe('AddedToCartDialogEventListener', () => {
   });
 
   describe('onAddToCart', () => {
+    it('should listen for cart events when the dialog module is lazy loaded', () => {
+      const openDialog = vi.spyOn(launchDialogService, 'openDialog');
+      const injector = createEnvironmentInjector(
+        [
+          importProvidersFrom(AddedToCartDialogModule),
+          AddedToCartDialogEventListener,
+        ],
+        TestBed.inject(EnvironmentInjector)
+      );
+
+      try {
+        mockEventStream$.next(mockEvent);
+        expect(openDialog).toHaveBeenCalledWith(
+          LAUNCH_CALLER.ADDED_TO_CART,
+          mockEvent.triggerElementRef,
+          undefined,
+          expect.objectContaining({ productCode: mockEvent.productCode })
+        );
+      } finally {
+        injector.destroy();
+      }
+    });
+
     it('should open modal on event CartUiEventAddToCart', () => {
       listener = TestBed.inject(AddedToCartDialogEventListener);
       vi.spyOn(listener as any, 'openModal').mockImplementation(() => {});

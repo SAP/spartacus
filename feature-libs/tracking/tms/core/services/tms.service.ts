@@ -26,19 +26,17 @@ import { TmsCollector } from '../model/tms.model';
  */
 @Injectable({ providedIn: 'root' })
 export class TmsService implements OnDestroy {
+  protected eventsService = inject(EventService);
+  protected windowRef = inject(WindowRef);
+  protected tmsConfig = inject(TmsConfig);
+  protected injector = inject(Injector);
+
   /**
    * Stores subscriptions to events.
    */
   protected subscription = new Subscription();
 
   protected logger = inject(LoggerService);
-
-  constructor(
-    protected eventsService: EventService,
-    protected windowRef: WindowRef,
-    protected tmsConfig: TmsConfig,
-    protected injector: Injector
-  ) {}
 
   /**
    * Called only once to start collecting and dispatching events

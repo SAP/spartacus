@@ -43,9 +43,7 @@ describe('CustomerTicketingReopenComponent', () => {
     ],
   };
 
-  class MockCustomerTicketingFacade
-    implements Partial<CustomerTicketingFacade>
-  {
+  class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
     getTicket(): Observable<TicketDetails | undefined> {
       return mockTicketDetails$;
     }

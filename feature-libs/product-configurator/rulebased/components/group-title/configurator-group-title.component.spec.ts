@@ -134,7 +134,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
         add: { imports: [MockHamburgerMenuComponent] },
       })
       .overrideComponent(ConfiguratorGroupTitleComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

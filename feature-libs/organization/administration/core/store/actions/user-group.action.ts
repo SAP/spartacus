@@ -249,7 +249,9 @@ export class LoadAvailableOrgCustomersFail
   }
 }
 
-export class LoadAvailableOrgCustomersSuccess extends StateUtils.EntitySuccessAction {
+export class LoadAvailableOrgCustomersSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS;
 
   constructor(

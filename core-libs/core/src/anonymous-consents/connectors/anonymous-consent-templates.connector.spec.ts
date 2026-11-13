@@ -1,3 +1,5 @@
+import { AnonymousConsentTemplatesAdapter } from './anonymous-consent-templates.adapter';
+import { TestBed } from '@angular/core/testing';
 import { EMPTY, firstValueFrom, of } from 'rxjs';
 import { AnonymousConsent } from '../../model/index';
 import { AnonymousConsentTemplatesConnector } from './anonymous-consent-templates.connector';
@@ -14,7 +16,13 @@ describe('AnonymousConsentTemplatesConnector', () => {
       loadAnonymousConsentTemplates: vi.fn().mockReturnValue(of([])),
       loadAnonymousConsents: vi.fn().mockReturnValue(EMPTY),
     };
-    service = new AnonymousConsentTemplatesConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        AnonymousConsentTemplatesConnector,
+        { provide: AnonymousConsentTemplatesAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(AnonymousConsentTemplatesConnector);
   });
 
   it('should be created', () => {

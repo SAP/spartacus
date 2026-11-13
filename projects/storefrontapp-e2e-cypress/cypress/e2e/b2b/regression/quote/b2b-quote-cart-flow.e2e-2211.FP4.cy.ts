@@ -58,7 +58,7 @@ context('Quote', () => {
     it('should request a quote and add several items to the same quote', () => {
       quote.checkItemQuantity(1, '30');
       common.goToPDPage(
-        Cypress.env('BASE_SITE'),
+        Cypress.expose('BASE_SITE'),
         TEST_PRODUCT_HAMMER_DRILLING_ID
       );
       quote.setAddToCartQuantity(PRODUCT_AMOUNT_30.toString());

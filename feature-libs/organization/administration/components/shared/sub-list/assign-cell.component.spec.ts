@@ -46,7 +46,7 @@ describe('AssignCellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: undefined,
+            context$: of(undefined),
           },
         },
         {
@@ -87,10 +87,10 @@ describe('AssignCellComponent', () => {
   describe('with assigned item', () => {
     beforeEach(() => {
       const data = TestBed.inject(OutletContextData);
-      data.context = {
+      data.context$ = of({
         selected: true,
         code: 'contextCode',
-      };
+      });
       fixture = TestBed.createComponent(AssignCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -127,10 +127,10 @@ describe('AssignCellComponent', () => {
   describe('with unassigned item', () => {
     beforeEach(() => {
       const data = TestBed.inject(OutletContextData);
-      data.context = {
+      data.context$ = of({
         selected: false,
         code: 'contextCode',
-      };
+      });
       fixture = TestBed.createComponent(AssignCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();

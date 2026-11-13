@@ -43,9 +43,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   reloadActiveCart = () => {};
 }
 
-class MockCheckoutPaymentTypeFacade
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeFacade implements Partial<CheckoutPaymentTypeFacade> {
   setPaymentType = () => of({});
 }
 
@@ -80,8 +78,7 @@ class MockOpfPaymentFacade implements Partial<OpfPaymentFacade> {
   selector: 'cx-opf-checkout-payments',
   template: '',
 })
-class MockOpfCheckoutPaymentsComponent
-  implements Partial<OpfB2bCheckoutPaymentTypeComponent> {}
+class MockOpfCheckoutPaymentsComponent implements Partial<OpfB2bCheckoutPaymentTypeComponent> {}
 
 describe('OpfB2bCheckoutPaymentTypeComponent', () => {
   let component: OpfB2bCheckoutPaymentTypeComponent;

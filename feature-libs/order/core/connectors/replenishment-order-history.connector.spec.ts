@@ -28,9 +28,7 @@ const mockOrderHistoryList: OrderHistoryList = {
   sorts: [],
 };
 
-class MockReplenishmentOrderHistoryAdapter
-  implements Partial<ReplenishmentOrderHistoryAdapter>
-{
+class MockReplenishmentOrderHistoryAdapter implements Partial<ReplenishmentOrderHistoryAdapter> {
   load(
     _userId: string,
     _replenishmentOrderCode: string

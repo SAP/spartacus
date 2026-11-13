@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { CheckoutStep } from '@spartacus/checkout/base/root';
@@ -18,17 +18,15 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   selector: 'cx-checkout-progress-mobile-top',
   templateUrl: './checkout-progress-mobile-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
+  imports: [RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class CheckoutProgressMobileTopComponent {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
   cart$: Observable<Cart> = this.activeCartFacade.getActive();
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService
-  ) {}
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =

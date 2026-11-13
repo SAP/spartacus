@@ -17,9 +17,7 @@ class ResolverB {}
 class ResolverC {}
 
 @Injectable()
-class MockDefaultRoutePageMetaResolver
-  implements Partial<DefaultRoutePageMetaResolver>
-{
+class MockDefaultRoutePageMetaResolver implements Partial<DefaultRoutePageMetaResolver> {
   resolveBreadcrumbs() {
     return of([]);
   }

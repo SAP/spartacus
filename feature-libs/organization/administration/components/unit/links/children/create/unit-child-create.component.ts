@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UnitFormComponent } from '../../../form';
 import { CurrentUnitService } from '../../../services/current-unit.service';
@@ -27,6 +27,7 @@ import { UnitChildItemService } from './unit-child-item.service';
   imports: [UnitFormComponent],
 })
 export class UnitChildCreateComponent {
+  protected unitService = inject(CurrentUnitService);
+
   unitKey$: Observable<string> = this.unitService.key$;
-  constructor(protected unitService: CurrentUnitService) {}
 }

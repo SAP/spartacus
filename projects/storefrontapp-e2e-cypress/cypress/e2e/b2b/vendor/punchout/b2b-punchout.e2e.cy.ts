@@ -59,7 +59,7 @@ describe('PRODUCT level and CREATE operation', () => {
 
       cy.location('pathname').should(
         'contain',
-        `/${Cypress.env('BASE_SITE')}/en/USD/product/${punchoutSession.selectedItem}`
+        `/${Cypress.expose('BASE_SITE')}/en/USD/product/${punchoutSession.selectedItem}`
       );
       cy.get('cx-add-to-cart')
         .findByText(/Add To Cart/i)
@@ -78,7 +78,7 @@ describe('PRODUCT level and CREATE operation', () => {
       );
       cy.location('pathname').should(
         'eq',
-        `/${Cypress.env('BASE_SITE')}/en/USD/`
+        `/${Cypress.expose('BASE_SITE')}/en/USD/`
       );
       cy.get('cx-mini-cart').click();
       cy.get('cx-cart-proceed-to-checkout button').should('not.exist');
@@ -106,7 +106,7 @@ describe('STORE level and EDIT operation', () => {
 
       cy.location('pathname').should(
         'contain',
-        `/${Cypress.env('BASE_SITE')}/en/USD/cart`
+        `/${Cypress.expose('BASE_SITE')}/en/USD/cart`
       );
       cy.get('cx-cart-item-list table tbody.cx-item-list-items > tr').should(
         'have.length',
@@ -135,7 +135,7 @@ describe('STORE level and EDIT operation', () => {
 
       cy.location('pathname').should(
         'contain',
-        `/${Cypress.env('BASE_SITE')}/en/USD/cart`
+        `/${Cypress.expose('BASE_SITE')}/en/USD/cart`
       );
       cy.get('cx-punchout-buttons button')
         .contains(' Back to requisition ')
@@ -162,7 +162,7 @@ describe('INSPECT operation', () => {
 
       cy.location('pathname').should(
         'contain',
-        `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/inspect`
+        `/${Cypress.expose('BASE_SITE')}/en/USD/punchout/cxml/inspect`
       );
       cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
       cy.get(

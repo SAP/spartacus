@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { PopoverDirective } from '../popover/popover.directive';
@@ -14,7 +14,7 @@ import { TruncatePipe } from './truncate.pipe';
   selector: 'cx-truncate-text-popover',
   templateUrl: './truncate-text-popover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, NgIf, PopoverDirective, TranslatePipe, TruncatePipe],
+  imports: [NgClass, PopoverDirective, TranslatePipe, TruncatePipe],
 })
 export class TruncateTextPopoverComponent {
   /**

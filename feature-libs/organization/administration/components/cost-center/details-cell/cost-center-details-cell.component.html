@@ -44,20 +44,22 @@
       </span>
     </div>
 
-    <div class="property" *ngIf="model.unit">
-      <label>{{ 'orgCostCenter.unit' | cxTranslate }}</label>
-      <a
-        class="value"
-        [routerLink]="
-          {
-            cxRoute: 'orgUnitDetails',
-            params: model.unit,
-          } | cxUrl
-        "
-      >
-        {{ model.unit?.name }}
-      </a>
-    </div>
+    @if (model.unit) {
+      <div class="property">
+        <label>{{ 'orgCostCenter.unit' | cxTranslate }}</label>
+        <a
+          class="value"
+          [routerLink]="
+            {
+              cxRoute: 'orgUnitDetails',
+              params: model.unit,
+            } | cxUrl
+          "
+        >
+          {{ model.unit?.name }}
+        </a>
+      </div>
+    }
   </div>
 </ng-template>
 

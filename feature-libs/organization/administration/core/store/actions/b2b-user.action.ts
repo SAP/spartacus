@@ -264,7 +264,9 @@ export class LoadB2BUserApproversFail
   }
 }
 
-export class LoadB2BUserApproversSuccess extends StateUtils.EntitySuccessAction {
+export class LoadB2BUserApproversSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = LOAD_B2B_USER_APPROVERS_SUCCESS;
 
   constructor(
@@ -312,7 +314,9 @@ export class AssignB2BUserApproverFail
   }
 }
 
-export class AssignB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
+export class AssignB2BUserApproverSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = ASSIGN_B2B_USER_APPROVER_SUCCESS;
 
   constructor(
@@ -356,7 +360,9 @@ export class UnassignB2BUserApproverFail
   }
 }
 
-export class UnassignB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
+export class UnassignB2BUserApproverSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = UNASSIGN_B2B_USER_APPROVER_SUCCESS;
 
   constructor(
@@ -403,7 +409,9 @@ export class LoadB2BUserPermissionsFail
   }
 }
 
-export class LoadB2BUserPermissionsSuccess extends StateUtils.EntitySuccessAction {
+export class LoadB2BUserPermissionsSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = LOAD_B2B_USER_PERMISSIONS_SUCCESS;
 
   constructor(
@@ -451,7 +459,9 @@ export class AssignB2BUserPermissionFail
   }
 }
 
-export class AssignB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
+export class AssignB2BUserPermissionSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = ASSIGN_B2B_USER_PERMISSION_SUCCESS;
 
   constructor(
@@ -495,7 +505,9 @@ export class UnassignB2BUserPermissionFail
   }
 }
 
-export class UnassignB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
+export class UnassignB2BUserPermissionSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = UNASSIGN_B2B_USER_PERMISSION_SUCCESS;
 
   constructor(
@@ -546,7 +558,9 @@ export class LoadB2BUserUserGroupsFail
   }
 }
 
-export class LoadB2BUserUserGroupsSuccess extends StateUtils.EntitySuccessAction {
+export class LoadB2BUserUserGroupsSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = LOAD_B2B_USER_USER_GROUPS_SUCCESS;
 
   constructor(
@@ -594,7 +608,9 @@ export class AssignB2BUserUserGroupFail
   }
 }
 
-export class AssignB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
+export class AssignB2BUserUserGroupSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = ASSIGN_B2B_USER_USER_GROUP_SUCCESS;
 
   constructor(
@@ -638,7 +654,9 @@ export class UnassignB2BUserUserGroupFail
   }
 }
 
-export class UnassignB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
+export class UnassignB2BUserUserGroupSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = UNASSIGN_B2B_USER_USER_GROUP_SUCCESS;
 
   constructor(

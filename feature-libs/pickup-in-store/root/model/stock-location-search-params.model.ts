@@ -17,8 +17,7 @@ type FreeTextSearchParameters = {
 
 /** The search parameters for finding a location, either by latitude and longitude or a free text search. */
 export type LocationSearchParams =
-  | BrowserLocationSearchParameters
-  | FreeTextSearchParameters;
+  BrowserLocationSearchParameters | FreeTextSearchParameters;
 
 /** A product code and the search parameters for finding a store with stock for it. */
 export type StockLocationSearchParams = {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,14 +42,16 @@ import { BehaviorSubject } from 'rxjs';
   imports: [
     FocusDirective,
     IconComponent,
-    NgIf,
-    NgFor,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class ReorderDialogComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected reorderOrderFacade = inject(ReorderOrderFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
+
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -67,12 +69,6 @@ export class ReorderDialogComponent {
   selectFocusUtility = inject(SelectFocusUtility);
   elementRef = inject(ElementRef, { optional: true });
   protected globalMessageService = inject(GlobalMessageService);
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected reorderOrderFacade: ReorderOrderFacade,
-    protected multiCartFacade: MultiCartFacade
-  ) {}
 
   createCartFromOrder(orderCode: string): void {
     this.showDecisionPrompt$.next(false);

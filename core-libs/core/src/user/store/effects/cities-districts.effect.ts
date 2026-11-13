@@ -18,6 +18,9 @@ import { CITIES, DISTRICTS } from '../user-state';
 
 @Injectable()
 export class CitiesDistrictsEffects {
+  protected actions$ = inject(Actions);
+  protected siteConnector = inject(SiteConnector);
+
   protected logger = inject(LoggerService);
 
   loadCities$: Observable<UserActions.CitiesAction> = createEffect(() =>
@@ -85,9 +88,4 @@ export class CitiesDistrictsEffects {
       map(() => new StateUtils.LoaderResetAction(DISTRICTS))
     )
   );
-
-  constructor(
-    protected actions$: Actions,
-    protected siteConnector: SiteConnector
-  ) {}
 }

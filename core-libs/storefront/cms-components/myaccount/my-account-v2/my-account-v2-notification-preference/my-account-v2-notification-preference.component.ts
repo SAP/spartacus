@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
@@ -14,6 +14,6 @@ import { NotificationPreferenceComponent } from '../../notification-preference/n
   selector: 'cx-my-account-v2-notification-preference',
   templateUrl: './my-account-v2-notification-preference.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, SpinnerComponent, AsyncPipe, TranslatePipe],
+  imports: [SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class MyAccountV2NotificationPreferenceComponent extends NotificationPreferenceComponent {}

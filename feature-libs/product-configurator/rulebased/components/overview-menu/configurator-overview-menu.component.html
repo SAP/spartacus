@@ -1,15 +1,15 @@
-<ng-container *ngIf="config">
-  <nav
-    *ngIf="isInPageNavigationEnabled; else legacyMenu"
-    tabindex="-1"
-    [attr.aria-label]="'configurator.a11y.overviewMenu' | cxTranslate"
-  >
+@if (config) {
+  @if (isInPageNavigationEnabled) {
+    <nav
+      tabindex="-1"
+      [attr.aria-label]="'configurator.a11y.overviewMenu' | cxTranslate"
+    >
+      <ng-container *ngTemplateOutlet="rootGroups" />
+    </nav>
+  } @else {
     <ng-container *ngTemplateOutlet="rootGroups" />
-  </nav>
-  <ng-template #legacyMenu>
-    <ng-container *ngTemplateOutlet="rootGroups" />
-  </ng-template>
-</ng-container>
+  }
+}
 
 <ng-template #rootGroups>
   <ng-container
@@ -31,7 +31,7 @@
   let-idPrefix="idPrefix"
 >
   <ul>
-    <ng-container *ngFor="let group of overviewGroups">
+    @for (group of overviewGroups; track group) {
       <li [ngClass]="getGroupLevelStyleClasses(level)">
         <button
           id="{{ getMenuItemId(idPrefix, group.id) }}"
@@ -47,7 +47,7 @@
           <span aria-hidden="true"> {{ group.groupDescription }}</span>
           <cx-icon [type]="iconTypes.ARROW_LEFT" aria-hidden="true" />
         </button>
-        <ng-container *ngIf="group.subGroups?.length > 0">
+        @if (group.subGroups?.length > 0) {
           <ng-container
             *ngTemplateOutlet="
               groups;
@@ -58,8 +58,8 @@
               }
             "
           />
-        </ng-container>
+        }
       </li>
-    </ng-container>
+    }
   </ul>
 </ng-template>

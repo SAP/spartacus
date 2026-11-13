@@ -70,7 +70,9 @@ export class CartResetAddVoucher extends StateUtils.EntityLoaderResetAction {
 }
 
 // Deleting cart voucher
-export class CartRemoveVoucher extends StateUtils.EntityProcessesIncrementAction {
+export class CartRemoveVoucher
+  extends StateUtils.EntityProcessesIncrementAction
+{
   readonly type = CART_REMOVE_VOUCHER;
 
   constructor(
@@ -100,7 +102,9 @@ export class CartRemoveVoucherFail
   }
 }
 
-export class CartRemoveVoucherSuccess extends StateUtils.EntityProcessesDecrementAction {
+export class CartRemoveVoucherSuccess
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = CART_REMOVE_VOUCHER_SUCCESS;
 
   constructor(

@@ -22,9 +22,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
-class MockPickupLocationsSearchFacade
-  implements Partial<PickupLocationsSearchFacade>
-{
+class MockPickupLocationsSearchFacade implements Partial<PickupLocationsSearchFacade> {
   getStoreDetails(name: string): Observable<PointOfService> {
     return of({ name });
   }

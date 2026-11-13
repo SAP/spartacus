@@ -28,18 +28,18 @@ Cypress.Commands.add('requirePlacedOrder', (token, cartId) => {
   function placeOrder() {
     return cy.request({
       method: 'POST',
-      url: `${Cypress.env('API_URL')}${Cypress.env(
+      url: `${Cypress.expose('API_URL')}${Cypress.expose(
         'OCC_PREFIX'
-      )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+      )}/${Cypress.expose('BASE_SITE')}/${Cypress.expose(
         'OCC_PREFIX_USER_ENDPOINT'
-      )}/current/${Cypress.env(
+      )}/current/${Cypress.expose(
         'OCC_PREFIX_ORDER_ENDPOINT'
       )}?cartId=${cartId}&termsChecked=true`,
       form: false,
       headers: {
         Authorization: `bearer ${token.access_token}`,
       },
-      body: Cypress.env('OCC_PREFIX_USER_ENDPOINT')
+      body: Cypress.expose('OCC_PREFIX_USER_ENDPOINT')
         ? {
             daysOfWeek: [DaysOfWeek.MONDAY],
             nthDayOfMonth: '1',
@@ -59,18 +59,18 @@ Cypress.Commands.add('requirePlacedOrderForJDK21', (token, cartId) => {
   function placeOrder() {
     return cy.request({
       method: 'POST',
-      url: `${Cypress.env('API_URL')}${Cypress.env(
+      url: `${Cypress.expose('API_URL')}${Cypress.expose(
         'OCC_PREFIX'
-      )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+      )}/${Cypress.expose('BASE_SITE')}/${Cypress.expose(
         'OCC_PREFIX_USER_ENDPOINT'
-      )}/current/${Cypress.env(
+      )}/current/${Cypress.expose(
         'OCC_PREFIX_ORDER_ENDPOINT'
       )}?cartId=${cartId}&termsChecked=true`,
       form: false,
       headers: {
         Authorization: `bearer ${token}`,
       },
-      body: Cypress.env('OCC_PREFIX_USER_ENDPOINT')
+      body: Cypress.expose('OCC_PREFIX_USER_ENDPOINT')
         ? {
             daysOfWeek: [DaysOfWeek.MONDAY],
             nthDayOfMonth: '1',

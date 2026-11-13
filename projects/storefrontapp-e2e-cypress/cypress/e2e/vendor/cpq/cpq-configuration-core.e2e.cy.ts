@@ -96,7 +96,7 @@ const ATTR_NAMES = {
 const testConfig = [
   {
     name: 'CPQ Configuration',
-    backendURL: `${Cypress.env('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
+    backendURL: `${Cypress.expose('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
   },
 ];
 

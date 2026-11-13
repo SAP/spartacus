@@ -59,9 +59,7 @@ class MockCardComponent {
   content: any;
 }
 
-class MockCheckoutDeliveryService
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState = vi
     .fn()
     .mockReturnValue(of({ loading: false, error: false, data: undefined }));

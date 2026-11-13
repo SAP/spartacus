@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,7 +36,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-bundle-attribute.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     MediaComponent,
     ConfiguratorPriceComponent,
     AsyncPipe,
@@ -45,6 +44,9 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   ],
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
+  protected productService = inject(ProductService);
+  protected translation = inject(TranslationService);
+
   product$: Observable<Product>;
 
   @Input() attributeOverview: Configurator.AttributeOverview;
@@ -67,11 +69,6 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   protected configuratorStorefrontUtilsService = inject(
     ConfiguratorStorefrontUtilsService
   );
-
-  constructor(
-    protected productService: ProductService,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit() {
     const noCommerceProduct: Product = { images: {} };

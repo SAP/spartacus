@@ -41,9 +41,7 @@ const mockSubBills: SubscriptionBill = {
     },
   ],
 };
-class MockSubscriptionBillingFacade
-  implements Partial<SubscriptionBillingFacade>
-{
+class MockSubscriptionBillingFacade implements Partial<SubscriptionBillingFacade> {
   getSubscriptionBillByCode(): Observable<SubscriptionBill | undefined> {
     return of(mockSubBills);
   }

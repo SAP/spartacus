@@ -226,7 +226,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorOverviewFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

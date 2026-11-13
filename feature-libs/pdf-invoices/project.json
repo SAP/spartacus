@@ -27,7 +27,7 @@
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npm run test:schematics",
+        "command": "npm run test:schematics --",
         "cwd": "feature-libs/pdf-invoices"
       }
     },

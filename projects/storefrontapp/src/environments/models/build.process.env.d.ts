@@ -18,7 +18,6 @@ interface Env {
   CX_B2B: boolean;
   CX_CPQ: boolean;
   CX_DIGITAL_PAYMENTS: boolean;
-  CX_EPD_VISUALIZATION: boolean;
   CX_S4OM: boolean;
   CX_OPF: boolean;
   CX_OMF: boolean;

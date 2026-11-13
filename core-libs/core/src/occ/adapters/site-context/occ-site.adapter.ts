@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -32,11 +32,9 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccSiteAdapter implements SiteAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
 
   loadLanguages(): Observable<Language[]> {
     return this.http

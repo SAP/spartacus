@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +12,7 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
@@ -29,8 +30,6 @@ import { Observable, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
-    NgFor,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
@@ -38,6 +37,10 @@ import { Observable, Subscription } from 'rxjs';
   ],
 })
 export class TrackingEventsComponent implements OnDestroy, OnInit {
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   private subscription = new Subscription();
   tracking$: Observable<ConsignmentTracking>;
   shipDate: Date;
@@ -55,12 +58,6 @@ export class TrackingEventsComponent implements OnDestroy, OnInit {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

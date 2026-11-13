@@ -17,9 +17,7 @@ import {
 } from '../store';
 import { PickupLocationsSearchService } from './pickup-locations-search.service';
 
-export class MockPickupLocationsSearchService
-  implements Partial<PickupLocationsSearchFacade>
-{
+export class MockPickupLocationsSearchService implements Partial<PickupLocationsSearchFacade> {
   stockLevelAtStore(_productCode: string, _storeName: string): void {}
 
   getStockLevelAtStore(

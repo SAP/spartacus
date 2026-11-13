@@ -17,6 +17,9 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserCostCenterEffects {
+  private actions$ = inject(Actions);
+  private userCostCenterConnector = inject(UserCostCenterConnector);
+
   protected logger = inject(LoggerService);
 
   loadActiveCostCenters$: Observable<UserActions.UserCostCenterAction> =
@@ -42,9 +45,4 @@ export class UserCostCenterEffects {
         )
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private userCostCenterConnector: UserCostCenterConnector
-  ) {}
 }

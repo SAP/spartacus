@@ -34,34 +34,39 @@
       </span>
     </div>
 
-    <div class="property" *ngIf="model.threshold || model.threshold === 0">
-      <label>{{ 'orgPurchaseLimit.threshold' | cxTranslate }}</label>
-      <span class="value">
-        {{ model.threshold }} {{ model.currency?.symbol }}
-      </span>
-    </div>
+    @if (model.threshold || model.threshold === 0) {
+      <div class="property">
+        <label>{{ 'orgPurchaseLimit.threshold' | cxTranslate }}</label>
+        <span class="value">
+          {{ model.threshold }} {{ model.currency?.symbol }}
+        </span>
+      </div>
+    }
 
-    <div class="property" *ngIf="model.periodRange">
-      <label>{{ 'orgPurchaseLimit.periodRange' | cxTranslate }}</label>
-      <span class="value">
-        {{ model.periodRange }}
-      </span>
-    </div>
+    @if (model.periodRange) {
+      <div class="property">
+        <label>{{ 'orgPurchaseLimit.periodRange' | cxTranslate }}</label>
+        <span class="value">
+          {{ model.periodRange }}
+        </span>
+      </div>
+    }
 
     <div class="property">
       <label>{{ 'orgPurchaseLimit.unit' | cxTranslate }}</label>
-      <a
-        *ngIf="model.code"
-        class="value"
-        [routerLink]="
-          {
-            cxRoute: 'orgUnitDetails',
-            params: model.orgUnit,
-          } | cxUrl
-        "
-      >
-        {{ model.orgUnit?.name }}
-      </a>
+      @if (model.code) {
+        <a
+          class="value"
+          [routerLink]="
+            {
+              cxRoute: 'orgUnitDetails',
+              params: model.orgUnit,
+            } | cxUrl
+          "
+        >
+          {{ model.orgUnit?.name }}
+        </a>
+      }
     </div>
   </div>
 </ng-template>

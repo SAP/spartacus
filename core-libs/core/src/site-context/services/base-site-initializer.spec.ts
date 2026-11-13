@@ -19,15 +19,11 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
   setActive = vi.fn().mockImplementation(() => {});
 }
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable = () => of(mockSiteContextConfig);
 }
 
-class MockSiteContextRoutesHandler
-  implements Partial<SiteContextRoutesHandler>
-{
+class MockSiteContextRoutesHandler implements Partial<SiteContextRoutesHandler> {
   initOnce = vi.fn().mockReturnValue(of(undefined));
 }
 

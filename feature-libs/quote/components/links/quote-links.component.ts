@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,7 +32,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-quote-links',
   templateUrl: './quote-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
+  imports: [RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class QuoteLinksComponent implements OnInit {
   protected quoteFacade = inject(QuoteFacade);
@@ -90,15 +90,5 @@ export class QuoteLinksComponent implements OnInit {
    */
   hasAttachment(attachments: QuoteAttachment[]): boolean {
     return attachments?.length > 0;
-  }
-
-  /**
-   * Determines if the feature for showing the download button is enabled.
-   *
-   * @returns - if the feature is enabled, returns 'true', otherwise 'false'.
-   * @deprecated  This method is obsolete since 2211.41
-   */
-  isShowDownloadProposalButtonFeatureEnabled(): boolean {
-    return true;
   }
 }

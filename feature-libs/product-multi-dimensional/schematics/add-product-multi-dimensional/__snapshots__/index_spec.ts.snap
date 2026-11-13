@@ -122,14 +122,7 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature gen
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            }
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -310,17 +303,7 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/product-multi-dimensional.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

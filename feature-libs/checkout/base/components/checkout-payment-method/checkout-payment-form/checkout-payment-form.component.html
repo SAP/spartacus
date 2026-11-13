@@ -1,5 +1,5 @@
 <!-- FORM -->
-<ng-container *ngIf="!loading; else spinner">
+@if (!loading) {
   <cx-form-required-legend />
   <form
     (ngSubmit)="next()"
@@ -15,55 +15,53 @@
     <ng-container *cxFeature="'!a11yImproveCheckoutFocus'">
       <ng-container *ngTemplateOutlet="formBody" />
     </ng-container>
-
     <!--
-      Buttons are rendered outside the `cxFocus` autofocus host on purpose:
-      in Safari a `<button>` doesn't take focus on click, so if it lived inside
-      the host, focus would fall to the host and its autofocus would redirect to
-      the first field (card type select). Keeping them outside prevents that jump.
+    Buttons are rendered outside the `cxFocus` autofocus host on purpose:
+    in Safari a `<button>` doesn't take focus on click, so if it lived inside
+    the host, focus would fall to the host and its autofocus would redirect to
+    the first field (card type select). Keeping them outside prevents that jump.
     -->
     <ng-container *ngTemplateOutlet="formButtons" />
-
     <ng-template #formBody>
       <div class="row">
         <div class="col-md-12 col-xl-10">
           <div class="form-group" formGroupName="cardType">
-            <ng-container *ngIf="cardTypes$ | async as cardTypes">
-              <div *ngIf="cardTypes.length !== 0">
-                <label>
-                  <span class="label-content required"
-                    >{{ 'paymentForm.paymentType' | cxTranslate }}
-                    <cx-form-required-asterisks />
-                  </span>
-                  <ng-select
-                    [inputAttrs]="{ required: 'true' }"
-                    [searchable]="true"
-                    [clearable]="false"
-                    [items]="cardTypes"
-                    bindLabel="name"
-                    bindValue="code"
-                    placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
-                    formControlName="code"
-                    id="card-type-select"
-                    ariaLabelDropdown="{{
-                      'common.ngSelectDropdownOptionsList' | cxTranslate
-                    }}"
-                    [cxNgSelectA11y]="{
-                      ariaLabel: 'paymentForm.paymentType' | cxTranslate,
-                    }"
-                  />
-
-                  <cx-form-errors
-                    [translationParams]="{
-                      label: 'paymentForm.paymentType' | cxTranslate,
-                    }"
-                    [control]="paymentForm.get('cardType.code')"
-                  />
-                </label>
-              </div>
-            </ng-container>
+            @if (cardTypes$ | async; as cardTypes) {
+              @if (cardTypes.length !== 0) {
+                <div>
+                  <label>
+                    <span class="label-content required"
+                      >{{ 'paymentForm.paymentType' | cxTranslate }}
+                      <cx-form-required-asterisks />
+                    </span>
+                    <ng-select
+                      [inputAttrs]="{ required: 'true' }"
+                      [searchable]="true"
+                      [clearable]="false"
+                      [items]="cardTypes"
+                      bindLabel="name"
+                      bindValue="code"
+                      placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
+                      formControlName="code"
+                      id="card-type-select"
+                      ariaLabelDropdown="{{
+                        'common.ngSelectDropdownOptionsList' | cxTranslate
+                      }}"
+                      [cxNgSelectA11y]="{
+                        ariaLabel: 'paymentForm.paymentType' | cxTranslate,
+                      }"
+                    />
+                    <cx-form-errors
+                      [translationParams]="{
+                        label: 'paymentForm.paymentType' | cxTranslate,
+                      }"
+                      [control]="paymentForm.get('cardType.code')"
+                    />
+                  </label>
+                </div>
+              }
+            }
           </div>
-
           <div class="form-group">
             <label>
               <span class="label-content"
@@ -84,7 +82,6 @@
                 "
                 [attr.aria-errormessage]="'accountHolderNameError'"
               />
-
               <cx-form-errors
                 id="accountHolderNameError"
                 [translationParams]="{
@@ -94,7 +91,6 @@
               />
             </label>
           </div>
-
           <div class="form-group">
             <label>
               <span class="label-content"
@@ -112,7 +108,6 @@
                 "
                 [attr.aria-errormessage]="'cardNumberError'"
               />
-
               <cx-form-errors
                 id="cardNumberError"
                 [translationParams]="{
@@ -122,7 +117,6 @@
               />
             </label>
           </div>
-
           <div class="row">
             <div class="form-group col-md-8">
               <fieldset class="cx-payment-form-exp-date">
@@ -149,7 +143,6 @@
                           : { selected: paymentForm.get('expiryMonth')?.value },
                     }"
                   />
-
                   <cx-form-errors
                     [translationParams]="{
                       label: 'paymentForm.expirationDate' | cxTranslate,
@@ -176,7 +169,6 @@
                     }"
                     formControlName="expiryYear"
                   />
-
                   <cx-form-errors
                     [translationParams]="{
                       label: 'paymentForm.expirationDate' | cxTranslate,
@@ -186,7 +178,6 @@
                 </label>
               </fieldset>
             </div>
-
             <div class="form-group col-md-4">
               <label>
                 <span
@@ -206,7 +197,6 @@
                     "
                   />
                 </span>
-
                 <span
                   *cxFeature="'a11yCvvInfoIconKeyboardAccessible'"
                   class="label-content"
@@ -240,7 +230,6 @@
                     </span>
                   </span>
                 </span>
-
                 <input
                   required
                   type="text"
@@ -257,7 +246,6 @@
                   "
                   [attr.aria-errormessage]="'cvnError'"
                 />
-
                 <cx-form-errors
                   id="cvnError"
                   [translationParams]="{
@@ -268,46 +256,41 @@
               </label>
             </div>
           </div>
-
-          <div class="form-group" *ngIf="setAsDefaultField">
-            <div class="form-check">
-              <label>
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  (change)="toggleDefaultPaymentMethod()"
-                />
-                <span class="form-check-label">{{
-                  'paymentForm.setAsDefault' | cxTranslate
-                }}</span>
-              </label>
+          @if (setAsDefaultField) {
+            <div class="form-group">
+              <div class="form-check">
+                <label>
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    (change)="toggleDefaultPaymentMethod()"
+                  />
+                  <span class="form-check-label">{{
+                    'paymentForm.setAsDefault' | cxTranslate
+                  }}</span>
+                </label>
+              </div>
             </div>
-          </div>
-
+          }
           <!-- BILLING -->
           <cx-checkout-billing-address-form />
         </div>
       </div>
     </ng-template>
-
     <ng-template #formButtons>
       <!-- BUTTON SECTION -->
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
-          <button
-            *ngIf="paymentMethodsCount === 0"
-            class="btn btn-block btn-secondary"
-            (click)="back()"
-          >
-            {{ 'common.back' | cxTranslate }}
-          </button>
-          <button
-            *ngIf="paymentMethodsCount > 0"
-            class="btn btn-block btn-secondary"
-            (click)="close()"
-          >
-            {{ 'paymentForm.changePayment' | cxTranslate }}
-          </button>
+          @if (paymentMethodsCount === 0) {
+            <button class="btn btn-block btn-secondary" (click)="back()">
+              {{ 'common.back' | cxTranslate }}
+            </button>
+          }
+          @if (paymentMethodsCount > 0) {
+            <button class="btn btn-block btn-secondary" (click)="close()">
+              {{ 'paymentForm.changePayment' | cxTranslate }}
+            </button>
+          }
         </div>
         <div class="col-md-12 col-lg-6">
           <button class="btn btn-block btn-primary" type="submit">
@@ -317,8 +300,6 @@
       </div>
     </ng-template>
   </form>
-</ng-container>
-
-<ng-template #spinner>
+} @else {
   <cx-spinner />
-</ng-template>
+}

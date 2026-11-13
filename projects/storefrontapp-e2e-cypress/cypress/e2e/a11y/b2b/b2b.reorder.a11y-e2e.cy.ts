@@ -21,7 +21,7 @@ export function waitUntilOrderIsPlaced() {
 describe('Reorder accessibility', () => {
   before(() => {
     clearAllStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
     cy.a11yContinuumSetup();
 
     cy.whenJDK21(() => {

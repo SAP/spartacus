@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +12,7 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
@@ -67,7 +68,6 @@ export interface AddedToCartDialogComponentData {
   imports: [
     FocusDirective,
     IconComponent,
-    NgIf,
     CartItemComponent,
     PromotionsComponent,
     SpinnerComponent,
@@ -77,6 +77,11 @@ export interface AddedToCartDialogComponentData {
   ],
 })
 export class AddedToCartDialogComponent implements OnInit, OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected routingService = inject(RoutingService);
+  protected el = inject(ElementRef);
+
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry | undefined>;
@@ -107,13 +112,6 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   protected quantityControl$: Observable<UntypedFormControl>;
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected routingService: RoutingService,
-    protected el: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

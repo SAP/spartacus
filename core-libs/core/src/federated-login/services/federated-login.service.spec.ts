@@ -32,9 +32,7 @@ class MockLanguageService implements Partial<LanguageService> {
   getActive = vi.fn().mockReturnValue(of('en'));
 }
 
-class MockFederatedLoginContextSerializerService
-  implements Partial<FederatedLoginContextSerializerService>
-{
+class MockFederatedLoginContextSerializerService implements Partial<FederatedLoginContextSerializerService> {
   serializeContext = vi.fn().mockReturnValue('shop1:en');
   deserializeContext = vi.fn().mockReturnValue({
     origin: 'https://storefront1.de',
@@ -42,9 +40,7 @@ class MockFederatedLoginContextSerializerService
   });
 }
 
-class MockFederatedLoginContextStorageService
-  implements Partial<FederatedLoginContextStorageService>
-{
+class MockFederatedLoginContextStorageService implements Partial<FederatedLoginContextStorageService> {
   read = vi.fn().mockReturnValue(undefined);
   write = vi.fn();
 }

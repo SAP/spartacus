@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Converter,
@@ -15,10 +15,11 @@ import {
 import { ReturnRequest } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
-export class OccReturnRequestNormalizer
-  implements Converter<Occ.ReturnRequest, ReturnRequest>
-{
-  constructor(private converter: ConverterService) {}
+export class OccReturnRequestNormalizer implements Converter<
+  Occ.ReturnRequest,
+  ReturnRequest
+> {
+  private converter = inject(ConverterService);
 
   convert(source: Occ.ReturnRequest, target?: ReturnRequest): ReturnRequest {
     if (target === undefined) {
@@ -27,7 +28,9 @@ export class OccReturnRequestNormalizer
 
     if (source.returnEntries) {
       target.returnEntries = source.returnEntries.map((entry) => ({
-        ...entry,
+        ...(entry as unknown as NonNullable<
+          ReturnRequest['returnEntries']
+        >[number]),
         orderEntry: this.convertOrderEntry(entry.orderEntry),
       }));
     }
@@ -37,7 +40,7 @@ export class OccReturnRequestNormalizer
 
   private convertOrderEntry(source?: Occ.OrderEntry): OrderEntry {
     return {
-      ...source,
+      ...(source as unknown as OrderEntry),
       product: this.converter.convert(source?.product, PRODUCT_NORMALIZER),
     };
   }

@@ -123,7 +123,6 @@ class MockTableComponent {
 @Component({
   templateUrl: './list.component.html',
   imports: [
-    CommonModule,
     I18nTestingModule,
     UrlTestingModule,
     SplitViewTestingModule,
@@ -132,6 +131,7 @@ class MockTableComponent {
     NgSelectModule,
     FormsModule,
     KeyboardFocusTestingModule,
+    CommonModule,
     PopoverModule,
   ],
 })

@@ -7,10 +7,10 @@
 import { DOCUMENT } from '@angular/common';
 import {
   ComponentRef,
-  Inject,
   Renderer2,
   RendererFactory2,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { Applicable, Priority } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -56,14 +56,13 @@ export abstract class LaunchRenderStrategy implements Applicable {
    */
   protected readonly sidebarStartClasses = ['cx-sidebar-start'];
 
-  protected renderer: Renderer2;
+  protected document = inject(DOCUMENT);
+  protected rendererFactory = inject(RendererFactory2);
 
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2
-  ) {
-    this.renderer = rendererFactory.createRenderer(null, null);
-  }
+  protected renderer: Renderer2 = this.rendererFactory.createRenderer(
+    null,
+    null
+  );
 
   /**
    * Render method to implement based on the strategy

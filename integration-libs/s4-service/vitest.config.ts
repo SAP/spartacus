@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
+import { defineConfig } from 'vitest/config';
 
 const root = `${import.meta.dirname}/../..`;
 
 export default defineConfig({
   root: import.meta.dirname,
-  plugins: [angular(), nxViteTsPaths()],
+  plugins: [angular()],
   resolve: {
+    tsconfigPaths: true,
     alias: {
       'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts`,
       'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module': `${root}/core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module.ts`,

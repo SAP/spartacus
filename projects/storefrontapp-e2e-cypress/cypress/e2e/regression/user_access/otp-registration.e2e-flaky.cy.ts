@@ -20,8 +20,8 @@ export function listenForUserRegistrationVerficationCodeEmailReceive(
   customerEmail: string
 ) {
   const mailCCV2Url =
-    Cypress.env('MAIL_CCV2_URL') +
-    Cypress.env('MAIL_CCV2_PREFIX') +
+    Cypress.expose('MAIL_CCV2_URL') +
+    Cypress.expose('MAIL_CCV2_PREFIX') +
     '/search?query=' +
     customerEmail +
     '&limit=1';
@@ -67,8 +67,8 @@ describe('OTP Registration', () => {
         listenForUserRegistrationVerficationCodeEmailReceive(user.email);
 
         const mailCCV2Url =
-          Cypress.env('MAIL_CCV2_URL') +
-          Cypress.env('MAIL_CCV2_PREFIX') +
+          Cypress.expose('MAIL_CCV2_URL') +
+          Cypress.expose('MAIL_CCV2_PREFIX') +
           '/search?query=' +
           user.email +
           '&limit=1';

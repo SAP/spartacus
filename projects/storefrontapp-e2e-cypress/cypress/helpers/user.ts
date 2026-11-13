@@ -7,7 +7,7 @@
 export function generateMail(alias: string, newTimestamp: boolean) {
   const timestamp = newTimestamp
     ? Date.now() - 1535535333333
-    : Cypress.env('TIMESTAMP');
+    : Cypress.expose('TIMESTAMP');
   return `cypress_user_${alias}_${timestamp}@sapcx.com`;
 }
 

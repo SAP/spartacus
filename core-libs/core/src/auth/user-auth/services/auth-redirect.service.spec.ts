@@ -28,9 +28,7 @@ class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
   }
 }
 
-class MockSiteContextUrlSerializer
-  implements Partial<SiteContextUrlSerializer>
-{
+class MockSiteContextUrlSerializer implements Partial<SiteContextUrlSerializer> {
   urlExtractContextParameters(url: string): {
     url: string;
     params: SiteContextUrlParams;

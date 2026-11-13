@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   CmsComponent,
   CmsService,
@@ -88,11 +87,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        SiteContextSelectorComponent,
-        I18nTestingModule,
-      ],
+      imports: [SiteContextSelectorComponent, I18nTestingModule],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {

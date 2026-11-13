@@ -171,11 +171,11 @@ context('Assisted Service Module', () => {
 
   describe('Apparel Site', () => {
     before(() => {
-      Cypress.env('BASE_SITE', APPAREL_BASESITE);
+      Cypress.expose('BASE_SITE', APPAREL_BASESITE);
     });
 
     after(() => {
-      Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
+      Cypress.expose('BASE_SITE', ELECTRONICS_BASESITE);
     });
 
     it("should fetch products in a category based on the emulated user's authentication", () => {

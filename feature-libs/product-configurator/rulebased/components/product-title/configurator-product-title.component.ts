@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FeatureToggles,
@@ -24,7 +24,7 @@ import {
   MediaComponent,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -54,7 +54,6 @@ interface ConfiguratorProductTitleView {
   templateUrl: './configurator-product-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorMainAriaLabelledByDirective,
     ConfiguratorTruncatePathTitleDirective,
     IconComponent,
@@ -64,20 +63,17 @@ interface ConfiguratorProductTitleView {
   ],
 })
 export class ConfiguratorProductTitleComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected productService = inject(ProductService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
   private featureToggles = inject(FeatureToggles);
 
   protected readonly SLASH_SEPARATOR = '/';
-
-  /**
-   * @deprecated since 221121.23 - Prefer the `#ghostProductTitle` template
-   * (`.cx-ghost-general-product-info.ghost`) for loading UI. Host
-   * `class.ghost` via `@HostBinding` was removed because CMS slots do not
-   * refresh host bindings when title data resolves. This flag is still cleared
-   * when data arrives for compatibility; it no longer affects the host. Will
-   * be removed in the next major.
-   */
-  ghostStyle = true;
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
@@ -107,22 +103,8 @@ export class ConfiguratorProductTitleComponent {
               this.buildProductTitleData(routerData, configuration)
             )
           )
-      ),
-      tap(() => {
-        this.ghostStyle = false;
-      })
+      )
     );
-
-  /**
-   * Catalog product used for the expandable details.
-   *
-   * @deprecated since 221121.23 - Use `productTitleData$` and read
-   * `product` from the view instead. This observable remains for
-   * backward compatibility and will be removed in a future major version.
-   */
-  product$: Observable<Product | undefined> = this.productTitleData$.pipe(
-    map((data) => data.product)
-  );
 
   protected getProductCode(container: {
     routerData: ConfiguratorRouter.Data;
@@ -285,12 +267,7 @@ export class ConfiguratorProductTitleComponent {
   showMore = false;
   iconTypes = ICON_TYPE;
 
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected productService: ProductService,
-    protected configExpertModeService: ConfiguratorExpertModeService
-  ) {
+  constructor() {
     useFeatureStyles('productConfiguratorCPQContainer');
   }
 

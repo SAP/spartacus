@@ -34,11 +34,11 @@ import { ConfiguratorModelUtils } from './configurator-model-utils';
  */
 @Injectable({ providedIn: 'root' })
 export class CommonConfiguratorUtilsService {
+  protected userIdService = inject(UserIdService);
+
   protected commonConfiguratorUISettingsConfig = inject(
     CommonConfiguratorUISettingsConfig
   );
-
-  constructor(protected userIdService: UserIdService) {}
   /**
    * Compiles a unique key for a configuration owner and sets it into the 'key'
    * attribute

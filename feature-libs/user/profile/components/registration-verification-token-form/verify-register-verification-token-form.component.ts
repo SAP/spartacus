@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -58,7 +58,6 @@ import { RegistrationVerificationTokenFormComponentService } from './verify-regi
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
-    NgIf,
     NgClass,
     SpinnerComponent,
     TranslatePipe,

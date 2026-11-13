@@ -170,6 +170,7 @@ export type PackageJson = {
    * Package version
    */
   version: string;
+  engines?: { node?: string };
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
   optionalDependencies?: Record<string, string>;
@@ -324,6 +325,31 @@ function syncAiMigrationVersion(): void {
   }
 }
 
+/** Keep published Node support aligned with the development workspace. */
+function syncNodeEngines(): void {
+  reportProgress('Checking Node engine ranges');
+  const nodeRange: string = readJsonFile(PACKAGE_JSON).engines.node;
+  Object.values(repository).forEach((library) => {
+    const packagePath = library.directory + '/' + PACKAGE_JSON;
+    const manifest = readJsonFile(packagePath);
+    if (manifest.engines?.node === nodeRange) {
+      return;
+    }
+    if (options.fix) {
+      manifest.engines = { ...manifest.engines, node: nodeRange };
+      library.packageJsonContent.engines = manifest.engines;
+      writeFileSync(packagePath, JSON.stringify(manifest, null, 2) + '\n');
+      logUpdatedFile(packagePath);
+    } else {
+      error(
+        packagePath,
+        ['Node engine range must match root package.json: ' + nodeRange + '.'],
+        ['Run npm run config:update to synchronize Node support.']
+      );
+    }
+  });
+}
+
 // Run the cheap lock-file check first so a PR that forgot to update its
 // `package-lock.json` fails fast, without waiting for the slower dependency,
 // tsconfig and `generate:deps` steps below.
@@ -333,6 +359,7 @@ if (!options.fix && errorsCount > 0) {
   process.exit(1);
 }
 
+syncNodeEngines();
 manageDependencies(repository, options);
 // Keep it after dependencies, because fixes from deps might might result in different tsconfig files
 manageTsConfigs(repository, options);

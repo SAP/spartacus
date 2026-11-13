@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -67,7 +67,6 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
   templateUrl: './checkout-payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     FeatureDirective,
     FocusDirective,
@@ -87,6 +86,17 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
   ],
 })
 export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected userPaymentService = inject(UserPaymentService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected fb = inject(UntypedFormBuilder);
+  protected userAddressService = inject(UserAddressService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected translationService = inject(TranslationService);
+
   iconTypes = ICON_TYPE;
 
   /**
@@ -157,22 +167,9 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
       : null;
   }
 
-  constructor(
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected userPaymentService: UserPaymentService,
-    protected globalMessageService: GlobalMessageService,
-    protected fb: UntypedFormBuilder,
-    protected userAddressService: UserAddressService,
-    protected launchDialogService: LaunchDialogService,
-    protected translationService: TranslationService
-  ) {
+  constructor() {
     useFeatureStyles('a11yCvvInfoIconKeyboardAccessible');
   }
-  /**
-   * @deprecated  This property is obsolete since 2211.42
-   */
-  useExtractedBillingAddressComponent: boolean = true;
 
   /**
    * Handles Escape on the CVV info button. Adds a dismissed class to the

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface AccountSummaryOccEndpoints {
   /**
@@ -13,7 +13,7 @@ export interface AccountSummaryOccEndpoints {
    * @member {string} [accountSummary]
    */
 
-  accountSummary?: string | OccEndpoint;
+  accountSummary?: string | CoreOccEndpoint;
 
   /**
    * Get Account summary documents
@@ -21,7 +21,7 @@ export interface AccountSummaryOccEndpoints {
    * @member {string} [accountSummaryDocument]
    */
 
-  accountSummaryDocument?: string | OccEndpoint;
+  accountSummaryDocument?: string | CoreOccEndpoint;
 
   /**
    * Get Account summary document attachment
@@ -29,7 +29,7 @@ export interface AccountSummaryOccEndpoints {
    * @member {string} [accountSummaryDocumentAttachment]
    */
 
-  accountSummaryDocumentAttachment?: string | OccEndpoint;
+  accountSummaryDocumentAttachment?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {

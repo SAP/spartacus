@@ -10,6 +10,11 @@
       "factory": "./constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
+    "migration-v221121_24-constructor-deprecations": {
+      "version": "221121.24.0",
+      "factory": "../221121_24/constructor-deprecations/constructor-deprecations#migrate",
+      "description": "Angular 22 inject() migration - remove constructor params for classes extending migrated Spartacus classes"
+    },
     "migration-v2-removed-public-api-deprecation-04": {
       "version": "2.1.0-next.1",
       "factory": "./removed-public-api-deprecations/removed-public-api-deprecation#migrate",

@@ -10,6 +10,7 @@
       "executor": "@angular-builders/custom-esbuild:application",
       "options": {
         "preserveSymlinks": true,
+        "poll": 1000,
         "plugins": ["./projects/storefrontapp/esbuild/plugins.ts"],
         "aot": true,
         "allowedCommonJsDependencies": [
@@ -96,10 +97,6 @@
           {
             "input": "projects/storefrontapp/src/styles/lib-order.scss",
             "bundleName": "order"
-          },
-          {
-            "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
-            "bundleName": "epd-visualization"
           },
           {
             "input": "projects/storefrontapp/src/styles/lib-customer-ticketing.scss",
@@ -191,10 +188,18 @@
       "executor": "@angular-devkit/architect:concat",
       "configurations": {
         "development": {
-          "targets": [{ "target": "storefrontapp:build:development,noSsr" }]
+          "targets": [
+            {
+              "target": "storefrontapp:build:development,noSsr"
+            }
+          ]
         },
         "production": {
-          "targets": [{ "target": "storefrontapp:build:production,noSsr" }]
+          "targets": [
+            {
+              "target": "storefrontapp:build:production,noSsr"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -204,12 +209,16 @@
       "configurations": {
         "development": {
           "targets": [
-            { "target": "storefrontapp:build:development,withPrerender" }
+            {
+              "target": "storefrontapp:build:development,withPrerender"
+            }
           ]
         },
         "production": {
           "targets": [
-            { "target": "storefrontapp:build:production,withPrerender" }
+            {
+              "target": "storefrontapp:build:production,withPrerender"
+            }
           ]
         }
       },
@@ -217,6 +226,9 @@
     },
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
+      "options": {
+        "poll": 1000
+      },
       "configurations": {
         "production": {
           "buildTarget": "storefrontapp:build:production,noSsr"
@@ -228,7 +240,7 @@
       "defaultConfiguration": "development"
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "main": "projects/storefrontapp/src/test.ts",
         "polyfills": ["core-js/es/reflect", "zone.js"],

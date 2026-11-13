@@ -64,8 +64,8 @@ export class UnitFormService extends FormService<B2BUnit> {
     // so decided to check name as alternative required property
     return Boolean(
       item?.uid &&
-        item?.name &&
-        (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
+      item?.name &&
+      (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
     );
   }
 }

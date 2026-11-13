@@ -21,7 +21,7 @@ let startTime = 0;
  */
 export function waitForOrderToBePlacedRequest(
   orderNumber?: string,
-  contentCatalog: string = Cypress.env('BASE_SITE'),
+  contentCatalog: string = Cypress.expose('BASE_SITE'),
   currency: string = 'USD'
 ) {
   const {
@@ -30,9 +30,9 @@ export function waitForOrderToBePlacedRequest(
   } = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
   cy.request({
     method: 'GET',
-    url: `${Cypress.env('API_URL')}${Cypress.env(
+    url: `${Cypress.expose('API_URL')}${Cypress.expose(
       'OCC_PREFIX'
-    )}/${contentCatalog}/users/${userId}/${Cypress.env(
+    )}/${contentCatalog}/users/${userId}/${Cypress.expose(
       'OCC_PREFIX_ORDER_ENDPOINT'
     )}?pageSize=5&lang=en&curr=${currency}`,
     headers: {
@@ -70,7 +70,7 @@ export function waitForOrderToBePlacedRequest(
 
 export function waitForOrderWithConsignmentToBePlacedRequest(
   orderNumber?: string,
-  contentCatalog: string = Cypress.env('BASE_SITE'),
+  contentCatalog: string = Cypress.expose('BASE_SITE'),
   elapsedTime = 0
 ) {
   const {
@@ -79,7 +79,7 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
   } = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
   cy.request({
     method: 'GET',
-    url: `${Cypress.env('API_URL')}${Cypress.env(
+    url: `${Cypress.expose('API_URL')}${Cypress.expose(
       'OCC_PREFIX'
     )}/${contentCatalog}/users/${userId}/orders/${orderNumber}?pageSize=5&lang=en&curr=USD`,
     headers: {

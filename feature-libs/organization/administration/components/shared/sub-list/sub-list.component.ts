@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,7 +33,6 @@ import { MessageService } from '../message/services/message.service';
   imports: [
     CardComponent,
     FocusDirective,
-    NgIf,
     TableComponent,
     PaginationComponent,
     AsyncPipe,

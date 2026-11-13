@@ -3,6 +3,7 @@ import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -50,7 +51,7 @@ describe('OccCouponCodesInterceptor', () => {
           provide: OppsCouponCodesService,
           useClass: MockOppsCouponCodesService,
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

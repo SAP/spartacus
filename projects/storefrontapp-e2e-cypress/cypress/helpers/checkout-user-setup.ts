@@ -108,7 +108,7 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
       return cy
         .request({
           method: 'POST',
-          url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/current/addresses?lang=en&curr=USD`,
           headers: {
@@ -137,7 +137,7 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
           return cy
             .request({
               method: 'POST',
-              url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+              url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
                 'BASE_SITE'
               )}/users/current/carts`,
               headers: {
@@ -152,7 +152,7 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
                 return cy
                   .request({
                     method: 'POST',
-                    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+                    url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
                       'BASE_SITE'
                     )}/users/current/carts/${cartId}/entries`,
                     headers: {
@@ -173,7 +173,7 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
                 return cy
                   .request({
                     method: 'POST',
-                    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+                    url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
                       'BASE_SITE'
                     )}/users/current/carts/${cartId}/paymentdetails`,
                     headers: {

@@ -23,9 +23,7 @@ import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
 
 const isBusySubject = new BehaviorSubject(false);
-class MockLoginFormComponentService
-  implements Partial<LoginFormComponentService>
-{
+class MockLoginFormComponentService implements Partial<LoginFormComponentService> {
   form: UntypedFormGroup = new UntypedFormGroup({
     userId: new UntypedFormControl(),
     password: new UntypedFormControl(),

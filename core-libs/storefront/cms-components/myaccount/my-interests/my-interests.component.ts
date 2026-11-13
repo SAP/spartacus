@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -46,10 +47,8 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   templateUrl: './my-interests.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     MediaComponent,
     AtMessageDirective,
@@ -61,6 +60,11 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   ],
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
+  private productInterestService = inject(UserInterestsService);
+  private translationService = inject(TranslationService);
+  private productService = inject(ProductService);
+  private globalMessageService = inject(GlobalMessageService);
+
   private DEFAULT_PAGE_SIZE = 10;
   private sortMapping: { [key: string]: string } = {
     byNameAsc: 'name:asc',
@@ -85,13 +89,6 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   isRemoveDisabled$: Observable<boolean>;
   getInterestsloading$: Observable<boolean>;
   sortLabels: Observable<{ byNameAsc: string; byNameDesc: string }>;
-
-  constructor(
-    private productInterestService: UserInterestsService,
-    private translationService: TranslationService,
-    private productService: ProductService,
-    private globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit() {
     this.interests$ = this.productInterestService

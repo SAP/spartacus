@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
@@ -21,10 +20,8 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
     './configurator-attribute-single-selection-bundle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorAttributeQuantityComponent,
     ConfiguratorPriceComponent,
-    NgFor,
     ConfiguratorAttributeProductCardComponent,
   ],
 })
@@ -46,9 +43,6 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       productBoundValue: value,
       attribute: this.attribute,
       loading$: this.loading$,
-      attributeId: this.getAttributeCode(this.attribute),
-      attributeLabel: this.attribute.label,
-      attributeName: this.attribute.name,
       itemCount: this.attribute.values?.length
         ? this.attribute.values.length
         : 0,

@@ -19,7 +19,7 @@ import { config } from './utils/login';
  */
 beforeEach(() => {
   cy.intercept(
-    // Regex instead of `${Cypress.env('API_URL')}/authorizationserver/csrf` because
+    // Regex instead of `${Cypress.expose('API_URL')}/authorizationserver/csrf` because
     // the authorization server may be on a different domain than the API.
     { method: 'GET', url: /\/authorizationserver\/csrf(?:\?|$)/ },
     (req) => {

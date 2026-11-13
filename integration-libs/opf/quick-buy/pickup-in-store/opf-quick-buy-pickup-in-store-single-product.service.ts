@@ -15,9 +15,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 @Injectable()
-export class OpfQuickBuyPickupInStoreSingleProductService
-  implements OpfQuickBuySingleProductCartOptionsFacade
-{
+export class OpfQuickBuyPickupInStoreSingleProductService implements OpfQuickBuySingleProductCartOptionsFacade {
   protected defaultSingleProductService = inject(
     OpfQuickBuyDefaultSingleProductService
   );

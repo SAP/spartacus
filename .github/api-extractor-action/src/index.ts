@@ -11,9 +11,9 @@
  */
 
 import * as github from '@actions/github';
-import { analyzeEntryPoints, EntryPoints } from './api-extractor';
-import { addCommentToPR } from './comment';
-import { prepareRepositoryForApiExtractor } from './setup';
+import { analyzeEntryPoints, EntryPoints } from './api-extractor.js';
+import { addCommentToPR } from './comment.js';
+import { prepareRepositoryForApiExtractor } from './setup.js';
 
 async function run() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;

@@ -5,15 +5,15 @@
  */
 
 import angular from '@analogjs/vite-plugin-angular';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig } from 'vitest/config';
 
 const root = `${import.meta.dirname}/../..`;
 
 export default defineConfig({
   root: import.meta.dirname,
-  plugins: [angular(), nxViteTsPaths()],
+  plugins: [angular()],
   resolve: {
+    tsconfigPaths: true,
     alias: {
       // NOTE: order matters. Vite matches string aliases in order (first match
       // wins), and a bare alias like '@spartacus/storefront' also matches any

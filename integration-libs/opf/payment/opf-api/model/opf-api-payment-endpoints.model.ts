@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OpfApiEndpoint } from '@spartacus/opf/base/root';
+import type { OpfApiEndpoint as BaseOpfApiEndpoint } from '@spartacus/opf/base/root';
 
 declare module '@spartacus/opf/base/root' {
   interface OpfApiEndpoints {
@@ -12,26 +12,26 @@ declare module '@spartacus/opf/base/root' {
      * Endpoint to verify a response from PSP for Full Page Redirect
      * and iFrame integration patterns.
      */
-    verifyPayment?: string | OpfApiEndpoint;
+    verifyPayment?: string | BaseOpfApiEndpoint;
     /**
      * Endpoint to submit payment for Hosted Fields pattern.
      */
-    submitPayment?: string | OpfApiEndpoint;
+    submitPayment?: string | BaseOpfApiEndpoint;
     /**
      * Endpoint to submit-complete payment for Hosted Fields pattern.
      */
-    submitCompletePayment?: string | OpfApiEndpoint;
+    submitCompletePayment?: string | BaseOpfApiEndpoint;
     /**
      * Endpoint to fetch dynamic script for Hosted Fields pattern and PageRedirection sub-pattern.
      */
-    getAfterRedirectScripts?: string | OpfApiEndpoint;
+    getAfterRedirectScripts?: string | BaseOpfApiEndpoint;
     /**
      * Endpoint to initiate payment provider.
      */
-    initiatePayment?: string | OpfApiEndpoint;
+    initiatePayment?: string | BaseOpfApiEndpoint;
     /**
      * Endpoint to update an existing payment transaction/session.
      */
-    updatePaymentTransaction?: string | OpfApiEndpoint;
+    updatePaymentTransaction?: string | BaseOpfApiEndpoint;
   }
 }

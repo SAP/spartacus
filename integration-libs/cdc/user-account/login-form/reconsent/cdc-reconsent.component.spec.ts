@@ -69,16 +69,13 @@ class MockCdcReconsentService implements Partial<CdcReconsentComponentService> {
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   data$ = of(reconsentEvent);
 }
-class MockCdcConsentManagementComponentService
-  implements Partial<CdcConsentManagementComponentService>
-{
+class MockCdcConsentManagementComponentService implements Partial<CdcConsentManagementComponentService> {
   getConsents = vi.fn().mockReturnValue(of([]));
   getCdcConsentIDs = vi.fn().mockReturnValue(of([]));
   isConsentMandatory = vi.fn().mockReturnValue(true);
 }
 
-class MockAnonymousConsentsService
-  implements Partial<AnonymousConsentsService> {}
+class MockAnonymousConsentsService implements Partial<AnonymousConsentsService> {}
 describe('CdcReconsentComponent', () => {
   let component: CdcReconsentComponent;
   let fixture: ComponentFixture<CdcReconsentComponent>;

@@ -121,9 +121,7 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
   }
 }
 
-class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService>
-{
+class MockOpfQuickBuyTransactionService implements Partial<OpfQuickBuyTransactionService> {
   setDeliveryAddress = jasmine
     .createSpy('setDeliveryAddress')
     .and.returnValue(of('test-address-id'));

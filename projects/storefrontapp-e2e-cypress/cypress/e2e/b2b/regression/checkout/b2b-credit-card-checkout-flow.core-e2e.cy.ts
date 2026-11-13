@@ -16,7 +16,7 @@ import { user } from '../../../../sample-data/checkout-flow';
 
 context('B2B - Credit Card Checkout flow', () => {
   before(() => {
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
   it('should checkout using a credit card', () => {

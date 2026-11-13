@@ -4,57 +4,42 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild,
   inject,
+  ViewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { filter, Observable, OperatorFunction, tap } from 'rxjs';
+import { filter, Observable, OperatorFunction } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configurator-overview-filter-button',
   templateUrl: './configurator-overview-filter-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    ConfiguratorOverviewFilterBarComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [ConfiguratorOverviewFilterBarComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorOverviewFilterButtonComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+
   protected configuratorStorefrontUtilsService = inject(
     ConfiguratorStorefrontUtilsService
   );
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {}
-
   @ViewChild('filterButton') filterButton: ElementRef;
-
-  /**
-   * @deprecated since 221121.23 - Prefer the `#ghostFilterButton` template
-   * (`.cx-ghost-filter-button.ghost`) for loading UI. Host `class.ghost` via
-   * `@HostBinding` was removed because CMS slots do not refresh host bindings
-   * when filter data resolves. This flag is still cleared when data arrives for
-   * compatibility; it no longer affects the host. Will be removed in the next
-   * major.
-   */
-  ghostStyle = true;
 
   configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -67,10 +52,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
       ) as OperatorFunction<
         Configurator.Configuration,
         Configurator.ConfigurationWithOverview
-      >,
-      tap(() => {
-        this.ghostStyle = false;
-      })
+      >
     );
 
   /**

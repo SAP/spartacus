@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -51,7 +56,6 @@ import { CurrentBudgetService } from '../services/current-budget.service';
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,
@@ -64,6 +68,10 @@ import { CurrentBudgetService } from '../services/current-budget.service';
   ],
 })
 export class BudgetFormComponent implements OnInit {
+  protected itemService = inject<ItemService<Budget>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+  protected currencyService = inject(CurrencyService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[] | undefined> = this.unitService
@@ -83,12 +91,6 @@ export class BudgetFormComponent implements OnInit {
       }
     })
   );
-
-  constructor(
-    protected itemService: ItemService<Budget>,
-    protected unitService: OrgUnitService,
-    protected currencyService: CurrencyService
-  ) {}
 
   ngOnInit(): void {
     this.unitService.loadList();

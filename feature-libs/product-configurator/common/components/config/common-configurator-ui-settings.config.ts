@@ -25,6 +25,5 @@ export abstract class CommonConfiguratorUISettingsConfig {
 }
 
 declare module '../../core/model/product-configurator.config' {
-  interface ProductConfiguratorConfig
-    extends CommonProductConfiguratorUISettingsConfig {}
+  interface ProductConfiguratorConfig extends CommonProductConfiguratorUISettingsConfig {}
 }

@@ -1,3 +1,5 @@
+import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { UserNotificationPreferenceConnector } from './user-notification-preference.connector';
@@ -34,7 +36,13 @@ describe('UserNotificationPreferenceConnector', () => {
           )
         ),
     };
-    service = new UserNotificationPreferenceConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        UserNotificationPreferenceConnector,
+        { provide: UserNotificationPreferenceAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(UserNotificationPreferenceConnector);
   });
 
   it('should be created', () => {

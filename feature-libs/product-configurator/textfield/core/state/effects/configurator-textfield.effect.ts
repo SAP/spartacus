@@ -17,6 +17,11 @@ import { ConfiguratorTextfieldActions } from '../actions/index';
 
 @Injectable()
 export class ConfiguratorTextfieldEffects {
+  private actions$ = inject(Actions);
+  private configuratorTextfieldConnector = inject(
+    ConfiguratorTextfieldConnector
+  );
+
   protected logger = inject(LoggerService);
 
   createConfiguration$: Observable<
@@ -177,9 +182,4 @@ export class ConfiguratorTextfieldEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private configuratorTextfieldConnector: ConfiguratorTextfieldConnector
-  ) {}
 }

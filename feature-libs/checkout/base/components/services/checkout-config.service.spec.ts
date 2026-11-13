@@ -23,9 +23,7 @@ const [freeMode, standardMode, premiumMode] = [
   { deliveryCost: { value: 3 }, code: PREMIUM_CODE },
 ];
 
-class MockCheckoutFlowOrchestratorService
-  implements Partial<CheckoutFlowOrchestratorService>
-{
+class MockCheckoutFlowOrchestratorService implements Partial<CheckoutFlowOrchestratorService> {
   getCheckoutFlow(): CheckoutFlow | undefined {
     return {};
   }

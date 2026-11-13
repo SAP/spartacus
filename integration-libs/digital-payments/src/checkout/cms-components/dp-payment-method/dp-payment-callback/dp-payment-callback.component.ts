@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -31,13 +30,17 @@ import { DpLocalStorageService } from './../../../facade/dp-local-storage.servic
   selector: 'cx-dp-payment-callback',
   templateUrl: './dp-payment-callback.component.html',
   imports: [
-    NgIf,
     CheckoutBillingAddressFormComponent,
     SpinnerComponent,
     TranslatePipe,
   ],
 })
 export class DpPaymentCallbackComponent implements OnInit {
+  protected dpPaymentService = inject(DpCheckoutPaymentService);
+  protected dpStorageService = inject(DpLocalStorageService);
+  protected globalMsgService = inject(GlobalMessageService);
+  protected route = inject(ActivatedRoute);
+
   @Output()
   closeCallback = new EventEmitter<any>();
   @Output()
@@ -46,13 +49,6 @@ export class DpPaymentCallbackComponent implements OnInit {
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
   protected launchDialogService = inject(LaunchDialogService);
   showBillingAddressForm = false;
-
-  constructor(
-    protected dpPaymentService: DpCheckoutPaymentService,
-    protected dpStorageService: DpLocalStorageService,
-    protected globalMsgService: GlobalMessageService,
-    protected route: ActivatedRoute
-  ) {}
 
   ngOnInit(): void {
     const dpResponse = this.route.snapshot.queryParamMap.get(

@@ -15,6 +15,9 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class NotificationPreferenceEffects {
+  private actions$ = inject(Actions);
+  private connector = inject(UserNotificationPreferenceConnector);
+
   protected logger = inject(LoggerService);
 
   loadPreferences$: Observable<UserActions.NotificationPreferenceAction> =
@@ -68,9 +71,4 @@ export class NotificationPreferenceEffects {
         )
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private connector: UserNotificationPreferenceConnector
-  ) {}
 }

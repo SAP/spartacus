@@ -311,13 +311,6 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     );
   });
 
-  it('should expose configuration$ for backward compatibility', async () => {
-    configuration = configWithMessages;
-    await expect(firstValueFrom(component.configuration$)).resolves.toBe(
-      configuration
-    );
-  });
-
   it('should show message directly if only one message', () => {
     configuration = configWithOnlyOneMessage;
     fixture.detectChanges();

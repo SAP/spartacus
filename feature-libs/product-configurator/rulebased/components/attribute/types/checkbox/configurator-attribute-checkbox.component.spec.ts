@@ -143,7 +143,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

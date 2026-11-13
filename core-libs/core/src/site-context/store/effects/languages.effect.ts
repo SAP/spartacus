@@ -27,6 +27,10 @@ import { StateWithSiteContext } from '../state';
 
 @Injectable()
 export class LanguagesEffects {
+  private actions$ = inject(Actions);
+  private siteConnector = inject(SiteConnector);
+  private state = inject<Store<StateWithSiteContext>>(Store);
+
   protected logger = inject(LoggerService);
   private featureToggles = inject(FeatureToggles);
   protected platformId = inject(PLATFORM_ID);
@@ -86,10 +90,4 @@ export class LanguagesEffects {
   protected reloadPage(): void {
     location.reload();
   }
-
-  constructor(
-    private actions$: Actions,
-    private siteConnector: SiteConnector,
-    private state: Store<StateWithSiteContext>
-  ) {}
 }

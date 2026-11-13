@@ -43,9 +43,7 @@ describe('CustomerTicketMessagesComponent', () => {
   const createTicketResponse$ = new BehaviorSubject<TicketEvent>({});
   const getTicket$ = new BehaviorSubject<TicketDetails>({});
 
-  class MockCustomerTicketingFacade
-    implements Partial<CustomerTicketingFacade>
-  {
+  class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
     createTicketEvent = () => createTicketResponse$;
     getTicket = vi.fn().mockReturnValue(getTicket$.asObservable());
     downloadAttachment = vi.fn().mockReturnValue(EMPTY);

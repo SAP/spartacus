@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartItemValidationService } from '@spartacus/cart/base/core';
 import {
@@ -39,7 +39,7 @@ interface CartItemQuantityHint extends CartModificationQuantityInfo {
   selector: 'cx-cart-item-validation-quantity-hint',
   templateUrl: './cart-item-validation-quantity-hint.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class CartItemValidationQuantityHintComponent {
   protected cartItemValidationService = inject(CartItemValidationService);

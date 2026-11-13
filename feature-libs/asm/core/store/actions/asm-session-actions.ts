@@ -38,6 +38,4 @@ export class AsmSessionCreationSuccess extends StateUtils.LoaderSuccessAction {
 }
 
 export type AsmSessionAction =
-  | AsmSessionCreationAction
-  | AsmSessionCreationFail
-  | AsmSessionCreationSuccess;
+  AsmSessionCreationAction | AsmSessionCreationFail | AsmSessionCreationSuccess;

@@ -65,9 +65,7 @@ class MockRoutingService implements Partial<RoutingService> {
   );
 }
 
-class MockCheckoutFlowOrchestratorService
-  implements Partial<CheckoutFlowOrchestratorService>
-{
+class MockCheckoutFlowOrchestratorService implements Partial<CheckoutFlowOrchestratorService> {
   getCheckoutFlow() {
     return checkoutConfig.checkout;
   }

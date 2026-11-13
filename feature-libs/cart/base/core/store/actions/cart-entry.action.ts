@@ -35,7 +35,9 @@ export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
   }
 }
 
-export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
+export class CartAddEntrySuccess
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = CART_ADD_ENTRY_SUCCESS;
 
   constructor(
@@ -88,7 +90,9 @@ export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
   }
 }
 
-export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
+export class CartRemoveEntrySuccess
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
 
   constructor(
@@ -135,7 +139,9 @@ export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
   }
 }
 
-export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
+export class CartUpdateEntrySuccess
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
 
   constructor(

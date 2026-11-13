@@ -32,7 +32,7 @@ describe('Currency switch - checkout page', () => {
       // CHECKOUT DELIVERY ADDRESS STEP
       cy.intercept({
         method: 'PUT',
-        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
           'BASE_SITE'
         )}/users/current/carts/*/addresses/delivery`,
       }).as('setAddress');

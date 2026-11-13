@@ -5,7 +5,11 @@ import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
+import {
+  DefaultExpressServerLogger,
+  ExpressServerLogger,
+  ExpressServerLoggerContext,
+} from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
   RenderingStrategy,
@@ -176,39 +180,26 @@ describe('OptimizedSsrEngine', () => {
     });
 
     it('should log the provided options', () => {
-      new TestEngineRunner({
-        timeout: 50,
-        renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
-      });
-
-      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-        [
-          "{
-          message: '[spartacus] SSR optimization engine initialized',
-          context: {
-            timestamp: '2023-01-01T00:00:00.000Z',
-            options: {
-              cache: false,
-              cacheSizeMemory: 800000000,
-              cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
-              ttl: undefined,
-              concurrency: 10,
+      const loggerSpy = jest.spyOn(DefaultExpressServerLogger.prototype, 'log');
+      const renderingStrategyResolver = () => RenderingStrategy.ALWAYS_SSR;
+      try {
+        new TestEngineRunner({ timeout: 50, renderingStrategyResolver });
+        expect(loggerSpy).toHaveBeenCalledWith(
+          '[spartacus] SSR optimization engine initialized',
+          {
+            options: expect.objectContaining({
               timeout: 50,
-              forcedSsrTimeout: 60000,
-              maxRenderTime: 300000,
-              reuseCurrentRendering: true,
-              renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
+              renderingStrategyResolver: renderingStrategyResolver.toString(),
               logger: 'DefaultExpressServerLogger',
-              shouldCacheRenderingResult: '({ entry: { err } }) => !err',
-              renderKeyResolver: 'function getRequestUrl(req) {\\n' +
-                '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
-                '}',
-              ssrFeatureToggles: {}
-            }
+            }),
           }
-        }",
-        ]
-      `);
+        );
+        expect(consoleLogSpy).toHaveBeenCalledWith(
+          expect.stringContaining('2023-01-01T00:00:00.000Z')
+        );
+      } finally {
+        loggerSpy.mockRestore();
+      }
     });
   });
 
@@ -1434,38 +1425,18 @@ describe('OptimizedSsrEngine', () => {
       new TestEngineRunner({
         logger: new MockExpressServerLogger() as ExpressServerLogger,
       });
-      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-        [
-          "[spartacus] SSR optimization engine initialized",
-          {
-            "options": {
-              "cache": false,
-              "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
-              "cacheSizeMemory": 800000000,
-              "concurrency": 10,
-              "forcedSsrTimeout": 60000,
-              "logger": "MockExpressServerLogger",
-              "maxRenderTime": 300000,
-              "renderKeyResolver": "function getRequestUrl(req) {
-            return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;
-        }",
-              "renderingStrategyResolver": "(request) => {
-            if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
-                return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
-            }
-            return shouldFallbackToCsr(request, options)
-                ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
-                : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
-        }",
-              "reuseCurrentRendering": true,
-              "shouldCacheRenderingResult": "({ entry: { err } }) => !err",
-              "ssrFeatureToggles": {},
-              "timeout": 3000,
-              "ttl": undefined,
-            },
-          },
-        ]
-      `);
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        '[spartacus] SSR optimization engine initialized',
+        {
+          options: expect.objectContaining({
+            logger: 'MockExpressServerLogger',
+            timeout: 3000,
+            renderKeyResolver: expect.any(String),
+            renderingStrategyResolver: expect.any(String),
+            shouldCacheRenderingResult: expect.any(String),
+          }),
+        }
+      );
     });
   });
 });

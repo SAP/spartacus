@@ -9,8 +9,8 @@ import {
   BuilderOutput,
   createBuilder,
 } from '@angular-devkit/architect';
-import { NgPackagrBuilderOptions } from '@angular-devkit/build-angular';
 import { JsonObject, logging } from '@angular-devkit/core';
+import { NgPackagrBuilderOptions } from '@angular/build';
 import { promises as fs } from 'fs';
 import { globSync } from 'glob';
 import * as path from 'path';
@@ -23,7 +23,7 @@ const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
 export default createBuilder(augmentedTypesBuilder);
 
 /**
- * Builder that runs default ng-packagr builder ('@angular-devkit/build-angular:ng-packagr')
+ * Builder that runs default ng-packagr builder ('@angular/build:ng-packagr')
  * and performs additional post step to move augmentable types to root d.ts file.
  *
  * It's a workaround to make TS types augmentable, reference issues:
@@ -56,7 +56,7 @@ async function ngPackagrBuild(
   options: NgPackagrBuilderOptions & JsonObject
 ): Promise<BuilderOutput> {
   const builderRun = await context.scheduleBuilder(
-    '@angular-devkit/build-angular:ng-packagr',
+    '@angular/build:ng-packagr',
     options,
     { target: context.target }
   );
@@ -70,6 +70,9 @@ async function augmentableTypesPostStep(
   context: BuilderContext,
   options: NgPackagrBuilderOptions
 ): Promise<BuilderOutput> {
+  if (!options.project) {
+    throw new Error('The library builder requires a project path.');
+  }
   const outputPath = await getNgPackgrLibOutputPath(options.project);
   await propagateAugmentableTypes(outputPath, context.logger);
   return { success: true };

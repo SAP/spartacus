@@ -10,7 +10,7 @@
  * Uses JDK_VERSION from the Cypress environment variables.
  */
 export function isJDK17(): boolean {
-  return Cypress.env('JDK_VERSION') === 'JDK17';
+  return Cypress.expose('JDK_VERSION') === 'JDK17';
 }
 
 /**

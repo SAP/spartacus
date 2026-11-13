@@ -23,14 +23,12 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartVoucherAdapter implements CartVoucherAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
 
   protected getCartVoucherEndpoint(userId: string, cartId: string): string {
     return this.occEndpoints.buildUrl('cartVoucher', {

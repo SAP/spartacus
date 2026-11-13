@@ -7,9 +7,7 @@ import { I18nextBackendService } from './i18next-backend/i18next-backend.service
 import { I18nextInitializer } from './i18next-initializer';
 import { I18NEXT_INSTANCE } from './i18next-instance';
 
-export class MockI18nextBackendService
-  implements Partial<I18nextBackendService>
-{
+export class MockI18nextBackendService implements Partial<I18nextBackendService> {
   initialize(): InitOptions {
     return { backend: {} };
   }

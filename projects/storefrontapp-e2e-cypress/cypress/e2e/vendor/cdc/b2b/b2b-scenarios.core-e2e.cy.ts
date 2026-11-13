@@ -14,9 +14,12 @@ import { visitLoginPage } from '../../../../support/utils/login';
 describe('CDC B2B scenarios', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', b2bCheckout.POWERTOOLS_BASESITE);
-    Cypress.env('OCC_PREFIX_USER_ENDPOINT', b2bCheckout.USER_REQUEST_ENDPOINT);
-    Cypress.env(
+    Cypress.expose('BASE_SITE', b2bCheckout.POWERTOOLS_BASESITE);
+    Cypress.expose(
+      'OCC_PREFIX_USER_ENDPOINT',
+      b2bCheckout.USER_REQUEST_ENDPOINT
+    );
+    Cypress.expose(
       'OCC_PREFIX_ORDER_ENDPOINT',
       b2bCheckout.ORDER_REQUEST_ENDPOINT
     );

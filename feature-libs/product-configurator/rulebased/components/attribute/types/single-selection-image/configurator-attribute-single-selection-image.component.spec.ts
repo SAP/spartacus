@@ -122,7 +122,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

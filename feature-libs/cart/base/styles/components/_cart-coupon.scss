@@ -29,8 +29,8 @@
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: repeat(1, 1fr);
-    grid-column-gap: 15px;
-    grid-row-gap: 0px;
+    column-gap: 15px;
+    row-gap: 0px;
 
     input {
       grid-area: 1 / 1 / 2 / 2;

@@ -19,17 +19,18 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 const INITIAL_OV_VALUE_ATTRIBUTE_NAME = '';
 
 @Injectable()
-export class CpqConfiguratorOverviewNormalizer
-  implements Converter<Cpq.Configuration, Configurator.Overview>
-{
+export class CpqConfiguratorOverviewNormalizer implements Converter<
+  Cpq.Configuration,
+  Configurator.Overview
+> {
+  protected cpqConfiguratorNormalizerUtilsService = inject(
+    CpqConfiguratorNormalizerUtilsService
+  );
+  protected translation = inject(TranslationService);
+
   protected readonly NO_OPTION_SELECTED = 0;
   protected logger: LoggerService = inject(LoggerService);
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
-    protected translation: TranslationService
-  ) {}
 
   /**
    * Whether CPQ container rows are included in the configuration overview

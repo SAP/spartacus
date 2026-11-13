@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const cartUrlPrefix = `${Cypress.env('API_URL')}${Cypress.env(
+export const cartUrlPrefix = `${Cypress.expose('API_URL')}${Cypress.expose(
   'OCC_PREFIX'
-)}/${Cypress.env('BASE_SITE')}/users/current/carts`;
+)}/${Cypress.expose('BASE_SITE')}/users/current/carts`;
 
 export function createCart(accessToken: string) {
   return cy.request({
     method: 'POST',
-    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.expose('API_URL')}${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts`,
     body: {
@@ -33,9 +33,9 @@ export function addToCart(
   quantity: string,
   accessToken: string
 ) {
-  const addToCartUrl = `${Cypress.env('API_URL')}${Cypress.env(
+  const addToCartUrl = `${Cypress.expose('API_URL')}${Cypress.expose(
     'OCC_PREFIX'
-  )}/${Cypress.env('BASE_SITE')}/users/current/carts/${cartCode}/entries`;
+  )}/${Cypress.expose('BASE_SITE')}/users/current/carts/${cartCode}/entries`;
   return cy.request({
     method: 'POST',
     url: addToCartUrl,
@@ -64,9 +64,9 @@ export function addToCartWithProducts(
   quantity: string,
   accessToken: string
 ) {
-  const addToCartUrl = `${Cypress.env('API_URL')}${Cypress.env(
+  const addToCartUrl = `${Cypress.expose('API_URL')}${Cypress.expose(
     'OCC_PREFIX'
-  )}/${Cypress.env('BASE_SITE')}/users/current/carts/${cartCode}/entries`;
+  )}/${Cypress.expose('BASE_SITE')}/users/current/carts/${cartCode}/entries`;
 
   return cy.request({
     method: 'POST',
@@ -89,9 +89,9 @@ export function addProductToB2BCart(
   quantity: string,
   accessToken: string
 ) {
-  const addToCartUrl = `${Cypress.env('API_URL')}${Cypress.env(
+  const addToCartUrl = `${Cypress.expose('API_URL')}${Cypress.expose(
     'OCC_PREFIX'
-  )}/${Cypress.env('BASE_SITE')}/orgUsers/current/carts/${cartCode}/entries/`;
+  )}/${Cypress.expose('BASE_SITE')}/orgUsers/current/carts/${cartCode}/entries/`;
 
   return cy.request({
     method: 'POST',

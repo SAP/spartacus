@@ -52,10 +52,7 @@ export interface SubscriptionWithdraw {
 }
 
 export type SubscriptionActionMode =
-  | 'cancel'
-  | 'withdraw'
-  | 'resubscribe'
-  | 'extend';
+  'cancel' | 'withdraw' | 'resubscribe' | 'extend';
 
 declare module '@spartacus/storefront' {
   enum LAUNCH_CALLER {

@@ -12,8 +12,8 @@
 
       @include media-breakpoint-up(lg) {
         display: grid;
-        grid-column-gap: 20px;
-        grid-row-gap: 0px;
+        column-gap: 20px;
+        row-gap: 0px;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: repeat(6, auto) 1fr;
 

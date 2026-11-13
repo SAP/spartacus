@@ -176,7 +176,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

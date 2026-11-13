@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
@@ -40,7 +45,6 @@ const CART_DETAILS_UPDATING_DEBOUNCE_MS = 250;
   templateUrl: './cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FeatureDirective,
     CartValidationWarningsComponent,
     PromotionsComponent,
@@ -51,6 +55,12 @@ const CART_DETAILS_UPDATING_DEBOUNCE_MS = 250;
   ],
 })
 export class CartDetailsComponent implements OnInit {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected selectiveCartService = inject(SelectiveCartFacade);
+  protected authService = inject(AuthService);
+  protected routingService = inject(RoutingService);
+  protected cartConfig = inject(CartConfigService);
+
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
@@ -62,14 +72,6 @@ export class CartDetailsComponent implements OnInit {
   loggedIn = false;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
-
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartFacade,
-    protected authService: AuthService,
-    protected routingService: RoutingService,
-    protected cartConfig: CartConfigService
-  ) {}
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();

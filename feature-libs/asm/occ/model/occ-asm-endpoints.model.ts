@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 declare module '@spartacus/core' {
   interface OccEndpoints {
@@ -13,10 +13,10 @@ declare module '@spartacus/core' {
      *
      * @member {string}
      */
-    asmCustomerSearch?: string | OccEndpoint;
-    asmCustomerLists?: string | OccEndpoint;
-    asmBindCart?: string | OccEndpoint;
-    asmCreateCustomer?: string | OccEndpoint;
-    asmSessionEvent?: string | OccEndpoint;
+    asmCustomerSearch?: string | CoreOccEndpoint;
+    asmCustomerLists?: string | CoreOccEndpoint;
+    asmBindCart?: string | CoreOccEndpoint;
+    asmCreateCustomer?: string | CoreOccEndpoint;
+    asmSessionEvent?: string | CoreOccEndpoint;
   }
 }

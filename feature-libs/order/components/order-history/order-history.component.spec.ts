@@ -144,9 +144,7 @@ class MockTranslationService {
   }
 }
 
-class MockReplenishmentOrderHistoryFacade
-  implements Partial<ReplenishmentOrderHistoryFacade>
-{
+class MockReplenishmentOrderHistoryFacade implements Partial<ReplenishmentOrderHistoryFacade> {
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return mockReplenishmentOrder$.asObservable();
   }

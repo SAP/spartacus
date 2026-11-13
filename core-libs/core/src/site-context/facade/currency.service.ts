@@ -24,12 +24,10 @@ import { SiteContext } from './site-context.interface';
  */
 @Injectable()
 export class CurrencyService implements SiteContext<Currency> {
-  private featureToggles = inject(FeatureToggles);
+  protected store = inject<Store<StateWithSiteContext>>(Store);
+  protected config = inject(SiteContextConfig);
 
-  constructor(
-    protected store: Store<StateWithSiteContext>,
-    protected config: SiteContextConfig
-  ) {}
+  private featureToggles = inject(FeatureToggles);
 
   /**
    * Represents all the currencies supported by the current store.

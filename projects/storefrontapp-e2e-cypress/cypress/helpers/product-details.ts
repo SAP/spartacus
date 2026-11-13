@@ -35,7 +35,7 @@ export const PRODUCT_NAME = 'Battery Video Light';
 export function verifyProductDetails() {
   cy.intercept({
     method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/${cmsEndpoints.components}`,
   }).as('getComponents');
@@ -105,7 +105,7 @@ export function verifyContentInReviewTab() {
 export function verifyReviewForm() {
   cy.intercept({
     method: 'POST',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/products/*/reviews?lang=en&curr=USD`,
   }).as('submitReview');
@@ -253,7 +253,7 @@ export function configureDefaultProduct() {
 
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/${cmsEndpoints.pages}?pageType=ProductPage**`,
   }).as('productPage');

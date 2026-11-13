@@ -127,7 +127,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         // click delete
         cy.intercept({
           method: 'DELETE',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/*/addresses/*`,
           query: {
@@ -165,7 +165,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
   function fetchAddressesInterceptor() {
     cy.intercept({
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/*/addresses`,
       query: {

@@ -19,7 +19,7 @@ const cdpUser = {
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 describe('Customer Data Platform (CDP) Integration', () => {
   before(() => {
-    Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
+    Cypress.expose('BASE_SITE', ELECTRONICS_BASESITE);
   });
 
   it('should navigate to Customer Service List to check if service requests are un-editable', () => {

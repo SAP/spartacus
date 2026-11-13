@@ -4,16 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 declare module '@spartacus/core' {
   interface OccEndpoints {
     /**
      * Endpoint for reading a variant configuration attached to a given quote entry
      */
-    readVariantConfigurationOverviewForQuoteEntry?: string | OccEndpoint;
+    readVariantConfigurationOverviewForQuoteEntry?: string | CoreOccEndpoint;
     /**
      * Endpoint for reading a variant configuration attached to a given saved cart entry
      */
-    readVariantConfigurationOverviewForSavedCartEntry?: string | OccEndpoint;
+    readVariantConfigurationOverviewForSavedCartEntry?:
+      string | CoreOccEndpoint;
   }
 }

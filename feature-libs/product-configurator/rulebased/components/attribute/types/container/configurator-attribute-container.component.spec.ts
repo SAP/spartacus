@@ -796,7 +796,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         component.selectedProducts.length
       );
 
-      expect(options.attributeLabel).toBe('Container attribute');
+      expect(options.attribute.label).toBe('Container attribute');
     });
 
     it('should treat a missing selected flag as unselected', () => {

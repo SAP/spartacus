@@ -76,7 +76,9 @@ export class CreateOrderReturnRequestFail
   }
 }
 
-export class CreateOrderReturnRequestSuccess extends StateUtils.LoaderSuccessAction {
+export class CreateOrderReturnRequestSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = CREATE_ORDER_RETURN_REQUEST_SUCCESS;
 
   constructor(public payload: ReturnRequest) {
@@ -108,7 +110,9 @@ export class LoadOrderReturnRequestFail
   }
 }
 
-export class LoadOrderReturnRequestSuccess extends StateUtils.LoaderSuccessAction {
+export class LoadOrderReturnRequestSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = LOAD_ORDER_RETURN_REQUEST_SUCCESS;
 
   constructor(public payload: ReturnRequest) {
@@ -141,7 +145,9 @@ export class CancelOrderReturnRequestFail
   }
 }
 
-export class CancelOrderReturnRequestSuccess extends StateUtils.EntitySuccessAction {
+export class CancelOrderReturnRequestSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = CANCEL_ORDER_RETURN_REQUEST_SUCCESS;
 
   constructor() {
@@ -175,7 +181,9 @@ export class LoadOrderReturnRequestListFail
   }
 }
 
-export class LoadOrderReturnRequestListSuccess extends StateUtils.LoaderSuccessAction {
+export class LoadOrderReturnRequestListSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS;
 
   constructor(public payload: ReturnRequestList) {
@@ -199,7 +207,9 @@ export class ClearOrderReturnRequestList extends StateUtils.LoaderResetAction {
   }
 }
 
-export class ResetCancelReturnProcess extends StateUtils.EntityLoaderResetAction {
+export class ResetCancelReturnProcess
+  extends StateUtils.EntityLoaderResetAction
+{
   readonly type = RESET_CANCEL_RETURN_PROCESS;
 
   constructor() {

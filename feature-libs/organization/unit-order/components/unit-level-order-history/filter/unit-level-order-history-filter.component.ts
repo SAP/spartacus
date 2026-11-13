@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,6 +11,7 @@ import {
   Output,
   Renderer2,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   FormControl,
@@ -26,15 +26,11 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 @Component({
   selector: 'cx-unit-level-order-history-filter',
   templateUrl: './unit-level-order-history-filter.component.html',
-  imports: [
-    IconComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    NgIf,
-    TranslatePipe,
-  ],
+  imports: [IconComponent, FormsModule, ReactiveFormsModule, TranslatePipe],
 })
 export class UnitLevelOrderHistoryFilterComponent {
+  protected renderer = inject(Renderer2);
+
   iconTypes = ICON_TYPE;
   encodedFilter: string;
 
@@ -65,8 +61,6 @@ export class UnitLevelOrderHistoryFilterComponent {
 
   unitFilterMobileValue: string | null;
   buyerFilterMobileValue: string | null;
-
-  constructor(protected renderer: Renderer2) {}
 
   searchUnitLevelOrders(): void {
     const buyer = this.filterForm.get('buyerFilter')?.value;

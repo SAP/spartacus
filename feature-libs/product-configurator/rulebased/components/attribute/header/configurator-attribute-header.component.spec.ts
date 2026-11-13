@@ -174,7 +174,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

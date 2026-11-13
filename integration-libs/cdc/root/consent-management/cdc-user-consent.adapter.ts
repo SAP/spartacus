@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConsentTemplate,
   ConverterService,
@@ -19,15 +19,11 @@ import { CdcUserConsentService } from './services/cdc-user-consent.service';
 
 @Injectable({ providedIn: 'root' })
 export class CdcUserConsentAdapter extends OccUserConsentAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService,
-    protected cdcUserConsentService: CdcUserConsentService,
-    protected cdcConsentsStorage: CdcConsentsLocalStorageService
-  ) {
-    super(http, occEndpoints, converter);
-  }
+  protected override http = inject(HttpClient);
+  protected override occEndpoints = inject(OccEndpointsService);
+  protected override converter = inject(ConverterService);
+  protected cdcUserConsentService = inject(CdcUserConsentService);
+  protected cdcConsentsStorage = inject(CdcConsentsLocalStorageService);
 
   loadConsents(userId: string): Observable<ConsentTemplate[]> {
     return super.loadConsents(userId);

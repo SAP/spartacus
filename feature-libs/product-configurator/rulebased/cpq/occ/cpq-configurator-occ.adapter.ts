@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
@@ -26,7 +26,7 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     CpqConfiguratorOverviewFilterService
   );
 
-  constructor(protected cpqOccService: CpqConfiguratorOccService) {}
+  protected cpqOccService = inject(CpqConfiguratorOccService);
 
   getConfiguratorType(): string {
     return ConfiguratorType.CPQ;

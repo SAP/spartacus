@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { RoutingService, TranslatePipe } from '@spartacus/core';
 import {
   BulkPrice,
@@ -17,17 +17,15 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'cx-bulk-pricing-table',
   templateUrl: './bulk-pricing-table.component.html',
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class BulkPricingTableComponent implements OnInit {
+  protected routingService = inject(RoutingService);
+  protected bulkPricingService = inject(BulkPricingService);
+
   protected readonly PRODUCT_KEY = 'productCode';
 
   priceTiers$: Observable<BulkPrice[] | undefined>;
-
-  constructor(
-    protected routingService: RoutingService,
-    protected bulkPricingService: BulkPricingService
-  ) {}
 
   ngOnInit() {
     this.priceTiers$ = this.getPrices();

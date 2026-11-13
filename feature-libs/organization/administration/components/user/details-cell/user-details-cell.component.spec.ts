@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { B2BUser, B2BUserRight, B2BUserRole } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { OutletContextData, PopoverDirective } from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { UserDetailsCellComponent } from '..';
 
 class MockB2BUserService implements Partial<B2BUserService> {
@@ -38,7 +39,7 @@ describe('RolesCellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: mockB2BUser,
+            context$: of(mockB2BUser),
           },
         },
         { provide: B2BUserService, useClass: MockB2BUserService },

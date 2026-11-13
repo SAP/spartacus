@@ -26,7 +26,9 @@ export interface EntityScopedLoaderAction extends Action {
   readonly meta?: ProductMeta;
 }
 
-export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadAction {
+export class LoadProduct
+  extends EntityScopedLoaderActions.EntityScopedLoadAction
+{
   readonly type = LOAD_PRODUCT;
 
   constructor(
@@ -52,7 +54,9 @@ export class LoadProductFail
   }
 }
 
-export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
+export class LoadProductSuccess
+  extends EntityScopedLoaderActions.EntityScopedSuccessAction
+{
   readonly type = LOAD_PRODUCT_SUCCESS;
 
   constructor(
@@ -63,7 +67,9 @@ export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSu
   }
 }
 
-export class ClearProductPrice extends EntityScopedLoaderActions.EntityScopedResetAction {
+export class ClearProductPrice
+  extends EntityScopedLoaderActions.EntityScopedResetAction
+{
   readonly type = CLEAR_PRODUCT_PRICE;
 
   constructor() {
@@ -73,7 +79,4 @@ export class ClearProductPrice extends EntityScopedLoaderActions.EntityScopedRes
 
 // action types
 export type ProductAction =
-  | LoadProduct
-  | LoadProductFail
-  | LoadProductSuccess
-  | ClearProductPrice;
+  LoadProduct | LoadProductFail | LoadProductSuccess | ClearProductPrice;

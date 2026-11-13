@@ -38,9 +38,7 @@ class MockEventService implements Partial<EventService> {
   dispatch = vi.fn();
 }
 
-class MockCheckoutCostCenterConnector
-  implements Partial<CheckoutCostCenterConnector>
-{
+class MockCheckoutCostCenterConnector implements Partial<CheckoutCostCenterConnector> {
   setCostCenter = vi.fn().mockReturnValue(of(mockCart));
 }
 

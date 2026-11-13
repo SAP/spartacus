@@ -2,18 +2,19 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "module": "preserve",
     "strict": false,
-    "types": [
-      "vitest/globals",
-      "vitest/importMeta",
-      "vite/client",
-      "node",
-      "vitest"
-    ],
-    "moduleResolution": "bundler",
-    "allowJs": true
+    "module": "preserve",
+    "types": ["jasmine", "node"],
+    "moduleResolution": "bundler"
   },
   "files": ["../../testing/setup-vitest.ts"],
-  "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"]
+  "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"],
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    }
+  }
 }

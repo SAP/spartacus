@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   BaseOption,
   isNotNullable,
@@ -25,7 +30,6 @@ import { ProductVariantStyleSelectorComponent } from '../variant-style-selector/
   templateUrl: './product-variants-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ProductVariantStyleSelectorComponent,
     ProductVariantSizeSelectorComponent,
     ProductVariantColorSelectorComponent,
@@ -33,7 +37,7 @@ import { ProductVariantStyleSelectorComponent } from '../variant-style-selector/
   ],
 })
 export class ProductVariantsContainerComponent implements OnInit {
-  constructor(private currentProductService: CurrentProductService) {}
+  private currentProductService = inject(CurrentProductService);
 
   variants: { [key: string]: BaseOption } = {};
   variantType = VariantType;

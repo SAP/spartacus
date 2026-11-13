@@ -23,8 +23,8 @@ const omfTester = {
 const headerName = 'guid';
 
 function systemConfig() {
-  Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
-  Cypress.env('BASE_CURRENCY', ELECTRONICS_CURRENCY);
+  Cypress.expose('BASE_SITE', ELECTRONICS_BASESITE);
+  Cypress.expose('BASE_CURRENCY', ELECTRONICS_CURRENCY);
   cy.cxConfig({
     omf: {
       guidHttpHeaderName: headerName,
@@ -36,7 +36,7 @@ const orderCode = '2200006056';
 function intercepOrderDetailsHttpCalls(code: string, alias: string) {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orders/${code}?*`
   ).as(alias);
@@ -66,7 +66,7 @@ function navigateToOrderHistoryV2() {
   const ordersAlias = interceptOrdersEndpoint();
   intercepOrderDetailsHttpCalls(orderCode, 'orderHistoryV2');
   cy.visit(
-    `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env('BASE_CURRENCY')}/login`
+    `${Cypress.expose('BASE_SITE')}/${Cypress.expose('BASE_LANG')}/${Cypress.expose('BASE_CURRENCY')}/login`
   );
   loginUser(omfTester);
   cy.visit('/my-account/orders');
@@ -79,7 +79,7 @@ function navigateToOrderHistoryV2() {
 describe('OMF - Navigate from Order History to Order Details Page', () => {
   it('should load Order History and navigate to Order Details (MY_ACCOUT_V2 = true)', () => {
     cy.restoreLocalStorage();
-    Cypress.env('CX_MY_ACCOUNT_V2', true);
+    Cypress.expose('CX_MY_ACCOUNT_V2', true);
     systemConfig();
     navigateToOrderHistoryV2();
     navigateToOrderDetailsV2();

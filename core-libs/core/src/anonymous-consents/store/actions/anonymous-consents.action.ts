@@ -47,7 +47,9 @@ export class LoadAnonymousConsentTemplates extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadAnonymousConsentTemplatesSuccess extends StateUtils.LoaderSuccessAction {
+export class LoadAnonymousConsentTemplatesSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_SUCCESS;
 
   constructor(public payload: ConsentTemplate[]) {
@@ -66,7 +68,9 @@ export class LoadAnonymousConsentTemplatesFail
   }
 }
 
-export class ResetLoadAnonymousConsentTemplates extends StateUtils.LoaderResetAction {
+export class ResetLoadAnonymousConsentTemplates
+  extends StateUtils.LoaderResetAction
+{
   readonly type = RESET_LOAD_ANONYMOUS_CONSENT_TEMPLATES;
 
   constructor() {

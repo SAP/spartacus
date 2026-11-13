@@ -178,7 +178,8 @@
     .uid .text {
       margin-inline-end: 1rem;
       white-space: initial;
-      word-break: break-word;
+      word-break: normal;
+      overflow-wrap: anywhere;
     }
   }
 

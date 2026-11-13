@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { vi } from 'vitest';
@@ -15,21 +14,21 @@ import { CxRovingTabindexDirective } from './roving-tabindex.directive';
   template: `
     <div
       [cxRovingTabindex]="itemSelector"
-      [cxRovingTabindexAxis]="axis"
-      [cxRovingTabindexActivate]="activate"
+      [cxRovingTabindexAxis]="axis()"
+      [cxRovingTabindexActivate]="activate()"
       (itemActivated)="activated = $event"
     >
-      <div cxRovingTabindexItem *ngFor="let i of items" tabindex="-1">
-        Item {{ i }}
-      </div>
+      @for (i of items(); track i) {
+        <div cxRovingTabindexItem tabindex="-1">Item {{ i }}</div>
+      }
     </div>
   `,
-  imports: [CxRovingTabindexDirective, NgFor],
+  imports: [CxRovingTabindexDirective],
 })
 class TestHostComponent {
-  items = [1, 2, 3];
-  axis: 'vertical' | 'horizontal' = 'vertical';
-  activate = true;
+  items = signal([1, 2, 3]);
+  axis = signal<'vertical' | 'horizontal'>('vertical');
+  activate = signal(true);
   itemSelector = '[cxRovingTabindexItem]';
   activated: number | null = null;
 }
@@ -37,10 +36,12 @@ class TestHostComponent {
 @Component({
   template: `
     <div cxRovingTabindex="a" cxRovingTabindexAxis="horizontal">
-      <a *ngFor="let i of items" tabindex="-1">Link {{ i }}</a>
+      @for (i of items; track i) {
+        <a tabindex="-1">Link {{ i }}</a>
+      }
     </div>
   `,
-  imports: [CxRovingTabindexDirective, NgFor],
+  imports: [CxRovingTabindexDirective],
 })
 class TestCustomSelectorHostComponent {
   items = [1, 2, 3];
@@ -230,7 +231,7 @@ describe('CxRovingTabindexDirective', () => {
 
   describe('horizontal axis', () => {
     beforeEach(() => {
-      component.axis = 'horizontal';
+      component.axis.set('horizontal');
       fixture.changeDetectorRef.detectChanges();
     });
 
@@ -336,7 +337,7 @@ describe('CxRovingTabindexDirective', () => {
     });
 
     it('should NOT emit or preventDefault on Enter when cxRovingTabindexActivate=false', () => {
-      component.activate = false;
+      component.activate.set(false);
       fixture.changeDetectorRef.detectChanges();
       const items = getItems();
       items[0].focus();
@@ -353,7 +354,7 @@ describe('CxRovingTabindexDirective', () => {
     });
 
     it('should NOT emit but should still call preventDefault on Space keydown when cxRovingTabindexActivate=false', () => {
-      component.activate = false;
+      component.activate.set(false);
       fixture.changeDetectorRef.detectChanges();
       const items = getItems();
       items[0].focus();
@@ -368,7 +369,7 @@ describe('CxRovingTabindexDirective', () => {
     });
 
     it('should NOT emit on Space keyup when cxRovingTabindexActivate=false', () => {
-      component.activate = false;
+      component.activate.set(false);
       fixture.changeDetectorRef.detectChanges();
       const items = getItems();
       items[0].focus();
@@ -461,7 +462,7 @@ describe('CxRovingTabindexDirective', () => {
   describe('MutationObserver / focusedIndex clamping', () => {
     it('should clamp focusedIndex when items are removed', async () => {
       directive.focusedIndex = 2;
-      component.items = [1, 2]; // drop third item
+      component.items.set([1, 2]); // drop third item
       fixture.changeDetectorRef.detectChanges();
 
       // Let the MutationObserver fire

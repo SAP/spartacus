@@ -21,9 +21,9 @@ describe('PDF Invoices', { testIsolation: false }, () => {
   isolateTestsBefore();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
-    Cypress.env('OCC_PREFIX_USER_ENDPOINT', USER_REQUEST_ENDPOINT);
-    Cypress.env('OCC_PREFIX_ORDER_ENDPOINT', ORDER_REQUEST_ENDPOINT);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('OCC_PREFIX_USER_ENDPOINT', USER_REQUEST_ENDPOINT);
+    Cypress.expose('OCC_PREFIX_ORDER_ENDPOINT', ORDER_REQUEST_ENDPOINT);
   });
 
   beforeEach(() => {
@@ -56,7 +56,7 @@ describe('PDF Invoices', { testIsolation: false }, () => {
     it('should be able to view a past order detail in order detail page with requested delivery date information (CXINT-1851)', () => {
       cy.intercept({
         method: 'GET',
-        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
           'BASE_SITE'
         )}/users/current/orders/*`,
       }).as('getOrderDetail');

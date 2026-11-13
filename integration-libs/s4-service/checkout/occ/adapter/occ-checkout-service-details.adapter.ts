@@ -18,9 +18,7 @@ import { CheckoutServiceDetailsAdapter } from '../../core/connector/checkout-ser
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
-export class OccCheckoutServiceDetailsAdapter
-  implements CheckoutServiceDetailsAdapter
-{
+export class OccCheckoutServiceDetailsAdapter implements CheckoutServiceDetailsAdapter {
   protected http = inject(HttpClient);
   protected logger = inject(LoggerService);
   protected occEndpoints = inject(OccEndpointsService);

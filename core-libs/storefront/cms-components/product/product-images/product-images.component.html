@@ -1,20 +1,21 @@
-<ng-container *ngIf="mainImage$ | async as main">
+@if (mainImage$ | async; as main) {
   <cx-media
     [container]="main"
     *cxLcpContext="let lcpContext"
     [fetchPriority]="lcpContext.fetchPriority$ | async"
   />
-</ng-container>
+}
 
-<ng-container *ngIf="thumbs$ | async as thumbs">
-  <cx-carousel-scrolling
-    *ngIf="thumbs.length"
-    class="thumbs"
-    [items]="thumbs"
-    [template]="thumb"
-    [trackByFn]="trackByFn"
-  />
-</ng-container>
+@if (thumbs$ | async; as thumbs) {
+  @if (thumbs.length) {
+    <cx-carousel-scrolling
+      class="thumbs"
+      [items]="thumbs"
+      [template]="thumb"
+      [trackByFn]="trackByFn"
+    />
+  }
+}
 
 <ng-template #thumb let-item="item">
   <cx-media

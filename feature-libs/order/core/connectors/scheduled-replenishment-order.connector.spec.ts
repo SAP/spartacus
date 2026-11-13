@@ -18,9 +18,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
 };
 
-class MockScheduledReplenishmentOrderAdapter
-  implements ScheduledReplenishmentOrderAdapter
-{
+class MockScheduledReplenishmentOrderAdapter implements ScheduledReplenishmentOrderAdapter {
   scheduleReplenishmentOrder = vi.fn().mockReturnValue(of({}));
 }
 

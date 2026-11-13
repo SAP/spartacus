@@ -37,13 +37,11 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
   getTicketAssociatedObjects(
     customerId: string
   ): Observable<AssociatedObject[]> {

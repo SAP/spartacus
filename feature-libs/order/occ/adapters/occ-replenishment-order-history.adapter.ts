@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { ReplenishmentOrderHistoryAdapter } from '@spartacus/order/core';
 import {
@@ -19,14 +19,11 @@ import {
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class OccReplenishmentOrderHistoryAdapter
-  implements ReplenishmentOrderHistoryAdapter
-{
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+export class OccReplenishmentOrderHistoryAdapter implements ReplenishmentOrderHistoryAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   public load(
     userId: string,
     replenishmentOrderCode: string

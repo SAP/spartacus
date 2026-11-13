@@ -8,9 +8,9 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { BehaviorSubject } from 'rxjs';
 import { StoreFinderConfig } from '../config/store-finder-config';
-import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { StoreFinderSelectors } from '../store';
 import { StoreFinderActions } from '../store/actions/index';
 import {
@@ -234,14 +234,6 @@ describe('StoreFinderService', () => {
 
   it('should create', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should return store latitude', () => {
-    expect(service.getStoreLatitude(location)).toBe(35.528984);
-  });
-
-  it('should return store longitude', () => {
-    expect(service.getStoreLongitude(location)).toBe(139.700168);
   });
 
   describe('Find Stores', () => {

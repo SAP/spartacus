@@ -121,7 +121,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

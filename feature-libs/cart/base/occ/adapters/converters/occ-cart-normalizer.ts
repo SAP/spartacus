@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Cart,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
   Converter,
@@ -18,7 +19,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
-  constructor(private converter: ConverterService) {}
+  private converter = inject(ConverterService);
 
   convert(source: Occ.Cart, target?: Cart): Cart {
     if (target === undefined) {
@@ -30,7 +31,8 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
 
     if (source.entries) {
       target.entries = source.entries.map((entry) => ({
-        ...entry,
+        // OCC and domain price enums have identical wire values; their bundled declarations are nominally distinct.
+        ...(entry as unknown as OrderEntry),
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
         promotions: this.converter.convert(
           { item: entry, promotions: target?.appliedProductPromotions },

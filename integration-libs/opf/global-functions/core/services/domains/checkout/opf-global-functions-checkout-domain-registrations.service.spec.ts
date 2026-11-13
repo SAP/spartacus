@@ -9,6 +9,7 @@ import {
   ComponentRef,
   ElementRef,
   ViewContainerRef,
+  inject as inject_1,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
@@ -38,7 +39,7 @@ import { facadeProviders } from '../../../facade/facade-providers';
 
 @Component({ template: '' })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
 }
 
 const mockPaymentMethod =
@@ -105,8 +106,7 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
   }
 }
 
-class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService> {}
+class MockOpfQuickBuyTransactionService implements Partial<OpfQuickBuyTransactionService> {}
 
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
   return jasmine.createSpyObj('OpfPaymentFacade', [

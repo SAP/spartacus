@@ -90,9 +90,7 @@ class MockUserIdService implements Partial<UserIdService> {
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = vi.fn().mockReturnValue(of(mockRouteState));
 }
-class MockSubscriptionConnector
-  implements Partial<SubscriptionBillingConnector>
-{
+class MockSubscriptionConnector implements Partial<SubscriptionBillingConnector> {
   getSubscriptionBillByCode = vi.fn().mockReturnValue(of(mockDetail));
   getSubscriptionBillsList = vi.fn().mockReturnValue(of(mockList));
 }

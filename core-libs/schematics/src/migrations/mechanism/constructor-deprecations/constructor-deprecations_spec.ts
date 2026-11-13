@@ -63,8 +63,8 @@ import {
 export class InheritingService extends AddToCartComponent {
   constructor(
     modalService: ModalService,
-    currentProductService: CurrentProductService
-    ,
+    currentProductService: CurrentProductService,
+\x20\x20\x20\x20
     changeDetectorRef: ChangeDetectorRef, activeCartService: ActiveCartService
   ) {
     super( modalService, currentProductService, changeDetectorRef, activeCartService);
@@ -107,8 +107,8 @@ export class InheritingService extends AddToCartComponent {
   constructor(
     cmsComponentsService: CmsComponentsService,
     modalService: ModalService,
-    currentProductService: CurrentProductService
-    ,
+    currentProductService: CurrentProductService,
+\x20\x20\x20\x20
     changeDetectorRef: ChangeDetectorRef, activeCartService: ActiveCartService
   ) {
     super(     cmsComponentsService, activeCartService, modalService, currentProductService, changeDetectorRef);
@@ -271,8 +271,8 @@ import {
 export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
-    cms: CmsService
-    ,
+    cms: CmsService,
+\x20\x20\x20\x20
     private actions: ActionsSubject
   ) {
     super(resolvers, cms );
@@ -334,7 +334,7 @@ const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
     import { Store } from '@ngrx/store';
     import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@spartacus/core';
     export class InheritingService extends CheckoutService {
-      constructor(store: Store<StateWithCheckout> , authService: AuthService, activeCartService: ActiveCartService) {
+      constructor(store: Store<StateWithCheckout>,  authService: AuthService, activeCartService: ActiveCartService) {
         super(store , authService, activeCartService);
       }
     }
@@ -426,8 +426,8 @@ export class CustomPageSlotComponent extends PageSlotComponent {
       protected cmsService: CmsService,
       protected dynamicAttributeService: DynamicAttributeService,
       protected renderer: Renderer2,
-      protected hostElement: ElementRef
-      , cmsComponentsService: CmsComponentsService, changeDetectorRef: ChangeDetectorRef
+      protected hostElement: ElementRef,
+       cmsComponentsService: CmsComponentsService, changeDetectorRef: ChangeDetectorRef
   ) {
     super(cmsService, dynamicAttributeService, renderer, hostElement , cmsComponentsService, changeDetectorRef);
     of('position').pipe(

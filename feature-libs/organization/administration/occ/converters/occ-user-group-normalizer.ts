@@ -11,9 +11,10 @@ import { UserGroup } from '@spartacus/organization/administration/core';
 @Injectable({
   providedIn: 'root',
 })
-export class OccUserGroupNormalizer
-  implements Converter<Occ.OrgUnitUserGroup, UserGroup>
-{
+export class OccUserGroupNormalizer implements Converter<
+  Occ.OrgUnitUserGroup,
+  UserGroup
+> {
   constructor() {
     // Intentional empty constructor
   }

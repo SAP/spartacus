@@ -42,7 +42,7 @@ function navigateToUpdateEmailPage() {
 function interceptNotificationPreferencesChange() {
   cy.intercept(
     'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/notificationpreferences*`
   ).as(NOTIFICATION_PREFERENCES_CHANGE_ENDPOINT_ALIAS);

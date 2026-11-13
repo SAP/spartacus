@@ -5,7 +5,7 @@
  */
 
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { DeferLoadingStrategy } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../config/layout-config';
@@ -20,13 +20,15 @@ import { IntersectionService } from './intersection.service';
   providedIn: 'root',
 })
 export class DeferLoaderService {
+  private platformId = inject<Object>(PLATFORM_ID);
+  protected config = inject(LayoutConfig);
+  protected intersectionService = inject(IntersectionService);
+
   globalLoadStrategy: DeferLoadingStrategy;
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    protected config: LayoutConfig,
-    protected intersectionService: IntersectionService
-  ) {
+  constructor() {
+    const config = this.config;
+
     this.globalLoadStrategy =
       config.deferredLoading?.strategy ?? DeferLoadingStrategy.INSTANT;
   }

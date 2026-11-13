@@ -15,6 +15,9 @@ import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 
 @Injectable()
 export class ProductReferencesEffects {
+  private actions$ = inject(Actions);
+  private productReferencesConnector = inject(ProductReferencesConnector);
+
   protected logger = inject(LoggerService);
   loadProductReferences$: Observable<
     | ProductActions.LoadProductReferencesSuccess
@@ -44,9 +47,4 @@ export class ProductReferencesEffects {
       })
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private productReferencesConnector: ProductReferencesConnector
-  ) {}
 }

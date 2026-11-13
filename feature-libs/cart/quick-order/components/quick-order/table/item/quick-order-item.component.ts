@@ -12,6 +12,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -35,6 +36,9 @@ import { Subscription } from 'rxjs';
   ],
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
+  protected cd = inject(ChangeDetectorRef);
+  protected quickOrderService = inject(QuickOrderFacade);
+
   quantityControl: UntypedFormControl;
 
   get entry(): OrderEntry {
@@ -56,11 +60,6 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
 
   protected _entry: OrderEntry;
   protected subscription = new Subscription();
-
-  constructor(
-    protected cd: ChangeDetectorRef,
-    protected quickOrderService: QuickOrderFacade
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

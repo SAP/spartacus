@@ -8,23 +8,31 @@ import { whenJDK17 } from './jdk-versions';
 
 export const USERID_CURRENT = 'current';
 export const config = {
-  authorizeUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/authorize`,
-  loginUrl: `${Cypress.env('API_URL')}/authorizationserver/login`,
-  csrfUrl: `${Cypress.env('API_URL')}/authorizationserver/csrf`,
-  tokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/token`,
-  revokeTokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/revoke`,
+  authorizeUrl: `${Cypress.expose('API_URL')}/authorizationserver/oauth/authorize`,
+  loginUrl: `${Cypress.expose('API_URL')}/authorizationserver/login`,
+  csrfUrl: `${Cypress.expose('API_URL')}/authorizationserver/csrf`,
+  tokenUrl: `${Cypress.expose('API_URL')}/authorizationserver/oauth/token`,
+  revokeTokenUrl: `${Cypress.expose('API_URL')}/authorizationserver/oauth/revoke`,
   customLoginOrigin: Cypress.config('baseUrl'),
   returnUri: Cypress.config('baseUrl'),
-  newUserUrl: `${Cypress.env('API_URL')}${Cypress.env(
+  newUserUrl: `${Cypress.expose('API_URL')}${Cypress.expose(
     'OCC_PREFIX'
-  )}/${Cypress.env('BASE_SITE')}/users?lang=en&curr=${Cypress.env(
+  )}/${Cypress.expose('BASE_SITE')}/users?lang=en&curr=${Cypress.expose(
     'BASE_CURRENCY'
   )}`,
   client: {
-    client_id: Cypress.env('CLIENT_ID'),
-    client_secret: Cypress.env('CLIENT_SECRET'),
+    client_id: Cypress.expose('CLIENT_ID'),
   },
 };
+
+export function getClientCredentials() {
+  return cy
+    .env(['CLIENT_SECRET'], { log: false })
+    .then(({ CLIENT_SECRET }) => ({
+      ...config.client,
+      client_secret: CLIENT_SECRET,
+    }));
+}
 
 type TokenResponse = {
   access_token: string;
@@ -54,18 +62,20 @@ export function resourceOwnerPasswordCredentialsGrant(
   password: string,
   failOnStatusCode: boolean = true
 ) {
-  return cy.request<TokenResponse>({
-    method: 'POST',
-    url: config.tokenUrl,
-    body: {
-      ...config.client,
-      grant_type: 'password',
-      username: uid,
-      password,
-    },
-    form: true,
-    failOnStatusCode,
-  });
+  return getClientCredentials().then((client) =>
+    cy.request<TokenResponse>({
+      method: 'POST',
+      url: config.tokenUrl,
+      body: {
+        ...client,
+        grant_type: 'password',
+        username: uid,
+        password,
+      },
+      form: true,
+      failOnStatusCode,
+    })
+  );
 }
 
 /**
@@ -212,15 +222,17 @@ export function setSessionData(data) {
 }
 
 export function retrieveAuthToken() {
-  return cy.request({
-    method: 'POST',
-    url: config.tokenUrl,
-    body: {
-      ...config.client,
-      grant_type: 'client_credentials',
-    },
-    form: true,
-  });
+  return getClientCredentials().then((client) =>
+    cy.request({
+      method: 'POST',
+      url: config.tokenUrl,
+      body: {
+        ...client,
+        grant_type: 'client_credentials',
+      },
+      form: true,
+    })
+  );
 }
 
 function toBase64url(uint8Array: Uint8Array): string {

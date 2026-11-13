@@ -4,13 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Optional,
-} from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { FeatureToggles, TranslatePipe } from '@spartacus/core';
@@ -19,16 +14,11 @@ import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 
-/**
- * Requires default change detection strategy, as the disabled state of the quantity form control may change,
- * which would not be properly detected with OnPush strategy.
- */
 @Component({
   selector: 'cx-configurator-issues-notification',
   templateUrl: './configurator-issues-notification.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     IconComponent,
     ConfigureCartEntryComponent,
     AsyncPipe,
@@ -36,13 +26,12 @@ import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-c
   ],
 })
 export class ConfiguratorIssuesNotificationComponent {
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected cartItemContext =
+    inject(CartItemContext, { optional: true }) ?? undefined;
+
   iconTypes = ICON_TYPE;
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    @Optional() protected cartItemContext: CartItemContext
-  ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

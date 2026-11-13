@@ -169,7 +169,7 @@ export function verifyOrderReviewPage(
     .should(
       'have.attr',
       'href',
-      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
+      `/${Cypress.expose('BASE_SITE')}/en/USD/terms-and-conditions`
     );
   cy.get('input[formcontrolname="termsAndConditions"]').check();
 }
@@ -218,7 +218,7 @@ export function selectAccountPayment() {
 
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/current/carts/*?fields=DEFAULT*`
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}/users/current/carts/*?fields=DEFAULT*`
   ).as('getCart');
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
@@ -275,7 +275,7 @@ export function selectShippingAddress(checkDeliveryMode: boolean) {
 export function interceptOrderList(alias, response) {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orders?*`,
     { statusCode: 200, body: response }
@@ -285,7 +285,7 @@ export function interceptOrderList(alias, response) {
 export function interceptOrderDetails(alias, response) {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orders/${ORDER_CODE}?*`,
     { statusCode: 200, body: response }
@@ -295,7 +295,7 @@ export function interceptOrderDetails(alias, response) {
 export function interceptRescheduleServiceOrder(alias) {
   cy.intercept(
     'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orders/${ORDER_CODE}/serviceOrder/serviceScheduleSlot?*`,
     { statusCode: 200 }

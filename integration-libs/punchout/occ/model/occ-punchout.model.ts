@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface PunchoutOccEndpoints {
   /**
@@ -12,18 +12,18 @@ export interface PunchoutOccEndpoints {
    *
    * @member {string}
    */
-  punchoutSession?: string | OccEndpoint;
+  punchoutSession?: string | CoreOccEndpoint;
   /**
    * Endpoint for the punchout Session Requisition
    *
    * @member {string}
    */
-  punchoutSessionRequisition?: string | OccEndpoint;
+  punchoutSessionRequisition?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {
   interface OccEndpoints extends PunchoutOccEndpoints {
-    punchoutSession?: string | OccEndpoint;
-    punchoutSessionRequisition?: string | OccEndpoint;
+    punchoutSession?: string | CoreOccEndpoint;
+    punchoutSessionRequisition?: string | CoreOccEndpoint;
   }
 }

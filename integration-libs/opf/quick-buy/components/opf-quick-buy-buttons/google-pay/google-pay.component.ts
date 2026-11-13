@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -23,15 +23,14 @@ import { OpfGooglePayService } from './google-pay.service';
   selector: 'cx-opf-google-pay',
   templateUrl: './google-pay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe],
+  imports: [AsyncPipe],
 })
 export class OpfGooglePayComponent implements OnInit {
   protected opfGooglePayService = inject(OpfGooglePayService);
   protected changeDetectionRef = inject(ChangeDetectorRef);
 
   @Input() activeConfiguration:
-    | OpfActiveConfiguration
-    | OpfActiveConfiguration[];
+    OpfActiveConfiguration | OpfActiveConfiguration[];
 
   @ViewChild('googlePayButtonContainer') googlePayButtonContainer: ElementRef;
 

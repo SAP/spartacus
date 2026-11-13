@@ -36,9 +36,7 @@ export class MockUserProfileFacade implements Partial<UserProfileFacade> {
   }
 }
 
-export class MockUserProfileFacadeWithError
-  implements Partial<UserProfileFacade>
-{
+export class MockUserProfileFacadeWithError implements Partial<UserProfileFacade> {
   get(): Observable<User | undefined> {
     const error = new HttpErrorResponse({ error: 'error' });
     return new Observable((subscriber) => subscriber.error(error));

@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, inject, Input, Optional } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  Component,
+  inject,
+  Input,
+  Optional,
+  SimpleChanges,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -31,11 +37,9 @@ import { CartItemListComponentService } from './cart-item-list-row.component.ser
   imports: [
     OutletDirective,
     CartItemValidationWarningComponent,
-    NgIf,
     RouterLink,
     MediaComponent,
     PromotionsComponent,
-    NgFor,
     ItemCounterComponent,
     NgTemplateOutlet,
     AtMessageDirective,
@@ -45,9 +49,27 @@ import { CartItemListComponentService } from './cart-item-list-row.component.ser
 })
 export class CartItemListRowComponent extends CartItemComponent {
   @Optional() @Input() items: OrderEntry[];
+
+  /**
+   * Disabled state of the quantity control, passed as an explicit boolean input
+   * by the parent list. The quantity control is enabled/disabled imperatively
+   * while the cart loads (on the same control instance, with no control event),
+   * so this OnPush row cannot observe that via the control object. Receiving it
+   * as a changing boolean input triggers `ngOnChanges`, letting the template
+   * (e.g. the "Move to cart" optional button) reflect the current state.
+   */
+  @Input() quantityDisabled = false;
+
   protected componentService = inject(CartItemListComponentService);
   isFlagQuote = this.componentService.showBasePriceWithDiscount();
-  constructor(cartItemContextSource: CartItemContextSource) {
-    super(cartItemContextSource);
+
+  override ngOnChanges(changes?: SimpleChanges): void {
+    super.ngOnChanges(changes);
+    // When the quantity control's disabled state flips (cart loading), re-push
+    // the control to the item context so outlet-rendered children (e.g. the
+    // configurator "Edit configuration" link) re-read its `disabled` state.
+    if (changes?.quantityDisabled && this.quantityControl) {
+      this.cartItemContextSource.quantityControl$.next(this.quantityControl);
+    }
   }
 }

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { FocusDirective } from '../../keyboard-focus/focus.directive';
@@ -16,12 +16,12 @@ import { SkipLinkService } from '../service/skip-link.service';
   selector: 'cx-skip-link',
   templateUrl: './skip-link.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, FocusDirective, NgFor, AsyncPipe, TranslatePipe],
+  imports: [FocusDirective, AsyncPipe, TranslatePipe],
 })
 export class SkipLinkComponent {
-  skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();
+  private skipLinkService = inject(SkipLinkService);
 
-  constructor(private skipLinkService: SkipLinkService) {}
+  skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();
 
   scrollToTarget(skipLink: SkipLink): void {
     this.skipLinkService.scrollToTarget(skipLink);

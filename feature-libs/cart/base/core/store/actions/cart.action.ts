@@ -110,7 +110,9 @@ export class AddEmailToCartFail
   }
 }
 
-export class AddEmailToCartSuccess extends StateUtils.EntityProcessesDecrementAction {
+export class AddEmailToCartSuccess
+  extends StateUtils.EntityProcessesDecrementAction
+{
   readonly type = ADD_EMAIL_TO_CART_SUCCESS;
   constructor(
     public payload: { userId: string; cartId: string; email: string }
@@ -178,21 +180,14 @@ interface MergeCartPayload {
    */
   tempCartId: string;
 }
-/**
- * @deprecated since 221121.1
- * Use the new MergeCartAndIncrementProcessesCount instead.
- * @see MergeCartAndIncrementProcessesCount
- */
-export class MergeCart implements Action {
-  readonly type = MERGE_CART;
-  constructor(public payload: MergeCartPayload) {}
-}
 
 /**
  * Initialize the merge cart.
  * Comparing to the previous implementation of MergeCart, MergeCartAndIncrementProcessesCount increments in addition processesCount to mark cart as busy and prevent premature cart loading.
  */
-export class MergeCartAndIncrementProcessesCount extends StateUtils.EntityProcessesIncrementAction {
+export class MergeCartAndIncrementProcessesCount
+  extends StateUtils.EntityProcessesIncrementAction
+{
   readonly type = MERGE_CART;
   constructor(public payload: MergeCartPayload) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -249,7 +244,9 @@ export class ResetCartDetails extends StateUtils.ProcessesLoaderResetAction {
 /**
  * On site context change we want to clear value and flags only for selected carts.
  */
-export class ResetCartDetailsByIds extends StateUtils.EntityProcessesLoaderResetAction {
+export class ResetCartDetailsByIds
+  extends StateUtils.EntityProcessesLoaderResetAction
+{
   readonly type = RESET_CART_DETAILS_BY_IDS;
   constructor(public payload: { cartIds: string[] }) {
     super(MULTI_CART_DATA, payload.cartIds);
@@ -295,7 +292,6 @@ export type CartAction =
   | LoadCartFail
   | LoadCartSuccess
   | LoadCartsSuccess
-  | MergeCart
   | MergeCartSuccess
   | ResetCartDetails
   | ResetCartDetailsByIds

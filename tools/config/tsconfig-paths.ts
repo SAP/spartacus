@@ -273,9 +273,12 @@ function handleLibConfigs(
             (acc, entry) => {
               return {
                 ...acc,
-                // In tsconfig.lib.json files we reference built paths. eg. `@spartacus/storefront`: ['dist/storefront/public_api']
+                // In tsconfig.lib.json files we reference built paths. eg. `@spartacus/storefront`: ['../../dist/storefront/public_api'].
+                // The `../../` prefix is required on Angular 22 / TS 6: `tsconfig.lib.json` files live two
+                // levels below the repo root, and with `baseUrl` removed the target must be relative to the file.
                 [entry.entryPoint]: [
-                  joinPaths('dist', dependency.distDir, entry.directory),
+                  '../../' +
+                    joinPaths('dist', dependency.distDir, entry.directory),
                 ],
               };
             },
@@ -315,14 +318,30 @@ function handleRootConfigs(
     (acc, curr) => {
       curr.entryPoints.forEach((entryPoint) => {
         acc[entryPoint.entryPoint] = [
-          // We reference source files entry points in these configs. E.g. `core-libs/storefront/public_api`
-          joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
+          // We reference source files entry points in these configs. E.g. `./core-libs/storefront/public_api`.
+          // The leading `./` is required on Angular 22 / TS 6: with `baseUrl` removed,
+          // non-relative `paths` targets are rejected with TS5090.
+          './' +
+            joinPaths(
+              curr.directory,
+              entryPoint.directory,
+              entryPoint.entryFile
+            ),
         ];
       });
       return acc;
     },
-    { [SPARTACUS_SCHEMATICS]: ['core-libs/schematics/index'] } as {
-      [key: string]: [string];
+    {
+      [SPARTACUS_SCHEMATICS]: ['./core-libs/schematics/index'],
+      // Wildcard aliases for bare repo-root imports used by (mostly Karma) spec files,
+      // e.g. `core-libs/core/.../testing`, `testing/patch-object-define-property`.
+      // These resolved via the now-removed `baseUrl`; keep them as relative aliases.
+      'testing/*': ['./testing/*'],
+      'core-libs/*': ['./core-libs/*'],
+      'feature-libs/*': ['./feature-libs/*'],
+      'integration-libs/*': ['./integration-libs/*'],
+    } as {
+      [key: string]: string[];
     }
   );
 
@@ -356,8 +375,10 @@ function handleAppConfigs(
     .reduce(
       (acc, curr) => {
         curr.entryPoints.forEach((entryPoint) => {
+          // `../../` prefix required on Angular 22 / TS 6 (baseUrl removed):
+          // `projects/storefrontapp/tsconfig.app.prod.json` is two levels below the repo root.
           acc[entryPoint.entryPoint] = [
-            joinPaths('dist', curr.distDir, entryPoint.directory),
+            '../../' + joinPaths('dist', curr.distDir, entryPoint.directory),
           ];
         });
         return acc;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AuthService,
   Command,
@@ -28,6 +28,14 @@ import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class UserProfileService implements UserProfileFacade {
+  protected userAccountService = inject(UserAccountFacade);
+  protected authService = inject(AuthService);
+  protected userProfileConnector = inject(UserProfileConnector);
+  protected eventService = inject(EventService);
+  protected userIdService = inject(UserIdService);
+  protected query = inject(QueryService);
+  protected command = inject(CommandService);
+
   protected updateCommand: Command<{ details: User }> = this.command.create(
     (payload) =>
       this.userIdService.takeUserId(true).pipe(
@@ -65,16 +73,6 @@ export class UserProfileService implements UserProfileFacade {
       reloadOn: [LanguageSetEvent],
     }
   );
-
-  constructor(
-    protected userAccountService: UserAccountFacade,
-    protected authService: AuthService,
-    protected userProfileConnector: UserProfileConnector,
-    protected eventService: EventService,
-    protected userIdService: UserIdService,
-    protected query: QueryService,
-    protected command: CommandService
-  ) {}
 
   get(): Observable<User | undefined> {
     return this.userAccountService.get();

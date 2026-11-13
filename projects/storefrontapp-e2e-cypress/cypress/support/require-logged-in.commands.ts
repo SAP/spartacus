@@ -5,7 +5,12 @@
  */
 
 import { generateMail, randomString } from '../helpers/user';
-import { config, login, setSessionData } from './utils/login';
+import {
+  config,
+  retrieveAuthToken,
+  login,
+  setSessionData,
+} from './utils/login';
 
 declare global {
   namespace Cypress {
@@ -55,15 +60,7 @@ Cypress.Commands.add(
   (accountData?: AccountData, options: RequireLoggedInDebugOptions = {}) => {
     /** Not supported in JDK21 */
     function clientCredentialGuestLogin() {
-      return cy.request({
-        method: 'POST',
-        url: config.tokenUrl,
-        body: {
-          ...config.client,
-          grant_type: 'client_credentials',
-        },
-        form: true,
-      });
+      return retrieveAuthToken();
     }
     function skipRequest() {
       return cy.wrap<Promise<undefined>, undefined>(Promise.resolve(undefined));

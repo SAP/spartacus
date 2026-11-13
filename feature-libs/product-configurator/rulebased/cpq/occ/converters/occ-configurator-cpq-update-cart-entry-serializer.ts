@@ -10,13 +10,10 @@ import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { OccCpqConfigurator } from '../cpq-configurator-occ.models';
 
 @Injectable({ providedIn: 'root' })
-export class OccConfiguratorCpqUpdateCartEntrySerializer
-  implements
-    Converter<
-      Configurator.UpdateConfigurationForCartEntryParameters,
-      OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
-    >
-{
+export class OccConfiguratorCpqUpdateCartEntrySerializer implements Converter<
+  Configurator.UpdateConfigurationForCartEntryParameters,
+  OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
+> {
   convert(
     source: Configurator.UpdateConfigurationForCartEntryParameters,
     target?: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters

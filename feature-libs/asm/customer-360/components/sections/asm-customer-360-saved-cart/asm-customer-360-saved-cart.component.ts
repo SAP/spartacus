@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import { concatMap, filter, map, take } from 'rxjs/operators';
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AsmCustomer360SavedCart,
   CustomerCart,
@@ -27,21 +27,18 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   selector: 'cx-asm-customer-360-saved-cart',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './asm-customer-360-saved-cart.component.html',
-  imports: [
-    NgIf,
-    AsmCustomer360ProductListingComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [AsmCustomer360ProductListingComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360SavedCartComponent {
+  protected sectionContext = inject<
+    AsmCustomer360SectionContext<AsmCustomer360SavedCart>
+  >(AsmCustomer360SectionContext);
+  protected productService = inject(ProductService);
+
   savedCart$: Observable<CustomerCart | undefined>;
   productItems$: Observable<Array<ProductItem>>;
 
-  constructor(
-    protected sectionContext: AsmCustomer360SectionContext<AsmCustomer360SavedCart>,
-    protected productService: ProductService
-  ) {
+  constructor() {
     this.savedCart$ = this.sectionContext.data$.pipe(
       map((cart) => {
         return cart.savedCart;

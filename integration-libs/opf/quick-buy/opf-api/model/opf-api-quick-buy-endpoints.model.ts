@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OpfApiEndpoint } from '@spartacus/opf/base/root';
+import type { OpfApiEndpoint as BaseOpfApiEndpoint } from '@spartacus/opf/base/root';
 
 declare module '@spartacus/opf/base/root' {
   interface OpfApiEndpoints {
     /**
      * Endpoint to get ApplePay Web Session for QuickBuy functionality
      */
-    getApplePayWebSession?: string | OpfApiEndpoint;
+    getApplePayWebSession?: string | BaseOpfApiEndpoint;
   }
 }

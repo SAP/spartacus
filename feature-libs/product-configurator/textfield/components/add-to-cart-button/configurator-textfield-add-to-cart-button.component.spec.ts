@@ -100,7 +100,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
       })
       .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
         },
       })
       .compileComponents();

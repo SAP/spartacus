@@ -176,7 +176,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

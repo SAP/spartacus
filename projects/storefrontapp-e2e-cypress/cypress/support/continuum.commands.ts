@@ -131,7 +131,7 @@ const getConfirmedConcerns = (
 };
 
 const isBestPracticeDisabled = (concern) => {
-  const bestPracticesIds = Cypress.env('disabledBestPracticeIds');
+  const bestPracticesIds = Cypress.expose('disabledBestPracticeIds');
   if (bestPracticesIds) {
     return bestPracticesIds.includes(concern._bestPracticeId);
   }
@@ -201,7 +201,7 @@ const a11yWarning = (concern) => {
 };
 
 const disableBestPractices = (bestPracticesIds: number[]) => {
-  Cypress.env('disabledBestPracticeIds', bestPracticesIds);
+  Cypress.expose('disabledBestPracticeIds', bestPracticesIds);
 };
 
 Cypress.Commands.add('a11yContinuumSetup', a11yContinuumSetup);

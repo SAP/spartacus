@@ -33,9 +33,9 @@ Cypress.Commands.add(
     function createCustomerTicket() {
       return cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}${Cypress.env(
+        url: `${Cypress.expose('API_URL')}${Cypress.expose(
           'OCC_PREFIX'
-        )}/${Cypress.env('BASE_SITE')}/users/current/tickets`,
+        )}/${Cypress.expose('BASE_SITE')}/users/current/tickets`,
         body: {
           message,
           subject,

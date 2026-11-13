@@ -45,7 +45,9 @@ export class ReadCartEntryConfiguration extends StateUtils.EntityLoadAction {
   }
 }
 
-export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
+export class ReadCartEntryConfigurationSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = READ_CART_ENTRY_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
@@ -71,7 +73,9 @@ export class ReadOrderEntryConfiguration extends StateUtils.EntityLoadAction {
   }
 }
 
-export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
+export class ReadOrderEntryConfigurationSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);

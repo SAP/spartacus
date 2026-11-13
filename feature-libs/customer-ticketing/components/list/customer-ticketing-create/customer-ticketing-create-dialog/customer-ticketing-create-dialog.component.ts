@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
@@ -56,7 +56,6 @@ import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticke
     FormRequiredLegendComponent,
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
-    NgIf,
     NgSelectComponent,
     NgSelectA11yDirective,
     NgOptionTemplateDirective,
