@@ -150,10 +150,7 @@ function extractSnippetFromFile(filename: string): string {
   const result = regexForTSSnippetInMarkdown.exec(
     normalizeNewline(fs.readFileSync(filename, 'utf-8'))
   );
-  if (result && result[1]) {
-    return result[1].trim();
-  }
-  return '';
+  return result?.[1]?.trim() ?? '';
 }
 
 /**
@@ -278,7 +275,7 @@ async function printReport(
       comment.user.login === 'github-actions[bot]'
   );
 
-  if (botComment && botComment.length) {
+  if (botComment?.length) {
     await ghClient.issues.deleteComment({
       comment_id: botComment[0].id,
       owner,
