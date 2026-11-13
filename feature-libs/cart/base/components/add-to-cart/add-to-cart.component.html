@@ -3,7 +3,7 @@
     <label>{{ 'addToCart.quantityFull' | cxTranslate }}</label>
     <div class="cx-counter-stock">
       <cx-item-counter
-        *ngIf="hasStock && isPurchasable"
+        *ngIf="hasStock && isBuyable"
         [max]="maxQuantity"
         [control]="addToCartForm.get('quantity')"
         [ariaDescribedById]="'add-to-card-stock-info'"
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <ng-container *ngIf="hasStock && isPurchasable">
+  <ng-container *ngIf="hasStock && isBuyable">
     <ng-template
       [cxOutlet]="CartOutlets.ADD_TO_CART_PICKUP_OPTION"
       [(cxComponentRef)]="pickupOptionCompRef"
@@ -30,7 +30,7 @@
 
   <button
     #addToCartDialogTriggerEl
-    *ngIf="hasStock && isPurchasable"
+    *ngIf="hasStock && isBuyable"
     [ngClass]="
       options?.displayAddToCart
         ? 'btn btn-tertiary'

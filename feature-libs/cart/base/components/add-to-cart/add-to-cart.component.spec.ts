@@ -496,7 +496,7 @@ describe('AddToCartComponent', () => {
         expect(el.query(By.css('button'))).toBeNull();
       });
 
-      describe('isPurchasable', () => {
+      describe('isBuyable', () => {
         it('should hide the button when product has no price', () => {
           addToCartComponent.productCode = null;
           vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
