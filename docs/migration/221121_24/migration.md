@@ -2,39 +2,47 @@
 
 Start from a committed, working Spartacus 221121.22.0 application using Angular 21. Keep your source and lockfile backup; record the installed versions with `npm ls` before updating. Use the exact published Spartacus patch being released (221121.24.0 below is the release example).
 
-Use a supported Node version: `^22.22.3`, `^24.15.0` or `>=26.0.0`. Angular 22 CLI rejects older Node 22 patches. The validation environment uses Node 22.23.3 and npm 12.1.0. npm 11 or newer is recommended because npm 10.9.x failed resolving the Vitest 4 peer graph in the spike.
+Use a supported Node version: `^22.22.3`, `^24.15.0` or `>=26.0.0`. Angular 22 CLI rejects older Node 22 patches. Validation used Node 22.23.4 and npm 12.2.2. Use a recent compatible npm version; older npm 10.9.x failed resolving the upgrade peer graph in earlier validation. The framework workspace npm pin is not a requirement to add framework tooling to a customer app.
 
 ## Update compatible dependencies together
 
 Follow the [Angular 21 to 22 update guide](https://angular.dev/update-guide?v=21.0-22.0&l=3). Angular, its ecosystem and Spartacus have interdependent peer requirements; updating Angular alone while retaining Angular 21 Spartacus peers can fail. Update the installed packages together, without force or legacy peer resolution.
 
-First raise i18next to a version supporting both TypeScript 5 and 6. i18next 25.7.4 only supports TypeScript 5:
+First raise i18next to a version supporting both TypeScript 5 and 6. The old i18next 25.7.4 combination blocked the TypeScript 6 upgrade; the reviewed preparation version is:
 
 ~~~bash
-npm install i18next@25.10.10
+npm install i18next@26.7.1
 git add .
 git commit -m "Prepare i18next for TypeScript 6"
 ~~~
 
-The reviewed ecosystem versions are Angular/CLI 22.2.1, NgRx 22.0.1, ng-select 24.2.0, angular-oauth2-oidc 22.0.2 and ngx-infinite-scroll 22.0.0. Include only packages installed in your app; add your other Angular-dependent libraries with their reviewed compatible versions. For SSR, keep @angular/ssr and @angular/platform-server aligned with the other Angular packages.
+The reviewed ecosystem versions are Angular core 22.2.4, CLI/CDK 22.2.6, NgRx 22.0.1, ng-select 24.2.1, angular-oauth2-oidc 22.0.2 and ngx-infinite-scroll 22.0.0. Include only packages installed in your app; add your other Angular-dependent libraries with their reviewed compatible versions. For SSR, keep @angular/ssr and @angular/platform-server aligned with the other Angular packages.
 
 ~~~bash
 SPARTACUS_VERSION=221121.24.0
-ng update @angular/core@22.2.1 @angular/cli@22.2.1 \
+ng update @angular/core@22.2.4 @angular/cli@22.2.6 \
   @ngrx/store@22.0.1 @ngrx/effects@22.0.1 @ngrx/router-store@22.0.1 \
-  angular-oauth2-oidc@22.0.2 @ng-select/ng-select@24.2.0 \
+  angular-oauth2-oidc@22.0.2 @ng-select/ng-select@24.2.1 \
   ngx-infinite-scroll@22.0.0 @spartacus/schematics@$SPARTACUS_VERSION
-npm install @angular/cdk@22.2.1
+npm install @angular/cdk@22.2.6
 ~~~
 
-ng-select 24.2.0 requires Angular CDK. Add it as a direct application dependency; there is no Spartacus 221121.24 dependency-management migration that adds it for you. Review the resulting package.json and lockfile, including all installed @spartacus packages and Angular builders. Resolve third-party peer conflicts with compatible versions instead of forcing installation.
+ng-select 24.2.1 requires Angular CDK. Add it as a direct application dependency; there is no Spartacus 221121.24 dependency-management migration that adds it for you. Review the resulting package.json and lockfile, including all installed @spartacus packages and Angular builders. Resolve third-party peer conflicts with compatible versions instead of forcing installation.
 
 Spartacus packageGroup updates the installed Spartacus packages. The framework migrations relevant to this upgrade are:
 
 1. SSR allowed-host script migration.
 2. Customer constructor migration for the Spartacus inject() conversion.
+3. Removed API and EPD review comments requiring manual customer cleanup.
 
-The AI-context migration may also refresh existing Spartacus AI skills. Its registered version follows the package publishing version; existing guidance was refreshed during the tested update.
+The AI-context migration also offers installation or refresh of `spartacus-developer` and `spartacus-major-upgrade` guidance for `.agents` and Claude Code. Its registered version follows the package publishing version. Non-interactive updates refresh already-installed tool guidance; an app with no installed skills gets a manual-install notice. Declining the interactive prompt does not install skills.
+
+The [major-upgrade skill](../../../core-libs/skills/skills/spartacus-major-upgrade/SKILL.md) separates automatic schematic changes from customer work on subclasses, removed APIs, templates, SSR and tests. An LLM without skill discovery can read the copied `SKILL.md` and its relative reference directly. To install it later with the selected release:
+
+~~~bash
+npm install --save-dev @spartacus/skills@$SPARTACUS_VERSION
+ng generate @spartacus/schematics:ai-context --ai-tools=agents --ai-tools=claude
+~~~
 
 Run production builds and application tests, review migration output and commit the update:
 

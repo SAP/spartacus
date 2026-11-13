@@ -32,7 +32,7 @@ provideConfig({
 })
 ```
 
-Most Spartacus components are `OnPush`, so keep `OnPush` on your subclass. A few intentionally use `ChangeDetectionStrategy.Default` (e.g. `ActiveFacetsComponent`, several product-configurator components) and their children may rely on the parent being checked on every event — when subclassing one of those, keep its original strategy unless you have verified the children handle `OnPush`.
+Most Spartacus components are `OnPush`, so keep `OnPush` on your subclass. Inspect the published base component's strategy: some use eager checking and their children may rely on the parent being checked on every event. Keep that strategy unless you have verified the children handle `OnPush`.
 
 ## How to extend a service
 

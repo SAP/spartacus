@@ -10,6 +10,8 @@ license: Apache-2.0
 
 Each topic lives in its own `.md` file in the `references/` folder. Read a topic when its trigger applies — you do not need to read every file before starting.
 
+For a major-version upgrade, use [spartacus-major-upgrade](../spartacus-major-upgrade/SKILL.md) before applying these development patterns. It covers dependency compatibility, schematic review, removed APIs, customer inheritance and runtime validation.
+
 - [backend-communication.md](references/backend-communication.md) — read when wiring a service to the backend, adding an OCC endpoint, or anywhere you'd reach for `HttpClient`.
 - [cms-component-wiring.md](references/cms-component-wiring.md) — read when introducing a new component the CMS should place, or replacing an existing CMS component.
 - [lazy-loading.md](references/lazy-loading.md) — read when adding a new feature module or wondering whether `loadChildren` belongs here.
@@ -48,7 +50,7 @@ State and customization:
 - AVOID copying Spartacus source code; extend the class first, copy only when no public hook exists.
 
 Components and SSR:
-- ALWAYS use `ChangeDetectionStrategy.OnPush` on new components, paired with the `async` pipe (preserve `Default` when extending a Spartacus component that uses it).
+- ALWAYS use `ChangeDetectionStrategy.OnPush` on new components, paired with the `async` pipe (preserve the published base component's strategy when extending it).
 - AVOID `.subscribe()` in components when the data drives the template; if you reach for `markForCheck()`, the data should be a stream.
 - NEVER reference `window`/`document`/`localStorage` without guarding via `WindowRef.isBrowser()`.
 
