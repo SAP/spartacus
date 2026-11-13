@@ -27,7 +27,7 @@ export class OccUserInterestsNormalizer
     if (target === undefined) {
       target = { ...(source as any) } as ProductInterestSearchResult;
     }
-    if (source && source.results) {
+    if (source?.results) {
       target.results = source.results.map((result) => ({
         ...result,
         product: this.converter.convert(result.product, PRODUCT_NORMALIZER),
