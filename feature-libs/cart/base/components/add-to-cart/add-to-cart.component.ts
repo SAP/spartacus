@@ -157,8 +157,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.product) {
       this.productCode = this.product.code ?? '';
       // Order history and saved cart pass product as an input; in those contexts
-      // OrderEntry.product has no price, so the purchasable check is skipped.
-      this.isPurchasable = true;
+      // OrderEntry.product has no price; retain an explicit purchasable=false.
+      this.isPurchasable = this.product.purchasable !== false;
       this.setStockInfo(this.product);
       this.unavailable = !this.productCatalogService.isProductInCatalog(
         this.product
@@ -212,7 +212,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   protected isProductPurchasable(product: Product): boolean {
-    return Boolean(product.price) && product.purchasable !== false;
+    // Cart and order entry actions receive partial products whose price is
+    // stored on the entry, rather than on product.price.
+    return (
+      (Boolean(product.price) || this.options?.displayAddToCart === true) &&
+      product.purchasable !== false
+    );
   }
 
   protected setStockInfo(product: Product): void {
