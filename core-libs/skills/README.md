@@ -81,7 +81,9 @@ skills/spartacus-developer/
 skills/spartacus-major-upgrade/
   SKILL.md             # dedicated customer upgrade workflow
   references/
-    angular-22.md      # automatic/manual migration and validation reference
+    angular-22.md      # dependency, automation and SSR changes
+    code-migrations.md # concrete before/after customer code recipes
+    removed-apis.md    # removed exports/members and recorded replacements
 ```
 
 ## Maintaining the skill (for maintainers)
