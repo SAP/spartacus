@@ -815,14 +815,18 @@ export interface FeatureTogglesInterface {
    * elements (input fields, search box, comboboxes, checkboxes, radio buttons,
    * etc.) meets the WCAG 1.4.11 non-text contrast requirement of >=3:1 against
    * the adjacent surface.
+   *
+   * @deprecated No longer has any effect: the SCSS override that consumed this
+   * toggle has been removed.
    */
   a11yFocusIndicatorContrast?: boolean;
 
   /**
    * When enabled, the default theme's primary color (`--cx-color-primary`) is
    * darkened so the contrast meets the contrast requirement of >= 4.5:1.
-   * This toggle can be removed if santorini-updated in theme.scss is uncommented
-   * as part of next major release.
+   *
+   * @deprecated No longer has any effect: the SCSS override that consumed this
+   * toggle has been removed.
    */
   a11yPrimaryColorContrast?: boolean;
 
