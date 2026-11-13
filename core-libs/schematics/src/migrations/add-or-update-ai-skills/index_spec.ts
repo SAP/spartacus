@@ -7,6 +7,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
+import * as fs from 'fs';
 import * as utils from './ai-context.utils';
 
 const collectionPath = join(__dirname, '../migrations.json');
@@ -34,6 +35,74 @@ describe('add/update AI skills migration', () => {
   }
 
   describe('non-interactive (CI / --force)', () => {
+    it.each(['spartacus-developer', 'spartacus-major-upgrade'])(
+      'refreshes an installed %s and delivers major-upgrade guidance after install',
+      async (installedSkill) => {
+        tree.create(`/.claude/skills/${installedSkill}/SKILL.md`, 'Old skill');
+        tree.create('/CLAUDE.md', 'Customer rules');
+        jest.spyOn(utils, 'isInteractiveTerminal').mockReturnValue(false);
+        const previousEnv = process.env.SPARTACUS_SKILLS_DIR;
+        const source = join(
+          __dirname,
+          '../../../../skills/skills/spartacus-developer'
+        );
+        process.env.SPARTACUS_SKILLS_DIR = source;
+
+        try {
+          const updated = await runner.runSchematic(
+            MIGRATION_SCRIPT_NAME,
+            {},
+            tree
+          );
+          expect(devDependencies(updated)[SKILLS_PACKAGE]).toBeDefined();
+          expect(runner.tasks[0].name).toBe('node-package');
+          const copyTask = runner.tasks.find(
+            (task) => task.name === 'run-schematic'
+          )?.options as {
+            name: string;
+            options: { aiTools: string[]; deleteBeforeCopy: boolean };
+          };
+          expect(copyTask.options.aiTools).toEqual(['claude']);
+          expect(copyTask.options.deleteBeforeCopy).toBe(true);
+
+          // Exercise the scheduled copy with the target package available, as
+          // it is after the dependency installation task during ng update.
+          const copyRunner = new SchematicTestRunner(
+            '@spartacus/schematics',
+            join(__dirname, '../../collection.json')
+          );
+          const result = await copyRunner.runSchematic(
+            copyTask.name,
+            copyTask.options,
+            updated
+          );
+          expect(
+            result.readContent(
+              '/.claude/skills/spartacus-major-upgrade/references/angular-22.md'
+            )
+          ).toBe(
+            fs.readFileSync(
+              join(
+                source,
+                '../spartacus-major-upgrade/references/angular-22.md'
+              ),
+              'utf8'
+            )
+          );
+          expect(
+            result.exists('/.claude/skills/spartacus-developer/SKILL.md')
+          ).toBe(true);
+          expect(result.readContent('/CLAUDE.md')).toBe('Customer rules');
+        } finally {
+          if (previousEnv === undefined) {
+            delete process.env.SPARTACUS_SKILLS_DIR;
+          } else {
+            process.env.SPARTACUS_SKILLS_DIR = previousEnv;
+          }
+        }
+      }
+    );
+
     it('prints the manual-opt-in notice and changes nothing when no skills are present', async () => {
       jest.spyOn(utils, 'isInteractiveTerminal').mockReturnValue(false);
       const noticeSpy = jest.spyOn(utils, 'printSkillsNotice');

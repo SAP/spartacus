@@ -10,6 +10,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import * as fs from 'fs';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import { deleteSkillDir, SkillFile, verifySkillTree } from './index';
 
@@ -55,6 +56,56 @@ describe('ai-context standalone schematic', () => {
   it('writes nothing when aiTools is empty', async () => {
     const tree = await run({ aiTools: [] });
     expect(tree.files).toEqual([]);
+  });
+
+  it.each(['claude', 'agents'])(
+    'installs the major-upgrade skill and its reference for %s',
+    async (target) => {
+      const tree = await run({ aiTools: [target] });
+      const source = path.join(
+        SKILLS_SOURCE_DIR,
+        '..',
+        'spartacus-major-upgrade'
+      );
+      for (const file of ['SKILL.md', 'references/angular-22.md']) {
+        expect(
+          tree.readContent(`/.${target}/skills/spartacus-major-upgrade/${file}`)
+        ).toEqual(fs.readFileSync(path.join(source, file), 'utf8'));
+      }
+    }
+  );
+
+  it('refreshes both shipped skills without deleting customer instructions', async () => {
+    const tree = await run(
+      { aiTools: ['claude'], deleteBeforeCopy: true },
+      (t) => {
+        t.create(
+          '/.claude/skills/spartacus-major-upgrade/references/stale.md',
+          'Old migration guidance'
+        );
+        t.create(
+          '/.claude/skills/customer-checkout/SKILL.md',
+          'Customer rules'
+        );
+        t.create('/CLAUDE.md', 'Customer project instructions');
+      }
+    );
+
+    expect(
+      tree.exists('/.claude/skills/spartacus-major-upgrade/references/stale.md')
+    ).toBe(false);
+    expect(tree.exists('/.claude/skills/spartacus-developer/SKILL.md')).toBe(
+      true
+    );
+    expect(
+      tree.exists('/.claude/skills/spartacus-major-upgrade/SKILL.md')
+    ).toBe(true);
+    expect(tree.readContent('/.claude/skills/customer-checkout/SKILL.md')).toBe(
+      'Customer rules'
+    );
+    expect(tree.readContent('/CLAUDE.md')).toBe(
+      'Customer project instructions'
+    );
   });
 
   describe('claude target', () => {

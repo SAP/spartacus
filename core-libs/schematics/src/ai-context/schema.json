@@ -12,19 +12,19 @@
         "enum": ["agents", "claude"]
       },
       "default": ["agents"],
-      "description": "Select the local folder(s) to install Spartacus AI development skills",
+      "description": "Select the local folder(s) to install Spartacus development and major-upgrade skills",
       "x-prompt": {
         "type": "list",
         "multiselect": true,
-        "message": "Select the local folder(s) to install Spartacus AI development skills",
+        "message": "Select the local folder(s) to install Spartacus development and major-upgrade skills",
         "items": [
           {
             "value": "agents",
-            "label": ".agents (.agents/skills/spartacus-developer/)"
+            "label": ".agents (.agents/skills/)"
           },
           {
             "value": "claude",
-            "label": ".claude (.claude/skills/spartacus-developer/)"
+            "label": ".claude (.claude/skills/)"
           }
         ]
       }

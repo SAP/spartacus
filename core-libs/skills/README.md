@@ -1,10 +1,11 @@
 # @spartacus/skills
 
 AI **Agent Skills** for building custom [SAP Spartacus](https://github.com/SAP/spartacus)
-storefront applications. The package ships a single skill, `spartacus-developer`,
-that captures the Spartacus-specific rules an AI assistant should follow when
-generating or changing storefront code (backend communication, CMS wiring,
-routing, configuration, state, i18n, styling, SSR, and more).
+storefront applications. The package ships two skills: `spartacus-developer`
+for Spartacus-specific development patterns and `spartacus-major-upgrade`
+for reviewing and completing the Angular 21 to 22 / Spartacus 221121.24 customer
+migration. The upgrade skill covers dependency peers, schematic review, custom
+subclasses, removed APIs, EPD retirement, SSR, tests and runtime validation.
 
 > **For AI agents:** do **not** read these skills directly from
 > `node_modules/@spartacus/skills`. They are the distributable source, not the
@@ -27,7 +28,7 @@ npm install --save-dev @spartacus/skills
 ## Copy the skill into your project
 
 AI assistants discover skills from your project, not from `node_modules`. Copy
-the skill into the locations your tools expect.
+the skills into the locations your tools expect.
 
 ### Recommended: the schematic
 
@@ -41,6 +42,13 @@ ng generate @spartacus/schematics:ai-context --ai-tools=claude --ai-tools=agents
 
 This is also offered as a prompt during `ng add @spartacus/schematics`.
 
+During an interactive upgrade, the `add-or-update-ai-skills` migration also offers
+installation or refresh. Non-interactive upgrades refresh guidance for tools
+already installed; otherwise they print the manual-install instructions. The
+schematic copies both shipped skills and preserves unrelated customer
+instructions. An LLM without skill discovery can read the copied upgrade
+`SKILL.md` and its relative reference directly.
+
 ### Manual copy
 
 If you don't use the schematic, copy the skill folder yourself:
@@ -49,10 +57,12 @@ If you don't use the schematic, copy the skill folder yourself:
 # Claude Code
 mkdir -p .claude/skills
 cp -r node_modules/@spartacus/skills/skills/spartacus-developer .claude/skills/
+cp -r node_modules/@spartacus/skills/skills/spartacus-major-upgrade .claude/skills/
 
 # Other agents (cross-tool location read by Codex, Gemini CLI, and others)
 mkdir -p .agents/skills
 cp -r node_modules/@spartacus/skills/skills/spartacus-developer .agents/skills/
+cp -r node_modules/@spartacus/skills/skills/spartacus-major-upgrade .agents/skills/
 ```
 
 ## Keeping it up to date
@@ -68,6 +78,10 @@ skills/spartacus-developer/
   references/
     <topic>.md         # one file per topic, linked from SKILL.md
     ...                # plus deep-dive material linked from the topic files
+skills/spartacus-major-upgrade/
+  SKILL.md             # dedicated customer upgrade workflow
+  references/
+    angular-22.md      # automatic/manual migration and validation reference
 ```
 
 ## Maintaining the skill (for maintainers)

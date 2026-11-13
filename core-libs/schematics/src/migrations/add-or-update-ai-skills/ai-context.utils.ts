@@ -15,26 +15,23 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import * as readline from 'readline';
 import { AiTool } from '../../add-spartacus/schema';
+import {
+  AI_SKILLS_DESTINATIONS,
+  SPARTACUS_SKILL_NAMES,
+} from '../../ai-context/skill.constants';
 import { getPrefixedSpartacusSchematicsVersion } from '../../shared/utils/package-utils';
 
 export const SKILLS_PACKAGE = '@spartacus/skills';
 
 const SPARTACUS_SCHEMATICS = '@spartacus/schematics';
 const AI_CONTEXT_SCHEMATIC = 'ai-context';
-const SKILL_DIR = 'spartacus-developer';
-
 export const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'agents'];
 
 export const PROMPT_INDENT = '  ';
 
 const TOOL_LABEL: Record<AiTool, string> = {
-  claude: '.claude (.claude/skills/spartacus-developer/)',
-  agents: '.agents (.agents/skills/spartacus-developer/)',
-};
-
-const SKILL_SENTINEL: Record<AiTool, string> = {
-  claude: `.claude/skills/${SKILL_DIR}/SKILL.md`,
-  agents: `.agents/skills/${SKILL_DIR}/SKILL.md`,
+  claude: '.claude (.claude/skills/)',
+  agents: '.agents (.agents/skills/)',
 };
 
 /**
@@ -47,7 +44,11 @@ export function isInteractiveTerminal(): boolean {
 
 /** Returns the AI tools for which skills are already present in the tree. */
 export function detectInstalledTools(tree: Tree): AiTool[] {
-  return SUPPORTED_TOOLS.filter((tool) => tree.exists(SKILL_SENTINEL[tool]));
+  return SUPPORTED_TOOLS.filter((tool) =>
+    SPARTACUS_SKILL_NAMES.some((skill) =>
+      tree.exists(`${AI_SKILLS_DESTINATIONS[tool]}/${skill}/SKILL.md`)
+    )
+  );
 }
 
 function ask(question: string): Promise<string> {
@@ -126,8 +127,8 @@ export function printSkillsNotice(context: SchematicContext): void {
       `     npm install --save-dev ${SKILLS_PACKAGE}@${skillsVersion}`,
       `     ng g ${SPARTACUS_SCHEMATICS}:${AI_CONTEXT_SCHEMATIC}`,
       '',
-      `   The schematic copies the ${SKILL_DIR} skill into .claude/skills/${SKILL_DIR}/`,
-      `   and/or .agents/skills/${SKILL_DIR}/.`,
+      `   The schematic copies ${SPARTACUS_SKILL_NAMES.join(' and ')} into`,
+      '   .claude/skills/ and/or .agents/skills/, including migration guidance.',
       '',
       `   Prefer not to use the schematic? Copy the skill manually — see the`,
       `   ${SKILLS_PACKAGE} README.`,
