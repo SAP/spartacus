@@ -206,7 +206,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   protected isProductPurchasable(product: Product): boolean {
-    return Boolean(product.price) && product.purchasable !== false;
+    // Cart and order entry actions receive partial products whose price is
+    // stored on the entry, rather than on product.price.
+    return (
+      (Boolean(product.price) || this.options?.displayAddToCart === true) &&
+      product.purchasable !== false
+    );
   }
 
   protected setStockInfo(product: Product): void {

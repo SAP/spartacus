@@ -272,6 +272,39 @@ describe('AddToCartComponent', () => {
       });
     });
 
+    describe('Cart and order entry actions', () => {
+      it('should render and activate the action for an entry product without a price', () => {
+        addToCartComponent.product = {
+          code: productCode,
+          stock: { stockLevelStatus: 'inStock', stockLevel: 5 },
+        };
+        addToCartComponent.options = { displayAddToCart: true };
+        vi.spyOn(addToCartComponent, 'addToCart').mockImplementation(() => {});
+
+        addToCartComponent.ngOnInit();
+        addToCartComponent.unavailable = false;
+        fixture.detectChanges();
+
+        expect(getButton()).not.toBeNull();
+        getButton().nativeElement.click();
+        expect(addToCartComponent.addToCart).toHaveBeenCalled();
+      });
+
+      it('should hide the entry action when the product is explicitly not purchasable', () => {
+        addToCartComponent.product = {
+          code: productCode,
+          stock: { stockLevelStatus: 'inStock', stockLevel: 5 },
+          purchasable: false,
+        };
+        addToCartComponent.options = { displayAddToCart: true };
+
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(getButton()).toBeNull();
+      });
+    });
+
     describe('Product from page', () => {
       it('should reset counter value when changing product', () => {
         const currentProduct = new BehaviorSubject<Product>(mockProduct);
