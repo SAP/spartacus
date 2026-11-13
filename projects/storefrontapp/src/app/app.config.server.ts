@@ -10,13 +10,17 @@ import {
   mergeApplicationConfig,
 } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
+import { provideConfigFactory } from '@spartacus/core';
 import { TestConfigServerModule } from '@spartacus/setup/ssr';
 import { appConfig } from './app.config';
 import { AppServerModule } from './app.module.server';
+import { ssrConfigurationFactory } from './base-url-state';
 
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
+
+    provideConfigFactory(ssrConfigurationFactory),
 
     importProvidersFrom(AppServerModule),
 
