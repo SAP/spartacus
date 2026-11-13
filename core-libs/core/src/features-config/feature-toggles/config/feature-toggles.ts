@@ -603,6 +603,16 @@ export interface FeatureTogglesInterface {
   propagateLogoutToAllTabs?: boolean;
 
   /**
+   * When enabled, reads the `auth_req_id` parameter from the custom login page URL and
+   * passes it through CSRF token requests and the login form POST. This supports concurrent
+   * authorization requests from multiple storefronts sharing one Authorization Server session.
+   *
+   * NOTE: Only applies when `authorizationCodeFlowByDefault` is also enabled and the OAuth
+   * client has `concurrentAuthEnabled=true` on the backend.
+   */
+  concurrentLoginPagesSupport?: boolean;
+
+  /**
    * When enabled, the post-logout redirect respects the `logout.redirectRoute`
    * option in `LogoutConfig`. When disabled (default), the guard always redirects
    * to the home page (or login page for protected storefronts), preserving the
@@ -1097,6 +1107,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
+  concurrentLoginPagesSupport: false,
   useConfigurableLogoutRedirect: false,
   asyncAuthConfigInitializer: false,
   siteIsolationForCustomLoginPage: false,

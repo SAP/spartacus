@@ -253,8 +253,8 @@ export class AuthService {
    * especially after a user logs in or when the token is about to expire.
    * @returns {Observable<string>} An observable that emits the refreshed CSRF token.
    */
-  refreshCsrfToken() {
-    return this.crossSiteRequestForgeryService.getCsrfToken();
+  refreshCsrfToken(authReqId?: string) {
+    return this.crossSiteRequestForgeryService.getCsrfToken(authReqId);
   }
 
   /**
