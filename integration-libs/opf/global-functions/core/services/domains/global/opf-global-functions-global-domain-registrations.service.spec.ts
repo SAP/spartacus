@@ -56,18 +56,14 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
   });
 }
 
-class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine
-    .createSpy('getActiveCartId')
-    .and.returnValue(of('test-cart-id'));
-  takeActive = jasmine.createSpy('takeActive').and.returnValue(of(mockCart));
-  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
-  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
-}
-
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart = jasmine.createSpy('getCart').and.returnValue(of(mockCart));
   reloadCart = jasmine.createSpy('reloadCart');
+}
+
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
+  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -94,6 +90,15 @@ class MockOpfQuickBuyTransactionService
   getCurrentCart = jasmine
     .createSpy('getCurrentCart')
     .and.returnValue(of(mockCart));
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
+    .and.returnValue(of('test-cart-id'));
+  getDeliveryAddress = jasmine
+    .createSpy('getDeliveryAddress')
+    .and.returnValue(of(undefined));
+  getSelectedDeliveryMode = jasmine
+    .createSpy('getSelectedDeliveryMode')
+    .and.returnValue(of(undefined));
 }
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
@@ -134,8 +139,8 @@ describe('OpfGlobalFunctionsGlobalDomainRegistrationsService', () => {
           provide: OpfMetadataStoreService,
           useClass: MockOpfMetadataStoreService,
         },
-        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
         { provide: RoutingService, useClass: MockRoutingService },

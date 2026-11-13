@@ -30,7 +30,7 @@ export function configValidatorFactory(
       configInitializer
         .getStable()
         .subscribe((config) =>
-          validateConfig(config, validators || [], logger)
+          validateConfig(config, validators ?? [], logger)
         );
     }
   };
