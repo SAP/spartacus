@@ -8,10 +8,10 @@ Use a supported Node version: `^22.22.3`, `^24.15.0` or `>=26.0.0`. Angular 22 C
 
 Follow the [Angular 21 to 22 update guide](https://angular.dev/update-guide?v=21.0-22.0&l=3). Angular, its ecosystem and Spartacus have interdependent peer requirements; updating Angular alone while retaining Angular 21 Spartacus peers can fail. Update the installed packages together, without force or legacy peer resolution.
 
-First raise i18next to a version supporting both TypeScript 5 and 6. The old i18next 25.7.4 combination blocked the TypeScript 6 upgrade; the reviewed preparation version is:
+If the installed i18next version blocks TypeScript 6, first select a version supporting both TypeScript 5 and 6 within the old Spartacus peer range. Spartacus 221121.21.0 requires i18next ^25.7.4; 25.10.10 satisfies that range and supports both TypeScript versions. Skip this preparation step when the installed version is already compatible. Do not install i18next 26 separately while retaining the old Spartacus peers:
 
 ~~~bash
-npm install i18next@26.7.1
+npm install i18next@25.10.10
 git add .
 git commit -m "Prepare i18next for TypeScript 6"
 ~~~
@@ -23,7 +23,8 @@ SPARTACUS_VERSION=221121.24.0
 ng update @angular/core@22.2.4 @angular/cli@22.2.6 \
   @ngrx/store@22.0.1 @ngrx/effects@22.0.1 @ngrx/router-store@22.0.1 \
   angular-oauth2-oidc@22.0.2 @ng-select/ng-select@24.2.1 \
-  ngx-infinite-scroll@22.0.0 @spartacus/schematics@$SPARTACUS_VERSION
+  ngx-infinite-scroll@22.0.0 i18next@26.7.1 \
+  @spartacus/schematics@$SPARTACUS_VERSION
 npm install @angular/cdk@22.2.6
 ~~~
 
