@@ -25,6 +25,8 @@ Review the Angular application's actual builder configuration. The framework now
 
 The constructor migration recognizes matching named base imports, including aliases, and direct subclasses with the expected old argument order/types. Expressions, namespace imports, indirect inheritance with explicit constructors, narrowed types and different argument sets can require manual work. Review output for TODO:Spartacus and remaining TypeScript errors; no review-comment inventory is a complete proof that all customer usage has been found.
 
+For concrete transformations, use [the before/after code recipes](code-migrations.md). The [removed API table](removed-apis.md) includes entry points and recorded replacements beyond the common examples below.
+
 ## Constructors and Angular injection contexts
 
 Spartacus services, components, guards, interceptors, adapters, connectors and converters now initialize DI fields with inject(). Many old base constructors accept no arguments; others retain initialization or non-DI arguments. Inspect the actual base declaration before editing super(...).

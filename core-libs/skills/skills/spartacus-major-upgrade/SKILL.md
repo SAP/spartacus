@@ -8,7 +8,21 @@ license: Apache-2.0
 
 Complete the upgrade in the customer's application while preserving its storefront behavior and customizations. This guidance is for consumer applications, not for modernizing the Spartacus framework repository.
 
-Read [the Angular 22 migration reference](references/angular-22.md) for the affected areas. Use the installed target packages' declarations, peer dependencies and schematic output as the source of truth for exact APIs and versions. The reference distinguishes automatic changes from customer work; schematic completion alone does not mean the application is migrated.
+Read [the Angular 22 migration reference](references/angular-22.md) for dependency, automation and SSR changes. For customer code diagnostics, read the matching [before/after recipes](references/code-migrations.md) and [removed API table](references/removed-apis.md). Use the installed target packages' declarations, peer dependencies and schematic output as the source of truth for exact APIs and versions. The reference distinguishes automatic changes from customer work; schematic completion alone does not mean the application is migrated.
+
+## What changed and how to migrate
+
+| Change in this major | Migration action |
+| --- | --- |
+| Angular 22 and compatible ecosystem dependencies | Update installed peers together; run Angular and Spartacus migrations using the selected target metadata. |
+| Base DI constructors replaced by inject() | Review super-call edits; preserve customer dependencies, initialization and provider overrides. |
+| Deprecated exports, class members and copied template bindings removed | Apply the recorded replacement or adapt customer behavior to the current feature; resolve schematic review comments. |
+| Outlet context now asynchronous | Consume context$ and validate delayed/repeated rendering. |
+| EPD Visualization retired | Remove the confirmed integration, styles and CMS placements; no replacement is provided. |
+| SSR host validation and prerender configuration | Configure trusted hosts/public origin and validate actual server/browser behavior. |
+| Theme, configurator formatting and current feature templates changed | Preserve branding and supported flags; review copied templates, locales and affected interactions. |
+
+For every applicable change, identify the customer's old usage, explain the target API/behavior, implement the manual migration and verify it. Read only the recipes needed by that application. A schematic review comment is a work item, not a completed migration.
 
 ## Establish the actual migration scope
 

@@ -37,7 +37,7 @@ Spartacus packageGroup updates the installed Spartacus packages. The framework m
 
 The AI-context migration also offers installation or refresh of `spartacus-developer` and `spartacus-major-upgrade` guidance for `.agents` and Claude Code. Its registered version follows the package publishing version. Non-interactive updates refresh already-installed tool guidance; an app with no installed skills gets a manual-install notice. Declining the interactive prompt does not install skills.
 
-The [major-upgrade skill](../../../core-libs/skills/skills/spartacus-major-upgrade/SKILL.md) separates automatic schematic changes from customer work on subclasses, removed APIs, templates, SSR and tests. An LLM without skill discovery can read the copied `SKILL.md` and its relative reference directly. To install it later with the selected release:
+The [major-upgrade skill](../../../core-libs/skills/skills/spartacus-major-upgrade/SKILL.md) separates automatic schematic changes from customer work on subclasses, removed APIs, templates, SSR and tests. It includes [before/after code recipes](../../../core-libs/skills/skills/spartacus-major-upgrade/references/code-migrations.md) and a [removed API lookup](../../../core-libs/skills/skills/spartacus-major-upgrade/references/removed-apis.md). An LLM without skill discovery can read the copied `SKILL.md` and its relative reference directly. To install it later with the selected release:
 
 ~~~bash
 npm install --save-dev @spartacus/skills@$SPARTACUS_VERSION
