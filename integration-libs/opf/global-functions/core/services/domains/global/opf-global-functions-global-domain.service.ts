@@ -12,6 +12,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import {
+  ActiveCartFacade,
   Cart,
   CartAccessCodeFacade,
   DeliveryMode,
@@ -43,7 +44,7 @@ import {
 } from '@spartacus/opf/quick-buy/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, combineLatest, lastValueFrom, throwError } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
 
 @Injectable()
@@ -55,6 +56,7 @@ export class OpfGlobalFunctionsGlobalDomainService {
   protected opfCtaFacade = inject(OpfCtaFacade);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected multiCartFacade = inject(MultiCartFacade);
+  protected activeCartFacade = inject(ActiveCartFacade);
   protected userIdService = inject(UserIdService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
   protected routingService = inject(RoutingService);
@@ -327,5 +329,17 @@ export class OpfGlobalFunctionsGlobalDomainService {
       config: configWithDefaults,
     };
     return this.opfPaymentFacade.initiatePayment(fullConfig);
+  }
+
+  /**
+   * @deprecated No longer called internally. Will be removed in a future major release.
+   */
+  protected reloadCartAndWaitForStable(): Observable<boolean> {
+    this.activeCartFacade.reloadActiveCart();
+    return this.activeCartFacade.isStable().pipe(
+      skip(1),
+      filter((isStable: boolean) => isStable),
+      take(1)
+    );
   }
 }

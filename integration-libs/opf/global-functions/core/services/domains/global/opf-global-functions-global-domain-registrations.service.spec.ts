@@ -12,6 +12,7 @@ import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { WindowRef, UserIdService, RoutingService } from '@spartacus/core';
 import {
+  ActiveCartFacade,
   CartAccessCodeFacade,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
@@ -58,6 +59,11 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart = jasmine.createSpy('getCart').and.returnValue(of(mockCart));
   reloadCart = jasmine.createSpy('reloadCart');
+}
+
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
+  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -134,6 +140,7 @@ describe('OpfGlobalFunctionsGlobalDomainRegistrationsService', () => {
           useClass: MockOpfMetadataStoreService,
         },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
         { provide: RoutingService, useClass: MockRoutingService },
