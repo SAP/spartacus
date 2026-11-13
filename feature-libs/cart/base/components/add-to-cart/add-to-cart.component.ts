@@ -97,7 +97,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   disabled: boolean = false;
 
   hasStock: boolean = false;
-  isBuyable: boolean = false;
+  isPurchasable: boolean = false;
   inventoryThreshold: boolean = false;
 
   showInventory$: Observable<boolean | undefined> | undefined =
@@ -157,16 +157,16 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.productCode = this.product.code ?? '';
       // Order history and saved cart pass product as an input; in those contexts
       // OrderEntry.product has no price, so the purchasable check is skipped.
-      this.isBuyable = true;
+      this.isPurchasable = true;
       this.setStockInfo(this.product);
       this.unavailable = !this.productCatalogService.isProductInCatalog(
         this.product
       );
     } else if (this.productCode) {
-      // force hasStock, isBuyable and quantity for the time being, as we do not have more info:
+      // force hasStock, isPurchasable and quantity for the time being, as we do not have more info:
       this.quantity = 1;
       this.hasStock = true;
-      this.isBuyable = true;
+      this.isPurchasable = true;
       this.cd.markForCheck();
     } else {
       let product$: Observable<Product | null>;
@@ -185,8 +185,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.productCode = product.code ?? '';
           this.product = product;
           // isProductPurchasable is only relevant for PDP; on PLP visibility is
-          // already controlled externally so isBuyable is short-circuited to true.
-          this.isBuyable =
+          // already controlled externally so isPurchasable is short-circuited to true.
+          this.isPurchasable =
             Boolean(this.productListItemContext) ||
             this.isProductPurchasable(product);
           this.setStockInfo(product);
