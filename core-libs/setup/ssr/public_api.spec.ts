@@ -33,6 +33,10 @@ describe('SSR Jest environment', () => {
 });
 
 describe('@spartacus/setup/ssr public API', () => {
+  it('exposes the example robots.txt content from the root SSR entry point', () => {
+    expect(ssrApi).toHaveProperty('EXAMPLE_ROBOTS_TXT');
+  });
+
   it.each([
     'ConcurrencyLimitError',
     'DefaultBaseSiteResolver',
