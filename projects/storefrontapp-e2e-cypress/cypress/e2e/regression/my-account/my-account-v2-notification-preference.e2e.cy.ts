@@ -18,6 +18,8 @@ import * as loginHelper from '../../../helpers/my-account-v2/my-account-v2-login
 describe('My Account V2 Notification preference (CXSPA-10780)', () => {
   viewportContext(['mobile', 'desktop'], () => {
     describe('Anonymous user (CXSPA-10780)', () => {
+      // Verifies that anonymous users cannot access the notification preference page and are redirected to the login page.
+      // The final check ensures the URL pathname contains '/login'.
       it('should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/notification-preference');
         cy.location('pathname').should('contain', '/login');
@@ -39,6 +41,8 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
         cy.wait(2000);
       });
 
+      // Tests that the notification preference page shows the correct email channel after updating the user's email address.
+      // The final check verifies that the new email is displayed correctly in the notification channel after the update.
       it('should show correct email channel after update email address', () => {
         verifyEmailChannelV2(standardUser.registrationData.email);
         const newEmail = updateEmailV2();
