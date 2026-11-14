@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateServerTs (runtime config) should fetch runtimeEnvironment per-request in catch-all and inject into res.render 1`] = `
+"import { APP_BASE_HREF } from '@angular/common';
+import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT } from "@spartacus/setup";
+import {
+  defaultExpressErrorHandlers,
+  ngExpressEngine as engine,
+  getOriginValidationMiddleware,
+  NgExpressEngineDecorator,
+} from '@spartacus/setup/ssr';
+import express from 'express';
+import { readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import bootstrap from './main.server';
+
+const ngExpressEngine = NgExpressEngineDecorator.get(engine);
+
+export function app(): express.Express {
+  const server = express();
+  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+  const browserDistFolder = resolve(serverDistFolder, '../browser');
+  const indexHtml = join(serverDistFolder, 'index.server.html');
+  const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
+
+  server.set('trust proxy', 'loopback');
+  server.use(getOriginValidationMiddleware({ allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'] }));
+
+  server.engine('html', ngExpressEngine({ bootstrap }));
+  server.set('view engine', 'html');
+  server.set('views', browserDistFolder);
+
+  server.get(/.*\\..*/, express.static(browserDistFolder, { maxAge: '1y' }));
+  // CSR fallback route (SSR timeout only). CONFIG_URL is an SSR concept — the Node process
+  // fetches config from it per render. When SSR times out, Angular bootstraps in CSR mode
+  // and getRuntimeEnvironment() fetches /config.json from the same host as the app — this
+  // route re-fetches CONFIG_URL upstream and returns the result. Safe to keep when Caddy
+  // is in front (Caddy intercepts /config.json before Express).
+  server.get('/config.json', async (_req, res) => {
+    const configUrl = process.env['CONFIG_URL'];
+    if (!configUrl) {
+      res.json({});
+      return;
+    }
+    try {
+      const response = await fetch(configUrl);
+      if (!response.ok) {
+        res.json({});
+        return;
+      }
+      const raw = await response.json();
+      const filtered = Object.fromEntries(
+        Object.entries(raw).filter(
+          ([, entry]) =>
+            !(entry && ((entry as any).secret === true || (entry as any).secret === 'true'))
+        )
+      );
+      res.json(filtered);
+    } catch {
+      res.json({});
+    }
+  });
+
+  server.get(/.*/, async (req, res) => {
+    const runtimeEnvironment = await getServerRuntimeEnvironment({ url: process.env['CONFIG_URL'] });
+    res.render(indexHtml, {
+      req,
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }, // IMPORTANT: per-request only — must NOT be moved to ngExpressEngine providers
+      { provide: RUNTIME_ENVIRONMENT, useValue: runtimeEnvironment }],
+    });
+  });
+
+  server.use(defaultExpressErrorHandlers(indexHtmlContent));
+  return server;
+}
+
+function run() {
+  const port = process.env['PORT'] || 4000;
+  const server = app();
+  server.listen(port, () => {
+    console.log(\`Node Express server listening on http://localhost:\${port}\`);
+  });
+}
+
+run();
+"
+`;

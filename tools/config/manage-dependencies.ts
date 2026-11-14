@@ -44,6 +44,7 @@ import {
   reportProgress,
   success,
 } from './index';
+import { getCreateRequireImports } from './create-require-imports';
 
 // ------------ Utilities ------------
 
@@ -168,6 +169,27 @@ export function manageDependencies(
 
         const fileImports = getAllImports(sourceFile);
         fileImports.forEach((val) => {
+          if (tsImports[val]) {
+            tsImports[val].files.add(fileName);
+          } else {
+            tsImports[val] = {
+              importPath: val,
+              files: new Set<string>([fileName]),
+              usageIn: {
+                spec: false,
+                lib: false,
+                schematics: false,
+                schematicsSpec: false,
+              },
+            };
+          }
+        });
+
+        // Also collect packages loaded via createRequire (dynamic require).
+        // These are invisible to getAllImports (which only reads ImportDeclarations)
+        // but must still be tracked as dependencies — see getCreateRequireImports.
+        const dynamicImports = getCreateRequireImports(sourceFile);
+        dynamicImports.forEach((val) => {
           if (tsImports[val]) {
             tsImports[val].files.add(fileName);
           } else {
@@ -346,24 +368,28 @@ function filterNativeNodeAPIs(
   options: ProgramOptions
 ): void {
   const nodeAPIs = [
-    'fs',
-    'fs/promise',
-    'path',
-    'events',
     'assert',
     'async_hooks',
+    'buffer',
     'child_process',
     'cluster',
+    'constants',
     'crypto',
+    'dgram',
     'diagnostics_channel',
     'dns',
     'domain',
+    'events',
+    'fs',
+    'fs/promises',
     'http',
     'http2',
     'https',
     'inspector',
+    'module',
     'net',
     'os',
+    'path',
     'perf_hooks',
     'process',
     'punycode',
@@ -371,11 +397,13 @@ function filterNativeNodeAPIs(
     'readline',
     'repl',
     'stream',
+    'stream/promises',
     'string_decoder',
+    'timers',
+    'timers/promises',
     'tls',
     'trace_events',
     'tty',
-    'dgram',
     'url',
     'util',
     'v8',
@@ -396,33 +424,33 @@ function filterNativeNodeAPIs(
       lib.tsImports = Object.values(lib.tsImports)
         .filter((imp) => {
           if (allNodeAPIs.includes(imp.importPath)) {
-            // Don't run the check in fix mode
-            if (!options.fix) {
-              // Don't allow to use node api outside of schematics files
-              if (imp.usageIn.spec || imp.usageIn.lib) {
-                imp.files.forEach((file) => {
-                  // Allow to use Node APIs in SSR and in build-time config files
-                  // (e.g. vitest.config.ts), which are never shipped to the browser
-                  if (
-                    !file.includes('ssr') &&
-                    !file.endsWith('vitest.config.ts')
-                  ) {
-                    errorsFound = true;
-                    error(
-                      file,
-                      [
-                        `Node.js API \`${chalk.bold(
-                          imp.importPath
-                        )}\` is referenced.`,
-                      ],
-                      [
-                        `Node.js APIs can only be used in SSR code or in schematics.`,
-                        `You might have wanted to import it from some library instead.`,
-                      ]
-                    );
-                  }
-                });
-              }
+            // Don't allow to use node api outside of schematics files
+            if (imp.usageIn.spec || imp.usageIn.lib) {
+              imp.files.forEach((file) => {
+                // Allow to use Node APIs in:
+                // - SSR code (server-side rendering)
+                // - build-time config files (e.g. vitest.config.ts)
+                // - Node.js CLI tools (e.g. dev-proxy — a bin-shipped server tool)
+                if (
+                  !file.includes('ssr') &&
+                  !file.includes('dev-proxy') &&
+                  !file.endsWith('vitest.config.ts')
+                ) {
+                  errorsFound = true;
+                  error(
+                    file,
+                    [
+                      `Node.js API \`${chalk.bold(
+                        imp.importPath
+                      )}\` is referenced.`,
+                    ],
+                    [
+                      `Node.js APIs can only be used in SSR code or in schematics.`,
+                      `You might have wanted to import it from some library instead.`,
+                    ]
+                  );
+                }
+              });
             }
             return false;
           }
@@ -439,6 +467,20 @@ function filterNativeNodeAPIs(
     if (!errorsFound) {
       success();
     }
+  } else {
+    // In fix mode: strip native Node.js API imports so config:update does not
+    // inject them as peerDependencies in library package.json files.
+    Object.values(libraries).forEach((lib) => {
+      lib.tsImports = Object.values(lib.tsImports)
+        .filter((imp) => !allNodeAPIs.includes(imp.importPath))
+        .reduce(
+          (acc, curr) => {
+            acc[curr.importPath] = curr;
+            return acc;
+          },
+          {} as LibraryWithDependencies['tsImports']
+        );
+    });
   }
 }
 
@@ -677,7 +719,10 @@ function checkIfWeHaveAllDependenciesInPackageJson(
         if (
           !dep.dependency.startsWith(`${SPARTACUS_SCOPE}/`) &&
           dep.dependency !== SAP_SCOPE &&
-          !Object.keys(allDeps).includes(dep.dependency)
+          !Object.keys(allDeps).includes(dep.dependency) &&
+          // optionalDependencies are declared in the library's own package.json;
+          // they do not need to be listed in root package.json
+          !Object.keys(lib.optionalDependencies).includes(dep.dependency)
         ) {
           errors.push(
             `Missing \`${chalk.bold(

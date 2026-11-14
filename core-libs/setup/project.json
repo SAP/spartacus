@@ -17,6 +17,16 @@
         }
       }
     },
+    "build-dev-proxy": {
+      "description": "Compiles the dev proxy separately from the main ng-packagr build. Not included in the 'build' target because dependsOn is one-directional and adding a reverse dependency would create a cycle. Use 'npm run build:setup' (package.json) which chains both.",
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node_modules/.bin/tsc -p core-libs/setup/dev-proxy/tsconfig.node.json"
+      },
+      "dependsOn": ["build"],
+      "inputs": ["{projectRoot}/dev-proxy/**/*.ts"],
+      "outputs": ["{workspaceRoot}/dist/setup/dev-proxy"]
+    },
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {
