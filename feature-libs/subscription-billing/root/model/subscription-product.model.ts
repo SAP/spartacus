@@ -108,3 +108,8 @@ declare module '@spartacus/core' {
   }
 }
 (ProductScope as any)['SUBSCRIPTION'] = 'subscription';
+
+export enum SapAppliedDiscountCodesForSubscription {
+  FIXED = 'Fixed',
+  RECURRING = 'Recurring',
+}
