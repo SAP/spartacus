@@ -44,6 +44,113 @@ providers: [
 
 Place this provider at the injector that creates the customized feature; inspect lazy feature providers for a nearer override. Validate that the inherited behavior uses the customer implementation. Do not drop the override when removing the super argument.
 
+## Indirect customer inheritance
+
+What changed: the Spartacus base constructor loses its DI arguments, but an intermediate customer base can still require its own constructor arguments. The schematic does not automatically resolve every indirect chain. Trace the actual extends/import/barrel path and inspect each constructor before editing the leaf class.
+
+In this illustrative chain, CustomerAnalytics and CustomerCatalogPolicy represent existing customer dependencies and initialization, not new services to add. Keep the application's Angular decorators/imports and provider registrations; Injectable comes from @angular/core.
+
+Before:
+
+~~~ts
+@Injectable()
+class CustomerProductBase extends ProductService {
+  constructor(
+    store: Store<StateWithProduct>,
+    loading: ProductLoadingService,
+    protected analytics: CustomerAnalytics
+  ) {
+    super(store, loading);
+    this.analytics.initialize();
+  }
+}
+
+@Injectable()
+class CustomerCatalogService extends CustomerProductBase {
+  constructor(
+    store: Store<StateWithProduct>,
+    loading: ProductLoadingService,
+    analytics: CustomerAnalytics,
+    protected policy: CustomerCatalogPolicy
+  ) {
+    super(store, loading, analytics);
+    this.policy.initialize();
+  }
+}
+~~~
+
+After, when the published ProductService constructor takes no arguments:
+
+~~~ts
+@Injectable()
+class CustomerProductBase extends ProductService {
+  constructor(protected analytics: CustomerAnalytics) {
+    super();
+    this.analytics.initialize();
+  }
+}
+
+@Injectable()
+class CustomerCatalogService extends CustomerProductBase {
+  constructor(
+    analytics: CustomerAnalytics,
+    protected policy: CustomerCatalogPolicy
+  ) {
+    super(analytics);
+    this.policy.initialize();
+  }
+}
+~~~
+
+The leaf super(analytics) must remain: it calls the customer base, not ProductService. Preserve dependencies still used elsewhere by either class. Instantiate through the application's configured injector/injection context, check each retained initialization happens once, and exercise the inherited product-loading behavior with the customer policy. For mixins, factory-created bases or a customer library exported through a barrel, inspect that implementation instead of applying this chain blindly.
+
+## Component and lazy provider scope
+
+What changed: a former super(customService) substitution may need to be expressed through the base token that is now injected. A root alias alone cannot establish behavior when the feature/component creates its own provider.
+
+For a customized mini-cart whose existing helper belongs to the component injector, preserve that scope with the corresponding component metadata:
+
+~~~ts
+providers: [
+  CustomerMiniCartService,
+  {
+    provide: MiniCartComponentService,
+    useExisting: CustomerMiniCartService,
+  },
+]
+~~~
+
+CustomerMiniCartService stands for the customer's existing helper. Do not add this component-scoped provider when the application's helper intentionally belongs to the root or a lazy/route injector. Locate the provider that actually creates the feature; inspect any nearer override before changing registration. Keep original CMS component mappings and lazy boundaries.
+
+With the real customized component fixture and required application providers already configured, verify the instance at the creating injector:
+
+~~~ts
+const injector = fixture.debugElement.injector;
+expect(injector.get(MiniCartComponentService))
+  .toBe(injector.get(CustomerMiniCartService));
+~~~
+
+Keep or add the behavior assertion that proves inherited quantity/loading streams and the custom preview use that helper. A root TestBed.inject assertion does not prove component-scoped identity. Registering both tokens with useClass can create two instances; switching from useExisting must not silently split shared state. When the helper is intentionally root-scoped, check identity at that root and verify the lazy feature consumes it.
+
+## Specialized configuration and initialization order
+
+What changed: dependencies may now be read in base field initializers or constructor logic. Removing a super(customConfig) argument can lose a specialized config, while reassigning an inherited property after super() can be too late for work already started by the base.
+
+For a ProductListComponentService extension, a field override is applicable only when the target exposes the matching mutable config field and the relevant criteria stream reads it after subclass initialization. CustomerViewConfig must satisfy the target ViewConfig contract:
+
+~~~ts
+@Injectable()
+class CustomerProductListService extends ProductListComponentService {
+  protected override config = inject(CustomerViewConfig);
+}
+~~~
+
+Use the actual property name/type from the published base. Preserve existing provider aliases for the list helper and the components/facets that share it. Confirm the timing from the target implementation and a behavior test: the configured page size, route reset and facets must still use the custom policy. If the base consumes its injected config earlier, a later property override is insufficient; supply the intended token at the creating injector using the application's supported configuration design.
+
+If CustomerViewConfig itself injects ViewConfig to derive a specialized copy, globally aliasing ViewConfig to CustomerViewConfig introduces a dependency cycle and can affect unrelated features. Keep the original config available through the customer's existing configuration/provider design; do not invent a global alias or a new injector to make the code compile.
+
+Review retained constructor side effects, subscriptions and field initializers as a unit. Keep their original count, lifecycle cleanup and required order. Do not duplicate initialization in both a moved field and the constructor, call an overridden method before the leaf's fields exist, or make an async operation synchronous just to fit an example. Use the customer's existing assertions for initialized state and the first/later stream emissions.
+
 ## Direct construction in tests
 
 What changed: field initializers call inject(), so ordinary new CustomerProductService(...) outside Angular can throw NG0203.

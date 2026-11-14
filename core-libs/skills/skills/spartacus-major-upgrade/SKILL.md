@@ -1,12 +1,14 @@
 ---
 name: spartacus-major-upgrade
-description: Migrate a customized SAP Commerce Cloud composable storefront from Spartacus 221121.22 and Angular 21 to the Spartacus 221121.24 / Angular 22 major release. Use when preparing the dependency update, reviewing schematic changes, or fixing remaining customer subclass, template, styling, SSR, and test migration errors.
+description: Migrate a customized SAP Commerce Cloud composable storefront from Spartacus 221121.21/22 and Angular 21 to the Spartacus 221121.24 / Angular 22 major release. Use when preparing the dependency update, reviewing schematic changes, or fixing remaining customer subclass, template, styling, SSR, and test migration errors.
 license: Apache-2.0
 ---
 
 # Spartacus major upgrade for customer applications
 
 Complete the upgrade in the customer's application while preserving its storefront behavior and customizations. This guidance is for consumer applications, not for modernizing the Spartacus framework repository.
+
+Use [the customer workflow](references/customer-workflow.md) when establishing the application-specific baseline, planning manual work, validating custom behavior or preparing an upgrade report and rollback. This is guidance for the assistant to apply after reading the customer code; it does not prescribe an application architecture or provide an automatic application analyzer.
 
 Read [the Angular 22 migration reference](references/angular-22.md) for dependency, automation and SSR changes. For customer code diagnostics, read the matching [before/after recipes](references/code-migrations.md) and [removed API table](references/removed-apis.md). Use the installed target packages' declarations, peer dependencies and schematic output as the source of truth for exact APIs and versions. The reference distinguishes automatic changes from customer work; schematic completion alone does not mean the application is migrated.
 
@@ -26,7 +28,9 @@ For every applicable change, identify the customer's old usage, explain the targ
 
 ## Establish the actual migration scope
 
-Inspect the application's package.json, lockfile, Angular build/test targets, SSR entry point and custom classes/templates that extend or replace Spartacus features. Record the starting Angular/Spartacus versions and existing build/test results. Identify which B2C, B2B, SSR, PWA and integration scenarios this application uses.
+Inspect the application's package.json, lockfile, Angular build/test targets, SSR entry point and custom classes/templates that extend or replace Spartacus features. Record the starting Angular/Spartacus versions and existing build/test results. Identify which B2C, B2B, SSR, PWA and integration scenarios this application uses. Follow customer-owned inheritance and provider registrations across workspace libraries, barrels and lazy boundaries; a search for direct Spartacus imports or schematic TODOs is only a starting point.
+
+Read and preserve existing project instructions, upgrade notes and custom skills. Keep customer-specific decisions and evidence in their existing documentation, or an agreed upgrade note outside the package-managed skill folders so a later skill refresh does not replace them.
 
 Use the customer's selected target release and registry. Keep installed Spartacus packages on that release, resolve Angular ecosystem peers together, and run the corresponding Angular and Spartacus migrations. Review scripts and existing customer assertions before changing them. Do not use an unconstrained latest dependency update, force peer resolution, or replace the application with a generated demo.
 
@@ -40,11 +44,11 @@ Use the customer's selected target release and registry. Keep installed Spartacu
 
 ## Prove the customer behavior
 
-Run a clean install with the updated lockfile, production builds, relevant application tests and actual browser interactions for the features customized by this app. For SSR, include hydration/event replay, allowed/rejected hosts and the requested prerender routes. For PWA apps, test the affected worker/cache behavior.
+Run a clean install with the updated lockfile, production builds, relevant application tests and actual browser interactions for the features customized by this app. Compare the upgraded behavior with the recorded baseline, including custom instance identity and initialization. Do not delete assertions, disable tests, substitute a demo/stub for a real customization, or change test runners to make the upgrade appear successful. A test adaptation must preserve the customer requirement and explain the changed target contract. For SSR, include hydration/event replay, allowed/rejected hosts and the requested prerender routes. For PWA apps, test the affected worker/cache behavior.
 
 Use real backend fixtures for authenticated workflows when available. Separate a code regression from an invalid OAuth client/redirect configuration or missing fixture. State the exact unverified scenario and the configuration or fixture needed to finish it; do not count a stub, disabled test or compilation as backend/browser coverage.
 
-Finish with the target package versions, changes schematics made, manual customer changes, commands/results and remaining failures or fixture limitations. Distinguish old baseline results from evidence on the upgraded packages. Publication and merge follow the customer's existing process.
+Finish with the target package versions, changes schematics made, manual customer changes, commands/results and remaining failures or fixture limitations. Distinguish old baseline results from evidence on the upgraded packages. Use the adaptable [report outline](references/customer-workflow.md#application-specific-upgrade-report) to make remaining manual work and evidence reviewable. Publication, merge and rollback follow the customer's existing process; restoring a source checkpoint does not undo backend or external state changes.
 
 ## Using this with different assistants
 

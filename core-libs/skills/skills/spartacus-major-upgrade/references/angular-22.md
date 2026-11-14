@@ -1,12 +1,12 @@
 # Spartacus 221121.24 / Angular 22 customer migration
 
-Use this reference when upgrading an Angular 21 / Spartacus 221121.22 customer application. It describes this major release; check the selected patch's published package metadata before choosing dependency versions or assuming an API still exists.
+Use this reference when upgrading an Angular 21 / Spartacus 221121.21/22 customer application. It describes this major release; check the selected patch's published package metadata before choosing dependency versions or assuming an API still exists.
 
 ## Dependencies and builders
 
 Angular core, CLI/builders, CDK, SSR/platform-server and the installed NgRx packages need compatible Angular 22 peers. Other ecosystem majors include ng-select 24, angular-oauth2-oidc 22 and ngx-infinite-scroll 22. ng-select requires a direct CDK dependency. Include only libraries used by the customer application.
 
-The framework's reviewed combination uses TypeScript 6.0.3, RxJS 7.8.2, Zone.js 0.16.3 and i18next 26.7.1. These are compatibility evidence, not permission to overwrite the customer's dependency policy. Angular 22 requires TypeScript >=6.0 <6.1; blindly installing the latest TypeScript major breaks that peer requirement. When upgrading TypeScript 5 to 6, prepare an i18next version supporting both before the combined update if the old version blocks resolution.
+The framework's reviewed combination uses TypeScript 6.0.3, RxJS 7.8.2, Zone.js 0.16.3 and i18next 26.7.1. These are compatibility evidence, not permission to overwrite the customer's dependency policy. Angular 22 requires TypeScript >=6.0 <6.1; blindly installing the latest TypeScript major breaks that peer requirement. When upgrading TypeScript 5 to 6, prepare an i18next version supporting both within the old Spartacus peer range only if the installed version blocks resolution. For the validated old ^25.7.4 peer, 25.10.10 supports both TypeScript versions; an already compatible installation needs no separate preparation. Include target i18next26 in the combined dependency update, rather than installing it alone against old Spartacus peers.
 
 Check the target package and CLI Node engine ranges. Validation used Node 22.23.4 and 24.22.2 with npm 12.2.2. npm 12.2.2 is the framework workspace pin, not a requirement to add Nx or framework tooling to a customer app. Preserve the customer's registry/auth configuration; do not log tokens or overwrite global npm settings to resolve an installation problem.
 
@@ -106,6 +106,8 @@ For hydration, retain references to server-rendered DOM nodes, allow the applica
 Exercise error/status/timeout behavior relevant to the customer's SSR handler overrides and preserve browser-only guards around WindowRef, storage and DOM usage. For PWA, verify the affected worker registration, cache/update flow and offline shell. Offline OCC content is covered only if the application explicitly caches it.
 
 ## Validation and final report
+
+Use [the customer workflow](customer-workflow.md) to establish application-specific contracts and baseline evidence, compare affected workspace consumers, and keep a report/rollback checkpoint without replacing customer instructions.
 
 After resolving schematic comments, run the customer's clean install, production build and tests on its supported Node versions. Use its actual commands/build configurations rather than adding framework CI or Nx tooling. Inspect all installed Spartacus versions and lockfile changes.
 
