@@ -936,6 +936,15 @@ export interface FeatureTogglesInterface {
   enableFormFieldMaxLength?: boolean;
 
   /**
+   * In `ActiveFacetsComponent`, renders a "Clear all filters" button when there
+   * are active facets applied. Activating it removes all user-applied facets at
+   * once while preserving the free text search and category context.
+   *
+   * Affects: `ActiveFacetsComponent`
+   */
+  clearAllActiveFacets?: boolean;
+
+  /**
    * Makes the CVV (Card Verification Value) info icon in the checkout
    * payment form keyboard accessible by rendering it as a focusable button.
    *
@@ -1122,6 +1131,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showWarningMessageOnRequoteButtonClick: false,
   oauthCallbackPage: false,
   enableFormFieldMaxLength: false,
+  clearAllActiveFacets: false,
   a11yCvvInfoIconKeyboardAccessible: false,
   a11yBannerArrowKeyNavigation: false,
   a11yTableKeyboardNavigation: false,
