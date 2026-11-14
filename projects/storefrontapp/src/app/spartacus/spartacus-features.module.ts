@@ -403,6 +403,7 @@ if (environment.cpq) {
         a11yInStockInfoTextContrast: true,
         a11yHighContrastFix: true,
         useConfigurableLogoutRedirect: true,
+        productConfiguratorUpdateMsg: true,
       };
       return appFeatureToggles;
     }),

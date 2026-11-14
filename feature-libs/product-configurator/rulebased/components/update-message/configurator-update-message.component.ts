@@ -6,7 +6,7 @@
 
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -28,22 +28,24 @@ export class ConfiguratorUpdateMessageComponent {
         this.configuratorCommonsService.hasPendingChanges(routerData.owner)
       ),
       distinctUntilChanged(), // avoid subsequent emissions of the same value from the source observable
-      switchMap(
-        (isLoading) =>
-          isLoading
-            ? of(isLoading).pipe(
-                delay(
-                  this.config.productConfigurator?.updateConfigurationMessage
-                    ?.waitingTime || 1000
-                )
-              ) // delay information if it is loading
-            : of(isLoading) // inform immediately if it's not loading anymore
-      )
+      switchMap((hasPendingChanges) => {
+        const messageConfig =
+          this.config.productConfigurator?.updateConfigurationMessage;
+        const showDelayMs = messageConfig?.waitingTime ?? 1000;
+        const hideDelayMs =
+          messageConfig?.hideWaitingTime ?? messageConfig?.waitingTime ?? 1000;
+
+        return of(hasPendingChanges).pipe(
+          delay(hasPendingChanges ? showDelayMs : hideDelayMs)
+        );
+      })
     );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected config: ConfiguratorMessageConfig
-  ) {}
+  ) {
+    useFeatureStyles('productConfiguratorUpdateMsg');
+  }
 }
