@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -18,7 +18,7 @@ import {
   Optional,
   ViewChild,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import {
   FeatureToggles,
@@ -31,6 +31,7 @@ import { distinctUntilChanged, take } from 'rxjs/operators';
 import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
 import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
 import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
+import { PageLayoutService } from '../../cms-structure/page/page-layout/page-layout.service';
 import { PageTemplateDirective } from '../../cms-structure/page/page-layout/page-template.directive';
 import { PageSlotComponent } from '../../cms-structure/page/slot/page-slot.component';
 import {
@@ -53,6 +54,7 @@ import { StorefrontOutlets } from './storefront-outlets.model';
   templateUrl: './storefront.component.html',
   imports: [
     RouterModule,
+    NgIf,
     PageLayoutComponent,
     PageSlotComponent,
     FocusDirective,
@@ -83,6 +85,13 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     optional: true,
   });
 
+  protected readonly pageLayoutService = inject(PageLayoutService);
+  private readonly featureToggles = inject(FeatureToggles);
+
+  readonly isCustomTemplate = toSignal(
+    this.pageLayoutService.isCustomTemplate$
+  );
+
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
@@ -91,7 +100,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
 
-  private keyboardFocusConfig: FocusConfig = {
+  private readonly keyboardFocusConfig: FocusConfig = {
     focusOnEscape: true,
     focusOnDoubleEscape: true,
   };
@@ -105,13 +114,11 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     );
   }
 
-  private featureToggles = inject(FeatureToggles);
-
   protected categoryPageFocusSelector = 'cx-breadcrumb nav a';
 
   constructor(
-    private hamburgerMenuService: HamburgerMenuService,
-    private routingService: RoutingService,
+    private readonly hamburgerMenuService: HamburgerMenuService,
+    private readonly routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {
@@ -183,6 +190,12 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     if (focusable) {
       setTimeout(() => focusable.focus());
     }
+  }
+
+  isInCustomTemplate(): boolean {
+    return !!(
+      this.featureToggles.enableCustomPageTemplate && this.isCustomTemplate()
+    );
   }
 
   ngOnDestroy(): void {

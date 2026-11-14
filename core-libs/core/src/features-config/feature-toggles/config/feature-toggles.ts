@@ -406,6 +406,12 @@ export interface FeatureTogglesInterface {
   enableRemoveVoucherEndpoint?: boolean;
 
   /**
+   * When enabled, allows the use of custom page templates
+   * defined outside the default CMS page template configuration.
+   */
+  enableCustomPageTemplate?: boolean;
+
+  /**
    * When enabled, shows sort fields only at the top of the table.
    * When disabled, shows sort fields at both top and bottom.
    */
@@ -1078,6 +1084,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useEnhancedSecurePasswordValidators: true,
   enableApplyVoucherEndpoint: false,
   enableRemoveVoucherEndpoint: true,
+  enableCustomPageTemplate: false,
   showSortFieldsOnlyAtTop: true,
   showRequiredAsterisks: true,
   enableExpiredRefreshTokenHandlers: true,

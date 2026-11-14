@@ -7,11 +7,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
+import { CmsPageTemplateAdapter } from '../../../cms/connectors/page/cms-page-template.adapter';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { OccCmsPageNormalizer } from './converters/occ-cms-page-normalizer';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
+import { OccCmsPageTemplateAdapter } from './occ-cms-page-template.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -28,6 +30,10 @@ import { OccCmsPageAdapter } from './occ-cms-page.adapter';
     {
       provide: CmsComponentAdapter,
       useExisting: OccCmsComponentAdapter,
+    },
+    {
+      provide: CmsPageTemplateAdapter,
+      useExisting: OccCmsPageTemplateAdapter,
     },
   ],
 })

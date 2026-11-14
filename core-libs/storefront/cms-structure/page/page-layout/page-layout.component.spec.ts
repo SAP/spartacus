@@ -1,16 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsService,
-  Config,
   ContentSlotData,
+  CustomSection,
   Page,
-  provideConfig,
-  provideDefaultConfig,
+  SectionItem,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { DirectiveStateTransferService } from '../../../utils';
 import { OutletDirective } from '../../outlet';
@@ -25,6 +23,23 @@ const slots = {
     components: [],
   },
 };
+
+const customItem: SectionItem = {
+  name: 'main',
+  position: 'CustomMainSlot',
+  rowStart: 1,
+  colStart: 2,
+  rowSpan: 2,
+  colSpan: 3,
+};
+
+const customSections: CustomSection[] = [
+  { name: 'main', sectionItems: [customItem] },
+  {
+    name: 'secondary',
+    sectionItems: [{ ...customItem, position: 'CustomSecondarySlot' }],
+  },
+];
 
 @Component({
   selector: 'cx-page-template-test',
@@ -76,6 +91,9 @@ class MockCmsService {
 
 @Injectable()
 class MockPageLayoutService {
+  readonly customSections$ = new BehaviorSubject<CustomSection[] | null>(null);
+  readonly pageFoldSlot$ = new BehaviorSubject<string>('');
+
   getSlots(section?: string): Observable<string[]> {
     if (section) {
       return of(['LogoSlot']);
@@ -84,7 +102,7 @@ class MockPageLayoutService {
   }
 
   getPageFoldSlot(_pageTemplate: string): Observable<string> {
-    return of('');
+    return this.pageFoldSlot$;
   }
 
   get templateName$(): Observable<string> {
@@ -118,12 +136,13 @@ class MockDirectiveStateTransferService
 describe('PageLayoutComponent', () => {
   let pageLayoutComponent: MockPageTemplateComponent;
   let fixture: ComponentFixture<MockPageTemplateComponent>;
+  let pageLayoutService: MockPageLayoutService;
+  let layoutComponent: PageLayoutComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         PageTemplateDirective,
-        CommonModule,
         OutletDirective,
         MockPageTemplateComponent,
         MockHeaderComponent,
@@ -141,11 +160,9 @@ describe('PageLayoutComponent', () => {
         },
       ],
     })
-      .overrideComponent(MockPageTemplateComponent, {
+      .overrideComponent(PageLayoutComponent, {
         remove: { imports: [PageSlotComponent] },
-        add: {
-          imports: [MockDynamicSlotComponent, MockPageTemplateComponent],
-        },
+        add: { imports: [MockDynamicSlotComponent] },
       })
       .compileComponents();
   });
@@ -153,6 +170,12 @@ describe('PageLayoutComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MockPageTemplateComponent);
     pageLayoutComponent = fixture.componentInstance;
+    pageLayoutService = TestBed.inject(
+      PageLayoutService
+    ) as unknown as MockPageLayoutService;
+    layoutComponent = fixture.debugElement.query(
+      By.directive(PageLayoutComponent)
+    ).componentInstance;
     fixture.detectChanges();
   });
 
@@ -180,6 +203,108 @@ describe('PageLayoutComponent', () => {
       fixture.debugElement.query(By.css('.content')).nativeElement.innerHTML
     ).toContain('content projection');
   });
+
+  describe('custom sections', () => {
+    it('should render slots from each custom section instead of normal slots', () => {
+      pageLayoutService.customSections$.next(customSections);
+
+      fixture.detectChanges();
+
+      const elements = fixture.debugElement.queryAll(
+        By.directive(MockDynamicSlotComponent)
+      );
+      expect(
+        elements.map((element) => element.componentInstance.position)
+      ).toEqual(['CustomMainSlot', 'CustomSecondarySlot']);
+      expect(
+        fixture.debugElement.queryAll(By.css('.custom-section')).length
+      ).toBe(2);
+    });
+
+    it('should apply grid styles from the custom slot configuration', () => {
+      pageLayoutService.customSections$.next(customSections);
+
+      fixture.detectChanges();
+
+      const slot: HTMLElement = fixture.debugElement.query(
+        By.directive(MockDynamicSlotComponent)
+      ).nativeElement;
+      expect(slot.style.gridRowStart).toBe('1');
+      expect(slot.style.gridColumnStart).toBe('2');
+      expect(slot.style.gridRowEnd).toBe('span 2');
+      expect(slot.style.gridColumnEnd).toBe('span 3');
+    });
+
+    it('should restore normal slots when custom sections are unavailable', () => {
+      pageLayoutService.customSections$.next(customSections);
+      fixture.detectChanges();
+
+      pageLayoutService.customSections$.next(null);
+      fixture.detectChanges();
+
+      const elements = fixture.debugElement.queryAll(
+        By.directive(MockDynamicSlotComponent)
+      );
+      expect(
+        elements.map((element) => element.componentInstance.position)
+      ).toEqual(['Section1', 'Section2A']);
+      expect(fixture.debugElement.query(By.css('.custom-section'))).toBeNull();
+    });
+
+    it('should render no slots for an empty custom template', () => {
+      pageLayoutService.customSections$.next([]);
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.queryAll(By.directive(MockDynamicSlotComponent))
+      ).toHaveLength(0);
+    });
+
+    it('should preserve page-fold configuration for normal slots', () => {
+      pageLayoutService.pageFoldSlot$.next('Section2A');
+
+      fixture.detectChanges();
+
+      const elements = fixture.debugElement.queryAll(
+        By.directive(MockDynamicSlotComponent)
+      );
+      expect(
+        elements.map((element) => element.componentInstance.isPageFold)
+      ).toEqual([false, true]);
+    });
+  });
+
+  describe('convertToStyle', () => {
+    it('should return grid styles for a valid section item', () => {
+      expect(layoutComponent.convertToStyle(customItem)).toEqual({
+        'grid-row-start': 1,
+        'grid-column-start': 2,
+        'grid-row-end': 'span 2',
+        'grid-column-end': 'span 3',
+      });
+    });
+
+    it.each(['rowSpan', 'colSpan'] as const)(
+      'should omit grid styles when %s is zero or negative',
+      (property) => {
+        for (const value of [0, -1]) {
+          expect(
+            layoutComponent.convertToStyle({ ...customItem, [property]: value })
+          ).toEqual({});
+        }
+      }
+    );
+
+    it.each(['rowStart', 'colStart', 'rowSpan', 'colSpan'] as const)(
+      'should omit grid styles when %s is NaN',
+      (property) => {
+        expect(
+          layoutComponent.convertToStyle({ ...customItem, [property]: NaN })
+        ).toEqual({});
+      }
+    );
+  });
 });
 
 describe('SectionLayoutComponent', () => {
@@ -188,12 +313,7 @@ describe('SectionLayoutComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        OutletDirective,
-        MockHeaderComponent,
-        MockDynamicSlotComponent,
-      ],
+      imports: [OutletDirective, MockHeaderComponent, MockDynamicSlotComponent],
       providers: [
         {
           provide: CmsService,
@@ -206,7 +326,12 @@ describe('SectionLayoutComponent', () => {
           useClass: MockDirectiveStateTransferService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PageLayoutComponent, {
+        remove: { imports: [PageSlotComponent] },
+        add: { imports: [MockDynamicSlotComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -230,5 +355,22 @@ describe('SectionLayoutComponent', () => {
       By.css('cx-page-layout')
     );
     expect(pageLayoutElement.nativeElement.classList).toContain('header');
+  });
+
+  it('should use normal header slots even when custom sections are available', () => {
+    const pageLayoutService = TestBed.inject(
+      PageLayoutService
+    ) as unknown as MockPageLayoutService;
+    pageLayoutService.customSections$.next(customSections);
+
+    fixture.detectChanges();
+
+    const elements = fixture.debugElement.queryAll(
+      By.directive(MockDynamicSlotComponent)
+    );
+    expect(
+      elements.map((element) => element.componentInstance.position)
+    ).toEqual(['LogoSlot']);
+    expect(fixture.debugElement.query(By.css('.custom-section'))).toBeNull();
   });
 });

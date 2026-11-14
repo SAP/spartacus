@@ -9,10 +9,13 @@
       (click)="collapseMenuIfClickOutside($event)"
     >
       <cx-page-layout section="header" [cxSkipFocus]="skipFocusConfig" />
-
       <cx-page-layout section="navigation" />
     </header>
-    <cx-page-slot position="BottomHeaderSlot" class="cx-bottom-header-slot" />
+    <cx-page-slot
+      *ngIf="!isInCustomTemplate()"
+      position="BottomHeaderSlot"
+      class="cx-bottom-header-slot"
+    />
     <cx-global-message aria-atomic="true" aria-live="assertive" />
   </ng-template>
 
