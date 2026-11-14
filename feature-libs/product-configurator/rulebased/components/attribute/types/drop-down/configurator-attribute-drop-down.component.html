@@ -16,57 +16,126 @@
       }}
     </label>
     <div class="cx-value-label-pair">
-      <select
-        id="{{ createAttributeIdForConfigurator(attribute) }}"
-        class="form-control"
-        [ngClass]="{
-          'cx-required-error-msg ': (showRequiredErrorMessage$ | async),
-        }"
-        [formControl]="attributeDropDownForm"
-        [cxFocus]="{ key: attribute.name }"
-        (change)="onSelect(attributeDropDownForm.value)"
-        [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-      >
-        <option
-          *ngFor="let item of attribute.values"
-          [selected]="item.selected"
-          [label]="
+      <ng-container *cxFeature="'productConfiguratorDropDownList'">
+        <div class="cx-dropdown">
+          <div
+            *ngIf="isOpen"
+            class="cx-dropdown-backdrop"
+            (click)="closeDropdown()"
+          ></div>
+          <button
+            #dropdownTrigger
+            type="button"
+            id="{{ createAttributeIdForConfigurator(attribute) }}"
+            class="form-control cx-dropdown-trigger"
+            [ngClass]="{
+              'cx-required-error-msg': (showRequiredErrorMessage$ | async),
+            }"
+            [attr.aria-expanded]="isOpen"
+            [attr.aria-describedby]="
+              createAttributeUiKey('label', attribute.name)
+            "
+            aria-haspopup="listbox"
+            (click)="toggleDropdown()"
+            [cxFocus]="{ key: attribute.name }"
+          >
+            <span class="cx-dropdown-selected-label">{{
+              getOptionLabel(getSelectedValue())
+            }}</span>
+          </button>
+          <div
+            *ngIf="isOpen"
+            class="cx-dropdown-panel"
+            role="listbox"
+            [class.cx-dropdown-panel--up]="dropdownDirection === 'up'"
+          >
+            <div
+              *ngFor="let item of attribute.values"
+              role="option"
+              [attr.aria-selected]="item.selected"
+              [attr.aria-label]="getAriaLabel(item, attribute)"
+              class="cx-dropdown-option"
+              [class.cx-selected]="item.selected"
+              (click)="selectOption(item.valueCode)"
+            >
+              <span class="cx-dropdown-option-label">{{
+                getOptionLabel(item)
+              }}</span>
+              <span
+                *ngIf="getOptionPriceDisplay(item, changedPrices) as price"
+                class="cx-dropdown-option-price"
+                >{{ price }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="getSelectedValue() as sel">
+          <cx-configurator-show-more
+            *ngIf="sel.description"
+            [text]="sel.description"
+            [textSize]="getValueDescriptionLength()"
+            [productName]="getOptionLabel(sel)"
+            [tabIndex]="0"
+            [attributeLabel]="attribute.label"
+            [valueLabel]="sel.valueDisplay"
+          />
+        </ng-container>
+      </ng-container>
+      <ng-container *cxFeature="'!productConfiguratorDropDownList'">
+        <select
+          id="{{ createAttributeIdForConfigurator(attribute) }}"
+          class="form-control"
+          [ngClass]="{
+            'cx-required-error-msg ': (showRequiredErrorMessage$ | async),
+          }"
+          [formControl]="attributeDropDownForm"
+          [cxFocus]="{ key: attribute.name }"
+          (change)="onSelect(attributeDropDownForm.value)"
+          [attr.aria-describedby]="
+            createAttributeUiKey('label', attribute.name)
+          "
+        >
+          <option
+            *ngFor="let item of attribute.values"
+            [selected]="item.selected"
+            [label]="
+              getLabel(
+                expMode,
+                item.valueDisplay,
+                item.valueCode,
+                enrichValueWithPrice(item, changedPrices)
+              )
+            "
+            [attr.aria-label]="getAriaLabel(item, attribute)"
+            [value]="item.valueCode"
+          >
+            {{
+              getLabel(
+                expMode,
+                item.valueDisplay,
+                item.valueCode,
+                enrichValueWithPrice(item, changedPrices)
+              )
+            }}
+          </option>
+        </select>
+        <cx-configurator-show-more
+          *ngIf="getSelectedValueDescription()"
+          [text]="getSelectedValueDescription()"
+          [textSize]="getValueDescriptionLength()"
+          [productName]="
             getLabel(
               expMode,
-              item.valueDisplay,
-              item.valueCode,
-              enrichValueWithPrice(item, changedPrices)
+              getSelectedValue()?.valueDisplay,
+              getSelectedValue()?.valueCode,
+              getSelectedValue()
             )
           "
-          [attr.aria-label]="getAriaLabel(item, attribute)"
-          [value]="item.valueCode"
-        >
-          {{
-            getLabel(
-              expMode,
-              item.valueDisplay,
-              item.valueCode,
-              enrichValueWithPrice(item, changedPrices)
-            )
-          }}
-        </option>
-      </select>
-      <cx-configurator-show-more
-        *ngIf="getSelectedValueDescription()"
-        [text]="getSelectedValueDescription()"
-        [textSize]="getValueDescriptionLength()"
-        [productName]="
-          getLabel(
-            expMode,
-            getSelectedValue()?.valueDisplay,
-            getSelectedValue()?.valueCode,
-            getSelectedValue()
-          )
-        "
-        [tabIndex]="0"
-        [attributeLabel]="attribute.label"
-        [valueLabel]="getSelectedValue()?.valueDisplay"
-      />
+          [tabIndex]="0"
+          [attributeLabel]="attribute.label"
+          [valueLabel]="getSelectedValue()?.valueDisplay"
+        />
+      </ng-container>
     </div>
     <div *ngIf="!withQuantity && getSelectedValue()" class="cx-value-price">
       <cx-configurator-price

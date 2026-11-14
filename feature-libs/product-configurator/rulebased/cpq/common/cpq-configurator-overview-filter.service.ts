@@ -10,8 +10,9 @@ import { Configurator } from '@spartacus/product-configurator/rulebased';
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorOverviewFilterService {
   /**
-   * Filters top-level groups by ID. Only top-level group IDs in groupFilters are
-   * matched; subgroup IDs are not traversed and are silently ignored.
+   * Applies attribute and group filters to the unfiltered overview groups.
+   * Group filtering matches top-level group IDs only; subgroup IDs are not
+   * traversed and are silently ignored.
    */
   filter(
     possibleGroups: Configurator.GroupOverview[],
@@ -44,8 +45,9 @@ export class CpqConfiguratorOverviewFilterService {
   }
 
   /**
-   * Filters attributes keeping only ones that have a non zero price,
-   *  preserving nested groups (e.g. container rows) as headers for the priced attributes they contain.
+   * Filters attributes keeping only ones that have a non-zero price, preserving
+   * nested groups (e.g. container rows) as headers for the priced attributes
+   * they contain.
    */
   protected filterByPrice(
     group: Configurator.GroupOverview
@@ -53,7 +55,7 @@ export class CpqConfiguratorOverviewFilterService {
     const filteredGroup: Configurator.GroupOverview = {
       id: group.id,
       groupDescription: group.groupDescription,
-      attributes: group.attributes?.filter((attr) =>
+      attributes: (group.attributes ?? []).filter((attr) =>
         this.isPriceRelevant(attr)
       ),
     };
