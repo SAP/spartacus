@@ -9,6 +9,9 @@ on:
         description: 'Enter the repository URL (default will be used if empty)'
         required: false
         secret: true
+      domainCode:
+        description: 'Enter the domain code (used to build the FE URL)'
+        required: true
 
 permissions:
   contents: read
@@ -17,6 +20,7 @@ env:
   CONFIG_DIR: scripts/install
   NPM_REPO_URL: https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/
   OCC_BACKEND_URL: OCC_BACKEND_BASE_URL_VALUE
+  FE_URL: https://spartacusstore.${{ inputs.domainCode }}-${{ inputs.domainCode }}-p1-public.model-t.myhybris.cloud
 
 jobs:
   run_script:
@@ -50,6 +54,12 @@ jobs:
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
       - name: Checkout repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Print Node and npm versions
+        run: |
+          node --version
+          npm --version
+      - name: Install npm 11
+        run: sudo npm install -g npm@11
       - name: Create storefronts
         env:
           INPUT_VERSION: ${{ github.event.inputs.version }}
@@ -169,6 +179,19 @@ jobs:
             cp -r "./../../spartacus-${INPUT_VERSION}-b2b/apps/b2bspastore/"* js-storefront/b2bspastore/
             git add .
             git commit -m "Updated content of js-storefront/b2bspastore"
+
+            # Append OAuth client entry for mobile_android_public_electronics-spa
+            IMPEX_FILE="core-customize/hybris/bin/custom/spartacussampledata/resources/spartacussampledata/import/common/oauth-clients.impex"
+            printf '\nINSERT_UPDATE OAuthClientDetails; clientId[unique=true];public ;authorities ;scope ;authorizedGrantTypes;registeredRedirectUri ;loginPageUri\n' >> "${IMPEX_FILE}"
+            printf ' ; mobile_android_public_electronics-spa     ;true   ;ROLE_CLIENT ;basic ;authorization_code,refresh_token ;%s/electronics-spa/oauth-callback          ;%s/electronics-spa/login\n' "${FE_URL}" "${FE_URL}" >> "${IMPEX_FILE}"
+            git add "${IMPEX_FILE}"
+            git commit -m "Updated oauth-clients.impex with mobile_android_public_electronics-spa OAuth client"
+
+            # Append allowed host entry to local.properties
+            LOCAL_PROPS="core-customize/hybris/config/local.properties"
+            printf '\nauthserver.oauthclientdetails.loginpageuri.allowed.hosts= %s\n' "${FE_URL}" >> "${LOCAL_PROPS}"
+            git add "${LOCAL_PROPS}"
+            git commit -m "Updated local.properties with FE_URL allowed host"
 
             git push -u "$REPO_URL"
           }
