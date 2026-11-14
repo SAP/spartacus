@@ -27,6 +27,7 @@
   },
   "peerDependencies": {
     "@angular-devkit/schematics": "^21.2.23",
+    "@angular/cdk": "^21.2.0",
     "@angular/common": "^21.2.23",
     "@angular/core": "^21.2.23",
     "@angular/forms": "^21.2.23",
