@@ -177,6 +177,33 @@ describe('updateServerTs (runtime config)', () => {
     expect(serverTs).not.toContain('parseConfigJson');
     expect(serverTs).toContain("process.env['CONFIG_URL']");
     expect(serverTs).toContain('.secret');
+    expect(serverTs).toContain("'Cache-Control'");
+    expect(serverTs).toContain("'no-store'");
+    expect(serverTs).toContain('console.warn');
+  });
+
+  it('should add file:// branch to /config.json route using fileURLToPath', () => {
+    const serverTs = tree.readText(SERVER_TS_PATH);
+    expect(serverTs).toContain('file://');
+    expect(serverTs).toContain('fileURLToPath');
+    expect(serverTs).toContain('node:url');
+  });
+
+  it('should set Cache-Control: no-store on /config.json proxy route responses', () => {
+    const serverTs = tree.readText(SERVER_TS_PATH);
+    const configRouteStart = serverTs.indexOf("server.get('/config.json'");
+    const catchAllStart = serverTs.indexOf('server.get(/.*/,');
+    const routeContent = serverTs.slice(configRouteStart, catchAllStart);
+    expect(routeContent).toContain("'Cache-Control'");
+    expect(routeContent).toContain("'no-store'");
+  });
+
+  it('should log console.warn in catch block of /config.json proxy route', () => {
+    const serverTs = tree.readText(SERVER_TS_PATH);
+    const configRouteStart = serverTs.indexOf("server.get('/config.json'");
+    const catchAllStart = serverTs.indexOf('server.get(/.*/,');
+    const routeContent = serverTs.slice(configRouteStart, catchAllStart);
+    expect(routeContent).toContain('console.warn');
   });
 
   it('should insert /config.json route after the static asset route', () => {

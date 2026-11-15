@@ -17,10 +17,6 @@ import ts from 'typescript';
  * never recorded as dependencies and the checker flags them as unused in
  * `optionalDependencies`.
  *
- * The canonical example in this codebase is `core-libs/setup/dev-proxy/config-proxy-server.ts`,
- * which loads `fastify` and `@fastify/http-proxy` via `cwdRequire` so they resolve
- * from the consuming app's `node_modules` rather than the published package dist.
- *
  * @example
  * ```ts
  * import { createRequire } from 'node:module';

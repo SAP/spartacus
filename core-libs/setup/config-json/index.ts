@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 export * from './get-runtime-environment';
-export * from './get-server-runtime-environment';
 export * from './parse-config-json';
 export * from './provide-environment';
 export * from './provide-runtime-occ-config';

@@ -160,6 +160,44 @@ function prepareDependencies(): NodeDependency[] {
  *
  * TODO: CXSPA-6466 Can be removed if Model T adjust their build process to not require this script.
  */
+function addServeSSRDevScript(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `⌛️ Adding "serve:ssr:dev" script to "package.json"...`
+      );
+    }
+    const pkgPath = '/package.json';
+    const pkg = tree.readJson(pkgPath) as {
+      scripts?: Record<string, string>;
+    } | null;
+    if (pkg === null) {
+      throw new SchematicsException('Could not find package.json');
+    }
+    if (pkg.scripts?.['serve:ssr:dev']) {
+      return; // already present — skip silently
+    }
+    const serveScript = pkg.scripts?.['serve:ssr'];
+    // Prefix the existing serve:ssr script with dev env vars:
+    //   CONFIG_URL=file://${PWD}/config.json — reads config.json from disk per render.
+    //   NODE_TLS_REJECT_UNAUTHORIZED=0 — skips TLS verification for OCC backends that use
+    //     self-signed certificates in local/demo environments. Remove this before going to
+    //     production or when connecting to a backend with a valid certificate chain.
+    // ${PWD} is a POSIX shell variable expanded at runtime — always the correct absolute
+    // path regardless of who runs it or where the repo lives (no machine-specific path baked in).
+    const devScript = serveScript
+      ? `NODE_TLS_REJECT_UNAUTHORIZED=0 CONFIG_URL=file://\${PWD}/config.json ${serveScript}`
+      : `NODE_TLS_REJECT_UNAUTHORIZED=0 CONFIG_URL=file://\${PWD}/config.json node dist/${spartacusOptions.project}/server/server.mjs`;
+
+    pkg.scripts = {
+      ...pkg.scripts,
+      'serve:ssr:dev': devScript,
+    };
+
+    tree.overwrite(pkgPath, JSON.stringify(pkg, null, 2));
+  };
+}
+
 function addBuildSsrScript(spartacusOptions: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (spartacusOptions.debug) {
@@ -463,27 +501,36 @@ export function addSSR(options: SpartacusOptions): Rule {
       options.runtimeConfig
         ? updateAppConfigServerForRuntimeConfig(options)
         : noop(),
+      options.runtimeConfig ? addServeSSRDevScript(options) : noop(),
       options.runtimeConfig
         ? (_tree: Tree, _ctx: SchematicContext) => {
             _ctx.logger.info(String.raw`
 ✅ SSR + runtime config wiring complete.
 
-To start the SSR server locally, set these environment variables:
+── Dev mode ─────────────────────────────────────────────────────────────────
+Run the SSR server locally:
 
-  CONFIG_URL=http://localhost:4222/config.json \
-  SERVER_REQUEST_ORIGIN=http://localhost:<port> \
-  NODE_TLS_REJECT_UNAUTHORIZED=0 \
-  npm run serve:ssr:${options.project}
+  npm run serve:ssr:dev
 
-  CONFIG_URL          — URL the Node.js SSR process fetches config.json from
-                        (point at the Fastify dev proxy on port 4222)
-  SERVER_REQUEST_ORIGIN — required by Spartacus SSR for local dev
-  NODE_TLS_REJECT_UNAUTHORIZED=0 — only needed when OCC backend uses a
-                        self-signed TLS certificate (local/demo environments)
+The "serve:ssr:dev" script sets:
+  CONFIG_URL=file://${'$'}{PWD}/config.json   — reads config.json from disk on every render
+  NODE_TLS_REJECT_UNAUTHORIZED=0          — skips TLS verification for self-signed OCC certs
 
-In production, set CONFIG_URL to the real config endpoint. The generated
-server.ts already handles hostname validation (allowedHosts defaults to ['*'],
-overridable via NG_ALLOWED_HOSTS=host1,host2 to restrict in sensitive envs).
+NODE_TLS_REJECT_UNAUTHORIZED=0 is safe for local/demo environments only.
+Remove it (or use "serve:ssr" directly) when connecting to a backend with a valid cert.
+
+── Production mode ───────────────────────────────────────────────────────────
+Use "serve:ssr" with CONFIG_URL pointing to the real config endpoint:
+
+  CONFIG_URL=https://internal-caddy/config.json npm run serve:ssr
+
+On SAP Commerce Cloud the hosting platform sets CONFIG_URL automatically —
+no manual configuration required.
+
+── Other environment variables ───────────────────────────────────────────────
+  SERVER_REQUEST_ORIGIN — required by Spartacus SSR for local dev (e.g. http://localhost:4000)
+  NG_ALLOWED_HOSTS      — restrict allowed hostnames (generated server.ts defaults to ['*'])
+  CONFIG_FETCH_TIMEOUT_MS — HTTP fetch timeout in ms for getServerRuntimeEnvironment (default 5000)
 `);
           }
         : noop(),

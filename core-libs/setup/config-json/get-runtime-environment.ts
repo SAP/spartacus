@@ -79,8 +79,7 @@ export async function getRuntimeEnvironment(options?: {
       /* eslint-disable-next-line no-console */
       console.warn(
         `[getRuntimeEnvironment] Failed to fetch runtime config from ${url}: ${response.status} ${response.statusText}. Falling back to empty runtime environment.\n` +
-          `  Hint: start the Spartacus dev proxy so /config.json is served locally:\n` +
-          `    node node_modules/@spartacus/setup/dev-proxy/run.js`
+          `  Hint: make sure proxy.conf.js is wired in angular.json (added automatically by the schematic) and config.json exists at the project root.`
       );
       return { runtimeEnvironment: {} };
     }

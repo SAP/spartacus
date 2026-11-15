@@ -78,11 +78,15 @@ describe('addRuntimeConfig (integration)', () => {
       expect(content).toHaveProperty('MEDIA_BASE_URL');
     });
 
-    it('should create proxy.conf.json at the workspace root', async () => {
+    it('should create proxy.conf.js at the workspace root with bypass function', async () => {
       const tree = await buildTree();
-      expect(tree.exists('/proxy.conf.json')).toBe(true);
-      const content = JSON.parse(tree.readText('/proxy.conf.json'));
-      expect(content['/config.json'].target).toBe('http://localhost:4222');
+      expect(tree.exists('/proxy.conf.js')).toBe(true);
+      const content = tree.readText('/proxy.conf.js');
+      expect(content).toContain('bypass');
+      expect(content).toContain('__dirname');
+      expect(content).toContain("'Content-Type', 'application/json'");
+      expect(content).toContain("'Cache-Control', 'no-store'");
+      expect(content).not.toContain('4222');
     });
 
     it('should wire proxyConfig in angular.json serve target', async () => {
@@ -90,7 +94,7 @@ describe('addRuntimeConfig (integration)', () => {
       const angularJson = JSON.parse(tree.readText('/angular.json'));
       const serveOptions =
         angularJson.projects['myapp'].architect.serve.options;
-      expect(serveOptions.proxyConfig).toBe('proxy.conf.json');
+      expect(serveOptions.proxyConfig).toBe('proxy.conf.js');
     });
 
     it('should wrap bootstrapApplication with getRuntimeEnvironment in main.ts', async () => {
@@ -139,7 +143,7 @@ describe('addRuntimeConfig (integration)', () => {
     it('should be a no-op when runtimeConfig is false', async () => {
       const tree = await buildTree({ ...defaultOptions, runtimeConfig: false });
       expect(tree.exists('/src/config.json')).toBe(false);
-      expect(tree.exists('/proxy.conf.json')).toBe(false);
+      expect(tree.exists('/proxy.conf.js')).toBe(false);
       const angularJson = JSON.parse(tree.readText('/angular.json'));
       expect(
         angularJson.projects['myapp'].architect.serve.options?.proxyConfig
@@ -159,16 +163,39 @@ describe('addRuntimeConfig (integration)', () => {
 
     it('should still apply CSR wiring when ssr is true', async () => {
       const tree = await buildTree(ssrOptions);
-      // CSR steps (config.json, proxy.conf.json, main.ts, app.config.ts) must not be
+      // CSR steps (config.json, proxy.conf.js, main.ts, app.config.ts) must not be
       // gated on !ssr — they are required regardless of SSR mode
       expect(tree.exists('/config.json')).toBe(true);
-      expect(tree.exists('/proxy.conf.json')).toBe(true);
+      expect(tree.exists('/proxy.conf.js')).toBe(true);
       expect(tree.readText('/src/main.ts')).toContain(
         'getRuntimeEnvironment()'
       );
       expect(tree.readText('/src/app/app.config.ts')).toContain(
         'provideRuntimeOccConfig()'
       );
+    });
+
+    it('should not overwrite an existing proxy.conf.js', async () => {
+      let appTree = await schematicRunner.runExternalSchematic(
+        '@schematics/angular',
+        'workspace',
+        workspaceOptions
+      );
+      appTree = await schematicRunner.runExternalSchematic(
+        '@schematics/angular',
+        'application',
+        appOptions,
+        appTree
+      );
+      // Pre-create a proxy.conf.js with existing content (simulates customer proxy rules)
+      appTree.create('/proxy.conf.js', '// existing proxy config\nmodule.exports = {};');
+      const tree = await schematicRunner.runSchematic(
+        'add-runtime-config',
+        defaultOptions,
+        appTree
+      );
+      // Schematic must skip creation and leave existing content intact
+      expect(tree.readText('/proxy.conf.js')).toContain('// existing proxy config');
     });
   });
 });

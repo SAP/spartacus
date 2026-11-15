@@ -12,7 +12,7 @@ Related ticket: [CXSPA-12541](https://jira.tools.sap/browse/CXSPA-12541). The re
 
 ## How it works
 
-`/config.json` is fetched once before `bootstrapApplication()` runs (CSR) or once at Express server startup (SSR). The result is provided as the `RUNTIME_ENVIRONMENT` injection token. `provideRuntimeOccConfig()` reads this token synchronously via `provideConfigFactory` and maps the recognised keys into Spartacus `OccConfig`. The `ENVIRONMENT` token (derived from `RUNTIME_ENVIRONMENT` with SSR→CSR TransferState handoff) is the single source of truth for all config factories.
+`/config.json` is fetched once before `bootstrapApplication()` runs (CSR) or once per SSR render inside the Express catch-all (SSR). The result is provided as the `RUNTIME_ENVIRONMENT` injection token. `provideRuntimeOccConfig()` reads this token synchronously via `provideConfigFactory` and maps the recognised keys into Spartacus `OccConfig`. The `ENVIRONMENT` token (derived from `RUNTIME_ENVIRONMENT` with SSR→CSR TransferState handoff) is the single source of truth for all config factories.
 
 ### Why the fetch is separate from the provider (`RUNTIME_ENVIRONMENT` token design)
 
@@ -94,7 +94,8 @@ getRuntimeEnvironment().then(({ runtimeEnvironment }) => {
 ### 2. Wire the SSR per-request fetch - `server.ts`
 
 ```ts
-import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT } from '@spartacus/setup';
+import { getServerRuntimeEnvironment } from '@spartacus/setup/ssr';
+import { RUNTIME_ENVIRONMENT } from '@spartacus/setup';
 
 // Inside the Express catch-all handler - called ONCE PER REQUEST, not at startup.
 // This is intentional: DevOps must be able to change config.json values without
@@ -117,7 +118,7 @@ server.get(/.*/, async (req, res) => {
 });
 ```
 
-`CONFIG_URL` must be an absolute URL (e.g. `http://localhost:4222/config.json`) because the Node process has no `window.location`. If `CONFIG_URL` is absent, `getServerRuntimeEnvironment` returns `{}` silently and SSR continues with build-time config.
+`CONFIG_URL` must be either an absolute HTTP/HTTPS URL (e.g. `http://internal-caddy/config.json`) or a `file://` URL (e.g. `file:///path/to/config.json`) because the Node process has no `window.location`. The schematic generates a `serve:ssr:dev` npm script that presets `CONFIG_URL=file://${PWD}/config.json` for local dev. If `CONFIG_URL` is absent, `getServerRuntimeEnvironment` returns `{}` silently and SSR continues with build-time config.
 
 ### 3. Register the OCC config provider - `app.config.ts`
 
@@ -162,15 +163,11 @@ const serverConfig: ApplicationConfig = {
 
 **Why order matters:** `provideServerRendering()`'s own `BEFORE_APP_SERIALIZED` hook (`serializeTransferStateFactory`) checks `transferStore.isEmpty` and skips writing `ng-state` **entirely** if the store is empty at that point. `provideEnvironmentServer()` must be first so it populates the store before that check fires.
 
-### 5. Serve `config.json` locally - Spartacus Dev Proxy
+### 5. Serve `config.json` locally
 
-In production, Caddy serves `/config.json`. Locally you need something to do the same job. The Spartacus Dev Proxy is a small Fastify server that intercepts `GET /config.json`, reads a local file from disk, and forwards every other request to `ng serve` or `dev:ssr`. It ships in `@spartacus/setup/dev-proxy`.
+In production, Caddy serves `/config.json` at the same origin as the storefront. For local development the schematic replicates this topology without requiring any additional process.
 
-**Install the proxy's runtime dependencies once:**
-
-`fastify` and `@fastify/http-proxy` are declared as `optionalDependencies` of `@spartacus/setup`. They install automatically when you run `npm install` - no separate install step needed.
-
-**Create `src/config.json` with empty placeholder values.** This file is read by the proxy at runtime - it is **not** a build asset and must **not** be added to `angular.json` / `project.json`:
+**Create `config.json` at the workspace root with placeholder values.** This file is read at runtime on every request - it is **not** a build asset and must **not** be added to `angular.json` / `project.json`:
 
 ```json
 {
@@ -182,46 +179,38 @@ In production, Caddy serves `/config.json`. Locally you need something to do the
 To avoid accidentally committing real values, add it to your personal git exclude list:
 
 ```bash
-echo "src/config.json" >> .git/info/exclude
+echo "config.json" >> .git/info/exclude
 ```
 
-**CSR dev (`ng serve`):** the schematic automatically creates `proxy.conf.json` at the project root and wires it into the Angular dev server `serve` target. This means the Angular dev server (port 4200) silently forwards `GET /config.json` to the Spartacus Dev Proxy on 4222; you never need to change browser ports or know that port 4222 exists.
-
-Run both processes in separate terminals:
+**CSR dev (`ng serve`):** the schematic automatically creates `proxy.conf.js` at the workspace root and wires it into the Angular dev server `serve` target. The proxy uses an `http-proxy-middleware` `bypass` function that reads `config.json` from disk on every request — no second process, no extra port. Config file changes are reflected on the very next browser request without restarting `ng serve`.
 
 ```bash
-# Terminal 1 - Angular dev server (browser port stays 4200)
 ng serve
-
-# Terminal 2 - Spartacus Dev Proxy (serves /config.json from src/config.json)
-npx spartacus-dev-proxy
 ```
 
-Open `http://localhost:4200` as usual. The `GET /config.json` request will be transparently proxied to the Spartacus Dev Proxy and return the values from your local `config.json`.
+Open `http://localhost:4200` as usual. `GET /config.json` is handled inline by the proxy and returns the content of the local `config.json`.
 
-**SSR dev (`ng build` + `node dist/.../server.mjs`):** the Node process must know where to fetch config from. Set `CONFIG_URL` to the dev proxy:
+**SSR dev:** the schematic generates a `serve:ssr:dev` npm script that sets `NODE_TLS_REJECT_UNAUTHORIZED=0` and `CONFIG_URL=file://${PWD}/config.json` before starting the SSR server. `NODE_TLS_REJECT_UNAUTHORIZED=0` is included because local and demo OCC backends often use self-signed TLS certificates — without it, Node's built-in `fetch` (undici) rejects every backend call during SSR rendering, the SSR engine times out, and the browser falls back to CSR. **Remove this variable (or use `serve:ssr` directly) when connecting to a backend with a valid certificate chain.** The `file://` scheme in `CONFIG_URL` is detected by `getServerRuntimeEnvironment`, which reads the file from disk on every SSR render (using `fileURLToPath` + `fs.readFile`) without starting any additional process. Config file changes are reflected on the next render without restarting the server.
 
 ```bash
-# Terminal 1 - Spartacus Dev Proxy
-node node_modules/@spartacus/setup/dev-proxy/run.js
-
-# Terminal 2 - build once, then start SSR server
+# Build once, then run dev SSR (CONFIG_URL and NODE_TLS_REJECT_UNAUTHORIZED=0 are preset in the script)
 ng build
-CONFIG_URL=http://localhost:4222/config.json \
-SERVER_REQUEST_ORIGIN=http://localhost:4000 \
-NODE_TLS_REJECT_UNAUTHORIZED=0 \
-npm run serve:ssr:<app-name>
+npm run serve:ssr:dev
 ```
 
-The SSR server fetches `config.json` once **per render** (not at startup) from the dev proxy. On each successful SSR render, the config is written to TransferState and the browser skips fetching `/config.json` (Path A). If SSR times out, the browser falls back to fetching `/config.json` directly via the `/config.json` proxy route in `server.ts` (Path B).
+**SSR production:** use `serve:ssr` directly with `CONFIG_URL` pointing to the real HTTP/HTTPS config endpoint. Do **not** set `NODE_TLS_REJECT_UNAUTHORIZED=0` in production.
+
+```bash
+CONFIG_URL=https://internal-caddy/config.json npm run serve:ssr
+```
 
 **Environment variables for local SSR dev:**
 
 | Variable | Required locally | Purpose |
 |---|---|---|
-| `CONFIG_URL` | ✅ yes | Absolute URL the Node.js SSR process fetches `config.json` from. Point at the dev proxy: `http://localhost:4222/config.json` |
+| `CONFIG_URL` | Preset in `serve:ssr:dev` | `file://${PWD}/config.json` — reads config from disk per render. Can be overridden with an absolute HTTP URL. |
 | `SERVER_REQUEST_ORIGIN` | ✅ yes | Tells Spartacus SSR the app origin for request context on `localhost` |
-| `NODE_TLS_REJECT_UNAUTHORIZED=0` | Only with self-signed OCC cert | Bypasses TLS certificate validation. **Never use in production.** |
+| `NODE_TLS_REJECT_UNAUTHORIZED=0` | Preset in `serve:ssr:dev` — remove when OCC cert is valid | Bypasses TLS certificate validation in Node's `fetch`. **Never use in production.** |
 | `NG_ALLOWED_HOSTS` | ❌ not needed | The generated `server.ts` defaults `allowedHosts` to `['*']`. Set this only to restrict which hostnames are allowed in security-sensitive deployments. |
 
 **Production SSR env vars (DevOps):**
@@ -231,6 +220,7 @@ The SSR server fetches `config.json` once **per render** (not at startup) from t
 | `CONFIG_URL` | ✅ yes | Absolute URL of the internal config endpoint (e.g. `http://internal-caddy/config.json`) |
 | `PORT` | optional | Port the Express server listens on. Defaults to `4000`. |
 | `SSR_ALLOWED_ORIGINS` | optional | Comma-separated origin allowlist for `getOriginValidationMiddleware`. Unset = no restriction. |
+| `CONFIG_FETCH_TIMEOUT_MS` | optional | HTTP fetch timeout in milliseconds for `getServerRuntimeEnvironment`. Defaults to `5000`. Ignored for `file://` URLs. |
 
 ---
 
@@ -327,8 +317,8 @@ All log messages from the `/config.json` mechanism are prefixed with `[getRuntim
 **Symptom:** App boots but OCC calls fail or use the wrong base URL.
 
 1. Open DevTools → **Network** tab and reload. Look for `GET /config.json`:
-   - **404** - the dev proxy is not running or not reachable. Start `npx spartacus-dev-proxy` and verify that `proxy.conf.json` is present and the `serve` target in `angular.json` has `proxyConfig` set (the schematic wires this automatically).
-   - **200 with empty values** - the file is served but values are empty placeholders. Fill in the real URLs in `src/config.json` (local dev) or ensure Caddy has replaced the placeholders (production).
+   - **404** - `proxy.conf.js` is missing, not wired in `angular.json`, or `config.json` does not exist at the workspace root. Verify that `proxy.conf.js` is present and that `angular.json`'s serve target has `proxyConfig: 'proxy.conf.js'` (the schematic wires this automatically). Verify that `config.json` exists at the workspace root.
+   - **200 with empty values** - the file is served but values are empty placeholders. Fill in the real URLs in `config.json` at the workspace root (local dev) or ensure Caddy has replaced the placeholders (production).
    - **No request at all** - `getRuntimeEnvironment()` was not called in `main.ts`, or TransferState was already available (SSR hydration path - check the `<script id="ng-state">` element in the page source).
 
 2. Open DevTools → **Console** tab. Filter for `provideRuntimeOccConfig`:
@@ -360,29 +350,29 @@ All log messages from the `/config.json` mechanism are prefixed with `[getRuntim
    "
    ```
 
-4. `CONFIG_URL` must be an **absolute URL** - e.g. `http://localhost:4222/config.json` or `http://internal-caddy/config.json`. A relative path like `/config.json` will fail in Node because there is no `window.location` to resolve against.
+4. `CONFIG_URL` must be an **absolute URL** — either an HTTP/HTTPS URL (e.g. `http://internal-caddy/config.json`) or a `file://` URL (e.g. `file:///path/to/config.json`). A relative path like `/config.json` will fail in Node because there is no `window.location` to resolve against. The `serve:ssr:dev` npm script generated by the schematic presets `CONFIG_URL=file://${PWD}/config.json`.
 
 ### Common misconfiguration checklist
 
 | Symptom | Likely cause | Fix |
 |---------|-------------|-----|
 | No `/config.json` request in Network tab | `getRuntimeEnvironment()` not called in `main.ts` | Wire up `main.ts` per setup step 1 |
-| `/config.json` 404 in browser | Dev proxy not running, or `proxy.conf.json` not wired | Start the dev proxy; verify `proxy.conf.json` exists and `angular.json` serve target has `proxyConfig` |
+| `/config.json` 404 in browser | `proxy.conf.js` not wired, or `config.json` absent | Verify `proxy.conf.js` exists at workspace root and `angular.json` serve target has `proxyConfig: 'proxy.conf.js'`; verify `config.json` exists at workspace root |
 | OCC URL is build-time value, not runtime | `provideRuntimeOccConfig()` missing from `app.config.ts` | Add it per setup step 3 |
 | SSR renders but browser still fetches `/config.json` | `provideEnvironmentServer()` missing or not first in `app.config.server.ts` | Add `provideEnvironmentServer()` as the first provider in `app.config.server.ts` (before `provideServerRendering()`) |
-| `ng-state` absent from SSR HTML | SSR timed out or fell back to CSR | Check server logs; verify OCC backend is reachable from Node; increase SSR timeout if needed |
-| SSR uses wrong URL despite `CONFIG_URL` set | `CONFIG_URL` is a relative path | Use an absolute URL |
+| `ng-state` absent from SSR HTML | SSR timed out or fell back to CSR | Check server logs; if OCC backend uses a self-signed cert, use `npm run serve:ssr:dev` (which sets `NODE_TLS_REJECT_UNAUTHORIZED=0`); verify OCC backend is reachable from Node; increase SSR timeout if needed |
+| SSR uses wrong URL despite `CONFIG_URL` set | `CONFIG_URL` is a relative path or wrong scheme | Use an absolute HTTP/HTTPS URL or `file://` URL; use `npm run serve:ssr:dev` for local dev |
 | Config changes don't take effect after editing `config.json` | Browser cache or Service Worker | Hard-refresh (`Ctrl+Shift+R`); for SW see the PWA section below |
 | PWA serves stale config after infra change | SW caching `/config.json` | Add `networkOnly` SW rule for `/config.json` |
 
-The following primitives from `@spartacus/setup` are framework-agnostic and can be imported directly by the BFF project once it upgrades its `@spartacus/setup` peer dependency:
+The following primitives are framework-agnostic and can be imported directly by the BFF project once it upgrades its `@spartacus/setup` peer dependency:
 
-| Export | Purpose |
-|--------|---------|
-| `parseConfigJson(raw)` | Parses and validates config.json format, strips secrets |
-| `getRuntimeEnvironment(options?)` | CSR fetch with TransferState short-circuit and 404 fallback |
-| `getServerRuntimeEnvironment({ url })` | SSR fetch from absolute URL |
-| `RUNTIME_ENVIRONMENT` | Generic `InjectionToken<Record<string, string>>` |
+| Export | Package | Purpose |
+|--------|---------|---------|
+| `parseConfigJson(raw)` | `@spartacus/setup` | Parses and validates config.json format, strips secrets |
+| `getRuntimeEnvironment(options?)` | `@spartacus/setup` | CSR fetch with TransferState short-circuit and 404 fallback |
+| `getServerRuntimeEnvironment({ url })` | `@spartacus/setup/ssr` | SSR fetch from absolute URL |
+| `RUNTIME_ENVIRONMENT` | `@spartacus/setup` | Generic `InjectionToken<Record<string, string>>` |
 
 The BFF's own `provideEnvironment()` can be rebuilt on top of these primitives by providing `RUNTIME_ENVIRONMENT` with the result of `getRuntimeEnvironment()` and then reading the token in a BFF-specific factory - no need to copy the fetch logic.
 

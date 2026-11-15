@@ -430,10 +430,8 @@ function filterNativeNodeAPIs(
                 // Allow to use Node APIs in:
                 // - SSR code (server-side rendering)
                 // - build-time config files (e.g. vitest.config.ts)
-                // - Node.js CLI tools (e.g. dev-proxy — a bin-shipped server tool)
                 if (
                   !file.includes('ssr') &&
-                  !file.includes('dev-proxy') &&
                   !file.endsWith('vitest.config.ts')
                 ) {
                   errorsFound = true;

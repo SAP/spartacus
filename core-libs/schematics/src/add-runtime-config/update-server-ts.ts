@@ -16,42 +16,52 @@ import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths'
 // per render (server-to-server). This route bridges the CSR fallback path (SSR timeout):
 // when SSR times out, the browser receives plain HTML with no TransferState, Angular
 // bootstraps in CSR mode, and getRuntimeEnvironment() fetches /config.json from the same
-// host as the app (creating the requirement for this route) — this route re-fetches
-// CONFIG_URL upstream and returns the result. In Spartacus Classic (Express is the public
-// entry point) this route is actively required. With Caddy in front, Caddy serves
-// /config.json on the same host before Express sees it, making this route unreachable
-// but harmless.
+// host as the app (creating the requirement for this route).
+//
+// In dev: CONFIG_URL=file://${PWD}/config.json — the route reads from disk via fileURLToPath.
+//   Node's native fetch() does not support file:// URLs, so this branch is required.
+// In prod with Caddy: Caddy intercepts /config.json before Express — this route is
+//   unreachable but harmless. It remains a safety net for non-Caddy deployments.
 //
 // Keeps the { value: "..." } wrapper intact so the browser's getRuntimeEnvironment() parses
 // ConfigJson itself. Flattening here (parseConfigJson) causes a double-parse bug where
 // entry.value becomes undefined and provideRuntimeOccConfig() receives no OCC URL.
-const CONFIG_JSON_PROXY_ROUTE = `// CSR fallback route (SSR timeout only). CONFIG_URL is an SSR concept — the Node process
-  // fetches config from it per render. When SSR times out, Angular bootstraps in CSR mode
-  // and getRuntimeEnvironment() fetches /config.json from the same host as the app — this
-  // route re-fetches CONFIG_URL upstream and returns the result. Safe to keep when Caddy
-  // is in front (Caddy intercepts /config.json before Express).
+const CONFIG_JSON_PROXY_ROUTE = `// CSR fallback route (SSR timeout only). In dev, CONFIG_URL=file://${'{'}PWD{'}'}/config.json
+  // and this route reads from disk. In prod with Caddy, Caddy serves /config.json before
+  // Express, making this route unreachable but harmless (safety net for non-Caddy setups).
   server.get('/config.json', async (_req, res) => {
     const configUrl = process.env['CONFIG_URL'];
     if (!configUrl) {
-      res.json({});
+      res.set('Cache-Control', 'no-store').json({});
       return;
     }
     try {
-      const response = await fetch(configUrl);
-      if (!response.ok) {
-        res.json({});
-        return;
+      let raw: Record<string, unknown>;
+      if (configUrl.startsWith('file://')) {
+        // Node's fetch() does not support file:// — read from disk instead.
+        const { readFile } = await import('node:fs/promises');
+        const { fileURLToPath } = await import('node:url');
+        const content = await readFile(fileURLToPath(configUrl), 'utf-8');
+        raw = JSON.parse(content);
+      } else {
+        const response = await fetch(configUrl);
+        if (!response.ok) {
+          res.set('Cache-Control', 'no-store').json({});
+          return;
+        }
+        raw = await response.json();
       }
-      const raw = await response.json();
       const filtered = Object.fromEntries(
         Object.entries(raw).filter(
           ([, entry]) =>
             !(entry && ((entry as any).secret === true || (entry as any).secret === 'true'))
         )
       );
-      res.json(filtered);
-    } catch {
-      res.json({});
+      res.set('Cache-Control', 'no-store').json(filtered);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('[server] Could not serve /config.json:', (e as Error).message);
+      res.set('Cache-Control', 'no-store').json({});
     }
   });`;
 
@@ -102,8 +112,12 @@ function updateServerTsLegacy(
 
   createImports(sourceFile, [
     {
+      moduleSpecifier: '@spartacus/setup/ssr',
+      namedImports: ['getServerRuntimeEnvironment'],
+    },
+    {
       moduleSpecifier: '@spartacus/setup',
-      namedImports: ['getServerRuntimeEnvironment', 'RUNTIME_ENVIRONMENT'],
+      namedImports: ['RUNTIME_ENVIRONMENT'],
     },
   ]);
 

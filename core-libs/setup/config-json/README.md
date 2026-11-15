@@ -30,7 +30,7 @@ Reference: For the Hosting Portal's specification of how Spartacus in the **cont
 | `provideEnvironment()` maps to a BFF-specific `Environment` interface | `provideRuntimeOccConfig()` maps directly to Spartacus `OccConfig` |
 | `getServerRuntimeEnvironment` throws if `CONFIG_URL` is absent | Logs a warning and returns `{}` - SSR still starts, falls back to build-time config |
 | TransferState key `__ENV__` | Uses `cx-runtime-config` to avoid collisions with other Spartacus state |
-| Static `config.json` served by Angular DevServer | Full dev proxy (`@spartacus/setup/dev-proxy`) on port 4222 - matches production topology |
+| Static `config.json` served via Angular DevServer `assets` | `proxy.conf.js` bypass serves `config.json` from disk (CSR dev) + `CONFIG_URL=file://` (SSR dev) — matches production topology with no extra process |
 | `getServerRuntimeEnvironment` called once at server startup | Called **per SSR render** - resulting in config changes by DevOps **take effect on the next request without a server restart** |
 
 ---
@@ -44,29 +44,25 @@ core-libs/setup/
 │   ├── parse-config-json.spec.ts
 │   ├── get-runtime-environment.ts           # CSR: pre-bootstrap fetch of /config.json
 │   ├── get-runtime-environment.spec.ts
-│   ├── get-server-runtime-environment.ts    # SSR: fetch per render from CONFIG_URL (not at startup)
-│   ├── get-server-runtime-environment.spec.ts
-│   ├── provide-environment.ts               # Wires ENVIRONMENT token + TransferState handoff
-│   ├── provide-environment-server.ts        # BEFORE_APP_SERIALIZED hook - forces ENVIRONMENT injection and writes cx-runtime-config to TransferState before Angular's serializer checks isEmpty (SSR only)
+│   ├── provide-environment.ts               # Wires ENVIRONMENT token + TransferState handoff; provideEnvironmentServer() BEFORE_APP_SERIALIZED hook forces ENVIRONMENT injection and writes cx-runtime-config to TransferState (SSR only)
 │   ├── provide-runtime-occ-config.ts        # Maps OCC_BASE_URL → OccConfig via CONFIG_INITIALIZER
 │   ├── provide-runtime-occ-config.spec.ts
 │   ├── runtime-environment.token.ts         # RUNTIME_ENVIRONMENT InjectionToken (importable standalone)
 │   └── index.ts                             # Barrel
-└── dev-proxy/
-    ├── config-proxy-server.ts               # Fastify-based reverse proxy (startDevProxy)
-    ├── defaults.ts                           # DEFAULT_DEV_PROXY_CONFIG (port 4222)
-    ├── types.ts
-    ├── run.ts                                # CLI entry point (spartacus-dev-proxy bin)
-    └── index.ts
+└── ssr/
+    ├── get-server-runtime-environment.ts    # SSR: fetch per render from CONFIG_URL (file:// or HTTP)
+    ├── get-server-runtime-environment.spec.ts
+    └── public_api.ts                        # Re-exports SSR utilities (extends @spartacus/setup/ssr)
 ```
 
-Everything is re-exported from `core-libs/setup/public_api.ts` via `export * from './config-json/index'`.
+`config-json/` is re-exported from `core-libs/setup/public_api.ts` via `export * from './config-json/index'`.
+`ssr/get-server-runtime-environment` is re-exported from `core-libs/setup/ssr/public_api.ts` as part of `@spartacus/setup/ssr`.
 
 ---
 
 ## `config.json` Format
 
-The Hosting Portal serves (and the dev proxy reads) this format:
+The Hosting Portal serves this format:
 
 ```json
 {
@@ -116,7 +112,8 @@ getRuntimeEnvironment().then(({ runtimeEnvironment }) => {
 The generated `server.ts` fetches `config.json` **once per SSR render** (inside the Express catch-all), not at server startup. This is the **key design contract**: DevOps must be able to change `config.json` values **without restarting the Node server**.
 
 ```ts
-import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT } from '@spartacus/setup';
+import { getServerRuntimeEnvironment } from '@spartacus/setup/ssr';
+import { RUNTIME_ENVIRONMENT } from '@spartacus/setup';
 
 // Inside the Express catch-all - called per request, not at startup.
 server.get(/.*/, async (req, res) => {
@@ -231,45 +228,70 @@ Two schematics wire up the feature automatically:
 
 The schematics create:
 - `config.json` at the project root (placeholder values)
-- `proxy.conf.json` pointing to the dev proxy at `http://localhost:4222`
-- `proxyConfig` entry in `angular.json`
+- `proxy.conf.js` at the project root (serves `config.json` from disk via `bypass` function — no extra process)
+- `proxyConfig: 'proxy.conf.js'` entry in `angular.json` serve target
 - `main.ts` wrapped with `getRuntimeEnvironment()`
 - `app.config.ts` with `provideRuntimeOccConfig()`
 - `server.ts` patched with per-request `getServerRuntimeEnvironment()` + `RUNTIME_ENVIRONMENT` in `res.render` providers (SSR only)
 - `app.config.server.ts` with `provideEnvironmentServer()` as the first provider (SSR only)
+- `serve:ssr:dev` npm script for local SSR development (sets `NODE_TLS_REJECT_UNAUTHORIZED=0` and `CONFIG_URL=file://${PWD}/config.json`) — SSR only
 
 ---
 
-## Local Dev: Dev Proxy
+## Local Dev
 
-The dev proxy (`@spartacus/setup/dev-proxy`) replicates the production Hosting Portal topology locally:
+The schematic wires local dev for both CSR and SSR without requiring any additional process or port.
+
+### CSR dev (`ng serve`)
+
+`proxy.conf.js` is generated at the workspace root and wired into the Angular dev server's `serve` target via `proxyConfig`. The file uses an `http-proxy-middleware` `bypass` function to read `config.json` from disk on every request:
 
 ```
-[Browser] → [Spartacus Dev Proxy :4222] → [Angular Dev Server :4200]
+[Browser :4200] → proxy.conf.js bypass → reads config.json from disk (path.resolve(__dirname, 'config.json'))
 ```
 
-The proxy serves `config.json` from a local file at `/config.json` and forwards all other
-requests upstream to the Angular dev server. This avoids needing to add `config.json` as
-a build asset and matches what the Hosting Portal does in production.
+- No second process. No port 4222. Config file changes are picked up on the next browser request.
+- `path.resolve(__dirname, 'config.json')` is mandatory (not `./config.json`) — `process.cwd()` is the monorepo root when using `nx serve`.
 
-**Start the proxy:**
+### SSR dev (`npm run serve:ssr:dev`)
+
+The schematic generates a `serve:ssr:dev` npm script that presets two environment variables before starting the SSR server:
+
+```
+NODE_TLS_REJECT_UNAUTHORIZED=0 CONFIG_URL=file://${PWD}/config.json node dist/<project>/server/server.mjs
+```
+
+- **`CONFIG_URL=file://${PWD}/config.json`** — `getServerRuntimeEnvironment` detects the `file://` scheme and reads the file from disk using `fileURLToPath` + `fs.readFile`, once per SSR render.
+- **`NODE_TLS_REJECT_UNAUTHORIZED=0`** — skips TLS certificate verification in Node's built-in `fetch` (undici). Local and demo OCC backends often use self-signed certificates; without this flag every backend call during SSR rendering fails with `UNABLE_TO_VERIFY_LEAF_SIGNATURE`, the SSR engine times out, and the browser falls back to CSR. **Remove this variable (use `serve:ssr` directly) when connecting to a backend with a valid certificate chain.**
+
+```
+[Express catch-all] → getServerRuntimeEnvironment(file://${PWD}/config.json) → fs.readFile per render
+[Browser Path B]    → Express /config.json route → file:// branch → fs.readFile per request
+```
+
+- No second process. Config file changes are picked up on the next SSR render or browser request.
+- `${PWD}` is expanded by the shell at runtime — never a machine-specific path baked into the repo.
+
+### SSR production (`npm run serve:ssr`)
+
+Use `serve:ssr` directly with `CONFIG_URL` pointing to the real HTTP/HTTPS config endpoint. On SAP Commerce Cloud the hosting platform injects `CONFIG_URL` automatically.
+
 ```bash
-npx spartacus-dev-proxy
-# or via ts-node in development:
-npx ts-node core-libs/setup/dev-proxy/run.ts
+CONFIG_URL=https://internal-caddy/config.json npm run serve:ssr
 ```
 
-**Environment variables:**
+Do **not** set `NODE_TLS_REJECT_UNAUTHORIZED=0` in production — it disables TLS verification globally for the Node process.
 
-| Variable | Default | Description |
-|---|---|---|
-| `SPARTACUS_DEV_PROXY_PORT` | `4222` | Port the proxy listens on |
-| `SPARTACUS_DEV_PROXY_CONFIG_SOURCE_PATH` | `./config.json` | Local path to the config file |
-| `SPARTACUS_DEV_PROXY_UPSTREAM_URL` | `http://localhost:4200` | Angular dev server URL |
+### Environment Variables
 
-The proxy is implemented with Fastify + `@fastify/http-proxy`. These are `optionalDependencies`
-in `@spartacus/setup/package.json` and are loaded via `createRequire` at runtime so they
-resolve from the consuming app's `node_modules` rather than the published package dist.
+| Variable | Dev CSR | Dev SSR | Prod CSR | Prod SSR | Notes |
+|---|---|---|---|---|---|
+| `CONFIG_URL` | - | Preset in `serve:ssr:dev` (`file://`) | - | ✅ required (HTTP/HTTPS) | Absent = `{}`, console.warn only |
+| `NODE_TLS_REJECT_UNAUTHORIZED=0` | - | Preset in `serve:ssr:dev` — remove when OCC cert is valid | - | **never** | Disables TLS verification globally; dev/demo only |
+| `SERVER_REQUEST_ORIGIN` | - | ✅ for localhost | - | not needed | Express infers origin from request `host` header in prod |
+| `NG_ALLOWED_HOSTS` | - | not needed | - | not needed | Generated `server.ts` defaults to `['*']`; set to restrict |
+| `PORT` | - | optional | - | optional | Express listen port, defaults to `4000` |
+| `CONFIG_FETCH_TIMEOUT_MS` | - | - | - | optional | HTTP fetch timeout in ms for `getServerRuntimeEnvironment`. Default `5000`. Ignored for `file://` URLs. |
 
 ---
 
@@ -325,13 +347,7 @@ browser (main.ts)
 
 ### Environment Variables
 
-| Variable | Dev CSR | Dev SSR | Prod CSR | Prod SSR | Notes |
-|---|---|---|---|---|---|
-| `CONFIG_URL` | - | ✅ required | - | ✅ required | Absolute URL. Absent = `{}`, console.warn only |
-| `SERVER_REQUEST_ORIGIN` | - | ✅ for localhost | - | not needed | Express infers origin from request `host` header in prod |
-| `NG_ALLOWED_HOSTS` | - | not needed | - | not needed | Generated `server.ts` defaults to `['*']`; set to restrict |
-| `NODE_TLS_REJECT_UNAUTHORIZED=0` | - | only for self-signed OCC cert | - | never | **Never use in production** |
-| `PORT` | - | optional | - | optional | Express listen port, defaults to `4000` |
+See [Local Dev](#local-dev) section above for the full environment variables table.
 
 ---
 
@@ -372,10 +388,11 @@ Pass `--no-git` to skip per-step git commits in the generated apps (faster, no h
 
 ## BFF Reuse
 
-The three pure utility files (`parse-config-json.ts`, `get-runtime-environment.ts`,
+The pure utility files (`parse-config-json.ts`, `get-runtime-environment.ts`,
 `get-server-runtime-environment.ts`) have no BFF-specific dependencies. Once BFF upgrades
 its `@spartacus/setup` peer dependency to the version that ships these utilities, it can
-remove its own copies and import from `@spartacus/setup` directly.
+remove its own copies and import from `@spartacus/setup` (CSR utilities) or `@spartacus/setup/ssr`
+(`getServerRuntimeEnvironment`) directly.
 
 The `RUNTIME_ENVIRONMENT` token is exported from `runtime-environment.token.ts` as a
 standalone file so BFF (or any consumer) can import just the token without pulling in the

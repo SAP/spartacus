@@ -10,7 +10,7 @@ deployment topologies.
 ```mermaid
 sequenceDiagram
     participant B as Browser
-    participant S as Static Host (Caddy / Dev Proxy)
+    participant S as Static Host (Caddy in prod / proxy.conf.js bypass in dev)
     participant O as OCC Backend
 
     B->>S: GET /index.html
@@ -63,10 +63,10 @@ sequenceDiagram
     E-->>B: plain CSR HTML (no ng-state script)
     Note over B: getRuntimeEnvironment() - no ng-state found in DOM
     B->>E: GET /config.json (Express proxy route)
-    Note over E: proxy route re-fetches CONFIG_URL upstream on every request (never cached)
-    E->>C: GET CONFIG_URL
+    Note over E: proxy route reads CONFIG_URL on every request (never cached)<br/>file:// → reads from disk; http:// → fetches upstream
+    E->>C: GET CONFIG_URL (http/https only; file:// reads locally)
     C-->>E: { OCC_BASE_URL, MEDIA_BASE_URL }
-    E-->>B: filtered config.json (secrets stripped)
+    E-->>B: filtered config.json (secrets stripped, Cache-Control: no-store)
     Note over B: getRuntimeEnvironment() parses response<br/>provides RUNTIME_ENVIRONMENT before bootstrapApplication()
     B->>O: OCC API calls (using OCC_BASE_URL from config.json)
 ```

@@ -11,23 +11,40 @@ import {
   getWorkspace,
 } from '../shared/utils/workspace-utils';
 
-const PROXY_CONF_CONTENT = JSON.stringify(
-  {
-    '/config.json': {
-      target: 'http://localhost:4222',
-      secure: false,
-      logLevel: 'warn',
+// Uses http-proxy-middleware's bypass function to read config.json from disk
+// inline on every request — no backend process needed, no port 4222.
+// path.resolve(__dirname, 'config.json') is mandatory: process.cwd() is the
+// monorepo root when running via `nx serve`, while __dirname always resolves
+// relative to proxy.conf.js itself (co-located with config.json).
+const PROXY_CONF_CONTENT = `const path = require('path');
+const fs = require('fs');
+module.exports = {
+  '/config.json': {
+    // target is required by http-proxy-middleware but never contacted:
+    // bypass() returns false, which signals "response already sent, skip proxy".
+    target: 'http://localhost:4200',
+    bypass(req, res) {
+      try {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Cache-Control', 'no-store');
+        res.end(fs.readFileSync(path.resolve(__dirname, 'config.json'), 'utf-8'));
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn('[proxy] Could not read config.json:', e.message);
+        res.statusCode = 500;
+        res.end('{}');
+      }
+      return false;
     },
   },
-  null,
-  2
-);
+};
+`;
 
 export function addProxyConf(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
       context.logger.info(
-        `⌛️ Adding proxy.conf.json and wiring proxyConfig...`
+        `⌛️ Adding proxy.conf.js and wiring proxyConfig...`
       );
     }
 
@@ -38,13 +55,17 @@ export function addProxyConf(options: SpartacusOptions): Rule {
 
     if (!project) {
       context.logger.warn(
-        `⚠️ Could not find project "${projectName}" in angular.json — skipping proxy.conf.json setup.`
+        `⚠️ Could not find project "${projectName}" in angular.json — skipping proxy.conf.js setup.`
       );
       return tree;
     }
 
-    if (!tree.exists('/proxy.conf.json')) {
-      tree.create('/proxy.conf.json', PROXY_CONF_CONTENT + '\n');
+    if (tree.exists('/proxy.conf.js') || tree.exists('/proxy.conf.json')) {
+      context.logger.warn(
+        `⚠️ proxy.conf.js or proxy.conf.json already exists — skipping creation to avoid overwriting existing proxy rules. Add the /config.json bypass entry manually.`
+      );
+    } else {
+      tree.create('/proxy.conf.js', PROXY_CONF_CONTENT);
     }
 
     const architect = (project as any).architect;
@@ -67,7 +88,7 @@ export function addProxyConf(options: SpartacusOptions): Rule {
               ...serve,
               options: {
                 ...serveOptions,
-                proxyConfig: 'proxy.conf.json',
+                proxyConfig: 'proxy.conf.js',
               },
             },
           },
@@ -78,7 +99,7 @@ export function addProxyConf(options: SpartacusOptions): Rule {
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
 
     if (options.debug) {
-      context.logger.info(`✅ Added proxy.conf.json and wired proxyConfig`);
+      context.logger.info(`✅ Added proxy.conf.js and wired proxyConfig`);
     }
     return tree;
   };

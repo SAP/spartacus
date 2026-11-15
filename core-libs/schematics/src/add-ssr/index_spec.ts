@@ -164,10 +164,10 @@ describe('add-ssr', () => {
         expect(serverTs).toMatchSnapshot();
       });
 
-      it('should import getServerRuntimeEnvironment from @spartacus/setup', () => {
+      it('should import getServerRuntimeEnvironment from @spartacus/setup/ssr', () => {
         const serverTs = appTree.readContent('src/server.ts');
         expect(serverTs).toContain('getServerRuntimeEnvironment');
-        expect(serverTs).toContain('@spartacus/setup');
+        expect(serverTs).toContain('@spartacus/setup/ssr');
       });
 
       it('should inject RUNTIME_ENVIRONMENT provider', () => {

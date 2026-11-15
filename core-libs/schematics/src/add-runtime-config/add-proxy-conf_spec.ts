@@ -54,7 +54,9 @@ describe('addProxyConf', () => {
     runtimeConfig: true,
   };
 
-  async function buildTree(): Promise<UnitTestTree> {
+  async function buildTree(
+    preCreate?: (tree: UnitTestTree) => void
+  ): Promise<UnitTestTree> {
     let appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
@@ -66,49 +68,65 @@ describe('addProxyConf', () => {
       appOptions,
       appTree
     );
+    if (preCreate) {
+      preCreate(appTree as UnitTestTree);
+    }
     return (await firstValueFrom(
       schematicRunner.callRule(addProxyConf(defaultOptions), appTree)
     )) as UnitTestTree;
   }
 
-  it('should create proxy.conf.json at the project root', async () => {
+  it('should create proxy.conf.js (not .json) at the project root', async () => {
     const tree = await buildTree();
-    expect(tree.exists('/proxy.conf.json')).toBe(true);
+    expect(tree.exists('/proxy.conf.js')).toBe(true);
+    expect(tree.exists('/proxy.conf.json')).toBe(false);
   });
 
-  it('should write correct proxy.conf.json content', async () => {
+  it('should write a bypass function that reads config.json via __dirname', async () => {
     const tree = await buildTree();
-    const content = JSON.parse(tree.readText('/proxy.conf.json'));
-    expect(content['/config.json']).toEqual({
-      target: 'http://localhost:4222',
-      secure: false,
-      logLevel: 'warn',
-    });
+    const content = tree.readText('/proxy.conf.js');
+    expect(content).toContain('bypass');
+    expect(content).toContain('__dirname');
+    expect(content).toContain("'Content-Type', 'application/json'");
   });
 
-  it('should add proxyConfig to angular.json serve options', async () => {
+  it('should set Cache-Control: no-store in the bypass function', async () => {
+    const tree = await buildTree();
+    const content = tree.readText('/proxy.conf.js');
+    expect(content).toContain("'Cache-Control', 'no-store'");
+  });
+
+  it('should not reference port 4222 or the old dev proxy', async () => {
+    const tree = await buildTree();
+    const content = tree.readText('/proxy.conf.js');
+    expect(content).not.toContain('4222');
+    expect(content).not.toContain('spartacus-dev-proxy');
+  });
+
+  it('should wire proxyConfig: proxy.conf.js in angular.json serve options', async () => {
     const tree = await buildTree();
     const angularJson = JSON.parse(tree.readText('/angular.json'));
     const serveOptions =
       angularJson.projects['proxy-test'].architect.serve.options;
-    expect(serveOptions.proxyConfig).toBe('proxy.conf.json');
+    expect(serveOptions.proxyConfig).toBe('proxy.conf.js');
+  });
+
+  it('should be idempotent — not overwrite proxy.conf.js if already present', async () => {
+    const existing = '// existing proxy config\nmodule.exports = {};';
+    const tree = await buildTree((appTree) => {
+      appTree.create('/proxy.conf.js', existing);
+    });
+    expect(tree.readText('/proxy.conf.js')).toBe(existing);
   });
 
   it('should be idempotent — not overwrite proxy.conf.json if already present', async () => {
-    const firstTree = await buildTree();
-    // Modify the file to simulate a custom version
-    firstTree.overwrite(
-      '/proxy.conf.json',
-      JSON.stringify({ '/custom': { target: 'http://custom' } })
-    );
-
-    const resultTree = (await firstValueFrom(
-      schematicRunner.callRule(addProxyConf(defaultOptions), firstTree)
-    )) as UnitTestTree;
-
-    const content = JSON.parse(resultTree.readText('/proxy.conf.json'));
-    expect(content['/custom']).toBeDefined();
-    expect(content['/config.json']).toBeUndefined();
+    const existing = JSON.stringify({ '/custom': { target: 'http://custom' } });
+    const tree = await buildTree((appTree) => {
+      appTree.create('/proxy.conf.json', existing);
+    });
+    // Must not create proxy.conf.js when proxy.conf.json already exists
+    expect(tree.exists('/proxy.conf.js')).toBe(false);
+    expect(tree.readText('/proxy.conf.json')).toBe(existing);
   });
 
   it('should be idempotent — not duplicate proxyConfig in angular.json', async () => {
@@ -120,6 +138,6 @@ describe('addProxyConf', () => {
     const angularJson = JSON.parse(resultTree.readText('/angular.json'));
     const serveOptions =
       angularJson.projects['proxy-test'].architect.serve.options;
-    expect(serveOptions.proxyConfig).toBe('proxy.conf.json');
+    expect(serveOptions.proxyConfig).toBe('proxy.conf.js');
   });
 });

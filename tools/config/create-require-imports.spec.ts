@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { readFileSync } from 'fs';
-import * as path from 'path';
 import ts from 'typescript';
 import { getCreateRequireImports } from './create-require-imports';
 
@@ -18,23 +16,20 @@ function parse(source: string): ts.SourceFile {
   );
 }
 
-function parseFile(filePath: string): ts.SourceFile {
-  const absPath = path.resolve(__dirname, '../..', filePath);
-  return ts.createSourceFile(
-    absPath,
-    readFileSync(absPath, 'utf-8'),
-    ts.ScriptTarget.ES2022,
-    true
-  );
-}
-
 describe('getCreateRequireImports', () => {
-  // ── Real-world: the exact file this function was written to handle ──────────
+  // ── Real-world pattern: multiple packages loaded via createRequire ───────────
+  // (previously tested against core-libs/setup/dev-proxy/config-proxy-server.ts,
+  // which was removed when the Fastify dev-proxy was eliminated in CXSPA-12541.
+  // The synthetic test below covers the same detection logic.)
 
-  it('detects fastify and @fastify/http-proxy in config-proxy-server.ts', () => {
-    const src = parseFile(
-      'core-libs/setup/dev-proxy/config-proxy-server.ts'
-    );
+  it('detects multiple packages loaded via createRequire (real-world pattern)', () => {
+    const src = parse(`
+      import * as path from 'path';
+      import { createRequire } from 'node:module';
+      const cwdRequire = createRequire(path.join(process.cwd(), 'package.json'));
+      const Fastify = cwdRequire('fastify');
+      const httpProxy = cwdRequire('@fastify/http-proxy');
+    `);
     expect(getCreateRequireImports(src)).toEqual(
       new Set(['fastify', '@fastify/http-proxy'])
     );

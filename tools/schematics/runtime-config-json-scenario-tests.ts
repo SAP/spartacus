@@ -28,13 +28,39 @@
  * can inspect exactly what each schematic changed (git log / git show in the app dir).
  * Pass --no-git to skip this behavior.
  *
- * Prerequisites:
- *   1. Build all libs (first time or after source changes):
+ * Prerequisites (run from the repo root):
+ *
+ *   Run these steps in order every time you change library source and want to test:
+ *
+ *   1. Clear the Nx cache to avoid stale partial build output:
+ *        npx nx reset
+ *      Always run this before build:libs. If skipped and a previous build was
+ *      interrupted, Nx may serve poisoned cache entries — dist/ packages will exist
+ *      but be missing their package.json, causing publish failures downstream.
+ *
+ *   2. Build all libs:
  *        npm run build:libs
- *   2. Build schematics and publish all packages to Verdaccio (keeps Verdaccio running):
+ *      After it completes, verify that every expected package under dist/ has a
+ *      package.json. A missing package.json means the build for that package was
+ *      incomplete (go back to step 1).
+ *
+ *   3. Build the schematics package from source and publish everything to Verdaccio:
  *        npx ts-node ./tools/schematics/testing --command "build core-libs/schematics"
- *      Note: do NOT use --command publish — it skips the schematics build and publishes
- *      uncompiled TypeScript, causing "no ng add actions" errors in the scenarios.
+ *      This wipes Verdaccio storage, restarts Verdaccio, compiles the schematics
+ *      TypeScript to JS, and publishes all dist/ packages to the local registry.
+ *      Verdaccio stays running after this command — do not stop it.
+ *      IMPORTANT: do NOT use --command publish alone — it skips the schematics
+ *      compilation step and publishes uncompiled TypeScript, which causes
+ *      "no ng add actions found" errors when the scenarios run ng add.
+ *
+ *   If you only changed schematics source (core-libs/schematics/**) and not any
+ *   library source, you can skip steps 1-2 and run step 3 directly.
+ *
+ *   Then run this script:
+ *        npx ts-node ./tools/schematics/runtime-config-json-scenario-tests.ts \
+ *          --scenario all \
+ *          --out-dir ~/Desktop/cx-test \
+ *          --app-name myapp
  */
 
 import { execSync } from 'child_process';
@@ -140,12 +166,20 @@ function resetStats(): ScenarioStats {
 
 // ─── Shell helpers ────────────────────────────────────────────────────────────
 
+// Pass NPM_CONFIG_LEGACY_PEER_DEPS=true to all child processes so that npm
+// install calls spawned by ng add (which has no --legacy-peer-deps flag of its
+// own) don't fail on peer dependency conflicts.
+const CHILD_ENV: NodeJS.ProcessEnv = {
+  ...process.env,
+  NPM_CONFIG_LEGACY_PEER_DEPS: 'true',
+};
+
 function run(cmd: string, cwd?: string): void {
-  execSync(cmd, { stdio: 'inherit', cwd });
+  execSync(cmd, { stdio: 'inherit', cwd, env: CHILD_ENV });
 }
 
 function runSilent(cmd: string, cwd?: string): string {
-  return execSync(cmd, { stdio: 'pipe', cwd }).toString().trim();
+  return execSync(cmd, { stdio: 'pipe', cwd, env: CHILD_ENV }).toString().trim();
 }
 
 // ─── File assertion helpers ───────────────────────────────────────────────────
@@ -224,7 +258,16 @@ function createApp(appDir: string, appName: string, registry?: string): void {
     parentDir
   );
 
-  run(`npm install --legacy-peer-deps`, appDir);
+  // Point the @spartacus scope at Verdaccio so that installPackageJsonDependencies()
+  // (called at the end of ng add) resolves branch versions instead of hitting npmjs.
+  if (!registry) {
+    fs.writeFileSync(
+      path.join(appDir, '.npmrc'),
+      `@spartacus:registry=${VERDACCIO_REGISTRY}\n`
+    );
+  }
+
+  run(`npm install`, appDir);
 
   // Initialize git so each generation step is a traceable commit
   gitInit(appDir);
@@ -262,12 +305,23 @@ function runScenarioA(outDir: string, baseName: string): ScenarioStats {
     assertFileExists(path.join(appDir, 'config.json'))
   );
 
-  step('proxy.conf.json created at project root', () =>
-    assertFileExists(path.join(appDir, 'proxy.conf.json'))
+  step('proxy.conf.js created at project root', () =>
+    assertFileExists(path.join(appDir, 'proxy.conf.js'))
   );
 
-  step('angular.json wired with proxyConfig', () =>
-    assertFileContains(path.join(appDir, 'angular.json'), 'proxyConfig')
+  step('angular.json wired with proxyConfig pointing at proxy.conf.js', () => {
+    assertFileContains(path.join(appDir, 'angular.json'), 'proxyConfig');
+    assertFileContains(path.join(appDir, 'angular.json'), 'proxy.conf.js');
+  });
+
+  step('proxy.conf.js uses bypass function with __dirname (no Fastify, no port 4222)', () => {
+    assertFileContains(path.join(appDir, 'proxy.conf.js'), 'bypass');
+    assertFileContains(path.join(appDir, 'proxy.conf.js'), '__dirname');
+    assertFileNotContains(path.join(appDir, 'proxy.conf.js'), '4222');
+  });
+
+  step('proxy.conf.js sets Cache-Control: no-store', () =>
+    assertFileContains(path.join(appDir, 'proxy.conf.js'), "'no-store'")
   );
 
   step('main.ts wrapped with getRuntimeEnvironment', () =>
@@ -385,6 +439,22 @@ function runScenarioA(outDir: string, baseName: string): ScenarioStats {
     )
   );
 
+  step('server.ts /config.json route has file:// branch using fileURLToPath', () => {
+    assertFileContains(path.join(appDir, 'src', 'server.ts'), 'file://');
+    assertFileContains(path.join(appDir, 'src', 'server.ts'), 'fileURLToPath');
+  });
+
+  step('server.ts /config.json route sets Cache-Control: no-store', () =>
+    assertFileContains(path.join(appDir, 'src', 'server.ts'), "'no-store'")
+  );
+
+  step('package.json has serve:ssr:dev script with NODE_TLS_REJECT_UNAUTHORIZED=0 and CONFIG_URL=file://${PWD}/config.json', () => {
+    assertFileContains(path.join(appDir, 'package.json'), 'serve:ssr:dev');
+    assertFileContains(path.join(appDir, 'package.json'), 'NODE_TLS_REJECT_UNAUTHORIZED=0');
+    assertFileContains(path.join(appDir, 'package.json'), 'file://');
+    assertFileContains(path.join(appDir, 'package.json'), '${PWD}');
+  });
+
   step('app.config.server.ts has provideEnvironmentServer()', () =>
     assertFileContains(
       path.join(appDir, 'src', 'app', 'app.config.server.ts'),
@@ -428,8 +498,8 @@ function runScenarioB(outDir: string, baseName: string): ScenarioStats {
     assertFileAbsent(path.join(appDir, 'config.json'))
   );
 
-  step('proxy.conf.json NOT created', () =>
-    assertFileAbsent(path.join(appDir, 'proxy.conf.json'))
+  step('proxy.conf.js NOT created', () =>
+    assertFileAbsent(path.join(appDir, 'proxy.conf.js'))
   );
 
   step('angular.json has no proxyConfig', () =>
@@ -510,7 +580,11 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
   });
 
   step('Point app to Verdaccio registry', () => {
-    run(`npm config set @spartacus:registry ${VERDACCIO_REGISTRY}`, appDir);
+    // Write project-level .npmrc so only this app is affected, not the user's global config.
+    fs.writeFileSync(
+      path.join(appDir, '.npmrc'),
+      `@spartacus:registry=${VERDACCIO_REGISTRY}\n`
+    );
   });
 
   step('Update @spartacus/* packages to branch version', () => {
@@ -520,8 +594,7 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
         ` @spartacus/setup@${branchVersion}` +
         ` @spartacus/storefront@${branchVersion}` +
         ` @spartacus/schematics@${branchVersion}` +
-        ` --registry ${VERDACCIO_REGISTRY}` +
-        ` --legacy-peer-deps`,
+        ` --registry ${VERDACCIO_REGISTRY}`,
       appDir
     );
     gitCommit(
@@ -536,8 +609,8 @@ function runScenarioC(outDir: string, baseName: string): ScenarioStats {
     assertFileAbsent(path.join(appDir, 'config.json'))
   );
 
-  step('proxy.conf.json NOT introduced by update', () =>
-    assertFileAbsent(path.join(appDir, 'proxy.conf.json'))
+  step('proxy.conf.js NOT introduced by update', () =>
+    assertFileAbsent(path.join(appDir, 'proxy.conf.js'))
   );
 
   step('main.ts unchanged — no getRuntimeEnvironment', () =>

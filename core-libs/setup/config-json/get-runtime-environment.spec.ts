@@ -142,9 +142,7 @@ describe('get-runtime-environment', () => {
 
       expect(result.runtimeEnvironment).toEqual({});
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining(
-          'node node_modules/@spartacus/setup/dev-proxy/run.js'
-        )
+        expect.stringContaining(TEST_URL)
       );
 
       consoleSpy.mockRestore();
