@@ -24,6 +24,10 @@ import {
 } from './media.model';
 import { MediaService } from './media.service';
 
+type MediaImage = Image | ImageGroup;
+type MediaSource = MediaContainer | MediaImage;
+type MediaInput = MediaSource | ImageGroup[];
+
 /**
  * The HTML element rendered in the template can be either `<img>` or `<picture>`,
  * depending on the input value of `elementType`, which defaults to `'img'`.
@@ -61,8 +65,7 @@ export class MediaComponent implements OnChanges {
    * can be provided in a `srcset` so the browser will figure out
    * the best media for the device.
    */
-  @Input() container:
-    MediaContainer | Image | ImageGroup | ImageGroup[] | undefined;
+  @Input() container: MediaInput | undefined;
 
   /**
    * if a media format is given, a media for the given format will be rendered

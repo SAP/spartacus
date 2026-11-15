@@ -9,6 +9,25 @@ import {
   MethodPropertyDeprecation,
 } from '../../../shared/utils/file-utils';
 
+const STOREFRONT_IMPORT_PATH = '@spartacus/storefront';
+const PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH =
+  '@spartacus/product-configurator/rulebased';
+const STORE_FINDER_CORE_IMPORT_PATH = '@spartacus/storefinder/core';
+const STORE_FINDER_ROOT_IMPORT_PATH = '@spartacus/storefinder/root';
+const SUBSCRIPTION_BILLING_COMPONENTS_IMPORT_PATH =
+  '@spartacus/subscription-billing/components';
+const OPF_PAYMENT_ROOT_IMPORT_PATH = '@spartacus/opf/payment/root';
+const ORGANIZATION_ADMINISTRATION_COMPONENTS_IMPORT_PATH =
+  '@spartacus/organization/administration/components';
+const EPD_ASSETS_IMPORT_PATH = '@spartacus/epd-visualization/assets';
+const EPD_COMPONENTS_IMPORT_PATH = '@spartacus/epd-visualization/components';
+const EPD_CORE_IMPORT_PATH = '@spartacus/epd-visualization/core';
+const EPD_ROOT_IMPORT_PATH = '@spartacus/epd-visualization/root';
+const EPD_API_IMPORT_PATH =
+  '@spartacus/epd-visualization/epd-visualization-api';
+const EPD_RETIREMENT_COMMENT =
+  'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.';
+
 export const REMOVED_MEMBERS: MethodPropertyDeprecation[] = [
   {
     class: 'SiteContextRoutesHandler',
@@ -26,63 +45,63 @@ export const REMOVED_MEMBERS: MethodPropertyDeprecation[] = [
   },
   {
     class: 'TabParagraphContainerComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'activeTabNum',
     comment:
       '// TODO:Spartacus - TabParagraphContainerComponent.activeTabNum was removed in the major release.',
   },
   {
     class: 'TabParagraphContainerComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'ariaLabel',
     comment:
       '// TODO:Spartacus - TabParagraphContainerComponent.ariaLabel was removed in the major release.',
   },
   {
     class: 'TabParagraphContainerComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'children',
     comment:
       '// TODO:Spartacus - TabParagraphContainerComponent.children was removed in the major release.',
   },
   {
     class: 'TabParagraphContainerComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'tabTitleParams',
     comment:
       '// TODO:Spartacus - TabParagraphContainerComponent.tabTitleParams was removed in the major release.',
   },
   {
     class: 'TabParagraphContainerComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'select',
     comment:
       '// TODO:Spartacus - TabParagraphContainerComponent.select was removed in the major release.',
   },
   {
     class: 'TabParagraphContainerComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'ngOnInit',
     comment:
       '// TODO:Spartacus - TabParagraphContainerComponent.ngOnInit was removed in the major release.',
   },
   {
     class: 'SiteContextSelectorComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'siteContextService',
     comment:
       '// TODO:Spartacus - SiteContextSelectorComponent.siteContextService was removed in the major release.',
   },
   {
     class: 'FacetComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'toggleGroup',
     comment:
       '// TODO:Spartacus - FacetComponent.toggleGroup was removed in the major release.',
   },
   {
     class: 'OutletContextData',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'context',
     comment:
       '// TODO:Spartacus - OutletContextData.context was removed in the major release. Use context$ instead.',
@@ -117,84 +136,84 @@ export const REMOVED_MEMBERS: MethodPropertyDeprecation[] = [
   },
   {
     class: 'ConfiguratorAttributeProductCardComponentOptions',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'attributeId',
     comment:
       '// TODO:Spartacus - ConfiguratorAttributeProductCardComponentOptions.attributeId was removed in the major release. Use attribute and getAttributeCode(attribute) instead.',
   },
   {
     class: 'ConfiguratorAttributeProductCardComponentOptions',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'attributeLabel',
     comment:
       '// TODO:Spartacus - ConfiguratorAttributeProductCardComponentOptions.attributeLabel was removed in the major release. Use attribute.label instead.',
   },
   {
     class: 'ConfiguratorAttributeProductCardComponentOptions',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'attributeName',
     comment:
       '// TODO:Spartacus - ConfiguratorAttributeProductCardComponentOptions.attributeName was removed in the major release. Use attribute.name instead.',
   },
   {
     class: 'ConfiguratorConflictAndErrorMessagesComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'configuration$',
     comment:
       '// TODO:Spartacus - ConfiguratorConflictAndErrorMessagesComponent.configuration$ was removed in the major release. Use messages$ instead.',
   },
   {
     class: 'ConfiguratorGroupTitleComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'ghostStyle',
     comment:
       '// TODO:Spartacus - ConfiguratorGroupTitleComponent.ghostStyle was removed in the major release. Use the loading template instead.',
   },
   {
     class: 'ConfiguratorOverviewFilterButtonComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'ghostStyle',
     comment:
       '// TODO:Spartacus - ConfiguratorOverviewFilterButtonComponent.ghostStyle was removed in the major release. Use the loading template instead.',
   },
   {
     class: 'ConfiguratorOverviewFormComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'ghostStyle',
     comment:
       '// TODO:Spartacus - ConfiguratorOverviewFormComponent.ghostStyle was removed in the major release. Use the loading template instead.',
   },
   {
     class: 'ConfiguratorOverviewMenuComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT',
     comment:
       '// TODO:Spartacus - ConfiguratorOverviewMenuComponent.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT was removed in the major release.',
   },
   {
     class: 'ConfiguratorOverviewSidebarComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'ghostStyle',
     comment:
       '// TODO:Spartacus - ConfiguratorOverviewSidebarComponent.ghostStyle was removed in the major release. Use the loading template instead.',
   },
   {
     class: 'ConfiguratorProductTitleComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'ghostStyle',
     comment:
       '// TODO:Spartacus - ConfiguratorProductTitleComponent.ghostStyle was removed in the major release. Use the loading template instead.',
   },
   {
     class: 'ConfiguratorProductTitleComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'product$',
     comment:
       '// TODO:Spartacus - ConfiguratorProductTitleComponent.product$ was removed in the major release. Use productTitleData$.product instead.',
   },
   {
     class: 'ConfiguratorTabBarComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
+    importPath: PRODUCT_CONFIGURATOR_RULEBASED_IMPORT_PATH,
     deprecatedNode: 'ghostStyle',
     comment:
       '// TODO:Spartacus - ConfiguratorTabBarComponent.ghostStyle was removed in the major release. Use the loading template instead.',
@@ -208,63 +227,63 @@ export const REMOVED_MEMBERS: MethodPropertyDeprecation[] = [
   },
   {
     class: 'StoreFinderService',
-    importPath: '@spartacus/storefinder/core',
+    importPath: STORE_FINDER_CORE_IMPORT_PATH,
     deprecatedNode: 'getStoreLatitude',
     comment:
       '// TODO:Spartacus - StoreFinderService.getStoreLatitude was removed in the major release. Use StoreLocationService.getStoreLatitude instead.',
   },
   {
     class: 'StoreFinderService',
-    importPath: '@spartacus/storefinder/core',
+    importPath: STORE_FINDER_CORE_IMPORT_PATH,
     deprecatedNode: 'getStoreLongitude',
     comment:
       '// TODO:Spartacus - StoreFinderService.getStoreLongitude was removed in the major release. Use StoreLocationService.getStoreLongitude instead.',
   },
   {
     class: 'StoreFinderService',
-    importPath: '@spartacus/storefinder/core',
+    importPath: STORE_FINDER_CORE_IMPORT_PATH,
     deprecatedNode: 'getDirections',
     comment:
       '// TODO:Spartacus - StoreFinderService.getDirections was removed in the major release. Use StoreLocationService.getDirections instead.',
   },
   {
     class: 'StoreFinderFacade',
-    importPath: '@spartacus/storefinder/root',
+    importPath: STORE_FINDER_ROOT_IMPORT_PATH,
     deprecatedNode: 'getStoreLatitude',
     comment:
       '// TODO:Spartacus - StoreFinderFacade.getStoreLatitude was removed in the major release. Use StoreLocationService.getStoreLatitude instead.',
   },
   {
     class: 'StoreFinderFacade',
-    importPath: '@spartacus/storefinder/root',
+    importPath: STORE_FINDER_ROOT_IMPORT_PATH,
     deprecatedNode: 'getStoreLongitude',
     comment:
       '// TODO:Spartacus - StoreFinderFacade.getStoreLongitude was removed in the major release. Use StoreLocationService.getStoreLongitude instead.',
   },
   {
     class: 'StoreFinderFacade',
-    importPath: '@spartacus/storefinder/root',
+    importPath: STORE_FINDER_ROOT_IMPORT_PATH,
     deprecatedNode: 'getDirections',
     comment:
       '// TODO:Spartacus - StoreFinderFacade.getDirections was removed in the major release. Use StoreLocationService.getDirections instead.',
   },
   {
     class: 'SubscriptionBillingListComponent',
-    importPath: '@spartacus/subscription-billing/components',
+    importPath: SUBSCRIPTION_BILLING_COMPONENTS_IMPORT_PATH,
     deprecatedNode: 'onFilterDateChange',
     comment:
       '// TODO:Spartacus - SubscriptionBillingListComponent.onFilterDateChange was removed in the major release.',
   },
   {
     class: 'SubscriptionBillingListComponent',
-    importPath: '@spartacus/subscription-billing/components',
+    importPath: SUBSCRIPTION_BILLING_COMPONENTS_IMPORT_PATH,
     deprecatedNode: 'onResetFilterDate',
     comment:
       '// TODO:Spartacus - SubscriptionBillingListComponent.onResetFilterDate was removed in the major release.',
   },
   {
     class: 'SubscriptionBillingListComponent',
-    importPath: '@spartacus/subscription-billing/components',
+    importPath: SUBSCRIPTION_BILLING_COMPONENTS_IMPORT_PATH,
     deprecatedNode: 'onDateFilterSubmit',
     comment:
       '// TODO:Spartacus - SubscriptionBillingListComponent.onDateFilterSubmit was removed in the major release.',
@@ -292,28 +311,28 @@ export const REMOVED_MEMBERS: MethodPropertyDeprecation[] = [
   },
   {
     class: 'OpfPaymentGlobalMethods',
-    importPath: '@spartacus/opf/payment/root',
+    importPath: OPF_PAYMENT_ROOT_IMPORT_PATH,
     deprecatedNode: 'cartId',
     comment:
       '// TODO:Spartacus - OpfPaymentGlobalMethods.submit.options.cartId was removed in the major release.',
   },
   {
     class: 'OpfPaymentGlobalMethods',
-    importPath: '@spartacus/opf/payment/root',
+    importPath: OPF_PAYMENT_ROOT_IMPORT_PATH,
     deprecatedNode: 'cartId',
     comment:
       '// TODO:Spartacus - OpfPaymentGlobalMethods.submitComplete.options.cartId was removed in the major release.',
   },
   {
     class: 'OpfPaymentGlobalMethods',
-    importPath: '@spartacus/opf/payment/root',
+    importPath: OPF_PAYMENT_ROOT_IMPORT_PATH,
     deprecatedNode: 'cartId',
     comment:
       '// TODO:Spartacus - OpfPaymentGlobalMethods.submitCompleteRedirect.options.cartId was removed in the major release.',
   },
   {
     class: 'OpfPaymentConfig',
-    importPath: '@spartacus/opf/payment/root',
+    importPath: OPF_PAYMENT_ROOT_IMPORT_PATH,
     deprecatedNode: 'cartId',
     comment:
       '// TODO:Spartacus - OpfPaymentConfig.cartId was removed in the major release.',
@@ -348,21 +367,21 @@ export const REMOVED_MEMBERS: MethodPropertyDeprecation[] = [
   },
   {
     class: 'ProductScrollComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'setConfig',
     comment:
       '// TODO:Spartacus - ProductScrollComponent.setConfig was removed in the major release. Use scrollConfig instead.',
   },
   {
     class: 'ProductIntroComponent',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     deprecatedNode: 'areReviewsAvailable$',
     comment:
       '// TODO:Spartacus - ProductIntroComponent.areReviewsAvailable$ was removed in the major release. Use product.averageRating instead.',
   },
   {
     class: 'ToggleLinkCellComponent',
-    importPath: '@spartacus/organization/administration/components',
+    importPath: ORGANIZATION_ADMINISTRATION_COMPONENTS_IMPORT_PATH,
     deprecatedNode: 'restoreFocus',
     comment:
       '// TODO:Spartacus - ToggleLinkCellComponent.restoreFocus was removed in the major release.',
@@ -377,7 +396,7 @@ export const REMOVED_EXPORTS: DeprecatedNode[] = [
   },
   {
     node: 'layoutConfig',
-    importPath: '@spartacus/storefront',
+    importPath: STOREFRONT_IMPORT_PATH,
     comment:
       'layoutConfig was removed in the major release. Use provideConfigFactory(layoutConfigFactory) instead.',
   },
@@ -389,602 +408,508 @@ export const REMOVED_EXPORTS: DeprecatedNode[] = [
   },
   {
     node: 'newBudgetTableConfig',
-    importPath: '@spartacus/organization/administration/components',
+    importPath: ORGANIZATION_ADMINISTRATION_COMPONENTS_IMPORT_PATH,
     comment:
       'newBudgetTableConfig was removed in the major release. Use budgetTableConfig instead.',
   },
   {
     node: 'newCostCenterTableConfig',
-    importPath: '@spartacus/organization/administration/components',
+    importPath: ORGANIZATION_ADMINISTRATION_COMPONENTS_IMPORT_PATH,
     comment:
       'newCostCenterTableConfig was removed in the major release. Use costCenterTableConfig instead.',
   },
   {
     node: 'newPermissionTableConfig',
-    importPath: '@spartacus/organization/administration/components',
+    importPath: ORGANIZATION_ADMINISTRATION_COMPONENTS_IMPORT_PATH,
     comment:
       'newPermissionTableConfig was removed in the major release. Use permisionTableConfig instead.',
   },
   {
     node: 'newUnitsTableConfig',
-    importPath: '@spartacus/organization/administration/components',
+    importPath: ORGANIZATION_ADMINISTRATION_COMPONENTS_IMPORT_PATH,
     comment:
       'newUnitsTableConfig was removed in the major release. Use unitsTableConfig instead.',
   },
   {
     node: 'newUserGroupTableConfig',
-    importPath: '@spartacus/organization/administration/components',
+    importPath: ORGANIZATION_ADMINISTRATION_COMPONENTS_IMPORT_PATH,
     comment:
       'newUserGroupTableConfig was removed in the major release. Use userGroupTableConfig instead.',
   },
   {
     node: 'newUserTableConfig',
-    importPath: '@spartacus/organization/administration/components',
+    importPath: ORGANIZATION_ADMINISTRATION_COMPONENTS_IMPORT_PATH,
     comment:
       'newUserTableConfig was removed in the major release. Use userTableConfig instead.',
   },
   {
     node: 'cs',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'de',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'en',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'es',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'es_CO',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'fr',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'hi',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'hu',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'id',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'it',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'ja',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'ko',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'pl',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'pt',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'ru',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'epdVisualizationTranslationChunksConfig',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'zh',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'zh_TW',
-    importPath: '@spartacus/epd-visualization/assets',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ASSETS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'EpdVisualizationComponentsModule',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingProductFilterComponent',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingProductFilterModule',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingProductFilterService',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'CompactAddToCartComponent',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'CompactAddToCartModule',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingProductListItem',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'PagedListComponent',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'PagedListModule',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingProductListComponent',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingProductListModule',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingProductListService',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingTabComponent',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingTabModule',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingTabService',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'NavigationMode',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'NodeContentType',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'LoadedSceneInfo',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'SceneLoadInfo',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'SceneLoadState',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'SelectionDisplayMode',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'SelectionMode',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualizationLookupResult',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualizationLoadStatus',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualizationLoadInfo',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'ZoomTo',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualViewerAnimationSliderComponent',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualViewerAnimationSliderModule',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualViewerAnimationSliderService',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualViewerToolbarButtonComponent',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualViewerToolbarButtonModule',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'MockVisualViewerAnimationSliderComponent',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualViewerComponent',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualViewerModule',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualViewerService',
-    importPath: '@spartacus/epd-visualization/components',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_COMPONENTS_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'NODES_RESPONSE_NORMALIZER',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'NodesResponse',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'TreeNode',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'UsageId',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'UsageIdKey',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'SceneAdapter',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'SceneConnector',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'LookupVisualizationsResponse',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualizationAdapter',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualizationConnector',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'EpdVisualizationCoreModule',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'NodeIdProductCodes',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'SceneNodeToProductLookupService',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualizationLookupService',
-    importPath: '@spartacus/epd-visualization/core',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_CORE_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'StorageV1Adapter',
-    importPath: '@spartacus/epd-visualization/epd-visualization-api',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_API_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualizationV1Adapter',
-    importPath: '@spartacus/epd-visualization/epd-visualization-api',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_API_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'EpdVisualizationApiModule',
-    importPath: '@spartacus/epd-visualization/epd-visualization-api',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_API_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'EpdVisualizationModule',
     importPath: '@spartacus/epd-visualization',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'epdVisualizationConfigValidator',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'EpdVisualizationConfig',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'EpdVisualizationInnerConfig',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'Ui5Config',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualizationApiConfig',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'UsageIdConfig',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualPickingConfig',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: "'@spartacus/core'",
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'getEpdVisualizationDefaultConfig',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'EpdVisualizationRootModule',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'EPD_VISUALIZATION_FEATURE',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'UsageIdDefinition',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'UsageId',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'UsageIdKey',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'ContentType',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'VisualizationInfo',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'getTestConfig',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'Listener',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'EventListenerUtils',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'getUrl',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'isHttpOrHttps',
-    importPath: '@spartacus/epd-visualization/root',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    importPath: EPD_ROOT_IMPORT_PATH,
+    comment: EPD_RETIREMENT_COMMENT,
   },
   {
     node: 'addEpdVisualizationFeature',
     importPath: '@spartacus/epd-visualization',
-    comment:
-      'EPD Visualization was retired. Remove the integration and its package, providers, styles and CMS mappings.',
+    comment: EPD_RETIREMENT_COMMENT,
   },
 ];

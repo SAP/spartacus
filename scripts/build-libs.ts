@@ -99,7 +99,7 @@ async function main(): Promise<void> {
     '--projects=' +
       libraries
         .map((lib) => lib.name)
-        .sort()
+        .sort((first, second) => first.localeCompare(second))
         .join(','),
     '--configuration=production',
     '--parallel=3',
