@@ -13,8 +13,8 @@ import {
   inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
-import { asapScheduler, BehaviorSubject, interval, Observable, of } from 'rxjs';
-import { delayWhen, observeOn, switchMap } from 'rxjs/operators';
+import { asapScheduler, BehaviorSubject, Observable, of } from 'rxjs';
+import { delay, observeOn, switchMap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { IconComponent } from '../../../misc/icon/icon.component';
@@ -69,7 +69,10 @@ export class ProductFacetNavigationComponent {
     // method represents the actual UI state.
     observeOn(asapScheduler),
     switchMap(() => (this.hasTrigger ? this.open$ : of(true))),
-    delayWhen((launched) => interval(launched ? 0 : this.CLOSE_DELAY))
+    // Opening again must cancel an earlier close animation's delayed emission.
+    switchMap((launched) =>
+      of(launched).pipe(delay(launched ? 0 : this.CLOSE_DELAY))
+    )
   );
 
   /**
