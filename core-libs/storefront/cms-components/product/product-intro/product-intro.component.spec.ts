@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   EventService,
   FeatureDirective,
@@ -95,6 +96,30 @@ describe('ProductIntroComponent in product', () => {
 
   it('should be created', () => {
     expect(productIntroComponent).toBeTruthy();
+  });
+
+  it('keeps the visible review action in the accessible name with rating details', () => {
+    vi.spyOn(MockTranslatePipe.prototype, 'transform').mockImplementation(
+      (key) =>
+        key === 'productSummary.showReviews'
+          ? 'Show Reviews'
+          : key === 'productSummary.showReviewsDetailed'
+            ? 'Show 5 reviews, Rated 2.6 out of 5 stars'
+            : String(key)
+    );
+    productIntroComponent.product$ = of({
+      averageRating: 2.6,
+      numberOfReviews: 5,
+    });
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.query(By.css('button.btn-tertiary'));
+    const nativeButton: HTMLButtonElement = button.nativeElement;
+    const visibleLabel = nativeButton.textContent?.trim() ?? '';
+    expect(visibleLabel).toBe('Show Reviews');
+    expect(button.attributes['aria-label'].startsWith(visibleLabel)).toBe(true);
+    expect(button.attributes['aria-label']).toContain('5 reviews');
+    expect(button.attributes['aria-label']).toContain('2.6');
   });
 
   describe('clickTabIfInactive to click tabs indicated as inactive', () => {

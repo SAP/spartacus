@@ -2,10 +2,13 @@ ci:
   collect:
     numberOfRuns: 3
     url:
-       - http://localhost:4000
-       - http://localhost:4000/electronics-spa/en/USD/Brands/Canon/c/brand_10
-       - http://localhost:4000/electronics-spa/en/USD/product/832386/ef-300mm-f-2.8l-is-usm
-    startServerCommand: 'npm run serve:ssr'
+      - http://localhost:4000
+      - http://localhost:4000/electronics-spa/en/USD/Brands/Canon/c/brand_10
+      - http://localhost:4000/electronics-spa/en/USD/product/832386/ef-300mm-f-2.8l-is-usm
+    # The shared CI backend uses a test certificate. Scope this to the audit server.
+    startServerCommand: 'NODE_TLS_REJECT_UNAUTHORIZED=0 npm run serve:ssr'
+    settings:
+      chromeFlags: '--ignore-certificate-errors'
   assert:
     preset: lighthouse:recommended
     assertions:
@@ -18,8 +21,8 @@ ci:
       csp-xss: 'warn'
       cumulative-layout-shift:
         - warn
-        - minScore: 0.03 
-        # - minScore: 0.02 
+        - minScore: 0.03
+        # - minScore: 0.02
       errors-in-console: 'warn'
       first-contentful-paint:
         - warn

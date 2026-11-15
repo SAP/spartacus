@@ -7,17 +7,16 @@
             [routerLink]="crumb.link"
             [innerHTML]="crumb.label"
             [attr.aria-label]="
-              last
-                ? ('common.breadcrumbsCurrentPage' | cxTranslate) +
-                  ' ' +
-                  crumb.label +
-                  (i + 1) +
-                  ('common.of' | cxTranslate) +
-                  crumbList.length
-                : crumb.label +
-                  (i + 1) +
-                  ('common.of' | cxTranslate) +
-                  crumbList.length
+              (last
+                ? ('common.breadcrumbsCurrentPage' | cxTranslate) + ' '
+                : '') +
+              crumb.label +
+              ' ' +
+              (i + 1) +
+              ' ' +
+              ('common.of' | cxTranslate) +
+              ' ' +
+              crumbList.length
             "
           ></a>
         </li>

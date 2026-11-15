@@ -102,7 +102,7 @@
         @if (node.title) {
           <span
             role="heading"
-            aria-level="4"
+            [attr.aria-level]="depth + 2"
             [attr.tabindex]="focusableNodeTitles ? 0 : -1"
           >
             {{ node.title }}

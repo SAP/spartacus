@@ -196,6 +196,31 @@ describe('Navigation UI Component', () => {
   });
 
   describe('UI tests', () => {
+    it('uses sequential heading levels for non-flyout navigation groups', () => {
+      navigationComponent.flyout = false;
+      navigationComponent.node = {
+        children: [
+          {
+            title: 'Footer group',
+            children: [
+              {
+                title: 'Nested group',
+                children: [{ title: 'Link', url: '/link' }],
+              },
+            ],
+          },
+        ],
+      };
+      fixture.detectChanges();
+
+      const headings = fixture.debugElement.queryAll(
+        By.css('[role="heading"]')
+      );
+      expect(
+        headings.map((heading) => heading.attributes['aria-level'])
+      ).toEqual(['2', '3']);
+    });
+
     it('should be created', () => {
       expect(navigationComponent).toBeTruthy();
     });

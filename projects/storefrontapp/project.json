@@ -8,6 +8,12 @@
   "targets": {
     "build": {
       "executor": "@angular-builders/custom-esbuild:application",
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/tools/hash-storefront-environment.cjs",
+        { "runtime": "node tools/hash-storefront-environment.cjs" }
+      ],
       "options": {
         "preserveSymlinks": true,
         "poll": 1000,

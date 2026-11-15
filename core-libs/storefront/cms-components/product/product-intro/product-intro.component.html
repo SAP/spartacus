@@ -10,12 +10,14 @@
             class="btn btn-tertiary"
             (click)="showReviews()"
             [attr.aria-label]="
-              'productSummary.showReviewsDetailed'
+              ('productSummary.showReviews' | cxTranslate) +
+              ', ' +
+              ('productSummary.showReviewsDetailed'
                 | cxTranslate
                   : {
                       rating: product?.averageRating | number: '1.0-1',
                       count: product?.numberOfReviews,
-                    }
+                    })
             "
           >
             {{ 'productSummary.showReviews' | cxTranslate }}
@@ -28,12 +30,14 @@
             class="btn btn-link cx-action-link"
             (click)="showReviews()"
             [attr.aria-label]="
-              'productSummary.showReviewsDetailed'
+              ('productSummary.showReviews' | cxTranslate) +
+              ', ' +
+              ('productSummary.showReviewsDetailed'
                 | cxTranslate
                   : {
                       rating: product?.averageRating | number: '1.0-1',
                       count: product?.numberOfReviews,
-                    }
+                    })
             "
           >
             {{ 'productSummary.showReviews' | cxTranslate }}
