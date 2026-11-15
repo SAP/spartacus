@@ -66,10 +66,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     if (decimalPlaces === undefined) {
       decimalPlaces = 0;
     }
-    const formatted = this.getNumberFormatter(locale, decimalPlaces).format(
-      intervalValue
-    );
-    return formatted;
+    return this.getNumberFormatter(locale, decimalPlaces).format(intervalValue);
   }
 
   /**
@@ -238,7 +235,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     const inputAsNumber: number = Number(input);
     let formatted = this.getNumberFormatter(locale, decimalPlaces)
       .format(inputAsNumber)
-      .replace(/9/g, '#');
+      .replaceAll('9', '#');
     if (negativeAllowed) {
       formatted = '-' + formatted;
     }
@@ -284,7 +281,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     locale: string,
     decimalPlaces?: number
   ): Intl.NumberFormat {
-    return new Intl.NumberFormat(locale.replace(/_/g, '-'), {
+    return new Intl.NumberFormat(locale.replaceAll('_', '-'), {
       numberingSystem: 'latn',
       ...(decimalPlaces === undefined
         ? {}

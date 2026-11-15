@@ -7,6 +7,7 @@
 import { spawn } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
+import { inspect } from 'node:util';
 import { globSync } from 'glob';
 
 const workspaceRoot = resolve(__dirname, '..');
@@ -112,6 +113,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error(error);
+  process.stderr.write(inspect(error) + '\n');
   process.exitCode = 1;
 });

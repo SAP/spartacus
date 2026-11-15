@@ -49,11 +49,7 @@ export class OccConfiguratorVariantOverviewNormalizer implements Converter<
     source: OccConfigurator.GroupOverview
   ): Configurator.GroupOverview[] {
     const result: Configurator.GroupOverview[] = [];
-    const characteristicValues:
-      OccConfigurator.CharacteristicOverview[] | undefined =
-      source.characteristicValues;
-    const subGroups: OccConfigurator.GroupOverview[] | undefined =
-      source.subGroups;
+    const { characteristicValues, subGroups } = source;
     const group: Configurator.GroupOverview = {
       id: source.id,
       groupDescription: source.groupDescription,

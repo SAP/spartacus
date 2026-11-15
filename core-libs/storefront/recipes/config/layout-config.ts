@@ -174,7 +174,7 @@ function applyWithoutPageFold(config: LayoutConfig): void {
  * Factory for layout configuration.
  */
 export function layoutConfigFactory(): LayoutConfig {
-  const config: LayoutConfig = JSON.parse(JSON.stringify(baseLayoutConfig));
+  const config = structuredClone(baseLayoutConfig);
 
   applyUnifiedHeaderSlots(config);
 

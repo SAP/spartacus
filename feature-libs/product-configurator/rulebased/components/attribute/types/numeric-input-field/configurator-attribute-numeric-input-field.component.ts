@@ -416,7 +416,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   }
 
   protected getInstalledLocale(locale: string): string {
-    const normalizedLocale = locale.replace(/_/g, '-');
+    const normalizedLocale = locale.replaceAll('_', '-');
     try {
       if (Intl.NumberFormat.supportedLocalesOf(normalizedLocale).length > 0) {
         return normalizedLocale;

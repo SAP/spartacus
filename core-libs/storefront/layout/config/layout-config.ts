@@ -27,8 +27,7 @@ export enum BREAKPOINT {
   xl = 'xl',
 }
 
-export type LayoutSections =
-  'header' | 'footer' | 'LandingPage2Template' | string;
+export type LayoutSections = string;
 
 export type SlotConfig = {
   /** The cms page slots are mapped by the `slot.position`. */

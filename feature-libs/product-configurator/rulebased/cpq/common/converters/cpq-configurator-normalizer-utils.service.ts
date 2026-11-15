@@ -145,7 +145,7 @@ export class CpqConfiguratorNormalizerUtilsService {
     availableLocale: string
   ): void {
     price.formattedValue = new Intl.NumberFormat(
-      availableLocale.replace(/_/g, '-'),
+      availableLocale.replaceAll('_', '-'),
       {
         style: 'currency',
         currency: price.currencyIso,
@@ -442,7 +442,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   protected getLanguage(): string {
     const lang = this.getActiveLanguage();
-    const normalizedLocale = lang.replace(/_/g, '-');
+    const normalizedLocale = lang.replaceAll('_', '-');
     try {
       if (Intl.NumberFormat.supportedLocalesOf(normalizedLocale).length > 0) {
         return normalizedLocale;
