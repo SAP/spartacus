@@ -504,7 +504,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       options.runtimeConfig ? addServeSSRDevScript(options) : noop(),
       options.runtimeConfig
         ? (_tree: Tree, _ctx: SchematicContext) => {
-            _ctx.logger.info(String.raw`
+            _ctx.logger.info(`
 ✅ SSR + runtime config wiring complete.
 
 ── Dev mode ─────────────────────────────────────────────────────────────────
