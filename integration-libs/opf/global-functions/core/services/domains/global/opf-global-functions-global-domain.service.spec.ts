@@ -95,18 +95,14 @@ class MockRoutingService implements Partial<RoutingService> {
   }
 }
 
-class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine
-    .createSpy('getActiveCartId')
-    .and.returnValue(of('test-cart-id'));
-  takeActive = jasmine.createSpy('takeActive').and.returnValue(of(mockCart));
-  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
-  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
-}
-
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart = jasmine.createSpy('getCart').and.returnValue(of(mockCart));
   reloadCart = jasmine.createSpy('reloadCart');
+}
+
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
+  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -143,6 +139,15 @@ class MockOpfQuickBuyTransactionService
   getCurrentCart = jasmine
     .createSpy('getCurrentCart')
     .and.returnValue(of(mockCart));
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
+    .and.returnValue(of('test-cart-id'));
+  getDeliveryAddress = jasmine
+    .createSpy('getDeliveryAddress')
+    .and.returnValue(of(mockDeliveryAddress));
+  getSelectedDeliveryMode = jasmine
+    .createSpy('getSelectedDeliveryMode')
+    .and.returnValue(of(mockDeliveryMode));
 }
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
@@ -181,8 +186,8 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
           provide: OpfMetadataStoreService,
           useClass: MockOpfMetadataStoreService,
         },
-        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -240,11 +245,15 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
   describe('addresses and delivery', () => {
     it('should handle getBillingAddress', async () => {
       const result = await service.getBillingAddress();
+      expect(opfQuickBuyTransactionService.getCurrentCart).toHaveBeenCalled();
       expect(result).toEqual(mockBillingAddress);
     });
 
     it('should handle getDeliveryAddress', async () => {
       const result = await service.getDeliveryAddress();
+      expect(
+        opfQuickBuyTransactionService.getDeliveryAddress
+      ).toHaveBeenCalled();
       expect(result).toEqual(mockDeliveryAddress);
     });
 
@@ -277,6 +286,9 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
 
     it('should handle getDeliveryMode', async () => {
       const result = await service.getDeliveryMode();
+      expect(
+        opfQuickBuyTransactionService.getSelectedDeliveryMode
+      ).toHaveBeenCalled();
       expect(result).toEqual(mockDeliveryMode);
     });
 
@@ -365,8 +377,9 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     });
 
     it('should reject when cartId is missing', async () => {
-      const activeCartFacade = TestBed.inject(ActiveCartFacade) as any;
-      activeCartFacade.getActiveCartId.and.returnValue(of(undefined));
+      opfQuickBuyTransactionService.getCurrentCartId = jasmine
+        .createSpy('getCurrentCartId')
+        .and.returnValue(of(undefined));
 
       await expectAsync(service.initiatePayment('2301')).toBeRejectedWithError(
         'Cart ID is required. No active cart found.'

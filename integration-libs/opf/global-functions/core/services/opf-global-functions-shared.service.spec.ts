@@ -12,10 +12,7 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import {
-  ActiveCartFacade,
-  CartAccessCodeFacade,
-} from '@spartacus/cart/base/root';
+import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
 import {
   OpfMetadataModel,
   OpfMetadataStoreService,
@@ -27,6 +24,7 @@ import {
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { OpfGlobalFunctionsSharedService } from './opf-global-functions-shared.service';
 import { UserIdService } from '@spartacus/core';
 
@@ -38,9 +36,11 @@ class TestContainerComponent {
 const mockPaymentMethod =
   OpfQuickBuyProviderType.APPLE_PAY as unknown as OpfPaymentMethod;
 
-class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine
-    .createSpy('getActiveCartId')
+class MockOpfQuickBuyTransactionService
+  implements Partial<OpfQuickBuyTransactionService>
+{
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
     .and.returnValue(of('test-cart-id'));
 }
 
@@ -127,9 +127,12 @@ describe('OpfGlobalFunctionsSharedService', () => {
           provide: OpfMetadataStoreService,
           useClass: MockOpfMetadataStoreService,
         },
-        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
         { provide: UserIdService, useClass: MockUserIdService },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
       ],
     });
     service = TestBed.inject(OpfGlobalFunctionsSharedService);
@@ -328,8 +331,12 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
   describe('updatePaymentTransaction', () => {
     it('should wrap errors with a helpful message', async () => {
-      const activeCartFacade = TestBed.inject(ActiveCartFacade) as any;
-      activeCartFacade.getActiveCartId.and.returnValue(of(undefined));
+      const opfQuickBuyTransactionService = TestBed.inject(
+        OpfQuickBuyTransactionService
+      ) as unknown as MockOpfQuickBuyTransactionService;
+      opfQuickBuyTransactionService.getCurrentCartId.and.returnValue(
+        of(undefined)
+      );
 
       await expectAsync(
         service.updatePaymentTransaction({ paymentSessionId: 's' } as any)
