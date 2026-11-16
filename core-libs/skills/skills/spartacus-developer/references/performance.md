@@ -1,9 +1,3 @@
----
-pattern-id: 17
-name: "Keep the first screen server-rendered, prioritized, stable and light"
-regex-checks: []
----
-
 # Performance — Core Web Vitals
 
 ## Rule

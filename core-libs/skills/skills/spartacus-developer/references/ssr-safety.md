@@ -55,4 +55,4 @@ AVOID `disableSSR` on publicly crawlable pages — the SSR-to-CSR transition cau
 
 ## Supplemental Information
 
-- For CLS and layout-stability rules that apply alongside SSR safety (image dimensions, no JS-driven layout, lazy-loading), see [performance.md](./performance.md).
+- [performance.md](performance.md) — what the server render has to contain for a fast first load, and the page speed rules that apply alongside SSR safety.
