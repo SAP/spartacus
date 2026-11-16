@@ -155,7 +155,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
     if (this.product) {
       this.productCode = this.product.code ?? '';
-      this.isPurchasable = this.isProductPurchasable(this.product);
+      // Order history and saved cart pass product as an input; in those contexts
+      // OrderEntry.product has no price, so the purchasable check is skipped.
+      this.isPurchasable = true;
       this.setStockInfo(this.product);
       this.unavailable = !this.productCatalogService.isProductInCatalog(
         this.product
@@ -182,7 +184,11 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         product$.pipe(filter(isNotNullable)).subscribe((product) => {
           this.productCode = product.code ?? '';
           this.product = product;
-          this.isPurchasable = this.isProductPurchasable(product);
+          // isProductPurchasable is only relevant for PDP; on PLP visibility is
+          // already controlled externally so isPurchasable is short-circuited to true.
+          this.isPurchasable =
+            Boolean(this.productListItemContext) ||
+            this.isProductPurchasable(product);
           this.setStockInfo(product);
           this.unavailable =
             !this.productCatalogService.isProductInCatalog(product);
