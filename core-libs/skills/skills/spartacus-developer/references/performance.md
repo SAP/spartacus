@@ -2,14 +2,14 @@
 
 ## Rule
 
-Apply this to every change a shopper sees when a page first loads, even when the request says nothing about speed. Four things decide Largest Contentful Paint (LCP), layout shift (CLS) and responsiveness in a Spartacus storefront.
+Apply this to every change a shopper sees when a page first loads, even when the request says nothing about speed. Four things decide Largest Contentful Paint (LCP), layout shift (CLS) and responsiveness in a Spartacus storefront. Section 1 applies to storefronts with SSR; the others apply either way.
 
 ## 1. The first screen comes from the server
 
 A storefront with SSR sends finished HTML, so the browser starts the main image before any JavaScript runs. Only content that is in that HTML benefits.
 
-- Render first-screen blocks on the server. Do not skip the whole component with `WindowRef.isBrowser()`, `*ngIf="isBrowser"` or `disableSSR`. A button or heading is plain markup and belongs in the server HTML even when its action only works in the browser; keep the `isBrowser()` check inside the handler. If one value exists only in the browser (local time, `localStorage`), render the block on the server and fill that value in after hydration.
-- Put the main image in the template as `<img>`, `<picture>` or `cx-media`. A CSS `background-image` is found late and cannot be prioritized.
+- Render first-screen blocks on the server. Do not skip the whole component with `WindowRef.isBrowser()`, `*ngIf="isBrowser"` or `disableSSR`; `disableSSR` stays the last resort for a component with no useful server output (see [ssr-safety.md](./ssr-safety.md)). A button or heading is plain markup and belongs in the server HTML even when its action only works in the browser; keep the `isBrowser()` check inside the handler. If one value exists only in the browser (local time, `localStorage`), render the block on the server and fill that value in after hydration.
+- Put the main image in the template as `<img>`, `<picture>` or `cx-media`. A CSS `background-image` is found late; when a design forces one, preload it (`<link rel="preload" as="image" fetchpriority="high">`).
 - Read data through Spartacus facades, so it is loaded during the server render; product and CMS data are then handed to the browser instead of being fetched twice.
 - Switch between phone and desktop layouts with CSS media queries, not with `BreakpointService` driving `*ngIf` or classes. The server does not know the screen size, so markup chosen in code changes after hydration.
 
@@ -17,17 +17,18 @@ A storefront with SSR sends finished HTML, so the browser starts the main image 
 
 One image is usually the largest thing on the first screen: the hero on a content page, the main photo on a product page, the first products on a listing.
 
-Its file size decides most of the loading time. A hero weighs tens to a few hundred kilobytes, not megabytes; a 2 MB picture alone takes more than ten seconds on a slow phone connection. Check every image file you add to the project against the size it is displayed at. When a file is far larger than needed (megabytes, or more than twice the displayed width):
+Its file size decides most of the loading time. A hero weighs tens to a few hundred kilobytes, not megabytes; a 2 MB picture alone takes more than ten seconds on a slow phone connection. Check every image file you add to the project against the size it is displayed at. When a photo or illustration is far larger than needed (megabytes, or more than twice the displayed width):
 
 - Leave the delivered file as it is. Never overwrite, move or delete it.
-- Make a copy resized to the largest width it is displayed at, times two for sharp screens (about 800 px for a phone crop, 1600 to 2000 px for desktop), saved as WebP or AVIF at quality 70 to 80. Use a converter that is already installed (`cwebp`, `magick`, `sips` (AVIF only), or `sharp` if the project depends on it). Do not download one.
+- Make a copy resized to the largest width it is displayed at, times two for sharp screens (about 800 px for a phone crop, 1600 to 2000 px for desktop), saved as WebP at quality 70 to 80; AVIF only as an additional `<source>` beside it. Use a converter that is already installed (`cwebp`, `magick`, or `sharp` if the project depends on it; `sips` resizes and writes AVIF but not WebP). Do not download one.
 - Put the copies in the folder the build already serves (the `assets` entry in `angular.json`: `public/` in new apps, `src/assets/` in older ones) and reference the copies.
 - Tell the developer in your summary which files you converted, their pixel and file sizes before and after, and that pointing the template back at the delivered file undoes it.
 - If no converter is installed, or the developer asked for the files to be used unchanged, use the delivered file, still set its dimensions, and report its size and what a conversion would save.
+- Leave logos, icons and images with text or transparency as they are; lossy re-encoding blurs their edges. Leave files that are already small as well.
 
-Images managed in the CMS stay in `cx-media`.
+Images managed in the CMS stay in `cx-media`. They are sized in the backend or by an image CDN, so report an oversized one instead of replacing it.
 
-Stock components (`cx-banner`, `cx-product-images`, product list and carousel items) load their image eagerly with high priority when their CMS component UID is listed. The list is empty in a new storefront, so by default every image is `loading="lazy"`. When you add or change the top of a page, list the component that holds its main image (add to the existing list if one is configured, a second `ids` array replaces the first):
+Stock components (`cx-banner`, `cx-product-images`, product list and carousel items) load their image eagerly with high priority when the storefront knows they hold a page's main image. `lcpCmsComponents` says so in two ways: a CMS component whose UID contains the marker `__cxLCP__` (the default `idMarker`) is recognised without a deployment, and the app can list UIDs in `ids`. Nothing is marked or listed in a new storefront, so by default every stock image is `loading="lazy"`. This is storefront-wide configuration tied to CMS content: set it when the task is about that part of the page and say so; otherwise report which component should be marked and leave the configuration alone. To find a UID, log the page structure ("Debugging CMS page structure" in [cms-component-wiring.md](./cms-component-wiring.md)). When you add to `ids`, extend the existing list; a second `ids` array replaces the first:
 
 ```ts
 // CMS component UIDs; these two are from the electronics sample data
@@ -60,15 +61,16 @@ Whatever arrives after the first paint needs its space reserved, or the content 
 
 - Give every `<img>` and `<source>` the `width` and `height` of its file, with `max-width: 100%; height: auto` in CSS.
 - Give the host of a component that fills the page width (hero, banner, content block) `display: block; width: 100%` (`:host { … }` in component styles, or its element selector in global SCSS); not components that sit beside others, such as header links or buttons. A custom element is inline, and placed through an outlet into the flex layout of `cx-page-layout` it collapses to zero width until its picture has loaded, which throws away the space you reserved.
-- CMS media usually carries no dimensions (`cx-media` sets `width` and `height` only when the backend sends them). Reserve the space in global SCSS from the artwork's ratio at each breakpoint. Stock banners have the same gap: when the page you are changing shows them on the first screen, add their ratios too.
+- CMS media usually carries no dimensions (`cx-media` sets `width` and `height` only when the backend sends them). For a component the task covers, reserve the space in global SCSS with one ratio per picture source; the sources switch at the breakpoints in `media.pictureElementFormats` (by default up to 480 px, up to 770 px, up to 960 px, and wider). The ratios follow the artwork in the CMS, so say in your summary that they must change with it. Stock banners have the same gap: when one shifts the layout and the task does not cover it, report it instead of restyling it.
 
 ```scss
+// Splash banner of the electronics sample data: its four files are 480x320, 770x350, 960x330 and 1400x440
 cx-page-slot.Section1 cx-banner cx-media img {
   height: auto;
-  aspect-ratio: auto 480 / 320; // phone crop; `auto` lets the loaded image keep its own ratio
-  @media (min-width: 768px) {
-    aspect-ratio: auto 1400 / 440; // desktop crop
-  }
+  aspect-ratio: auto 480 / 320; // `auto` lets the loaded image keep its own ratio
+  @media (min-width: 481px) { aspect-ratio: auto 770 / 350; }
+  @media (min-width: 771px) { aspect-ratio: auto 960 / 330; }
+  @media (min-width: 961px) { aspect-ratio: auto 1400 / 440; }
 }
 ```
 
