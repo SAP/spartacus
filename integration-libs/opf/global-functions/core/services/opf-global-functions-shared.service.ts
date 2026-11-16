@@ -12,10 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { UserIdService, WindowRef } from '@spartacus/core';
-import {
-  ActiveCartFacade,
-  CartAccessCodeFacade,
-} from '@spartacus/cart/base/root';
+import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
 import {
   OpfKeyValueMap,
   OpfMetadataStoreService,
@@ -30,6 +27,7 @@ import {
   OpfPaymentUpdateConfig,
   OpfPaymentUpdatePayload,
 } from '@spartacus/opf/payment/root';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, combineLatest, lastValueFrom, throwError } from 'rxjs';
 import {
@@ -81,9 +79,11 @@ export class OpfGlobalFunctionsSharedService {
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected launchDialogService = inject(LaunchDialogService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
-  protected activeCartFacade = inject(ActiveCartFacade);
   protected userIdService = inject(UserIdService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
+  protected opfQuickBuyTransactionService = inject(
+    OpfQuickBuyTransactionService
+  );
 
   resolvePaymentSessionId(paymentSessionId?: string): string | undefined {
     return (
@@ -302,7 +302,9 @@ export class OpfGlobalFunctionsSharedService {
   protected executeUpdatePaymentTransaction(
     updatePaymentConfig: OpfPaymentUpdateConfig
   ): Promise<OpfPaymentSessionData> {
-    const cartId$ = this.activeCartFacade.getActiveCartId().pipe(take(1));
+    const cartId$ = this.opfQuickBuyTransactionService
+      .getCurrentCartId()
+      .pipe(take(1));
     const userId$ = this.userIdService.getUserId().pipe(take(1));
 
     return lastValueFrom(

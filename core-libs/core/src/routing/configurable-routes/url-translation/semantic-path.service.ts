@@ -25,7 +25,7 @@ export class SemanticPathService {
    */
   get(routeName: string): string | undefined {
     const routeConfig = this.routingConfigService.getRouteConfig(routeName);
-    return routeConfig && Array.isArray(routeConfig.paths)
+    return Array.isArray(routeConfig?.paths)
       ? '/' + routeConfig.paths[0]
       : undefined;
   }
