@@ -140,7 +140,9 @@ describe('getServerRuntimeEnvironment', () => {
       tmpFile = path.join(os.tmpdir(), 'spartacus-test-config.json');
       fs.writeFileSync(
         tmpFile,
-        JSON.stringify({ OCC_BASE_URL: { value: 'https://api.commerce.sap.com' } })
+        JSON.stringify({
+          OCC_BASE_URL: { value: 'https://api.commerce.sap.com' },
+        })
       );
 
       const result = await getServerRuntimeEnvironment({

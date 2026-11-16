@@ -120,8 +120,7 @@ async function fetchRuntimeEnvironment(
     );
     return runtimeEnvironment;
   } catch (error) {
-    const isTimeout =
-      error instanceof Error && error.name === 'AbortError';
+    const isTimeout = error instanceof Error && error.name === 'AbortError';
     /* eslint-disable-next-line no-console */
     console.warn(
       isTimeout

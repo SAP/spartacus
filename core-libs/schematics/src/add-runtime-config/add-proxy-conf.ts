@@ -43,9 +43,7 @@ module.exports = {
 export function addProxyConf(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
-      context.logger.info(
-        `⌛️ Adding proxy.conf.js and wiring proxyConfig...`
-      );
+      context.logger.info(`⌛️ Adding proxy.conf.js and wiring proxyConfig...`);
     }
 
     const { path, workspace: angularJson } = getWorkspace(tree);

@@ -188,14 +188,19 @@ describe('addRuntimeConfig (integration)', () => {
         appTree
       );
       // Pre-create a proxy.conf.js with existing content (simulates customer proxy rules)
-      appTree.create('/proxy.conf.js', '// existing proxy config\nmodule.exports = {};');
+      appTree.create(
+        '/proxy.conf.js',
+        '// existing proxy config\nmodule.exports = {};'
+      );
       const tree = await schematicRunner.runSchematic(
         'add-runtime-config',
         defaultOptions,
         appTree
       );
       // Schematic must skip creation and leave existing content intact
-      expect(tree.readText('/proxy.conf.js')).toContain('// existing proxy config');
+      expect(tree.readText('/proxy.conf.js')).toContain(
+        '// existing proxy config'
+      );
     });
   });
 });

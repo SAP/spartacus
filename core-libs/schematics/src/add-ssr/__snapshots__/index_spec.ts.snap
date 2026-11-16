@@ -2,12 +2,13 @@
 
 exports[`add-ssr with runtimeConfig server.ts should wire getServerRuntimeEnvironment 1`] = `
 "import { APP_BASE_HREF } from '@angular/common';
-import { getServerRuntimeEnvironment, RUNTIME_ENVIRONMENT } from "@spartacus/setup";
+import { RUNTIME_ENVIRONMENT } from "@spartacus/setup";
 import {
+  NgExpressEngineDecorator,
   defaultExpressErrorHandlers,
   ngExpressEngine as engine,
   getOriginValidationMiddleware,
-  NgExpressEngineDecorator,
+  getServerRuntimeEnvironment
 } from '@spartacus/setup/ssr';
 import express from 'express';
 import { readFileSync } from 'node:fs';
@@ -34,33 +35,42 @@ export function app(): express.Express {
   server.use(getOriginValidationMiddleware({
     allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
   }));
-  // CSR fallback route (SSR timeout only). CONFIG_URL is an SSR concept — the Node process
-  // fetches config from it per render. When SSR times out, Angular bootstraps in CSR mode
-  // and getRuntimeEnvironment() fetches /config.json from the same host as the app — this
-  // route re-fetches CONFIG_URL upstream and returns the result. Safe to keep when Caddy
-  // is in front (Caddy intercepts /config.json before Express).
+  // CSR fallback route (SSR timeout only). In dev, CONFIG_URL=file://{PWD{'}'}/config.json
+  // and this route reads from disk. In prod with Caddy, Caddy serves /config.json before
+  // Express, making this route unreachable but harmless (safety net for non-Caddy setups).
   server.get('/config.json', async (_req, res) => {
     const configUrl = process.env['CONFIG_URL'];
     if (!configUrl) {
-      res.json({});
+      res.set('Cache-Control', 'no-store').json({});
       return;
     }
     try {
-      const response = await fetch(configUrl);
-      if (!response.ok) {
-        res.json({});
-        return;
+      let raw: Record<string, unknown>;
+      if (configUrl.startsWith('file://')) {
+        // Node's fetch() does not support file:// — read from disk instead.
+        const { readFile } = await import('node:fs/promises');
+        const { fileURLToPath } = await import('node:url');
+        const content = await readFile(fileURLToPath(configUrl), 'utf-8');
+        raw = JSON.parse(content);
+      } else {
+        const response = await fetch(configUrl);
+        if (!response.ok) {
+          res.set('Cache-Control', 'no-store').json({});
+          return;
+        }
+        raw = await response.json();
       }
-      const raw = await response.json();
       const filtered = Object.fromEntries(
         Object.entries(raw).filter(
           ([, entry]) =>
             !(entry && ((entry as any).secret === true || (entry as any).secret === 'true'))
         )
       );
-      res.json(filtered);
-    } catch {
-      res.json({});
+      res.set('Cache-Control', 'no-store').json(filtered);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('[server] Could not serve /config.json:', (e as Error).message);
+      res.set('Cache-Control', 'no-store').json({});
     }
   });
 
