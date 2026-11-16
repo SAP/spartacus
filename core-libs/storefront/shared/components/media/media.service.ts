@@ -159,8 +159,8 @@ export class MediaService {
       : undefined;
 
     return {
-      width: mainMedia?.width ?? (this.featureToggles.withAspectRatioInference ? formatSize?.width : undefined),
-      height: mainMedia?.height ?? (this.featureToggles.withAspectRatioInference ? formatSize?.height : undefined),
+      width: mainMedia?.width ?? (!this.featureToggles.withAspectRatioInference ? formatSize?.width : undefined),
+      height: mainMedia?.height ?? (!this.featureToggles.withAspectRatioInference ? formatSize?.height : undefined),
     };
   }
 
