@@ -97,6 +97,22 @@ async download() { const { jsPDF } = await this.load(); /* … */ }
 - Add no render-blocking third-party tags: no `<script src>`, font `<link>` or `@import` from another origin in `index.html` or global styles. Self-host fonts with `font-display: swap`; load chat, review and analytics widgets on first use or after the page is interactive.
 - Split work that takes longer than about 50 ms in a handler so the browser can paint (`await new Promise((r) => setTimeout(r))` between chunks), or move it to a worker.
 
+## Reviewing existing code
+
+When asked to review or audit page speed, check the whole storefront against sections 1 to 4, not only recently changed files. Look in:
+
+- `src/index.html` and the global styles: third-party tags and fonts.
+- The `assets` entries in `angular.json` and the image files they serve: file size against the size they are displayed at.
+- Every template with an `<img>`, `<picture>`, `cx-media` or a CSS `background-image`: dimensions, loading and priority.
+- Imports of libraries and data files in components and modules that load with the app.
+- `cmsComponents` mappings: `disableSSR`, and components that are not on every page but are not registered lazily.
+- `WindowRef.isBrowser()`, `isPlatformBrowser` and `BreakpointService` used to show or hide template blocks.
+- Whether `lcpCmsComponents` marks the main image of each page type.
+- Blocks added to the page after it has loaded (timers, browser-only requests): is their space reserved?
+- Event handlers that do heavy synchronous work, such as filtering or sorting a long list on every keystroke.
+
+Report each finding with file and line, the section it breaks, its effect on LCP, CLS or responsiveness, and the fix; order them by expected effect. Say what you measured and what you only read. Change code only when asked.
+
 ## Check before you finish
 
 Build for production and read the server HTML of the page you changed (`curl` it, or view source). The new first-screen content and its `<img>` are in it; the main image has `fetchpriority="high"` and images below the first screen are lazy; every image has dimensions or a reserved ratio; the initial JavaScript did not gain a library the first screen does not use. If the server returns an empty `<app-root>`, server rendering is falling back to the browser (host missing from `allowedHosts` or `NG_ALLOWED_HOSTS` in recent Angular versions, a render error, or the default 3-second SSR timeout). Report that to the developer instead of changing server settings; section 1 depends on it, the rest applies either way. Skip this check when the app has no SSR.

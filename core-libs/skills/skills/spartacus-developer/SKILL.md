@@ -1,6 +1,6 @@
 ---
 name: spartacus-developer
-description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration. Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
+description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration, and for any review or audit of such an application, including its page speed (Core Web Vitals). Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
 license: Apache-2.0
 ---
 
@@ -26,7 +26,7 @@ Each topic lives in its own `.md` file in the `references/` folder. Read a topic
 - [facades-not-store.md](references/facades-not-store.md) — read when reading or writing Spartacus state from a component.
 - [ssr-safety.md](references/ssr-safety.md) — read when touching `window`, `document`, `localStorage`, or any browser-only API.
 - [outlets.md](references/outlets.md) — read when sprinkling new UI into an existing Spartacus page without replacing it.
-- [performance.md](references/performance.md) — read before adding or changing anything a shopper sees when a page first loads (banner, image, block on a home, product or listing page), and before adding a library, data file or third-party script.
+- [performance.md](references/performance.md) — read before adding or changing anything a shopper sees when a page first loads (banner, image, block on a home, product or listing page), before adding a library, data file or third-party script, and whenever you review, audit or improve a storefront's page speed or Core Web Vitals.
 
 Some topics link to further deep-dive material in the same `references/` folder.
 
