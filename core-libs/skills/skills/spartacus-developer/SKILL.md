@@ -55,7 +55,7 @@ Components and SSR:
 
 Page speed (applies to every feature, see [performance.md](references/performance.md)):
 - ALWAYS let the server render what is visible on first load — no `disableSSR`, no `isBrowser()` guard around the whole block, no CSS `background-image` for the main picture.
-- NEVER ship image files you add to the project as delivered — resize raster artwork to its displayed size (times two for sharp screens) and convert to WebP/AVIF; when phone and desktop crops are delivered, use one `<picture>`. CMS media stays in `cx-media`.
+- ALWAYS check image files you add to the project against the size they are displayed at. When one is far larger than needed (megabytes, or more than twice the displayed width), leave the delivered file untouched, serve a resized WebP/AVIF copy made with a converter that is already installed, and tell the developer what you converted and the sizes before and after; with no converter, report it and change nothing. Phone and desktop crops go into one `<picture>`. CMS media stays in `cx-media`.
 - ALWAYS reserve the space of every image and late-arriving block (`width`/`height`, or CSS `aspect-ratio` per breakpoint — CMS media usually has none, stock banners included), and give a full-width component's host `display: block; width: 100%`.
 - ALWAYS mark the largest first-screen image `loading="eager"` and `fetchpriority="high"` (for CMS components: list the component UID in `lcpCmsComponents.ids`); images below the first screen are `loading="lazy"`.
 - NEVER import a large or optional library or data file from code that loads with the page — use a lazy CMS mapping or `import()` started when the shopper reaches for the control.

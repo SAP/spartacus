@@ -17,7 +17,15 @@ A storefront with SSR sends finished HTML, so the browser starts the main image 
 
 One image is usually the largest thing on the first screen: the hero on a content page, the main photo on a product page, the first products on a listing.
 
-Its file size decides most of the loading time. Do not ship image files you add to the project as delivered: resize raster artwork to the largest width it is displayed at, times two for sharp screens (about 800 px for a phone crop, 1600 to 2000 px for desktop), and save it as WebP or AVIF at quality 70 to 80. A hero weighs tens to a few hundred kilobytes, not megabytes; a 2 MB picture alone takes more than ten seconds on a slow phone connection. Use what the machine has (`cwebp`, `magick`, `sips` (AVIF only), `npx sharp-cli`), put the converted files in the folder the build already serves (the `assets` entry in `angular.json`: `public/` in new apps, `src/assets/` in older ones), and reference only those. If no converter is available, keep the file, still set its dimensions, and say so. Images managed in the CMS stay in `cx-media`.
+Its file size decides most of the loading time. A hero weighs tens to a few hundred kilobytes, not megabytes; a 2 MB picture alone takes more than ten seconds on a slow phone connection. Check every image file you add to the project against the size it is displayed at. When a file is far larger than needed (megabytes, or more than twice the displayed width):
+
+- Leave the delivered file as it is. Never overwrite, move or delete it.
+- Make a copy resized to the largest width it is displayed at, times two for sharp screens (about 800 px for a phone crop, 1600 to 2000 px for desktop), saved as WebP or AVIF at quality 70 to 80. Use a converter that is already installed (`cwebp`, `magick`, `sips` (AVIF only), or `sharp` if the project depends on it). Do not download one.
+- Put the copies in the folder the build already serves (the `assets` entry in `angular.json`: `public/` in new apps, `src/assets/` in older ones) and reference the copies.
+- Tell the developer in your summary which files you converted, their pixel and file sizes before and after, and that pointing the template back at the delivered file undoes it.
+- If no converter is installed, or the developer asked for the files to be used unchanged, use the delivered file, still set its dimensions, and report its size and what a conversion would save.
+
+Images managed in the CMS stay in `cx-media`.
 
 Stock components (`cx-banner`, `cx-product-images`, product list and carousel items) load their image eagerly with high priority when their CMS component UID is listed. The list is empty in a new storefront, so by default every image is `loading="lazy"`. When you add or change the top of a page, list the component that holds its main image (add to the existing list if one is configured, a second `ids` array replaces the first):
 
