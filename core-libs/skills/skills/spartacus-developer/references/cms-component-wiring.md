@@ -107,3 +107,4 @@ If your component type isn't listed in any slot, the CMS backoffice hasn't place
 ## Supplemental Information
 
 - [placement-mechanisms.md](placement-mechanisms.md) — the three placement mechanisms in detail, including the `cmsStructure` config for development/demo.
+- If this component displays a hero banner or the page's main image, read [performance.md](./performance.md) before writing the template — it covers `fetchpriority`, image dimensions, and layout-stability rules.

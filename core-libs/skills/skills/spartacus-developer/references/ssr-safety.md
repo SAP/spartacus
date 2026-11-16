@@ -52,3 +52,7 @@ AVOID `disableSSR` on publicly crawlable pages — the SSR-to-CSR transition cau
 
 - `WindowRef` from `@spartacus/core` — `isBrowser()`, `nativeWindow`, `nativeDocument`, `localStorage`, `sessionStorage`.
 - `disableSSR` is handled by `ComponentWrapperDirective` in `@spartacus/storefront`.
+
+## Supplemental Information
+
+- For CLS and layout-stability rules that apply alongside SSR safety (image dimensions, no JS-driven layout, lazy-loading), see [performance.md](./performance.md).

@@ -26,6 +26,7 @@ Each topic lives in its own `.md` file in the `references/` folder. Read a topic
 - [facades-not-store.md](references/facades-not-store.md) — read when reading or writing Spartacus state from a component.
 - [ssr-safety.md](references/ssr-safety.md) — read when touching `window`, `document`, `localStorage`, or any browser-only API.
 - [outlets.md](references/outlets.md) — read when sprinkling new UI into an existing Spartacus page without replacing it.
+- [performance.md](references/performance.md) — read before adding or changing anything a shopper sees when a page first loads (banner, image, block on a home, product or listing page), and before adding a library, data file or third-party script.
 
 Some topics link to further deep-dive material in the same `references/` folder.
 
@@ -38,7 +39,7 @@ Backend, routing, and lazy loading:
 - NEVER use `loadChildren` — Spartacus has its own CMS-driven lazy loading.
 
 Templates and styling:
-- NEVER hardcode user-facing strings — use the `cxTranslate` pipe.
+- NEVER hardcode user-facing strings — use the `cxTranslate` pipe, and register new keys as `lang → chunk → namespace → keys` with a matching `chunks` entry ([i18n.md](references/i18n.md)); a missing level renders blank or bracketed text.
 - NEVER hardcode router links — use the `cxUrl` pipe.
 - For brand-new custom components, component-scoped styles are fine; for tweaking Spartacus OOTB components, use global SCSS so `@spartacus/styles` overrides win.
 
@@ -51,6 +52,13 @@ Components and SSR:
 - ALWAYS use `ChangeDetectionStrategy.OnPush` on new components, paired with the `async` pipe (preserve `Default` when extending a Spartacus component that uses it).
 - AVOID `.subscribe()` in components when the data drives the template; if you reach for `markForCheck()`, the data should be a stream.
 - NEVER reference `window`/`document`/`localStorage` without guarding via `WindowRef.isBrowser()`.
+
+Page speed (applies to every feature, see [performance.md](references/performance.md)):
+- ALWAYS let the server render what is visible on first load — no `disableSSR`, no `isBrowser()` guard around the whole block, no CSS `background-image` for the main picture.
+- NEVER ship image files you add to the project as delivered — resize raster artwork to its displayed size (times two for sharp screens) and convert to WebP/AVIF; when phone and desktop crops are delivered, use one `<picture>`. CMS media stays in `cx-media`.
+- ALWAYS reserve the space of every image and late-arriving block (`width`/`height`, or CSS `aspect-ratio` per breakpoint — CMS media usually has none, stock banners included), and give a full-width component's host `display: block; width: 100%`.
+- ALWAYS mark the largest first-screen image `loading="eager"` and `fetchpriority="high"` (for CMS components: list the component UID in `lcpCmsComponents.ids`); images below the first screen are `loading="lazy"`.
+- NEVER import a large or optional library or data file from code that loads with the page — use a lazy CMS mapping or `import()` started when the shopper reaches for the control.
 
 Configuration:
 - ALWAYS use `provideConfig()` (not `provideDefaultConfig()`)
