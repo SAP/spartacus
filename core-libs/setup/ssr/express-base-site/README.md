@@ -92,7 +92,8 @@ For a prefixed route, OCC resolution selects the site whose UID matches the lead
 path segment and checks its `urlPatterns` against the full request URL. For example,
 a pattern matching `https://shop.example.com/electronics-spa/.*` identifies
 `electronics-spa` on that domain. For a route without a base-site prefix, resolution
-matches the full URL against all sites' patterns.
+matches the full URL against all sites' patterns and selects the first match in OCC
+order. If none matches, the domain-root handler receives `baseSite: null`.
 
 ## Route shape
 
@@ -108,21 +109,18 @@ JavaScript `RegExp`.
 | `/electronics-spa/en/USD/llms.txt` | Continues to subsequent middleware; language and currency segments are not added automatically |
 
 For a domain-root endpoint resolved through OCC, add `withBaseSiteInPath: false`
-to its registration:
+and accept `BaseSiteHandlerContext<string | null>`. The handler can supply default
+content when path-based OCC patterns do not match the origin root. See the
+[nullable `robotsHandler` fallback and route registration example](../../../skills/skills/spartacus-developer/references/base-site-aware-handlers.md#callback-and-error-behavior)
+in the shipped skill reference. It returns HTTP 200 with default plain text when
+`baseSite` is `null` or the matched site has no configured content.
 
-```typescript
-server.use(
-  createBaseSiteAwareRoute({
-    route: '/llms.txt',
-    withBaseSiteInPath: false,
-    handler: llmsHandler,
-  })
-);
-```
-
-This matches `/llms.txt` and resolves its full URL through OCC. Configure OCC
+The linked registration matches `/robots.txt` and resolves its full URL through OCC. Replace the example
+rules with your domain's policy. Configure OCC
 resolution by omitting `pathBaseSiteIds` or supplying an empty array. Local UID
-resolution requires a base-site prefix.
+resolution requires a base-site prefix. Prefixed handlers keep
+`BaseSiteHandlerContext` with `baseSite: string`; only registrations with
+`withBaseSiteInPath: false` receive `string | null`.
 
 ## Responses and failures
 
@@ -133,7 +131,8 @@ rejected promises are forwarded to `next(error)`.
 
 | Failure on a matching route | Response |
 | --- | --- |
-| Unknown or mismatched site | 404 before the handler |
+| Unknown or mismatched base-site prefix | 404 before the handler |
+| No OCC site matches a route with `withBaseSiteInPath: false` | Invokes the handler with `baseSite: null`; the handler owns the response |
 | Cold-cache concurrency limit exceeded | 503 with `Retry-After: 3` by default |
 | OCC unavailable or unconfigured in OCC mode | 503 with `Retry-After: 25` by default |
 | Other resolver or handler error | Forwarded to Express error middleware |
@@ -154,4 +153,10 @@ curl -i --max-time 10 http://localhost:4000/electronics-spa/llms.txt
 Check the status, content type, and site-specific response. Repeat with a UID known
 to be absent and verify a 404 before the handler. If you receive Angular HTML,
 check middleware order and route shape. For a 503, check the OCC address, backend
-availability, and URL patterns.
+availability, and configuration. OCC failures remain 503 even on domain-root routes;
+they do not invoke the handler with `null`.
+
+For the domain-root example, request `/robots.txt` at the server's origin. When no
+OCC pattern matches that URL, verify HTTP 200 and the handler's default plain text,
+not 404 or Angular HTML. Also check the site-specific response for a URL that does
+match an OCC site.

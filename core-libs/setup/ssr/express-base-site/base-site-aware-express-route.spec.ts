@@ -9,6 +9,7 @@
 import { NextFunction, Request, Response } from 'express';
 import {
   BaseSiteHandlerContext,
+  CreateBaseSiteAwareRouteOptions,
   configureBaseSiteAwareRoutes,
   createBaseSiteAwareRouteWithResolver,
 } from './base-site-aware-express-route';
@@ -111,7 +112,7 @@ describe('configureBaseSiteAwareRoutes', () => {
     jest.restoreAllMocks();
   });
 
-  it.each([undefined, true])(
+  it.each([undefined, true] as const)(
     'creates a prefixed handler with withBaseSiteInPath %j',
     async (withBaseSiteInPath) => {
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
@@ -223,8 +224,10 @@ describe('configureBaseSiteAwareRoutes', () => {
       });
       const prefixedResponse = createResponse();
       const unprefixedResponse = createResponse();
-      const handler = ({ res, baseSite }: BaseSiteHandlerContext) =>
-        res.send(baseSite);
+      const handler = ({
+        res,
+        baseSite,
+      }: BaseSiteHandlerContext<string | null>) => res.send(baseSite);
 
       await dispatch(
         createBaseSiteAwareRoute({
@@ -265,11 +268,10 @@ describe('configureBaseSiteAwareRoutes', () => {
           pathBaseSiteIds,
           occBaseUrl: { value: 'https://api.example' },
         });
-        const options = {
+        const options: CreateBaseSiteAwareRouteOptions = {
           route: '/example.txt',
           withBaseSiteInPath: false,
-          handler: ({ res, baseSite }: BaseSiteHandlerContext) =>
-            res.send(baseSite),
+          handler: ({ res, baseSite }) => res.send(baseSite),
         };
         const middleware = createBaseSiteAwareRoute(options);
         const firstResponse = createResponse();
@@ -314,11 +316,10 @@ describe('configureBaseSiteAwareRoutes', () => {
         const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
           occBaseUrl: { value: 'https://api.example' },
         });
-        const options = {
+        const options: CreateBaseSiteAwareRouteOptions = {
           route,
           withBaseSiteInPath: false,
-          handler: ({ res, baseSite }: BaseSiteHandlerContext) =>
-            res.send(baseSite),
+          handler: ({ res, baseSite }) => res.send(baseSite),
         };
         const response = createResponse();
 
@@ -333,21 +334,67 @@ describe('configureBaseSiteAwareRoutes', () => {
       }
     );
 
-    it('returns 404 for a domain not matched by OCC without invoking the handler', async () => {
+    it.each([
+      { host: 'electronics.example', originalUrl: '/robots.txt' },
+      {
+        host: 'internal.example',
+        originalUrl: '/robots.txt?site=electronics-spa',
+      },
+    ])(
+      'uses the first OCC match for a domain-root request $host$originalUrl',
+      async ({ host, originalUrl }) => {
+        const urlPatterns = [
+          '^http://electronics[.]example/',
+          '[?&]site=electronics-spa(?:&|$)',
+        ];
+        jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+          createOccResponse([
+            { uid: 'electronics-spa', urlPatterns },
+            { uid: 'another-site', urlPatterns },
+          ])
+        );
+        const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
+          occBaseUrl: { value: 'https://api.example' },
+        });
+        const handler = jest.fn();
+        const response = createResponse();
+
+        await dispatch(
+          createBaseSiteAwareRoute({
+            route: '/robots.txt',
+            withBaseSiteInPath: false,
+            handler,
+          }),
+          createRequest({ host, originalUrl }),
+          response,
+          createNext()
+        );
+
+        expect(handler).toHaveBeenCalledWith(
+          expect.objectContaining({ baseSite: 'electronics-spa' })
+        );
+        expect(response.status).not.toHaveBeenCalled();
+      }
+    );
+
+    it('invokes a domain-root handler with null when path-based OCC patterns do not match', async () => {
       jest.spyOn(globalThis, 'fetch').mockResolvedValue(
         createOccResponse([
           {
             uid: 'electronics-spa',
-            urlPatterns: ['^http://other[.]example/'],
+            urlPatterns: ['^https?://[^/]+/electronics-spa/'],
           },
         ])
       );
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         occBaseUrl: { value: 'https://api.example' },
       });
-      const handler = jest.fn();
-      const options = {
-        route: '/example.txt',
+      const handler = jest.fn(({ res, baseSite }) => {
+        expect(baseSite).toBeNull();
+        res.status(200).send('Default domain content');
+      });
+      const options: CreateBaseSiteAwareRouteOptions = {
+        route: '/robots.txt',
         withBaseSiteInPath: false,
         handler,
       };
@@ -356,20 +403,23 @@ describe('configureBaseSiteAwareRoutes', () => {
 
       await dispatch(
         createBaseSiteAwareRoute(options),
-        createRequest({ originalUrl: '/example.txt' }),
+        createRequest({ originalUrl: '/robots.txt' }),
         response,
         next
       );
 
-      expect(response.status).toHaveBeenCalledWith(404);
-      expect(handler).not.toHaveBeenCalled();
+      expect(handler).toHaveBeenCalledWith(
+        expect.objectContaining({ baseSite: null })
+      );
+      expect(response.status).toHaveBeenCalledWith(200);
+      expect(response.send).toHaveBeenCalledWith('Default domain content');
       expect(next).not.toHaveBeenCalled();
     });
 
     it('does not consume the prefixed endpoint when the prefix is disabled', async () => {
       const resolver = createResolver();
       const handler = jest.fn();
-      const options = {
+      const options: CreateBaseSiteAwareRouteOptions = {
         route: '/llms.txt',
         withBaseSiteInPath: false,
         handler,
@@ -392,7 +442,7 @@ describe('configureBaseSiteAwareRoutes', () => {
       const { createBaseSiteAwareRoute } = configureBaseSiteAwareRoutes({
         pathBaseSiteIds: ['electronics-spa'],
       });
-      const options = {
+      const options: CreateBaseSiteAwareRouteOptions = {
         route: '/example.txt',
         withBaseSiteInPath: false,
         handler: jest.fn(),
@@ -412,7 +462,7 @@ describe('configureBaseSiteAwareRoutes', () => {
         const resolver = createResolver({
           resolveFromOcc: jest.fn().mockRejectedValue(error),
         });
-        const options = {
+        const options: CreateBaseSiteAwareRouteOptions = {
           route: '/llms.txt',
           withBaseSiteInPath: false,
           handler: jest.fn(),
@@ -431,6 +481,8 @@ describe('configureBaseSiteAwareRoutes', () => {
           'Retry-After',
           retryAfter
         );
+        expect(response.send).toHaveBeenCalledWith('Service Unavailable');
+        expect(options.handler).not.toHaveBeenCalled();
       }
     );
   });
