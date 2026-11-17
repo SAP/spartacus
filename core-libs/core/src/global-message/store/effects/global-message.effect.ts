@@ -83,7 +83,7 @@ export class GlobalMessageEffect {
               take(1),
               filter(
                 (count: number) =>
-                  ((config && config.timeout !== undefined) ||
+                  (config?.timeout !== undefined ||
                     message.timeout !== undefined) &&
                   count > 0
               ),

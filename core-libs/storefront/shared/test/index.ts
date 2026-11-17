@@ -7,4 +7,5 @@
 export * from './mock-feature-directive';
 export * from './mock-feature-level-directive';
 export * from './mock-feature-directives.module';
+export * from './mock-media.component';
 export * from './mock-window-ref';

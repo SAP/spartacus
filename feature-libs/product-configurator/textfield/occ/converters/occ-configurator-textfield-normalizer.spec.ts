@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
@@ -33,7 +32,7 @@ describe('OccConfiguratorTextfieldNormalizer', () => {
     });
 
     occConfiguratorTextfieldNormalizer = TestBed.inject(
-      OccConfiguratorTextfieldNormalizer as Type<OccConfiguratorTextfieldNormalizer>
+      OccConfiguratorTextfieldNormalizer
     );
   });
 

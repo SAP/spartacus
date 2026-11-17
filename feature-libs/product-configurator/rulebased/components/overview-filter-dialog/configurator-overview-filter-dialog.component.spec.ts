@@ -1,18 +1,17 @@
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   FeatureDirective,
-  MockDatePipe,
-  MockTranslatePipe,
+  I18nTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
-  FocusConfig,
   FocusDirective,
-  ICON_TYPE,
   IconComponent,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
@@ -46,14 +45,6 @@ function initializeMocks() {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Component({
   selector: 'cx-configurator-overview-filter',
   template: '',
 })
@@ -61,15 +52,11 @@ class MockConfiguratorOverviewFilterComponent {
   @Input() showFilterBar: boolean = true;
   @Input() config: Configurator.ConfigurationWithOverview;
 }
-@Directive({ selector: '[cxFocus]' })
-export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
-}
 
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
   beforeEach(async () => {
     initializeMocks();
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewFilterDialogComponent],
       providers: [
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },
@@ -88,12 +75,11 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockCxIconComponent,
-            MockConfiguratorOverviewFilterComponent,
-            MockKeyboadFocusDirective,
+            I18nTestingModule,
+            IconTestingModule,
+            KeyboardFocusTestingModule,
             MockFeatureDirective,
+            MockConfiguratorOverviewFilterComponent,
           ],
         },
       })

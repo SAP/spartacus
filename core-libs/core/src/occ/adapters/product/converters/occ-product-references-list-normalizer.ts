@@ -27,7 +27,7 @@ export class OccProductReferencesListNormalizer
       target = { ...(source as any) };
     }
 
-    if (source && source.references) {
+    if (source?.references) {
       target = source.references.map((reference) => ({
         ...reference,
         target: this.converter.convert(reference.target, PRODUCT_NORMALIZER),

@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { CarouselModule, ProductCarouselModule } from '@spartacus/storefront';
 import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
 
@@ -22,7 +22,7 @@ import { ConfiguratorVariantCarouselComponent } from './configurator-variant-car
     ConfiguratorVariantCarouselComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorVariantCarousel: {
           component: ConfiguratorVariantCarouselComponent,

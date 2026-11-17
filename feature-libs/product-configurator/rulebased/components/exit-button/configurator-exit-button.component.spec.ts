@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -141,10 +140,8 @@ describe('ConfiguratorExitButton', () => {
   });
 
   beforeEach(() => {
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
+    routingService = TestBed.inject(RoutingService);
+    breakpointService = TestBed.inject(BreakpointService);
   });
 
   it('should create component', () => {

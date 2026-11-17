@@ -78,5 +78,5 @@ Thumbs.db
 
 .nx/cache
 .nx/workspace-data
-.cursor/rules/nx-rules.mdc
+/.cursor
 .github/instructions/nx.instructions.md

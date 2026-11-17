@@ -2,9 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -12,6 +14,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
 import { ConfiguratorOverviewFilterComponent } from './configurator-overview-filter.component';
 
 const owner: CommonConfigurator.Owner =
@@ -96,7 +99,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       },
       add: {
         imports: [
-          MockTranslatePipe,
+          I18nTestingModule,
           MockConfiguratorOverviewFilterBarComponent,
         ],
       },
@@ -106,7 +109,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
   beforeEach(async () => {
     initTestData();
     initMocks();
-    configureTestingModule().compileComponents();
+    await configureTestingModule().compileComponents();
     initTestComponent();
   });
 
@@ -124,6 +127,36 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         '.cx-overview-filter-option',
         4 //2 default + 2 groups
       );
+    });
+
+    it('should hide My selections filter for CPQ configurator type', () => {
+      overview.owner = {
+        ...overview.owner,
+        configuratorType: ConfiguratorType.CPQ,
+      };
+      component.config = overview;
+      fixture.detectChanges();
+      expect(
+        htmlElem.querySelector(
+          '#cx-configurator-overview-filter-option-mySelections'
+        )
+      ).toBeNull();
+      expect(component.isMySelectionsFilterVisible(overview)).toBe(false);
+    });
+
+    it('should show My selections filter for variant configurator type', () => {
+      overview.owner = {
+        ...overview.owner,
+        configuratorType: ConfiguratorType.VARIANT,
+      };
+      component.config = overview;
+      fixture.detectChanges();
+      expect(
+        htmlElem.querySelector(
+          '#cx-configurator-overview-filter-option-mySelections'
+        )
+      ).not.toBeNull();
+      expect(component.isMySelectionsFilterVisible(overview)).toBe(true);
     });
 
     it('should render both filter headers', () => {

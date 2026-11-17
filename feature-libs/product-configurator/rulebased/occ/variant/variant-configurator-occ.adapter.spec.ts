@@ -2,7 +2,6 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CART_MODIFICATION_NORMALIZER,
@@ -22,7 +21,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { firstValueFrom, of } from 'rxjs';
+import { of } from 'rxjs';
 import {
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VariantConfiguratorOccAdapter,
@@ -162,26 +161,16 @@ describe('OccConfigurationVariantAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-    occEndpointsService = TestBed.inject(
-      OccEndpointsService as Type<OccEndpointsService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
 
     occConfiguratorVariantAdapter = TestBed.inject(
-      VariantConfiguratorOccAdapter as Type<VariantConfiguratorOccAdapter>
+      VariantConfiguratorOccAdapter
     );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(configuration.owner);
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
     configExpertModeService.setExpModeRequested(expMode);
 
     vi.spyOn(converterService, 'convert');
@@ -677,6 +666,34 @@ describe('OccConfigurationVariantAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       expect(converterService.pipeable).toHaveBeenCalledWith(
         VARIANT_CONFIGURATOR_NORMALIZER
+      );
+      mockReq.flush(productConfigurationOcc);
+    });
+
+    it('should request the configuration read-only if requested', async () => {
+      occConfiguratorVariantAdapter
+        .readConfigurationForCartEntry({ ...params, readOnly: true })
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'GET' &&
+          req.url === 'readVariantConfigurationForCartEntry'
+        );
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'readVariantConfigurationForCartEntry',
+        {
+          urlParams: {
+            userId,
+            cartId: documentId,
+            cartEntryNumber: documentEntryNumber,
+          },
+          queryParams: { expMode, readOnly: true },
+        }
       );
       mockReq.flush(productConfigurationOcc);
     });

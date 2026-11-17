@@ -1,7 +1,7 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import {
+  I18nTestingModule,
   Product,
   ProductService,
   TranslatePipe,
@@ -58,15 +58,10 @@ const product: Product = {
   template: '',
 })
 class MockCarouselComponent {
-  @Input() items;
-  @Input() template;
-  @Input() itemWidth;
-  @Input() hideIndicators;
-}
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
+  @Input() items: any;
+  @Input() template: any;
+  @Input() itemWidth: any;
+  @Input() hideIndicators: any;
 }
 
 class MockTranslationService {
@@ -159,7 +154,7 @@ describe('ConfiguratorVariantCarouselComponent', () => {
           imports: [TranslatePipe, CarouselComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockCarouselComponent],
+          imports: [I18nTestingModule, MockCarouselComponent],
         },
       })
       .compileComponents();

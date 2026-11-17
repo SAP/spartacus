@@ -4,8 +4,6 @@ import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { BadRequestHandler } from './bad-request.handler';
-import { FeatureToggles } from '@spartacus/core';
-import { provideMockFeatureToggles } from '../../../../features-config/feature-toggles/testing';
 
 const MockRequest = {
   url: 'https://electronics-spa/occ/user/password',
@@ -97,10 +95,6 @@ class MockGlobalMessageService {
   remove() {}
 }
 
-const mockFeatureToggles: FeatureToggles = {
-  enablePasswordExpiredErrorTranslation: true,
-};
-
 const MockBadGuestDuplicateEmailResponse = {
   error: {
     errors: [
@@ -124,7 +118,6 @@ describe('BadRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     });
     service = TestBed.inject(BadRequestHandler);

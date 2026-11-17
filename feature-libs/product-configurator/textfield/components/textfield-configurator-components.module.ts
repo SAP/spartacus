@@ -9,12 +9,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldFormComponent } from './form/configurator-textfield-form.component';
 import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './input-field-readonly/configurator-textfield-input-field-readonly.component';
@@ -35,7 +30,7 @@ import { ConfiguratorTextfieldInputFieldComponent } from './input-field/configur
     ConfiguratorTextfieldAddToCartButtonComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         TextfieldConfigurationForm: {
           component: ConfiguratorTextfieldFormComponent,

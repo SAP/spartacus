@@ -60,7 +60,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let fixture: ComponentFixture<ExampleConfiguratorAttributeMultiSelectionComponent>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ExampleConfiguratorAttributeMultiSelectionComponent,

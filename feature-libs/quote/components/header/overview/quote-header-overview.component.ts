@@ -9,7 +9,6 @@ import { Component, inject } from '@angular/core';
 import {
   CxDatePipe,
   EventService,
-  FeatureToggles,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -55,7 +54,6 @@ export class QuoteHeaderOverviewComponent {
   protected eventService = inject(EventService);
   protected translationService = inject(TranslationService);
   protected quoteUIConfig = inject(QuoteUIConfig);
-  private featureToggles = inject(FeatureToggles);
 
   protected static NO_DATA = '-';
   protected static CHARACTERS_LIMIT = 255;
@@ -64,8 +62,6 @@ export class QuoteHeaderOverviewComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
   editMode = false;
-  enablePurchaseOrderNumber =
-    this.featureToggles.enableQuotePurchaseOrderNumber;
 
   protected defineQuoteMetaData(event: SaveEvent): QuoteMetadata {
     let metaData: QuoteMetadata = {};
@@ -166,17 +162,12 @@ export class QuoteHeaderOverviewComponent {
                 title: descriptionTitle,
                 text: [description ?? QuoteHeaderOverviewComponent.NO_DATA],
               },
-              ...(this.enablePurchaseOrderNumber
-                ? [
-                    {
-                      title: purchaseOrderNumberTitle,
-                      text: [
-                        purchaseOrderNumber ??
-                          QuoteHeaderOverviewComponent.NO_DATA,
-                      ],
-                    },
-                  ]
-                : []),
+              {
+                title: purchaseOrderNumberTitle,
+                text: [
+                  purchaseOrderNumber ?? QuoteHeaderOverviewComponent.NO_DATA,
+                ],
+              },
             ],
           };
         }
@@ -200,9 +191,7 @@ export class QuoteHeaderOverviewComponent {
       name: name,
       description: description,
       charactersLimit: QuoteHeaderOverviewComponent.CHARACTERS_LIMIT,
-      ...(this.enablePurchaseOrderNumber && purchaseOrderNumber
-        ? { purchaseOrderNumber }
-        : {}),
+      ...(purchaseOrderNumber ? { purchaseOrderNumber } : {}),
     };
   }
 

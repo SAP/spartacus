@@ -33,7 +33,14 @@ import {
   OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT,
   OpfCheckoutOutlets,
 } from '@spartacus/opf/checkout/root';
-import { BehaviorSubject, map, Observable, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  map,
+  Observable,
+  switchMap,
+  take,
+} from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
 import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments/opf-checkout-payments.component';
 import {
@@ -72,6 +79,10 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cmsService = inject(CmsService);
   protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  /**
+   * @deprecated since 221121.21. No longer used internally.
+   * This property will be removed in a future major version.
+   */
   protected opfBaseFacade = inject(OpfBaseFacade);
   protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
@@ -115,15 +126,6 @@ export class OpfCheckoutPaymentAndReviewComponent
     return Boolean(this.checkoutSubmitForm.get('termsAndConditions')?.value);
   }
 
-  getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();
-
-  getSelectedPaymentId$ = this.opfMetadataStoreService
-    .getOpfMetadataState()
-    .pipe(
-      take(1),
-      map((data) => data?.selectedPaymentOptionId)
-    );
-
   protected isCmsComponentInPage(cmsComponentUid: string, page: Page): boolean {
     return !!page && JSON.stringify(page).includes(cmsComponentUid);
   }
@@ -144,8 +146,12 @@ export class OpfCheckoutPaymentAndReviewComponent
 
   setPickupDeliveryMode(): void {
     this.activeCartFacade
-      .hasDeliveryItems()
-      .pipe(take(1))
+      .isStable()
+      .pipe(
+        filter((isStable) => isStable),
+        switchMap(() => this.activeCartFacade.hasDeliveryItems()),
+        take(1)
+      )
       .subscribe((hasDeliveryItems) => {
         if (!hasDeliveryItems) {
           this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();

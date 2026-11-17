@@ -21,7 +21,7 @@ import {
   Scroll,
 } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, pairwise } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { OnNavigateConfig } from './config';
 
 @Injectable({
@@ -32,6 +32,15 @@ export class OnNavigateService {
     inject(ROUTER_CONFIGURATION, { optional: true }) || {};
 
   protected subscription: Subscription;
+
+  /**
+   * The previously emitted router `Scroll` event, used to compare paths across
+   * navigations. Tracked explicitly (rather than via `pairwise`) so that the
+   * first emitted `Scroll` is still handled - with Angular hydration the initial
+   * navigation's `Scroll` event is suppressed, which would otherwise drop the
+   * first client navigation when relying on `pairwise`.
+   */
+  protected previousScroll?: Scroll;
 
   get hostComponent(): ComponentRef<any> {
     return this.injector.get(ApplicationRef)?.components?.[0];
@@ -70,40 +79,41 @@ export class OnNavigateService {
    */
   setResetViewOnNavigate(enable: boolean): void {
     this.subscription?.unsubscribe();
+    this.previousScroll = undefined;
 
     if (enable) {
       // Disable automatic scroll restoration to avoid race conditions
       this.viewportScroller.setHistoryScrollRestoration('manual');
 
       this.subscription = this.router.events
-        .pipe(
-          filter((event): event is Scroll => event instanceof Scroll),
-          pairwise()
-        )
-        .subscribe((event) => {
-          const previousRoute = event[0];
-          const currentRoute = event[1];
+        .pipe(filter((event): event is Scroll => event instanceof Scroll))
+        .subscribe((scrollEvent) => {
+          try {
+            const position = scrollEvent.position;
+            if (position) {
+              // allow the pages to be repainted before scrolling to proper position
+              this.scrollToPosition(scrollEvent, position);
+            } else {
+              if (
+                this.previousScroll &&
+                this.config.enableResetViewOnNavigate?.ignoreQueryString &&
+                this.isPathEqual(this.previousScroll, scrollEvent)
+              ) {
+                return;
+              }
 
-          const position = currentRoute.position;
-          if (position) {
-            // allow the pages to be repainted before scrolling to proper position
-            this.scrollToPosition(currentRoute, position);
-          } else {
-            if (
-              this.config.enableResetViewOnNavigate?.ignoreQueryString &&
-              this.isPathEqual(previousRoute, currentRoute)
-            ) {
-              return;
+              if (this.isChildRoute(scrollEvent)) {
+                return;
+              }
+
+              this.scrollToPosition(scrollEvent, position);
             }
 
-            if (this.isChildRoute(currentRoute)) {
-              return;
-            }
-
-            this.scrollToPosition(currentRoute, position);
+            this.focusOnHostElement();
+          } finally {
+            // Always advance the previous route, even on the early returns above.
+            this.previousScroll = scrollEvent;
           }
-
-          this.focusOnHostElement();
         });
     }
   }

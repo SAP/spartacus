@@ -87,7 +87,8 @@ $caretSize: 7px;
     select {
       color: var(--cx-color-text);
       option {
-        color: var(--cx-color-medium);
+        color: var(--cx-color-text);
+        background-color: var(--cx-color-background);
       }
     }
     cx-icon {
@@ -98,7 +99,8 @@ $caretSize: 7px;
   @include cx-highContrastTheme-light {
     select {
       option {
-        color: var(--cx-color-dark);
+        color: var(--cx-color-text);
+        background-color: var(--cx-color-background);
       }
     }
   }

@@ -11,7 +11,6 @@ import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
 @NgModule({
@@ -26,7 +25,7 @@ import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute
     ConfiguratorAttributeCheckBoxComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,

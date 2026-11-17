@@ -189,6 +189,12 @@ export default defineConfig(
           message: `[Spartacus] Injected dependencies should use "protected" instead of "private" to allow customers to extend the class.
             (Exceptions: FeatureConfigService, FeatureToggles — those MUST be private; see @nx/workspace-feature-config-service-must-be-private and @nx/workspace-feature-toggles-must-be-private.)`,
         },
+        {
+          selector:
+            'LogicalExpression[operator="||"][right.type="ArrayExpression"][right.elements.length=0]',
+          message:
+            '[Spartacus] Avoid "|| []" as a fallback. Use the nullish coalescing operator "?? []" instead, so the fallback only replaces null/undefined and not other falsy values.',
+        }
       ],
       'no-shadow': 'off',
       'no-throw-literal': 'error',

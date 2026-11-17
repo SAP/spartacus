@@ -92,4 +92,18 @@
     text-align: start;
     margin: 0 0.75rem 0rem 0.75rem;
   }
+
+  @include cx-highContrastTheme('a11yHighContrastFix') {
+    .cx-set:hover {
+      background-color: transparent;
+    }
+    .btn-link {
+      color: var(--cx-color-primary);
+      text-decoration: none;
+      &:hover {
+        color: var(--cx-color-primary);
+        text-decoration: underline;
+      }
+    }
+  }
 }
