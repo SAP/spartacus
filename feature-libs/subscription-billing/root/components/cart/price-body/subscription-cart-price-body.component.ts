@@ -8,6 +8,7 @@ import { CommonModule, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry, SapAppliedDiscountData } from '@spartacus/cart/base/root';
+import { FeatureToggles } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { SubscriptionProductService } from '../../../services/index';
 import { EMPTY } from 'rxjs';
@@ -26,6 +27,7 @@ import {
 export class SubscriptionCartPriceBodyComponent {
   protected outletContext = inject(OutletContextData, { optional: true });
   protected productService = inject(SubscriptionProductService);
+  private featureToggles = inject(FeatureToggles);
   outletData = toSignal(this.outletContext?.context$ ?? EMPTY);
   parent = computed(() => this.outletData().parent);
   subscriptionItemExists = computed(() => {
@@ -43,7 +45,11 @@ export class SubscriptionCartPriceBodyComponent {
   );
   protected currencyIso = computed(() => this.item().basePrice?.currencyIso);
 
-  protected discounts = computed(() => this.item()?.sapAppliedDiscounts);
+  protected discounts = computed(() =>
+    this.featureToggles.applyDiscountsOnSubscriptionCharges
+      ? this.item()?.sapAppliedDiscounts
+      : undefined
+  );
   protected recurringDiscount = computed(() =>
     this.discounts()?.find(
       (discount: SapAppliedDiscountData) =>
