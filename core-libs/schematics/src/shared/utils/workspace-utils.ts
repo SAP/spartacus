@@ -234,7 +234,7 @@ export function createSassSilenceDeprecations(
       ...originalStylePreprocessorOptions.sass,
       silenceDeprecations: Array.from(
         new Set([
-          ...(originalStylePreprocessorOptions.sass?.silenceDeprecations || []),
+          ...(originalStylePreprocessorOptions.sass?.silenceDeprecations ?? []),
           ...DEFAULT_SILENCE_DEPRECATIONS,
         ])
       ),

@@ -127,7 +127,7 @@ export class ProductPageMetaResolver
       map(([product, label]) => {
         const breadcrumbs = [];
         breadcrumbs.push({ label, link: '/' });
-        for (const { name, code, url } of product.categories || []) {
+        for (const { name, code, url } of product.categories ?? []) {
           breadcrumbs.push({
             label: name || code,
             link: url,

@@ -497,6 +497,34 @@ describe('RulebasedConfiguratorConnector', () => {
         'updateConfigurationOverview' + productConfiguration.configId
       );
     });
+
+    it('should enrich overview with price summary and issue count from configuration', () => {
+      const priceSummary: Configurator.PriceSummary = {
+        currentTotal: { currencyIso: 'USD', value: 42 },
+      };
+      const overview: Configurator.Overview = {
+        configId: productConfiguration.configId,
+        productCode: productConfiguration.productCode,
+      };
+      const configWithOverview: Configurator.Configuration = {
+        ...productConfiguration,
+        priceSummary,
+        totalNumberOfIssues: 3,
+        overview,
+      };
+      let result;
+      service
+        .updateConfigurationOverview(configWithOverview)
+        .subscribe((res) => (result = res));
+      expect(adapter[0].updateConfigurationOverview).toHaveBeenCalledWith({
+        ...overview,
+        priceSummary,
+        totalNumberOfIssues: 3,
+      });
+      expect(result).toBe(
+        'updateConfigurationOverview' + productConfiguration.configId
+      );
+    });
     it('should retrieve overview if not available (exception case)', () => {
       let result;
       service

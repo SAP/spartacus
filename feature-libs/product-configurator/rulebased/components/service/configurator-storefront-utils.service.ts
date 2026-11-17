@@ -16,6 +16,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorRouter,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
@@ -674,6 +675,20 @@ export class ConfiguratorStorefrontUtilsService {
       map((product) => {
         return (product && !!product.baseProduct) ?? false;
       })
+    );
+  }
+
+  /**
+   * Verifies whether the router data refers to the display-only mode.
+   * The route parameter arrives as string, hence both `true` and `'true'` are accepted.
+   *
+   * @param routerData - Router data
+   * @returns - `true` if the display-only mode is active, otherwise `false`
+   */
+  isDisplayOnly(routerData: ConfiguratorRouter.Data): boolean {
+    return (
+      routerData.displayOnly === true ||
+      String(routerData.displayOnly) === 'true'
     );
   }
 

@@ -5,9 +5,9 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { FeatureToggles, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-overview-notification-banner',
@@ -77,9 +78,29 @@ export class ConfiguratorOverviewNotificationBannerComponent {
 
   iconTypes = ICON_TYPE;
 
+  private featureToggles = inject(FeatureToggles);
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
+
+  /**
+   * Verifies whether the links that navigate to the configuration for resolving
+   * issues or conflicts are hidden. This is the case if the overview is displayed
+   * in display-only mode, as the configuration is then read without a draft.
+   *
+   * @param routerData - Router data
+   * @returns - `true` if the links are hidden, otherwise `false`
+   */
+  isResolveLinkHidden(routerData: ConfiguratorRouter.Data): boolean {
+    return (
+      !!this.featureToggles.productConfiguratorReadOnlyCartEntryConfiguration &&
+      this.configuratorStorefrontUtilsService.isDisplayOnly(routerData)
+    );
+  }
 }

@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   LanguageService,
@@ -870,6 +871,25 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
       expect(loggerWarn).not.toHaveBeenCalled();
     });
 
+    it('should map container row basePrice to valuePrice on overview attributes', () => {
+      const source = createConfigurationWithContainers();
+      source.sapContainers?.[0].rows?.forEach((row) => {
+        if (row.id === 'fixed') {
+          row.basePrice = 250.5;
+        }
+      });
+
+      const attributes =
+        serviceUnderTest.convert(source).groups?.[0].attributes;
+      const fixedLens = attributes?.find(
+        (attribute) => attribute.valueId === 'fixed'
+      );
+
+      expect(fixedLens?.valuePrice?.currencyIso).toBe(CURRENCY);
+      expect(fixedLens?.valuePrice?.value).toBe(250.5);
+      expect(fixedLens?.valuePrice?.formattedValue).toBe('$250.50');
+    });
+
     describe('renderRowsAsSubItems', () => {
       const subItemRowId = 'grinder';
       const subItemRowGroupId = `${Configurator.ContainerRowGroupIdPrefix}@${containerAttributeCode}@${subItemRowId}`;
@@ -1096,6 +1116,155 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
         expect(result.groups?.length).toBe(1);
       });
+    });
+  });
+
+  describe('convertContainerRowToAttribute', () => {
+    const containerAttribute: Cpq.Attribute = {
+      pA_ID: 50,
+      stdAttrCode: 500,
+      name: 'Lenses',
+      displayAs: Cpq.DisplayAs.CONTAINER,
+      values: [],
+    };
+
+    it('should map container row to bundle attribute overview using productName as value', () => {
+      const row: Cpq.ContainerRow = {
+        id: 'row-1',
+        productSystemId: 'SYS_ID',
+        productName: 'Display Name',
+        selected: true,
+        basePrice: 99.99,
+      };
+
+      expect(
+        serviceUnderTest['convertContainerRowToAttribute'](
+          row,
+          containerAttribute,
+          CURRENCY
+        )
+      ).toEqual({
+        attribute: 'Lenses',
+        attributeId: '500',
+        value: 'Display Name',
+        valueId: 'row-1',
+        productCode: 'SYS_ID',
+        type: Configurator.AttributeOverviewType.BUNDLE,
+        valuePrice: expect.objectContaining({
+          currencyIso: CURRENCY,
+          value: 99.99,
+          formattedValue: '$99.99',
+        }),
+      });
+    });
+
+    it('should use productSystemId as value when productName is missing', () => {
+      const row: Cpq.ContainerRow = {
+        id: 'row-2',
+        productSystemId: 'FALLBACK_CODE',
+        selected: true,
+      };
+
+      expect(
+        serviceUnderTest['convertContainerRowToAttribute'](
+          row,
+          containerAttribute,
+          CURRENCY
+        ).value
+      ).toBe('FALLBACK_CODE');
+    });
+
+    it('should use row id as value when productName and productSystemId are missing', () => {
+      const row: Cpq.ContainerRow = {
+        id: 'row-only-id',
+        selected: true,
+      };
+
+      expect(
+        serviceUnderTest['convertContainerRowToAttribute'](
+          row,
+          containerAttribute,
+          CURRENCY
+        ).value
+      ).toBe('row-only-id');
+    });
+
+    it('should prefer attribute label over name', () => {
+      const attributeWithLabel: Cpq.Attribute = {
+        ...containerAttribute,
+        label: 'Lens label',
+      };
+      const row: Cpq.ContainerRow = {
+        id: 'row-3',
+        productName: 'Lens',
+        selected: true,
+      };
+
+      expect(
+        serviceUnderTest['convertContainerRowToAttribute'](
+          row,
+          attributeWithLabel,
+          CURRENCY
+        ).attribute
+      ).toBe('Lens label');
+    });
+
+    it('should leave valuePrice undefined when basePrice is missing', () => {
+      const row: Cpq.ContainerRow = {
+        id: 'row-4',
+        productName: 'Lens',
+        selected: true,
+      };
+
+      expect(
+        serviceUnderTest['convertContainerRowToAttribute'](
+          row,
+          containerAttribute,
+          CURRENCY
+        ).valuePrice
+      ).toBeUndefined();
+    });
+  });
+
+  describe('createTabGroupId', () => {
+    it('should return tab id as string when no parent row group is provided', () => {
+      expect(serviceUnderTest['createTabGroupId'](1)).toBe('1');
+    });
+
+    it('should nest tab id under parent row group id', () => {
+      expect(
+        serviceUnderTest['createTabGroupId'](2, 'containerRow@500@zoom')
+      ).toBe('containerRow@500@zoom@2');
+    });
+  });
+
+  describe('hasOverviewContent', () => {
+    it('should return true when group has attributes', () => {
+      expect(
+        serviceUnderTest['hasOverviewContent']({
+          id: '1',
+          attributes: [{ attribute: 'attr', value: 'x' }],
+        })
+      ).toBe(true);
+    });
+
+    it('should return true when group has subGroups', () => {
+      expect(
+        serviceUnderTest['hasOverviewContent']({
+          id: '1',
+          attributes: [],
+          subGroups: [{ id: 'nested' }],
+        })
+      ).toBe(true);
+    });
+
+    it('should return false when group has no attributes or subGroups', () => {
+      expect(
+        serviceUnderTest['hasOverviewContent']({
+          id: '1',
+          attributes: [],
+        })
+      ).toBe(false);
     });
   });
 
