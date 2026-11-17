@@ -183,10 +183,7 @@ export class AnonymousConsentsService {
    * @param consent a consent to test
    */
   isConsentGiven(consent: AnonymousConsent | undefined): boolean {
-    return (
-      (consent && consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN) ??
-      false
-    );
+    return consent?.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN;
   }
 
   /**
@@ -219,9 +216,7 @@ export class AnonymousConsentsService {
    * @param consent a consent to test
    */
   isConsentWithdrawn(consent: AnonymousConsent): boolean {
-    return (
-      consent && consent.consentState === ANONYMOUS_CONSENT_STATUS.WITHDRAWN
-    );
+    return consent?.consentState === ANONYMOUS_CONSENT_STATUS.WITHDRAWN;
   }
 
   /**

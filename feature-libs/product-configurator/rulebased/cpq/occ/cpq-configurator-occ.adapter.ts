@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
@@ -16,11 +16,16 @@ import {
 } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CpqConfiguratorOverviewFilterService } from '../common/cpq-configurator-overview-filter.service';
 import { CpqConfiguratorUtils } from '../rest/cpq-configurator-utils';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 
 @Injectable()
 export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
+  protected cpqOverviewFilterService = inject(
+    CpqConfiguratorOverviewFilterService
+  );
+
   constructor(protected cpqOccService: CpqConfiguratorOccService) {}
 
   getConfiguratorType(): string {
@@ -103,10 +108,18 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     );
   }
 
-  updateConfigurationOverview(): Observable<Configurator.Overview> {
-    throw new Error(
-      'Update the configuration overview is not supported for the CPQ configurator'
+  updateConfigurationOverview(
+    ovInput: Configurator.Overview
+  ): Observable<Configurator.Overview> {
+    const groups = this.cpqOverviewFilterService.filter(
+      ovInput.possibleGroups ?? [],
+      ovInput.attributeFilters,
+      ovInput.groupFilters
     );
+    return of({
+      ...ovInput,
+      groups,
+    });
   }
 
   addToCart(

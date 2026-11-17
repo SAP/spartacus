@@ -45,7 +45,7 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
     const deliveryEntries: OrderEntry[] =
       this.order.entries?.filter(
         (entry) => entry.deliveryPointOfService === undefined
-      ) || [];
+      ) ?? [];
     deliveryEntries.forEach((entry) => {
       if (entry.product?.productTypes === ProductTypes.SERVICE) {
         hasService = true;

@@ -406,6 +406,7 @@ export class CpqConfiguratorOccService {
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
+        ...(parameters.readOnly ? { queryParams: { readOnly: true } } : {}),
       }
     );
     return this.http.get<Cpq.Configuration>(url);

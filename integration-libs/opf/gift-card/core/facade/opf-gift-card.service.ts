@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Injectable, inject } from '@angular/core';
-import { Observable, combineLatest, filter, switchMap, take } from 'rxjs';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   OpfActiveConfiguration,
   OpfBaseFacade,
@@ -17,10 +16,11 @@ import {
   OpfGiftCardFacade,
   OpfGiftCardResponse,
 } from '@spartacus/opf/gift-card/root';
+import { Observable, combineLatest, filter, switchMap, take } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
-import { OpfGiftCardConnector } from '../connectors';
 import { UserIdService } from '@spartacus/core';
+import { OpfGiftCardConnector } from '../connectors';
 
 @Injectable()
 export class OpfGiftCardService implements OpfGiftCardFacade {
@@ -40,7 +40,7 @@ export class OpfGiftCardService implements OpfGiftCardFacade {
       .getActiveConfigurationsState()
       .pipe(
         map((config) =>
-          (config?.data?.value || []).find(
+          config?.data?.value?.find(
             (item) =>
               item?.providerType === OpfPaymentProviderType.STORED_VALUE_PAYMENT
           )

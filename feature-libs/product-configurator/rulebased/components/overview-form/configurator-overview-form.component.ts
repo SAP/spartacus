@@ -151,7 +151,11 @@ export class ConfiguratorOverviewFormComponent {
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService
-          .getOrCreateConfiguration(routerData.owner)
+          .getOrCreateConfiguration(
+            routerData.owner,
+            undefined,
+            this.configuratorStorefrontUtilsService.isDisplayOnly(routerData)
+          )
           .pipe(
             map((configuration) => ({
               configuration,

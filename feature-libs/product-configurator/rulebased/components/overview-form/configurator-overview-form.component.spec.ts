@@ -109,6 +109,7 @@ class MockConfiguratorCommonsService {
 
 class MockConfiguratorStorefrontUtilsService {
   scrollToConfigurationElement = vi.fn();
+  isDisplayOnly = vi.fn(() => false);
 
   createOvGroupId(prefix: string, groupId: string): string {
     return `${this.getPrefixId(prefix, groupId)}-ovGroup`;
@@ -1288,5 +1289,32 @@ describe('ConfigurationOverviewFormComponent', () => {
       const result = component.getGroupLevelStyleClasses(3, group.subGroups);
       expect(result).toEqual('cx-group subgroup subgroupLevel3');
     });
+  });
+
+  describe('read-only mode for display-only overview', () => {
+    let configuratorCommonsService: ConfiguratorCommonsService;
+    let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+
+    beforeEach(() => {
+      configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+      configuratorStorefrontUtilsService = TestBed.inject(
+        ConfiguratorStorefrontUtilsService
+      );
+      vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
+    });
+
+    it.each([true, false])(
+      'should request the configuration with readOnly %s depending on display-only mode',
+      (displayOnly) => {
+        vi.mocked(
+          configuratorStorefrontUtilsService.isDisplayOnly
+        ).mockReturnValue(displayOnly);
+        initialize();
+
+        expect(
+          configuratorCommonsService.getOrCreateConfiguration
+        ).toHaveBeenCalledWith(expect.anything(), undefined, displayOnly);
+      }
+    );
   });
 });

@@ -38,7 +38,7 @@ export class LaunchDialogService {
     protected renderStrategies: LaunchRenderStrategy[],
     protected layoutConfig: LayoutConfig
   ) {
-    this.renderStrategies = this.renderStrategies || [];
+    this.renderStrategies ??= [];
   }
 
   /**
