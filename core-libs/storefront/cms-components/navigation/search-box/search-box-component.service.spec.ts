@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CmsComponent,
   createFrom,
   EventService,
   I18nTestingModule,
@@ -16,9 +15,8 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import {
   SearchBoxProductSelectedEvent,
@@ -44,25 +42,31 @@ class MockSearchBoxService {
   getSuggestionResults(): Observable<Suggestion[]> {
     return EMPTY;
   }
+  clearResults(): void {}
+  searchWithCompletion(_query: string, _config: any): Observable<any> {
+    return EMPTY;
+  }
+  searchSuggestionsWithCompletion(
+    _query: string,
+    _config: any
+  ): Observable<any> {
+    return EMPTY;
+  }
 }
 
-const mockRouterState = {
-  state: {
-    params: {
-      query: 'test',
-    },
-  },
-};
+class MockRoutingService {
+  go() {}
 
-const MockRoutingService = {
-  go: vi.fn(),
   getRouterState() {
-    return of(mockRouterState);
-  },
-};
-const MockComponentData = <CmsComponentData<CmsComponent>>{
-  data$: of({}),
-};
+    return of({
+      state: {
+        params: {
+          query: 'test',
+        },
+      },
+    });
+  }
+}
 
 class MockTranslationService {
   translate(value: string, options: any) {
@@ -97,17 +101,15 @@ describe('SearchBoxComponentService', () => {
   let searchBoxService: SearchboxService;
   let eventService: EventService;
   let featureToggles: MockFeatureTogglesController;
+  let routingService: RoutingService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
         {
-          provide: CmsComponentData,
-          useValue: MockComponentData,
-        },
-        {
           provide: RoutingService,
-          useValue: MockRoutingService,
+          useClass: MockRoutingService,
         },
         {
           provide: SearchboxService,
@@ -122,10 +124,12 @@ describe('SearchBoxComponentService', () => {
         WindowRef,
       ],
     });
-    service = TestBed.inject(SearchBoxComponentService);
     searchBoxService = TestBed.inject(SearchboxService);
     eventService = TestBed.inject(EventService);
     featureToggles = TestBed.inject(MockFeatureTogglesController);
+    routingService = TestBed.inject(RoutingService);
+
+    service = TestBed.inject(SearchBoxComponentService);
   });
 
   afterEach(() => {
@@ -139,13 +143,14 @@ describe('SearchBoxComponentService', () => {
 
   it('should navigate at launchSearchPage(query: string)', () => {
     vi.spyOn(service, 'launchSearchPage');
+    vi.spyOn(routingService, 'go');
 
     service.launchSearchPage(mockQueryString);
 
     service.searchCompleted.next(true);
 
     expect(service.launchSearchPage).toHaveBeenCalled();
-    expect(MockRoutingService.go).toHaveBeenCalledWith({
+    expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'search',
       params: { query: mockQueryString },
     });
@@ -238,6 +243,22 @@ describe('SearchBoxComponentService', () => {
     });
   });
 
+  it('should not search when query is empty', () => {
+    vi.spyOn(searchBoxService, 'clearResults');
+    vi.spyOn(searchBoxService, 'searchWithCompletion');
+    vi.spyOn(searchBoxService, 'searchSuggestionsWithCompletion');
+    service.setRecentSearches(false);
+    service.setTrendingSearches(false);
+
+    service.search('', searchBoxConfig);
+
+    expect(searchBoxService.clearResults).toHaveBeenCalled();
+    expect(searchBoxService.searchWithCompletion).not.toHaveBeenCalled();
+    expect(
+      searchBoxService.searchSuggestionsWithCompletion
+    ).not.toHaveBeenCalled();
+  });
+
   describe('search result message', () => {
     let result: SearchResults;
 
@@ -280,9 +301,7 @@ describe('SearchBoxComponentService', () => {
 
       service.getResults(searchBoxConfig).subscribe();
 
-      expect(document.body.classList.contains('has-searchbox-results')).toBe(
-        false
-      );
+      expect(document.body.classList).not.toContain('has-searchbox-results');
     });
 
     it('should mark the body as having searchbox results when trending searches are enabled with an empty query', () => {
@@ -295,9 +314,7 @@ describe('SearchBoxComponentService', () => {
       service.getResults(searchBoxConfig).subscribe();
       service.setTrendingSearches(true);
 
-      expect(document.body.classList.contains('has-searchbox-results')).toBe(
-        true
-      );
+      expect(document.body.classList).toContain('has-searchbox-results');
 
       service.setTrendingSearches(false);
     });
@@ -317,9 +334,7 @@ describe('SearchBoxComponentService', () => {
       });
       service.getResults(searchBoxConfig).subscribe();
 
-      expect(document.body.classList.contains('has-searchbox-results')).toBe(
-        true
-      );
+      expect(document.body.classList).toContain('has-searchbox-results');
     });
 
     it('should not get a message when there are products ', () => {
@@ -336,9 +351,7 @@ describe('SearchBoxComponentService', () => {
       });
       service.getResults(searchBoxConfig).subscribe();
 
-      expect(document.body.classList.contains('has-searchbox-results')).toBe(
-        true
-      );
+      expect(document.body.classList).toContain('has-searchbox-results');
     });
 
     it('should not get a message when there are products ', () => {
@@ -361,6 +374,179 @@ describe('SearchBoxComponentService', () => {
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
+    });
+  });
+
+  describe('clearResults()', () => {
+    beforeEach(() => {
+      vi.spyOn(searchBoxService, 'clearResults');
+      vi.spyOn(service, 'toggleBodyClass');
+    });
+
+    it('should clear the SearchboxService results', () => {
+      service.clearResults();
+
+      expect(searchBoxService.clearResults).toHaveBeenCalled();
+    });
+
+    it('should remove the `has-searchbox-results` body class', () => {
+      document.body.classList.add('has-searchbox-results');
+
+      service.clearResults();
+
+      expect(service.toggleBodyClass).toHaveBeenCalledWith(
+        'has-searchbox-results',
+        false
+      );
+      expect(document.body.classList).not.toContain('has-searchbox-results');
+    });
+
+    it('should reset hasKeywordRedirect and currentQueryLength', () => {
+      // Trigger a search so internal state is set, then clear
+      vi.spyOn(searchBoxService, 'searchWithCompletion').mockReturnValue(
+        of({
+          type: 'SEARCH_PRODUCTS_SUCCESS',
+          payload: { keywordRedirectUrl: 'http://example.com' },
+        })
+      );
+      vi.spyOn(
+        searchBoxService,
+        'searchSuggestionsWithCompletion'
+      ).mockReturnValue(of({}));
+      service.search('cam', searchBoxConfig);
+
+      service.clearResults();
+
+      // After clearing, launchSearchPage should navigate (no keyword redirect)
+      vi.spyOn(service['routingService'], 'go');
+      service.searchCompleted.next(true);
+      service.launchSearchPage('cam');
+      service.searchCompleted.next(true);
+      expect(service['routingService'].go).toHaveBeenCalledWith({
+        cxRoute: 'search',
+        params: { query: 'cam' },
+      });
+    });
+
+    describe('with searchBoxEmptyQueryResultsPanel feature toggle', () => {
+      beforeEach(() => {
+        featureToggles.set('searchBoxEmptyQueryResultsPanel', true);
+      });
+
+      it('should disable enableTrendingSearches and enableRecentSearches', () => {
+        service.setTrendingSearches(true);
+        service.setRecentSearches(true);
+
+        service.clearResults();
+
+        expect((service as any).enableTrendingSearches).toBe(false);
+        expect((service as any).enableRecentSearches).toBe(false);
+      });
+    });
+
+    describe('without searchBoxEmptyQueryResultsPanel feature toggle', () => {
+      it('should not touch enableTrendingSearches or enableRecentSearches', () => {
+        (service as any).enableTrendingSearches = true;
+        (service as any).enableRecentSearches = true;
+
+        service.clearResults();
+
+        expect((service as any).enableTrendingSearches).toBe(true);
+        expect((service as any).enableRecentSearches).toBe(true);
+      });
+    });
+  });
+
+  describe('shareEvent()', () => {
+    it('should emit the event on sharedEvent observable', async () => {
+      const event = new KeyboardEvent('c');
+      service.shareEvent(event);
+
+      const actual = await firstValueFrom(service.sharedEvent);
+
+      expect(actual).toBe(event);
+    });
+  });
+
+  describe('changeSelectedWord()', () => {
+    it('should emit the new word on chosenWord observable', async () => {
+      const word = 'camera';
+      service.changeSelectedWord(word);
+
+      const actual = await firstValueFrom(service.chosenWord);
+
+      expect(actual).toBe(word);
+    });
+  });
+
+  describe('setSearchResultsShown()', () => {
+    it('should apply the `has-searchbox-results` class', () => {
+      service.setSearchResultsShown(true);
+
+      expect(document.body.classList).toContain('has-searchbox-results');
+    });
+
+    it('should remove the `has-searchbox-results` class', () => {
+      document.body.classList.add('has-searchbox-results');
+
+      service.setSearchResultsShown(false);
+
+      expect(document.body.classList).not.toContain('has-searchbox-results');
+    });
+  });
+
+  describe('toggleBodyClass()', () => {
+    const className = 'has-searchbox-results';
+
+    it('should apply the class when it is absent', () => {
+      document.body.classList.remove(className);
+
+      service.toggleBodyClass(className);
+
+      expect(document.body.classList).toContain(className);
+    });
+
+    it('should remove the class when it is present', () => {
+      document.body.classList.add(className);
+
+      service.toggleBodyClass(className);
+
+      expect(document.body.classList).not.toContain(className);
+    });
+
+    it('should not remove the class when the add parameter is true', () => {
+      document.body.classList.add(className);
+
+      service.toggleBodyClass(className, true);
+
+      expect(document.body.classList).toContain(className);
+    });
+
+    it('should not add the class when the add parameter is false', () => {
+      document.body.classList.remove(className);
+
+      service.toggleBodyClass(className, false);
+      expect(document.body.classList).not.toContain(className);
+    });
+  });
+
+  describe('hasBodyClass()', () => {
+    const className = 'has-searchbox-results';
+
+    it('should return false when the class is absent', () => {
+      document.body.classList.remove(className);
+
+      const actual = service.hasBodyClass(className);
+
+      expect(actual).toBe(false);
+    });
+
+    it('should return true when the class is present', () => {
+      document.body.classList.add(className);
+
+      const actual = service.hasBodyClass(className);
+
+      expect(actual).toBe(true);
     });
   });
 
