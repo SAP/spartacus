@@ -44,39 +44,35 @@ describe('PunchoutDetectionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should isPunchoutSessionPage falsy when url is not punchout session', (done) => {
-    spyOn(location, 'path').and.returnValue(MOCK_URL);
+  it('should isPunchoutSessionPage falsy when url is not punchout session', () => {
+    vi.spyOn(location, 'path').mockReturnValue(MOCK_URL);
 
     const value = service.isPunchoutSessionPage();
     expect(value).toEqual(false);
-    done();
   });
 
-  it('should isPunchoutSessionPage truthy when url punchout session', (done) => {
-    spyOn(location, 'path').and.returnValue(MOCK_URL_WITH_PUNCHOUT);
+  it('should isPunchoutSessionPage truthy when url punchout session', () => {
+    vi.spyOn(location, 'path').mockReturnValue(MOCK_URL_WITH_PUNCHOUT);
 
     const value = service.isPunchoutSessionPage();
     expect(value).toEqual(true);
-    done();
   });
 
-  it('should isPunchoutSessionActive truthy when user punchoutSessionId exists', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutSessionId').and.returnValue(
+  it('should isPunchoutSessionActive truthy when user punchoutSessionId exists', () => {
+    vi.spyOn(punchoutStoreService, 'getPunchoutSessionId').mockReturnValue(
       mockSessionId
     );
 
     const value = service.isPunchoutSession();
     expect(value).toEqual(true);
-    done();
   });
 
-  it('should isPunchoutSessionActive falsy when punchoutSessionId undefined', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutSessionId').and.returnValue(
+  it('should isPunchoutSessionActive falsy when punchoutSessionId undefined', () => {
+    vi.spyOn(punchoutStoreService, 'getPunchoutSessionId').mockReturnValue(
       undefined
     );
 
     const value = service.isPunchoutSession();
     expect(value).toEqual(false);
-    done();
   });
 });

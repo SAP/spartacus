@@ -17,8 +17,11 @@ class mockActivatedRoute implements Partial<ActivatedRoute> {
 describe('PunchoutSessionComponent', () => {
   let component: PunchoutSessionComponent;
   let fixture: ComponentFixture<PunchoutSessionComponent>;
-  let punchoutFacadeMock: jasmine.SpyObj<PunchoutFacade>;
-  let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
+  let punchoutFacadeMock: { initPunchoutSession: ReturnType<typeof vi.fn> };
+  let globalMessageServiceMock: {
+    add: ReturnType<typeof vi.fn>;
+    remove: ReturnType<typeof vi.fn>;
+  };
 
   const mockPunchoutSession: PunchoutSession = {
     customerId: 'test@test.com',
@@ -33,13 +36,13 @@ describe('PunchoutSessionComponent', () => {
   };
 
   beforeEach(() => {
-    punchoutFacadeMock = jasmine.createSpyObj('PunchoutFacade', [
-      'initPunchoutSession',
-    ]);
-    globalMessageServiceMock = jasmine.createSpyObj('GlobalMessageService', [
-      'add',
-      'remove',
-    ]);
+    punchoutFacadeMock = {
+      initPunchoutSession: vi.fn(),
+    };
+    globalMessageServiceMock = {
+      add: vi.fn(),
+      remove: vi.fn(),
+    };
     TestBed.configureTestingModule({
       imports: [PunchoutSessionComponent],
       providers: [
@@ -50,7 +53,7 @@ describe('PunchoutSessionComponent', () => {
     });
     fixture = TestBed.createComponent(PunchoutSessionComponent);
     component = fixture.componentInstance;
-    punchoutFacadeMock.initPunchoutSession.and.returnValue(
+    punchoutFacadeMock.initPunchoutSession.mockReturnValue(
       of(mockPunchoutSession)
     );
   });

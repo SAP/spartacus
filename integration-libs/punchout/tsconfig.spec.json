@@ -2,11 +2,24 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "target": "es2022",
     "module": "preserve",
-    "types": ["jasmine", "node"],
-    "moduleResolution": "bundler"
+    "strict": false,
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "vite/client",
+      "node",
+      "vitest"
+    ],
+    "moduleResolution": "bundler",
+    "allowJs": true
   },
-  "files": ["test.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
+  "files": ["../../testing/setup-vitest.ts"],
+  "include": [
+    "**/*.ts",
+    "../../core-libs/core/src/**/*.ts",
+    "../../core-libs/storefront/**/*.ts",
+    "../../feature-libs/**/*.ts",
+    "../../integration-libs/**/*.ts"
+  ]
 }
