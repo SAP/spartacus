@@ -5,6 +5,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { Cart } from '@spartacus/cart/base/root';
 import { Product } from '@spartacus/core';
 import { OpfPaymentErrorHandlerService } from '@spartacus/opf/payment/core';
@@ -35,28 +36,17 @@ const mockCart: Cart = {
 describe('ApplePayComponent', () => {
   let component: ApplePayComponent;
   let fixture: ComponentFixture<ApplePayComponent>;
-  let mockApplePayService: jasmine.SpyObj<ApplePayService>;
-  let mockCurrentProductService: jasmine.SpyObj<CurrentProductService>;
-  let mockOpfPaymentErrorHandlerService: jasmine.SpyObj<OpfPaymentErrorHandlerService>;
-  let mockOpfQuickBuyTransactionService: jasmine.SpyObj<OpfQuickBuyTransactionService>;
+  let mockApplePayService: any;
+  let mockCurrentProductService: any;
+  let mockOpfPaymentErrorHandlerService: any;
+  let mockOpfQuickBuyTransactionService: any;
   const mockCountryCode = 'US';
 
   beforeEach(() => {
-    mockApplePayService = jasmine.createSpyObj('ApplePayService', [
-      'start',
-      'isApplePaySupported',
-    ]);
-    mockCurrentProductService = jasmine.createSpyObj('CurrentProductService', [
-      'getProduct',
-    ]);
-    mockOpfPaymentErrorHandlerService = jasmine.createSpyObj(
-      'OpfPaymentErrorHandlerService',
-      ['handlePaymentError']
-    );
-    mockOpfQuickBuyTransactionService = jasmine.createSpyObj(
-      'OpfQuickBuyTransactionService',
-      ['getTransactionLocationContext', 'checkStableCart', 'getCurrentCart']
-    );
+    mockApplePayService = { start: vi.fn(), isApplePaySupported: vi.fn() };
+    mockCurrentProductService = { getProduct: vi.fn() };
+    mockOpfPaymentErrorHandlerService = { handlePaymentError: vi.fn() };
+    mockOpfQuickBuyTransactionService = { getTransactionLocationContext: vi.fn(), checkStableCart: vi.fn(), getCurrentCart: vi.fn() };
 
     TestBed.configureTestingModule({
       imports: [ApplePayComponent],
@@ -80,11 +70,11 @@ describe('ApplePayComponent', () => {
     const mockProductObservable = of(mockProduct);
     const mockCartObservable = of(mockCart);
 
-    mockCurrentProductService.getProduct.and.returnValue(mockProductObservable);
-    mockOpfQuickBuyTransactionService.getTransactionLocationContext.and.returnValue(
+    mockCurrentProductService.getProduct.mockReturnValue(mockProductObservable);
+    mockOpfQuickBuyTransactionService.getTransactionLocationContext.mockReturnValue(
       of(OpfQuickBuyLocation.PRODUCT)
     );
-    mockOpfQuickBuyTransactionService.getCurrentCart.and.returnValue(
+    mockOpfQuickBuyTransactionService.getCurrentCart.mockReturnValue(
       mockCartObservable
     );
   });
@@ -105,7 +95,7 @@ describe('ApplePayComponent', () => {
     };
 
     const mockObservable = of(true);
-    mockApplePayService.isApplePaySupported.and.returnValue(mockObservable);
+    mockApplePayService.isApplePaySupported.mockReturnValue(mockObservable);
 
     fixture.detectChanges();
     expect(component.isApplePaySupported$).toEqual(mockObservable);
@@ -128,7 +118,7 @@ describe('ApplePayComponent', () => {
   });
 
   it('should start applePayService', () => {
-    mockApplePayService.start.and.returnValue(
+    mockApplePayService.start.mockReturnValue(
       of(<ApplePayJS.ApplePayPaymentAuthorizationResult>{ status: 1 })
     );
 

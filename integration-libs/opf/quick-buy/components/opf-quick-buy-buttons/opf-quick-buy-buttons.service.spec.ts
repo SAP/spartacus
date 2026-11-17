@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { StoreModule } from '@ngrx/store';
 import { CheckoutConfig } from '@spartacus/checkout/base/root';
 import { AuthService, QueryState, RoutingService } from '@spartacus/core';
@@ -22,20 +23,16 @@ import { OpfQuickBuyButtonsService } from './opf-quick-buy-buttons.service';
 
 describe('OpfQuickBuyButtonsService', () => {
   let service: OpfQuickBuyButtonsService;
-  let opfBaseFacadeMock: jasmine.SpyObj<OpfBaseFacade>;
-  let authServiceMock: jasmine.SpyObj<AuthService>;
-  let checkoutConfigMock: jasmine.SpyObj<CheckoutConfig>;
-  let routingServiceMock: jasmine.SpyObj<RoutingService>;
+  let opfBaseFacadeMock: any;
+  let authServiceMock: any;
+  let checkoutConfigMock: any;
+  let routingServiceMock: any;
 
   beforeEach(() => {
-    opfBaseFacadeMock = jasmine.createSpyObj('OpfBaseFacade', [
-      'getActiveConfigurationsState',
-    ]);
-    authServiceMock = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
-    checkoutConfigMock = jasmine.createSpyObj('CheckoutConfig', ['checkout']);
-    routingServiceMock = jasmine.createSpyObj('RoutingService', [
-      'getRouterState',
-    ]);
+    opfBaseFacadeMock = { getActiveConfigurationsState: vi.fn() };
+    authServiceMock = { isUserLoggedIn: vi.fn() };
+    checkoutConfigMock = { checkout: vi.fn() };
+    routingServiceMock = { getRouterState: vi.fn() };
 
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
@@ -58,7 +55,7 @@ describe('OpfQuickBuyButtonsService', () => {
         { providerType: OpfPaymentProviderType.PAYMENT_GATEWAY },
         { providerType: OpfPaymentProviderType.PAYMENT_GATEWAY },
       ];
-      opfBaseFacadeMock.getActiveConfigurationsState.and.returnValue(
+      opfBaseFacadeMock.getActiveConfigurationsState.mockReturnValue(
         of({
           data: { value: mockConfigurations },
         } as QueryState<OpfActiveConfigurationsResponse>)
@@ -73,7 +70,7 @@ describe('OpfQuickBuyButtonsService', () => {
     });
 
     it('should return undefined when there are no active configurations', () => {
-      opfBaseFacadeMock.getActiveConfigurationsState.and.returnValue(
+      opfBaseFacadeMock.getActiveConfigurationsState.mockReturnValue(
         of({
           data: { value: undefined },
         } as QueryState<OpfActiveConfigurationsResponse>)
@@ -86,7 +83,7 @@ describe('OpfQuickBuyButtonsService', () => {
 
     it('should return undefined when no configuration matches PAYMENT_GATEWAY type', () => {
       const mockConfigurations = [{ providerType: 'SOME_OTHER_TYPE' }];
-      opfBaseFacadeMock.getActiveConfigurationsState.and.returnValue(
+      opfBaseFacadeMock.getActiveConfigurationsState.mockReturnValue(
         of({
           data: { value: mockConfigurations },
         } as QueryState<OpfActiveConfigurationsResponse>)
@@ -99,7 +96,7 @@ describe('OpfQuickBuyButtonsService', () => {
 
     it('should handle errors when fetching configurations', () => {
       const error = new Error('Network error');
-      opfBaseFacadeMock.getActiveConfigurationsState.and.returnValue(
+      opfBaseFacadeMock.getActiveConfigurationsState.mockReturnValue(
         throwError(error)
       );
 
@@ -123,7 +120,7 @@ describe('OpfQuickBuyButtonsService', () => {
         id: 3,
       };
 
-      opfBaseFacadeMock.getActiveConfigurationsState.and.callFake(
+      opfBaseFacadeMock.getActiveConfigurationsState.mockImplementation(
         (query?: any) => {
           if (!query?.pageNumber || query.pageNumber === 1) {
             return of({

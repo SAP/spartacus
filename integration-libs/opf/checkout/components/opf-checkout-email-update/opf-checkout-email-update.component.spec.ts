@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
+import { vi } from 'vitest';
 import {
   ActiveCartFacade,
   CartGuestUserFacade,
@@ -30,30 +31,20 @@ class MockFormErrorsComponent {
 describe('OpfCheckoutEmailUpdateComponent', () => {
   let component: OpfCheckoutEmailUpdateComponent;
   let fixture: ComponentFixture<OpfCheckoutEmailUpdateComponent>;
-  let cartGuestUserFacade: jasmine.SpyObj<CartGuestUserFacade>;
-  let multiCartFacade: jasmine.SpyObj<MultiCartFacade>;
-  let userIdService: jasmine.SpyObj<UserIdService>;
-  let router: jasmine.SpyObj<RoutingService>;
-  let semanticPathService: jasmine.SpyObj<SemanticPathService>;
-  let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
+  let cartGuestUserFacade: any;
+  let multiCartFacade: any;
+  let userIdService: any;
+  let router: any;
+  let semanticPathService: any;
+  let activeCartFacade: any;
 
   beforeEach(async () => {
-    const cartGuestUserFacadeSpy = jasmine.createSpyObj('CartGuestUserFacade', [
-      'updateCartGuestUser',
-    ]);
-    const multiCartFacadeSpy = jasmine.createSpyObj('MultiCartFacade', [
-      'reloadCart',
-    ]);
-    const userIdServiceSpy = jasmine.createSpyObj('UserIdService', [
-      'takeUserId',
-    ]);
-    const routerSpy = jasmine.createSpyObj('RoutingService', ['go']);
-    const semanticPathServiceSpy = jasmine.createSpyObj('SemanticPathService', [
-      'get',
-    ]);
-    const activeCartFacadeSpy = jasmine.createSpyObj('ActiveCartFacade', [
-      'takeActiveCartId',
-    ]);
+    const cartGuestUserFacadeSpy = { updateCartGuestUser: vi.fn() };
+    const multiCartFacadeSpy = { reloadCart: vi.fn() };
+    const userIdServiceSpy = { takeUserId: vi.fn() };
+    const routerSpy = { go: vi.fn() };
+    const semanticPathServiceSpy = { get: vi.fn() };
+    const activeCartFacadeSpy = { takeActiveCartId: vi.fn() };
 
     await TestBed.configureTestingModule({
       imports: [OpfCheckoutEmailUpdateComponent],
@@ -81,20 +72,25 @@ describe('OpfCheckoutEmailUpdateComponent', () => {
 
     cartGuestUserFacade = TestBed.inject(
       CartGuestUserFacade
-    ) as jasmine.SpyObj<CartGuestUserFacade>;
+    ) as any;
     multiCartFacade = TestBed.inject(
       MultiCartFacade
-    ) as jasmine.SpyObj<MultiCartFacade>;
+    ) as any;
     userIdService = TestBed.inject(
       UserIdService
-    ) as jasmine.SpyObj<UserIdService>;
-    router = TestBed.inject(RoutingService) as jasmine.SpyObj<RoutingService>;
+    ) as any;
+    router = TestBed.inject(RoutingService) as any;
     semanticPathService = TestBed.inject(
       SemanticPathService
-    ) as jasmine.SpyObj<SemanticPathService>;
+    ) as any;
     activeCartFacade = TestBed.inject(
       ActiveCartFacade
-    ) as jasmine.SpyObj<ActiveCartFacade>;
+    ) as any;
+
+    userIdService.takeUserId.mockReturnValue(of('test-user-id'));
+    activeCartFacade.takeActiveCartId.mockReturnValue(of('test-cart-id'));
+    cartGuestUserFacade.updateCartGuestUser.mockReturnValue(of(undefined));
+    semanticPathService.get.mockReturnValue('checkoutDeliveryAddress');
   });
 
   it('should initialize form with empty values', () => {
@@ -105,7 +101,7 @@ describe('OpfCheckoutEmailUpdateComponent', () => {
   });
 
   it('should call updateCartGuestUserEmail on form submission', () => {
-    spyOn(component as any, 'updateCartGuestUserEmail');
+    vi.spyOn(component as any, 'updateCartGuestUserEmail');
     component.checkoutLoginForm.setValue({
       email: 'test@example.com',
       emailConfirmation: 'test@example.com',
@@ -117,11 +113,6 @@ describe('OpfCheckoutEmailUpdateComponent', () => {
   });
 
   it('should update cart guest user email and navigate on success', () => {
-    userIdService.takeUserId.and.returnValue(of('test-user-id'));
-    activeCartFacade.takeActiveCartId.and.returnValue(of('test-cart-id'));
-    cartGuestUserFacade.updateCartGuestUser.and.returnValue(of(undefined));
-    semanticPathService.get.and.returnValue('checkoutDeliveryAddress');
-
     component['updateCartGuestUserEmail']('test@example.com');
     expect(cartGuestUserFacade.updateCartGuestUser).toHaveBeenCalledWith(
       'test-user-id',

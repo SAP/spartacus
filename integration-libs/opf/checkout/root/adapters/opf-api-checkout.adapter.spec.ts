@@ -56,7 +56,7 @@ describe('OpfApiCheckoutAdapter', () => {
     occEndpointsService = TestBed.inject(OccEndpointsService);
     loggerService = TestBed.inject(LoggerService);
 
-    spyOn(converterService, 'pipeable').and.callFake(
+    vi.spyOn(converterService, 'pipeable').mockImplementation(
       () => (source: any) => source
     );
   });
@@ -84,7 +84,7 @@ describe('OpfApiCheckoutAdapter', () => {
 
   it('should handle error when retrieving cart user email', () => {
     const errorResponse = { status: 500, statusText: 'Server Error' };
-    spyOn(loggerService, 'error').and.callThrough();
+    vi.spyOn(loggerService, 'error');
 
     adapter.getCartUserEmail(userId, cartId).subscribe(
       () => fail('expected an error, not cart user email'),

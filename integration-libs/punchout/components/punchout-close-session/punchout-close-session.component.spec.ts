@@ -4,22 +4,22 @@ import {
   PunchoutUiRestrictionService,
 } from '@spartacus/punchout/root';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { PunchoutCloseSessionComponent } from './punchout-close-session.component';
 
 describe('PunchoutCloseSessionComponent', () => {
   let component: PunchoutCloseSessionComponent;
   let fixture: ComponentFixture<PunchoutCloseSessionComponent>;
-  let mockPunchoutFacade: jasmine.SpyObj<PunchoutFacade>;
-  let mockPunchoutUiRestrictionService: jasmine.SpyObj<PunchoutUiRestrictionService>;
+  let mockPunchoutFacade: any;
+  let mockPunchoutUiRestrictionService: any;
 
   beforeEach(async () => {
-    mockPunchoutFacade = jasmine.createSpyObj('PunchoutFacade', [
-      'closePunchoutSession',
-    ]);
-    mockPunchoutUiRestrictionService = jasmine.createSpyObj(
-      'PunchoutComponentsService',
-      ['isPunchoutSessionActive']
-    );
+    mockPunchoutFacade = {
+      closePunchoutSession: vi.fn(),
+    };
+    mockPunchoutUiRestrictionService = {
+      isPunchoutSessionActive: vi.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [PunchoutCloseSessionComponent],
@@ -42,7 +42,7 @@ describe('PunchoutCloseSessionComponent', () => {
 
   it('should expose isPunchoutSessionActive$ observable from service', () => {
     const expected$ = of(true);
-    mockPunchoutUiRestrictionService.isPunchoutSessionActive.and.returnValue(
+    mockPunchoutUiRestrictionService.isPunchoutSessionActive.mockReturnValue(
       expected$
     );
 
@@ -59,7 +59,7 @@ describe('PunchoutCloseSessionComponent', () => {
   });
 
   it('should call closePunchoutSession on clickCloseSessionButton', () => {
-    mockPunchoutFacade.closePunchoutSession.and.returnValue(of(true));
+    mockPunchoutFacade.closePunchoutSession.mockReturnValue(of(true));
 
     component.clickCloseSessionButton();
 

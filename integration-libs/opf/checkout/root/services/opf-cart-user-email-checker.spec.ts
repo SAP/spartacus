@@ -1,17 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { of } from 'rxjs';
 import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
 import { OpfCartUserEmailCheckerService } from './opf-cart-user-email-checker.service';
 
 describe('OpfCartUserEmailCheckerService', () => {
   let service: OpfCartUserEmailCheckerService;
-  let opfCheckoutConnector: jasmine.SpyObj<OpfCheckoutConnector>;
+  let opfCheckoutConnector: any;
 
   beforeEach(() => {
-    const opfCheckoutConnectorSpy = jasmine.createSpyObj(
-      'OpfCheckoutConnector',
-      ['getCartUserEmail']
-    );
+    const opfCheckoutConnectorSpy = { getCartUserEmail: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -23,30 +21,26 @@ describe('OpfCartUserEmailCheckerService', () => {
     service = TestBed.inject(OpfCartUserEmailCheckerService);
     opfCheckoutConnector = TestBed.inject(
       OpfCheckoutConnector
-    ) as jasmine.SpyObj<OpfCheckoutConnector>;
+    ) as any;
   });
 
-  it('should return false if the user email is not assigned', (done) => {
-    opfCheckoutConnector.getCartUserEmail.and.returnValue(
+  it('should return false if the user email is not assigned', async () => {
+    opfCheckoutConnector.getCartUserEmail.mockReturnValue(
       of({ sapCustomerEmail: null })
     );
     service
       .isCartUserHasEmail('test-user-id', 'test-cart-id')
       .subscribe((result) => {
-        expect(result).toBeFalsy();
-        done();
-      });
+        expect(result).toBeFalsy();      });
   });
 
-  it('should return true if the user email is assigned', (done) => {
-    opfCheckoutConnector.getCartUserEmail.and.returnValue(
+  it('should return true if the user email is assigned', async () => {
+    opfCheckoutConnector.getCartUserEmail.mockReturnValue(
       of({ sapCustomerEmail: 'user@example.com' })
     );
     service
       .isCartUserHasEmail('test-user-id', 'test-cart-id')
       .subscribe((result) => {
-        expect(result).toBeTruthy();
-        done();
-      });
+        expect(result).toBeTruthy();      });
   });
 });

@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { Product, WindowRef } from '@spartacus/core';
 import { OpfPaymentService } from '@spartacus/opf/payment/core';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
@@ -58,54 +59,22 @@ const MockWindowRef = {
 
 describe('ApplePayService', () => {
   let service: ApplePayService;
-  let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentService>;
-  let opfQuickBuyTransactionServiceMock: jasmine.SpyObj<OpfQuickBuyTransactionService>;
-  let applePaySessionOrchestratorMock: jasmine.SpyObj<ApplePaySessionOrchestrator>;
-  let applePaySessionWrapperServiceMock: jasmine.SpyObj<ApplePaySessionWrapperService>;
+  let opfPaymentFacadeMock: any;
+  let opfQuickBuyTransactionServiceMock: any;
+  let applePaySessionOrchestratorMock: any;
+  let applePaySessionWrapperServiceMock: any;
   let applePayObservableTestController: Subject<ApplePayJS.ApplePayPaymentAuthorizationResult>;
-  let opfQuickBuyButtonsServiceMock: jasmine.SpyObj<OpfQuickBuyButtonsService>;
-  let opfQuickBuyServiceMock: jasmine.SpyObj<OpfQuickBuyService>;
+  let opfQuickBuyButtonsServiceMock: any;
+  let opfQuickBuyServiceMock: any;
 
   beforeEach(() => {
-    opfQuickBuyButtonsServiceMock = jasmine.createSpyObj(
-      'OpfQuickBuyButtonsService',
-      ['getQuickBuyProviderConfig']
-    );
+    opfQuickBuyButtonsServiceMock = { getQuickBuyProviderConfig: vi.fn() };
 
-    applePaySessionWrapperServiceMock = jasmine.createSpyObj(
-      'ApplePaySessionWrapperService',
-      ['startApplePaySession']
-    );
-    opfPaymentFacadeMock = jasmine.createSpyObj('OpfPaymentService', [
-      'submitPayment',
-    ]);
-    opfQuickBuyServiceMock = jasmine.createSpyObj('OpfQuickBuyService', [
-      'getApplePayWebSession',
-    ]);
-    applePaySessionOrchestratorMock = jasmine.createSpyObj(
-      'ApplePaySessionOrchestrator',
-      ['start']
-    );
-    opfQuickBuyTransactionServiceMock = jasmine.createSpyObj(
-      'OpfQuickBuyTransactionService',
-      [
-        'deleteUserAddresses',
-        'getTransactionLocationContext',
-        'getTransactionDeliveryInfo',
-        'getMerchantName',
-        'checkStableCart',
-        'getSupportedDeliveryModes',
-        'setDeliveryAddress',
-        'setBillingAddress',
-        'getDeliveryAddress',
-        'getCurrentCart',
-        'getCurrentCartId',
-        'getCurrentCartTotalPrice',
-        'setDeliveryMode',
-        'getSelectedDeliveryMode',
-        'handleCartGuestUser',
-      ]
-    );
+    applePaySessionWrapperServiceMock = { startApplePaySession: vi.fn() };
+    opfPaymentFacadeMock = { submitPayment: vi.fn() };
+    opfQuickBuyServiceMock = { getApplePayWebSession: vi.fn() };
+    applePaySessionOrchestratorMock = { start: vi.fn() };
+    opfQuickBuyTransactionServiceMock = { deleteUserAddresses: vi.fn(), getTransactionLocationContext: vi.fn(), getTransactionDeliveryInfo: vi.fn(), getMerchantName: vi.fn(), checkStableCart: vi.fn(), getSupportedDeliveryModes: vi.fn(), setDeliveryAddress: vi.fn(), setBillingAddress: vi.fn(), getDeliveryAddress: vi.fn(), getCurrentCart: vi.fn(), getCurrentCartId: vi.fn(), getCurrentCartTotalPrice: vi.fn(), setDeliveryMode: vi.fn(), getSelectedDeliveryMode: vi.fn(), handleCartGuestUser: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -141,10 +110,10 @@ describe('ApplePayService', () => {
     service = TestBed.inject(ApplePayService);
 
     applePayObservableTestController = new Subject();
-    applePaySessionOrchestratorMock.start.and.returnValue(
+    applePaySessionOrchestratorMock.start.mockReturnValue(
       applePayObservableTestController
     );
-    opfQuickBuyTransactionServiceMock.handleCartGuestUser.and.returnValue(
+    opfQuickBuyTransactionServiceMock.handleCartGuestUser.mockReturnValue(
       of(true)
     );
   });
@@ -156,17 +125,17 @@ describe('ApplePayService', () => {
   it('should handle errors during ApplePay session start', () => {
     service = TestBed.inject(ApplePayService);
     const merchantNameMock = 'Nakano';
-    opfQuickBuyTransactionServiceMock.getTransactionDeliveryInfo.and.returnValue(
+    opfQuickBuyTransactionServiceMock.getTransactionDeliveryInfo.mockReturnValue(
       of({
         type: OpfQuickBuyDeliveryType.SHIPPING,
       })
     );
 
-    applePaySessionOrchestratorMock.start.and.returnValue(
+    applePaySessionOrchestratorMock.start.mockReturnValue(
       throwError(() => 'Error')
     );
 
-    opfQuickBuyTransactionServiceMock.getMerchantName.and.returnValue(
+    opfQuickBuyTransactionServiceMock.getMerchantName.mockReturnValue(
       of(merchantNameMock)
     );
 

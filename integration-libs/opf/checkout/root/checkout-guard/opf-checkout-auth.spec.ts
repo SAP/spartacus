@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
+import { vi } from 'vitest';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutAuthGuard,
@@ -16,59 +17,45 @@ import {
 import { EMPTY, of } from 'rxjs';
 import { OpfCartUserEmailCheckerService } from '../services';
 import { OpfCheckoutAuthGuard } from './opf-checkout-auth.guard';
-import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
-  isUserLoggedIn = createSpy().and.returnValue(EMPTY);
+  isUserLoggedIn = vi.fn().mockReturnValue(EMPTY);
 }
 
 class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
-  getAssignedUser = createSpy().and.returnValue(EMPTY);
-  isGuestCart = createSpy().and.returnValue(of(true));
-  isStable = createSpy().and.returnValue(of(true));
-  getActiveCartId = createSpy().and.returnValue(of('cart-id'));
+  getAssignedUser = vi.fn().mockReturnValue(EMPTY);
+  isGuestCart = vi.fn().mockReturnValue(of(true));
+  isStable = vi.fn().mockReturnValue(of(true));
+  getActiveCartId = vi.fn().mockReturnValue(of('cart-id'));
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = createSpy();
+  saveCurrentNavigationUrl = vi.fn();
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
-  isGuestCheckout = createSpy().and.returnValue(false);
+  isGuestCheckout = vi.fn().mockReturnValue(false);
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 describe('OpfCheckoutAuthGuard', () => {
   let guard: OpfCheckoutAuthGuard;
-  let userIdService: jasmine.SpyObj<UserIdService>;
-  let opfCartUserEmailChecker: jasmine.SpyObj<OpfCartUserEmailCheckerService>;
-  let routingService: jasmine.SpyObj<
-    RoutingService & { createUrlTree: jasmine.Spy }
-  >;
-  let semanticPathService: jasmine.SpyObj<SemanticPathService>;
-  let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
+  let userIdService: any;
+  let opfCartUserEmailChecker: any;
+  let routingService: any;
+  let semanticPathService: any;
+  let activeCartFacade: any;
 
   beforeEach(() => {
-    const checkoutAuthGuardSpy = jasmine.createSpyObj('CheckoutAuthGuard', [
-      'canActivate',
-    ]);
-    const routingServiceSpy = jasmine.createSpyObj('RoutingService', [
-      'createUrlTree',
-    ]);
-    const userIdServiceSpy = jasmine.createSpyObj('UserIdService', [
-      'getUserId',
-    ]);
-    const opfCartUserEmailCheckerSpy = jasmine.createSpyObj(
-      'OpfCartUserEmailCheckerService',
-      ['isCartUserHasEmail']
-    );
+    const checkoutAuthGuardSpy = { canActivate: vi.fn() };
+    const routingServiceSpy = { createUrlTree: vi.fn() };
+    const userIdServiceSpy = { getUserId: vi.fn() };
+    const opfCartUserEmailCheckerSpy = { isCartUserHasEmail: vi.fn() };
 
-    const semanticPathServiceSpy = jasmine.createSpyObj('SemanticPathService', [
-      'get',
-    ]);
+    const semanticPathServiceSpy = { get: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -107,59 +94,51 @@ describe('OpfCheckoutAuthGuard', () => {
     guard = TestBed.inject(OpfCheckoutAuthGuard);
     userIdService = TestBed.inject(
       UserIdService
-    ) as jasmine.SpyObj<UserIdService>;
+    ) as any;
     opfCartUserEmailChecker = TestBed.inject(
       OpfCartUserEmailCheckerService
-    ) as jasmine.SpyObj<OpfCartUserEmailCheckerService>;
-    routingService = TestBed.inject(RoutingService) as jasmine.SpyObj<
-      RoutingService & { createUrlTree: jasmine.Spy }
-    >;
+    ) as any;
+    routingService = TestBed.inject(RoutingService) as any;
     semanticPathService = TestBed.inject(
       SemanticPathService
-    ) as jasmine.SpyObj<SemanticPathService>;
+    ) as any;
     activeCartFacade = TestBed.inject(
       ActiveCartFacade
-    ) as jasmine.SpyObj<ActiveCartFacade>;
+    ) as any;
   });
 
   it('should not call isCartUserHasEmail if not guest user', () => {
-    activeCartFacade.isGuestCart.and.returnValue(of(false));
+    activeCartFacade.isGuestCart.mockReturnValue(of(false));
     expect(opfCartUserEmailChecker.isCartUserHasEmail).not.toHaveBeenCalled();
   });
 
-  it('should call super.canActivate() when isGuestCart is false', (done) => {
-    const superCanActivateSpy = spyOn(
+  it('should call super.canActivate() when isGuestCart is false', async () => {
+    const superCanActivateSpy = vi.spyOn(
       CheckoutAuthGuard.prototype,
       'canActivate'
-    ).and.returnValue(of(true));
-    activeCartFacade.isGuestCart.and.returnValue(of(false));
+    ).mockReturnValue(of(true));
+    activeCartFacade.isGuestCart.mockReturnValue(of(false));
 
     guard.canActivate().subscribe(() => {
-      expect(superCanActivateSpy).toHaveBeenCalled();
-      done();
-    });
+      expect(superCanActivateSpy).toHaveBeenCalled();    });
   });
 
-  it('should redirect to opfCheckoutEmail if guest cart user does not have email', (done) => {
-    userIdService.getUserId.and.returnValue(of('guest-user'));
-    opfCartUserEmailChecker.isCartUserHasEmail.and.returnValue(of(false));
-    semanticPathService.get.and.returnValue('/opf-checkout-email');
+  it('should redirect to opfCheckoutEmail if guest cart user does not have email', async () => {
+    userIdService.getUserId.mockReturnValue(of('guest-user'));
+    opfCartUserEmailChecker.isCartUserHasEmail.mockReturnValue(of(false));
+    semanticPathService.get.mockReturnValue('/opf-checkout-email');
     const urlTree = new UrlTree();
-    routingService.createUrlTree.and.returnValue(urlTree);
+    routingService.createUrlTree.mockReturnValue(urlTree);
 
     guard.canActivate().subscribe((result: any) => {
-      expect(result.toString()).toEqual('/opf-checkout-email');
-      done();
-    });
+      expect(result.toString()).toEqual('/opf-checkout-email');    });
   });
 
-  it('should allow activation if guest cart user has a valid email', (done) => {
-    userIdService.getUserId.and.returnValue(of('guest-user'));
-    opfCartUserEmailChecker.isCartUserHasEmail.and.returnValue(of(true));
+  it('should allow activation if guest cart user has a valid email', async () => {
+    userIdService.getUserId.mockReturnValue(of('guest-user'));
+    opfCartUserEmailChecker.isCartUserHasEmail.mockReturnValue(of(true));
 
     guard.canActivate().subscribe((result: any) => {
-      expect(result).toBeTruthy();
-      done();
-    });
+      expect(result).toBeTruthy();    });
   });
 });

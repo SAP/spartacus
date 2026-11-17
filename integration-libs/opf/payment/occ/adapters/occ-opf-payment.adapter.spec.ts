@@ -6,6 +6,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { OccEndpointsService } from '@spartacus/core';
 import { OccOpfPaymentAdapter } from './occ-opf-payment.adapter';
 import { of, throwError } from 'rxjs';
@@ -31,21 +32,20 @@ describe('OccOpfPaymentAdapter', () => {
         {
           provide: HttpClient,
           useValue: {
-            put: jasmine.createSpy('put').and.returnValue(of(mockCart)),
+            put: vi.fn().mockReturnValue(of(mockCart)),
           },
         },
         {
           provide: OccEndpointsService,
           useValue: {
-            buildUrl: jasmine.createSpy('buildUrl').and.returnValue('test-url'),
+            buildUrl: vi.fn().mockReturnValue('test-url'),
           },
         },
         {
           provide: ConverterService,
           useValue: {
-            pipeable: jasmine
-              .createSpy('pipeable')
-              .and.returnValue((source: any) => source),
+            pipeable: vi.fn()
+              .mockReturnValue((source: any) => source),
           },
         },
       ],
@@ -84,7 +84,7 @@ describe('OccOpfPaymentAdapter', () => {
           purchaseOrderNumber: undefined,
         }),
         {
-          headers: jasmine.any(HttpHeaders),
+          headers: expect.any(HttpHeaders),
         }
       );
 
@@ -110,14 +110,14 @@ describe('OccOpfPaymentAdapter', () => {
           purchaseOrderNumber: purchaseOrderNumber,
         }),
         {
-          headers: jasmine.any(HttpHeaders),
+          headers: expect.any(HttpHeaders),
         }
       );
     });
 
     it('should handle HTTP error', () => {
       const error = new Error('Test error');
-      (httpClient.put as jasmine.Spy).and.returnValue(throwError(() => error));
+      (httpClient.put as any).mockReturnValue(throwError(() => error));
 
       adapter
         .setCartPaymentOption(userId, cartId, sapPaymentOptionId)

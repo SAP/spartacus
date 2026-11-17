@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   ActiveCartFacade,
   Cart,
@@ -29,61 +30,37 @@ import { OpfQuickBuySingleProductTransactionService } from './opf-quick-buy-sing
 
 describe('OpfQuickBuySingleProductTransactionService', () => {
   let service: OpfQuickBuySingleProductTransactionService;
-  let multiCartFacade: jasmine.SpyObj<MultiCartFacade>;
-  let userIdService: jasmine.SpyObj<UserIdService>;
-  let routingService: jasmine.SpyObj<RoutingService>;
-  let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
-  let cartGuestUserFacade: jasmine.SpyObj<CartGuestUserFacade>;
-  let authService: jasmine.SpyObj<AuthService>;
-  let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
-  let singleProductCartOptions: jasmine.SpyObj<OpfQuickBuySingleProductCartOptionsFacade>;
-  let cartConnector: jasmine.SpyObj<OpfQuickBuyCartConnector>;
+  let multiCartFacade: any;
+  let userIdService: any;
+  let routingService: any;
+  let globalMessageService: any;
+  let cartGuestUserFacade: any;
+  let authService: any;
+  let activeCartFacade: any;
+  let singleProductCartOptions: any;
+  let cartConnector: any;
 
   function initCart(cart: Cart = { guid: 'cart-guid' } as Cart): void {
     service['cartId'] = 'cart-guid';
     service['userId'] = 'anonymous';
-    multiCartFacade.getCart.and.returnValue(of(cart));
-    multiCartFacade.isStable.and.returnValue(of(true));
+    multiCartFacade.getCart.mockReturnValue(of(cart));
+    multiCartFacade.isStable.mockReturnValue(of(true));
   }
 
   function mockReloadCart(cart: Cart = { guid: 'cart-guid' } as Cart): void {
-    spyOn(service as any, 'reloadCartAndWait').and.returnValue(of(cart));
+    vi.spyOn(service as any, 'reloadCartAndWait').mockReturnValue(of(cart));
   }
 
   beforeEach(() => {
-    multiCartFacade = jasmine.createSpyObj('MultiCartFacade', [
-      'createCart',
-      'addEntry',
-      'isStable',
-      'getCart',
-      'reloadCart',
-      'getCartEntity',
-      'loadCart',
-    ]);
-    userIdService = jasmine.createSpyObj('UserIdService', ['takeUserId']);
-    routingService = jasmine.createSpyObj('RoutingService', ['getRouterState']);
-    globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
-      'add',
-    ]);
-    cartGuestUserFacade = jasmine.createSpyObj('CartGuestUserFacade', [
-      'createCartGuestUser',
-      'updateCartGuestUser',
-    ]);
-    authService = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
-    activeCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
-      'isGuestCart',
-    ]);
-    singleProductCartOptions = jasmine.createSpyObj(
-      'OpfQuickBuySingleProductCartOptionsFacade',
-      ['getSingleProductCartOptions']
-    );
-    cartConnector = jasmine.createSpyObj('OpfQuickBuyCartConnector', [
-      'getSupportedDeliveryModes',
-      'createDeliveryAddress',
-      'setBillingAddress',
-      'setDeliveryMode',
-      'getSelectedDeliveryMode',
-    ]);
+    multiCartFacade = { createCart: vi.fn(), addEntry: vi.fn(), isStable: vi.fn(), getCart: vi.fn(), reloadCart: vi.fn(), getCartEntity: vi.fn(), loadCart: vi.fn() };
+    userIdService = { takeUserId: vi.fn() };
+    routingService = { getRouterState: vi.fn() };
+    globalMessageService = { add: vi.fn() };
+    cartGuestUserFacade = { createCartGuestUser: vi.fn(), updateCartGuestUser: vi.fn() };
+    authService = { isUserLoggedIn: vi.fn() };
+    activeCartFacade = { isGuestCart: vi.fn() };
+    singleProductCartOptions = { getSingleProductCartOptions: vi.fn() };
+    cartConnector = { getSupportedDeliveryModes: vi.fn(), createDeliveryAddress: vi.fn(), setBillingAddress: vi.fn(), setDeliveryMode: vi.fn(), getSelectedDeliveryMode: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -110,7 +87,8 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
   });
 
   describe('cart accessors', () => {
-    it('should return current cart, cart id and total price', (done) => {
+    it('should return current cart, cart id and total price',
+async () => {
       initCart({
         guid: 'cart-guid',
         totalPrice: { value: 42 },
@@ -130,49 +108,39 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
       });
 
       service.getDeliveryAddress().subscribe((address) => {
-        expect(address?.firstName).toBe('John');
-        done();
-      });
+        expect(address?.firstName).toBe('John');      });
     });
   });
 
   describe('delivery type', () => {
-    it('should return shipping when cart has delivery items', (done) => {
+    it('should return shipping when cart has delivery items', async () => {
       initCart({ guid: 'cart-guid', deliveryItemsQuantity: 2 } as Cart);
 
       service.getTransactionDeliveryType().subscribe((type) => {
-        expect(type).toBe(OpfQuickBuyDeliveryType.SHIPPING);
-        done();
-      });
+        expect(type).toBe(OpfQuickBuyDeliveryType.SHIPPING);      });
     });
 
-    it('should return pickup when cart has no delivery items', (done) => {
+    it('should return pickup when cart has no delivery items', async () => {
       initCart({ guid: 'cart-guid', deliveryItemsQuantity: 0 } as Cart);
 
       service.getTransactionDeliveryType().subscribe((type) => {
-        expect(type).toBe(OpfQuickBuyDeliveryType.PICKUP);
-        done();
-      });
+        expect(type).toBe(OpfQuickBuyDeliveryType.PICKUP);      });
     });
 
-    it('should return delivery info from delivery type', (done) => {
+    it('should return delivery info from delivery type', async () => {
       initCart({ guid: 'cart-guid', deliveryItemsQuantity: 1 } as Cart);
 
       service.getTransactionDeliveryInfo().subscribe((info) => {
-        expect(info.type).toBe(OpfQuickBuyDeliveryType.SHIPPING);
-        done();
-      });
+        expect(info.type).toBe(OpfQuickBuyDeliveryType.SHIPPING);      });
     });
   });
 
   describe('checkStableCart', () => {
-    it('should return true when cart is stable', (done) => {
+    it('should return true when cart is stable', async () => {
       initCart();
 
       service.checkStableCart().subscribe((isStable) => {
-        expect(isStable).toBe(true);
-        done();
-      });
+        expect(isStable).toBe(true);      });
     });
   });
 
@@ -181,72 +149,62 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
       initCart();
     });
 
-    it('should return supported delivery modes', (done) => {
+    it('should return supported delivery modes', async () => {
       const modes = [{ code: 'standard', name: 'Standard' }];
-      cartConnector.getSupportedDeliveryModes.and.returnValue(of(modes));
+      cartConnector.getSupportedDeliveryModes.mockReturnValue(of(modes));
 
       service.getSupportedDeliveryModes().subscribe((result) => {
         expect(result).toEqual(modes);
         expect(cartConnector.getSupportedDeliveryModes).toHaveBeenCalledWith(
           'anonymous',
           'cart-guid'
-        );
-        done();
-      });
+        );      });
     });
 
-    it('should set delivery address and reload cart', (done) => {
+    it('should set delivery address and reload cart', async () => {
       const address = { firstName: 'John' };
       mockReloadCart();
-      cartConnector.createDeliveryAddress.and.returnValue(
+      cartConnector.createDeliveryAddress.mockReturnValue(
         of({ id: 'addr-1', ...address })
       );
 
       service.setDeliveryAddress(address).subscribe((addressId) => {
         expect(addressId).toBe('addr-1');
-        expect(service['reloadCartAndWait']).toHaveBeenCalled();
-        done();
-      });
+        expect(service['reloadCartAndWait']).toHaveBeenCalled();      });
     });
 
-    it('should set billing address and reload cart', (done) => {
+    it('should set billing address and reload cart', async () => {
       const address = { firstName: 'John' };
       mockReloadCart();
-      cartConnector.setBillingAddress.and.returnValue(of({}));
+      cartConnector.setBillingAddress.mockReturnValue(of({}));
 
       service.setBillingAddress(address).subscribe((result) => {
-        expect(result).toBe(true);
-        done();
-      });
+        expect(result).toBe(true);      });
     });
 
-    it('should set delivery mode and return selected mode', (done) => {
+    it('should set delivery mode and return selected mode', async () => {
       const mode = { code: 'standard', name: 'Standard' };
       mockReloadCart();
-      cartConnector.setDeliveryMode.and.returnValue(of({}));
-      cartConnector.getSelectedDeliveryMode.and.returnValue(of(mode));
+      cartConnector.setDeliveryMode.mockReturnValue(of({}));
+      cartConnector.getSelectedDeliveryMode.mockReturnValue(of(mode));
 
       service.setDeliveryMode('standard').subscribe((selectedMode) => {
-        expect(selectedMode).toEqual(mode);
-        done();
-      });
+        expect(selectedMode).toEqual(mode);      });
     });
 
-    it('should return selected delivery mode', (done) => {
+    it('should return selected delivery mode', async () => {
       const mode = { code: 'standard', name: 'Standard' };
-      cartConnector.getSelectedDeliveryMode.and.returnValue(of(mode));
+      cartConnector.getSelectedDeliveryMode.mockReturnValue(of(mode));
 
       service.getSelectedDeliveryMode().subscribe((selectedMode) => {
-        expect(selectedMode).toEqual(mode);
-        done();
-      });
+        expect(selectedMode).toEqual(mode);      });
     });
   });
 
   describe('createCartGuestUser', () => {
-    it('should create guest user and reload cart', (done) => {
+    it('should create guest user and reload cart', async () => {
       initCart();
-      cartGuestUserFacade.createCartGuestUser.and.returnValue(of({}));
+      cartGuestUserFacade.createCartGuestUser.mockReturnValue(of({}));
 
       service.createCartGuestUser().subscribe((result) => {
         expect(result).toBe(true);
@@ -254,46 +212,41 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
           'anonymous',
           'cart-guid'
         );
-        expect(multiCartFacade.reloadCart).toHaveBeenCalledWith('cart-guid');
-        done();
-      });
+        expect(multiCartFacade.reloadCart).toHaveBeenCalledWith('cart-guid');      });
     });
   });
 
   describe('prepareTransactionCart', () => {
-    it('should create cart, handle guest user and return current cart', (done) => {
+    it('should create cart, handle guest user and return current cart',
+async () => {
       const cart = { guid: 'new-guid' } as Cart;
-      spyOn(service, 'createSingleProductCart').and.returnValue(of(cart));
-      spyOn(service, 'handleCartGuestUser').and.returnValue(of(true));
-      spyOn(service, 'getCurrentCart').and.returnValue(of(cart));
+      vi.spyOn(service, 'createSingleProductCart').mockReturnValue(of(cart));
+      vi.spyOn(service, 'handleCartGuestUser').mockReturnValue(of(true));
+      vi.spyOn(service, 'getCurrentCart').mockReturnValue(of(cart));
 
       service.prepareTransactionCart().subscribe((result) => {
         expect(result).toBe(cart);
         expect(service.createSingleProductCart).toHaveBeenCalled();
         expect(service.handleCartGuestUser).toHaveBeenCalled();
-        expect(service.getCurrentCart).toHaveBeenCalled();
-        done();
-      });
+        expect(service.getCurrentCart).toHaveBeenCalled();      });
     });
   });
 
   describe('handleCartGuestUser', () => {
-    it('should return true when cart is not initialized', (done) => {
+    it('should return true when cart is not initialized', async () => {
       service.handleCartGuestUser().subscribe((result) => {
-        expect(result).toBe(true);
-        done();
-      });
+        expect(result).toBe(true);      });
     });
 
-    it('should create guest user for anonymous non-guest cart', (done) => {
+    it('should create guest user for anonymous non-guest cart', async () => {
       service['cartId'] = 'cart-guid';
       service['userId'] = 'anonymous';
-      authService.isUserLoggedIn.and.returnValue(of(false));
-      activeCartFacade.isGuestCart.and.returnValue(of(false));
-      multiCartFacade.getCart.and.returnValue(
+      authService.isUserLoggedIn.mockReturnValue(of(false));
+      activeCartFacade.isGuestCart.mockReturnValue(of(false));
+      multiCartFacade.getCart.mockReturnValue(
         of({ guid: 'cart-guid' } as Cart)
       );
-      cartGuestUserFacade.createCartGuestUser.and.returnValue(of({}));
+      cartGuestUserFacade.createCartGuestUser.mockReturnValue(of({}));
 
       service.handleCartGuestUser().subscribe((result) => {
         expect(result).toBe(true);
@@ -301,9 +254,7 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
           'anonymous',
           'cart-guid'
         );
-        expect(multiCartFacade.reloadCart).toHaveBeenCalledWith('cart-guid');
-        done();
-      });
+        expect(multiCartFacade.reloadCart).toHaveBeenCalledWith('cart-guid');      });
     });
   });
 
@@ -311,14 +262,14 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
     beforeEach(() => {
       service['cartId'] = 'cart-guid';
       service['userId'] = 'anonymous';
-      multiCartFacade.getCart.and.returnValue(
+      multiCartFacade.getCart.mockReturnValue(
         of({ guid: 'cart-guid' } as Cart)
       );
     });
 
-    it('should update email for guest cart', (done) => {
-      activeCartFacade.isGuestCart.and.returnValue(of(true));
-      cartGuestUserFacade.updateCartGuestUser.and.returnValue(of({}));
+    it('should update email for guest cart', async () => {
+      activeCartFacade.isGuestCart.mockReturnValue(of(true));
+      cartGuestUserFacade.updateCartGuestUser.mockReturnValue(of({}));
 
       service
         .updateCartGuestUserEmail('guest@example.com')
@@ -328,13 +279,11 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
             'anonymous',
             'cart-guid',
             { email: 'guest@example.com' }
-          );
-          done();
-        });
+          );        });
     });
 
-    it('should return false when cart is not a guest cart', (done) => {
-      activeCartFacade.isGuestCart.and.returnValue(of(false));
+    it('should return false when cart is not a guest cart', async () => {
+      activeCartFacade.isGuestCart.mockReturnValue(of(false));
 
       service
         .updateCartGuestUserEmail('guest@example.com')
@@ -342,9 +291,7 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
           expect(result).toBe(false);
           expect(
             cartGuestUserFacade.updateCartGuestUser
-          ).not.toHaveBeenCalled();
-          done();
-        });
+          ).not.toHaveBeenCalled();        });
     });
   });
 
@@ -381,23 +328,23 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
   });
 
   describe('createSingleProductCart', () => {
-    it('should skip previously created cart and add entry to the new cart', (done) => {
+    it('should skip previously created cart and add entry to the new cart', async () => {
       service['cartId'] = 'old-guid';
-      routingService.getRouterState.and.returnValue(
+      routingService.getRouterState.mockReturnValue(
         of({ state: { params: { productCode: 'p1' } } } as any)
       );
-      singleProductCartOptions.getSingleProductCartOptions.and.returnValue(
+      singleProductCartOptions.getSingleProductCartOptions.mockReturnValue(
         of({ quantity: 3 })
       );
-      userIdService.takeUserId.and.returnValue(of('anonymous'));
-      multiCartFacade.createCart.and.returnValue(
+      userIdService.takeUserId.mockReturnValue(of('anonymous'));
+      multiCartFacade.createCart.mockReturnValue(
         concat(
           of({ guid: 'old-guid' } as Cart),
           of({ guid: 'new-guid' } as Cart)
         )
       );
-      multiCartFacade.isStable.and.returnValue(of(true));
-      multiCartFacade.getCart.and.returnValue(
+      multiCartFacade.isStable.mockReturnValue(of(true));
+      multiCartFacade.getCart.mockReturnValue(
         of({
           guid: 'new-guid',
           entries: [{ product: { code: 'p1' }, quantity: 3 }],
@@ -412,9 +359,7 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
           3,
           undefined
         );
-        expect(cart.guid).toBe('new-guid');
-        done();
-      });
+        expect(cart.guid).toBe('new-guid');      });
     });
   });
 });

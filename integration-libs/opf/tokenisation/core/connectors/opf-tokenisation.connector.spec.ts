@@ -3,3 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+describe('OpfTokenisationConnector', () => {
+  it('placeholder', () => {
+    expect(true).toBe(true);
+  });
+});

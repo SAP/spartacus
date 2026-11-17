@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { flush, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   CheckoutBillingAddressFacade,
@@ -111,7 +111,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   });
 
   it('should load countries', () => {
-    spyOn(mockUserPaymentService, 'loadBillingCountries');
+    vi.spyOn(mockUserPaymentService, 'loadBillingCountries');
 
     service.getCountries().subscribe(() => {
       expect(mockUserPaymentService.loadBillingCountries).toHaveBeenCalled();
@@ -127,10 +127,10 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   });
 
   it('should put delivery address as payment address', () => {
-    spyOn(mockDeliveryAddressFacade, 'getDeliveryAddressState').and.returnValue(
+    vi.spyOn(mockDeliveryAddressFacade, 'getDeliveryAddressState').mockReturnValue(
       of({ loading: false, data: mockDeliveryAddress, error: false })
     );
-    spyOn(mockBillingAddressFacade, 'setBillingAddress').and.returnValue(
+    vi.spyOn(mockBillingAddressFacade, 'setBillingAddress').mockReturnValue(
       of(true)
     );
 
@@ -140,10 +140,10 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   });
 
   it('should put delivery address as payment address and handle error', () => {
-    spyOn(mockDeliveryAddressFacade, 'getDeliveryAddressState').and.returnValue(
+    vi.spyOn(mockDeliveryAddressFacade, 'getDeliveryAddressState').mockReturnValue(
       of({ loading: false, data: mockDeliveryAddress, error: false })
     );
-    spyOn(mockBillingAddressFacade, 'setBillingAddress').and.returnValue(
+    vi.spyOn(mockBillingAddressFacade, 'setBillingAddress').mockReturnValue(
       throwError({})
     );
 
@@ -152,19 +152,17 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     expect(service.isSameAsDeliveryValue).toBeFalsy();
   });
 
-  it('should get delivery address', (done) => {
-    spyOn(mockDeliveryAddressFacade, 'getDeliveryAddressState').and.returnValue(
+  it('should get delivery address', async () => {
+    vi.spyOn(mockDeliveryAddressFacade, 'getDeliveryAddressState').mockReturnValue(
       of({ loading: false, data: mockDeliveryAddress, error: false })
     );
 
     service['getDeliveryAddress']().subscribe((result) => {
-      expect(result).toEqual(mockDeliveryAddress);
-      done();
-    });
+      expect(result).toEqual(mockDeliveryAddress);    });
   });
 
-  it('should not get delivery address when loading', fakeAsync(() => {
-    spyOn(mockDeliveryAddressFacade, 'getDeliveryAddressState').and.returnValue(
+  it('should not get delivery address when loading', async () => {
+    vi.spyOn(mockDeliveryAddressFacade, 'getDeliveryAddressState').mockReturnValue(
       of({ loading: true, data: undefined, error: false })
     );
 
@@ -172,14 +170,13 @@ describe('OpfCheckoutBillingAddressFormService', () => {
 
     service['getDeliveryAddress']().subscribe((result) => {
       address = result;
-      flush();
     });
 
     expect(address).toBeUndefined();
-  }));
+  });
 
   it('should get payment address', () => {
-    spyOn(mockActiveCartFacade, 'getActive').and.returnValue(
+    vi.spyOn(mockActiveCartFacade, 'getActive').mockReturnValue(
       of({ sapBillingAddress: mockPaymentAddress } as Cart)
     );
 
@@ -189,7 +186,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   });
 
   it('should not get payment address when not present', () => {
-    spyOn(mockActiveCartFacade, 'getActive').and.returnValue(
+    vi.spyOn(mockActiveCartFacade, 'getActive').mockReturnValue(
       of({ sapBillingAddress: undefined } as Cart)
     );
 
@@ -200,27 +197,25 @@ describe('OpfCheckoutBillingAddressFormService', () => {
 
   it('should set isSameAsDelivery value', () => {
     const newValue = false;
-    spyOn(service['_$isSameAsDelivery'], 'next');
+    vi.spyOn(service['_$isSameAsDelivery'], 'next');
 
     service.setIsSameAsDeliveryValue(newValue);
 
     expect(service['_$isSameAsDelivery'].next).toHaveBeenCalledWith(newValue);
   });
 
-  it('should not get payment address when it is not present', (done) => {
-    spyOn(mockActiveCartFacade, 'getActive').and.returnValue(
+  it('should not get payment address when it is not present', async () => {
+    vi.spyOn(mockActiveCartFacade, 'getActive').mockReturnValue(
       of({ sapBillingAddress: undefined } as Cart)
     );
 
     service['getPaymentAddress']().subscribe((result) => {
-      expect(result).toBeUndefined();
-      done();
-    });
+      expect(result).toBeUndefined();    });
   });
 
   it('should set isSameAsDelivery value to false', () => {
     const newValue = false;
-    spyOn(service['_$isSameAsDelivery'], 'next');
+    vi.spyOn(service['_$isSameAsDelivery'], 'next');
 
     service.setIsSameAsDeliveryValue(newValue);
 
@@ -231,7 +226,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     const mockError: HttpErrorModel = {
       message: 'Error setting billing address',
     };
-    spyOn(mockBillingAddressFacade, 'setBillingAddress').and.returnValue(
+    vi.spyOn(mockBillingAddressFacade, 'setBillingAddress').mockReturnValue(
       throwError(mockError)
     );
 
@@ -243,11 +238,11 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   });
 
   it('should set billing address to delivery and check same as delivery when sapBillingAddress is missing', () => {
-    spyOn(service as any, 'getDeliveryAddress').and.returnValue(
+    vi.spyOn(service as any, 'getDeliveryAddress').mockReturnValue(
       of(mockDeliveryAddress)
     );
-    spyOn(service as any, 'getPaymentAddress').and.returnValue(of(undefined));
-    spyOn(service, 'setBillingAddress').and.callThrough();
+    vi.spyOn(service as any, 'getPaymentAddress').mockReturnValue(of(undefined));
+    vi.spyOn(service, 'setBillingAddress');
 
     service.getAddresses();
 
@@ -256,7 +251,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     expect(service.isSameAsDeliveryValue).toBeTruthy();
   });
 
-  it('should use submitted address when cart does not return sapBillingAddress', (done) => {
+  it('should use submitted address when cart does not return sapBillingAddress', async () => {
     const submittedAddress: Address = {
       firstName: 'Custom',
       lastName: 'Billing',
@@ -264,20 +259,18 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     };
     const expectedAddress = service['getAddressWithId'](submittedAddress);
 
-    spyOn(mockActiveCartFacade, 'getActive').and.returnValue(
+    vi.spyOn(mockActiveCartFacade, 'getActive').mockReturnValue(
       of({ sapBillingAddress: undefined } as Cart)
     );
 
     service.setBillingAddress(submittedAddress).subscribe((result) => {
       expect(result).toEqual(expectedAddress);
-      expect(service['_$billingAddressSub'].value).toEqual(expectedAddress);
-      done();
-    });
+      expect(service['_$billingAddressSub'].value).toEqual(expectedAddress);    });
   });
 
   it('should return EMPTY when address is undefined', () => {
-    spyOn(service as any, 'getDeliveryAddress').and.returnValue(of(undefined));
-    spyOn(service, 'setBillingAddress').and.callThrough();
+    vi.spyOn(service as any, 'getDeliveryAddress').mockReturnValue(of(undefined));
+    vi.spyOn(service, 'setBillingAddress');
 
     service.setDeliveryAddressAsPaymentAddress();
 
@@ -285,7 +278,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   });
 
   it('should return an observable from pickupNoDefaultAddress$', () => {
-    spyOn(mockPickupNoDefaultAddress$, 'asObservable').and.callThrough();
+    vi.spyOn(mockPickupNoDefaultAddress$, 'asObservable');
 
     (service as any)._noDefaultAddressFoundForPickupMode$ =
       mockPickupNoDefaultAddress$;
@@ -296,54 +289,49 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     expect(result).toEqual(mockPickupNoDefaultAddress$.asObservable());
   });
 
-  it('should handle no default address by setting isSameAsDelivery=false and emitting pickupNoDefaultAddress$', (done) => {
-    spyOn(service, 'setIsSameAsDeliveryValue').and.callThrough();
+  it('should handle no default address by setting isSameAsDelivery=false and emitting pickupNoDefaultAddress$', async () => {
+    vi.spyOn(service, 'setIsSameAsDeliveryValue');
     service.pickupNoDefaultAddress$.subscribe(() => {
-      expect(service.setIsSameAsDeliveryValue).toHaveBeenCalledWith(false);
-      done();
-    });
+      expect(service.setIsSameAsDeliveryValue).toHaveBeenCalledWith(false);    });
     (service as any).handleNoDefaultAddress();
   });
 
-  it('should handle error when setting default billing address fails', fakeAsync(() => {
-    spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
-    spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(
+  it('should handle error when setting default billing address fails', async () => {
+    vi.spyOn(mockActiveCartFacade, 'hasDeliveryItems').mockReturnValue(of(false));
+    vi.spyOn(mockUserAddressService, 'getDefaultAddress').mockReturnValue(
       of(mockDeliveryAddress)
     );
-    spyOn(service, 'setBillingAddress').and.returnValue(
+    vi.spyOn(service, 'setBillingAddress').mockReturnValue(
       throwError(() => new Error('Error'))
     );
 
     service.setDefaultBillingAddress();
-    flush();
 
     expect(service['_$isLoadingAddress'].value).toBeFalsy();
-  }));
+  });
 
-  it('should handle the absence of a default address by invoking handleNoDefaultAddress', fakeAsync(() => {
-    spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
-    spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(
+  it('should handle the absence of a default address by invoking handleNoDefaultAddress', async () => {
+    vi.spyOn(mockActiveCartFacade, 'hasDeliveryItems').mockReturnValue(of(false));
+    vi.spyOn(mockUserAddressService, 'getDefaultAddress').mockReturnValue(
       of(undefined)
     );
-    const handleNoDefaultAddressSpy = spyOn(
+    const handleNoDefaultAddressSpy = vi.spyOn(
       service as any,
       'handleNoDefaultAddress'
-    ).and.callThrough();
+    );
 
     service.setDefaultBillingAddress();
-    flush();
 
     expect(handleNoDefaultAddressSpy).toHaveBeenCalled();
-  }));
-  it('should handle errors when loading the default address', fakeAsync(() => {
-    spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
-    spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(
+  });
+  it('should handle errors when loading the default address', async () => {
+    vi.spyOn(mockActiveCartFacade, 'hasDeliveryItems').mockReturnValue(of(false));
+    vi.spyOn(mockUserAddressService, 'getDefaultAddress').mockReturnValue(
       throwError(() => new Error('Error loading default address'))
     );
 
     service.setDefaultBillingAddress();
-    flush();
 
     expect(service['_$isLoadingAddress'].value).toBeFalsy();
-  }));
+  });
 });

@@ -8,16 +8,17 @@ import {
 } from '@spartacus/punchout/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { vi } from 'vitest';
 import { PunchoutButtonsComponent } from './punchout-buttons.component';
 
 class MockPunchoutUiRestrictionService
   implements Partial<PunchoutUiRestrictionService>
 {
-  isPunchoutSessionActive = jasmine.createSpy().and.returnValue(of(true));
+  isPunchoutSessionActive = vi.fn().mockReturnValue(of(true));
 }
 
 class MockPunchoutFacade implements Partial<PunchoutFacade> {
-  submitRequisition = jasmine.createSpy();
+  submitRequisition = vi.fn();
 }
 
 describe('PunchoutButtonsComponent', () => {

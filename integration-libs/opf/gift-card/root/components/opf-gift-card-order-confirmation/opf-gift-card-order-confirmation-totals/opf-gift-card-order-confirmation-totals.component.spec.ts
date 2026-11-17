@@ -6,6 +6,7 @@
 
 import { BaseSiteService, TranslationService } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { OpfGiftCardOrderConfirmationTotalsComponent } from './opf-gift-card-order-confirmation-totals.component';
@@ -21,19 +22,16 @@ class MockTranslationService {
 describe('OpfGiftCardOrderConfirmationTotalsComponent', () => {
   let component: OpfGiftCardOrderConfirmationTotalsComponent;
   let fixture: ComponentFixture<OpfGiftCardOrderConfirmationTotalsComponent>;
-  let mockOrderFacade: jasmine.SpyObj<OrderFacade>;
-  let mockStore: jasmine.SpyObj<Store>;
+  let mockOrderFacade: any;
+  let mockStore: any;
 
   beforeEach(async () => {
-    mockOrderFacade = jasmine.createSpyObj('OrderFacade', [
-      'getOrderDetails',
-      'clearPlacedOrder',
-    ]);
+    mockOrderFacade = { getOrderDetails: vi.fn(), clearPlacedOrder: vi.fn() };
 
-    mockStore = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-    mockStore.pipe.and.returnValue(of({}));
+    mockStore = { pipe: vi.fn(), select: vi.fn(), dispatch: vi.fn() };
+    mockStore.pipe.mockReturnValue(of({}));
 
-    mockOrderFacade.getOrderDetails.and.returnValue(
+    mockOrderFacade.getOrderDetails.mockReturnValue(
       of({
         code: 'test-order-123',
         status: 'COMPLETE',
@@ -65,16 +63,14 @@ describe('OpfGiftCardOrderConfirmationTotalsComponent', () => {
     expect(component['orderFacade']).toBe(mockOrderFacade);
   });
 
-  it('should initialize order$ observable with order details', (done) => {
+  it('should initialize order$ observable with order details', async () => {
     fixture.detectChanges();
 
     component.order$.subscribe((order) => {
       expect(order).toEqual({
         code: 'test-order-123',
         status: 'COMPLETE',
-      });
-      done();
-    });
+      });    });
   });
 
   it('should call getOrderDetails on orderFacade during initialization', () => {

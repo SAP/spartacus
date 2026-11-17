@@ -10,6 +10,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { PunchoutFacade } from '../facade';
 import { PunchOutLevel, PunchOutOperation, PunchoutSession } from '../model';
 import { PunchoutAuthHttpHeaderService } from './punchout-auth-http-header.service';
@@ -78,8 +79,8 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
-  setRedirectUrl = jasmine.createSpy('setRedirectUrl');
+  saveCurrentNavigationUrl = vi.fn();
+  setRedirectUrl = vi.fn();
 }
 
 class MockPunchoutFacade implements Partial<PunchoutFacade> {
@@ -126,13 +127,13 @@ describe('PunchoutAuthHttpHeaderService', () => {
   });
 
   it('should handleExpiredRefreshToken call super coreLogout when not Punchout Session page', async () => {
-    spyOn(authService, 'coreLogout').and.callThrough();
-    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
-    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+    vi.spyOn(authService, 'coreLogout');
+    vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       false
     );
-    spyOn(punchoutStoreService, 'getPunchoutSessionId').and.returnValue('');
-    spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
+    vi.spyOn(punchoutStoreService, 'getPunchoutSessionId').mockReturnValue('');
+    vi.spyOn(punchoutfacade, 'endPunchoutSession');
 
     service.handleExpiredRefreshToken();
     await Promise.resolve();
@@ -142,13 +143,13 @@ describe('PunchoutAuthHttpHeaderService', () => {
   });
 
   it('should handleExpiredRefreshToken silently logout when Punchout Session page', async () => {
-    spyOn(authService, 'coreLogout').and.callThrough();
-    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+    vi.spyOn(authService, 'coreLogout');
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       true
     );
-    spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(true);
-    spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
-    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(true);
+    vi.spyOn(punchoutfacade, 'endPunchoutSession');
+    vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
 
     service.handleExpiredRefreshToken();
     await Promise.resolve();
@@ -159,13 +160,13 @@ describe('PunchoutAuthHttpHeaderService', () => {
   });
 
   it('should handleExpiredRefreshToken endPunchoutSession when Punchout Session already exists', async () => {
-    spyOn(authService, 'coreLogout').and.callThrough();
-    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+    vi.spyOn(authService, 'coreLogout');
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       false
     );
-    spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(true);
-    spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
-    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(true);
+    vi.spyOn(punchoutfacade, 'endPunchoutSession');
+    vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
 
     service.handleExpiredRefreshToken();
     await Promise.resolve();

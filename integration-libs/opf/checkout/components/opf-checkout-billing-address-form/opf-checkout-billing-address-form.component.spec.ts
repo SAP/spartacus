@@ -100,9 +100,9 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
 
   it('should initialize countries and addresses on ngOnInit', () => {
     const countries = [{ id: '1', name: 'Country 1' }];
-    spyOn(service, 'getCountries').and.returnValue(of(countries));
-    spyOn(service, 'getAddresses');
-    spyOn(service, 'setDefaultBillingAddress');
+    vi.spyOn(service, 'getCountries').mockReturnValue(of(countries));
+    vi.spyOn(service, 'getAddresses');
+    vi.spyOn(service, 'setDefaultBillingAddress');
 
     component.ngOnInit();
 
@@ -113,7 +113,7 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
   });
 
   it('should cancel and hide form on cancelAndHideForm', () => {
-    const setIsSameAsDeliveryValueSpy = spyOn(
+    const setIsSameAsDeliveryValueSpy = vi.spyOn(
       service,
       'setIsSameAsDeliveryValue'
     );
@@ -134,11 +134,11 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
 
   it('should toggle same as delivery address on toggleSameAsDeliveryAddress', () => {
     const mockEvent = { target: { checked: true } as unknown } as Event;
-    const setDeliveryAddressAsPaymentAddress = spyOn(
+    const setDeliveryAddressAsPaymentAddress = vi.spyOn(
       service,
       'setDeliveryAddressAsPaymentAddress'
     );
-    const setIsSameAsDeliveryValueSpy = spyOn(
+    const setIsSameAsDeliveryValueSpy = vi.spyOn(
       service,
       'setIsSameAsDeliveryValue'
     );
@@ -161,8 +161,8 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
   });
 
   it('should reset flags and call setBillingAddress on onSubmitAddress', () => {
-    spyOn(service, 'setBillingAddress').and.returnValue(of());
-    const setIsSameAsDeliveryValueSpy = spyOn(
+    vi.spyOn(service, 'setBillingAddress').mockReturnValue(of());
+    const setIsSameAsDeliveryValueSpy = vi.spyOn(
       service,
       'setIsSameAsDeliveryValue'
     );
@@ -177,7 +177,7 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
   });
 
   it('should not call setBillingAddress if address is falsy on onSubmitAddress', () => {
-    spyOn(service, 'setBillingAddress');
+    vi.spyOn(service, 'setBillingAddress');
     const address = null as unknown as Address;
 
     component.onSubmitAddress(address);

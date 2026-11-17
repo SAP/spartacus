@@ -17,6 +17,7 @@ import {
 import { OrderFacade } from '@spartacus/order/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { ActivatedRoute } from '@angular/router';
+import { vi } from 'vitest';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
@@ -47,57 +48,38 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
   };
 
   const mockDocument = {
-    querySelectorAll: jasmine.createSpy('querySelectorAll').and.returnValue([]),
+    querySelectorAll: vi.fn().mockReturnValue([]),
     activeElement: null,
   };
 
   beforeEach(async () => {
-    const userPaymentService = jasmine.createSpyObj('UserPaymentService', [
-      'loadPaymentMethods',
-      'getPaymentMethods',
-      'getPaymentMethodsLoading',
-    ]);
-    userPaymentService.getPaymentMethods.and.returnValue(of([]));
-    userPaymentService.getPaymentMethodsLoading.and.returnValue(of(false));
+    const userPaymentService = { loadPaymentMethods: vi.fn(), getPaymentMethods: vi.fn(), getPaymentMethodsLoading: vi.fn() };
+    userPaymentService.getPaymentMethods.mockReturnValue(of([]));
+    userPaymentService.getPaymentMethodsLoading.mockReturnValue(of(false));
 
-    const translationService = jasmine.createSpyObj('TranslationService', [
-      'translate',
-    ]);
-    translationService.translate.and.returnValue(of('translated'));
+    const translationService = { translate: vi.fn() };
+    translationService.translate.mockReturnValue(of('translated'));
 
-    const checkoutPaymentFacade = jasmine.createSpyObj(
-      'CheckoutPaymentFacade',
-      ['getPaymentDetailsState', 'setPaymentDetails', 'createPaymentDetails']
-    );
-    checkoutPaymentFacade.getPaymentDetailsState.and.returnValue(
+    const checkoutPaymentFacade = { getPaymentDetailsState: vi.fn(), setPaymentDetails: vi.fn(), createPaymentDetails: vi.fn() };
+    checkoutPaymentFacade.getPaymentDetailsState.mockReturnValue(
       of({ loading: false, error: false as const, data: undefined })
     );
-    checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
-    checkoutPaymentFacade.createPaymentDetails.and.returnValue(of(undefined));
+    checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
+    checkoutPaymentFacade.createPaymentDetails.mockReturnValue(of(undefined));
 
-    const checkoutDeliveryAddressFacade = jasmine.createSpyObj(
-      'CheckoutDeliveryAddressFacade',
-      ['getDeliveryAddressState']
-    );
-    checkoutDeliveryAddressFacade.getDeliveryAddressState.and.returnValue(
+    const checkoutDeliveryAddressFacade = { getDeliveryAddressState: vi.fn() };
+    checkoutDeliveryAddressFacade.getDeliveryAddressState.mockReturnValue(
       of({ loading: false, error: false as const, data: undefined })
     );
 
-    const orderFacade = jasmine.createSpyObj('OrderFacade', [
-      'placePaymentAuthorizedOrder',
-    ]);
-    orderFacade.placePaymentAuthorizedOrder.and.returnValue(of(null));
+    const orderFacade = { placePaymentAuthorizedOrder: vi.fn() };
+    orderFacade.placePaymentAuthorizedOrder.mockReturnValue(of(null));
 
-    const activeCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
-      'isGuestCart',
-    ]);
-    activeCartFacade.isGuestCart.and.returnValue(of(false));
+    const activeCartFacade = { isGuestCart: vi.fn() };
+    activeCartFacade.isGuestCart.mockReturnValue(of(false));
 
-    const opfMetadataStoreService = jasmine.createSpyObj(
-      'OpfMetadataStoreService',
-      ['getOpfMetadataState']
-    );
-    opfMetadataStoreService.getOpfMetadataState.and.returnValue(
+    const opfMetadataStoreService = { getOpfMetadataState: vi.fn() };
+    opfMetadataStoreService.getOpfMetadataState.mockReturnValue(
       of(mockMetadataState)
     );
 
@@ -108,12 +90,12 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
         { provide: UserPaymentService, useValue: userPaymentService },
         {
           provide: RoutingService,
-          useValue: jasmine.createSpyObj('RoutingService', ['go']),
+          useValue: { go: vi.fn() },
         },
         { provide: TranslationService, useValue: translationService },
         {
           provide: GlobalMessageService,
-          useValue: jasmine.createSpyObj('GlobalMessageService', ['add']),
+          useValue: { add: vi.fn() },
         },
         { provide: CheckoutPaymentFacade, useValue: checkoutPaymentFacade },
         {
@@ -123,16 +105,14 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
         { provide: OrderFacade, useValue: orderFacade },
         {
           provide: CheckoutStepService,
-          useValue: jasmine.createSpyObj('CheckoutStepService', ['back']),
+          useValue: { back: vi.fn() },
         },
         { provide: ActiveCartFacade, useValue: activeCartFacade },
         { provide: OpfMetadataStoreService, useValue: opfMetadataStoreService },
         {
           provide: OpfTokenisationSavedCardsService,
           useValue: {
-            ...jasmine.createSpyObj('OpfTokenisationSavedCardsService', [
-              'markCardAsSelected',
-            ]),
+            ...{ markCardAsSelected: vi.fn() },
             selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(
               undefined
             ),
@@ -140,9 +120,7 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
         },
         {
           provide: SelectFocusUtility,
-          useValue: jasmine.createSpyObj('SelectFocusUtility', [
-            'findFirstFocusable',
-          ]),
+          useValue: { findFirstFocusable: vi.fn() },
         },
         { provide: WindowRef, useValue: { document: mockDocument } },
         { provide: ActivatedRoute, useValue: {} },
@@ -165,7 +143,7 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
 
   describe('ngOnInit', () => {
     it('should initialize service on ngOnInit', () => {
-      const spy = spyOn(componentService, 'initialize').and.callThrough();
+      const spy = vi.spyOn(componentService, 'initialize');
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
     });
@@ -181,13 +159,13 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
 
   describe('selectPaymentMethod', () => {
     it('should call service selectPaymentMethod with payment details', () => {
-      const spy = spyOn(componentService, 'selectPaymentMethod');
+      const spy = vi.spyOn(componentService, 'selectPaymentMethod');
       component.selectPaymentMethod(mockPaymentDetails);
       expect(spy).toHaveBeenCalledWith(mockPaymentDetails);
     });
 
     it('should call selectPaymentMethod when different payment method is provided', () => {
-      const spy = spyOn(componentService, 'selectPaymentMethod');
+      const spy = vi.spyOn(componentService, 'selectPaymentMethod');
       const paymentMethod: PaymentDetails = {
         id: 'payment-2',
         cardNumber: '****5678',
@@ -199,7 +177,7 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
 
   describe('setPaymentDetails', () => {
     it('should call service setPaymentDetails with payment details only', () => {
-      const spy = spyOn(componentService, 'setPaymentDetails');
+      const spy = vi.spyOn(componentService, 'setPaymentDetails');
       component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
       expect(spy).toHaveBeenCalledWith({
         paymentDetails: mockPaymentDetails,
@@ -208,7 +186,7 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
     });
 
     it('should call service setPaymentDetails with payment details and billing address', () => {
-      const spy = spyOn(componentService, 'setPaymentDetails');
+      const spy = vi.spyOn(componentService, 'setPaymentDetails');
       const billingAddress = {
         firstName: 'John',
         lastName: 'Doe',
@@ -227,13 +205,13 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
 
   describe('next', () => {
     it('should call service next method', () => {
-      const spy = spyOn(componentService, 'next');
+      const spy = vi.spyOn(componentService, 'next');
       component.next();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call next only once per invocation', () => {
-      const spy = spyOn(componentService, 'next');
+      const spy = vi.spyOn(componentService, 'next');
       component.next();
       component.next();
       expect(spy).toHaveBeenCalledTimes(2);
@@ -242,13 +220,13 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
 
   describe('back', () => {
     it('should call service back method', () => {
-      const spy = spyOn(componentService, 'back');
+      const spy = vi.spyOn(componentService, 'back');
       component.back();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call back only once per invocation', () => {
-      const spy = spyOn(componentService, 'back');
+      const spy = vi.spyOn(componentService, 'back');
       component.back();
       component.back();
       expect(spy).toHaveBeenCalledTimes(2);
@@ -257,13 +235,13 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should destroy service on ngOnDestroy', () => {
-      const spy = spyOn(componentService, 'destroy');
+      const spy = vi.spyOn(componentService, 'destroy');
       component.ngOnDestroy();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call destroy only once', () => {
-      const spy = spyOn(componentService, 'destroy');
+      const spy = vi.spyOn(componentService, 'destroy');
       component.ngOnDestroy();
       expect(spy).toHaveBeenCalledTimes(1);
     });
@@ -271,14 +249,14 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
 
   describe('Component Lifecycle', () => {
     it('should initialize service before assigning observables', () => {
-      const spy = spyOn(componentService, 'initialize').and.callThrough();
+      const spy = vi.spyOn(componentService, 'initialize');
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
       expect(component.cards$).toBeDefined();
     });
 
     it('should clean up on destroy', () => {
-      const spy = spyOn(componentService, 'destroy');
+      const spy = vi.spyOn(componentService, 'destroy');
       fixture.detectChanges();
       fixture.destroy();
       expect(spy).toHaveBeenCalled();

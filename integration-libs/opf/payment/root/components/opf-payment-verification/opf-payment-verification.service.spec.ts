@@ -6,6 +6,7 @@
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { vi } from 'vitest';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -34,30 +35,22 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
 
 describe('OpfPaymentVerificationService', () => {
   let service: OpfPaymentVerificationService;
-  let orderFacadeMock: jasmine.SpyObj<OrderFacade>;
-  let routingServiceMock: jasmine.SpyObj<RoutingService>;
-  let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
-  let opfPaymentServiceMock: jasmine.SpyObj<OpfPaymentFacade>;
-  let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
-  let opfResourceLoaderServiceMock: jasmine.SpyObj<OpfResourceLoaderService>;
-  let globalFunctionsServiceMock: jasmine.SpyObj<OpfGlobalFunctionsFacade>;
-  let windowRefMock: jasmine.SpyObj<WindowRef>;
-  let sessionStorageMock: jasmine.SpyObj<Storage>;
-  let routingConfigServiceMock: jasmine.SpyObj<RoutingConfigService>;
+  let orderFacadeMock: any;
+  let routingServiceMock: any;
+  let globalMessageServiceMock: any;
+  let opfPaymentServiceMock: any;
+  let opfMetadataStoreServiceMock: any;
+  let opfResourceLoaderServiceMock: any;
+  let globalFunctionsServiceMock: any;
+  let windowRefMock: any;
+  let sessionStorageMock: any;
+  let routingConfigServiceMock: any;
 
   beforeEach(() => {
-    orderFacadeMock = jasmine.createSpyObj('OrderFacade', [
-      'placePaymentAuthorizedOrder',
-    ]);
-    routingServiceMock = jasmine.createSpyObj('RoutingService', ['go']);
-    globalMessageServiceMock = jasmine.createSpyObj('GlobalMessageService', [
-      'add',
-    ]);
-    opfPaymentServiceMock = jasmine.createSpyObj('OpfPaymentFacade', [
-      'verifyPayment',
-      'getAfterRedirectScripts',
-      'submitCompletePayment',
-    ]);
+    orderFacadeMock = { placePaymentAuthorizedOrder: vi.fn() };
+    routingServiceMock = { go: vi.fn() };
+    globalMessageServiceMock = { add: vi.fn() };
+    opfPaymentServiceMock = { verifyPayment: vi.fn(), getAfterRedirectScripts: vi.fn(), submitCompletePayment: vi.fn() };
     const defaultMetadata: OpfMetadataModel = {
       termsAndConditionsChecked: false,
       selectedPaymentOptionId: undefined,
@@ -67,38 +60,23 @@ describe('OpfPaymentVerificationService', () => {
       is3DSRedirect: false,
       opf3DSRedirectReturnPath: undefined,
     };
-    opfMetadataStoreServiceMock = jasmine.createSpyObj(
-      'OpfMetadataStoreService',
-      ['getOpfMetadataState', 'updateOpfMetadata', 'clearOpfMetadata']
-    );
+    opfMetadataStoreServiceMock = { getOpfMetadataState: vi.fn(), updateOpfMetadata: vi.fn(), clearOpfMetadata: vi.fn() };
     opfMetadataStoreServiceMock.opfMetadataState =
       new BehaviorSubject<OpfMetadataModel>(defaultMetadata);
-    opfResourceLoaderServiceMock = jasmine.createSpyObj(
-      'OpfResourceLoaderService',
-      ['clearAllResources', 'executeScriptFromHtml', 'loadResources']
-    );
+    opfResourceLoaderServiceMock = { clearAllResources: vi.fn(), executeScriptFromHtml: vi.fn(), loadResources: vi.fn() };
 
-    globalFunctionsServiceMock = jasmine.createSpyObj(
-      'OpfGlobalFunctionsFacade',
-      ['registerGlobalFunctions', 'unregisterGlobalFunctions']
-    );
-    sessionStorageMock = jasmine.createSpyObj('sessionStorage', [
-      'getItem',
-      'setItem',
-      'removeItem',
-    ]);
-    windowRefMock = jasmine.createSpyObj('WindowRef', ['isBrowser'], {
+    globalFunctionsServiceMock = { registerGlobalFunctions: vi.fn(), unregisterGlobalFunctions: vi.fn() };
+    sessionStorageMock = { getItem: vi.fn(), setItem: vi.fn(), removeItem: vi.fn() };
+    windowRefMock = {
+      isBrowser: vi.fn().mockReturnValue(true),
       location: {
         search: '',
         pathname: '/opf/payment-verification-redirect/result',
       },
       sessionStorage: sessionStorageMock,
-    });
-    windowRefMock.isBrowser.and.returnValue(true);
-    routingConfigServiceMock = jasmine.createSpyObj('RoutingConfigService', [
-      'getRouteConfig',
-    ]);
-    routingConfigServiceMock.getRouteConfig.and.callFake(
+    } as any;
+    routingConfigServiceMock = { getRouteConfig: vi.fn() };
+    routingConfigServiceMock.getRouteConfig.mockImplementation(
       (routeName: string) => {
         if (routeName === 'paymentVerificationResult') {
           return { paths: ['opf/payment-verification-redirect/result'] };
@@ -159,7 +137,7 @@ describe('OpfPaymentVerificationService', () => {
     });
 
     it('should capture query string when route path is customized in config', () => {
-      routingConfigServiceMock.getRouteConfig.and.callFake(
+      routingConfigServiceMock.getRouteConfig.mockImplementation(
         (routeName: string) => {
           if (routeName === 'paymentVerificationResult') {
             return { paths: ['custom-payment-verify/result'] };
@@ -224,14 +202,14 @@ describe('OpfPaymentVerificationService', () => {
     } as unknown as ActivatedRoute;
 
     beforeEach(() => {
-      windowRefMock.isBrowser.and.returnValue(true);
+      windowRefMock.isBrowser.mockReturnValue(true);
       windowRefMock.location.search = `?opfPaymentSessionId=${mockPaymentSessionId}&keyMock=valueMock`;
-      sessionStorageMock.getItem.and.returnValue(
+      sessionStorageMock.getItem.mockReturnValue(
         `?opfPaymentSessionId=${mockPaymentSessionId}&keyMock=valueMock`
       );
     });
 
-    it('should verify the result URL and return the response map without opfPaymentSessionId if the route cxRoute is "paymentVerificationResult"', (done) => {
+    it('should verify the result URL and return the response map without opfPaymentSessionId if the route cxRoute is "paymentVerificationResult"', async () => {
       service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
         expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
         expect(result.paramsMap).toEqual([
@@ -239,16 +217,14 @@ describe('OpfPaymentVerificationService', () => {
             key: 'keyMock',
             value: 'valueMock',
           },
-        ]);
-        done();
-      });
+        ]);      });
     });
 
-    it('should preserve payment redirect params from captured query string', (done) => {
+    it('should preserve payment redirect params from captured query string', async () => {
       const originalSearch =
         '?opfPaymentSessionId=sessionId&score_rcode=1&score_ip_state=sc&decision_rcode=1&req_bill_to_address_state=CA&auth_code=831000';
 
-      sessionStorageMock.getItem.and.returnValue(originalSearch);
+      sessionStorageMock.getItem.mockReturnValue(originalSearch);
       windowRefMock.location.search =
         '?opfPaymentSessionId=sessionId&score_r&decision_rcode=1&score_ip_&req_bill_to_address_state=CA&auth_code=831000';
 
@@ -259,12 +235,10 @@ describe('OpfPaymentVerificationService', () => {
           { key: 'decision_rcode', value: '1' },
           { key: 'req_bill_to_address_state', value: 'CA' },
           { key: 'auth_code', value: '831000' },
-        ]);
-        done();
-      });
+        ]);      });
     });
 
-    it('should return paymentSessionId from local storage if not in params', (done) => {
+    it('should return paymentSessionId from local storage if not in params', async () => {
       const mockPaymentSessionId = 'sessionIdFromLocalStorage';
       const mockRouteSnapshot: ActivatedRoute = {
         routeConfig: {
@@ -279,7 +253,7 @@ describe('OpfPaymentVerificationService', () => {
       } as unknown as ActivatedRoute;
 
       windowRefMock.location.search = `?${OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG}=true`;
-      sessionStorageMock.getItem.and.returnValue(
+      sessionStorageMock.getItem.mockReturnValue(
         `?${OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG}=true`
       );
 
@@ -291,7 +265,7 @@ describe('OpfPaymentVerificationService', () => {
         isTermsAndConditionsAlertClosed: false,
       };
 
-      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+      opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
         of(mockOpfMetadata)
       );
 
@@ -303,12 +277,10 @@ describe('OpfPaymentVerificationService', () => {
             value: 'true',
           },
         ]);
-        expect(result.afterRedirectScriptFlag).toEqual('true');
-        done();
-      });
+        expect(result.afterRedirectScriptFlag).toEqual('true');      });
     });
 
-    it('should throw an error if the route cxRoute is not "paymentVerificationResult"', (done) => {
+    it('should throw an error if the route cxRoute is not "paymentVerificationResult"', async () => {
       const mockOtherRouteSnapshot: ActivatedRoute = {
         routeConfig: {
           data: { cxRoute: 'otherRoute' },
@@ -319,14 +291,12 @@ describe('OpfPaymentVerificationService', () => {
       service.verifyResultUrl(mockOtherRouteSnapshot).subscribe(
         () => {},
         (error) => {
-          expect(error.message).toEqual('opfPayment.errors.cancelPayment');
-          done();
-        }
+          expect(error.message).toEqual('opfPayment.errors.cancelPayment');        }
       );
     });
 
-    it('should throw an error if queryParams is undefined and paymentSessionId not in local storage', (done) => {
-      windowRefMock.isBrowser.and.returnValue(false);
+    it('should throw an error if queryParams is undefined and paymentSessionId not in local storage', async () => {
+      windowRefMock.isBrowser.mockReturnValue(false);
 
       const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: true,
@@ -336,7 +306,7 @@ describe('OpfPaymentVerificationService', () => {
         isTermsAndConditionsAlertClosed: false,
       };
 
-      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+      opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
         of(mockOpfMetadata)
       );
 
@@ -353,15 +323,13 @@ describe('OpfPaymentVerificationService', () => {
         () => {},
         (error) => {
           expect(error).toBeDefined();
-          expect(error.message).toEqual('opfPayment.errors.proceedPayment');
-          done();
-        }
+          expect(error.message).toEqual('opfPayment.errors.proceedPayment');        }
       );
     });
 
-    it('should throw an error if paymentSessionId is missing in url params and local storage', (done) => {
+    it('should throw an error if paymentSessionId is missing in url params and local storage', async () => {
       windowRefMock.location.search = '?mockKey=testKey';
-      sessionStorageMock.getItem.and.returnValue('?mockKey=testKey');
+      sessionStorageMock.getItem.mockReturnValue('?mockKey=testKey');
 
       const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: true,
@@ -371,7 +339,7 @@ describe('OpfPaymentVerificationService', () => {
         isTermsAndConditionsAlertClosed: false,
       };
 
-      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+      opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
         of(mockOpfMetadata)
       );
 
@@ -388,27 +356,25 @@ describe('OpfPaymentVerificationService', () => {
         () => {},
         (error) => {
           expect(error).toBeDefined();
-          expect(error.message).toEqual('opfPayment.errors.proceedPayment');
-          done();
-        }
+          expect(error.message).toEqual('opfPayment.errors.proceedPayment');        }
       );
     });
   });
 
   describe('verifyPayment', () => {
-    it('should call opfCheckoutService.verifyPayment and return true if the result is AUTHORIZED', (done) => {
+    it('should call opfCheckoutService.verifyPayment and return true if the result is AUTHORIZED', async () => {
       const mockPaymentSessionId = 'sessionId';
       const mockResponseMap = [{ key: 'key', value: 'value' }];
       const mockVerificationResponse: OpfPaymentVerificationResponse = {
         result: OpfPaymentVerificationResult.AUTHORIZED,
       };
 
-      opfPaymentServiceMock.verifyPayment.and.returnValue(
+      opfPaymentServiceMock.verifyPayment.mockReturnValue(
         of(mockVerificationResponse)
       );
 
       const mockPlaceOrderResult: Order = { guid: 'placeOrderResult' };
-      orderFacadeMock.placePaymentAuthorizedOrder.and.returnValue(
+      orderFacadeMock.placePaymentAuthorizedOrder.mockReturnValue(
         of(mockPlaceOrderResult)
       );
 
@@ -419,12 +385,10 @@ describe('OpfPaymentVerificationService', () => {
           expect(opfPaymentServiceMock.verifyPayment).toHaveBeenCalledWith(
             mockPaymentSessionId,
             { responseMap: mockResponseMap }
-          );
-          done();
-        });
+          );        });
     });
 
-    it('should call opfCheckoutService.verifyPayment and return true if the result is DELAYED', (done) => {
+    it('should call opfCheckoutService.verifyPayment and return true if the result is DELAYED', async () => {
       const mockPaymentSessionId = 'sessionId';
       const mockResponseMap = [{ key: 'key', value: 'value' }];
       const mockVerificationResponse: OpfPaymentVerificationResponse = {
@@ -432,11 +396,11 @@ describe('OpfPaymentVerificationService', () => {
       };
 
       const mockPlaceOrderResult: Order = { guid: 'placeOrderResult' };
-      orderFacadeMock.placePaymentAuthorizedOrder.and.returnValue(
+      orderFacadeMock.placePaymentAuthorizedOrder.mockReturnValue(
         of(mockPlaceOrderResult)
       );
 
-      opfPaymentServiceMock.verifyPayment.and.returnValue(
+      opfPaymentServiceMock.verifyPayment.mockReturnValue(
         of(mockVerificationResponse)
       );
 
@@ -447,19 +411,17 @@ describe('OpfPaymentVerificationService', () => {
           expect(opfPaymentServiceMock.verifyPayment).toHaveBeenCalledWith(
             mockPaymentSessionId,
             { responseMap: mockResponseMap }
-          );
-          done();
-        });
+          );        });
     });
 
-    it('should throw an error with "opfPayment.errors.cancelPayment" if the result is CANCELLED', (done) => {
+    it('should throw an error with "opfPayment.errors.cancelPayment" if the result is CANCELLED', async () => {
       const mockPaymentSessionId = 'sessionId';
       const mockResponseMap = [{ key: 'key', value: 'value' }];
       const mockVerificationResponse: OpfPaymentVerificationResponse = {
         result: OpfPaymentVerificationResult.CANCELLED,
       };
 
-      opfPaymentServiceMock.verifyPayment.and.returnValue(
+      opfPaymentServiceMock.verifyPayment.mockReturnValue(
         of(mockVerificationResponse)
       );
 
@@ -468,20 +430,19 @@ describe('OpfPaymentVerificationService', () => {
         .subscribe(
           () => {},
           (error) => {
-            expect(error.message).toEqual('opfPayment.errors.cancelPayment');
-            done();
-          }
+            expect(error.message).toEqual('opfPayment.errors.cancelPayment');          }
         );
     });
 
-    it('should throw an error with opfDefaultPaymentError if the result is not AUTHORIZED, DELAYED, or CANCELLED', (done) => {
+    it('should throw an error with opfDefaultPaymentError if the result is not AUTHORIZED, DELAYED, or CANCELLED',
+async () => {
       const mockPaymentSessionId = 'sessionId';
       const mockResponseMap = [{ key: 'key', value: 'value' }];
       const mockVerificationResponse: OpfPaymentVerificationResponse = {
         result: 'ERROR',
       };
 
-      opfPaymentServiceMock.verifyPayment.and.returnValue(
+      opfPaymentServiceMock.verifyPayment.mockReturnValue(
         of(mockVerificationResponse)
       );
 
@@ -490,9 +451,7 @@ describe('OpfPaymentVerificationService', () => {
         .subscribe(
           () => {},
           (error) => {
-            expect(error).toEqual(service.opfDefaultPaymentError);
-            done();
-          }
+            expect(error).toEqual(service.opfDefaultPaymentError);          }
         );
     });
   });
@@ -504,16 +463,16 @@ describe('OpfPaymentVerificationService', () => {
       html: 'html test',
     };
 
-    it('should call renderAfterRedirectScripts', (done) => {
-      opfPaymentServiceMock.getAfterRedirectScripts.and.returnValue(
+    it('should call renderAfterRedirectScripts', async () => {
+      opfPaymentServiceMock.getAfterRedirectScripts.mockReturnValue(
         of({ afterRedirectScript: dynamicScriptMock })
       );
-      globalFunctionsServiceMock.registerGlobalFunctions.and.returnValue();
-      opfResourceLoaderServiceMock.loadResources.and.returnValue(
+      globalFunctionsServiceMock.registerGlobalFunctions.mockReturnValue();
+      opfResourceLoaderServiceMock.loadResources.mockReturnValue(
         Promise.resolve()
       );
 
-      opfResourceLoaderServiceMock.executeScriptFromHtml.and.returnValue();
+      opfResourceLoaderServiceMock.executeScriptFromHtml.mockReturnValue();
 
       service
         .runHostedFieldsPattern(
@@ -526,21 +485,19 @@ describe('OpfPaymentVerificationService', () => {
           expect(
             opfResourceLoaderServiceMock.executeScriptFromHtml
           ).toHaveBeenCalled();
-          expect(result).toBeTruthy();
-          done();
-        });
+          expect(result).toBeTruthy();        });
     });
 
-    it('should not executeScriptFromHtml when no html snippet but still resolve true', (done) => {
-      opfPaymentServiceMock.getAfterRedirectScripts.and.returnValue(
+    it('should not executeScriptFromHtml when no html snippet but still resolve true', async () => {
+      opfPaymentServiceMock.getAfterRedirectScripts.mockReturnValue(
         of({ afterRedirectScript: { dynamicScriptMock, html: undefined } })
       );
-      globalFunctionsServiceMock.registerGlobalFunctions.and.returnValue();
-      opfResourceLoaderServiceMock.loadResources.and.returnValue(
+      globalFunctionsServiceMock.registerGlobalFunctions.mockReturnValue();
+      opfResourceLoaderServiceMock.loadResources.mockReturnValue(
         Promise.resolve()
       );
 
-      opfResourceLoaderServiceMock.executeScriptFromHtml.and.returnValue();
+      opfResourceLoaderServiceMock.executeScriptFromHtml.mockReturnValue();
 
       service
         .runHostedFieldsPattern(
@@ -553,21 +510,19 @@ describe('OpfPaymentVerificationService', () => {
           expect(
             opfResourceLoaderServiceMock.executeScriptFromHtml
           ).not.toHaveBeenCalled();
-          expect(result).toBeTruthy();
-          done();
-        });
+          expect(result).toBeTruthy();        });
     });
 
-    it('should failed when loadProviderResources fails', (done) => {
-      opfPaymentServiceMock.getAfterRedirectScripts.and.returnValue(
+    it('should failed when loadProviderResources fails', async () => {
+      opfPaymentServiceMock.getAfterRedirectScripts.mockReturnValue(
         of({ afterRedirectScript: { dynamicScriptMock, html: undefined } })
       );
-      globalFunctionsServiceMock.registerGlobalFunctions.and.returnValue();
-      opfResourceLoaderServiceMock.loadResources.and.returnValue(
+      globalFunctionsServiceMock.registerGlobalFunctions.mockReturnValue();
+      opfResourceLoaderServiceMock.loadResources.mockReturnValue(
         Promise.reject()
       );
 
-      opfResourceLoaderServiceMock.executeScriptFromHtml.and.returnValue();
+      opfResourceLoaderServiceMock.executeScriptFromHtml.mockReturnValue();
 
       service
         .runHostedFieldsPattern(
@@ -580,17 +535,15 @@ describe('OpfPaymentVerificationService', () => {
           expect(
             opfResourceLoaderServiceMock.executeScriptFromHtml
           ).not.toHaveBeenCalled();
-          expect(result).toBeFalsy();
-          done();
-        });
+          expect(result).toBeFalsy();        });
     });
 
-    it('should throw error when missing afterRedirectScript property', (done) => {
-      opfPaymentServiceMock.getAfterRedirectScripts.and.returnValue(
+    it('should throw error when missing afterRedirectScript property', async () => {
+      opfPaymentServiceMock.getAfterRedirectScripts.mockReturnValue(
         of({ afterRedirectScript: undefined })
       );
-      globalFunctionsServiceMock.registerGlobalFunctions.and.returnValue();
-      spyOn<any>(service, 'renderAfterRedirectScripts').and.returnValue(
+      globalFunctionsServiceMock.registerGlobalFunctions.mockReturnValue();
+      vi.spyOn<any>(service, 'renderAfterRedirectScripts').mockReturnValue(
         Promise.resolve(true)
       );
 
@@ -604,22 +557,18 @@ describe('OpfPaymentVerificationService', () => {
           () => {},
           (error) => {
             expect(error).toBeDefined();
-            expect(error.message).toEqual('opfPayment.errors.proceedPayment');
-            done();
-          }
+            expect(error.message).toEqual('opfPayment.errors.proceedPayment');          }
         );
     });
   });
 
   describe('removeResourcesAndGlobalFunctions', () => {
-    it('should should call psp resource clearing service and remove global functions', (done) => {
+    it('should should call psp resource clearing service and remove global functions', async () => {
       service.removeResourcesAndGlobalFunctions();
       expect(
         globalFunctionsServiceMock.unregisterGlobalFunctions
       ).toHaveBeenCalled();
-      expect(opfResourceLoaderServiceMock.clearAllResources).toHaveBeenCalled();
-      done();
-    });
+      expect(opfResourceLoaderServiceMock.clearAllResources).toHaveBeenCalled();    });
   });
 
   describe('displayError', () => {
@@ -659,7 +608,7 @@ describe('OpfPaymentVerificationService', () => {
         isTermsAndConditionsAlertClosed: false,
       };
 
-      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+      opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
         of(mockOpfMetadata)
       );
 
@@ -681,7 +630,7 @@ describe('OpfPaymentVerificationService', () => {
         isTermsAndConditionsAlertClosed: false,
       };
 
-      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+      opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
         of(mockOpfMetadata)
       );
 
@@ -741,7 +690,7 @@ describe('OpfPaymentVerificationService', () => {
     });
 
     describe('verifyResultUrl with 3DS redirect', () => {
-      it('should use stored payment session ID when 3DS redirect is active', (done) => {
+      it('should use stored payment session ID when 3DS redirect is active', async () => {
         opfMetadataStoreServiceMock.opfMetadataState.next({
           ...opfMetadataStoreServiceMock.opfMetadataState.value,
           is3DSRedirect: true,
@@ -760,9 +709,7 @@ describe('OpfPaymentVerificationService', () => {
 
         service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
           expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
-          expect(result.is3DSRedirect).toBe(true);
-          done();
-        });
+          expect(result.is3DSRedirect).toBe(true);        });
       });
     });
   });

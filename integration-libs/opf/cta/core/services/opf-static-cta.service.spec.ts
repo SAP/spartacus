@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { WindowRef } from '@spartacus/core';
 import { OpfCtaScriptsLocation } from '@spartacus/opf/cta/root';
 import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
@@ -7,14 +8,12 @@ import { OpfStaticCtaService } from './opf-static-cta.service';
 
 describe('OpfStaticCtaService', () => {
   let service: OpfStaticCtaService;
-  let orderFacadeMock: jasmine.SpyObj<OrderFacade>;
-  let orderHistoryFacadeMock: jasmine.SpyObj<OrderHistoryFacade>;
+  let orderFacadeMock: any;
+  let orderHistoryFacadeMock: any;
 
   beforeEach(() => {
-    orderFacadeMock = jasmine.createSpyObj('OrderFacade', ['getOrderDetails']);
-    orderHistoryFacadeMock = jasmine.createSpyObj('OrderHistoryFacade', [
-      'getOrderDetails',
-    ]);
+    orderFacadeMock = { getOrderDetails: vi.fn() };
+    orderHistoryFacadeMock = { getOrderDetails: vi.fn() };
     TestBed.configureTestingModule({
       providers: [
         WindowRef,
@@ -24,15 +23,15 @@ describe('OpfStaticCtaService', () => {
       ],
     });
     service = TestBed.inject(OpfStaticCtaService);
-    orderHistoryFacadeMock.getOrderDetails.and.returnValue(of(mockOrder));
-    orderFacadeMock.getOrderDetails.and.returnValue(of(mockOrder));
+    orderHistoryFacadeMock.getOrderDetails.mockReturnValue(of(mockOrder));
+    orderFacadeMock.getOrderDetails.mockReturnValue(of(mockOrder));
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call OrderHistoryFacade for CTA on order history page', (done) => {
+  it('should call OrderHistoryFacade for CTA on order history page', async () => {
     service
       .fillCtaRequestforPagesWithOrder(
         OpfCtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE
@@ -40,12 +39,10 @@ describe('OpfStaticCtaService', () => {
       .subscribe((ctaScriptRequest) => {
         expect(ctaScriptRequest.cartId).toContain('mockPaymentInfoId');
         expect(orderHistoryFacadeMock.getOrderDetails).toHaveBeenCalled();
-        expect(orderFacadeMock.getOrderDetails).not.toHaveBeenCalled();
-        done();
-      });
+        expect(orderFacadeMock.getOrderDetails).not.toHaveBeenCalled();      });
   });
 
-  it('should call orderFacade for CTA on confirmation page', (done) => {
+  it('should call orderFacade for CTA on confirmation page', async () => {
     service
       .fillCtaRequestforPagesWithOrder(
         OpfCtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
@@ -53,13 +50,11 @@ describe('OpfStaticCtaService', () => {
       .subscribe((ctaScriptRequest) => {
         expect(ctaScriptRequest.cartId).toContain('mockPaymentInfoId');
         expect(orderHistoryFacadeMock.getOrderDetails).not.toHaveBeenCalled();
-        expect(orderFacadeMock.getOrderDetails).toHaveBeenCalled();
-        done();
-      });
+        expect(orderFacadeMock.getOrderDetails).toHaveBeenCalled();      });
   });
 
-  it('should throw error when no order Id', (done) => {
-    orderFacadeMock.getOrderDetails.and.returnValue(
+  it('should throw error when no order Id', async () => {
+    orderFacadeMock.getOrderDetails.mockReturnValue(
       of({ ...mockOrder, paymentInfo: undefined })
     );
     service
@@ -68,13 +63,9 @@ describe('OpfStaticCtaService', () => {
       )
       .subscribe({
         next: () => {
-          fail();
-          done();
-        },
+          fail();        },
         error: (error) => {
-          expect(error).toBeTruthy();
-          done();
-        },
+          expect(error).toBeTruthy();        },
       });
   });
 

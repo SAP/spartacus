@@ -25,6 +25,8 @@ import {
   PunchoutSession,
 } from '@spartacus/punchout/root';
 import { Observable, throwError } from 'rxjs';
+import { vi } from 'vitest';
+import { firstValueFrom } from 'rxjs';
 import { OccPunchoutAdapter } from './occ-punchout.adapter';
 
 const mockSid = 'mockSid';
@@ -48,18 +50,16 @@ const mockPunchoutRequisitionResponse: PunchoutRequisition = {
 describe('OccPunchoutAdapter', () => {
   let service: OccPunchoutAdapter;
   let httpMock: HttpTestingController;
-  let mockConverter: jasmine.SpyObj<ConverterService>;
-  let mockOccEndpointsService: jasmine.SpyObj<OccEndpointsService>;
+  let mockConverter: any;
+  let mockOccEndpointsService: any;
   let httpClient: HttpClient;
-  let mockLogger: jasmine.SpyObj<LoggerService>;
+  let mockLogger: any;
   let converter: ConverterService;
 
   beforeEach(() => {
-    mockConverter = jasmine.createSpyObj('ConverterService', ['pipeable']);
-    mockOccEndpointsService = jasmine.createSpyObj('OccEndpointsService', [
-      'buildUrl',
-    ]);
-    mockLogger = jasmine.createSpyObj('LoggerService', ['warn', 'error']);
+    mockConverter = { pipeable: vi.fn() };
+    mockOccEndpointsService = { buildUrl: vi.fn() };
+    mockLogger = { warn: vi.fn(), error: vi.fn() };
     TestBed.configureTestingModule({
       providers: [
         OccPunchoutAdapter,
@@ -74,7 +74,7 @@ describe('OccPunchoutAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     httpClient = TestBed.inject(HttpClient);
     converter = TestBed.inject(ConverterService);
-    mockConverter.pipeable.and.callFake(() => {
+    mockConverter.pipeable.mockImplementation(() => {
       return (source: Observable<any>) => source;
     });
   });
@@ -87,57 +87,46 @@ describe('OccPunchoutAdapter', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should getPunchoutSession successfully', (done) => {
-    mockOccEndpointsService.buildUrl.and.returnValue(
+  it('should getPunchoutSession successfully', async () => {
+    mockOccEndpointsService.buildUrl.mockReturnValue(
       `/punchout/sessions/${mockSid}`
     );
 
-    service.getPunchoutSession(mockSid).subscribe({
-      next: (result) => {
-        expect(result).toEqual(mockPunchoutSessionResponse);
-        done();
-      },
-    });
+    const resultPromise = firstValueFrom(service.getPunchoutSession(mockSid));
     const req = httpMock.expectOne(`/punchout/sessions/${mockSid}`);
     expect(req.request.method).toBe('GET');
     expect(converter.pipeable).toHaveBeenCalledWith(
       PUNCHOUT_SESSION_NORMALIZER
     );
     req.flush(mockPunchoutSessionResponse);
+    const result = await resultPromise;
+    expect(result).toEqual(mockPunchoutSessionResponse);
   });
 
-  it('should getPunchoutSessionRequisition successfully', (done) => {
-    mockOccEndpointsService.buildUrl.and.returnValue(
+  it('should getPunchoutSessionRequisition successfully', async () => {
+    mockOccEndpointsService.buildUrl.mockReturnValue(
       `/punchout/sessions/${mockSid}/requisition`
     );
 
-    service
-      .getPunchoutSessionRequisition(mockSid, discardCartEntries)
-      .subscribe({
-        next: (result) => {
-          expect(result).toEqual(mockPunchoutRequisitionResponse);
-          done();
-        },
-      });
+    const resultPromise = firstValueFrom(
+      service.getPunchoutSessionRequisition(mockSid, discardCartEntries)
+    );
     const req = httpMock.expectOne(`/punchout/sessions/${mockSid}/requisition`);
     expect(req.request.method).toBe('GET');
     expect(converter.pipeable).toHaveBeenCalledWith(
       PUNCHOUT_REQUISITION_NORMALIZER
     );
     req.flush(mockPunchoutRequisitionResponse);
+    const result = await resultPromise;
+    expect(result).toEqual(mockPunchoutRequisitionResponse);
   });
 
-  it('should getPunchoutSessionRequisition successfully with discardCartEntries true', (done) => {
-    mockOccEndpointsService.buildUrl.and.returnValue(
+  it('should getPunchoutSessionRequisition successfully with discardCartEntries true', async () => {
+    mockOccEndpointsService.buildUrl.mockReturnValue(
       `/punchout/sessions/${mockSid}/requisition`
     );
 
-    service.getPunchoutSessionRequisition(mockSid, true).subscribe({
-      next: (result) => {
-        expect(result).toEqual(mockPunchoutRequisitionResponse);
-        done();
-      },
-    });
+    const resultPromise = firstValueFrom(service.getPunchoutSessionRequisition(mockSid, true));
     const req = httpMock.expectOne(
       `/punchout/sessions/${mockSid}/requisition?discardCartEntries=true`
     );
@@ -146,38 +135,32 @@ describe('OccPunchoutAdapter', () => {
       PUNCHOUT_REQUISITION_NORMALIZER
     );
     req.flush(mockPunchoutRequisitionResponse);
+    const result = await resultPromise;
+    expect(result).toEqual(mockPunchoutRequisitionResponse);
   });
 
-  it('should getPunchoutSessionRequisition logs error when failing', (done) => {
-    mockOccEndpointsService.buildUrl.and.returnValue(
+  it('should getPunchoutSessionRequisition logs error when failing', async () => {
+    mockOccEndpointsService.buildUrl.mockReturnValue(
       `/punchout/sessions/${mockSid}/requisition`
     );
     const mockError = { status: 500, message: 'Server Error' };
     const result = tryNormalizeHttpError(mockError, mockLogger);
-    spyOn(httpClient, 'get').and.returnValue(throwError(() => mockError));
-    service
-      .getPunchoutSessionRequisition(mockSid, discardCartEntries)
-      .subscribe({
-        error: (error) => {
-          expect(error).toBe(result);
-          done();
-        },
-      });
+    vi.spyOn(httpClient, 'get').mockReturnValue(throwError(() => mockError));
+    await expect(
+      firstValueFrom(service.getPunchoutSessionRequisition(mockSid, discardCartEntries))
+    ).rejects.toBe(result);
   });
 
-  it('should getPunchoutSession logs error when failing', (done) => {
-    mockOccEndpointsService.buildUrl.and.returnValue(
+  it('should getPunchoutSession logs error when failing', async () => {
+    mockOccEndpointsService.buildUrl.mockReturnValue(
       `/punchout/sessions/${mockSid}`
     );
     const mockError = { status: 500, message: 'Server Error' };
 
     const result = tryNormalizeHttpError(mockError, mockLogger);
-    spyOn(httpClient, 'get').and.returnValue(throwError(() => mockError));
-    service.getPunchoutSession(mockSid).subscribe({
-      error: (error) => {
-        expect(error).toBe(result);
-        done();
-      },
-    });
+    vi.spyOn(httpClient, 'get').mockReturnValue(throwError(() => mockError));
+    await expect(
+      firstValueFrom(service.getPunchoutSession(mockSid))
+    ).rejects.toBe(result);
   });
 });

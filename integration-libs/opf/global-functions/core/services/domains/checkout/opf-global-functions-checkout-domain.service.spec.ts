@@ -11,6 +11,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
 import {
   ActiveCartFacade,
@@ -34,9 +35,8 @@ import { OpfGlobalFunctionsCheckoutDomainService } from './opf-global-functions-
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCartId = jasmine
-    .createSpy('getCurrentCartId')
-    .and.returnValue(of('test-cart-id'));
+  getCurrentCartId = vi.fn()
+    .mockReturnValue(of('test-cart-id'));
 }
 
 @Component({ template: '' })
@@ -69,9 +69,8 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine
-    .createSpy('getActiveCartId')
-    .and.returnValue(of('test-cart-id'));
+  getActiveCartId = vi.fn()
+    .mockReturnValue(of('test-cart-id'));
 }
 
 class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
@@ -86,15 +85,8 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
-  return jasmine.createSpyObj('OpfPaymentFacade', [
-    'submitPayment',
-    'submitCompletePayment',
-    'getActiveConfigurationsState',
-    'verifyPayment',
-    'initiatePayment',
-    'updatePaymentTransaction',
-  ]);
+function createOpfPaymentFacadeMock(): any {
+  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
 }
 
 class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
@@ -107,10 +99,9 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
     is3DSRedirect: false,
     opf3DSRedirectReturnPath: undefined,
   });
-  updateOpfMetadata = jasmine.createSpy('updateOpfMetadata');
-  getOpfMetadataState = jasmine
-    .createSpy('getOpfMetadataState')
-    .and.returnValue(this.opfMetadataState.asObservable());
+  updateOpfMetadata = vi.fn();
+  getOpfMetadataState = vi.fn()
+    .mockReturnValue(this.opfMetadataState.asObservable());
 }
 
 describe('OpfGlobalFunctionsCheckoutDomainService', () => {
@@ -132,9 +123,7 @@ describe('OpfGlobalFunctionsCheckoutDomainService', () => {
         { provide: OpfPaymentFacade, useValue: createOpfPaymentFacadeMock() },
         {
           provide: OpfPaymentEventsService,
-          useValue: jasmine.createSpyObj('OpfPaymentEventsService', [
-            'emitReinitiatePaymentEvent',
-          ]),
+          useValue: { emitReinitiatePaymentEvent: vi.fn() },
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -165,8 +154,8 @@ describe('OpfGlobalFunctionsCheckoutDomainService', () => {
   describe('throwPaymentError', () => {
     it('should open error dialog', () => {
       const dialog$: Observable<number> = of(1);
-      const dialogSubscribeSpy = spyOn(dialog$, 'subscribe');
-      spyOn(launchDialogService, 'openDialog').and.returnValue(dialog$);
+      const dialogSubscribeSpy = vi.spyOn(dialog$, 'subscribe');
+      vi.spyOn(launchDialogService, 'openDialog').mockReturnValue(dialog$);
 
       service.throwPaymentError(
         componentRef.instance.vcr,
@@ -180,8 +169,8 @@ describe('OpfGlobalFunctionsCheckoutDomainService', () => {
 
   describe('startLoadIndicator / stopLoadIndicator', () => {
     it('should launch and clear spinner', () => {
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
+      vi.spyOn(launchDialogService, 'launch').mockReturnValue(of(componentRef));
+      vi.spyOn(launchDialogService, 'clear');
 
       service.startLoadIndicator(componentRef.instance.vcr);
       expect(launchDialogService.launch).toHaveBeenCalled();
@@ -213,9 +202,9 @@ describe('OpfGlobalFunctionsCheckoutDomainService', () => {
       const opfMetadataStoreService = TestBed.inject(OpfMetadataStoreService);
       const routingService = TestBed.inject(RoutingService);
 
-      spyOn(routingService, 'getFullUrl').and.returnValue(mockReturnPath);
+      vi.spyOn(routingService, 'getFullUrl').mockReturnValue(mockReturnPath);
 
-      const locationHrefSpy = jasmine.createSpy('locationHrefSetter');
+      const locationHrefSpy = vi.fn();
       const mockLocation = {
         set href(url: string) {
           locationHrefSpy(url);
@@ -224,10 +213,10 @@ describe('OpfGlobalFunctionsCheckoutDomainService', () => {
           return '';
         },
       };
-      spyOnProperty(windowRef, 'nativeWindow', 'get').and.returnValue({
+      vi.spyOn(windowRef, 'nativeWindow', 'get').mockReturnValue({
         location: mockLocation,
       } as any);
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
 
       const result = await service.handle3DSRedirect(
         mockThreeDsURL,

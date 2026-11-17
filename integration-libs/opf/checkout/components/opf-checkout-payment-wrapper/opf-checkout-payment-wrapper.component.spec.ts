@@ -1,6 +1,7 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
+import { vi } from 'vitest';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CurrencyService, LanguageService } from '@spartacus/core';
 import { OpfConfig } from '@spartacus/opf/base/root';
@@ -21,12 +22,12 @@ import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper
 describe('OpfCheckoutPaymentWrapperComponent', () => {
   let component: OpfCheckoutPaymentWrapperComponent;
   let fixture: ComponentFixture<OpfCheckoutPaymentWrapperComponent>;
-  let mockService: jasmine.SpyObj<OpfCheckoutPaymentWrapperService>;
-  let mockGlobalFunctionsService: jasmine.SpyObj<OpfGlobalFunctionsService>;
-  let mockPaymentEventsService: jasmine.SpyObj<OpfPaymentEventsService>;
-  let mockLanguageService: jasmine.SpyObj<LanguageService>;
-  let mockCurrencyService: jasmine.SpyObj<CurrencyService>;
-  let mockActiveCartService: jasmine.SpyObj<ActiveCartFacade>;
+  let mockService: any;
+  let mockGlobalFunctionsService: any;
+  let mockPaymentEventsService: any;
+  let mockLanguageService: any;
+  let mockCurrencyService: any;
+  let mockActiveCartService: any;
   let mockOpfConfig: OpfConfig;
   let domSanitizer: DomSanitizer;
 
@@ -36,57 +37,40 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   let cartStableSubject: Subject<boolean>;
 
   beforeEach(() => {
-    mockService = jasmine.createSpyObj('OpfCheckoutPaymentWrapperService', [
-      'getRenderPaymentMethodEvent',
-      'initiatePayment',
-      'reloadPaymentMode',
-      'removePaymentProviderResources',
-    ]);
+    mockService = { getRenderPaymentMethodEvent: vi.fn(), initiatePayment: vi.fn(), reloadPaymentMode: vi.fn(), removePaymentProviderResources: vi.fn() };
 
     // Setup default return value for initiatePayment
-    mockService.initiatePayment.and.returnValue(
+    mockService.initiatePayment.mockReturnValue(
       of({
         paymentSessionId: 'test-session',
         pattern: OpfPaymentRenderPattern.HOSTED_FIELDS,
       })
     );
 
-    mockGlobalFunctionsService = jasmine.createSpyObj(
-      'OpfGlobalFunctionsFacade',
-      ['registerGlobalFunctions', 'unregisterGlobalFunctions']
-    );
+    mockGlobalFunctionsService = { registerGlobalFunctions: vi.fn(), unregisterGlobalFunctions: vi.fn() };
 
-    mockPaymentEventsService = jasmine.createSpyObj(
-      'OpfPaymentEventsService',
-      ['emitReinitiatePaymentEvent'],
-      {
-        reinitiatePaymentEvent$: of(123),
-      }
-    );
+    mockPaymentEventsService = {
+      emitReinitiatePaymentEvent: vi.fn(),
+      reinitiatePaymentEvent$: new Subject<number>(),
+    };
 
     // Create subjects for testing
     languageSubject = new Subject<string>();
     currencySubject = new Subject<string>();
     cartStableSubject = new Subject<boolean>();
 
-    mockLanguageService = jasmine.createSpyObj('LanguageService', [
-      'getActive',
-    ]);
-    mockCurrencyService = jasmine.createSpyObj('CurrencyService', [
-      'getActive',
-    ]);
-    mockActiveCartService = jasmine.createSpyObj('ActiveCartFacade', [
-      'isStable',
-    ]);
+    mockLanguageService = { getActive: vi.fn() };
+    mockCurrencyService = { getActive: vi.fn() };
+    mockActiveCartService = { isStable: vi.fn() };
 
     // Setup default return values
-    mockLanguageService.getActive.and.returnValue(
+    mockLanguageService.getActive.mockReturnValue(
       languageSubject.asObservable()
     );
-    mockCurrencyService.getActive.and.returnValue(
+    mockCurrencyService.getActive.mockReturnValue(
       currencySubject.asObservable()
     );
-    mockActiveCartService.isStable.and.returnValue(
+    mockActiveCartService.isStable.mockReturnValue(
       cartStableSubject.asObservable()
     );
 
@@ -159,7 +143,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
     cartStableSubject.next(true);
 
     // Clear previous calls
-    mockPaymentEventsService.emitReinitiatePaymentEvent.calls.reset();
+    mockPaymentEventsService.emitReinitiatePaymentEvent.mockClear();
 
     // Simulate language change
     languageSubject.next('de');
@@ -180,7 +164,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
     cartStableSubject.next(true);
 
     // Clear previous calls
-    mockPaymentEventsService.emitReinitiatePaymentEvent.calls.reset();
+    mockPaymentEventsService.emitReinitiatePaymentEvent.mockClear();
 
     // Simulate currency change
     currencySubject.next('EUR');
@@ -193,7 +177,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
 
   it('should bypassSecurityTrustHtml call bypassSecurityTrustHtml', () => {
     const html = '<script>console.log("script");</script>';
-    spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
     component.bypassSecurityTrustHtml(html);
 
     expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(html);
@@ -201,7 +185,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
 
   it('should bypassSecurityTrustResourceUrl call bypassSecurityTrustResourceUrl', () => {
     const url = 'https://sap.com';
-    spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').and.stub();
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').mockImplementation(() => {});
     component.bypassSecurityTrustResourceUrl(url);
 
     expect(domSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
@@ -215,7 +199,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       pattern: OpfPaymentRenderPattern.HOSTED_FIELDS,
     };
 
-    mockService.initiatePayment.and.returnValue(of(mockPaymentSessionData));
+    mockService.initiatePayment.mockReturnValue(of(mockPaymentSessionData));
 
     component.selectedPaymentId = 123;
     component.ngOnInit();
@@ -228,7 +212,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
     expect(mockService.initiatePayment).toHaveBeenCalledWith(123);
     expect(
       mockGlobalFunctionsService.registerGlobalFunctions
-    ).toHaveBeenCalledWith(jasmine.objectContaining(globalFunctionsInput));
+    ).toHaveBeenCalledWith(expect.objectContaining(globalFunctionsInput));
   });
 
   it('should call unregisterGlobalFunctions if paymentSessionData is not HOSTED_FIELDS', () => {
@@ -237,7 +221,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       pattern: OpfPaymentRenderPattern.FULL_PAGE,
     };
 
-    mockService.initiatePayment.and.returnValue(of(mockPaymentSessionData));
+    mockService.initiatePayment.mockReturnValue(of(mockPaymentSessionData));
 
     component.selectedPaymentId = 123;
     component.ngOnInit();
@@ -265,7 +249,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   });
 
   it('should handle undefined paymentSessionData', () => {
-    mockService.initiatePayment.and.returnValue(of(undefined));
+    mockService.initiatePayment.mockReturnValue(of(undefined));
 
     component.selectedPaymentId = 123;
     component.ngOnInit();
@@ -302,21 +286,21 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   });
 
   it('should handle bypassSecurityTrustHtml with null input', () => {
-    spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
     component.bypassSecurityTrustHtml(null as any);
 
     expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(null);
   });
 
   it('should handle bypassSecurityTrustHtml with empty string', () => {
-    spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
     component.bypassSecurityTrustHtml('');
 
     expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith('');
   });
 
   it('should handle bypassSecurityTrustResourceUrl with null input', () => {
-    spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').and.stub();
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').mockImplementation(() => {});
     component.bypassSecurityTrustResourceUrl(null as any);
 
     expect(domSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
@@ -325,7 +309,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   });
 
   it('should handle bypassSecurityTrustResourceUrl with empty string', () => {
-    spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').and.stub();
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').mockImplementation(() => {});
     component.bypassSecurityTrustResourceUrl('');
 
     expect(domSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
@@ -334,7 +318,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   });
 
   it('should handle ngOnInit with undefined selectedPaymentId', () => {
-    mockService.initiatePayment.and.returnValue(of(null));
+    mockService.initiatePayment.mockReturnValue(of(null));
     component.selectedPaymentId = undefined as any;
     component.ngOnInit();
 
@@ -342,7 +326,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   });
 
   it('should handle null paymentSessionData', () => {
-    mockService.initiatePayment.and.returnValue(of(null));
+    mockService.initiatePayment.mockReturnValue(of(null));
 
     component.selectedPaymentId = 123;
     component.ngOnInit();
@@ -354,7 +338,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   });
 
   it('should handle undefined paymentSessionData', () => {
-    mockService.initiatePayment.and.returnValue(of(undefined));
+    mockService.initiatePayment.mockReturnValue(of(undefined));
 
     component.selectedPaymentId = 123;
     component.ngOnInit();
@@ -366,10 +350,10 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   });
 
   describe('submitFormToIframe', () => {
-    let mockFormElement: jasmine.SpyObj<HTMLFormElement>;
+    let mockFormElement: any;
 
     beforeEach(() => {
-      mockFormElement = jasmine.createSpyObj('HTMLFormElement', ['submit']);
+      mockFormElement = { submit: vi.fn() };
       component.formElement = {
         nativeElement: mockFormElement,
       } as ElementRef<HTMLFormElement>;
@@ -454,7 +438,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       const renderPaymentMethodSubject = new Subject<any>();
       const selectedPaymentId = 123;
 
-      mockService.getRenderPaymentMethodEvent.and.returnValue(
+      mockService.getRenderPaymentMethodEvent.mockReturnValue(
         renderPaymentMethodSubject.asObservable()
       );
       mockOpfConfig.opf = {
@@ -488,7 +472,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       const renderPaymentMethodSubject = new Subject<any>();
       const selectedPaymentId = 458;
 
-      mockService.getRenderPaymentMethodEvent.and.returnValue(
+      mockService.getRenderPaymentMethodEvent.mockReturnValue(
         renderPaymentMethodSubject.asObservable()
       );
 

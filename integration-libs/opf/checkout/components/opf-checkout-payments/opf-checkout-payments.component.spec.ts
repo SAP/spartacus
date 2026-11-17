@@ -31,6 +31,7 @@ import {
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { vi } from 'vitest';
 import { PaginationComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
@@ -127,7 +128,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
   let component: OpfCheckoutPaymentsComponent;
   let fixture: ComponentFixture<OpfCheckoutPaymentsComponent>;
   let globalMessageService: GlobalMessageService;
-  let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
+  let opfMetadataStoreServiceMock: any;
   let el: DebugElement;
   let mockBillingAddressFormService: Partial<OpfCheckoutBillingAddressFormService>;
   let refreshActiveConfigurationsSubject: Subject<void>;
@@ -140,12 +141,9 @@ describe('OpfCheckoutPaymentsComponent', () => {
         refreshActiveConfigurationsSubject.asObservable(),
     };
 
-    opfMetadataStoreServiceMock = jasmine.createSpyObj(
-      'OpfMetadataStoreService',
-      ['getOpfMetadataState', 'updateOpfMetadata']
-    );
+    opfMetadataStoreServiceMock = { getOpfMetadataState: vi.fn(), updateOpfMetadata: vi.fn() };
 
-    opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+    opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
       of(mockOpfMetadata)
     );
     mockBillingAddressFormService = {
@@ -211,7 +209,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
   });
   beforeEach(() => {
     globalMessageService = TestBed.inject(GlobalMessageService);
-    spyOn(globalMessageService, 'add').and.callThrough();
+    vi.spyOn(globalMessageService, 'add');
   });
 
   it('should create', () => {
@@ -269,7 +267,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
   it('should preselect the default payment option', () => {
     const defaultSelectedPaymentOptionId = 1;
 
-    opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+    opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
       of({
         isPaymentInProgress: false,
         selectedPaymentOptionId: undefined,
@@ -359,50 +357,42 @@ describe('OpfCheckoutPaymentsComponent', () => {
     });
 
     it('should call emitOutletContext', () => {
-      spyOn<any>(component, 'emitOutletContext');
+      vi.spyOn<any>(component, 'emitOutletContext');
       component.onSavedCardsSelected();
       expect(component['emitOutletContext']).toHaveBeenCalled();
     });
   });
 
   describe('emitOutletContext', () => {
-    it('should emit outlet context with savedCardsSelected callback', (done) => {
+    it('should emit outlet context with savedCardsSelected callback', async () => {
       component.selectedPaymentId = 1;
       component['outletContext$'].subscribe((context) => {
         expect(context).toBeTruthy();
         expect(context.selectedPaymentId).toBe(1);
         expect(context.savedCardsId).toBe(SAVED_CARDS_ID);
-        expect(typeof context.savedCardsSelected).toBe('function');
-        done();
-      });
+        expect(typeof context.savedCardsSelected).toBe('function');      });
       component['emitOutletContext']();
     });
 
-    it('should include showSavedCardsList flag when saved cards are selected', (done) => {
+    it('should include showSavedCardsList flag when saved cards are selected', async () => {
       component.selectedPaymentId = SAVED_CARDS_ID;
       component['outletContext$'].subscribe((context) => {
-        expect(context.showSavedCardsList).toBe(true);
-        done();
-      });
+        expect(context.showSavedCardsList).toBe(true);      });
       component['emitOutletContext']();
     });
 
-    it('should exclude showSavedCardsList when other payment is selected', (done) => {
+    it('should exclude showSavedCardsList when other payment is selected', async () => {
       component.selectedPaymentId = 1;
       component['outletContext$'].subscribe((context) => {
-        expect(context.showSavedCardsList).toBe(false);
-        done();
-      });
+        expect(context.showSavedCardsList).toBe(false);      });
       component['emitOutletContext']();
     });
 
-    it('should include disabled flag based on explicit terms and conditions', (done) => {
+    it('should include disabled flag based on explicit terms and conditions', async () => {
       component.disabled = true;
       component.explicitTermsAndConditions = true;
       component['outletContext$'].subscribe((context) => {
-        expect(context.disabled).toBe(true);
-        done();
-      });
+        expect(context.disabled).toBe(true);      });
       component['emitOutletContext']();
     });
   });
@@ -414,7 +404,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
     });
 
     it('should call updateActiveConfiguration', () => {
-      spyOn(component, 'updateActiveConfiguration');
+      vi.spyOn(component, 'updateActiveConfiguration');
       component.pageChange(1);
       expect(component.updateActiveConfiguration).toHaveBeenCalled();
     });
@@ -423,7 +413,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
   describe('refreshActiveConfigurationsEvent$', () => {
     it('should call updateActiveConfiguration when event fires', () => {
       fixture.detectChanges();
-      spyOn(component, 'updateActiveConfiguration');
+      vi.spyOn(component, 'updateActiveConfiguration');
 
       refreshActiveConfigurationsSubject.next();
 
@@ -535,7 +525,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
     });
 
     it('should emit selectedPaymentProviderName when only one option available', () => {
-      spyOn(component.selectedPaymentProviderName, 'emit');
+      vi.spyOn(component.selectedPaymentProviderName, 'emit');
       component.isOnlyOnePaymentOptionAvailable = true;
       const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
         loading: false,
@@ -594,15 +584,13 @@ describe('OpfCheckoutPaymentsComponent', () => {
       translationService = TestBed.inject(TranslationService);
     });
 
-    it('should return default message when paymentId is undefined', (done) => {
+    it('should return default message when paymentId is undefined', async () => {
       component.getPaymentInfoMessage(undefined).subscribe((message) => {
-        expect(message).toBeTruthy();
-        done();
-      });
+        expect(message).toBeTruthy();      });
     });
 
-    it('should return mapped message when found in config', (done) => {
-      spyOn(translationService, 'translate').and.returnValue(
+    it('should return mapped message when found in config', async () => {
+      vi.spyOn(translationService, 'translate').mockReturnValue(
         of('Custom message')
       );
       const opfConfig = TestBed.inject(OpfConfig);
@@ -615,9 +603,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
       };
 
       component.getPaymentInfoMessage(1).subscribe((message) => {
-        expect(message).toBeTruthy();
-        done();
-      });
+        expect(message).toBeTruthy();      });
     });
   });
 
@@ -656,7 +642,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
 
   describe('preselectPaymentOption with terms and conditions', () => {
     it('should clear selection when terms not checked and explicit required', () => {
-      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+      opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
         of({
           isPaymentInProgress: false,
           selectedPaymentOptionId: 111,
@@ -675,7 +661,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
     });
 
     it('should preselect when terms not required', () => {
-      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+      opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
         of({
           isPaymentInProgress: false,
           selectedPaymentOptionId: 111,
@@ -695,14 +681,12 @@ describe('OpfCheckoutPaymentsComponent', () => {
   });
 
   describe('outlet context savedCardsSelected callback', () => {
-    it('should call onSavedCardsSelected when invoking savedCardsSelected callback', (done) => {
-      spyOn(component, 'onSavedCardsSelected');
+    it('should call onSavedCardsSelected when invoking savedCardsSelected callback', async () => {
+      vi.spyOn(component, 'onSavedCardsSelected').mockImplementation(() => {});
       component['outletContext$'].subscribe((context) => {
         if (typeof context.savedCardsSelected === 'function') {
           context.savedCardsSelected();
-          expect(component.onSavedCardsSelected).toHaveBeenCalled();
-          done();
-        }
+          expect(component.onSavedCardsSelected).toHaveBeenCalled();        }
       });
       component['emitOutletContext']();
     });

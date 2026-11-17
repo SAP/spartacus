@@ -4,6 +4,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -17,11 +18,11 @@ describe('OpfPaymentErrorHandlerService', () => {
   let service: OpfPaymentErrorHandlerService;
 
   const mockGlobalMessageService = {
-    add: jasmine.createSpy('add'),
+    add: vi.fn(),
   };
 
   const mockRoutingService = {
-    go: jasmine.createSpy('go'),
+    go: vi.fn(),
   };
 
   beforeEach(() => {
@@ -100,12 +101,12 @@ describe('OpfPaymentErrorHandlerService', () => {
         message: 'Test error message',
         customFields: mockCustomFields,
       };
-      const onFailureCallback = jasmine.createSpy('onFailureCallback');
+      const onFailureCallback = vi.fn();
 
       service.handlePaymentError(error, undefined, onFailureCallback);
 
       expect(onFailureCallback).toHaveBeenCalledWith(
-        jasmine.objectContaining({ customFields: mockCustomFields })
+        expect.objectContaining({ customFields: mockCustomFields })
       );
     });
   });

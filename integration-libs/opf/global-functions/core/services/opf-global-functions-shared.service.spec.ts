@@ -11,6 +11,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { WindowRef } from '@spartacus/core';
 import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
 import {
@@ -39,9 +40,8 @@ const mockPaymentMethod =
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCartId = jasmine
-    .createSpy('getCurrentCartId')
-    .and.returnValue(of('test-cart-id'));
+  getCurrentCartId = vi.fn()
+    .mockReturnValue(of('test-cart-id'));
 }
 
 class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
@@ -84,20 +84,13 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 
-function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
-  return jasmine.createSpyObj('OpfPaymentFacade', [
-    'submitPayment',
-    'submitCompletePayment',
-    'getActiveConfigurationsState',
-    'verifyPayment',
-    'initiatePayment',
-    'updatePaymentTransaction',
-  ]);
+function createOpfPaymentFacadeMock(): any {
+  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
 }
 
 describe('OpfGlobalFunctionsSharedService', () => {
   let service: OpfGlobalFunctionsSharedService;
-  let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
+  let opfPaymentFacadeMock: any;
   let launchDialogService: LaunchDialogService;
   let componentRef: ComponentRef<TestContainerComponent>;
 
@@ -176,9 +169,9 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
   describe('submit', () => {
     it('should call submitPayment on facade', async () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
-      spyOn(launchDialogService, 'clear').and.callThrough();
+      opfPaymentFacadeMock.submitPayment.mockReturnValue(of(true));
+      vi.spyOn(launchDialogService, 'launch').mockReturnValue(of(componentRef));
+      vi.spyOn(launchDialogService, 'clear');
 
       await service.submit(
         { ...submitOptions },
@@ -190,8 +183,8 @@ describe('OpfGlobalFunctionsSharedService', () => {
     });
 
     it('should pass submitCancel callback to facade', async () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      opfPaymentFacadeMock.submitPayment.mockReturnValue(of(true));
+      vi.spyOn(launchDialogService, 'launch').mockReturnValue(of(componentRef));
 
       const submitCancel = (): void => {};
       await service.submit(
@@ -200,12 +193,12 @@ describe('OpfGlobalFunctionsSharedService', () => {
       );
 
       const callArgs =
-        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+        opfPaymentFacadeMock.submitPayment.mock.lastCall![0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 
     it('should use paymentSessionId from options when provided', async () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitPayment.mockReturnValue(of(true));
 
       await service.submit(
         { ...submitOptions, paymentSessionId: 'options-session-id' },
@@ -214,12 +207,12 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
       const callArgs =
-        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+        opfPaymentFacadeMock.submitPayment.mock.lastCall![0];
       expect(callArgs.paymentSessionId).toBe('options-session-id');
     });
 
     it('should use default callbacks when none are provided', async () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitPayment.mockReturnValue(of(true));
 
       await service.submit(
         {
@@ -233,7 +226,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
     });
 
     it('should block concurrent submit calls while one is in progress (CXSPA-14589)', async () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitPayment.mockReturnValue(of(true));
 
       (service as any).isSubmitInProgress = true;
 
@@ -249,8 +242,8 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
   describe('submitComplete', () => {
     it('should call submitCompletePayment on facade', async () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      opfPaymentFacadeMock.submitCompletePayment.mockReturnValue(of(true));
+      vi.spyOn(launchDialogService, 'launch').mockReturnValue(of(componentRef));
 
       await service.submitComplete(
         { ...submitOptions },
@@ -262,7 +255,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
     });
 
     it('should pass submitCancel callback to facade', async () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitCompletePayment.mockReturnValue(of(true));
 
       const submitCancel = (): void => {};
       await service.submitComplete(
@@ -271,12 +264,12 @@ describe('OpfGlobalFunctionsSharedService', () => {
       );
 
       const callArgs =
-        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+        opfPaymentFacadeMock.submitCompletePayment.mock.lastCall![0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 
     it('should use default callbacks when none are provided', async () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitCompletePayment.mockReturnValue(of(true));
 
       await service.submitComplete(
         {
@@ -291,7 +284,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
   describe('loader spinner', () => {
     it('should start loader spinner via LaunchDialogService', () => {
-      const launchSpy = spyOn(launchDialogService, 'launch').and.returnValue(
+      const launchSpy = vi.spyOn(launchDialogService, 'launch').mockReturnValue(
         EMPTY
       );
 
@@ -304,8 +297,8 @@ describe('OpfGlobalFunctionsSharedService', () => {
     });
 
     it('should stop loader spinner by clearing and destroying component', () => {
-      const clearSpy = spyOn(launchDialogService, 'clear').and.callThrough();
-      const destroySpy = jasmine.createSpy('destroy');
+      const clearSpy = vi.spyOn(launchDialogService, 'clear');
+      const destroySpy = vi.fn();
       const overlayedSpinner$ = of({ destroy: destroySpy } as any);
 
       service.stopLoaderSpinner(overlayedSpinner$);
@@ -334,13 +327,13 @@ describe('OpfGlobalFunctionsSharedService', () => {
       const opfQuickBuyTransactionService = TestBed.inject(
         OpfQuickBuyTransactionService
       ) as unknown as MockOpfQuickBuyTransactionService;
-      opfQuickBuyTransactionService.getCurrentCartId.and.returnValue(
+      opfQuickBuyTransactionService.getCurrentCartId.mockReturnValue(
         of(undefined)
       );
 
-      await expectAsync(
+      await expect(
         service.updatePaymentTransaction({ paymentSessionId: 's' } as any)
-      ).toBeRejectedWithError(
+      ).rejects.toThrow(
         'Failed to update payment transaction: Cart ID is required. No active cart found.'
       );
     });

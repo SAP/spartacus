@@ -10,29 +10,27 @@ import {
   ElementRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { OpfGooglePayComponent } from './google-pay.component';
 import { OpfGooglePayService } from './google-pay.service';
 
 class MockOpfGooglePayService {
-  loadResources = jasmine.createSpy().and.returnValue(Promise.resolve());
-  initClient = jasmine.createSpy();
-  isReadyToPay = jasmine
-    .createSpy()
-    .and.returnValue(Promise.resolve({ result: true }));
-  renderPaymentButton = jasmine.createSpy();
+  loadResources = vi.fn().mockReturnValue(Promise.resolve());
+  initClient = vi.fn();
+  isReadyToPay = vi.fn()
+    .mockReturnValue(Promise.resolve({ result: true }));
+  renderPaymentButton = vi.fn();
 }
 
 describe('OpfGooglePayComponent', () => {
   let component: OpfGooglePayComponent;
   let fixture: ComponentFixture<OpfGooglePayComponent>;
   let mockOpfGooglePayService: MockOpfGooglePayService;
-  let mockChangeDetectorRef: jasmine.SpyObj<ChangeDetectorRef>;
+  let mockChangeDetectorRef: any;
 
   beforeEach(async () => {
-    mockChangeDetectorRef = jasmine.createSpyObj('ChangeDetectorRef', [
-      'detectChanges',
-    ]);
+    mockChangeDetectorRef = { detectChanges: vi.fn() };
     mockOpfGooglePayService = new MockOpfGooglePayService();
 
     TestBed.configureTestingModule({

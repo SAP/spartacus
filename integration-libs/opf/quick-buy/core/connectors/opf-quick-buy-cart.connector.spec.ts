@@ -10,7 +10,6 @@ import { Address } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OpfQuickBuyCartAdapter } from './opf-quick-buy-cart.adapter';
 import { OpfQuickBuyCartConnector } from './opf-quick-buy-cart.connector';
-import createSpy = jasmine.createSpy;
 
 const mockAddress: Address = {
   firstName: 'John',
@@ -23,17 +22,13 @@ const mockDeliveryModes: DeliveryMode[] = [
 ];
 
 class MockOpfQuickBuyCartAdapter implements OpfQuickBuyCartAdapter {
-  createDeliveryAddress = createSpy('createDeliveryAddress').and.returnValue(
+  createDeliveryAddress = vi.fn().mockReturnValue(
     of(mockAddress)
   );
-  setBillingAddress = createSpy('setBillingAddress').and.returnValue(of({}));
-  getSupportedDeliveryModes = createSpy(
-    'getSupportedDeliveryModes'
-  ).and.returnValue(of(mockDeliveryModes));
-  setDeliveryMode = createSpy('setDeliveryMode').and.returnValue(of({}));
-  getSelectedDeliveryMode = createSpy(
-    'getSelectedDeliveryMode'
-  ).and.returnValue(of(mockDeliveryModes[0]));
+  setBillingAddress = vi.fn().mockReturnValue(of({}));
+  getSupportedDeliveryModes = vi.fn().mockReturnValue(of(mockDeliveryModes));
+  setDeliveryMode = vi.fn().mockReturnValue(of({}));
+  getSelectedDeliveryMode = vi.fn().mockReturnValue(of(mockDeliveryModes[0]));
 }
 
 describe('OpfQuickBuyCartConnector', () => {

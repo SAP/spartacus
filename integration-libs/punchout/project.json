@@ -26,6 +26,13 @@
         "karmaConfig": "integration-libs/punchout/karma.conf.js"
       }
     },
+    "test-vitest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vitest run --config vitest.config.ts",
+        "cwd": "{projectRoot}"
+      }
+    },
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {

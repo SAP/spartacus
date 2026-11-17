@@ -11,6 +11,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { RoutingService, WindowRef } from '@spartacus/core';
 import {
   ActiveCartFacade,
@@ -77,32 +78,29 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
     is3DSRedirect: false,
     opf3DSRedirectReturnPath: undefined,
   });
-  updateOpfMetadata = jasmine
-    .createSpy('updateOpfMetadata')
-    .and.callFake((payload: Partial<OpfMetadataModel>) => {
+  updateOpfMetadata = vi.fn()
+    .mockImplementation((payload: Partial<OpfMetadataModel>) => {
       this.opfMetadataState.next({
         ...this.opfMetadataState.value,
         ...payload,
       });
     });
-  getOpfMetadataState = jasmine
-    .createSpy('getOpfMetadataState')
-    .and.returnValue(this.opfMetadataState.asObservable());
+  getOpfMetadataState = vi.fn()
+    .mockReturnValue(this.opfMetadataState.asObservable());
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine
-    .createSpy('getActiveCartId')
-    .and.returnValue(of('test-cart-id'));
-  getActive = jasmine.createSpy('getActive').and.returnValue(of({} as any));
-  takeActive = jasmine.createSpy('takeActive').and.returnValue(of({} as any));
-  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
-  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
+  getActiveCartId = vi.fn()
+    .mockReturnValue(of('test-cart-id'));
+  getActive = vi.fn().mockReturnValue(of({} as any));
+  takeActive = vi.fn().mockReturnValue(of({} as any));
+  isStable = vi.fn().mockReturnValue(of(false, true));
+  reloadActiveCart = vi.fn();
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  getCart = jasmine.createSpy('getCart').and.returnValue(of({} as any));
-  reloadCart = jasmine.createSpy('reloadCart');
+  getCart = vi.fn().mockReturnValue(of({} as any));
+  reloadCart = vi.fn();
 }
 
 class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
@@ -114,21 +112,12 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService> {}
 
-function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
-  return jasmine.createSpyObj('OpfPaymentFacade', [
-    'submitPayment',
-    'submitCompletePayment',
-    'getActiveConfigurationsState',
-    'verifyPayment',
-    'initiatePayment',
-    'updatePaymentTransaction',
-  ]);
+function createOpfPaymentFacadeMock(): any {
+  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
 }
 
-function createOpfPaymentEventsServiceMock(): jasmine.SpyObj<OpfPaymentEventsService> {
-  return jasmine.createSpyObj('OpfPaymentEventsService', [
-    'emitReinitiatePaymentEvent',
-  ]);
+function createOpfPaymentEventsServiceMock(): any {
+  return { emitReinitiatePaymentEvent: vi.fn() };
 }
 
 function getWindowOpfPayments(windowRef: WindowRef, domain: string): any {
@@ -198,8 +187,8 @@ describe('OpfGlobalFunctionsService', () => {
 
   describe('SSR guard', () => {
     it('should not register global functions in SSR', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
-      spyOn(checkoutDomain, 'registerAll');
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      vi.spyOn(checkoutDomain, 'registerAll');
 
       service.registerGlobalFunctions(registerInput);
 
@@ -213,7 +202,7 @@ describe('OpfGlobalFunctionsService', () => {
         OpfGlobalFunctionsDomain.CHECKOUT
       );
 
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
       service.unregisterGlobalFunctions(OpfGlobalFunctionsDomain.CHECKOUT);
 
       expect(windowOpf?.['submit']).toBeDefined();
@@ -222,11 +211,11 @@ describe('OpfGlobalFunctionsService', () => {
 
   describe('registerGlobalFunctions', () => {
     beforeEach(() => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
     });
 
     it('should delegate CHECKOUT registration to checkout domain service', () => {
-      spyOn(checkoutDomain, 'registerAll').and.callThrough();
+      vi.spyOn(checkoutDomain, 'registerAll');
 
       service.registerGlobalFunctions(registerInput);
 
@@ -239,7 +228,7 @@ describe('OpfGlobalFunctionsService', () => {
     });
 
     it('should delegate GLOBAL registration to global domain service', () => {
-      spyOn(globalDomain, 'registerAll').and.callThrough();
+      vi.spyOn(globalDomain, 'registerAll');
 
       service.registerGlobalFunctions({
         ...registerInput,
@@ -255,7 +244,7 @@ describe('OpfGlobalFunctionsService', () => {
     });
 
     it('should delegate REDIRECT registration to redirect domain service', () => {
-      spyOn(redirectDomain, 'registerAll').and.callThrough();
+      vi.spyOn(redirectDomain, 'registerAll');
 
       service.registerGlobalFunctions({
         ...registerInput,
@@ -274,7 +263,7 @@ describe('OpfGlobalFunctionsService', () => {
 
   describe('unregisterGlobalFunctions', () => {
     beforeEach(() => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
     });
 
     it('should remove CHECKOUT domain from window.Opf.payments', () => {

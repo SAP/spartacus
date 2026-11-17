@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
 import { SpinnerComponent } from '@spartacus/storefront';
@@ -7,7 +8,6 @@ import { of, throwError } from 'rxjs';
 import { OpfCtaElementComponent } from '../opf-cta-element';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
-import createSpy = jasmine.createSpy;
 
 const mockHtmlsList: OpfDynamicScript[] = [
   {
@@ -36,16 +36,14 @@ class MockSpinnerComponent {}
 describe('OpfCtaScriptsComponent', () => {
   let component: OpfCtaScriptsComponent;
   let fixture: ComponentFixture<OpfCtaScriptsComponent>;
-  let opfCtaScriptsService: jasmine.SpyObj<OpfCtaScriptsService>;
+  let opfCtaScriptsService: any;
 
   const createComponentInstance = () => {
     fixture = TestBed.createComponent(OpfCtaScriptsComponent);
     component = fixture.componentInstance;
   };
   beforeEach(() => {
-    opfCtaScriptsService = jasmine.createSpyObj('OpfCtaScriptsService', [
-      'getCtaHtmlList',
-    ]);
+    opfCtaScriptsService = { getCtaHtmlList: vi.fn() };
 
     TestBed.configureTestingModule({
       imports: [OpfCtaScriptsComponent],
@@ -69,7 +67,7 @@ describe('OpfCtaScriptsComponent', () => {
   });
 
   beforeEach(() => {
-    opfCtaScriptsService.getCtaHtmlList.and.returnValue(of(mockHtmlsList));
+    opfCtaScriptsService.getCtaHtmlList.mockReturnValue(of(mockHtmlsList));
     createComponentInstance();
   });
 
@@ -77,19 +75,17 @@ describe('OpfCtaScriptsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return Htmls list and display ctaButton elements', (done) => {
+  it('should return Htmls list and display ctaButton elements', async () => {
     component.ctaHtmls$.subscribe((htmlList) => {
       expect(htmlList[0]).toBeTruthy();
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelectorAll(ctaElementSelector).length
-      ).toEqual(2);
-      done();
-    });
+      ).toEqual(2);    });
   });
 
-  it('should isError be true when error is thrown', (done) => {
-    opfCtaScriptsService.getCtaHtmlList = createSpy().and.returnValue(
+  it('should isError be true when error is thrown', async () => {
+    opfCtaScriptsService.getCtaHtmlList = vi.fn().mockReturnValue(
       throwError('error')
     );
     createComponentInstance();
@@ -98,8 +94,6 @@ describe('OpfCtaScriptsComponent', () => {
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelector(ctaElementSelector)
-      ).toBeFalsy();
-      done();
-    });
+      ).toBeFalsy();    });
   });
 });

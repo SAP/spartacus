@@ -6,6 +6,7 @@
 
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -31,10 +32,10 @@ describe('OpfGiftCardApplyComponent', () => {
   let component: OpfGiftCardApplyComponent;
   let fixture: ComponentFixture<OpfGiftCardApplyComponent>;
 
-  let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
-  let mockGiftCardFacade: jasmine.SpyObj<OpfGiftCardFacade>;
-  let mockGlobalMessageService: jasmine.SpyObj<GlobalMessageService>;
-  let mockPaymentEventsService: jasmine.SpyObj<OpfPaymentEventsService>;
+  let mockActiveCartFacade: any;
+  let mockGiftCardFacade: any;
+  let mockGlobalMessageService: any;
+  let mockPaymentEventsService: any;
 
   const cartSubject = new BehaviorSubject<any>({
     opfGiftCards: [],
@@ -58,32 +59,19 @@ describe('OpfGiftCardApplyComponent', () => {
   const isGiftCardCoveredSubject = new BehaviorSubject<boolean>(false);
 
   beforeEach(async () => {
-    mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
-      'getActive',
-      'reloadActiveCart',
-    ]);
+    mockActiveCartFacade = { getActive: vi.fn(), reloadActiveCart: vi.fn() };
 
-    mockGiftCardFacade = jasmine.createSpyObj('OpfGiftCardFacade', [
-      'applyGiftCard',
-      'isGiftCardEnabled',
-      'isGiftCardCoveredTotalAmount',
-    ]);
+    mockGiftCardFacade = { applyGiftCard: vi.fn(), isGiftCardEnabled: vi.fn(), isGiftCardCoveredTotalAmount: vi.fn() };
 
-    mockGlobalMessageService = jasmine.createSpyObj('GlobalMessageService', [
-      'add',
-    ]);
+    mockGlobalMessageService = { add: vi.fn() };
 
-    mockPaymentEventsService = jasmine.createSpyObj('OpfPaymentEventsService', [
-      'emitIsGiftCardCoveredTotalAmountEvent',
-      'emitReinitiatePaymentEvent',
-      'emitRefreshActiveConfigurationsEvent',
-    ]);
+    mockPaymentEventsService = { emitIsGiftCardCoveredTotalAmountEvent: vi.fn(), emitReinitiatePaymentEvent: vi.fn(), emitRefreshActiveConfigurationsEvent: vi.fn() };
     mockPaymentEventsService.isGiftCardCoveredTotalAmountEvent$ =
       isGiftCardCoveredSubject.asObservable();
 
-    mockActiveCartFacade.getActive.and.returnValue(cartSubject.asObservable());
-    mockGiftCardFacade.isGiftCardEnabled.and.returnValue(of(true));
-    mockGiftCardFacade.isGiftCardCoveredTotalAmount.and.callFake(() =>
+    mockActiveCartFacade.getActive.mockReturnValue(cartSubject.asObservable());
+    mockGiftCardFacade.isGiftCardEnabled.mockReturnValue(of(true));
+    mockGiftCardFacade.isGiftCardCoveredTotalAmount.mockImplementation(() =>
       of(false)
     );
 
@@ -127,7 +115,7 @@ describe('OpfGiftCardApplyComponent', () => {
   });
 
   it('should mark form as touched if invalid on addGiftCard', () => {
-    spyOn(component.giftCardForm, 'markAllAsTouched');
+    vi.spyOn(component.giftCardForm, 'markAllAsTouched');
 
     component.addGiftCard();
 
@@ -140,7 +128,7 @@ describe('OpfGiftCardApplyComponent', () => {
       pin: '123',
     });
 
-    mockGiftCardFacade.applyGiftCard.and.returnValue(of(void 0));
+    mockGiftCardFacade.applyGiftCard.mockReturnValue(of(void 0));
 
     component.addGiftCard();
 
@@ -154,7 +142,7 @@ describe('OpfGiftCardApplyComponent', () => {
 
   it('should emit reinitiatePaymentEvent after applying gift card', () => {
     component.giftCardForm.setValue({ cardNumber: '12345678', pin: '123' });
-    mockGiftCardFacade.applyGiftCard.and.returnValue(of(void 0));
+    mockGiftCardFacade.applyGiftCard.mockReturnValue(of(void 0));
 
     component.addGiftCard();
 
@@ -165,7 +153,7 @@ describe('OpfGiftCardApplyComponent', () => {
 
   it('should emit refreshActiveConfigurationsEvent after applying gift card', () => {
     component.giftCardForm.setValue({ cardNumber: '12345678', pin: '123' });
-    mockGiftCardFacade.applyGiftCard.and.returnValue(of(void 0));
+    mockGiftCardFacade.applyGiftCard.mockReturnValue(of(void 0));
 
     component.addGiftCard();
 
@@ -185,7 +173,7 @@ describe('OpfGiftCardApplyComponent', () => {
       details: [{ message: 'Detailed error' }],
     };
 
-    mockGiftCardFacade.applyGiftCard.and.returnValue(throwError(() => error));
+    mockGiftCardFacade.applyGiftCard.mockReturnValue(throwError(() => error));
 
     component.addGiftCard();
 
@@ -223,15 +211,13 @@ describe('OpfGiftCardApplyComponent', () => {
     ).toHaveBeenCalledWith(false);
   });
 
-  it('should return applied gift cards from cart$', (done) => {
+  it('should return applied gift cards from cart$', async () => {
     cartSubject.next({
       opfGiftCards: [mockGiftCard],
     });
 
     component['appliedGiftCards$'].subscribe((cards) => {
       expect(cards.length).toBe(1);
-      expect(cards[0].id).toBe('GC1');
-      done();
-    });
+      expect(cards[0].id).toBe('GC1');    });
   });
 });

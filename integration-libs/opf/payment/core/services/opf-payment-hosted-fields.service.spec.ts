@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { flush, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   ActiveCartFacade,
   CartAccessCodeFacade,
@@ -35,44 +36,40 @@ describe('OpfPaymentHostedFieldsService', () => {
   let opfPaymentErrorHandlerService: OpfPaymentErrorHandlerService;
 
   const mockOpfPaymentConnector = {
-    submitPayment: jasmine.createSpy('submitPayment'),
-    submitCompletePayment: jasmine.createSpy('submitCompletePayment'),
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
   };
 
   const mockCartAccessCodeFacade = {
-    getCartAccessCode: jasmine
-      .createSpy('getCartAccessCode')
-      .and.returnValue(of({ accessCode: 'mockAccessCode' })),
+    getCartAccessCode: vi.fn()
+      .mockReturnValue(of({ accessCode: 'mockAccessCode' })),
   };
 
   const mockActiveCartFacade = {
-    takeActiveCartId: jasmine
-      .createSpy('takeActiveCartId')
-      .and.returnValue(of('mockActiveCartId')),
+    takeActiveCartId: vi.fn()
+      .mockReturnValue(of('mockActiveCartId')),
   };
 
   const mockUserIdService = {
-    takeUserId: jasmine
-      .createSpy('takeUserId')
-      .and.returnValue(of('mockUserId')),
+    takeUserId: vi.fn()
+      .mockReturnValue(of('mockUserId')),
   };
 
   const mockRoutingService = {
-    go: jasmine.createSpy('go'),
+    go: vi.fn(),
   };
 
   const mockOrderFacade = {
-    placePaymentAuthorizedOrder: jasmine
-      .createSpy('placePaymentAuthorizedOrder')
-      .and.returnValue(of({ id: 'testOrder' } as Order)),
+    placePaymentAuthorizedOrder: vi.fn()
+      .mockReturnValue(of({ id: 'testOrder' } as Order)),
   };
 
   const mockGlobalMessageService = {
-    add: jasmine.createSpy('add'),
+    add: vi.fn(),
   };
 
   const mockOpfPaymentErrorHandlerService = {
-    handlePaymentError: jasmine.createSpy('handlePaymentError'),
+    handlePaymentError: vi.fn(),
   };
 
   const mockInput: OpfPaymentSubmitInput = {
@@ -139,12 +136,12 @@ describe('OpfPaymentHostedFieldsService', () => {
   });
 
   describe('submitPayment', () => {
-    it('should submit payment and handle success', (done) => {
-      mockUserIdService.takeUserId.and.returnValue(of('mockUserId'));
-      mockActiveCartFacade.takeActiveCartId.and.returnValue(
+    it('should submit payment and handle success', async () => {
+      mockUserIdService.takeUserId.mockReturnValue(of('mockUserId'));
+      mockActiveCartFacade.takeActiveCartId.mockReturnValue(
         of('mockActiveCartId')
       );
-      mockOpfPaymentConnector.submitPayment.and.returnValue(
+      mockOpfPaymentConnector.submitPayment.mockReturnValue(
         of({ status: OpfPaymentSubmitStatus.ACCEPTED })
       );
 
@@ -154,16 +151,14 @@ describe('OpfPaymentHostedFieldsService', () => {
         expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'orderConfirmation',
-        });
-        done();
-      });
+        });      });
     });
 
-    it('should handle rejected payment', (done) => {
+    it('should handle rejected payment', async () => {
       const res: Partial<OpfPaymentSubmitResponse> = {
         status: OpfPaymentSubmitStatus.REJECTED,
       };
-      mockOpfPaymentConnector.submitPayment.and.returnValue(of(res));
+      mockOpfPaymentConnector.submitPayment.mockReturnValue(of(res));
 
       service.submitPayment(mockInput).subscribe({
         error: (error) => {
@@ -171,20 +166,18 @@ describe('OpfPaymentHostedFieldsService', () => {
           expect(mockOpfPaymentConnector.submitPayment).toHaveBeenCalled();
           expect(
             opfPaymentErrorHandlerService.handlePaymentError
-          ).toHaveBeenCalled();
-          done();
-        },
+          ).toHaveBeenCalled();        },
       });
     });
   });
 
   describe('submitCompletePayment', () => {
-    it('should submit complete payment and handle success', (done) => {
-      mockUserIdService.takeUserId.and.returnValue(of('mockUserId'));
-      mockActiveCartFacade.takeActiveCartId.and.returnValue(
+    it('should submit complete payment and handle success', async () => {
+      mockUserIdService.takeUserId.mockReturnValue(of('mockUserId'));
+      mockActiveCartFacade.takeActiveCartId.mockReturnValue(
         of('mockActiveCartId')
       );
-      mockOpfPaymentConnector.submitCompletePayment.and.returnValue(
+      mockOpfPaymentConnector.submitCompletePayment.mockReturnValue(
         of({ status: OpfPaymentSubmitStatus.ACCEPTED })
       );
 
@@ -198,17 +191,15 @@ describe('OpfPaymentHostedFieldsService', () => {
           expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'orderConfirmation',
-          });
-          done();
-        });
+          });        });
     });
 
-    it('should handle rejected complete payment', (done) => {
+    it('should handle rejected complete payment', async () => {
       const res: Partial<OpfPaymentSubmitResponse> = {
         status: OpfPaymentSubmitStatus.REJECTED,
       };
 
-      mockOpfPaymentConnector.submitCompletePayment.and.returnValue(of(res));
+      mockOpfPaymentConnector.submitCompletePayment.mockReturnValue(of(res));
 
       service.submitCompletePayment(mockSubmitCompleteInput).subscribe({
         error: (error) => {
@@ -218,31 +209,26 @@ describe('OpfPaymentHostedFieldsService', () => {
           ).toHaveBeenCalled();
           expect(
             opfPaymentErrorHandlerService.handlePaymentError
-          ).toHaveBeenCalled();
-          done();
-        },
+          ).toHaveBeenCalled();        },
       });
     });
   });
 
   describe('paymentResponseHandler', () => {
-    const mockSubmitSuccess = jasmine
-      .createSpy('mockSubmitSuccess')
-      .and.returnValue(() => {});
-    const mockSubmitPending = jasmine
-      .createSpy('mockSubmitPending')
-      .and.returnValue(() => {});
-    const mockSubmitFailure = jasmine
-      .createSpy('mockSubmitFailure')
-      .and.returnValue(() => {});
+    const mockSubmitSuccess = vi.fn()
+      .mockReturnValue(() => {});
+    const mockSubmitPending = vi.fn()
+      .mockReturnValue(() => {});
+    const mockSubmitFailure = vi.fn()
+      .mockReturnValue(() => {});
 
-    it('should handle accepted payment response', fakeAsync(() => {
+    it('should handle accepted payment response', async () => {
       const response: OpfPaymentSubmitResponse = {
         ...mockSubmitResponse,
         status: OpfPaymentSubmitStatus.ACCEPTED,
       };
 
-      spyOn(service as any, 'paymentResponseHandler').and.callThrough();
+      vi.spyOn(service as any, 'paymentResponseHandler');
 
       service['paymentResponseHandler'](response, {
         onSuccess: mockSubmitSuccess,
@@ -252,16 +238,15 @@ describe('OpfPaymentHostedFieldsService', () => {
         expect(result).toBeTruthy();
         expect(mockSubmitSuccess).toHaveBeenCalled();
         expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
-        flush();
       });
-    }));
+    });
 
-    it('should handle delayed payment response', fakeAsync(() => {
+    it('should handle delayed payment response', async () => {
       const response: OpfPaymentSubmitResponse = {
         ...mockSubmitResponse,
         status: OpfPaymentSubmitStatus.DELAYED,
       };
-      spyOn(service as any, 'paymentResponseHandler').and.callThrough();
+      vi.spyOn(service as any, 'paymentResponseHandler');
 
       service['paymentResponseHandler'](response, {
         onSuccess: mockSubmitSuccess,
@@ -271,11 +256,10 @@ describe('OpfPaymentHostedFieldsService', () => {
         expect(result).toBeTruthy();
         expect(mockSubmitSuccess).toHaveBeenCalled();
         expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
-        flush();
       });
-    }));
+    });
 
-    it('should pass cartId to placePaymentAuthorizedOrder', fakeAsync(() => {
+    it('should pass cartId to placePaymentAuthorizedOrder', async () => {
       const response: OpfPaymentSubmitResponse = {
         ...mockSubmitResponse,
         status: OpfPaymentSubmitStatus.ACCEPTED,
@@ -294,16 +278,15 @@ describe('OpfPaymentHostedFieldsService', () => {
           true,
           'quick-buy-cart-id'
         );
-        flush();
       });
-    }));
+    });
 
-    it('should handle pending payment response', fakeAsync(() => {
+    it('should handle pending payment response', async () => {
       const response: OpfPaymentSubmitResponse = {
         ...mockSubmitResponse,
         status: OpfPaymentSubmitStatus.PENDING,
       };
-      spyOn(service as any, 'paymentResponseHandler').and.callThrough();
+      vi.spyOn(service as any, 'paymentResponseHandler');
 
       let result;
 
@@ -317,15 +300,14 @@ describe('OpfPaymentHostedFieldsService', () => {
 
       expect(result).toBeUndefined();
       expect(mockSubmitPending).toHaveBeenCalled();
-      flush();
-    }));
+    });
 
-    it('should handle rejected payment response', fakeAsync(() => {
+    it('should handle rejected payment response', async () => {
       const response: OpfPaymentSubmitResponse = {
         ...mockSubmitResponse,
         status: OpfPaymentSubmitStatus.REJECTED,
       };
-      spyOn(service as any, 'paymentResponseHandler').and.callThrough();
+      vi.spyOn(service as any, 'paymentResponseHandler');
 
       service['paymentResponseHandler'](response, {
         onSuccess: mockSubmitSuccess,
@@ -335,17 +317,16 @@ describe('OpfPaymentHostedFieldsService', () => {
         error: (error) => {
           expect(error.type).toBe(OpfPaymentErrorType.PAYMENT_REJECTED);
           expect(mockSubmitFailure).toHaveBeenCalled();
-          flush();
         },
       });
-    }));
+    });
 
-    it('should handle unrecognized payment response status', fakeAsync(() => {
+    it('should handle unrecognized payment response status', async () => {
       const response: OpfPaymentSubmitResponse = {
         ...mockSubmitResponse,
         status: 'UNKNOWN_STATUS' as OpfPaymentSubmitStatus,
       };
-      spyOn(service as any, 'paymentResponseHandler').and.callThrough();
+      vi.spyOn(service as any, 'paymentResponseHandler');
 
       service['paymentResponseHandler'](response, {
         onSuccess: mockSubmitSuccess,
@@ -355,32 +336,29 @@ describe('OpfPaymentHostedFieldsService', () => {
         error: (error) => {
           expect(error.type).toBe(OpfPaymentErrorType.STATUS_NOT_RECOGNIZED);
           expect(mockSubmitFailure).toHaveBeenCalled();
-          flush();
         },
       });
-    }));
+    });
   });
 
   describe('placeOrder', () => {
-    it('should delegate to orderFacade with correct arguments', fakeAsync(() => {
+    it('should delegate to orderFacade with correct arguments', async () => {
       service['placeOrder']('my-cart-id').subscribe(() => {
         expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
           true,
           'my-cart-id'
         );
-        flush();
       });
-    }));
+    });
 
-    it('should work without a cartId', fakeAsync(() => {
+    it('should work without a cartId', async () => {
       service['placeOrder']().subscribe(() => {
         expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
           true,
           undefined
         );
-        flush();
       });
-    }));
+    });
   });
 
   describe('onPaymentSuccess', () => {

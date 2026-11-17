@@ -21,15 +21,16 @@ import {
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OccOpfGiftCardAdapter } from './occ-opf-gift-card.adapter';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { of } from 'rxjs';
 
 describe('OccOpfGiftCardAdapter', () => {
   let adapter: OccOpfGiftCardAdapter;
   let httpMock: HttpTestingController;
-  let mockLogger: jasmine.SpyObj<LoggerService>;
-  let mockOccEndpoints: jasmine.SpyObj<OccEndpointsService>;
-  let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
-  let mockUserIdService: jasmine.SpyObj<UserIdService>;
+  let mockLogger: any;
+  let mockOccEndpoints: any;
+  let mockActiveCartFacade: any;
+  let mockUserIdService: any;
 
   const mockGiftCardResponse: OpfGiftCardResponse = {
     id: 'gc-123',
@@ -44,16 +45,12 @@ describe('OccOpfGiftCardAdapter', () => {
   };
 
   beforeEach(() => {
-    mockLogger = jasmine.createSpyObj('LoggerService', ['debug', 'error']);
-    mockOccEndpoints = jasmine.createSpyObj('OccEndpointsService', [
-      'buildUrl',
-    ]);
-    mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
-      'getActiveCartId',
-    ]);
-    mockUserIdService = jasmine.createSpyObj('UserIdService', ['getUserId']);
+    mockLogger = { debug: vi.fn(), error: vi.fn() };
+    mockOccEndpoints = { buildUrl: vi.fn() };
+    mockActiveCartFacade = { getActiveCartId: vi.fn() };
+    mockUserIdService = { getUserId: vi.fn() };
 
-    mockOccEndpoints.buildUrl.and.callFake((endpoint: string, config: any) => {
+    mockOccEndpoints.buildUrl.mockImplementation((endpoint: string, config: any) => {
       if (endpoint === 'applyGiftCard') {
         return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftCards`;
       } else if (endpoint === 'removeGiftCard') {
@@ -62,8 +59,8 @@ describe('OccOpfGiftCardAdapter', () => {
       return '';
     });
 
-    mockActiveCartFacade.getActiveCartId.and.returnValue(of('cart-123'));
-    mockUserIdService.getUserId.and.returnValue(of('user-123'));
+    mockActiveCartFacade.getActiveCartId.mockReturnValue(of('cart-123'));
+    mockUserIdService.getUserId.mockReturnValue(of('user-123'));
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

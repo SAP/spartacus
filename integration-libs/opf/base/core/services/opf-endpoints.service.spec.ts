@@ -116,7 +116,7 @@ describe('OpfEndpointsService', () => {
 
     it('should not call StringTemplate resolve() when there are no urlParams', () => {
       const endpoint = 'getActiveConfigurations';
-      const spy = spyOn(StringTemplate, 'resolve').and.callThrough();
+      const spy = vi.spyOn(StringTemplate, 'resolve');
 
       service.buildUrl(endpoint, {});
 
@@ -129,7 +129,7 @@ describe('OpfEndpointsService', () => {
         urlParams: { param1: 'value1' },
       };
 
-      const spy = spyOn(StringTemplate, 'resolve').and.callThrough();
+      const spy = vi.spyOn(StringTemplate, 'resolve');
 
       service.buildUrl(endpoint, attributes);
 

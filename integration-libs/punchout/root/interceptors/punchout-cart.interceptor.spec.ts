@@ -11,6 +11,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of, Subscription } from 'rxjs';
+import { vi } from 'vitest';
 import {
   PunchOutLevel,
   PunchOutOperation,
@@ -72,20 +73,22 @@ describe('PunchoutCartInterceptor', () => {
   });
 
   it('should be created', () => {
-    spyOn(punchoutStoreService, 'getPunchoutSessionId').and.returnValue('');
+    vi.spyOn(punchoutStoreService, 'getPunchoutSessionId').mockReturnValue('');
     expect(interceptor).toBeTruthy();
   });
 
-  it('should add sessionId in header for url related to punchout cart', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+  it('should add sessionId in header for url related to punchout cart', async () => {
+    vi.spyOn(punchoutStoreService, 'getPunchoutState').mockReturnValue(
       of(mockPunchoutState)
     );
-    const sub: Subscription = http
-      .get(`/carts/${mockPunchoutState.punchoutSession?.cartId}`)
-      .subscribe((result) => {
-        expect(result).toBeTruthy();
-        done();
-      });
+    const resultPromise = new Promise<any>((resolve) => {
+      const sub: Subscription = http
+        .get(`/carts/${mockPunchoutState.punchoutSession?.cartId}`)
+        .subscribe((result) => {
+          resolve(result);
+          sub.unsubscribe();
+        });
+    });
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
@@ -96,19 +99,22 @@ describe('PunchoutCartInterceptor', () => {
     );
     expect(pchtHeader).toEqual(mockSessionId);
     mockReq.flush('someData');
-    sub.unsubscribe();
+    const result = await resultPromise;
+    expect(result).toBeTruthy();
   });
 
-  it('should not modify header when no punchout sessionId', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+  it('should not modify header when no punchout sessionId', async () => {
+    vi.spyOn(punchoutStoreService, 'getPunchoutState').mockReturnValue(
       of({ ...mockPunchoutState, punchoutSessionId: '' })
     );
-    const sub: Subscription = http
-      .get(`/carts/${mockPunchoutState.punchoutSession?.cartId}`)
-      .subscribe((result) => {
-        expect(result).toBeTruthy();
-        done();
-      });
+    const resultPromise = new Promise<any>((resolve) => {
+      const sub: Subscription = http
+        .get(`/carts/${mockPunchoutState.punchoutSession?.cartId}`)
+        .subscribe((result) => {
+          resolve(result);
+          sub.unsubscribe();
+        });
+    });
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
@@ -119,6 +125,7 @@ describe('PunchoutCartInterceptor', () => {
     );
     expect(pchtHeader).toBeFalsy();
     mockReq.flush('someData');
-    sub.unsubscribe();
+    const result = await resultPromise;
+    expect(result).toBeTruthy();
   });
 });

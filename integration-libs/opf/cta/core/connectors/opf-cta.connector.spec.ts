@@ -12,7 +12,6 @@ import {
 import { of } from 'rxjs';
 import { OpfCtaAdapter } from './opf-cta.adapter';
 import { OpfCtaConnector } from './opf-cta.connector';
-import createSpy = jasmine.createSpy;
 
 const mockCtaScriptsRequest: OpfCtaScriptsRequest = {
   cartId: '123',
@@ -24,7 +23,7 @@ const mockCtaScriptsResponse: OpfCtaScriptsResponse = {
 };
 
 class MockOpfCtaAdapter implements OpfCtaAdapter {
-  getCtaScripts = createSpy('getCtaScripts').and.callFake(() =>
+  getCtaScripts = vi.fn().mockImplementation(() =>
     of(mockCtaScriptsResponse)
   );
 }

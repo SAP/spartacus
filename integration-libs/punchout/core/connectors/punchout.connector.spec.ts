@@ -6,9 +6,10 @@ import {
   PunchoutSession,
 } from '@spartacus/punchout/root';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
+import { firstValueFrom } from 'rxjs';
 import { PunchoutAdapter } from './punchout.adapter';
 import { PunchoutConnector } from './punchout.connector';
-import createSpy = jasmine.createSpy;
 
 const mockSid = 'mockSid';
 const mockPunchoutSessionResponse: PunchoutSession = {
@@ -29,12 +30,10 @@ const mockPunchoutRequisitionResponse: PunchoutRequisition = {
 };
 
 class MockPunchoutAdapter implements PunchoutAdapter {
-  getPunchoutSession = createSpy('getPunchoutSession').and.callFake(() =>
+  getPunchoutSession = vi.fn().mockImplementation(() =>
     of(mockPunchoutSessionResponse)
   );
-  getPunchoutSessionRequisition = createSpy(
-    'getPunchoutSessionRequisition'
-  ).and.callFake(() => of(mockPunchoutRequisitionResponse));
+  getPunchoutSessionRequisition = vi.fn().mockImplementation(() => of(mockPunchoutRequisitionResponse));
 }
 
 describe('PunchoutConnector', () => {
@@ -56,39 +55,27 @@ describe('PunchoutConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getPunchoutSession should call adapter', (done) => {
-    service.getPunchoutSession(mockSid).subscribe({
-      next: (result) => {
-        expect(result).toEqual(mockPunchoutSessionResponse);
-        expect(adapter.getPunchoutSession).toHaveBeenCalledWith(mockSid);
-        done();
-      },
-    });
+  it('getPunchoutSession should call adapter', async () => {
+    const result = await firstValueFrom(service.getPunchoutSession(mockSid));
+    expect(result).toEqual(mockPunchoutSessionResponse);
+    expect(adapter.getPunchoutSession).toHaveBeenCalledWith(mockSid);
   });
 
-  it('getPunchoutSessionRequisition should call adapter', (done) => {
-    service.getPunchoutSessionRequisition(mockSid).subscribe({
-      next: (result) => {
-        expect(result).toEqual(mockPunchoutRequisitionResponse);
-        expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
-          mockSid,
-          false
-        );
-        done();
-      },
-    });
+  it('getPunchoutSessionRequisition should call adapter', async () => {
+    const result = await firstValueFrom(service.getPunchoutSessionRequisition(mockSid));
+    expect(result).toEqual(mockPunchoutRequisitionResponse);
+    expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
+      mockSid,
+      false
+    );
   });
 
-  it('getPunchoutSessionRequisition should call adapter with discardCartEntries true', (done) => {
-    service.getPunchoutSessionRequisition(mockSid, true).subscribe({
-      next: (result) => {
-        expect(result).toEqual(mockPunchoutRequisitionResponse);
-        expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
-          mockSid,
-          true
-        );
-        done();
-      },
-    });
+  it('getPunchoutSessionRequisition should call adapter with discardCartEntries true', async () => {
+    const result = await firstValueFrom(service.getPunchoutSessionRequisition(mockSid, true));
+    expect(result).toEqual(mockPunchoutRequisitionResponse);
+    expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
+      mockSid,
+      true
+    );
   });
 });

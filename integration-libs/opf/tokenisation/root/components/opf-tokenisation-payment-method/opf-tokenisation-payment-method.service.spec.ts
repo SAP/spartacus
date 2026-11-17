@@ -18,6 +18,7 @@ import {
 import { OrderFacade } from '@spartacus/order/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { ActivatedRoute } from '@angular/router';
+import { vi } from 'vitest';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
@@ -28,19 +29,19 @@ import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-
 
 describe('OpfTokenisationPaymentMethodService', () => {
   let service: OpfTokenisationPaymentMethodService;
-  let userPaymentService: jasmine.SpyObj<UserPaymentService>;
-  let checkoutPaymentFacade: jasmine.SpyObj<CheckoutPaymentFacade>;
-  let opfMetadataStoreService: jasmine.SpyObj<OpfMetadataStoreService>;
-  let savedCardsService: jasmine.SpyObj<OpfTokenisationSavedCardsService>;
-  let orderFacade: jasmine.SpyObj<OrderFacade>;
-  let routingService: jasmine.SpyObj<RoutingService>;
-  let checkoutStepService: jasmine.SpyObj<CheckoutStepService>;
-  let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
-  let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
-  let translationService: jasmine.SpyObj<TranslationService>;
-  let checkoutDeliveryAddressFacade: jasmine.SpyObj<CheckoutDeliveryAddressFacade>;
-  let focusService: jasmine.SpyObj<SelectFocusUtility>;
-  let windowRef: jasmine.SpyObj<WindowRef>;
+  let userPaymentService: any;
+  let checkoutPaymentFacade: any;
+  let opfMetadataStoreService: any;
+  let savedCardsService: any;
+  let orderFacade: any;
+  let routingService: any;
+  let checkoutStepService: any;
+  let globalMessageService: any;
+  let activeCartFacade: any;
+  let translationService: any;
+  let checkoutDeliveryAddressFacade: any;
+  let focusService: any;
+  let windowRef: any;
   let metadataStateSubject: BehaviorSubject<any>;
 
   const mockPaymentDetails: PaymentDetails = {
@@ -69,80 +70,51 @@ describe('OpfTokenisationPaymentMethodService', () => {
   };
 
   beforeEach(() => {
-    userPaymentService = jasmine.createSpyObj('UserPaymentService', [
-      'loadPaymentMethods',
-      'getPaymentMethods',
-      'getPaymentMethodsLoading',
-      'setPaymentMethodAsDefault',
-    ]);
-    checkoutPaymentFacade = jasmine.createSpyObj('CheckoutPaymentFacade', [
-      'getPaymentDetailsState',
-      'setPaymentDetails',
-      'createPaymentDetails',
-    ]);
-    opfMetadataStoreService = jasmine.createSpyObj('OpfMetadataStoreService', [
-      'getOpfMetadataState',
-    ]);
-    savedCardsService = jasmine.createSpyObj(
-      'OpfTokenisationSavedCardsService',
-      ['markCardAsSelected', 'clearSelectedPaymentMethodId'],
-      {
-        selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(
-          undefined
-        ),
-      }
-    );
-    orderFacade = jasmine.createSpyObj('OrderFacade', [
-      'placePaymentAuthorizedOrder',
-    ]);
-    routingService = jasmine.createSpyObj('RoutingService', ['go']);
-    checkoutStepService = jasmine.createSpyObj('CheckoutStepService', ['back']);
-    globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
-      'add',
-    ]);
-    activeCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
-      'isGuestCart',
-    ]);
-    translationService = jasmine.createSpyObj('TranslationService', [
-      'translate',
-    ]);
-    checkoutDeliveryAddressFacade = jasmine.createSpyObj(
-      'CheckoutDeliveryAddressFacade',
-      ['getDeliveryAddressState']
-    );
-    focusService = jasmine.createSpyObj('SelectFocusUtility', [
-      'findFirstFocusable',
-    ]);
+    userPaymentService = { loadPaymentMethods: vi.fn(), getPaymentMethods: vi.fn(), getPaymentMethodsLoading: vi.fn(), setPaymentMethodAsDefault: vi.fn() };
+    checkoutPaymentFacade = { getPaymentDetailsState: vi.fn(), setPaymentDetails: vi.fn(), createPaymentDetails: vi.fn() };
+    opfMetadataStoreService = { getOpfMetadataState: vi.fn() };
+    savedCardsService = { markCardAsSelected: vi.fn(), clearSelectedPaymentMethodId: vi.fn() };
+    orderFacade = { placePaymentAuthorizedOrder: vi.fn() };
+    routingService = { go: vi.fn() };
+    checkoutStepService = { back: vi.fn() };
+    globalMessageService = { add: vi.fn() };
+    activeCartFacade = { isGuestCart: vi.fn() };
+    translationService = { translate: vi.fn() };
+    checkoutDeliveryAddressFacade = { getDeliveryAddressState: vi.fn() };
+    focusService = { findFirstFocusable: vi.fn() };
 
     const mockDocument = {
-      querySelectorAll: jasmine
-        .createSpy('querySelectorAll')
-        .and.returnValue([]),
+      querySelectorAll: vi.fn()
+        .mockReturnValue([]),
       activeElement: null,
     };
-    windowRef = jasmine.createSpyObj('WindowRef', [], {
-      document: mockDocument,
-    });
+    windowRef = { document: mockDocument };
 
     metadataStateSubject = new BehaviorSubject<any>(
       mockMetadataStateSavedCards
     );
 
+    savedCardsService = {
+      markCardAsSelected: vi.fn(),
+      clearSelectedPaymentMethodId: vi.fn(),
+      selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(undefined),
+    };
+
     // Default mock returns
-    userPaymentService.getPaymentMethods.and.returnValue(of([]));
-    userPaymentService.getPaymentMethodsLoading.and.returnValue(of(false));
-    checkoutPaymentFacade.getPaymentDetailsState.and.returnValue(
+    userPaymentService.getPaymentMethods.mockReturnValue(of([]));
+    userPaymentService.getPaymentMethodsLoading.mockReturnValue(of(false));
+    checkoutPaymentFacade.getPaymentDetailsState.mockReturnValue(
       of({ loading: false, error: false, data: undefined })
     );
-    opfMetadataStoreService.getOpfMetadataState.and.returnValue(
+    opfMetadataStoreService.getOpfMetadataState.mockReturnValue(
       metadataStateSubject.asObservable()
     );
-    checkoutDeliveryAddressFacade.getDeliveryAddressState.and.returnValue(
+    checkoutDeliveryAddressFacade.getDeliveryAddressState.mockReturnValue(
       of({ loading: false, error: false, data: mockAddress })
     );
-    activeCartFacade.isGuestCart.and.returnValue(of(false));
-    translationService.translate.and.callFake((key: string) => of(key));
-    orderFacade.placePaymentAuthorizedOrder.and.returnValue(of(null));
+    activeCartFacade.isGuestCart.mockReturnValue(of(false));
+    translationService.translate.mockImplementation((key: string) => of(key));
+    orderFacade.placePaymentAuthorizedOrder.mockReturnValue(of(null));
 
     TestBed.configureTestingModule({
       providers: [
@@ -190,7 +162,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
   });
 
   describe('showSavedCards$', () => {
-    it('should emit true when selectedPaymentOptionId is SAVED_CARDS_ID', (done) => {
+    it('should emit true when selectedPaymentOptionId is SAVED_CARDS_ID', async () => {
       metadataStateSubject.next({
         selectedPaymentOptionId: SAVED_CARDS_ID,
         termsAndConditionsChecked: false,
@@ -200,71 +172,57 @@ describe('OpfTokenisationPaymentMethodService', () => {
       });
 
       service.showSavedCards$.subscribe((value) => {
-        expect(value).toBeTruthy();
-        done();
-      });
+        expect(value).toBeTruthy();      });
     });
   });
 
   describe('isUpdating$', () => {
-    it('should emit true when busy$ is true', (done) => {
+    it('should emit true when busy$ is true', async () => {
       (service as any).busy$.next(true);
       service.isUpdating$.subscribe((value) => {
-        expect(value).toBeTruthy();
-        done();
-      });
+        expect(value).toBeTruthy();      });
     });
 
-    it('should emit false when all loading states are false', (done) => {
+    it('should emit false when all loading states are false', async () => {
       service.isUpdating$.subscribe((value) => {
-        expect(value).toBeFalsy();
-        done();
-      });
+        expect(value).toBeFalsy();      });
     });
   });
 
   describe('existingPaymentMethods$', () => {
-    it('should return payment methods from userPaymentService', (done) => {
+    it('should return payment methods from userPaymentService', async () => {
       const mockMethods: PaymentDetails[] = [mockPaymentDetails];
-      userPaymentService.getPaymentMethods.and.returnValue(of(mockMethods));
+      userPaymentService.getPaymentMethods.mockReturnValue(of(mockMethods));
 
       service.existingPaymentMethods$.subscribe((methods) => {
-        expect(methods).toEqual(mockMethods);
-        done();
-      });
+        expect(methods).toEqual(mockMethods);      });
     });
 
-    it('should return empty array when no payment methods', (done) => {
-      userPaymentService.getPaymentMethods.and.returnValue(of([]));
+    it('should return empty array when no payment methods', async () => {
+      userPaymentService.getPaymentMethods.mockReturnValue(of([]));
 
       service.existingPaymentMethods$.subscribe((methods) => {
-        expect(methods).toEqual([]);
-        done();
-      });
+        expect(methods).toEqual([]);      });
     });
   });
 
   describe('selectedMethod$', () => {
-    it('should initially emit undefined', (done) => {
+    it('should initially emit undefined', async () => {
       service.selectedMethod$.subscribe((method) => {
-        expect(method).toBeUndefined();
-        done();
-      });
+        expect(method).toBeUndefined();      });
     });
 
-    it('should emit updated value after selection', (done) => {
+    it('should emit updated value after selection', async () => {
       (service as any).selectedPaymentMethod$.next(mockPaymentDetails);
 
       service.selectedMethod$.subscribe((method) => {
-        expect(method).toEqual(mockPaymentDetails);
-        done();
-      });
+        expect(method).toEqual(mockPaymentDetails);      });
     });
   });
 
   describe('initialize()', () => {
     it('should set isGuestCheckout to true when guest cart', () => {
-      activeCartFacade.isGuestCart.and.returnValue(of(true));
+      activeCartFacade.isGuestCart.mockReturnValue(of(true));
 
       service.initialize();
 
@@ -272,7 +230,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should set deliveryAddress from checkoutDeliveryAddressFacade', () => {
-      checkoutDeliveryAddressFacade.getDeliveryAddressState.and.returnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState.mockReturnValue(
         of({ loading: false, error: false, data: mockAddress })
       );
 
@@ -282,7 +240,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should not set deliveryAddress while state is loading', () => {
-      checkoutDeliveryAddressFacade.getDeliveryAddressState.and.returnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState.mockReturnValue(
         of({ loading: true, error: false, data: mockAddress })
       );
 
@@ -299,7 +257,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
         opfPaymentSessionId: undefined,
         isTermsAndConditionsAlertClosed: false,
       });
-      opfMetadataStoreService.getOpfMetadataState.and.returnValue(
+      opfMetadataStoreService.getOpfMetadataState.mockReturnValue(
         metadataSubject.asObservable()
       );
 
@@ -330,7 +288,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
         opfPaymentSessionId: undefined,
         isTermsAndConditionsAlertClosed: false,
       });
-      opfMetadataStoreService.getOpfMetadataState.and.returnValue(
+      opfMetadataStoreService.getOpfMetadataState.mockReturnValue(
         metadataSubject.asObservable()
       );
 
@@ -350,10 +308,10 @@ describe('OpfTokenisationPaymentMethodService', () => {
         id: 'first-card',
         defaultPayment: true,
       };
-      userPaymentService.getPaymentMethods.and.returnValue(
+      userPaymentService.getPaymentMethods.mockReturnValue(
         of([firstSavedCard])
       );
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       service.initialize();
 
@@ -376,10 +334,10 @@ describe('OpfTokenisationPaymentMethodService', () => {
         id: 'card-2',
         defaultPayment: true,
       };
-      userPaymentService.getPaymentMethods.and.returnValue(
+      userPaymentService.getPaymentMethods.mockReturnValue(
         of([nonDefaultCard, backendDefaultCard])
       );
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       service.initialize();
 
@@ -397,10 +355,10 @@ describe('OpfTokenisationPaymentMethodService', () => {
         id: 'only-card',
         defaultPayment: false,
       };
-      userPaymentService.getPaymentMethods.and.returnValue(
+      userPaymentService.getPaymentMethods.mockReturnValue(
         of([firstAndOnlyCard])
       );
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       service.initialize();
 
@@ -428,10 +386,10 @@ describe('OpfTokenisationPaymentMethodService', () => {
         defaultPayment: false,
       };
 
-      userPaymentService.getPaymentMethods.and.returnValue(
+      userPaymentService.getPaymentMethods.mockReturnValue(
         of([cardOne, cardTwo])
       );
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       (
         savedCardsService.selectedPaymentMethodId$ as BehaviorSubject<
@@ -468,54 +426,46 @@ describe('OpfTokenisationPaymentMethodService', () => {
   });
 
   describe('getCards$()', () => {
-    it('should return empty array when no payment methods', (done) => {
-      userPaymentService.getPaymentMethods.and.returnValue(of([]));
+    it('should return empty array when no payment methods', async () => {
+      userPaymentService.getPaymentMethods.mockReturnValue(of([]));
 
       service.getCards$().subscribe((cards) => {
-        expect(cards).toEqual([]);
-        done();
-      });
+        expect(cards).toEqual([]);      });
     });
 
-    it('should return cards mapped from payment methods', (done) => {
-      userPaymentService.getPaymentMethods.and.returnValue(
+    it('should return cards mapped from payment methods', async () => {
+      userPaymentService.getPaymentMethods.mockReturnValue(
         of([mockPaymentDetails])
       );
-      translationService.translate.and.callFake((key: string) => of(key));
-      orderFacade.placePaymentAuthorizedOrder.and.returnValue(of(null));
+      translationService.translate.mockImplementation((key: string) => of(key));
+      orderFacade.placePaymentAuthorizedOrder.mockReturnValue(of(null));
 
       service.getCards$().subscribe((cards) => {
         expect(cards.length).toBe(1);
         expect(cards[0].paymentMethod).toEqual(mockPaymentDetails);
-        expect(cards[0].content).toBeDefined();
-        done();
-      });
+        expect(cards[0].content).toBeDefined();      });
     });
 
-    it('should mark selected card with selected header', (done) => {
-      userPaymentService.getPaymentMethods.and.returnValue(
+    it('should mark selected card with selected header', async () => {
+      userPaymentService.getPaymentMethods.mockReturnValue(
         of([mockPaymentDetails])
       );
       (service as any).selectedPaymentMethod$.next(mockPaymentDetails);
-      translationService.translate.and.callFake((key: string) => of(key));
-      orderFacade.placePaymentAuthorizedOrder.and.returnValue(of(null));
+      translationService.translate.mockImplementation((key: string) => of(key));
+      orderFacade.placePaymentAuthorizedOrder.mockReturnValue(of(null));
 
       service.getCards$().subscribe((cards) => {
-        expect(cards[0].content.header).toBe('paymentCard.selected');
-        done();
-      });
+        expect(cards[0].content.header).toBe('paymentCard.selected');      });
     });
 
-    it('should show action button for unselected cards', (done) => {
-      userPaymentService.getPaymentMethods.and.returnValue(
+    it('should show action button for unselected cards', async () => {
+      userPaymentService.getPaymentMethods.mockReturnValue(
         of([mockPaymentDetails])
       );
       (service as any).selectedPaymentMethod$.next(undefined);
 
       service.getCards$().subscribe((cards) => {
-        expect(cards[0].content.actions?.length).toBeGreaterThan(0);
-        done();
-      });
+        expect(cards[0].content.actions?.length).toBeGreaterThan(0);      });
     });
   });
 
@@ -626,7 +576,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
         expiryYear: '2020',
         defaultPayment: false,
       };
-      spyOn(service, 'isCardExpired').and.returnValue(true);
+      vi.spyOn(service, 'isCardExpired').mockReturnValue(true);
 
       const card = (service as any).createCard(
         expiredPayment,
@@ -650,7 +600,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
         expiryYear: '2020',
         defaultPayment: false,
       };
-      spyOn(service, 'isCardExpired').and.returnValue(true);
+      vi.spyOn(service, 'isCardExpired').mockReturnValue(true);
 
       const card = (service as any).createCard(
         expiredPayment,
@@ -668,7 +618,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should include both actions for a non-expired, non-selected, non-default card', () => {
-      spyOn(service, 'isCardExpired').and.returnValue(false);
+      vi.spyOn(service, 'isCardExpired').mockReturnValue(false);
 
       const card = (service as any).createCard(
         { ...mockPaymentDetails, defaultPayment: false },
@@ -699,7 +649,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should add global message when new payment method selected', () => {
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       service.selectPaymentMethod(mockPaymentDetails);
 
@@ -710,7 +660,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should update selected payment method', () => {
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       service.selectPaymentMethod(mockPaymentDetails);
 
@@ -720,7 +670,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should call markCardAsSelected on savedCardsService with payment id', () => {
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       service.selectPaymentMethod(mockPaymentDetails);
 
@@ -730,7 +680,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should call savePaymentMethod with payment details', () => {
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       service.selectPaymentMethod(mockPaymentDetails);
 
@@ -748,7 +698,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
         defaultPayment: false,
       };
 
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       service.selectDefaultPaymentMethod([singleCardWithoutDefault], undefined);
 
@@ -813,9 +763,9 @@ describe('OpfTokenisationPaymentMethodService', () => {
 
   describe('savePaymentMethod()', () => {
     it('should set busy to true before saving', () => {
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
-      const busySpy = jasmine.createSpy('busy');
+      const busySpy = vi.fn();
       (service as any).busy$.subscribe(busySpy);
 
       (service as any).savePaymentMethod(mockPaymentDetails);
@@ -824,7 +774,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should set busy to false on success', () => {
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(of(undefined));
 
       (service as any).savePaymentMethod(mockPaymentDetails);
 
@@ -832,7 +782,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should set busy to false on error', () => {
-      checkoutPaymentFacade.setPaymentDetails.and.returnValue(
+      checkoutPaymentFacade.setPaymentDetails.mockReturnValue(
         new (require('rxjs').Observable)((observer: any) =>
           observer.error(new Error('error'))
         )
@@ -846,7 +796,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
 
   describe('setPaymentDetails()', () => {
     it('should set paymentDetails property', () => {
-      checkoutPaymentFacade.createPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.createPaymentDetails.mockReturnValue(of(undefined));
 
       service.setPaymentDetails({ paymentDetails: mockPaymentDetails });
 
@@ -854,7 +804,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should use provided billingAddress', () => {
-      checkoutPaymentFacade.createPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.createPaymentDetails.mockReturnValue(of(undefined));
       const billingAddress: Address = { firstName: 'Jane', line1: '456 St' };
 
       service.setPaymentDetails({
@@ -863,25 +813,25 @@ describe('OpfTokenisationPaymentMethodService', () => {
       });
 
       expect(checkoutPaymentFacade.createPaymentDetails).toHaveBeenCalledWith(
-        jasmine.objectContaining({ billingAddress })
+        expect.objectContaining({ billingAddress })
       );
     });
 
     it('should fallback to deliveryAddress when billingAddress is not provided', () => {
-      checkoutPaymentFacade.createPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.createPaymentDetails.mockReturnValue(of(undefined));
       (service as any).deliveryAddress = mockAddress;
 
       service.setPaymentDetails({ paymentDetails: mockPaymentDetails });
 
       expect(checkoutPaymentFacade.createPaymentDetails).toHaveBeenCalledWith(
-        jasmine.objectContaining({ billingAddress: mockAddress })
+        expect.objectContaining({ billingAddress: mockAddress })
       );
     });
 
     it('should set busy to true while creating payment details', () => {
-      checkoutPaymentFacade.createPaymentDetails.and.returnValue(of(undefined));
+      checkoutPaymentFacade.createPaymentDetails.mockReturnValue(of(undefined));
 
-      const busySpy = jasmine.createSpy('busy');
+      const busySpy = vi.fn();
       (service as any).busy$.subscribe(busySpy);
 
       service.setPaymentDetails({ paymentDetails: mockPaymentDetails });
@@ -890,12 +840,12 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should call next() on complete', () => {
-      checkoutPaymentFacade.createPaymentDetails.and.returnValue(of(undefined));
-      orderFacade.placePaymentAuthorizedOrder.and.returnValue(
+      checkoutPaymentFacade.createPaymentDetails.mockReturnValue(of(undefined));
+      orderFacade.placePaymentAuthorizedOrder.mockReturnValue(
         of({ guid: 'order-1' })
       );
 
-      const nextSpy = spyOn(service, 'next').and.callThrough();
+      const nextSpy = vi.spyOn(service, 'next');
 
       service.setPaymentDetails({ paymentDetails: mockPaymentDetails });
 
@@ -903,12 +853,12 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should call onError() on error', () => {
-      checkoutPaymentFacade.createPaymentDetails.and.returnValue(
+      checkoutPaymentFacade.createPaymentDetails.mockReturnValue(
         new (require('rxjs').Observable)((observer: any) =>
           observer.error(new Error('error'))
         )
       );
-      const onErrorSpy = spyOn(service as any, 'onError').and.callThrough();
+      const onErrorSpy = vi.spyOn(service as any, 'onError');
 
       service.setPaymentDetails({ paymentDetails: mockPaymentDetails });
 
@@ -918,7 +868,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
 
   describe('next()', () => {
     it('should call placePaymentAuthorizedOrder', () => {
-      orderFacade.placePaymentAuthorizedOrder.and.returnValue(
+      orderFacade.placePaymentAuthorizedOrder.mockReturnValue(
         of({ guid: 'order-1' })
       );
 
@@ -930,7 +880,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should navigate to orderConfirmation on success', () => {
-      orderFacade.placePaymentAuthorizedOrder.and.returnValue(
+      orderFacade.placePaymentAuthorizedOrder.mockReturnValue(
         of({ guid: 'order-1' })
       );
 
@@ -942,7 +892,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should set busy to false after successful order placement', () => {
-      orderFacade.placePaymentAuthorizedOrder.and.returnValue(
+      orderFacade.placePaymentAuthorizedOrder.mockReturnValue(
         of({ guid: 'order-1' })
       );
 
@@ -952,7 +902,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should set busy to false on error', () => {
-      orderFacade.placePaymentAuthorizedOrder.and.returnValue(
+      orderFacade.placePaymentAuthorizedOrder.mockReturnValue(
         new (require('rxjs').Observable)((observer: any) =>
           observer.error(new Error('error'))
         )
@@ -964,7 +914,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     });
 
     it('should not navigate when order is falsy', () => {
-      orderFacade.placePaymentAuthorizedOrder.and.returnValue(of(null));
+      orderFacade.placePaymentAuthorizedOrder.mockReturnValue(of(null));
 
       service.next();
 
@@ -1019,39 +969,36 @@ describe('OpfTokenisationPaymentMethodService', () => {
       expect(() => service.focusCardAfterSelecting()).not.toThrow();
     });
 
-    it('should find and focus selected card after update completes', (done) => {
+    it('should find and focus selected card after update completes', async () => {
       const mockCard = document.createElement('cx-card');
       const mockFocusable = document.createElement('button');
-      spyOn(window, 'requestAnimationFrame').and.callFake(
+      vi.spyOn(window, 'requestAnimationFrame').mockImplementation(
         (cb: FrameRequestCallback) => {
           cb(0);
           return 0;
         }
       );
 
-      (windowRef.document as any).querySelectorAll = jasmine
-        .createSpy()
-        .and.returnValue([mockCard]);
+      (windowRef.document as any).querySelectorAll = vi.fn()
+        .mockReturnValue([mockCard]);
       (windowRef.document as any).activeElement = {
-        closest: jasmine.createSpy('closest').and.returnValue(mockCard),
+        closest: vi.fn().mockReturnValue(mockCard),
       };
 
-      focusService.findFirstFocusable.and.returnValue(mockFocusable);
-      spyOn(mockFocusable, 'focus');
+      focusService.findFirstFocusable.mockReturnValue(mockFocusable);
+      vi.spyOn(mockFocusable, 'focus');
 
       service.focusCardAfterSelecting();
 
       (service as any).busy$.next(false);
 
       expect(focusService.findFirstFocusable).toHaveBeenCalledWith(mockCard);
-      expect(mockFocusable.focus).toHaveBeenCalled();
-      done();
-    });
+      expect(mockFocusable.focus).toHaveBeenCalled();    });
   });
 
   describe('destroy()', () => {
     it('should unsubscribe from all subscriptions', () => {
-      const unsubscribeSpy = spyOn(
+      const unsubscribeSpy = vi.spyOn(
         (service as any).subscriptions,
         'unsubscribe'
       );

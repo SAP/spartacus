@@ -14,6 +14,7 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { ConverterService, LoggerService } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
 import {
@@ -138,10 +139,10 @@ describe('OpfApiBaseAdapter', () => {
     opfEndpointsService = TestBed.inject(OpfEndpointsService);
     logger = TestBed.inject(LoggerService);
 
-    spyOn(converter, 'pipeable').and.returnValue(
+    vi.spyOn(converter, 'pipeable').mockReturnValue(
       map(() => mockActiveConfigurationsResponse)
     );
-    spyOn(logger, 'error').and.callThrough();
+    vi.spyOn(logger, 'error');
   });
 
   afterEach(() => {
@@ -185,21 +186,17 @@ describe('OpfApiBaseAdapter - enableGetActiveConfigurationsAccessCodeHeader', ()
   let service: OpfApiBaseAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
-  let userIdServiceMock: jasmine.SpyObj<UserIdService>;
-  let activeCartFacadeMock: jasmine.SpyObj<ActiveCartFacade>;
-  let cartAccessCodeFacadeMock: jasmine.SpyObj<CartAccessCodeFacade>;
+  let userIdServiceMock: any;
+  let activeCartFacadeMock: any;
+  let cartAccessCodeFacadeMock: any;
 
   beforeEach(() => {
-    userIdServiceMock = jasmine.createSpyObj('UserIdService', ['takeUserId']);
-    activeCartFacadeMock = jasmine.createSpyObj('ActiveCartFacade', [
-      'takeActiveCartId',
-    ]);
-    cartAccessCodeFacadeMock = jasmine.createSpyObj('CartAccessCodeFacade', [
-      'getCartAccessCode',
-    ]);
-    userIdServiceMock.takeUserId.and.returnValue(of('user1'));
-    activeCartFacadeMock.takeActiveCartId.and.returnValue(of('cart1'));
-    cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(
+    userIdServiceMock = { takeUserId: vi.fn() };
+    activeCartFacadeMock = { takeActiveCartId: vi.fn() };
+    cartAccessCodeFacadeMock = { getCartAccessCode: vi.fn() };
+    userIdServiceMock.takeUserId.mockReturnValue(of('user1'));
+    activeCartFacadeMock.takeActiveCartId.mockReturnValue(of('cart1'));
+    cartAccessCodeFacadeMock.getCartAccessCode.mockReturnValue(
       of({ accessCode: 'test-access-code' })
     );
 
@@ -233,7 +230,7 @@ describe('OpfApiBaseAdapter - enableGetActiveConfigurationsAccessCodeHeader', ()
     service = TestBed.inject(OpfApiBaseAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'pipeable').and.returnValue(
+    vi.spyOn(converter, 'pipeable').mockReturnValue(
       map(() => mockActiveConfigurationsResponse)
     );
   });
@@ -267,7 +264,7 @@ describe('OpfApiBaseAdapter - enableGetActiveConfigurationsAccessCodeHeader', ()
   });
 
   it('should send empty string when getCartAccessCode returns null', () => {
-    cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(of(null));
+    cartAccessCodeFacadeMock.getCartAccessCode.mockReturnValue(of(null));
 
     service.getActiveConfigurations().subscribe();
 

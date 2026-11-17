@@ -5,6 +5,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { of } from 'rxjs';
 import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service';
 import { OpfCtaQuickBuyButtonsComponent } from './opf-cta-quick-buy-buttons.component';
@@ -12,12 +13,10 @@ import { OpfCtaQuickBuyButtonsComponent } from './opf-cta-quick-buy-buttons.comp
 describe('OpfCtaQuickBuyButtonsComponent', () => {
   let component: OpfCtaQuickBuyButtonsComponent;
   let fixture: ComponentFixture<OpfCtaQuickBuyButtonsComponent>;
-  let opfCtaScriptsService: jasmine.SpyObj<OpfCtaScriptsService>;
+  let opfCtaScriptsService: any;
 
   beforeEach(() => {
-    opfCtaScriptsService = jasmine.createSpyObj('OpfCtaScriptsService', [
-      'getQuickBuyCtaHtmlList',
-    ]);
+    opfCtaScriptsService = { getQuickBuyCtaHtmlList: vi.fn() };
 
     TestBed.configureTestingModule({
       imports: [OpfCtaQuickBuyButtonsComponent],
@@ -26,7 +25,7 @@ describe('OpfCtaQuickBuyButtonsComponent', () => {
       ],
     });
 
-    opfCtaScriptsService.getQuickBuyCtaHtmlList.and.returnValue(of([]));
+    opfCtaScriptsService.getQuickBuyCtaHtmlList.mockReturnValue(of([]));
 
     fixture = TestBed.createComponent(OpfCtaQuickBuyButtonsComponent);
     component = fixture.componentInstance;

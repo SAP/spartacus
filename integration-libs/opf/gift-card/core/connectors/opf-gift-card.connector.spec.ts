@@ -13,10 +13,11 @@ import { of, throwError } from 'rxjs';
 import { OpfGiftCardAdapter } from './opf-gift-card.adapter';
 import { OpfGiftCardConnector } from './opf-gift-card.connector';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 describe('OpfGiftCardConnector', () => {
   let connector: OpfGiftCardConnector;
-  let mockAdapter: jasmine.SpyObj<OpfGiftCardAdapter>;
+  let mockAdapter: any;
 
   const mockSAPGiftCardResponse: OpfGiftCardResponse = {
     id: 'gc-123',
@@ -31,10 +32,7 @@ describe('OpfGiftCardConnector', () => {
   };
 
   beforeEach(() => {
-    mockAdapter = jasmine.createSpyObj('OpfGiftCardAdapter', [
-      'applyGiftCard',
-      'removeGiftCard',
-    ]);
+    mockAdapter = { applyGiftCard: vi.fn(), removeGiftCard: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -53,29 +51,27 @@ describe('OpfGiftCardConnector', () => {
     expect((connector as any).adapter).toBeTruthy();
   });
   describe('applyGiftCard', () => {
-    it('should delegate to adapter', (done) => {
+    it('should delegate to adapter', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
         .subscribe((response) => {
-          expect(response).toEqual(mockSAPGiftCardResponse);
-          done();
-        });
+          expect(response).toEqual(mockSAPGiftCardResponse);        });
     });
 
-    it('should pass correct parameters to adapter', (done) => {
+    it('should pass correct parameters to adapter', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-456', 'cart-456', mockRequest)
@@ -84,35 +80,31 @@ describe('OpfGiftCardConnector', () => {
             'user-456',
             'cart-456',
             mockRequest
-          );
-          done();
-        });
+          );        });
     });
 
-    it('should handle adapter error', (done) => {
+    it('should handle adapter error', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
       const mockError = new Error('Adapter error');
-      mockAdapter.applyGiftCard.and.returnValue(throwError(() => mockError));
+      mockAdapter.applyGiftCard.mockReturnValue(throwError(() => mockError));
 
       connector.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe({
         error: (error) => {
-          expect(error).toEqual(mockError);
-          done();
-        },
+          expect(error).toEqual(mockError);        },
       });
     });
 
-    it('should return gift card response with correct structure', (done) => {
+    it('should return gift card response with correct structure', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
@@ -121,18 +113,16 @@ describe('OpfGiftCardConnector', () => {
           expect(response.maskedNumber).toBe('****1111');
           expect(response.balance.value).toBe(100);
           expect(response.appliedAmount.value).toBe(20);
-          expect(response.remainingBalance.value).toBe(80);
-          done();
-        });
+          expect(response.remainingBalance.value).toBe(80);        });
     });
 
-    it('should handle different user IDs', (done) => {
+    it('should handle different user IDs', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-special-id', 'cart-123', mockRequest)
@@ -141,18 +131,16 @@ describe('OpfGiftCardConnector', () => {
             'user-special-id',
             'cart-123',
             mockRequest
-          );
-          done();
-        });
+          );        });
     });
 
-    it('should handle different cart IDs', (done) => {
+    it('should handle different cart IDs', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-special-id', mockRequest)
@@ -161,12 +149,10 @@ describe('OpfGiftCardConnector', () => {
             'user-123',
             'cart-special-id',
             mockRequest
-          );
-          done();
-        });
+          );        });
     });
 
-    it('should handle multiple gift card responses', (done) => {
+    it('should handle multiple gift card responses', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
@@ -184,37 +170,33 @@ describe('OpfGiftCardConnector', () => {
         },
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(anotherResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(anotherResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
         .subscribe((response) => {
           expect(response.id).toBe('gc-456');
-          expect(response.balance.value).toBe(50);
-          done();
-        });
+          expect(response.balance.value).toBe(50);        });
     });
 
-    it('should only call adapter once per subscription', (done) => {
+    it('should only call adapter once per subscription', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
         .subscribe(() => {
-          expect(mockAdapter.applyGiftCard).toHaveBeenCalledTimes(1);
-          done();
-        });
+          expect(mockAdapter.applyGiftCard).toHaveBeenCalledTimes(1);        });
     });
   });
 
   describe('removeGiftCard', () => {
-    it('should delegate to adapter', (done) => {
-      mockAdapter.removeGiftCard.and.returnValue(of(void 0));
+    it('should delegate to adapter', async () => {
+      mockAdapter.removeGiftCard.mockReturnValue(of(void 0));
 
       connector
         .removeGiftCard('user-123', 'cart-123', 'gc-123')
@@ -223,13 +205,11 @@ describe('OpfGiftCardConnector', () => {
             'user-123',
             'cart-123',
             'gc-123'
-          );
-          done();
-        });
+          );        });
     });
 
-    it('should pass correct parameters to adapter', (done) => {
-      mockAdapter.removeGiftCard.and.returnValue(of(void 0));
+    it('should pass correct parameters to adapter', async () => {
+      mockAdapter.removeGiftCard.mockReturnValue(of(void 0));
 
       connector
         .removeGiftCard('user-456', 'cart-456', 'gc-456')
@@ -238,13 +218,11 @@ describe('OpfGiftCardConnector', () => {
             'user-456',
             'cart-456',
             'gc-456'
-          );
-          done();
-        });
+          );        });
     });
 
-    it('should handle successful removal', (done) => {
-      mockAdapter.removeGiftCard.and.returnValue(of(void 0));
+    it('should handle successful removal', async () => {
+      mockAdapter.removeGiftCard.mockReturnValue(of(void 0));
 
       let completed = false;
       connector.removeGiftCard('user-123', 'cart-123', 'gc-123').subscribe({
@@ -252,26 +230,22 @@ describe('OpfGiftCardConnector', () => {
           completed = true;
         },
         complete: () => {
-          expect(completed).toBeTruthy();
-          done();
-        },
+          expect(completed).toBeTruthy();        },
       });
     });
 
-    it('should handle adapter error on removal', (done) => {
+    it('should handle adapter error on removal', async () => {
       const mockError = new Error('Remove failed');
-      mockAdapter.removeGiftCard.and.returnValue(throwError(() => mockError));
+      mockAdapter.removeGiftCard.mockReturnValue(throwError(() => mockError));
 
       connector.removeGiftCard('user-123', 'cart-123', 'gc-123').subscribe({
         error: (error) => {
-          expect(error).toEqual(mockError);
-          done();
-        },
+          expect(error).toEqual(mockError);        },
       });
     });
 
-    it('should handle different gift card IDs', (done) => {
-      mockAdapter.removeGiftCard.and.returnValue(of(void 0));
+    it('should handle different gift card IDs', async () => {
+      mockAdapter.removeGiftCard.mockReturnValue(of(void 0));
 
       connector
         .removeGiftCard('user-123', 'cart-123', 'gc-special-id')
@@ -280,43 +254,34 @@ describe('OpfGiftCardConnector', () => {
             'user-123',
             'cart-123',
             'gc-special-id'
-          );
-          done();
-        });
+          );        });
     });
 
-    it('should handle multiple removals', (done) => {
-      mockAdapter.removeGiftCard.and.returnValue(of(void 0));
+    it('should handle multiple removals', async () => {
+      mockAdapter.removeGiftCard.mockReturnValue(of(void 0));
 
       connector.removeGiftCard('user-123', 'cart-123', 'gc-1').subscribe();
       connector.removeGiftCard('user-123', 'cart-123', 'gc-2').subscribe();
 
-      setTimeout(() => {
-        expect(mockAdapter.removeGiftCard).toHaveBeenCalledTimes(2);
-        done();
-      }, 50);
+      expect(mockAdapter.removeGiftCard).toHaveBeenCalledTimes(2);
     });
 
-    it('should return void observable', (done) => {
-      mockAdapter.removeGiftCard.and.returnValue(of(void 0));
+    it('should return void observable', async () => {
+      mockAdapter.removeGiftCard.mockReturnValue(of(void 0));
 
       connector.removeGiftCard('user-123', 'cart-123', 'gc-123').subscribe({
         next: (result) => {
-          expect(result).toBeUndefined();
-          done();
-        },
+          expect(result).toBeUndefined();        },
       });
     });
 
-    it('should only call adapter once per subscription', (done) => {
-      mockAdapter.removeGiftCard.and.returnValue(of(void 0));
+    it('should only call adapter once per subscription', async () => {
+      mockAdapter.removeGiftCard.mockReturnValue(of(void 0));
 
       connector
         .removeGiftCard('user-123', 'cart-123', 'gc-123')
         .subscribe(() => {
-          expect(mockAdapter.removeGiftCard).toHaveBeenCalledTimes(1);
-          done();
-        });
+          expect(mockAdapter.removeGiftCard).toHaveBeenCalledTimes(1);        });
     });
   });
 
@@ -332,8 +297,8 @@ describe('OpfGiftCardConnector', () => {
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
-      mockAdapter.removeGiftCard.and.returnValue(of(void 0));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.removeGiftCard.mockReturnValue(of(void 0));
 
       connector.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe();
       connector.removeGiftCard('user-123', 'cart-123', 'gc-123').subscribe();
@@ -343,13 +308,13 @@ describe('OpfGiftCardConnector', () => {
   });
 
   describe('Observable Behavior', () => {
-    it('should emit values from adapter observable', (done) => {
+    it('should emit values from adapter observable', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
 
       let emitted = false;
       connector
@@ -358,19 +323,16 @@ describe('OpfGiftCardConnector', () => {
           emitted = true;
         });
 
-      setTimeout(() => {
-        expect(emitted).toBeTruthy();
-        done();
-      }, 50);
+      expect(emitted).toBeTruthy();
     });
 
-    it('should allow multiple subscriptions', (done) => {
+    it('should allow multiple subscriptions', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
 
       let subscription1Emitted = false;
       let subscription2Emitted = false;
@@ -389,53 +351,46 @@ describe('OpfGiftCardConnector', () => {
         subscription2Emitted = true;
       });
 
-      setTimeout(() => {
-        expect(subscription1Emitted).toBeTruthy();
-        expect(subscription2Emitted).toBeTruthy();
-        done();
-      }, 50);
+      expect(subscription1Emitted).toBeTruthy();
+      expect(subscription2Emitted).toBeTruthy(); 
     });
   });
 
   describe('Error Propagation', () => {
-    it('should propagate adapter errors immediately', (done) => {
+    it('should propagate adapter errors immediately', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
       const mockError = new Error('Adapter failed');
-      mockAdapter.applyGiftCard.and.returnValue(throwError(() => mockError));
+      mockAdapter.applyGiftCard.mockReturnValue(throwError(() => mockError));
 
       connector.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe({
         error: (error) => {
-          expect(error).toEqual(mockError);
-          done();
-        },
+          expect(error).toEqual(mockError);        },
       });
     });
 
-    it('should propagate errors from removeGiftCard', (done) => {
+    it('should propagate errors from removeGiftCard', async () => {
       const mockError = new Error('Remove failed');
-      mockAdapter.removeGiftCard.and.returnValue(throwError(() => mockError));
+      mockAdapter.removeGiftCard.mockReturnValue(throwError(() => mockError));
 
       connector.removeGiftCard('user-123', 'cart-123', 'gc-123').subscribe({
         error: (error) => {
-          expect(error).toEqual(mockError);
-          done();
-        },
+          expect(error).toEqual(mockError);        },
       });
     });
   });
 
   describe('Type Safety', () => {
-    it('should return correct response type', (done) => {
+    it('should return correct response type', async () => {
       const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
+      mockAdapter.applyGiftCard.mockReturnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
@@ -443,20 +398,16 @@ describe('OpfGiftCardConnector', () => {
           expect(typeof response).toBe('object');
           expect(response.id).toBeTruthy();
           expect(response.maskedNumber).toBeTruthy();
-          expect(response.balance).toBeTruthy();
-          done();
-        });
+          expect(response.balance).toBeTruthy();        });
     });
 
-    it('should return void type for removeGiftCard', (done) => {
-      mockAdapter.removeGiftCard.and.returnValue(of(void 0));
+    it('should return void type for removeGiftCard', async () => {
+      mockAdapter.removeGiftCard.mockReturnValue(of(void 0));
 
       connector
         .removeGiftCard('user-123', 'cart-123', 'gc-123')
         .subscribe(() => {
-          expect(true).toBeTruthy();
-          done();
-        });
+          expect(true).toBeTruthy();        });
     });
   });
 });

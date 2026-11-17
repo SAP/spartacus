@@ -188,7 +188,7 @@ describe('OpfB2bCheckoutReviewComponent', () => {
   });
 
   it('should update terms and conditions state when toggled', () => {
-    const updateSpy = spyOn(opfMetadataStoreService, 'updateOpfMetadata');
+    const updateSpy = vi.spyOn(opfMetadataStoreService, 'updateOpfMetadata');
     component.toggleTermsAndConditions();
     expect(updateSpy).toHaveBeenCalledWith({
       termsAndConditionsChecked: false,
@@ -199,7 +199,7 @@ describe('OpfB2bCheckoutReviewComponent', () => {
     const mockCart: Cart = {
       paymentType: { code: 'ACCOUNT' } as PaymentType,
     } as Cart;
-    spyOn(component['activeCartFacade'], 'getActive').and.returnValue(
+    vi.spyOn(component['activeCartFacade'], 'getActive').mockReturnValue(
       of(mockCart)
     );
     component.paymentType$.subscribe((type) => {
@@ -249,7 +249,7 @@ describe('OpfB2bCheckoutReviewComponent', () => {
   });
 
   it('should return false when page is null', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(of(null));
+    vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(null));
     component.explicitTermsAndConditions$.subscribe((result) => {
       expect(result).toBeFalsy();
     });

@@ -5,12 +5,12 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { OpfQuickBuyProviderType } from '../../root/model';
 import { OpfQuickBuyButtonsComponent } from './opf-quick-buy-buttons.component';
 import { OpfQuickBuyButtonsService } from './opf-quick-buy-buttons.service';
-import createSpy = jasmine.createSpy;
 import { OpfActiveConfiguration } from '@spartacus/opf/base/root';
 
 const routerStateSubject = new BehaviorSubject<RouterState>({
@@ -20,7 +20,7 @@ const routerStateSubject = new BehaviorSubject<RouterState>({
 } as unknown as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(
+  getRouterState = vi.fn().mockReturnValue(
     routerStateSubject.asObservable()
   );
 }
@@ -31,12 +31,7 @@ describe('OpfQuickBuyButtonsComponent', () => {
   let opfQuickBuyButtonsServiceMock: any;
 
   beforeEach(async () => {
-    opfQuickBuyButtonsServiceMock = jasmine.createSpyObj('OpfQuickBuyService', [
-      'getPaymentGatewayConfiguration',
-      'isQuickBuyProviderEnabled',
-      'getQuickBuyProviderConfig',
-      'getActiveConfigurationForProvider',
-    ]);
+    opfQuickBuyButtonsServiceMock = { getPaymentGatewayConfiguration: vi.fn(), isQuickBuyProviderEnabled: vi.fn(), getQuickBuyProviderConfig: vi.fn(), getActiveConfigurationForProvider: vi.fn() };
 
     await TestBed.configureTestingModule({
       imports: [OpfQuickBuyButtonsComponent],
@@ -54,7 +49,7 @@ describe('OpfQuickBuyButtonsComponent', () => {
     fixture = TestBed.createComponent(OpfQuickBuyButtonsComponent);
     component = fixture.componentInstance;
 
-    opfQuickBuyButtonsServiceMock.getPaymentGatewayConfiguration.and.returnValue(
+    opfQuickBuyButtonsServiceMock.getPaymentGatewayConfiguration.mockReturnValue(
       of({})
     );
 
@@ -74,7 +69,7 @@ describe('OpfQuickBuyButtonsComponent', () => {
   it('should determine if a payment method is enabled', () => {
     const provider = OpfQuickBuyProviderType.APPLE_PAY;
     const activeConfiguration: OpfActiveConfiguration[] = [];
-    opfQuickBuyButtonsServiceMock.isQuickBuyProviderEnabled.and.returnValue(
+    opfQuickBuyButtonsServiceMock.isQuickBuyProviderEnabled.mockReturnValue(
       true
     );
 

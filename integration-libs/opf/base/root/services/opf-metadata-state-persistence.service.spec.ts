@@ -4,6 +4,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { LANGUAGE_CONTEXT_ID, StatePersistenceService } from '@spartacus/core';
 import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { OpfMetadataModel } from '../model';
@@ -23,18 +24,12 @@ const mockOpfMetadata: OpfMetadataModel = {
 
 describe('OpfMetadataStatePersistanceService', () => {
   let service: OpfMetadataStatePersistanceService;
-  let statePersistenceServiceMock: jasmine.SpyObj<StatePersistenceService>;
-  let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
+  let statePersistenceServiceMock: any;
+  let opfMetadataStoreServiceMock: any;
 
   beforeEach(() => {
-    statePersistenceServiceMock = jasmine.createSpyObj(
-      'StatePersistenceService',
-      ['syncWithStorage', 'readStateFromStorage']
-    );
-    opfMetadataStoreServiceMock = jasmine.createSpyObj(
-      'OpMetadataStoreService',
-      ['getOpfMetadataState', 'updateOpfMetadata']
-    );
+    statePersistenceServiceMock = { syncWithStorage: vi.fn(), readStateFromStorage: vi.fn() };
+    opfMetadataStoreServiceMock = { getOpfMetadataState: vi.fn(), updateOpfMetadata: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -66,7 +61,7 @@ describe('OpfMetadataStatePersistanceService', () => {
       mockSyncedOpfState
     );
 
-    opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+    opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
       of(stateObservable.value?.metadata)
     );
 
@@ -75,20 +70,18 @@ describe('OpfMetadataStatePersistanceService', () => {
     expect(statePersistenceServiceMock.syncWithStorage).toHaveBeenCalled();
   });
 
-  it('should get and transform Opf state', (done) => {
+  it('should get and transform Opf state', async () => {
     const stateObservable = new BehaviorSubject<OpfMetadataModel>(
       mockOpfMetadata
     );
-    opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+    opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
       stateObservable
     );
 
     const { opfPaymentSessionId, ...expectedMetadata } = mockOpfMetadata;
 
     service['getOpfState']().subscribe((state: any) => {
-      expect(state).toEqual({ metadata: expectedMetadata });
-      done();
-    });
+      expect(state).toEqual({ metadata: expectedMetadata });    });
   });
 
   it('should update OpfMetadataStoreService when onRead is called', () => {
@@ -104,7 +97,7 @@ describe('OpfMetadataStatePersistanceService', () => {
   });
 
   it('should unsubscribe on ngOnDestroy', () => {
-    spyOn(Subscription.prototype, 'unsubscribe');
+    vi.spyOn(Subscription.prototype, 'unsubscribe');
     service.ngOnDestroy();
     expect(Subscription.prototype.unsubscribe).toHaveBeenCalled();
   });

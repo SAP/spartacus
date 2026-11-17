@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   ActiveCartFacade,
   CartAccessCodeFacade,
@@ -39,26 +40,16 @@ const mockAccessCode = 'mockAccessCode';
 
 describe('OpfQuickBuyService', () => {
   let service: OpfQuickBuyService;
-  let opfQuickBuyConnector: jasmine.SpyObj<OpfQuickBuyConnector>;
-  let cartAccessCodeFacade: jasmine.SpyObj<CartAccessCodeFacade>;
-  let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
-  let userIdService: jasmine.SpyObj<UserIdService>;
+  let opfQuickBuyConnector: any;
+  let cartAccessCodeFacade: any;
+  let activeCartFacade: any;
+  let userIdService: any;
 
   beforeEach(() => {
-    const opfQuickBuyConnectorSpy = jasmine.createSpyObj(
-      'OpfQuickBuyConnector',
-      ['getApplePayWebSession']
-    );
-    const cartAccessCodeFacadeSpy = jasmine.createSpyObj(
-      'CartAccessCodeFacade',
-      ['getCartAccessCode']
-    );
-    const activeCartFacadeSpy = jasmine.createSpyObj('ActiveCartFacade', [
-      'getActiveCartId',
-    ]);
-    const userIdServiceSpy = jasmine.createSpyObj('UserIdService', [
-      'getUserId',
-    ]);
+    const opfQuickBuyConnectorSpy = { getApplePayWebSession: vi.fn() };
+    const cartAccessCodeFacadeSpy = { getCartAccessCode: vi.fn() };
+    const activeCartFacadeSpy = { getActiveCartId: vi.fn() };
+    const userIdServiceSpy = { getUserId: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -73,25 +64,25 @@ describe('OpfQuickBuyService', () => {
     service = TestBed.inject(OpfQuickBuyService);
     opfQuickBuyConnector = TestBed.inject(
       OpfQuickBuyConnector
-    ) as jasmine.SpyObj<OpfQuickBuyConnector>;
+    ) as any;
     cartAccessCodeFacade = TestBed.inject(
       CartAccessCodeFacade
-    ) as jasmine.SpyObj<CartAccessCodeFacade>;
+    ) as any;
     activeCartFacade = TestBed.inject(
       ActiveCartFacade
-    ) as jasmine.SpyObj<ActiveCartFacade>;
+    ) as any;
     userIdService = TestBed.inject(
       UserIdService
-    ) as jasmine.SpyObj<UserIdService>;
+    ) as any;
   });
 
-  it('should successfully get ApplePay web session', (done) => {
-    userIdService.getUserId.and.returnValue(of('mockUserId'));
-    activeCartFacade.getActiveCartId.and.returnValue(of('mockCartId'));
-    cartAccessCodeFacade.getCartAccessCode.and.returnValue(
+  it('should successfully get ApplePay web session', async () => {
+    userIdService.getUserId.mockReturnValue(of('mockUserId'));
+    activeCartFacade.getActiveCartId.mockReturnValue(of('mockCartId'));
+    cartAccessCodeFacade.getCartAccessCode.mockReturnValue(
       of({ accessCode: mockAccessCode })
     );
-    opfQuickBuyConnector.getApplePayWebSession.and.returnValue(
+    opfQuickBuyConnector.getApplePayWebSession.mockReturnValue(
       of(mockGetApplePayWebSessionResponse)
     );
 
@@ -102,8 +93,6 @@ describe('OpfQuickBuyService', () => {
         expect(opfQuickBuyConnector.getApplePayWebSession).toHaveBeenCalledWith(
           mockGetApplePayWebSessionRequest,
           mockAccessCode
-        );
-        done();
-      });
+        );      });
   });
 });

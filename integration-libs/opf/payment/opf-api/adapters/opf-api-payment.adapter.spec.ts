@@ -15,7 +15,8 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   BaseOccUrlProperties,
   ConverterService,
@@ -147,9 +148,9 @@ describe(`OpfApiPaymentAdapter`, () => {
     httpClient = TestBed.inject(HttpClient);
     converter = TestBed.inject(ConverterService);
     opfEndpointsService = TestBed.inject(OpfEndpointsService);
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(opfEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'convert');
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(opfEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {
@@ -161,14 +162,12 @@ describe(`OpfApiPaymentAdapter`, () => {
   });
 
   describe(`verifyPayment`, () => {
-    it(`should get all supported delivery modes for cart for given user id and cart id`, (done) => {
+    it(`should get all supported delivery modes for cart for given user id and cart id`, async () => {
       service
         .verifyPayment(mockPaymentSessionId, mockPayload)
         .pipe(take(1))
         .subscribe((result) => {
-          expect(result).toEqual(mockResult);
-          done();
-        });
+          expect(result).toEqual(mockResult);        });
 
       const url = service['verifyPaymentEndpoint'](mockPaymentSessionId);
       const mockReq = httpMock.expectOne(url);
@@ -182,25 +181,28 @@ describe(`OpfApiPaymentAdapter`, () => {
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+    vi.useFakeTimers();
+        vi.spyOn(httpClient, 'post').mockReturnValue(throwError(mockJaloError));
 
         let result: HttpErrorModel | undefined;
         const subscription = service
           .verifyPayment(mockPaymentSessionId, mockPayload)
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      vi.useRealTimers();
+    });
 
-      it(`should successfully backOff on 500 error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on 500 error and recover after the 2nd retry`, async () => {
+    vi.useFakeTimers();
         let calledTimes = -1;
 
-        spyOn(httpClient, 'post').and.returnValue(
+        vi.spyOn(httpClient, 'post').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 2) {
@@ -216,34 +218,38 @@ describe(`OpfApiPaymentAdapter`, () => {
           .pipe(take(1))
           .subscribe((res) => (result = res));
 
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
 
         expect(result).toEqual(mockResult);
         subscription.unsubscribe();
-      }));
+      vi.useRealTimers();
+    });
 
-      it(`should unsuccessfully backOff on 500 error`, fakeAsync(() => {
-        spyOn(httpClient, 'post').and.returnValue(throwError(mock500Error));
+      it(`should unsuccessfully backOff on 500 error`, async () => {
+    vi.useFakeTimers();
+        vi.spyOn(httpClient, 'post').mockReturnValue(throwError(mock500Error));
 
         let result: HttpErrorModel | undefined;
         const subscription = service
           .verifyPayment(mockPaymentSessionId, mockPayload)
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalized500Error);
 
         subscription.unsubscribe();
-      }));
+      vi.useRealTimers();
+    });
     });
   });
 
   describe(`submitPayment`, () => {
-    it(`should merge HTTP 4xx error body into thrown error`, fakeAsync(() => {
+    it(`should merge HTTP 4xx error body into thrown error`, async () => {
+    vi.useFakeTimers();
       const mockErrorBody = {
         message: 'Payment request failed with status: REJECTED',
         type: 'business_error',
@@ -256,7 +262,7 @@ describe(`OpfApiPaymentAdapter`, () => {
         statusText: 'Bad Request',
       });
 
-      spyOn(httpClient, 'post').and.returnValue(throwError(mockHttpError));
+      vi.spyOn(httpClient, 'post').mockReturnValue(throwError(mockHttpError));
 
       let result: OpfPaymentError | undefined;
       const subscription = service
@@ -267,7 +273,7 @@ describe(`OpfApiPaymentAdapter`, () => {
         )
         .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+      await vi.advanceTimersByTimeAsync(4200);
 
       expect(result?.message).toBe(mockErrorBody.message);
       expect(result?.type).toBe(mockErrorBody.type);
@@ -275,16 +281,18 @@ describe(`OpfApiPaymentAdapter`, () => {
       expect(result?.customFields).toEqual(mockErrorBody.customFields);
 
       subscription.unsubscribe();
-    }));
+    vi.useRealTimers();
+    });
 
-    it(`should not merge when HTTP error body is not an object`, fakeAsync(() => {
+    it(`should not merge when HTTP error body is not an object`, async () => {
+    vi.useFakeTimers();
       const mockError = new HttpErrorResponse({
         error: 'plain string error',
         status: 500,
         statusText: 'Internal Server Error',
       });
 
-      spyOn(httpClient, 'post').and.returnValue(throwError(mockError));
+      vi.spyOn(httpClient, 'post').mockReturnValue(throwError(mockError));
 
       let result: OpfPaymentError | undefined;
       const subscription = service
@@ -295,16 +303,18 @@ describe(`OpfApiPaymentAdapter`, () => {
         )
         .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+      await vi.advanceTimersByTimeAsync(4200);
 
       expect(result?.customFields).toBeUndefined();
 
       subscription.unsubscribe();
-    }));
+    vi.useRealTimers();
+    });
   });
 
   describe(`submitCompletePayment`, () => {
-    it(`should merge HTTP 4xx error body into thrown error`, fakeAsync(() => {
+    it(`should merge HTTP 4xx error body into thrown error`, async () => {
+    vi.useFakeTimers();
       const mockErrorBody = {
         message: 'Payment request failed with status: REJECTED',
         type: 'business_error',
@@ -317,14 +327,14 @@ describe(`OpfApiPaymentAdapter`, () => {
         statusText: 'Bad Request',
       });
 
-      spyOn(httpClient, 'post').and.returnValue(throwError(mockHttpError));
+      vi.spyOn(httpClient, 'post').mockReturnValue(throwError(mockHttpError));
 
       let result: OpfPaymentError | undefined;
       const subscription = service
         .submitCompletePayment({}, 'otp', mockPaymentSessionId)
         .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+      await vi.advanceTimersByTimeAsync(4200);
 
       expect(result?.message).toBe(mockErrorBody.message);
       expect(result?.type).toBe(mockErrorBody.type);
@@ -332,27 +342,30 @@ describe(`OpfApiPaymentAdapter`, () => {
       expect(result?.customFields).toEqual(mockErrorBody.customFields);
 
       subscription.unsubscribe();
-    }));
+    vi.useRealTimers();
+    });
 
-    it(`should not merge when HTTP error body is not an object`, fakeAsync(() => {
+    it(`should not merge when HTTP error body is not an object`, async () => {
+    vi.useFakeTimers();
       const mockError = new HttpErrorResponse({
         error: 'plain string error',
         status: 500,
         statusText: 'Internal Server Error',
       });
 
-      spyOn(httpClient, 'post').and.returnValue(throwError(mockError));
+      vi.spyOn(httpClient, 'post').mockReturnValue(throwError(mockError));
 
       let result: OpfPaymentError | undefined;
       const subscription = service
         .submitCompletePayment({}, 'otp', mockPaymentSessionId)
         .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+      await vi.advanceTimersByTimeAsync(4200);
 
       expect(result?.customFields).toBeUndefined();
 
       subscription.unsubscribe();
-    }));
+    vi.useRealTimers();
+    });
   });
 });

@@ -9,6 +9,7 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import {
   provideHttpClient,
@@ -23,7 +24,7 @@ import {
   OpfMetadataStatePersistanceService,
 } from '@spartacus/opf/base/root';
 import { ApplePaySessionVerificationRequest } from '@spartacus/opf/quick-buy/root';
-import { catchError, Observable, throwError } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { OpfApiQuickBuyAdapter } from './opf-api-quick-buy.adapter';
 
 class MockOpfMetadataStatePersistanceService
@@ -37,10 +38,10 @@ class MockOpfMetadataStatePersistanceService
 describe('OpfApiQuickBuyAdapter', () => {
   let service: OpfApiQuickBuyAdapter;
   let httpMock: HttpTestingController;
-  let mockConverter: jasmine.SpyObj<ConverterService>;
-  let mockOpfEndpointsService: jasmine.SpyObj<OpfEndpointsService>;
+  let mockConverter: any;
+  let mockOpfEndpointsService: any;
   let mockOpfConfig: OpfConfig;
-  let mockLogger: jasmine.SpyObj<LoggerService>;
+  let mockLogger: any;
 
   const applePaySessionRequest: ApplePaySessionVerificationRequest = {
     validationUrl: 'https://example.com',
@@ -61,11 +62,9 @@ describe('OpfApiQuickBuyAdapter', () => {
   };
 
   beforeEach(() => {
-    mockConverter = jasmine.createSpyObj('ConverterService', ['pipeable']);
-    mockOpfEndpointsService = jasmine.createSpyObj('OpfEndpointsService', [
-      'buildUrl',
-    ]);
-    mockLogger = jasmine.createSpyObj('LoggerService', ['warn', 'error']);
+    mockConverter = { pipeable: vi.fn() };
+    mockOpfEndpointsService = { buildUrl: vi.fn() };
+    mockLogger = { warn: vi.fn(), error: vi.fn() };
     mockOpfConfig = { opf: { commerceCloudPublicKey: 'public-key' } };
 
     TestBed.configureTestingModule({
@@ -96,16 +95,13 @@ describe('OpfApiQuickBuyAdapter', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call the correct URL and return the correct response', () => {
-    mockOpfEndpointsService.buildUrl.and.returnValue('/test-url');
-    mockConverter.pipeable.and.callFake(() => {
+  it('should call the correct URL and return the correct response', async () => {
+    mockOpfEndpointsService.buildUrl.mockReturnValue('/test-url');
+    mockConverter.pipeable.mockImplementation(() => {
       return (source: Observable<any>) => source;
     });
-    service
-      .getApplePayWebSession(applePaySessionRequest, accessCode)
-      .subscribe((response) => {
-        expect(response).toEqual(mockResponse);
-      });
+
+    const promise = firstValueFrom(service.getApplePayWebSession(applePaySessionRequest, accessCode));
 
     const req = httpMock.expectOne('/test-url');
     expect(req.request.method).toBe('POST');
@@ -116,30 +112,35 @@ describe('OpfApiQuickBuyAdapter', () => {
     expect(headers.get(OPF_CC_ACCESS_CODE_HEADER)).toBe(accessCode);
 
     req.flush(mockResponse);
+
+    const response = await promise;
+    expect(response).toEqual(mockResponse);
   });
 
-  it('should handle error and log it', () => {
-    mockOpfEndpointsService.buildUrl.and.returnValue('/test-url');
+  it('should handle error and log it', async () => {
+    vi.useFakeTimers();
+    mockOpfEndpointsService.buildUrl.mockReturnValue('/test-url');
     const mockError = { status: 500, message: 'Server Error' };
-    mockConverter.pipeable.and.callFake(() => {
+    mockConverter.pipeable.mockImplementation(() => {
       return (source: Observable<any>) => source;
     });
 
-    service
-      .getApplePayWebSession(applePaySessionRequest, accessCode)
-      .pipe(
-        catchError((error) => {
-          expect(mockLogger.error).toHaveBeenCalled();
-          return throwError(() => error);
-        })
-      )
-      .subscribe({
-        error: (error) => {
-          expect(error.status).toBe(500);
-        },
-      });
+    const promise = firstValueFrom(
+      service.getApplePayWebSession(applePaySessionRequest, accessCode)
+    ).catch((error) => {
+      expect(error.status).toBe(500);
+    });
 
-    const req = httpMock.expectOne('/test-url');
-    req.flush(mockError, { status: 500, statusText: 'Server Error' });
+    // backOff retries server errors up to 2 times with a timer delay;
+    // flush initial request then advance clock + flush each retry
+    httpMock.expectOne('/test-url').flush(mockError, { status: 500, statusText: 'Server Error' });
+    await vi.runAllTimersAsync();
+    httpMock.expectOne('/test-url').flush(mockError, { status: 500, statusText: 'Server Error' });
+    await vi.runAllTimersAsync();
+    httpMock.expectOne('/test-url').flush(mockError, { status: 500, statusText: 'Server Error' });
+    await vi.runAllTimersAsync();
+
+    await promise;
+    vi.useRealTimers();
   });
 });

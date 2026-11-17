@@ -17,9 +17,8 @@ describe('OpfPaymentMethodDetailsComponent', () => {
   let fixture: ComponentFixture<OpfPaymentMethodDetailsComponent>;
 
   const translationServiceMock = {
-    translate: jasmine
-      .createSpy('translate')
-      .and.returnValue(of('Translated Text')),
+    translate: vi.fn()
+      .mockReturnValue(of('Translated Text')),
   };
 
   const orderMock: Order = {

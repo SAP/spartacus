@@ -24,55 +24,45 @@ describe('OpfPaymentEventsService', () => {
   });
 
   describe('reinitiatePaymentEvent$', () => {
-    it('should emit undefined when no payment option ID is provided', (done) => {
+    it('should emit undefined when no payment option ID is provided', async () => {
       service.reinitiatePaymentEvent$.subscribe((paymentOptionId) => {
-        expect(paymentOptionId).toBeUndefined();
-        done();
-      });
+        expect(paymentOptionId).toBeUndefined();      });
 
       service.emitReinitiatePaymentEvent();
     });
 
-    it('should emit the provided payment option ID', (done) => {
+    it('should emit the provided payment option ID', async () => {
       const testPaymentOptionId = 123;
 
       service.reinitiatePaymentEvent$.subscribe((paymentOptionId) => {
-        expect(paymentOptionId).toBe(testPaymentOptionId);
-        done();
-      });
+        expect(paymentOptionId).toBe(testPaymentOptionId);      });
 
       service.emitReinitiatePaymentEvent(testPaymentOptionId);
     });
   });
 
   describe('emitReinitiatePaymentEvent', () => {
-    it('should emit undefined when called without parameters', (done) => {
+    it('should emit undefined when called without parameters', async () => {
       service.reinitiatePaymentEvent$.subscribe((paymentOptionId) => {
-        expect(paymentOptionId).toBeUndefined();
-        done();
-      });
+        expect(paymentOptionId).toBeUndefined();      });
 
       service.emitReinitiatePaymentEvent();
     });
 
-    it('should emit the provided payment option ID', (done) => {
+    it('should emit the provided payment option ID', async () => {
       const testPaymentOptionId = 789;
 
       service.reinitiatePaymentEvent$.subscribe((paymentOptionId) => {
-        expect(paymentOptionId).toBe(testPaymentOptionId);
-        done();
-      });
+        expect(paymentOptionId).toBe(testPaymentOptionId);      });
 
       service.emitReinitiatePaymentEvent(testPaymentOptionId);
     });
   });
 
   describe('refreshActiveConfigurationsEvent$', () => {
-    it('should emit when emitRefreshActiveConfigurationsEvent is called', (done) => {
+    it('should emit when emitRefreshActiveConfigurationsEvent is called', async () => {
       service.refreshActiveConfigurationsEvent$.subscribe(() => {
-        expect(true).toBeTrue();
-        done();
-      });
+        expect(true).toBe(true);      });
 
       service.emitRefreshActiveConfigurationsEvent();
     });

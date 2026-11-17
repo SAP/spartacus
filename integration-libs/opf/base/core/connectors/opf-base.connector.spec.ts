@@ -12,7 +12,6 @@ import {
 import { of } from 'rxjs';
 import { OpfBaseAdapter } from './opf-base.adapter';
 import { OpfBaseConnector } from './opf-base.connector';
-import createSpy = jasmine.createSpy;
 
 const mockActiveConfigurations: OpfActiveConfiguration[] = [
   {
@@ -33,7 +32,7 @@ const mockActiveConfigurations: OpfActiveConfiguration[] = [
 ];
 
 class MockOpfBaseAdapter implements OpfBaseAdapter {
-  getActiveConfigurations = createSpy('getActiveConfigurations').and.callFake(
+  getActiveConfigurations = vi.fn().mockImplementation(
     () => of(mockActiveConfigurations)
   );
 }

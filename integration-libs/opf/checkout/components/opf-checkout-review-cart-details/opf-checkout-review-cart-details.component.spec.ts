@@ -6,6 +6,7 @@
 
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   Cart,
   CartOutlets,
@@ -135,15 +136,15 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
         {
           provide: TranslationService,
           useValue: {
-            translate: jasmine.createSpy('translate').and.returnValue(''),
+            translate: vi.fn().mockReturnValue(''),
           },
         },
         {
           provide: Store,
           useValue: {
-            pipe: jasmine.createSpy('pipe').and.returnValue(of({})),
-            dispatch: jasmine.createSpy('dispatch'),
-            select: jasmine.createSpy('select').and.returnValue(of({})),
+            pipe: vi.fn().mockReturnValue(of({})),
+            dispatch: vi.fn(),
+            select: vi.fn().mockReturnValue(of({})),
           },
         },
         { provide: BaseSiteService, useValue: baseSiteServiceMock },

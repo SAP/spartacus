@@ -109,10 +109,10 @@ describe('OpfPaymentService', () => {
   });
 
   it('should call submitPayment with proper payload after submitPaymentCommand execution', () => {
-    const submitPaymentSpy = spyOn(
+    const submitPaymentSpy = vi.spyOn(
       opfPaymentHostedFieldsServiceSpy,
       'submitPayment'
-    ).and.callThrough();
+    );
 
     const submitInput: OpfPaymentSubmitInput = {
       paymentSessionId: 'sessionId',
@@ -124,10 +124,10 @@ describe('OpfPaymentService', () => {
   });
 
   it('should call verifyPayment with proper payload after verifyPaymentCommand execution', () => {
-    const verifyPaymentSpy = spyOn(
+    const verifyPaymentSpy = vi.spyOn(
       paymentConnector,
       'verifyPayment'
-    ).and.callThrough();
+    );
 
     const verifyPaymentPayload = {
       paymentSessionId: 'exampleSessionId',
@@ -145,10 +145,10 @@ describe('OpfPaymentService', () => {
   });
 
   it('should call submitCompletePayment with proper payload after submitCompletePaymentCommand execution', () => {
-    const submitCompletePaymentSpy = spyOn(
+    const submitCompletePaymentSpy = vi.spyOn(
       opfPaymentHostedFieldsServiceSpy,
       'submitCompletePayment'
-    ).and.callThrough();
+    );
 
     const submitCompleteInput: OpfPaymentSubmitCompleteInput = {
       paymentSessionId: 'sessionId',
@@ -169,10 +169,10 @@ describe('OpfPaymentService', () => {
         },
       ],
     } as OpfPaymentVerificationPayload;
-    const connectorVerifySpy = spyOn(
+    const connectorVerifySpy = vi.spyOn(
       paymentConnector,
       'verifyPayment'
-    ).and.callThrough();
+    );
 
     service.verifyPayment(paymentSessionId, paymentVerificationPayload);
 
@@ -183,10 +183,10 @@ describe('OpfPaymentService', () => {
   });
 
   it('should call submitPayment from opfPaymentHostedFieldsService with the correct payload', () => {
-    const submitPaymentSpy = spyOn(
+    const submitPaymentSpy = vi.spyOn(
       opfPaymentHostedFieldsServiceSpy,
       'submitPayment'
-    ).and.callThrough();
+    );
 
     service.submitPayment(mockSubmitInput);
 
@@ -194,10 +194,10 @@ describe('OpfPaymentService', () => {
   });
 
   it('should call submitCompletePayment from opfPaymentHostedFieldsService with the correct payload', () => {
-    const submitCompletePaymentSpy = spyOn(
+    const submitCompletePaymentSpy = vi.spyOn(
       opfPaymentHostedFieldsServiceSpy,
       'submitCompletePayment'
-    ).and.callThrough();
+    );
 
     service.submitCompletePayment(mockSubmitCompleteInput);
 
@@ -206,16 +206,14 @@ describe('OpfPaymentService', () => {
     );
   });
 
-  it('should return true when payment submission is successful', (done) => {
+  it('should return true when payment submission is successful', async () => {
     const result = service.submitPayment(mockSubmitInput);
 
     result.subscribe((response) => {
-      expect(response).toBe(true);
-      done();
-    });
+      expect(response).toBe(true);    });
   });
 
-  it('should return a successful payment verification response', (done) => {
+  it('should return a successful payment verification response', async () => {
     const paymentSessionId = 'exampleSessionId';
     const paymentVerificationPayload = {
       responseMap: [
@@ -236,41 +234,36 @@ describe('OpfPaymentService', () => {
     );
 
     result.subscribe((response) => {
-      expect(response).toEqual(expectedResult);
-      done();
-    });
+      expect(response).toEqual(expectedResult);    });
   });
 
-  it('should return true when payment submission is completed successfully', (done) => {
+  it('should return true when payment submission is completed successfully', async () => {
     const result = service.submitCompletePayment(mockSubmitCompleteInput);
 
     result.subscribe((response) => {
-      expect(response).toBe(true);
-      done();
-    });
+      expect(response).toBe(true);    });
   });
 
   it('should call getAfterRedirectScripts from connector with the correct payload', () => {
     const paymentSessionId = 'exampleSessionId';
 
-    const connectorSpy = spyOn(
+    const connectorSpy = vi.spyOn(
       paymentConnector,
       'getAfterRedirectScripts'
-    ).and.callThrough();
+    );
 
     service.getAfterRedirectScripts(paymentSessionId);
 
     expect(connectorSpy).toHaveBeenCalledWith(paymentSessionId);
   });
 
-  //   const connectorCtaSpy = spyOn(
+  //   const connectorCtaSpy = vi.spyOn(
   //     paymentConnector,
   //     'getCtaScripts'
-  //   ).and.callThrough();
+  //   );
 
   //   service.getCtaScripts(MockCtaRequest).subscribe(() => {
   //     expect(connectorCtaSpy).toHaveBeenCalledWith(MockCtaRequest);
-  //     done();
-  //   });
+  //  //   });
   // });
 });

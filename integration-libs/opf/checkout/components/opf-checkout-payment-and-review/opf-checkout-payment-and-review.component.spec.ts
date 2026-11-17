@@ -6,6 +6,7 @@
 
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
@@ -136,36 +137,26 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
   let opfMetadataStoreService: OpfMetadataStoreService;
 
   const mockCheckoutStepService = {
-    getCheckoutStepUrl: jasmine
-      .createSpy('getCheckoutStepUrl')
-      .and.returnValue('/checkout/payment-type'),
+    getCheckoutStepUrl: vi.fn().mockReturnValue('/checkout/payment-type'),
   };
 
   const mockCheckoutDeliveryAddressFacade = {
-    getDeliveryAddressState: jasmine
-      .createSpy('getDeliveryAddressState')
-      .and.returnValue(of({})),
-    clearCheckoutDeliveryAddress: jasmine.createSpy(
-      'clearCheckoutDeliveryAddress'
-    ),
+    getDeliveryAddressState: vi.fn().mockReturnValue(of({})),
+    clearCheckoutDeliveryAddress: vi.fn(),
   };
 
   const mockCheckoutPaymentFacade = {
-    getPaymentDetailsState: jasmine
-      .createSpy('getPaymentDetailsState')
-      .and.returnValue(of({})),
+    getPaymentDetailsState: vi.fn().mockReturnValue(of({})),
   };
 
   const mockCheckoutDeliveryModesFacade = {
-    getSelectedDeliveryModeState: jasmine
-      .createSpy('getSelectedDeliveryModeState')
-      .and.returnValue(of({})),
-    setDeliveryMode: jasmine.createSpy('setDeliveryMode'),
+    getSelectedDeliveryModeState: vi.fn().mockReturnValue(of({})),
+    setDeliveryMode: vi.fn(),
   };
 
   const mockActiveCartFacade = {
-    hasDeliveryItems: jasmine.createSpy('hasDeliveryItems'),
-    isStable: jasmine.createSpy('isStable'),
+    hasDeliveryItems: vi.fn(),
+    isStable: vi.fn(),
   };
 
   beforeEach(async () => {
@@ -230,11 +221,11 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
     component = fixture.componentInstance;
     opfMetadataStoreService = TestBed.inject(OpfMetadataStoreService);
 
-    mockActiveCartFacade.hasDeliveryItems.calls.reset();
-    mockActiveCartFacade.isStable.calls.reset();
-    mockActiveCartFacade.isStable.and.returnValue(of(true));
-    mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress.calls.reset();
-    mockCheckoutDeliveryModesFacade.setDeliveryMode.calls.reset();
+    mockActiveCartFacade.hasDeliveryItems.mockClear();
+    mockActiveCartFacade.isStable.mockClear();
+    mockActiveCartFacade.isStable.mockReturnValue(of(true));
+    mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress.mockClear();
+    mockCheckoutDeliveryModesFacade.setDeliveryMode.mockClear();
   });
 
   it('should create', () => {
@@ -252,7 +243,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
   });
 
   it('should toggle terms and conditions by updating metadata', () => {
-    const updateSpy = spyOn(opfMetadataStoreService, 'updateOpfMetadata');
+    const updateSpy = vi.spyOn(opfMetadataStoreService, 'updateOpfMetadata');
     component.checkoutSubmitForm.get('termsAndConditions')?.setValue(true);
 
     component.toggleTermsAndConditions();
@@ -287,8 +278,8 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
   });
 
   it('should initialize metadata state and pickup delivery mode in ngOnInit', () => {
-    const updateSpy = spyOn(opfMetadataStoreService, 'updateOpfMetadata');
-    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(true));
+    const updateSpy = vi.spyOn(opfMetadataStoreService, 'updateOpfMetadata');
+    mockActiveCartFacade.hasDeliveryItems.mockReturnValue(of(true));
 
     component.ngOnInit();
 
@@ -335,7 +326,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
   });
 
   it('should clear delivery address and set pickup mode when cart has no delivery items', () => {
-    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(false));
+    mockActiveCartFacade.hasDeliveryItems.mockReturnValue(of(false));
 
     component.setPickupDeliveryMode();
 
@@ -349,7 +340,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
     ).toHaveBeenCalledWith('pickup');
   });
   it('should not modify delivery settings when cart has delivery items', () => {
-    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(true));
+    mockActiveCartFacade.hasDeliveryItems.mockReturnValue(of(true));
 
     component.setPickupDeliveryMode();
 
@@ -364,9 +355,9 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
   });
 
   it('should handle Observable completion correctly', () => {
-    const completionSpy = jasmine.createSpy('completion');
+    const completionSpy = vi.fn();
 
-    mockActiveCartFacade.hasDeliveryItems.and.returnValue(
+    mockActiveCartFacade.hasDeliveryItems.mockReturnValue(
       of(false).pipe(
         finalize(() => {
           completionSpy();

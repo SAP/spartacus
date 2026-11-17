@@ -5,7 +5,8 @@
  */
 import { UserPaymentService } from '@spartacus/core';
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   I18nTestingModule,
   MockTranslatePipe,
@@ -30,45 +31,39 @@ class MockIconComponent {}
 describe('OpfTokenisationSavedCardsToggleComponent', () => {
   let component: OpfTokenisationSavedCardsToggleComponent;
   let fixture: ComponentFixture<OpfTokenisationSavedCardsToggleComponent>;
-  let mockSavedCardsService: jasmine.SpyObj<OpfTokenisationSavedCardsService>;
-  let mockOpfMetadataStoreService: jasmine.SpyObj<OpfMetadataStoreService>;
+  let mockSavedCardsService: any;
+  let mockOpfMetadataStoreService: any;
   let metadataStateSubject: BehaviorSubject<any>;
-  let userPaymentService: jasmine.SpyObj<UserPaymentService>;
+  let userPaymentService: any;
 
-  beforeEach(waitForAsync(() => {
-    userPaymentService = jasmine.createSpyObj('UserPaymentService', [
-      'loadPaymentMethods',
-      'getPaymentMethods',
-      'getPaymentMethodsLoading',
-    ]);
+  beforeEach(async () => {
+    userPaymentService = {
+      loadPaymentMethods: vi.fn(),
+      getPaymentMethods: vi.fn(),
+      getPaymentMethodsLoading: vi.fn(),
+    };
 
     metadataStateSubject = new BehaviorSubject({
       selectedPaymentOptionId: null,
     });
 
-    const savedCardsServiceSpy = jasmine.createSpyObj(
-      'OpfTokenisationSavedCardsService',
-      ['selectSavedCards']
-    );
+    const savedCardsServiceSpy = { selectSavedCards: vi.fn() };
 
-    const metadataStoreServiceSpy = jasmine.createSpyObj(
-      'OpfMetadataStoreService',
-      ['getOpfMetadataState']
-    );
-    metadataStoreServiceSpy.getOpfMetadataState.and.returnValue(
+    const metadataStoreServiceSpy = { getOpfMetadataState: vi.fn() };
+    metadataStoreServiceSpy.getOpfMetadataState.mockReturnValue(
       metadataStateSubject.asObservable()
     );
 
-    const outletContextDataSpy = jasmine.createSpyObj('OutletContextData', [], {
+    const outletContextDataSpy = {
       context$: of({
         savedCardsId: 1,
         selectedPaymentId: 1,
         disabled: false,
       } as OpfSavedCardsToggleContext),
-    });
+    };
 
-    userPaymentService.getPaymentMethods.and.returnValue(of([]));
-    userPaymentService.getPaymentMethodsLoading.and.returnValue(of(false));
+    userPaymentService.getPaymentMethods.mockReturnValue(of([]));
+    userPaymentService.getPaymentMethodsLoading.mockReturnValue(of(false));
 
     TestBed.configureTestingModule({
       imports: [OpfTokenisationSavedCardsToggleComponent, I18nTestingModule],
@@ -97,11 +92,11 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
 
     mockSavedCardsService = TestBed.inject(
       OpfTokenisationSavedCardsService
-    ) as jasmine.SpyObj<OpfTokenisationSavedCardsService>;
+    ) as any;
     mockOpfMetadataStoreService = TestBed.inject(
       OpfMetadataStoreService
-    ) as jasmine.SpyObj<OpfMetadataStoreService>;
-  }));
+    ) as any;
+  });
 
   beforeEach(() => {
     metadataStateSubject.next({ selectedPaymentOptionId: null });
@@ -128,7 +123,7 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
   });
 
   describe('context$', () => {
-    it('should emit context from outletContextData when available', (done) => {
+    it('should emit context from outletContextData when available', async () => {
       const expectedContext: OpfSavedCardsToggleContext = {
         savedCardsId: 1,
         selectedPaymentId: 1,
@@ -137,12 +132,11 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
       };
 
       component.context$.subscribe((context) => {
-        expect(context).toEqual(jasmine.objectContaining(expectedContext));
-        done();
+        expect(context).toEqual(expect.objectContaining(expectedContext));
       });
     });
 
-    it('should emit empty object when outletContextData is not provided', (done) => {
+    it('should emit empty object when outletContextData is not provided', async () => {
       TestBed.resetTestingModule();
 
       TestBed.configureTestingModule({
@@ -163,59 +157,54 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
 
       testComponent.context$.subscribe((context) => {
         expect(context).toEqual(
-          jasmine.objectContaining({ hasSavedCards: false })
+          expect.objectContaining({ hasSavedCards: false })
         );
-        done();
       });
     });
   });
 
   describe('isSavedCardsChecked$', () => {
-    it('should emit true when selectedPaymentOptionId equals SAVED_CARDS_ID', (done) => {
+    it('should emit true when selectedPaymentOptionId equals SAVED_CARDS_ID', async () => {
       metadataStateSubject.next({
         selectedPaymentOptionId: SAVED_CARDS_ID,
       });
 
       component.isSavedCardsChecked$.subscribe((isChecked) => {
         expect(isChecked).toBe(true);
-        done();
       });
     });
 
-    it('should emit false when selectedPaymentOptionId does not equal SAVED_CARDS_ID', (done) => {
+    it('should emit false when selectedPaymentOptionId does not equal SAVED_CARDS_ID', async () => {
       metadataStateSubject.next({
         selectedPaymentOptionId: 'OTHER_PAYMENT_METHOD',
       });
 
       component.isSavedCardsChecked$.subscribe((isChecked) => {
         expect(isChecked).toBe(false);
-        done();
       });
     });
 
-    it('should emit false when selectedPaymentOptionId is null', (done) => {
+    it('should emit false when selectedPaymentOptionId is null', async () => {
       metadataStateSubject.next({
         selectedPaymentOptionId: null,
       });
 
       component.isSavedCardsChecked$.subscribe((isChecked) => {
         expect(isChecked).toBe(false);
-        done();
       });
     });
 
-    it('should emit false when selectedPaymentOptionId is undefined', (done) => {
+    it('should emit false when selectedPaymentOptionId is undefined', async () => {
       metadataStateSubject.next({
         selectedPaymentOptionId: undefined,
       });
 
       component.isSavedCardsChecked$.subscribe((isChecked) => {
         expect(isChecked).toBe(false);
-        done();
       });
     });
 
-    it('should react to state changes', (done) => {
+    it('should react to state changes', async () => {
       const emissions: boolean[] = [];
 
       component.isSavedCardsChecked$.subscribe((isChecked) => {
@@ -223,21 +212,16 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
 
         if (emissions.length === 3) {
           expect(emissions).toEqual([false, true, false]);
-          done();
         }
       });
 
-      setTimeout(() => {
-        metadataStateSubject.next({
-          selectedPaymentOptionId: SAVED_CARDS_ID,
-        });
+      metadataStateSubject.next({
+        selectedPaymentOptionId: SAVED_CARDS_ID,
+      });
 
-        setTimeout(() => {
-          metadataStateSubject.next({
-            selectedPaymentOptionId: 'OTHER',
-          });
-        }, 10);
-      }, 10);
+      metadataStateSubject.next({
+        selectedPaymentOptionId: 'OTHER',
+      });
     });
   });
 
@@ -308,16 +292,15 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
   });
 
   describe('Edge Cases', () => {
-    it('should handle empty metadataState', (done) => {
+    it('should handle empty metadataState', async () => {
       metadataStateSubject.next({});
 
       component.isSavedCardsChecked$.subscribe((isChecked) => {
         expect(isChecked).toBe(false);
-        done();
       });
     });
 
-    it('should handle rapid state changes', (done) => {
+    it('should handle rapid state changes', async () => {
       const emissions: boolean[] = [];
 
       const subscription = component.isSavedCardsChecked$.subscribe(
@@ -332,11 +315,8 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
         });
       }
 
-      setTimeout(() => {
-        expect(emissions.length).toBeGreaterThan(0);
-        subscription.unsubscribe();
-        done();
-      }, 50);
+      expect(emissions.length).toBeGreaterThan(0);
+      subscription.unsubscribe();
     });
   });
 });

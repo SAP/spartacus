@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { B2BPaymentTypeEnum } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
@@ -20,41 +21,41 @@ import { OpfB2bCheckoutPaymentTypeService } from './opf-b2b-checkout-payment-typ
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActive = jasmine.createSpy().and.returnValue(
+  getActive = vi.fn().mockReturnValue(
     of({
       code: 'test-cart',
       paymentType: { code: B2BPaymentTypeEnum.ACCOUNT_PAYMENT },
       purchaseOrderNumber: 'test-po',
     })
   );
-  takeActiveCartId = jasmine.createSpy().and.returnValue(of('test-cart'));
-  isGuestCart = jasmine.createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of('test-cart'));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = jasmine.createSpy().and.returnValue(of('test-user'));
+  takeUserId = vi.fn().mockReturnValue(of('test-user'));
 }
 
 class MockQueryService implements Partial<QueryService> {
-  create = jasmine.createSpy().and.returnValue(of({}));
+  create = vi.fn().mockReturnValue(of({}));
 }
 
 class MockCommandService implements Partial<CommandService> {
-  create = jasmine.createSpy().and.returnValue({
-    execute: jasmine.createSpy().and.returnValue(of({})),
+  create = vi.fn().mockReturnValue({
+    execute: vi.fn().mockReturnValue(of({})),
   });
 }
 
 class MockEventService implements Partial<EventService> {
-  dispatch = jasmine.createSpy();
+  dispatch = vi.fn();
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = jasmine.createSpy().and.returnValue(of({}));
+  getCheckoutDetailsState = vi.fn().mockReturnValue(of({}));
 }
 
 class MockOpfPaymentFacade implements Partial<OpfPaymentFacade> {
-  setCartPaymentOption = jasmine.createSpy().and.returnValue(of({}));
+  setCartPaymentOption = vi.fn().mockReturnValue(of({}));
 }
 
 describe('OpfB2bCheckoutPaymentTypeService', () => {
@@ -119,7 +120,7 @@ describe('OpfB2bCheckoutPaymentTypeService', () => {
   });
 
   it('should return false for non-account payment', () => {
-    mockActiveCartFacade.getActive.and.returnValue(
+    mockActiveCartFacade.getActive.mockReturnValue(
       of({
         code: 'test-cart',
         paymentType: { code: B2BPaymentTypeEnum.CARD_PAYMENT },

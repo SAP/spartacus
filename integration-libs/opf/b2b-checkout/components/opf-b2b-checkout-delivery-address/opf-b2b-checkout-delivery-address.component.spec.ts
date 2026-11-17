@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -27,48 +27,47 @@ import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { EMPTY, of } from 'rxjs';
 import { OpfB2bCheckoutCostCenterComponent } from '../opf-b2b-checkout-cost-center';
 import { OpfB2bCheckoutDeliveryAddressComponent } from './opf-b2b-checkout-delivery-address.component';
-import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getAddresses = createSpy().and.returnValue(of(mockAddresses));
-  getAddressesLoading = createSpy().and.returnValue(of(false));
-  loadAddresses = createSpy();
+  getAddresses = vi.fn().mockReturnValue(of(mockAddresses));
+  getAddressesLoading = vi.fn().mockReturnValue(of(false));
+  loadAddresses = vi.fn();
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  isGuestCart = createSpy().and.returnValue(of(false));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  createAndSetAddress = createSpy().and.returnValue(of({}));
-  setDeliveryAddress = createSpy().and.returnValue(EMPTY);
-  getDeliveryAddressState = createSpy().and.returnValue(
+  createAndSetAddress = vi.fn().mockReturnValue(of({}));
+  setDeliveryAddress = vi.fn().mockReturnValue(EMPTY);
+  getDeliveryAddressState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: undefined })
   );
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
-  next = createSpy();
-  back = createSpy();
-  getBackBntText = createSpy().and.returnValue('common.back');
+  next = vi.fn();
+  back = vi.fn();
+  getBackBntText = vi.fn().mockReturnValue('common.back');
 }
 
 class MockCheckoutFlowOrchestratorService
   implements Partial<CheckoutFlowOrchestratorService>
 {
-  getCheckoutFlow = createSpy();
+  getCheckoutFlow = vi.fn();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
+  clearCheckoutDeliveryMode = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MockStore implements Partial<Store> {
@@ -158,7 +157,7 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -225,15 +224,15 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
     );
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OpfB2bCheckoutDeliveryAddressComponent);
     component = fixture.componentInstance;
 
-    spyOn(component, 'addAddress').and.callThrough();
-    spyOn(component, 'selectAddress').and.callThrough();
-    spyOn<any>(component, 'setAddress').and.callThrough();
+    vi.spyOn(component, 'addAddress');
+    vi.spyOn(component, 'selectAddress');
+    vi.spyOn<any>(component, 'setAddress');
 
     checkoutDeliveryAddressFacade = fixture.componentRef.injector.get(
       CheckoutDeliveryAddressFacade
