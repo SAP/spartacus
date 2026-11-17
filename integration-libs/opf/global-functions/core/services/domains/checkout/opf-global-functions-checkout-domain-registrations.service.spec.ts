@@ -106,7 +106,12 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
 }
 
 class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService> {}
+  implements Partial<OpfQuickBuyTransactionService>
+{
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
+    .and.returnValue(of('test-cart-id'));
+}
 
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
   return jasmine.createSpyObj('OpfPaymentFacade', [

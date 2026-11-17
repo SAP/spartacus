@@ -195,7 +195,10 @@ export class VariantConfiguratorOccAdapter
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
-        queryParams: { expMode },
+        queryParams: {
+          expMode,
+          ...(parameters.readOnly ? { readOnly: true } : {}),
+        },
       }
     );
 

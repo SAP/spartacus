@@ -381,7 +381,7 @@ describe('File utils', () => {
         let pathsToFiles = getHtmlFiles(appTree, undefined, 'src');
         expect(pathsToFiles).toBeTruthy();
 
-        pathsToFiles = pathsToFiles || [];
+        pathsToFiles ??= [];
         expect(pathsToFiles.length).toEqual(2);
         expect(pathsToFiles[0]).toEqual('/src/index.html');
         expect(pathsToFiles[1]).toEqual('/src/app/app.component.html');
@@ -394,7 +394,7 @@ describe('File utils', () => {
         const result = insertComponentSelectorComment(
           HTML_EXAMPLE,
           componentDeprecation.selector,
-          (componentDeprecation.removedProperties || [])[0]
+          (componentDeprecation.removedProperties ?? [])[0]
         );
 
         expect(result).toBeTruthy();
@@ -409,7 +409,7 @@ describe('File utils', () => {
         const componentDeprecation = COMPONENT_DEPRECATION_DATA[2];
         const result = insertHtmlComment(
           HTML_EXAMPLE_NGIF,
-          (componentDeprecation.removedProperties || [])[0],
+          (componentDeprecation.removedProperties ?? [])[0],
           angularCompiler
         );
 

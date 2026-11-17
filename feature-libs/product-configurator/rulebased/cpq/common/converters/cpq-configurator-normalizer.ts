@@ -1081,6 +1081,10 @@ export class CpqConfiguratorNormalizer
       maxRows: source.maxRows,
       productSystemId: source.productSystemId,
       productName: source.productName,
+      basePrice: this.cpqConfiguratorNormalizerUtilsService.convertPrice(
+        source.basePrice,
+        currency
+      ),
       selected: source.selected,
       actions: this.convertContainerRowActions(source.actions),
     };

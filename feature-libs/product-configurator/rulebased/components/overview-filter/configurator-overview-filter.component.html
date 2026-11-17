@@ -26,7 +26,10 @@
       >
     </div>
   </div>
-  <div class="cx-overview-filter-option">
+  <div
+    *ngIf="isMySelectionsFilterVisible(config)"
+    class="cx-overview-filter-option"
+  >
     <div class="form-check">
       <input
         id="cx-configurator-overview-filter-option-mySelections"

@@ -538,7 +538,7 @@ export class ConfiguratorAttributeContainerComponent
   /**
    * Focuses the group title once the configuration update triggered by adding
    * a container row is finished, but only if it navigated to another group.
-   * Otherwise the focus would be lost, as this component is destroyed on
+   * Otherwise, the focus would be lost, as this component is destroyed on
    * navigation.
    *
    * The product title (path to the nested container product) is not focused
@@ -608,6 +608,7 @@ export class ConfiguratorAttributeContainerComponent
       valueDisplay: row.productName,
       productSystemId: row.productSystemId,
       selected: !!row.selected,
+      valuePrice: row.basePrice,
     };
   }
 }
