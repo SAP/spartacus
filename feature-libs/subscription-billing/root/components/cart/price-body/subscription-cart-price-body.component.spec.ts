@@ -4,8 +4,7 @@ import { OutletContextData } from '@spartacus/storefront';
 import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
 import { of } from 'rxjs';
 import { SubscriptionCartPriceBodyComponent } from './subscription-cart-price-body.component';
-import { ProductTypes } from '@spartacus/core';
-import { provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing/mock-feature-toggles';
+import { ProductTypes, FeatureToggles } from '@spartacus/core';
 
 class MockSubscriptionProductService {
   isSubscription(product: any) {
@@ -118,9 +117,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: SubscriptionProductService,
             useClass: MockSubscriptionProductService,
           },
-          ...provideMockFeatureToggles({
-            applyDiscountsOnSubscriptionCharges: false,
-          }),
+          {
+            provide: FeatureToggles,
+            useValue: { applyDiscountsOnSubscriptionCharges: false } as FeatureToggles,
+          },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -167,9 +167,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: SubscriptionProductService,
             useClass: MockSubscriptionProductService,
           },
-          ...provideMockFeatureToggles({
-            applyDiscountsOnSubscriptionCharges: false,
-          }),
+          {
+            provide: FeatureToggles,
+            useValue: { applyDiscountsOnSubscriptionCharges: false } as FeatureToggles,
+          },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -211,9 +212,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: SubscriptionProductService,
             useClass: MockSubscriptionProductService,
           },
-          ...provideMockFeatureToggles({
-            applyDiscountsOnSubscriptionCharges: false,
-          }),
+          {
+            provide: FeatureToggles,
+            useValue: { applyDiscountsOnSubscriptionCharges: false } as FeatureToggles,
+          },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -265,9 +267,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: SubscriptionProductService,
             useClass: MockSubscriptionProductService,
           },
-          ...provideMockFeatureToggles({
-            applyDiscountsOnSubscriptionCharges: true,
-          }),
+          {
+            provide: FeatureToggles,
+            useValue: { applyDiscountsOnSubscriptionCharges: true } as FeatureToggles,
+          },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -327,9 +330,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: SubscriptionProductService,
             useClass: MockSubscriptionProductService,
           },
-          ...provideMockFeatureToggles({
-            applyDiscountsOnSubscriptionCharges: true,
-          }),
+          {
+            provide: FeatureToggles,
+            useValue: { applyDiscountsOnSubscriptionCharges: true } as FeatureToggles,
+          },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
