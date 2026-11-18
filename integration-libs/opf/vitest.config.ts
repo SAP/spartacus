@@ -51,9 +51,14 @@ export default defineConfig({
       reporter: ['lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/opf`,
       exclude: [
+        '**/*.spec.ts',
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
         '../../testing/setup-test.ts',
       ],
       thresholds: {
