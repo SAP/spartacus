@@ -17,15 +17,6 @@
         }
       }
     },
-    "test": {
-      "executor": "@angular-devkit/build-angular:karma",
-      "options": {
-        "main": "integration-libs/punchout/test.ts",
-        "tsConfig": "integration-libs/punchout/tsconfig.spec.json",
-        "polyfills": ["zone.js", "zone.js/testing"],
-        "karmaConfig": "integration-libs/punchout/karma.conf.js"
-      }
-    },
     "test-vitest": {
       "executor": "nx:run-commands",
       "options": {

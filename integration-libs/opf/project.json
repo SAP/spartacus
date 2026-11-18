@@ -24,15 +24,6 @@
         "cwd": "{projectRoot}"
       }
     },
-    "test": {
-      "executor": "@angular-devkit/build-angular:karma",
-      "options": {
-        "main": "integration-libs/opf/test.ts",
-        "tsConfig": "integration-libs/opf/tsconfig.spec.json",
-        "polyfills": ["zone.js", "zone.js/testing"],
-        "karmaConfig": "integration-libs/opf/karma.conf.js"
-      }
-    },
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {
