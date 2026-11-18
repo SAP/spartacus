@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {
   AuthService,
   CmsActivatedRouteSnapshot,
+  Config,
   GlobalMessageService,
   GlobalMessageType,
   RoutingConfigService,
@@ -36,6 +37,8 @@ describe('PunchoutNavigationGuard', () => {
   } as unknown as CmsActivatedRouteSnapshot;
 
   beforeEach(() => {
+    const config = JSON.parse(JSON.stringify(defaultPunchoutNavigationGuardConfig));
+
     TestBed.configureTestingModule({
       providers: [
         PunchoutNavigationGuard,
@@ -65,7 +68,11 @@ describe('PunchoutNavigationGuard', () => {
         },
         {
           provide: PunchoutNavigationGuardConfig,
-          useValue: defaultPunchoutNavigationGuardConfig,
+          useValue: config,
+        },
+        {
+          provide: Config,
+          useValue: config,
         },
         {
           provide: RoutingConfigService,
