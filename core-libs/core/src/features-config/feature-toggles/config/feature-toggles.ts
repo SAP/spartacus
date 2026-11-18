@@ -1024,6 +1024,12 @@ export interface FeatureTogglesInterface {
    * - `core-libs/styles/scss/components/layout/header/_site-context-selector.scss`
    */
   a11yHighContrastFix?: boolean;
+  /**
+   * When enabled, shows discounted prices with strikethrough originals in cart for subscription products.
+   *
+   * Affects: `SubscriptionCartPriceBodyComponent`
+   */
+  applyDiscountsOnSubscriptionCharges?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1134,4 +1140,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
   a11yHighContrastFix: false,
+  applyDiscountsOnSubscriptionCharges: false,
 };

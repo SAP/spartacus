@@ -18,6 +18,10 @@
     font-size: 0.9rem;
     line-height: 1rem;
     margin-bottom: 0.5rem;
+    .cx-old {
+      text-decoration: line-through;
+      color: var(--cx-color-secondary);
+    }
   }
 
   .cx-billing-name {
