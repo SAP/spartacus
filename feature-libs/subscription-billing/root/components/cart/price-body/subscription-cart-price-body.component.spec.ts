@@ -119,7 +119,9 @@ describe('SubscriptionCartPriceBodyComponent', () => {
           },
           {
             provide: FeatureToggles,
-            useValue: { applyDiscountsOnSubscriptionCharges: false } as FeatureToggles,
+            useValue: {
+              applyDiscountsOnSubscriptionCharges: false,
+            } as FeatureToggles,
           },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
@@ -169,7 +171,9 @@ describe('SubscriptionCartPriceBodyComponent', () => {
           },
           {
             provide: FeatureToggles,
-            useValue: { applyDiscountsOnSubscriptionCharges: false } as FeatureToggles,
+            useValue: {
+              applyDiscountsOnSubscriptionCharges: false,
+            } as FeatureToggles,
           },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
@@ -214,7 +218,9 @@ describe('SubscriptionCartPriceBodyComponent', () => {
           },
           {
             provide: FeatureToggles,
-            useValue: { applyDiscountsOnSubscriptionCharges: false } as FeatureToggles,
+            useValue: {
+              applyDiscountsOnSubscriptionCharges: false,
+            } as FeatureToggles,
           },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
@@ -269,7 +275,9 @@ describe('SubscriptionCartPriceBodyComponent', () => {
           },
           {
             provide: FeatureToggles,
-            useValue: { applyDiscountsOnSubscriptionCharges: true } as FeatureToggles,
+            useValue: {
+              applyDiscountsOnSubscriptionCharges: true,
+            } as FeatureToggles,
           },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
@@ -332,7 +340,9 @@ describe('SubscriptionCartPriceBodyComponent', () => {
           },
           {
             provide: FeatureToggles,
-            useValue: { applyDiscountsOnSubscriptionCharges: true } as FeatureToggles,
+            useValue: {
+              applyDiscountsOnSubscriptionCharges: true,
+            } as FeatureToggles,
           },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
