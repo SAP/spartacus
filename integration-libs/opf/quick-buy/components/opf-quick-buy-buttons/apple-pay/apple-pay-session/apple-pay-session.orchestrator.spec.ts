@@ -358,11 +358,25 @@ describe('ApplePaySessionOrchestrator', () => {
         () => (actualComplete = true)
       );
 
-      vi.spyOn(mockApplePaySession, 'completeMerchantValidation').mockImplementation(() => {});
-      vi.spyOn(mockApplePaySession, 'completePayment').mockImplementation(() => {});
-      vi.spyOn(mockApplePaySession, 'completePaymentMethodSelection').mockImplementation(() => {});
-      vi.spyOn(mockApplePaySession, 'completeShippingContactSelection').mockImplementation(() => {});
-      vi.spyOn(mockApplePaySession, 'completeShippingMethodSelection').mockImplementation(() => {});
+      vi.spyOn(
+        mockApplePaySession,
+        'completeMerchantValidation'
+      ).mockImplementation(() => {});
+      vi.spyOn(mockApplePaySession, 'completePayment').mockImplementation(
+        () => {}
+      );
+      vi.spyOn(
+        mockApplePaySession,
+        'completePaymentMethodSelection'
+      ).mockImplementation(() => {});
+      vi.spyOn(
+        mockApplePaySession,
+        'completeShippingContactSelection'
+      ).mockImplementation(() => {});
+      vi.spyOn(
+        mockApplePaySession,
+        'completeShippingMethodSelection'
+      ).mockImplementation(() => {});
     });
 
     it('should use validateMerchant callback to fill validateMerchant', () => {

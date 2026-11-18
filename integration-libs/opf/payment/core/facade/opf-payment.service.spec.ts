@@ -124,10 +124,7 @@ describe('OpfPaymentService', () => {
   });
 
   it('should call verifyPayment with proper payload after verifyPaymentCommand execution', () => {
-    const verifyPaymentSpy = vi.spyOn(
-      paymentConnector,
-      'verifyPayment'
-    );
+    const verifyPaymentSpy = vi.spyOn(paymentConnector, 'verifyPayment');
 
     const verifyPaymentPayload = {
       paymentSessionId: 'exampleSessionId',
@@ -169,10 +166,7 @@ describe('OpfPaymentService', () => {
         },
       ],
     } as OpfPaymentVerificationPayload;
-    const connectorVerifySpy = vi.spyOn(
-      paymentConnector,
-      'verifyPayment'
-    );
+    const connectorVerifySpy = vi.spyOn(paymentConnector, 'verifyPayment');
 
     service.verifyPayment(paymentSessionId, paymentVerificationPayload);
 
@@ -210,7 +204,8 @@ describe('OpfPaymentService', () => {
     const result = service.submitPayment(mockSubmitInput);
 
     result.subscribe((response) => {
-      expect(response).toBe(true);    });
+      expect(response).toBe(true);
+    });
   });
 
   it('should return a successful payment verification response', async () => {
@@ -234,23 +229,22 @@ describe('OpfPaymentService', () => {
     );
 
     result.subscribe((response) => {
-      expect(response).toEqual(expectedResult);    });
+      expect(response).toEqual(expectedResult);
+    });
   });
 
   it('should return true when payment submission is completed successfully', async () => {
     const result = service.submitCompletePayment(mockSubmitCompleteInput);
 
     result.subscribe((response) => {
-      expect(response).toBe(true);    });
+      expect(response).toBe(true);
+    });
   });
 
   it('should call getAfterRedirectScripts from connector with the correct payload', () => {
     const paymentSessionId = 'exampleSessionId';
 
-    const connectorSpy = vi.spyOn(
-      paymentConnector,
-      'getAfterRedirectScripts'
-    );
+    const connectorSpy = vi.spyOn(paymentConnector, 'getAfterRedirectScripts');
 
     service.getAfterRedirectScripts(paymentSessionId);
 

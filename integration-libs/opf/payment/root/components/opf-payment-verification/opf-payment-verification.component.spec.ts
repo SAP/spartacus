@@ -38,7 +38,16 @@ describe('OpfPaymentVerificationComponent', () => {
     routeMock = {
       snapshot: { queryParamMap: new Map() },
     } as any;
-    opfPaymentVerificationServiceMock = { checkIfProcessingCartIdExist: vi.fn(), verifyResultUrl: vi.fn(), goToPage: vi.fn(), displayError: vi.fn(), clearPaymentSessionForReinitiation: vi.fn(), removeResourcesAndGlobalFunctions: vi.fn(), runHostedFieldsPattern: vi.fn(), runHostedPagePattern: vi.fn() };
+    opfPaymentVerificationServiceMock = {
+      checkIfProcessingCartIdExist: vi.fn(),
+      verifyResultUrl: vi.fn(),
+      goToPage: vi.fn(),
+      displayError: vi.fn(),
+      clearPaymentSessionForReinitiation: vi.fn(),
+      removeResourcesAndGlobalFunctions: vi.fn(),
+      runHostedFieldsPattern: vi.fn(),
+      runHostedPagePattern: vi.fn(),
+    };
     const mockNativeWindow = {
       top: null,
       location: { href: 'test-url' },

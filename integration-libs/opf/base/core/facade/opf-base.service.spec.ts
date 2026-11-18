@@ -34,9 +34,7 @@ describe('OpfBaseService', () => {
 
     service = TestBed.inject(OpfBaseService);
     queryService = TestBed.inject(QueryService) as any;
-    opfBaseConnector = TestBed.inject(
-      OpfBaseConnector
-    ) as any;
+    opfBaseConnector = TestBed.inject(OpfBaseConnector) as any;
 
     const mockActiveConfigurations: OpfActiveConfigurationsResponse = {
       page: {

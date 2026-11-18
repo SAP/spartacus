@@ -65,7 +65,13 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
   };
 
   beforeEach(async () => {
-    const facadeSpy = { getPaymentMethods: vi.fn(), getPaymentMethodsLoading: vi.fn(), loadPaymentMethods: vi.fn(), deletePaymentMethod: vi.fn(), setPaymentMethodAsDefault: vi.fn() };
+    const facadeSpy = {
+      getPaymentMethods: vi.fn(),
+      getPaymentMethodsLoading: vi.fn(),
+      loadPaymentMethods: vi.fn(),
+      deletePaymentMethod: vi.fn(),
+      setPaymentMethodAsDefault: vi.fn(),
+    };
 
     const translationSpy = { translate: vi.fn() };
 
@@ -102,12 +108,8 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       })
       .compileComponents();
 
-    tokenisationFacade = TestBed.inject(
-      OpfTokenisationFacade
-    ) as any;
-    translationService = TestBed.inject(
-      TranslationService
-    ) as any;
+    tokenisationFacade = TestBed.inject(OpfTokenisationFacade) as any;
+    translationService = TestBed.inject(TranslationService) as any;
   });
 
   beforeEach(() => {
@@ -155,7 +157,8 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       component.ngOnInit();
 
       component.paymentMethods$.subscribe((result) => {
-        expect(result).toEqual([mockPaymentMethod1, mockPaymentMethod2]);      });
+        expect(result).toEqual([mockPaymentMethod1, mockPaymentMethod2]);
+      });
     });
 
     it('should emit empty array when no payment methods', async () => {
@@ -164,7 +167,8 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       component.ngOnInit();
 
       component.paymentMethods$.subscribe((result) => {
-        expect(result).toEqual([]);      });
+        expect(result).toEqual([]);
+      });
     });
 
     it('should set first payment method as default when none is marked as default', async () => {
@@ -177,7 +181,8 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       component.paymentMethods$.subscribe(() => {
         expect(
           tokenisationFacade.setPaymentMethodAsDefault
-        ).toHaveBeenCalledWith('card-1');      });
+        ).toHaveBeenCalledWith('card-1');
+      });
     });
 
     it('should request auto-default only once across multiple emissions', async () => {
@@ -191,7 +196,8 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
         complete: () => {
           expect(
             tokenisationFacade.setPaymentMethodAsDefault
-          ).toHaveBeenCalledTimes(1);        },
+          ).toHaveBeenCalledTimes(1);
+        },
       });
     });
   });
@@ -203,7 +209,8 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       component.ngOnInit();
 
       component.loading$.subscribe((isLoading) => {
-        expect(isLoading).toBe(true);      });
+        expect(isLoading).toBe(true);
+      });
     });
 
     it('should emit false when not loading', async () => {
@@ -212,7 +219,8 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       component.ngOnInit();
 
       component.loading$.subscribe((isLoading) => {
-        expect(isLoading).toBe(false);      });
+        expect(isLoading).toBe(false);
+      });
     });
   });
 
@@ -221,7 +229,8 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       component.getCardContent(mockPaymentMethod1).subscribe(() => {
         expect(translationService.translate).toHaveBeenCalledWith(
           'common.delete'
-        );      });
+        );
+      });
     });
 
     it('should call translate for paymentCard.expires with month and year', async () => {
@@ -232,22 +241,26 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
             month: mockPaymentMethod1.expiryMonth,
             year: mockPaymentMethod1.expiryYear,
           }
-        );      });
+        );
+      });
     });
 
     it('should include cardNumber in card text', async () => {
       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
-        expect(card.text?.[0]).toBe(mockPaymentMethod1.cardNumber);      });
+        expect(card.text?.[0]).toBe(mockPaymentMethod1.cardNumber);
+      });
     });
 
     it('should include cardType name as textBold', async () => {
       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
-        expect(card.textBold).toBe(mockPaymentMethod1.cardType?.name);      });
+        expect(card.textBold).toBe(mockPaymentMethod1.cardType?.name);
+      });
     });
 
     it('should set role to application', async () => {
       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
-        expect(card.role).toBe('application');      });
+        expect(card.role).toBe('application');
+      });
     });
   });
 

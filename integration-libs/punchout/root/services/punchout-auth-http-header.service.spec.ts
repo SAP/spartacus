@@ -147,7 +147,9 @@ describe('PunchoutAuthHttpHeaderService', () => {
     vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       true
     );
-    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(true);
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(
+      true
+    );
     vi.spyOn(punchoutfacade, 'endPunchoutSession');
     vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
 
@@ -164,7 +166,9 @@ describe('PunchoutAuthHttpHeaderService', () => {
     vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       false
     );
-    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(true);
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(
+      true
+    );
     vi.spyOn(punchoutfacade, 'endPunchoutSession');
     vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
 

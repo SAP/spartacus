@@ -32,9 +32,9 @@ const mockActiveConfigurations: OpfActiveConfiguration[] = [
 ];
 
 class MockOpfBaseAdapter implements OpfBaseAdapter {
-  getActiveConfigurations = vi.fn().mockImplementation(
-    () => of(mockActiveConfigurations)
-  );
+  getActiveConfigurations = vi
+    .fn()
+    .mockImplementation(() => of(mockActiveConfigurations));
 }
 
 describe('OpfBaseConnector', () => {

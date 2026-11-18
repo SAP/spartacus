@@ -89,15 +89,16 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as any
-      ).mockReturnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       service.getGiftCardConfiguration().subscribe((result) => {
         expect(result).toEqual({
           id: 123,
           providerType: OpfPaymentProviderType.STORED_VALUE_PAYMENT,
-        });      });
+        });
+      });
     });
 
     it('should return undefined when gift card configuration is not found', async () => {
@@ -112,12 +113,13 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as any
-      ).mockReturnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       service.getGiftCardConfiguration().subscribe((result) => {
-        expect(result).toBeUndefined();      });
+        expect(result).toBeUndefined();
+      });
     });
 
     it('should return undefined when configurations are empty', async () => {
@@ -127,12 +129,13 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as any
-      ).mockReturnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       service.getGiftCardConfiguration().subscribe((result) => {
-        expect(result).toBeUndefined();      });
+        expect(result).toBeUndefined();
+      });
     });
 
     it('should handle null config data gracefully', async () => {
@@ -140,14 +143,15 @@ describe('OpfGiftCardService', () => {
         data: null,
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as any
-      ).mockReturnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       service.getGiftCardConfiguration().subscribe(
         (result) => {
-          expect(result).toBeUndefined();        },
-        () => {        }
+          expect(result).toBeUndefined();
+        },
+        () => {}
       );
     });
   });
@@ -165,9 +169,9 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as any
-      ).mockReturnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       const emissions: boolean[] = [];
       service.isGiftCardEnabled().subscribe((result) => {
@@ -186,9 +190,9 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as any
-      ).mockReturnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       const emissions: boolean[] = [];
       service.isGiftCardEnabled().subscribe((result) => {
@@ -212,9 +216,9 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as any
-      ).mockReturnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       const results: boolean[] = [];
       service.isGiftCardEnabled().subscribe((result) => {
@@ -245,25 +249,24 @@ describe('OpfGiftCardService', () => {
 
     it('should apply gift card successfully with valid userId and cartId', async () => {
       (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(mockCartId)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
       (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
         of(mockGiftCardResponse)
       );
 
       service.applyGiftCard(mockGiftCardRequest).subscribe((result) => {
         expect(result).toEqual(mockGiftCardResponse);
-        expect(
-          opfGiftCardConnector.applyGiftCard as any
-        ).toHaveBeenCalledWith(mockUserId, mockCartId, mockGiftCardRequest);      });
+        expect(opfGiftCardConnector.applyGiftCard as any).toHaveBeenCalledWith(
+          mockUserId,
+          mockCartId,
+          mockGiftCardRequest
+        );
+      });
     });
 
     it('should not call connector if userId is missing', async () => {
       (userIdService.getUserId as any).mockReturnValue(of(null));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(mockCartId)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
 
       service.applyGiftCard(mockGiftCardRequest).subscribe({
         next: () => fail('Should not emit'),
@@ -271,15 +274,14 @@ describe('OpfGiftCardService', () => {
         complete: () => {
           expect(
             opfGiftCardConnector.applyGiftCard as any
-          ).not.toHaveBeenCalled();        },
+          ).not.toHaveBeenCalled();
+        },
       });
     });
 
     it('should not call connector if cartId is missing', async () => {
       (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(null)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(null));
 
       service.applyGiftCard(mockGiftCardRequest).subscribe({
         next: () => fail('Should not emit value'),
@@ -287,16 +289,15 @@ describe('OpfGiftCardService', () => {
         complete: () => {
           expect(
             opfGiftCardConnector.applyGiftCard as any
-          ).not.toHaveBeenCalled();        },
+          ).not.toHaveBeenCalled();
+        },
       });
     });
 
     it('should handle connector errors', async () => {
       const error = new Error('Connector error');
       (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(mockCartId)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
       (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
         throwError(() => error)
       );
@@ -306,15 +307,14 @@ describe('OpfGiftCardService', () => {
           fail('Should not emit value');
         },
         (err) => {
-          expect(err).toBe(error);        }
+          expect(err).toBe(error);
+        }
       );
     });
 
     it('should take only the first emission and complete', async () => {
       (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(mockCartId)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
       (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
         of(mockGiftCardResponse)
       );
@@ -322,7 +322,8 @@ describe('OpfGiftCardService', () => {
       let emissionCount = 0;
       service.applyGiftCard(mockGiftCardRequest).subscribe(() => {
         emissionCount++;
-        expect(emissionCount).toBe(1);      });
+        expect(emissionCount).toBe(1);
+      });
     });
   });
 
@@ -333,24 +334,23 @@ describe('OpfGiftCardService', () => {
 
     it('should remove gift card successfully with valid userId and cartId', async () => {
       (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(mockCartId)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
       (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
         of(undefined)
       );
 
       service.removeGiftCard(mockGiftCardId).subscribe(() => {
-        expect(
-          opfGiftCardConnector.removeGiftCard as any
-        ).toHaveBeenCalledWith(mockUserId, mockCartId, mockGiftCardId);      });
+        expect(opfGiftCardConnector.removeGiftCard as any).toHaveBeenCalledWith(
+          mockUserId,
+          mockCartId,
+          mockGiftCardId
+        );
+      });
     });
 
     it('should not call connector if userId is missing', async () => {
       (userIdService.getUserId as any).mockReturnValue(of(null));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(mockCartId)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
 
       service.removeGiftCard(mockGiftCardId).subscribe({
         next: () => fail('Should not emit value'),
@@ -358,15 +358,14 @@ describe('OpfGiftCardService', () => {
         complete: () => {
           expect(
             opfGiftCardConnector.removeGiftCard as any
-          ).not.toHaveBeenCalled();        },
+          ).not.toHaveBeenCalled();
+        },
       });
     });
 
     it('should not call connector if cartId is missing', async () => {
       (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(null)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(null));
 
       service.removeGiftCard(mockGiftCardId).subscribe({
         next: () => fail('Should not emit value'),
@@ -374,16 +373,15 @@ describe('OpfGiftCardService', () => {
         complete: () => {
           expect(
             opfGiftCardConnector.removeGiftCard as any
-          ).not.toHaveBeenCalled();        },
+          ).not.toHaveBeenCalled();
+        },
       });
     });
 
     it('should handle connector errors', async () => {
       const error = new Error('Remove connector error');
       (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(mockCartId)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
       (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
         throwError(() => error)
       );
@@ -393,15 +391,14 @@ describe('OpfGiftCardService', () => {
           fail('Should not emit value');
         },
         (err) => {
-          expect(err).toBe(error);        }
+          expect(err).toBe(error);
+        }
       );
     });
 
     it('should take only the first emission and complete', async () => {
       (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(mockCartId)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
       (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
         of(undefined)
       );
@@ -409,7 +406,8 @@ describe('OpfGiftCardService', () => {
       let emissionCount = 0;
       service.removeGiftCard(mockGiftCardId).subscribe(() => {
         emissionCount++;
-        expect(emissionCount).toBe(1);      });
+        expect(emissionCount).toBe(1);
+      });
     });
 
     it('should pass correct parameters to removeGiftCard connector', async () => {
@@ -417,9 +415,7 @@ describe('OpfGiftCardService', () => {
       const customCartId = 'custom-cart';
       const customGiftCardId = 'custom-gc';
 
-      (userIdService.getUserId as any).mockReturnValue(
-        of(customUserId)
-      );
+      (userIdService.getUserId as any).mockReturnValue(of(customUserId));
       (activeCartFacade.getActiveCartId as any).mockReturnValue(
         of(customCartId)
       );
@@ -428,9 +424,12 @@ describe('OpfGiftCardService', () => {
       );
 
       service.removeGiftCard(customGiftCardId).subscribe(() => {
-        expect(
-          opfGiftCardConnector.removeGiftCard as any
-        ).toHaveBeenCalledWith(customUserId, customCartId, customGiftCardId);      });
+        expect(opfGiftCardConnector.removeGiftCard as any).toHaveBeenCalledWith(
+          customUserId,
+          customCartId,
+          customGiftCardId
+        );
+      });
     });
   });
 
@@ -448,7 +447,8 @@ describe('OpfGiftCardService', () => {
       service
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
-          expect(result).toBe(true);        });
+          expect(result).toBe(true);
+        });
     });
 
     it('should return false when giftCardsCoverFullAmount is false', async () => {
@@ -464,7 +464,8 @@ describe('OpfGiftCardService', () => {
       service
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
-          expect(result).toBe(false);        });
+          expect(result).toBe(false);
+        });
     });
 
     it('should return false when  opfGiftCardSummary is null', async () => {
@@ -475,7 +476,8 @@ describe('OpfGiftCardService', () => {
       service
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
-          expect(result).toBe(false);        });
+          expect(result).toBe(false);
+        });
     });
 
     it('should return false when  opfGiftCardSummary is undefined', async () => {
@@ -486,14 +488,16 @@ describe('OpfGiftCardService', () => {
       service
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
-          expect(result).toBe(false);        });
+          expect(result).toBe(false);
+        });
     });
 
     it('should return false when cart is null', async () => {
       service
         .isGiftCardCoveredTotalAmount(of(null as any))
         .subscribe((result) => {
-          expect(result).toBe(false);        });
+          expect(result).toBe(false);
+        });
     });
 
     it('should return false when giftCardsCoverFullAmount is undefined', async () => {
@@ -509,7 +513,8 @@ describe('OpfGiftCardService', () => {
       service
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
-          expect(result).toBe(false);        });
+          expect(result).toBe(false);
+        });
     });
 
     it('should handle observable emissions correctly', async () => {
@@ -537,7 +542,8 @@ describe('OpfGiftCardService', () => {
           results.push(result);
           if (results.length === 2) {
             expect(results[0]).toBe(true);
-            expect(results[1]).toBe(false);          }
+            expect(results[1]).toBe(false);
+          }
         });
     });
   });
@@ -559,16 +565,15 @@ describe('OpfGiftCardService', () => {
       };
 
       (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as any).mockReturnValue(
-        of(mockCartId)
-      );
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
       (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
         of(mockResponse)
       );
 
       service.applyGiftCard(mockRequest).subscribe((result) => {
         expect(result.maskedNumber).toEqual(mockResponse.maskedNumber);
-        expect(result.balance).toEqual(mockResponse.balance);      });
+        expect(result.balance).toEqual(mockResponse.balance);
+      });
     });
   });
 
@@ -594,12 +599,13 @@ describe('OpfGiftCardService', () => {
           },
         };
 
-        (
-          opfBaseFacade.getActiveConfigurationsState as any
-        ).mockReturnValue(of(mockConfig));
+        (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+          of(mockConfig)
+        );
 
         service.getGiftCardConfiguration().subscribe((result) => {
-          expect(result?.id).toBe(100);        });
+          expect(result?.id).toBe(100);
+        });
       });
     });
 
@@ -620,9 +626,7 @@ describe('OpfGiftCardService', () => {
           remainingBalance: { value: 50.0, formattedValue: '$50.00' },
         };
 
-        (userIdService.getUserId as any).mockReturnValue(
-          of(mockUserId)
-        );
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
         (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
@@ -634,7 +638,8 @@ describe('OpfGiftCardService', () => {
           expect(result.maskedNumber).toBeDefined();
           expect(result.balance).toBeDefined();
           expect(result.appliedAmount).toBeDefined();
-          expect(result.remainingBalance).toBeDefined();        });
+          expect(result.remainingBalance).toBeDefined();
+        });
       });
 
       it('should handle response with zero applied amount', async () => {
@@ -650,9 +655,7 @@ describe('OpfGiftCardService', () => {
           remainingBalance: { value: 100.0, formattedValue: '$100.00' },
         };
 
-        (userIdService.getUserId as any).mockReturnValue(
-          of(mockUserId)
-        );
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
         (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
@@ -661,7 +664,8 @@ describe('OpfGiftCardService', () => {
         );
 
         service.applyGiftCard(mockRequest).subscribe((result) => {
-          expect(result.appliedAmount.value).toBe(0.0);        });
+          expect(result.appliedAmount.value).toBe(0.0);
+        });
       });
 
       it('should handle response with remaining balance equal to zero', async () => {
@@ -677,9 +681,7 @@ describe('OpfGiftCardService', () => {
           remainingBalance: { value: 0.0, formattedValue: '$0.00' },
         };
 
-        (userIdService.getUserId as any).mockReturnValue(
-          of(mockUserId)
-        );
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
         (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
@@ -688,7 +690,8 @@ describe('OpfGiftCardService', () => {
         );
 
         service.applyGiftCard(mockRequest).subscribe((result) => {
-          expect(result.remainingBalance.value).toBe(0.0);        });
+          expect(result.remainingBalance.value).toBe(0.0);
+        });
       });
     });
 
@@ -697,9 +700,7 @@ describe('OpfGiftCardService', () => {
       const mockCartId = 'cart-456';
 
       it('should handle empty string giftCardId', async () => {
-        (userIdService.getUserId as any).mockReturnValue(
-          of(mockUserId)
-        );
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
         (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
@@ -710,15 +711,14 @@ describe('OpfGiftCardService', () => {
         service.removeGiftCard('').subscribe(() => {
           expect(
             opfGiftCardConnector.removeGiftCard as any
-          ).toHaveBeenCalledWith(mockUserId, mockCartId, '');        });
+          ).toHaveBeenCalledWith(mockUserId, mockCartId, '');
+        });
       });
 
       it('should handle special characters in giftCardId', async () => {
         const specialGiftCardId = 'gc-@#$%^&*()';
 
-        (userIdService.getUserId as any).mockReturnValue(
-          of(mockUserId)
-        );
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
         (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
@@ -729,19 +729,18 @@ describe('OpfGiftCardService', () => {
         service.removeGiftCard(specialGiftCardId).subscribe(() => {
           expect(
             opfGiftCardConnector.removeGiftCard as any
-          ).toHaveBeenCalledWith(mockUserId, mockCartId, specialGiftCardId);        });
+          ).toHaveBeenCalledWith(mockUserId, mockCartId, specialGiftCardId);
+        });
       });
 
       it('should handle both userId and cartId as empty strings', async () => {
         (userIdService.getUserId as any).mockReturnValue(of(''));
-        (activeCartFacade.getActiveCartId as any).mockReturnValue(
-          of('')
-        );
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(of(''));
 
         service.removeGiftCard('gc-123').subscribe({
           next: () => fail('Should not emit value'),
           error: () => fail('Should not error'),
-          complete: () => {          },
+          complete: () => {},
         });
       });
     });
@@ -773,9 +772,7 @@ describe('OpfGiftCardService', () => {
           remainingBalance: { value: 100.0, formattedValue: '$100.00' },
         };
 
-        (userIdService.getUserId as any).mockReturnValue(
-          of(mockUserId)
-        );
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
         (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
@@ -794,11 +791,13 @@ describe('OpfGiftCardService', () => {
         let completedCount = 0;
         service.applyGiftCard(mockRequest1).subscribe(() => {
           completedCount++;
-          if (completedCount === 2) {          }
+          if (completedCount === 2) {
+          }
         });
         service.applyGiftCard(mockRequest2).subscribe(() => {
           completedCount++;
-          if (completedCount === 2) {          }
+          if (completedCount === 2) {
+          }
         });
       });
     });
@@ -806,9 +805,7 @@ describe('OpfGiftCardService', () => {
     describe('Observable behavior', () => {
       it('should not call connector when filter excludes both values', async () => {
         (userIdService.getUserId as any).mockReturnValue(of(null));
-        (activeCartFacade.getActiveCartId as any).mockReturnValue(
-          of(null)
-        );
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(of(null));
 
         service.removeGiftCard('gc-123').subscribe({
           next: () => fail('Should not emit'),
@@ -816,7 +813,8 @@ describe('OpfGiftCardService', () => {
           complete: () => {
             expect(
               opfGiftCardConnector.removeGiftCard as any
-            ).not.toHaveBeenCalled();          },
+            ).not.toHaveBeenCalled();
+          },
         });
       });
 
@@ -824,9 +822,7 @@ describe('OpfGiftCardService', () => {
         const mockUserId = 'user-123';
         const mockCartId = 'cart-456';
 
-        (userIdService.getUserId as any).mockReturnValue(
-          of(mockUserId)
-        );
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
         (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );

@@ -50,12 +50,23 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   let featureToggles: FeatureToggles;
 
   beforeEach(() => {
-    opfPaymentFacadeMock = { initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
+    opfPaymentFacadeMock = {
+      initiatePayment: vi.fn(),
+      updatePaymentTransaction: vi.fn(),
+    };
     cartAccessCodeFacadeMock = { getCartAccessCode: vi.fn() };
-    opfResourceLoaderServiceMock = { executeScriptFromHtml: vi.fn(), clearAllResources: vi.fn(), loadResources: vi.fn() };
+    opfResourceLoaderServiceMock = {
+      executeScriptFromHtml: vi.fn(),
+      clearAllResources: vi.fn(),
+      loadResources: vi.fn(),
+    };
     userIdServiceMock = { getUserId: vi.fn() };
     activeCartServiceMock = { getActiveCartId: vi.fn() };
-    routingServiceMock = { getRouterState: vi.fn(), go: vi.fn(), getFullUrl: vi.fn() };
+    routingServiceMock = {
+      getRouterState: vi.fn(),
+      go: vi.fn(),
+      getFullUrl: vi.fn(),
+    };
     globalMessageServiceMock = { add: vi.fn() };
     orderFacadeMock = { placePaymentAuthorizedOrder: vi.fn() };
     opfMetadataStoreServiceMock = { updateOpfMetadata: vi.fn() };
@@ -109,7 +120,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     service['renderPaymentMethodEvent$'].next(mockRenderPaymentMethodEvent);
 
     service.getRenderPaymentMethodEvent().subscribe((event) => {
-      expect(event).toEqual(mockRenderPaymentMethodEvent);    });
+      expect(event).toEqual(mockRenderPaymentMethodEvent);
+    });
   });
 
   it('should initiate payment successfully and render payment gateway', async () => {
@@ -213,7 +225,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         },
       });
 
-      expect((service as any).storePaymentSessionId).toHaveBeenCalled();    });
+      expect((service as any).storePaymentSessionId).toHaveBeenCalled();
+    });
   });
 
   it('should handle when payment initiation fails with 409 error', async () => {
@@ -240,7 +253,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     service.initiatePayment(mockPaymentOptionId).subscribe({
       next: () => {},
       error: (error) => {
-        expect(error).toBe('Payment already done');      },
+        expect(error).toBe('Payment already done');
+      },
     });
   });
 
@@ -271,7 +285,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         expect(
           orderFacadeMock.placePaymentAuthorizedOrder
         ).not.toHaveBeenCalled();
-        expect(globalMessageServiceMock.add).toHaveBeenCalled();      },
+        expect(globalMessageServiceMock.add).toHaveBeenCalled();
+      },
     });
   });
 
@@ -299,7 +314,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       next: () => {},
       error: (error) => {
         expect(error).toBe('Payment failed');
-        expect(globalMessageServiceMock.add).toHaveBeenCalled();      },
+        expect(globalMessageServiceMock.add).toHaveBeenCalled();
+      },
     });
   });
 
@@ -326,7 +342,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       next: () => {},
       error: (error) => {
         expect(error).toBe('Payment failed');
-        expect(globalMessageServiceMock.add).toHaveBeenCalled();      },
+        expect(globalMessageServiceMock.add).toHaveBeenCalled();
+      },
     });
   });
 
@@ -424,7 +441,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         ).toHaveBeenCalledWith({
           opfPaymentSessionId: 'new-session',
           opfPaymentSessionConfigurationId: '999',
-        });      });
+        });
+      });
   });
 
   it('should render payment gateway with a hidden form and submit button', () => {
@@ -572,7 +590,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         state: { semanticRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE },
       } as RouterState)
     );
-    opfResourceLoaderServiceMock.executeScriptFromHtml.mockImplementation(() => {});
+    opfResourceLoaderServiceMock.executeScriptFromHtml.mockImplementation(
+      () => {}
+    );
 
     service['executeScriptFromHtml'](mockHtml);
 
@@ -582,8 +602,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     expect(
       opfResourceLoaderServiceMock.executeScriptFromHtml
     ).toHaveBeenCalledWith(mockHtml);
-  vi.useRealTimers();
-    });
+    vi.useRealTimers();
+  });
 
   it('should call the necessary methods on an error', () => {
     service['onPlaceOrderError']();
@@ -624,7 +644,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
       expect(
         opfPaymentFacadeMock.updatePaymentTransaction
-      ).not.toHaveBeenCalled();    });
+      ).not.toHaveBeenCalled();
+    });
   });
 
   it('should call updatePaymentTransaction when matching stored session exists and feature is enabled', async () => {
@@ -667,7 +688,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           resultURL: mockUrl,
           cancelURL: mockUrl,
         },
-      });    });
+      });
+    });
   });
 
   it('should call initiatePayment when updatePaymentTransaction returns 409 (CXSPA-14589)', async () => {
@@ -698,7 +720,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     vi.spyOn(service, 'renderPaymentGateway').mockImplementation(() => {});
 
     service.initiatePayment(mockPaymentOptionId).subscribe(() => {
-      expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();    });
+      expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
+    });
   });
 
   it('should place order when updatePaymentTransaction returns 409 and initiatePayment also returns 409 (CXSPA-14589)', async () => {
@@ -726,7 +749,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
 
     service.initiatePayment(mockPaymentOptionId).subscribe({
       error: () => {
-        expect(orderFacadeMock.placePaymentAuthorizedOrder).toHaveBeenCalled();      },
+        expect(orderFacadeMock.placePaymentAuthorizedOrder).toHaveBeenCalled();
+      },
     });
   });
 

@@ -50,12 +50,22 @@ describe('OpfCtaScriptsService', () => {
   beforeEach(() => {
     orderFacadeMock = { getOrderDetails: vi.fn() };
     orderHistoryFacadeMock = { getOrderDetails: vi.fn() };
-    opfResourceLoaderServiceMock = { executeScriptFromHtml: vi.fn(), loadResources: vi.fn(), clearAllResources: vi.fn() };
+    opfResourceLoaderServiceMock = {
+      executeScriptFromHtml: vi.fn(),
+      loadResources: vi.fn(),
+      clearAllResources: vi.fn(),
+    };
     cmsServiceMock = { getCurrentPage: vi.fn() };
     currentProductMock = { getProduct: vi.fn() };
     opfBaseFacadeMock = { getActiveConfigurationsState: vi.fn() };
     opfCtaFacadeMock = { getCtaScripts: vi.fn() };
-    opfDynamicCtaServiceMock = { initiateEvents: vi.fn(), stopEvents: vi.fn(), fillCtaRequestforCartPage: vi.fn(), fillCtaRequestforProductPage: vi.fn(), registerScriptReadyEvent: vi.fn() };
+    opfDynamicCtaServiceMock = {
+      initiateEvents: vi.fn(),
+      stopEvents: vi.fn(),
+      fillCtaRequestforCartPage: vi.fn(),
+      fillCtaRequestforProductPage: vi.fn(),
+      registerScriptReadyEvent: vi.fn(),
+    };
     opfStaticCtaServiceMock = { fillCtaRequestforPagesWithOrder: vi.fn() };
 
     TestBed.configureTestingModule({
@@ -117,7 +127,8 @@ describe('OpfCtaScriptsService', () => {
       ).not.toHaveBeenCalled();
       expect(
         opfStaticCtaServiceMock.fillCtaRequestforPagesWithOrder
-      ).toHaveBeenCalled();    });
+      ).toHaveBeenCalled();
+    });
   });
 
   it('should call StaticCtaService for CTA on order page', async () => {
@@ -134,7 +145,8 @@ describe('OpfCtaScriptsService', () => {
       ).not.toHaveBeenCalled();
       expect(
         opfStaticCtaServiceMock.fillCtaRequestforPagesWithOrder
-      ).toHaveBeenCalled();    });
+      ).toHaveBeenCalled();
+    });
   });
 
   it('should call DynamicCtaService for CTA on PDP', async () => {
@@ -151,7 +163,8 @@ describe('OpfCtaScriptsService', () => {
       ).toHaveBeenCalled();
       expect(
         opfDynamicCtaServiceMock.fillCtaRequestforProductPage
-      ).toHaveBeenCalled();    });
+      ).toHaveBeenCalled();
+    });
   });
 
   it('should call DynamicCtaService for CTA on Cart page', async () => {
@@ -168,7 +181,8 @@ describe('OpfCtaScriptsService', () => {
       ).toHaveBeenCalled();
       expect(
         opfDynamicCtaServiceMock.fillCtaRequestforCartPage
-      ).toHaveBeenCalled();    });
+      ).toHaveBeenCalled();
+    });
   });
 
   it('should throw an error when empty CTA scripts response from OPF server', async () => {
@@ -176,7 +190,8 @@ describe('OpfCtaScriptsService', () => {
 
     service.getCtaHtmlList().subscribe({
       error: (error) => {
-        expect(error).toEqual('Invalid CTA Scripts Response');      },
+        expect(error).toEqual('Invalid CTA Scripts Response');
+      },
     });
   });
 
@@ -187,9 +202,11 @@ describe('OpfCtaScriptsService', () => {
 
     service.getCtaHtmlList().subscribe({
       next: () => {
-        fail('Invalid script should fail');      },
+        fail('Invalid script should fail');
+      },
       error: (error) => {
-        expect(error).toEqual('Invalid Script Location');      },
+        expect(error).toEqual('Invalid Script Location');
+      },
     });
   });
 
@@ -200,9 +217,11 @@ describe('OpfCtaScriptsService', () => {
 
     service.getCtaHtmlList().subscribe({
       next: () => {
-        fail('Empty script should fail');      },
+        fail('Empty script should fail');
+      },
       error: (error) => {
-        expect(error).toEqual('Invalid Script Location');      },
+        expect(error).toEqual('Invalid Script Location');
+      },
     });
   });
 
@@ -211,7 +230,8 @@ describe('OpfCtaScriptsService', () => {
       expect(
         opfResourceLoaderServiceMock.executeScriptFromHtml
       ).toHaveBeenCalled();
-      expect(scriptResponse?.html).toEqual(dynamicScriptMock.html);    });
+      expect(scriptResponse?.html).toEqual(dynamicScriptMock.html);
+    });
   });
 
   it('should not execute script when html from script response is empty', async () => {
@@ -221,7 +241,8 @@ describe('OpfCtaScriptsService', () => {
         expect(
           opfResourceLoaderServiceMock.executeScriptFromHtml
         ).not.toHaveBeenCalled();
-        expect(scriptResponse).toBeFalsy();      });
+        expect(scriptResponse).toBeFalsy();
+      });
   });
 
   it('should not execute script when resource loading failed', async () => {
@@ -234,7 +255,8 @@ describe('OpfCtaScriptsService', () => {
         expect(
           opfResourceLoaderServiceMock.executeScriptFromHtml
         ).not.toHaveBeenCalled();
-        expect(scriptResponse).toBeFalsy();      });
+        expect(scriptResponse).toBeFalsy();
+      });
   });
 
   const dynamicScriptMock: OpfDynamicScript = {

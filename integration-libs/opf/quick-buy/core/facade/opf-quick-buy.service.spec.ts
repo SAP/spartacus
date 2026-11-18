@@ -62,18 +62,10 @@ describe('OpfQuickBuyService', () => {
     });
 
     service = TestBed.inject(OpfQuickBuyService);
-    opfQuickBuyConnector = TestBed.inject(
-      OpfQuickBuyConnector
-    ) as any;
-    cartAccessCodeFacade = TestBed.inject(
-      CartAccessCodeFacade
-    ) as any;
-    activeCartFacade = TestBed.inject(
-      ActiveCartFacade
-    ) as any;
-    userIdService = TestBed.inject(
-      UserIdService
-    ) as any;
+    opfQuickBuyConnector = TestBed.inject(OpfQuickBuyConnector) as any;
+    cartAccessCodeFacade = TestBed.inject(CartAccessCodeFacade) as any;
+    activeCartFacade = TestBed.inject(ActiveCartFacade) as any;
+    userIdService = TestBed.inject(UserIdService) as any;
   });
 
   it('should successfully get ApplePay web session', async () => {
@@ -93,6 +85,7 @@ describe('OpfQuickBuyService', () => {
         expect(opfQuickBuyConnector.getApplePayWebSession).toHaveBeenCalledWith(
           mockGetApplePayWebSessionRequest,
           mockAccessCode
-        );      });
+        );
+      });
   });
 });

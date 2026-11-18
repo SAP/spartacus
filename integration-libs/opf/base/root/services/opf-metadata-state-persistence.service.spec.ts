@@ -28,8 +28,14 @@ describe('OpfMetadataStatePersistanceService', () => {
   let opfMetadataStoreServiceMock: any;
 
   beforeEach(() => {
-    statePersistenceServiceMock = { syncWithStorage: vi.fn(), readStateFromStorage: vi.fn() };
-    opfMetadataStoreServiceMock = { getOpfMetadataState: vi.fn(), updateOpfMetadata: vi.fn() };
+    statePersistenceServiceMock = {
+      syncWithStorage: vi.fn(),
+      readStateFromStorage: vi.fn(),
+    };
+    opfMetadataStoreServiceMock = {
+      getOpfMetadataState: vi.fn(),
+      updateOpfMetadata: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -81,7 +87,8 @@ describe('OpfMetadataStatePersistanceService', () => {
     const { opfPaymentSessionId, ...expectedMetadata } = mockOpfMetadata;
 
     service['getOpfState']().subscribe((state: any) => {
-      expect(state).toEqual({ metadata: expectedMetadata });    });
+      expect(state).toEqual({ metadata: expectedMetadata });
+    });
   });
 
   it('should update OpfMetadataStoreService when onRead is called', () => {

@@ -35,9 +35,7 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       ],
     }).compileComponents();
 
-    translationService = TestBed.inject(
-      TranslationService
-    ) as any;
+    translationService = TestBed.inject(TranslationService) as any;
     fixture = TestBed.createComponent(OpfGiftCardPaymentMethodDetailComponent);
     component = fixture.componentInstance;
 
@@ -125,7 +123,8 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
     it('should return card with translated title and text', async () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBe('Payment Option');
-        expect(card.text).toContain('Gift Card Payment');      });
+        expect(card.text).toContain('Gift Card Payment');
+      });
     });
 
     it('should call translate with correct keys', async () => {
@@ -135,7 +134,8 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         );
         expect(translationService.translate).toHaveBeenCalledWith(
           'opfGiftCard.giftCardPayment'
-        );      });
+        );
+      });
     });
 
     it('should return card object with expected structure', async () => {
@@ -143,7 +143,8 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         expect(card.title).toBeDefined();
         expect(card.text).toBeDefined();
         expect(Array.isArray(card.text)).toBe(true);
-        expect(card.text?.length).toBeGreaterThan(0);      });
+        expect(card.text?.length).toBeGreaterThan(0);
+      });
     });
 
     it('should handle translation service errors gracefully', async () => {
@@ -151,7 +152,8 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
 
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBeDefined();
-        expect(card.text).toBeDefined();      });
+        expect(card.text).toBeDefined();
+      });
     });
   });
 
@@ -251,7 +253,8 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
 
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBe('Payment Option');
-        expect(card.text?.[0]).toBe('Gift Card Payment');      });
+        expect(card.text?.[0]).toBe('Gift Card Payment');
+      });
     });
   });
 

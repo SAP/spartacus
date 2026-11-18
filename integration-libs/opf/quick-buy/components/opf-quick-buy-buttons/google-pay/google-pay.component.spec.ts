@@ -18,8 +18,7 @@ import { OpfGooglePayService } from './google-pay.service';
 class MockOpfGooglePayService {
   loadResources = vi.fn().mockReturnValue(Promise.resolve());
   initClient = vi.fn();
-  isReadyToPay = vi.fn()
-    .mockReturnValue(Promise.resolve({ result: true }));
+  isReadyToPay = vi.fn().mockReturnValue(Promise.resolve({ result: true }));
   renderPaymentButton = vi.fn();
 }
 

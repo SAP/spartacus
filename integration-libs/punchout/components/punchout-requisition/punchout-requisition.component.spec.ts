@@ -1,8 +1,5 @@
 import { ElementRef, Pipe, PipeTransform } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { PunchoutFacade, PunchoutRequisition } from '@spartacus/punchout/root';
 import { of, throwError } from 'rxjs';

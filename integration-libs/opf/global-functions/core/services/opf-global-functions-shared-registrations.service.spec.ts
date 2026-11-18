@@ -42,15 +42,13 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = vi.fn()
-    .mockReturnValue(of('test-cart-id'));
+  getActiveCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCartId = vi.fn()
-    .mockReturnValue(of('test-cart-id'));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
 class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
@@ -60,7 +58,14 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
 }
 
 function createOpfPaymentFacadeMock(): any {
-  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
@@ -149,7 +154,8 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
 
   describe('registerUpdatePaymentTransaction', () => {
     it('should assign container.updatePaymentTransaction', async () => {
-      const updateFn = vi.fn()
+      const updateFn = vi
+        .fn()
         .mockReturnValue(Promise.resolve({ paymentSessionId: 'updated' }));
 
       service.registerUpdatePaymentTransaction(container, updateFn);

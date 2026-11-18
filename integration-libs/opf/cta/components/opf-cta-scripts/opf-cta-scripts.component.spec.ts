@@ -81,19 +81,21 @@ describe('OpfCtaScriptsComponent', () => {
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelectorAll(ctaElementSelector).length
-      ).toEqual(2);    });
+      ).toEqual(2);
+    });
   });
 
   it('should isError be true when error is thrown', async () => {
-    opfCtaScriptsService.getCtaHtmlList = vi.fn().mockReturnValue(
-      throwError('error')
-    );
+    opfCtaScriptsService.getCtaHtmlList = vi
+      .fn()
+      .mockReturnValue(throwError('error'));
     createComponentInstance();
     component.ctaHtmls$.subscribe((htmlList) => {
       expect(htmlList).toEqual([]);
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelector(ctaElementSelector)
-      ).toBeFalsy();    });
+      ).toBeFalsy();
+    });
   });
 });

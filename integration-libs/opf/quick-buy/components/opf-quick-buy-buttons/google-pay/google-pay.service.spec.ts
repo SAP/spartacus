@@ -59,11 +59,33 @@ describe('OpfGooglePayService', () => {
   beforeEach(() => {
     mockResourceLoaderService = { loadResources: vi.fn() };
     mockCurrentProductService = { getProduct: vi.fn() };
-    mockQuickBuyTransactionService = { deleteUserAddresses: vi.fn(), checkStableCart: vi.fn(), getSupportedDeliveryModes: vi.fn(), setDeliveryAddress: vi.fn(), setBillingAddress: vi.fn(), getDeliveryAddress: vi.fn(), getCurrentCart: vi.fn(), getCurrentCartId: vi.fn(), getCurrentCartTotalPrice: vi.fn(), setDeliveryMode: vi.fn(), getSelectedDeliveryMode: vi.fn(), deleteUserAddresses: vi.fn(), getTransactionDeliveryInfo: vi.fn(), getTransactionLocationContext: vi.fn(), getMerchantName: vi.fn(), updateCartGuestUserEmail: vi.fn() };
+    mockQuickBuyTransactionService = {
+      deleteUserAddresses: vi.fn(),
+      checkStableCart: vi.fn(),
+      getSupportedDeliveryModes: vi.fn(),
+      setDeliveryAddress: vi.fn(),
+      setBillingAddress: vi.fn(),
+      getDeliveryAddress: vi.fn(),
+      getCurrentCart: vi.fn(),
+      getCurrentCartId: vi.fn(),
+      getCurrentCartTotalPrice: vi.fn(),
+      setDeliveryMode: vi.fn(),
+      getSelectedDeliveryMode: vi.fn(),
+      deleteUserAddresses: vi.fn(),
+      getTransactionDeliveryInfo: vi.fn(),
+      getTransactionLocationContext: vi.fn(),
+      getMerchantName: vi.fn(),
+      updateCartGuestUserEmail: vi.fn(),
+    };
     mockPaymentFacade = { submitPayment: vi.fn() };
-    mockQuickBuyButtonsService = { getQuickBuyProviderConfig: vi.fn(), getActiveConfigurationForProvider: vi.fn() };
+    mockQuickBuyButtonsService = {
+      getQuickBuyProviderConfig: vi.fn(),
+      getActiveConfigurationForProvider: vi.fn(),
+    };
     mockTranslationService = { translate: vi.fn() };
-    mockTranslationService.translate.mockImplementation((key: string) => of(key));
+    mockTranslationService.translate.mockImplementation((key: string) =>
+      of(key)
+    );
 
     const mockPaymentsClientInstance = {
       loadPaymentData: vi.fn().mockReturnValue(Promise.resolve({})),
@@ -72,10 +94,12 @@ describe('OpfGooglePayService', () => {
     const googlePayApiMock = {
       payments: {
         api: {
-          PaymentsClient: vi.fn().mockImplementation(class {
-            loadPaymentData = mockPaymentsClientInstance.loadPaymentData;
-            isReadyToPay = mockPaymentsClientInstance.isReadyToPay;
-          }),
+          PaymentsClient: vi.fn().mockImplementation(
+            class {
+              loadPaymentData = mockPaymentsClientInstance.loadPaymentData;
+              isReadyToPay = mockPaymentsClientInstance.isReadyToPay;
+            }
+          ),
         },
       },
     };
@@ -139,7 +163,9 @@ describe('OpfGooglePayService', () => {
         of(mockDeliveryModes)
       );
 
-      const shippingOptions = await firstValueFrom(service['getShippingOptionParameters']());
+      const shippingOptions = await firstValueFrom(
+        service['getShippingOptionParameters']()
+      );
       expect(shippingOptions).toBeDefined();
       expect(shippingOptions?.shippingOptions.length).toBe(
         mockDeliveryModes.length
@@ -161,7 +187,9 @@ describe('OpfGooglePayService', () => {
         of([])
       );
 
-      const shippingOptions = await firstValueFrom(service['getShippingOptionParameters']());
+      const shippingOptions = await firstValueFrom(
+        service['getShippingOptionParameters']()
+      );
       expect(shippingOptions).toBeDefined();
       expect(shippingOptions?.shippingOptions).toEqual([]);
       expect(shippingOptions?.defaultSelectedOptionId).toBeUndefined();
@@ -272,9 +300,11 @@ describe('OpfGooglePayService', () => {
         of('addressId')
       );
 
-      const addressId = await firstValueFrom(service['setDeliveryAddress'](
-        mockAddress as google.payments.api.Address
-      ));
+      const addressId = await firstValueFrom(
+        service['setDeliveryAddress'](
+          mockAddress as google.payments.api.Address
+        )
+      );
       expect(addressId).toEqual('addressId');
       expect(
         mockQuickBuyTransactionService.setDeliveryAddress
@@ -295,7 +325,9 @@ describe('OpfGooglePayService', () => {
         subTotal: { value: 80 },
       } as Cart;
 
-      const transactionInfo = await firstValueFrom(service['getNewTransactionInfo'](mockCart));
+      const transactionInfo = await firstValueFrom(
+        service['getNewTransactionInfo'](mockCart)
+      );
       expect(transactionInfo).toBeDefined();
       expect(transactionInfo?.totalPrice).toBe('100');
       expect(transactionInfo?.currencyCode).toBe('USD');
@@ -307,7 +339,9 @@ describe('OpfGooglePayService', () => {
     it('should handle cart with missing price information', async () => {
       const mockCart = {} as Cart;
 
-      const transactionInfo = await firstValueFrom(service['getNewTransactionInfo'](mockCart));
+      const transactionInfo = await firstValueFrom(
+        service['getNewTransactionInfo'](mockCart)
+      );
       expect(transactionInfo).toBeUndefined();
     });
 
@@ -316,7 +350,9 @@ describe('OpfGooglePayService', () => {
         totalPriceWithTax: { value: 0, currencyIso: 'USD' },
       } as Cart;
 
-      const transactionInfo = await firstValueFrom(service['getNewTransactionInfo'](mockCart));
+      const transactionInfo = await firstValueFrom(
+        service['getNewTransactionInfo'](mockCart)
+      );
       expect(transactionInfo).toBeUndefined();
     });
   });
@@ -331,16 +367,16 @@ describe('OpfGooglePayService', () => {
         appliedOrderPromotions: [{ description: 'Promo' }],
       } as Cart;
 
-      const items = await firstValueFrom(service['buildDisplayItems'](mockCart));
+      const items = await firstValueFrom(
+        service['buildDisplayItems'](mockCart)
+      );
       expect(items.length).toBe(4);
       expect(items[0]).toEqual({
         label: 'orderCost.subtotal',
         type: 'SUBTOTAL',
         price: '80',
       });
-      expect(items.find((item) => item.type === 'DISCOUNT')?.price).toBe(
-        '-2'
-      );
+      expect(items.find((item) => item.type === 'DISCOUNT')?.price).toBe('-2');
     });
   });
 
@@ -544,7 +580,9 @@ describe('OpfGooglePayService', () => {
 
   describe('initTransaction', () => {
     it('should initialize transaction for active cart context', async () => {
-      vi.spyOn(service, 'handleActiveCartTransaction').mockReturnValue(of(null));
+      vi.spyOn(service, 'handleActiveCartTransaction').mockReturnValue(
+        of(null)
+      );
 
       mockQuickBuyTransactionService.getTransactionLocationContext.mockReturnValue(
         of(OpfQuickBuyLocation.CART)
@@ -648,9 +686,9 @@ describe('OpfGooglePayService', () => {
         );
 
         if (callbacks.onPaymentAuthorized) {
-          const result = await (
-            callbacks.onPaymentAuthorized(paymentDataResponse) as Promise<any>
-          );
+          const result = await (callbacks.onPaymentAuthorized(
+            paymentDataResponse
+          ) as Promise<any>);
 
           const submitPaymentArgs =
             mockPaymentFacade.submitPayment.mock.lastCall![0];
@@ -730,11 +768,10 @@ describe('OpfGooglePayService', () => {
         );
 
         if (callbacks.onPaymentDataChanged) {
-          const paymentDataRequestUpdate = await (
-            callbacks.onPaymentDataChanged(
+          const paymentDataRequestUpdate =
+            await (callbacks.onPaymentDataChanged(
               intermediatePaymentData
-            ) as Promise<any>
-          );
+            ) as Promise<any>);
           expect(
             paymentDataRequestUpdate.newShippingOptionParameters
               .defaultSelectedOptionId

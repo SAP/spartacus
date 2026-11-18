@@ -23,9 +23,7 @@ const mockCtaScriptsResponse: OpfCtaScriptsResponse = {
 };
 
 class MockOpfCtaAdapter implements OpfCtaAdapter {
-  getCtaScripts = vi.fn().mockImplementation(() =>
-    of(mockCtaScriptsResponse)
-  );
+  getCtaScripts = vi.fn().mockImplementation(() => of(mockCtaScriptsResponse));
 }
 
 describe('OpfCtaConnector', () => {

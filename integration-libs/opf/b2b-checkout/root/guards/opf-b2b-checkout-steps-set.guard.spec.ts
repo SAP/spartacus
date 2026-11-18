@@ -28,7 +28,6 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OpfB2bCheckoutStepsSetGuard } from './opf-b2b-checkout-steps-set.guard';
 
-
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
   getRouteConfig(stepRoute: string): RouteConfig | undefined {
     if (stepRoute === 'route0') {
@@ -211,38 +210,38 @@ describe(`OpfB2bCheckoutStepsSetGuard`, () => {
     });
 
     describe('PAYMENT_DETAILS is not valid any more', () => {
-      it('go to step3 (payment details), should return to checkout',
-async () => {
+      it('go to step3 (payment details), should return to checkout', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route3'] })
           .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout');          });
+            expect(result.toString()).toEqual('/checkout');
+          });
       });
     });
 
     describe('there is no checkout data set yet', () => {
-      it('go to step1 (delivery address), should return step0',
-async () => {
+      it('go to step1 (delivery address), should return step0', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route1'] })
           .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route0');          });
+            expect(result.toString()).toEqual('/checkout/route0');
+          });
       });
 
-      it('go to step2 (delivery mode), should return step1',
-async () => {
+      it('go to step2 (delivery mode), should return step1', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route2'] })
           .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route1');          });
+            expect(result.toString()).toEqual('/checkout/route1');
+          });
       });
 
-      it('go to step4 (review details), should return step2',
-async () => {
+      it('go to step4 (review details), should return step2', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route4'] })
           .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');          });
+            expect(result.toString()).toEqual('/checkout/route2');
+          });
       });
     });
 
@@ -254,28 +253,28 @@ async () => {
         ).mockReturnValue(of({ loading: false, error: false, data: {} }));
       });
 
-      it('go to step1 (delivery address), should return true',
-async () => {
+      it('go to step1 (delivery address), should return true', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route1'] })
           .subscribe((result) => {
-            expect(result).toBeTruthy();          });
+            expect(result).toBeTruthy();
+          });
       });
 
-      it('go to step2 (delivery mode), should return step1',
-async () => {
+      it('go to step2 (delivery mode), should return step1', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route2'] })
           .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route1');          });
+            expect(result.toString()).toEqual('/checkout/route1');
+          });
       });
 
-      it('go to step4 (review details), should return step2',
-async () => {
+      it('go to step4 (review details), should return step2', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route4'] })
           .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');          });
+            expect(result.toString()).toEqual('/checkout/route2');
+          });
       });
     });
 
@@ -289,20 +288,20 @@ async () => {
         );
       });
 
-      it('go to step2 (delivery mode), should return true',
-async () => {
+      it('go to step2 (delivery mode), should return true', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route2'] })
           .subscribe((result) => {
-            expect(result).toBeTruthy();          });
+            expect(result).toBeTruthy();
+          });
       });
 
-      it('go to step4 (review details), should return step3',
-async () => {
+      it('go to step4 (review details), should return step3', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route4'] })
           .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');          });
+            expect(result.toString()).toEqual('/checkout/route2');
+          });
       });
     });
 
@@ -320,12 +319,12 @@ async () => {
         );
       });
 
-      it('go to step4 (review details), should return true',
-async () => {
+      it('go to step4 (review details), should return true', async () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route4'] })
           .subscribe((result) => {
-            expect(result).toBeTruthy();          });
+            expect(result).toBeTruthy();
+          });
       });
     });
   });

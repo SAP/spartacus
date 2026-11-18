@@ -41,18 +41,17 @@ describe('OpfPaymentHostedFieldsService', () => {
   };
 
   const mockCartAccessCodeFacade = {
-    getCartAccessCode: vi.fn()
+    getCartAccessCode: vi
+      .fn()
       .mockReturnValue(of({ accessCode: 'mockAccessCode' })),
   };
 
   const mockActiveCartFacade = {
-    takeActiveCartId: vi.fn()
-      .mockReturnValue(of('mockActiveCartId')),
+    takeActiveCartId: vi.fn().mockReturnValue(of('mockActiveCartId')),
   };
 
   const mockUserIdService = {
-    takeUserId: vi.fn()
-      .mockReturnValue(of('mockUserId')),
+    takeUserId: vi.fn().mockReturnValue(of('mockUserId')),
   };
 
   const mockRoutingService = {
@@ -60,7 +59,8 @@ describe('OpfPaymentHostedFieldsService', () => {
   };
 
   const mockOrderFacade = {
-    placePaymentAuthorizedOrder: vi.fn()
+    placePaymentAuthorizedOrder: vi
+      .fn()
       .mockReturnValue(of({ id: 'testOrder' } as Order)),
   };
 
@@ -151,7 +151,8 @@ describe('OpfPaymentHostedFieldsService', () => {
         expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'orderConfirmation',
-        });      });
+        });
+      });
     });
 
     it('should handle rejected payment', async () => {
@@ -166,7 +167,8 @@ describe('OpfPaymentHostedFieldsService', () => {
           expect(mockOpfPaymentConnector.submitPayment).toHaveBeenCalled();
           expect(
             opfPaymentErrorHandlerService.handlePaymentError
-          ).toHaveBeenCalled();        },
+          ).toHaveBeenCalled();
+        },
       });
     });
   });
@@ -191,7 +193,8 @@ describe('OpfPaymentHostedFieldsService', () => {
           expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'orderConfirmation',
-          });        });
+          });
+        });
     });
 
     it('should handle rejected complete payment', async () => {
@@ -209,18 +212,16 @@ describe('OpfPaymentHostedFieldsService', () => {
           ).toHaveBeenCalled();
           expect(
             opfPaymentErrorHandlerService.handlePaymentError
-          ).toHaveBeenCalled();        },
+          ).toHaveBeenCalled();
+        },
       });
     });
   });
 
   describe('paymentResponseHandler', () => {
-    const mockSubmitSuccess = vi.fn()
-      .mockReturnValue(() => {});
-    const mockSubmitPending = vi.fn()
-      .mockReturnValue(() => {});
-    const mockSubmitFailure = vi.fn()
-      .mockReturnValue(() => {});
+    const mockSubmitSuccess = vi.fn().mockReturnValue(() => {});
+    const mockSubmitPending = vi.fn().mockReturnValue(() => {});
+    const mockSubmitFailure = vi.fn().mockReturnValue(() => {});
 
     it('should handle accepted payment response', async () => {
       const response: OpfPaymentSubmitResponse = {

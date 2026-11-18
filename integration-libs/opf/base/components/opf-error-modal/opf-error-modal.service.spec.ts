@@ -65,7 +65,8 @@ describe('OpfErrorModalService', () => {
         .getMessageAndConfirmTranslations(mockDialogOptionsWithStrings)
         .subscribe((translation) => {
           expect(translation.message).toEqual('Opf Test Message');
-          expect(translation.confirm).toEqual('Opf Test Confirm');        });
+          expect(translation.confirm).toEqual('Opf Test Confirm');
+        });
     });
 
     it('should translate from keys and fallback to default when failing', async () => {
@@ -75,7 +76,8 @@ describe('OpfErrorModalService', () => {
           expect(translation.message).toEqual('opf.test.message');
           expect(translation.confirm).toEqual(
             defaultOpfErrorDialogOptions.confirmKey
-          );        });
+          );
+        });
     });
 
     it('should translate with default key when empty labels provided', async () => {
@@ -87,7 +89,8 @@ describe('OpfErrorModalService', () => {
           );
           expect(translation.confirm).toEqual(
             defaultOpfErrorDialogOptions.confirmKey
-          );        });
+          );
+        });
     });
 
     it('should translate with replacement and fallback to default when fail', async () => {
@@ -100,6 +103,7 @@ describe('OpfErrorModalService', () => {
           expect(translation.confirm).toEqual(
             defaultOpfErrorDialogOptions.confirmKey
           );
-        });    });
+        });
+    });
   });
 });

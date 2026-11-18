@@ -136,7 +136,9 @@ describe('PunchoutStatePersistenceService', () => {
   });
 
   it('should ngOnDestroy removes subscription', () => {
-    vi.spyOn(service['subscription'], 'unsubscribe').mockReturnValue(undefined as any);
+    vi.spyOn(service['subscription'], 'unsubscribe').mockReturnValue(
+      undefined as any
+    );
     service.ngOnDestroy();
     expect(service['subscription'].unsubscribe).toHaveBeenCalled();
   });

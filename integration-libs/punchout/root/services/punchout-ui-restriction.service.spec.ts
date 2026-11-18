@@ -81,9 +81,7 @@ describe('PunchoutUiRestrictionService', () => {
       const result = await firstValueFrom(service.isPunchoutSessionActive());
       expect(result).toBe(false);
       expect(mockAuthService.isUserLoggedIn).toHaveBeenCalled();
-      expect(
-        mockPunchoutStoreService.getPunchoutState
-      ).not.toHaveBeenCalled();
+      expect(mockPunchoutStoreService.getPunchoutState).not.toHaveBeenCalled();
     });
   });
 

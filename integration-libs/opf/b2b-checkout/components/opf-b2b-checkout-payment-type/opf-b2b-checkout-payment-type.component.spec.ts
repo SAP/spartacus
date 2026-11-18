@@ -147,7 +147,9 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
       description: 'Test Description',
     };
     vi.spyOn(checkoutStepService, 'disableEnableStep');
-    vi.spyOn(checkoutPaymentTypeFacade, 'setPaymentType').mockReturnValue(of({}));
+    vi.spyOn(checkoutPaymentTypeFacade, 'setPaymentType').mockReturnValue(
+      of({})
+    );
     vi.spyOn(activeCartFacade, 'reloadActiveCart');
 
     component.handlePaymentChange(payment);
@@ -166,7 +168,9 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
 
   it('should navigate to next step', () => {
     vi.spyOn(checkoutStepService, 'next');
-    vi.spyOn(checkoutPaymentTypeFacade, 'setPaymentType').mockReturnValue(of({}));
+    vi.spyOn(checkoutPaymentTypeFacade, 'setPaymentType').mockReturnValue(
+      of({})
+    );
     vi.spyOn(activeCartFacade, 'reloadActiveCart');
 
     const payment: OpfActiveConfiguration = {

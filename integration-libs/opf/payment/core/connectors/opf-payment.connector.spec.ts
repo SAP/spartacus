@@ -75,24 +75,22 @@ const mockAfterRedirectScriptsResponse: OpfPaymentAfterRedirectScriptResponse =
   };
 
 class MockOpfPaymentAdapter implements OpfPaymentAdapter {
-  verifyPayment = vi.fn().mockImplementation(() =>
-    of(mockOpfPaymentVerificationResponse)
-  );
-  submitPayment = vi.fn().mockImplementation(() =>
-    of(mockSubmitPaymentResponse)
-  );
-  submitCompletePayment = vi.fn().mockImplementation(() =>
-    of(mockSubmitCompleteResponse)
-  );
-  initiatePayment = vi.fn().mockImplementation(() =>
-    of(mockInitiatePayment)
-  );
-  updatePaymentTransaction = vi.fn().mockImplementation(
-    () => of(mockInitiatePayment)
-  );
-  getAfterRedirectScripts = vi.fn().mockImplementation(
-    () => of(mockAfterRedirectScriptsResponse)
-  );
+  verifyPayment = vi
+    .fn()
+    .mockImplementation(() => of(mockOpfPaymentVerificationResponse));
+  submitPayment = vi
+    .fn()
+    .mockImplementation(() => of(mockSubmitPaymentResponse));
+  submitCompletePayment = vi
+    .fn()
+    .mockImplementation(() => of(mockSubmitCompleteResponse));
+  initiatePayment = vi.fn().mockImplementation(() => of(mockInitiatePayment));
+  updatePaymentTransaction = vi
+    .fn()
+    .mockImplementation(() => of(mockInitiatePayment));
+  getAfterRedirectScripts = vi
+    .fn()
+    .mockImplementation(() => of(mockAfterRedirectScriptsResponse));
 }
 
 describe('OpfPaymentConnector', () => {

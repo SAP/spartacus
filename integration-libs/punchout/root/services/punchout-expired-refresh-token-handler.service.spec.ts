@@ -77,10 +77,14 @@ describe('PunchoutExpiredRefreshTokenHandler', () => {
     vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       false
     );
-    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(false);
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(
+      false
+    );
     vi.spyOn(punchoutfacade, 'endPunchoutSession');
 
-    const handled = await firstValueFrom(service.handleExpiredRefreshTokenIfApplicable());
+    const handled = await firstValueFrom(
+      service.handleExpiredRefreshTokenIfApplicable()
+    );
     expect(handled).toBe(false);
     expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalled();
     expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalled();
@@ -90,11 +94,15 @@ describe('PunchoutExpiredRefreshTokenHandler', () => {
     vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       true
     );
-    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(true);
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(
+      true
+    );
     vi.spyOn(punchoutfacade, 'endPunchoutSession');
     vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
 
-    const handled = await firstValueFrom(service.handleExpiredRefreshTokenIfApplicable());
+    const handled = await firstValueFrom(
+      service.handleExpiredRefreshTokenIfApplicable()
+    );
     expect(handled).toBe(true);
     expect(punchoutfacade.logoutPunchoutUser).toHaveBeenCalledWith();
     expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalledWith();
@@ -104,11 +112,15 @@ describe('PunchoutExpiredRefreshTokenHandler', () => {
     vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       false
     );
-    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(true);
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(
+      true
+    );
     vi.spyOn(punchoutfacade, 'endPunchoutSession');
     vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
 
-    const handled = await firstValueFrom(service.handleExpiredRefreshTokenIfApplicable());
+    const handled = await firstValueFrom(
+      service.handleExpiredRefreshTokenIfApplicable()
+    );
     expect(handled).toBe(true);
     expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalledWith();
     expect(punchoutfacade.endPunchoutSession).toHaveBeenCalledWith();

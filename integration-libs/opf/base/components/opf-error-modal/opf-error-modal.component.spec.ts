@@ -81,10 +81,7 @@ describe('OpfErrorModalComponent', () => {
   });
 
   it('should call the transalation service when component is init', () => {
-    vi.spyOn(
-      opfErrorModalService,
-      'getMessageAndConfirmTranslations'
-    );
+    vi.spyOn(opfErrorModalService, 'getMessageAndConfirmTranslations');
     component.ngOnInit();
     fixture.detectChanges();
     expect(

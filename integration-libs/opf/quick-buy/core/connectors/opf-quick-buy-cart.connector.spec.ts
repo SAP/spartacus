@@ -22,9 +22,7 @@ const mockDeliveryModes: DeliveryMode[] = [
 ];
 
 class MockOpfQuickBuyCartAdapter implements OpfQuickBuyCartAdapter {
-  createDeliveryAddress = vi.fn().mockReturnValue(
-    of(mockAddress)
-  );
+  createDeliveryAddress = vi.fn().mockReturnValue(of(mockAddress));
   setBillingAddress = vi.fn().mockReturnValue(of({}));
   getSupportedDeliveryModes = vi.fn().mockReturnValue(of(mockDeliveryModes));
   setDeliveryMode = vi.fn().mockReturnValue(of({}));

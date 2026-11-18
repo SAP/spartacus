@@ -22,12 +22,18 @@ import { OpfGlobalFunctionsRedirectDomainService } from './opf-global-functions-
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCartId = vi.fn()
-    .mockReturnValue(of('test-cart-id'));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
 function createOpfPaymentFacadeMock(): any {
-  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {

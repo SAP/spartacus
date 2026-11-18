@@ -101,7 +101,9 @@ describe('OpfApiQuickBuyAdapter', () => {
       return (source: Observable<any>) => source;
     });
 
-    const promise = firstValueFrom(service.getApplePayWebSession(applePaySessionRequest, accessCode));
+    const promise = firstValueFrom(
+      service.getApplePayWebSession(applePaySessionRequest, accessCode)
+    );
 
     const req = httpMock.expectOne('/test-url');
     expect(req.request.method).toBe('POST');
@@ -133,11 +135,17 @@ describe('OpfApiQuickBuyAdapter', () => {
 
     // backOff retries server errors up to 2 times with a timer delay;
     // flush initial request then advance clock + flush each retry
-    httpMock.expectOne('/test-url').flush(mockError, { status: 500, statusText: 'Server Error' });
+    httpMock
+      .expectOne('/test-url')
+      .flush(mockError, { status: 500, statusText: 'Server Error' });
     await vi.runAllTimersAsync();
-    httpMock.expectOne('/test-url').flush(mockError, { status: 500, statusText: 'Server Error' });
+    httpMock
+      .expectOne('/test-url')
+      .flush(mockError, { status: 500, statusText: 'Server Error' });
     await vi.runAllTimersAsync();
-    httpMock.expectOne('/test-url').flush(mockError, { status: 500, statusText: 'Server Error' });
+    httpMock
+      .expectOne('/test-url')
+      .flush(mockError, { status: 500, statusText: 'Server Error' });
     await vi.runAllTimersAsync();
 
     await promise;

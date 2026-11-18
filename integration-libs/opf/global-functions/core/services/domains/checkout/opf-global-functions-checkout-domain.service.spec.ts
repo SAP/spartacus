@@ -35,8 +35,7 @@ import { OpfGlobalFunctionsCheckoutDomainService } from './opf-global-functions-
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCartId = vi.fn()
-    .mockReturnValue(of('test-cart-id'));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
 @Component({ template: '' })
@@ -69,8 +68,7 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = vi.fn()
-    .mockReturnValue(of('test-cart-id'));
+  getActiveCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
 class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
@@ -86,7 +84,14 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 function createOpfPaymentFacadeMock(): any {
-  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
@@ -100,7 +105,8 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
     opf3DSRedirectReturnPath: undefined,
   });
   updateOpfMetadata = vi.fn();
-  getOpfMetadataState = vi.fn()
+  getOpfMetadataState = vi
+    .fn()
     .mockReturnValue(this.opfMetadataState.asObservable());
 }
 

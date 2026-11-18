@@ -89,7 +89,8 @@ describe('OpfCtaService', () => {
       .getCtaScripts(request)
       .subscribe((response: OpfCtaScriptsResponse) => {
         expect(response).toEqual(ctaScriptsResponseMock);
-        expect(opfCtaConnector.getCtaScripts).toHaveBeenCalledWith(request);      });
+        expect(opfCtaConnector.getCtaScripts).toHaveBeenCalledWith(request);
+      });
   });
 
   it('should emit script ready event', () => {

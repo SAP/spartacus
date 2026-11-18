@@ -58,11 +58,38 @@ describe('OpfQuickBuyTransactionService', () => {
   let cartGuestUserFacade: any;
 
   beforeEach(() => {
-    activeCartFacade = { addEntry: vi.fn(), isStable: vi.fn(), takeActive: vi.fn(), getActive: vi.fn(), deleteCart: vi.fn(), takeActiveCartId: vi.fn(), getActiveCartId: vi.fn(), isGuestCart: vi.fn() };
-    checkoutDeliveryModesFacade = { getSupportedDeliveryModes: vi.fn(), setDeliveryMode: vi.fn(), getSelectedDeliveryModeState: vi.fn() };
-    checkoutDeliveryAddressFacade = { createAndSetAddress: vi.fn(), getDeliveryAddressState: vi.fn() };
+    activeCartFacade = {
+      addEntry: vi.fn(),
+      isStable: vi.fn(),
+      takeActive: vi.fn(),
+      getActive: vi.fn(),
+      deleteCart: vi.fn(),
+      takeActiveCartId: vi.fn(),
+      getActiveCartId: vi.fn(),
+      isGuestCart: vi.fn(),
+    };
+    checkoutDeliveryModesFacade = {
+      getSupportedDeliveryModes: vi.fn(),
+      setDeliveryMode: vi.fn(),
+      getSelectedDeliveryModeState: vi.fn(),
+    };
+    checkoutDeliveryAddressFacade = {
+      createAndSetAddress: vi.fn(),
+      getDeliveryAddressState: vi.fn(),
+    };
     userAddressService = { deleteUserAddress: vi.fn() };
-    multiCartFacade = { deleteCart: vi.fn(), getCartIdByType: vi.fn(), createCart: vi.fn(), addEntry: vi.fn(), isStable: vi.fn(), loadCart: vi.fn(), getEntry: vi.fn(), removeEntry: vi.fn(), updateEntry: vi.fn(), reloadCart: vi.fn() };
+    multiCartFacade = {
+      deleteCart: vi.fn(),
+      getCartIdByType: vi.fn(),
+      createCart: vi.fn(),
+      addEntry: vi.fn(),
+      isStable: vi.fn(),
+      loadCart: vi.fn(),
+      getEntry: vi.fn(),
+      removeEntry: vi.fn(),
+      updateEntry: vi.fn(),
+      reloadCart: vi.fn(),
+    };
     userIdService = { getUserId: vi.fn(), takeUserId: vi.fn() };
     eventService = { get: vi.fn() };
     checkoutBillingAddressFacade = { setBillingAddress: vi.fn() };
@@ -70,8 +97,28 @@ describe('OpfQuickBuyTransactionService', () => {
     routingService = { getRouterState: vi.fn() };
     opfGlobalMessageService = { disableGlobalMessage: vi.fn() };
     authService = { isUserLoggedIn: vi.fn() };
-    cartGuestUserFacade = { createCartGuestUser: vi.fn(), updateCartGuestUser: vi.fn() };
-    singleProductTransactionService = { prepareTransactionCart: vi.fn(), getTransactionDeliveryType: vi.fn(), getTransactionDeliveryInfo: vi.fn(), checkStableCart: vi.fn(), getSupportedDeliveryModes: vi.fn(), setDeliveryAddress: vi.fn(), setBillingAddress: vi.fn(), getDeliveryAddress: vi.fn(), getCurrentCart: vi.fn(), getCurrentCartId: vi.fn(), getCurrentCartTotalPrice: vi.fn(), setDeliveryMode: vi.fn(), getSelectedDeliveryMode: vi.fn(), createCartGuestUser: vi.fn(), updateCartGuestUserEmail: vi.fn(), handleCartGuestUser: vi.fn() };
+    cartGuestUserFacade = {
+      createCartGuestUser: vi.fn(),
+      updateCartGuestUser: vi.fn(),
+    };
+    singleProductTransactionService = {
+      prepareTransactionCart: vi.fn(),
+      getTransactionDeliveryType: vi.fn(),
+      getTransactionDeliveryInfo: vi.fn(),
+      checkStableCart: vi.fn(),
+      getSupportedDeliveryModes: vi.fn(),
+      setDeliveryAddress: vi.fn(),
+      setBillingAddress: vi.fn(),
+      getDeliveryAddress: vi.fn(),
+      getCurrentCart: vi.fn(),
+      getCurrentCartId: vi.fn(),
+      getCurrentCartTotalPrice: vi.fn(),
+      setDeliveryMode: vi.fn(),
+      getSelectedDeliveryMode: vi.fn(),
+      createCartGuestUser: vi.fn(),
+      updateCartGuestUserEmail: vi.fn(),
+      handleCartGuestUser: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
@@ -136,7 +183,8 @@ describe('OpfQuickBuyTransactionService', () => {
       );
 
       service.getSupportedDeliveryModes().subscribe((deliveryModes) => {
-        expect(deliveryModes).toEqual(mockDeliveryModes);      });
+        expect(deliveryModes).toEqual(mockDeliveryModes);
+      });
     });
   });
 
@@ -161,7 +209,8 @@ describe('OpfQuickBuyTransactionService', () => {
         expect(addressId).toEqual(mockAddressId);
         expect(
           checkoutDeliveryAddressFacade.createAndSetAddress
-        ).toHaveBeenCalledWith(mockAddress);      });
+        ).toHaveBeenCalledWith(mockAddress);
+      });
     });
 
     it('should handle an undefined address', async () => {
@@ -180,7 +229,8 @@ describe('OpfQuickBuyTransactionService', () => {
       );
 
       service.setDeliveryAddress(mockAddress).subscribe((result) => {
-        expect(result).toEqual('');      });
+        expect(result).toEqual('');
+      });
     });
 
     it('should handle an address without an id', async () => {
@@ -202,7 +252,8 @@ describe('OpfQuickBuyTransactionService', () => {
       );
 
       service.setDeliveryAddress(mockAddress).subscribe((result) => {
-        expect(result).toEqual('');      });
+        expect(result).toEqual('');
+      });
     });
   });
 
@@ -217,7 +268,8 @@ describe('OpfQuickBuyTransactionService', () => {
         expect(result).toBeTruthy();
         expect(
           checkoutBillingAddressFacade.setBillingAddress
-        ).toHaveBeenCalledWith(mockAddress);      });
+        ).toHaveBeenCalledWith(mockAddress);
+      });
     });
 
     it('should return false if setting the billing address fails', async () => {
@@ -232,9 +284,11 @@ describe('OpfQuickBuyTransactionService', () => {
           expect(result).toBeFalsy();
           expect(
             checkoutBillingAddressFacade.setBillingAddress
-          ).toHaveBeenCalledWith(mockAddress);        },
+          ).toHaveBeenCalledWith(mockAddress);
+        },
         (error) => {
-          expect(error).toBeDefined();        }
+          expect(error).toBeDefined();
+        }
       );
     });
   });
@@ -247,7 +301,8 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.getCurrentCart().subscribe((cart) => {
         expect(cart.guid).toEqual(mockCart.guid);
-        expect(activeCartFacade.takeActive).toHaveBeenCalled();      });
+        expect(activeCartFacade.takeActive).toHaveBeenCalled();
+      });
     });
   });
 
@@ -258,7 +313,8 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.getCurrentCartId().subscribe((cartId) => {
         expect(cartId).toEqual(mockCartId);
-        expect(activeCartFacade.takeActiveCartId).toHaveBeenCalled();      });
+        expect(activeCartFacade.takeActiveCartId).toHaveBeenCalled();
+      });
     });
   });
 
@@ -271,7 +327,8 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.getCurrentCartTotalPrice().subscribe((totalPrice) => {
         expect(totalPrice).toEqual(mockTotalPrice);
-        expect(activeCartFacade.takeActive).toHaveBeenCalled();      });
+        expect(activeCartFacade.takeActive).toHaveBeenCalled();
+      });
     });
 
     it('should return undefined if the cart does not have a total price', async () => {
@@ -281,7 +338,8 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.getCurrentCartTotalPrice().subscribe((totalPrice) => {
         expect(totalPrice).toBeUndefined();
-        expect(activeCartFacade.takeActive).toHaveBeenCalled();      });
+        expect(activeCartFacade.takeActive).toHaveBeenCalled();
+      });
     });
   });
 
@@ -309,7 +367,8 @@ describe('OpfQuickBuyTransactionService', () => {
         expect(selectedMode).toEqual(mockDeliveryMode);
         expect(
           checkoutDeliveryModesFacade.setDeliveryMode
-        ).toHaveBeenCalledWith(mockMode);      });
+        ).toHaveBeenCalledWith(mockMode);
+      });
     });
 
     it('should return undefined if setting the delivery mode fails', async () => {
@@ -324,9 +383,11 @@ describe('OpfQuickBuyTransactionService', () => {
           expect(selectedMode).toBeUndefined();
           expect(
             checkoutDeliveryModesFacade.setDeliveryMode
-          ).toHaveBeenCalledWith(mockMode);        },
+          ).toHaveBeenCalledWith(mockMode);
+        },
         (error) => {
-          expect(error).toBeDefined();        }
+          expect(error).toBeDefined();
+        }
       );
     });
   });
@@ -347,7 +408,8 @@ describe('OpfQuickBuyTransactionService', () => {
       );
 
       service.getSelectedDeliveryMode().subscribe((selectedMode) => {
-        expect(selectedMode).toEqual(mockDeliveryMode);      });
+        expect(selectedMode).toEqual(mockDeliveryMode);
+      });
     });
 
     it('should return undefined if no delivery mode is selected', async () => {
@@ -360,7 +422,8 @@ describe('OpfQuickBuyTransactionService', () => {
       );
 
       service.getSelectedDeliveryMode().subscribe((selectedMode) => {
-        expect(selectedMode).toBeUndefined();      });
+        expect(selectedMode).toBeUndefined();
+      });
     });
   });
 
@@ -407,13 +470,15 @@ describe('OpfQuickBuyTransactionService', () => {
       const mockName = 'Store';
       baseSiteService.get.mockReturnValue(of({ name: mockName }));
       service.getMerchantName().subscribe((merchantName) => {
-        expect(merchantName).toBe(mockName);      });
+        expect(merchantName).toBe(mockName);
+      });
     });
     it('should return default MerchantName name when empty', async () => {
       const mockName = undefined;
       baseSiteService.get.mockReturnValue(of({ name: mockName }));
       service.getMerchantName().subscribe((merchantName) => {
-        expect(merchantName).toBe(OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME);      });
+        expect(merchantName).toBe(OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME);
+      });
     });
   });
 
@@ -431,7 +496,8 @@ describe('OpfQuickBuyTransactionService', () => {
         );
 
         service['resolveContext']().subscribe((second) => {
-          expect(second).toBe(OpfQuickBuyLocation.CART);        });
+          expect(second).toBe(OpfQuickBuyLocation.CART);
+        });
       });
     });
   });
@@ -653,7 +719,8 @@ describe('OpfQuickBuyTransactionService', () => {
       });
 
       service.getTransactionDeliveryInfo().subscribe((info) => {
-        expect(info.type).toBe(OpfQuickBuyDeliveryType.SHIPPING);      });
+        expect(info.type).toBe(OpfQuickBuyDeliveryType.SHIPPING);
+      });
 
       service.createCartGuestUser().subscribe();
       service.updateCartGuestUserEmail('guest@test.com').subscribe();

@@ -93,7 +93,9 @@ describe('PunchoutInspectCartComponent', () => {
         product: { code: 'testProduct', name: 'Test Product' },
       },
     ];
-    vi.spyOn(mockActiveCartFacade, 'getEntries').mockReturnValue(of(mockEntries));
+    vi.spyOn(mockActiveCartFacade, 'getEntries').mockReturnValue(
+      of(mockEntries)
+    );
 
     const entries = await firstValueFrom(component.entries$);
     expect(entries).toBeTruthy();
@@ -103,7 +105,9 @@ describe('PunchoutInspectCartComponent', () => {
 
   it('entries$ observable should not emit if entries are empty', async () => {
     const mockEntries: OrderEntry[] = [];
-    vi.spyOn(mockActiveCartFacade, 'getEntries').mockReturnValue(of(mockEntries));
+    vi.spyOn(mockActiveCartFacade, 'getEntries').mockReturnValue(
+      of(mockEntries)
+    );
 
     let emitted = false;
     await new Promise<void>((resolve, reject) => {

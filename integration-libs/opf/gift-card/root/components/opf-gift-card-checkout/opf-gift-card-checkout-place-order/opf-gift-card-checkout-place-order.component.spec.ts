@@ -20,8 +20,7 @@ import { ViewContainerRef } from '@angular/core';
 import { vi } from 'vitest';
 
 class MockActiveCartFacade {
-  getActive = vi.fn()
-    .mockReturnValue(of({ code: '123' }));
+  getActive = vi.fn().mockReturnValue(of({ code: '123' }));
 }
 
 class MockOrderFacade {
@@ -83,9 +82,7 @@ describe('OpfGiftCardCheckoutPlaceOrderComponent', () => {
 
     it('should launch spinner and redirect on success', () => {
       const mockComponentRef = { destroy: vi.fn() } as any;
-      (launchDialogService.launch as any).mockReturnValue(
-        of(mockComponentRef)
-      );
+      (launchDialogService.launch as any).mockReturnValue(of(mockComponentRef));
       (orderFacade.placePaymentAuthorizedOrder as any).mockReturnValue(
         of({ code: '0001' })
       );
@@ -110,9 +107,7 @@ describe('OpfGiftCardCheckoutPlaceOrderComponent', () => {
 
     it('should clear spinner and destroy component on error', () => {
       const mockComponentRef = { destroy: vi.fn() } as any;
-      (launchDialogService.launch as any).mockReturnValue(
-        of(mockComponentRef)
-      );
+      (launchDialogService.launch as any).mockReturnValue(of(mockComponentRef));
       (orderFacade.placePaymentAuthorizedOrder as any).mockReturnValue(
         throwError(() => new Error('fail'))
       );

@@ -42,7 +42,10 @@ describe('OpfGiftCardAppliedComponent', () => {
 
     mockGlobalMessageService = { add: vi.fn() };
 
-    mockPaymentEventsService = { emitReinitiatePaymentEvent: vi.fn(), emitRefreshActiveConfigurationsEvent: vi.fn() };
+    mockPaymentEventsService = {
+      emitReinitiatePaymentEvent: vi.fn(),
+      emitRefreshActiveConfigurationsEvent: vi.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [OpfGiftCardAppliedComponent, I18nTestingModule],

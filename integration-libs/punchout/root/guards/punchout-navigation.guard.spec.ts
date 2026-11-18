@@ -37,7 +37,9 @@ describe('PunchoutNavigationGuard', () => {
   } as unknown as CmsActivatedRouteSnapshot;
 
   beforeEach(() => {
-    const config = JSON.parse(JSON.stringify(defaultPunchoutNavigationGuardConfig));
+    const config = JSON.parse(
+      JSON.stringify(defaultPunchoutNavigationGuardConfig)
+    );
 
     TestBed.configureTestingModule({
       providers: [
@@ -88,7 +90,9 @@ describe('PunchoutNavigationGuard', () => {
     routingService = TestBed.inject(RoutingService);
     routingConfigService = TestBed.inject(RoutingConfigService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    punchoutNavigationGuardConfig = TestBed.inject(PunchoutNavigationGuardConfig);
+    punchoutNavigationGuardConfig = TestBed.inject(
+      PunchoutNavigationGuardConfig
+    );
   });
 
   it('should allow access for allowed cxRoute in EDIT mode', async () => {
@@ -102,7 +106,9 @@ describe('PunchoutNavigationGuard', () => {
     };
     punchoutStoreService.getPunchoutState.mockReturnValue(of(state));
 
-    const result = await firstValueFrom(guard.canActivate(mockRoute, {} as any));
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
     expect(result).toBeTruthy();
     expect(globalMessageService.add).not.toHaveBeenCalled();
     expect(routingService.go).not.toHaveBeenCalled();
@@ -120,13 +126,15 @@ describe('PunchoutNavigationGuard', () => {
     punchoutStoreService.getPunchoutState.mockReturnValue(of(state));
     routingConfigService.getRouteName.mockReturnValue('punchoutSession');
 
-    const result = await firstValueFrom(guard.canActivate(
-      {
-        url: [],
-        data: { cxRoute: undefined },
-      } as unknown as CmsActivatedRouteSnapshot,
-      {} as any
-    ));
+    const result = await firstValueFrom(
+      guard.canActivate(
+        {
+          url: [],
+          data: { cxRoute: undefined },
+        } as unknown as CmsActivatedRouteSnapshot,
+        {} as any
+      )
+    );
     expect(result).toBeTruthy();
     expect(globalMessageService.add).not.toHaveBeenCalled();
     expect(routingService.go).not.toHaveBeenCalled();
@@ -141,13 +149,15 @@ describe('PunchoutNavigationGuard', () => {
     };
     punchoutStoreService.getPunchoutState.mockReturnValue(of(state));
 
-    const result = await firstValueFrom(guard.canActivate(
-      {
-        url: ['product', '123'],
-        data: { cxRoute: 'logout' },
-      } as unknown as CmsActivatedRouteSnapshot,
-      {} as any
-    ));
+    const result = await firstValueFrom(
+      guard.canActivate(
+        {
+          url: ['product', '123'],
+          data: { cxRoute: 'logout' },
+        } as unknown as CmsActivatedRouteSnapshot,
+        {} as any
+      )
+    );
     expect(result).toBeTruthy();
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(routingService.go).not.toHaveBeenCalled();
@@ -164,7 +174,9 @@ describe('PunchoutNavigationGuard', () => {
     };
     punchoutStoreService.getPunchoutState.mockReturnValue(of(state));
 
-    const result = await firstValueFrom(guard.canActivate(mockRoute, {} as any));
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
     expect(result).toBeFalsy();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'punchout.noSufficientPermissions' },
@@ -178,7 +190,9 @@ describe('PunchoutNavigationGuard', () => {
   it('should allow access if no punchout session exists', async () => {
     authService.isUserLoggedIn.mockReturnValue(of(false));
 
-    const result = await firstValueFrom(guard.canActivate(mockRoute, {} as any));
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
     expect(result).toBeTruthy();
   });
 
@@ -194,7 +208,9 @@ describe('PunchoutNavigationGuard', () => {
       of({ punchOutOperation: PunchOutOperation.EDIT } as PunchoutSession)
     );
 
-    const result = await firstValueFrom(guard.canActivate(mockRoute, {} as any));
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
     expect(result).toBeTruthy();
   });
 
@@ -207,7 +223,9 @@ describe('PunchoutNavigationGuard', () => {
       throw new Error('Test error');
     });
 
-    const result = await firstValueFrom(guard.canActivate(mockRoute, {} as any));
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
     expect(result).toBeTruthy();
   });
 

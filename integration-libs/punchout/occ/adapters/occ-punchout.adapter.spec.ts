@@ -126,7 +126,9 @@ describe('OccPunchoutAdapter', () => {
       `/punchout/sessions/${mockSid}/requisition`
     );
 
-    const resultPromise = firstValueFrom(service.getPunchoutSessionRequisition(mockSid, true));
+    const resultPromise = firstValueFrom(
+      service.getPunchoutSessionRequisition(mockSid, true)
+    );
     const req = httpMock.expectOne(
       `/punchout/sessions/${mockSid}/requisition?discardCartEntries=true`
     );
@@ -147,7 +149,9 @@ describe('OccPunchoutAdapter', () => {
     const result = tryNormalizeHttpError(mockError, mockLogger);
     vi.spyOn(httpClient, 'get').mockReturnValue(throwError(() => mockError));
     await expect(
-      firstValueFrom(service.getPunchoutSessionRequisition(mockSid, discardCartEntries))
+      firstValueFrom(
+        service.getPunchoutSessionRequisition(mockSid, discardCartEntries)
+      )
     ).rejects.toBe(result);
   });
 

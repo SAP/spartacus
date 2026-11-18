@@ -50,14 +50,16 @@ describe('OccOpfGiftCardAdapter', () => {
     mockActiveCartFacade = { getActiveCartId: vi.fn() };
     mockUserIdService = { getUserId: vi.fn() };
 
-    mockOccEndpoints.buildUrl.mockImplementation((endpoint: string, config: any) => {
-      if (endpoint === 'applyGiftCard') {
-        return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftCards`;
-      } else if (endpoint === 'removeGiftCard') {
-        return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftCards/${config.urlParams?.giftCardId}`;
+    mockOccEndpoints.buildUrl.mockImplementation(
+      (endpoint: string, config: any) => {
+        if (endpoint === 'applyGiftCard') {
+          return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftCards`;
+        } else if (endpoint === 'removeGiftCard') {
+          return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftCards/${config.urlParams?.giftCardId}`;
+        }
+        return '';
       }
-      return '';
-    });
+    );
 
     mockActiveCartFacade.getActiveCartId.mockReturnValue(of('cart-123'));
     mockUserIdService.getUserId.mockReturnValue(of('user-123'));

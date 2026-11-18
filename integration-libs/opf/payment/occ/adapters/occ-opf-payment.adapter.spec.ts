@@ -44,8 +44,7 @@ describe('OccOpfPaymentAdapter', () => {
         {
           provide: ConverterService,
           useValue: {
-            pipeable: vi.fn()
-              .mockReturnValue((source: any) => source),
+            pipeable: vi.fn().mockReturnValue((source: any) => source),
           },
         },
       ],

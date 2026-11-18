@@ -121,34 +121,33 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  setDeliveryAddress = vi.fn()
-    .mockReturnValue(of('test-address-id'));
-  setDeliveryMode = vi.fn()
-    .mockReturnValue(of(mockDeliveryMode));
+  setDeliveryAddress = vi.fn().mockReturnValue(of('test-address-id'));
+  setDeliveryMode = vi.fn().mockReturnValue(of(mockDeliveryMode));
   deleteUserAddresses = vi.fn();
-  updateCartGuestUserEmail = vi.fn()
-    .mockReturnValue(of(true));
-  createCartGuestUser = vi.fn()
-    .mockReturnValue(of(true));
-  prepareTransactionCart = vi.fn()
-    .mockReturnValue(of(mockCart));
-  getCurrentCart = vi.fn()
-    .mockReturnValue(of(mockCart));
-  getCurrentCartId = vi.fn()
-    .mockReturnValue(of('test-cart-id'));
-  getDeliveryAddress = vi.fn()
-    .mockReturnValue(of(mockDeliveryAddress));
-  getSelectedDeliveryMode = vi.fn()
-    .mockReturnValue(of(mockDeliveryMode));
+  updateCartGuestUserEmail = vi.fn().mockReturnValue(of(true));
+  createCartGuestUser = vi.fn().mockReturnValue(of(true));
+  prepareTransactionCart = vi.fn().mockReturnValue(of(mockCart));
+  getCurrentCart = vi.fn().mockReturnValue(of(mockCart));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
+  getDeliveryAddress = vi.fn().mockReturnValue(of(mockDeliveryAddress));
+  getSelectedDeliveryMode = vi.fn().mockReturnValue(of(mockDeliveryMode));
 }
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
-  getApplePayWebSession = vi.fn()
+  getApplePayWebSession = vi
+    .fn()
     .mockReturnValue(of({} as ApplePaySessionVerificationResponse));
 }
 
 function createOpfPaymentFacadeMock(): any {
-  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 describe('OpfGlobalFunctionsGlobalDomainService', () => {
@@ -213,9 +212,7 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     });
 
     it('should return cart by id when cartId is provided', async () => {
-      const multiCartFacade = TestBed.inject(
-        MultiCartFacade
-      ) as any;
+      const multiCartFacade = TestBed.inject(MultiCartFacade) as any;
       const cartId = 'specific-cart-id';
 
       const result = await service.getCart(cartId);
@@ -355,13 +352,14 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     });
 
     it('should reject when configurationId is missing', async () => {
-      await expect(
-        service.initiatePayment({} as any)
-      ).rejects.toThrow('configurationId is required');
+      await expect(service.initiatePayment({} as any)).rejects.toThrow(
+        'configurationId is required'
+      );
     });
 
     it('should reject when cartId is missing', async () => {
-      opfQuickBuyTransactionService.getCurrentCartId = vi.fn()
+      opfQuickBuyTransactionService.getCurrentCartId = vi
+        .fn()
         .mockReturnValue(of(undefined));
 
       await expect(service.initiatePayment('2301')).rejects.toThrow(

@@ -53,14 +53,22 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
   };
 
   beforeEach(async () => {
-    const userPaymentService = { loadPaymentMethods: vi.fn(), getPaymentMethods: vi.fn(), getPaymentMethodsLoading: vi.fn() };
+    const userPaymentService = {
+      loadPaymentMethods: vi.fn(),
+      getPaymentMethods: vi.fn(),
+      getPaymentMethodsLoading: vi.fn(),
+    };
     userPaymentService.getPaymentMethods.mockReturnValue(of([]));
     userPaymentService.getPaymentMethodsLoading.mockReturnValue(of(false));
 
     const translationService = { translate: vi.fn() };
     translationService.translate.mockReturnValue(of('translated'));
 
-    const checkoutPaymentFacade = { getPaymentDetailsState: vi.fn(), setPaymentDetails: vi.fn(), createPaymentDetails: vi.fn() };
+    const checkoutPaymentFacade = {
+      getPaymentDetailsState: vi.fn(),
+      setPaymentDetails: vi.fn(),
+      createPaymentDetails: vi.fn(),
+    };
     checkoutPaymentFacade.getPaymentDetailsState.mockReturnValue(
       of({ loading: false, error: false as const, data: undefined })
     );

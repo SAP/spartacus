@@ -50,7 +50,11 @@ describe('OpfPaymentVerificationService', () => {
     orderFacadeMock = { placePaymentAuthorizedOrder: vi.fn() };
     routingServiceMock = { go: vi.fn() };
     globalMessageServiceMock = { add: vi.fn() };
-    opfPaymentServiceMock = { verifyPayment: vi.fn(), getAfterRedirectScripts: vi.fn(), submitCompletePayment: vi.fn() };
+    opfPaymentServiceMock = {
+      verifyPayment: vi.fn(),
+      getAfterRedirectScripts: vi.fn(),
+      submitCompletePayment: vi.fn(),
+    };
     const defaultMetadata: OpfMetadataModel = {
       termsAndConditionsChecked: false,
       selectedPaymentOptionId: undefined,
@@ -60,13 +64,28 @@ describe('OpfPaymentVerificationService', () => {
       is3DSRedirect: false,
       opf3DSRedirectReturnPath: undefined,
     };
-    opfMetadataStoreServiceMock = { getOpfMetadataState: vi.fn(), updateOpfMetadata: vi.fn(), clearOpfMetadata: vi.fn() };
+    opfMetadataStoreServiceMock = {
+      getOpfMetadataState: vi.fn(),
+      updateOpfMetadata: vi.fn(),
+      clearOpfMetadata: vi.fn(),
+    };
     opfMetadataStoreServiceMock.opfMetadataState =
       new BehaviorSubject<OpfMetadataModel>(defaultMetadata);
-    opfResourceLoaderServiceMock = { clearAllResources: vi.fn(), executeScriptFromHtml: vi.fn(), loadResources: vi.fn() };
+    opfResourceLoaderServiceMock = {
+      clearAllResources: vi.fn(),
+      executeScriptFromHtml: vi.fn(),
+      loadResources: vi.fn(),
+    };
 
-    globalFunctionsServiceMock = { registerGlobalFunctions: vi.fn(), unregisterGlobalFunctions: vi.fn() };
-    sessionStorageMock = { getItem: vi.fn(), setItem: vi.fn(), removeItem: vi.fn() };
+    globalFunctionsServiceMock = {
+      registerGlobalFunctions: vi.fn(),
+      unregisterGlobalFunctions: vi.fn(),
+    };
+    sessionStorageMock = {
+      getItem: vi.fn(),
+      setItem: vi.fn(),
+      removeItem: vi.fn(),
+    };
     windowRefMock = {
       isBrowser: vi.fn().mockReturnValue(true),
       location: {
@@ -217,7 +236,8 @@ describe('OpfPaymentVerificationService', () => {
             key: 'keyMock',
             value: 'valueMock',
           },
-        ]);      });
+        ]);
+      });
     });
 
     it('should preserve payment redirect params from captured query string', async () => {
@@ -235,7 +255,8 @@ describe('OpfPaymentVerificationService', () => {
           { key: 'decision_rcode', value: '1' },
           { key: 'req_bill_to_address_state', value: 'CA' },
           { key: 'auth_code', value: '831000' },
-        ]);      });
+        ]);
+      });
     });
 
     it('should return paymentSessionId from local storage if not in params', async () => {
@@ -277,7 +298,8 @@ describe('OpfPaymentVerificationService', () => {
             value: 'true',
           },
         ]);
-        expect(result.afterRedirectScriptFlag).toEqual('true');      });
+        expect(result.afterRedirectScriptFlag).toEqual('true');
+      });
     });
 
     it('should throw an error if the route cxRoute is not "paymentVerificationResult"', async () => {
@@ -291,7 +313,8 @@ describe('OpfPaymentVerificationService', () => {
       service.verifyResultUrl(mockOtherRouteSnapshot).subscribe(
         () => {},
         (error) => {
-          expect(error.message).toEqual('opfPayment.errors.cancelPayment');        }
+          expect(error.message).toEqual('opfPayment.errors.cancelPayment');
+        }
       );
     });
 
@@ -323,7 +346,8 @@ describe('OpfPaymentVerificationService', () => {
         () => {},
         (error) => {
           expect(error).toBeDefined();
-          expect(error.message).toEqual('opfPayment.errors.proceedPayment');        }
+          expect(error.message).toEqual('opfPayment.errors.proceedPayment');
+        }
       );
     });
 
@@ -356,7 +380,8 @@ describe('OpfPaymentVerificationService', () => {
         () => {},
         (error) => {
           expect(error).toBeDefined();
-          expect(error.message).toEqual('opfPayment.errors.proceedPayment');        }
+          expect(error.message).toEqual('opfPayment.errors.proceedPayment');
+        }
       );
     });
   });
@@ -385,7 +410,8 @@ describe('OpfPaymentVerificationService', () => {
           expect(opfPaymentServiceMock.verifyPayment).toHaveBeenCalledWith(
             mockPaymentSessionId,
             { responseMap: mockResponseMap }
-          );        });
+          );
+        });
     });
 
     it('should call opfCheckoutService.verifyPayment and return true if the result is DELAYED', async () => {
@@ -411,7 +437,8 @@ describe('OpfPaymentVerificationService', () => {
           expect(opfPaymentServiceMock.verifyPayment).toHaveBeenCalledWith(
             mockPaymentSessionId,
             { responseMap: mockResponseMap }
-          );        });
+          );
+        });
     });
 
     it('should throw an error with "opfPayment.errors.cancelPayment" if the result is CANCELLED', async () => {
@@ -430,12 +457,12 @@ describe('OpfPaymentVerificationService', () => {
         .subscribe(
           () => {},
           (error) => {
-            expect(error.message).toEqual('opfPayment.errors.cancelPayment');          }
+            expect(error.message).toEqual('opfPayment.errors.cancelPayment');
+          }
         );
     });
 
-    it('should throw an error with opfDefaultPaymentError if the result is not AUTHORIZED, DELAYED, or CANCELLED',
-async () => {
+    it('should throw an error with opfDefaultPaymentError if the result is not AUTHORIZED, DELAYED, or CANCELLED', async () => {
       const mockPaymentSessionId = 'sessionId';
       const mockResponseMap = [{ key: 'key', value: 'value' }];
       const mockVerificationResponse: OpfPaymentVerificationResponse = {
@@ -451,7 +478,8 @@ async () => {
         .subscribe(
           () => {},
           (error) => {
-            expect(error).toEqual(service.opfDefaultPaymentError);          }
+            expect(error).toEqual(service.opfDefaultPaymentError);
+          }
         );
     });
   });
@@ -485,7 +513,8 @@ async () => {
           expect(
             opfResourceLoaderServiceMock.executeScriptFromHtml
           ).toHaveBeenCalled();
-          expect(result).toBeTruthy();        });
+          expect(result).toBeTruthy();
+        });
     });
 
     it('should not executeScriptFromHtml when no html snippet but still resolve true', async () => {
@@ -510,7 +539,8 @@ async () => {
           expect(
             opfResourceLoaderServiceMock.executeScriptFromHtml
           ).not.toHaveBeenCalled();
-          expect(result).toBeTruthy();        });
+          expect(result).toBeTruthy();
+        });
     });
 
     it('should failed when loadProviderResources fails', async () => {
@@ -535,7 +565,8 @@ async () => {
           expect(
             opfResourceLoaderServiceMock.executeScriptFromHtml
           ).not.toHaveBeenCalled();
-          expect(result).toBeFalsy();        });
+          expect(result).toBeFalsy();
+        });
     });
 
     it('should throw error when missing afterRedirectScript property', async () => {
@@ -557,7 +588,8 @@ async () => {
           () => {},
           (error) => {
             expect(error).toBeDefined();
-            expect(error.message).toEqual('opfPayment.errors.proceedPayment');          }
+            expect(error.message).toEqual('opfPayment.errors.proceedPayment');
+          }
         );
     });
   });
@@ -568,7 +600,8 @@ async () => {
       expect(
         globalFunctionsServiceMock.unregisterGlobalFunctions
       ).toHaveBeenCalled();
-      expect(opfResourceLoaderServiceMock.clearAllResources).toHaveBeenCalled();    });
+      expect(opfResourceLoaderServiceMock.clearAllResources).toHaveBeenCalled();
+    });
   });
 
   describe('displayError', () => {
@@ -709,7 +742,8 @@ async () => {
 
         service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
           expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
-          expect(result.is3DSRedirect).toBe(true);        });
+          expect(result.is3DSRedirect).toBe(true);
+        });
       });
     });
   });

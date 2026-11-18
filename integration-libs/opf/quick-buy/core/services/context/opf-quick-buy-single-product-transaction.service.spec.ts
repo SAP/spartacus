@@ -52,15 +52,32 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
   }
 
   beforeEach(() => {
-    multiCartFacade = { createCart: vi.fn(), addEntry: vi.fn(), isStable: vi.fn(), getCart: vi.fn(), reloadCart: vi.fn(), getCartEntity: vi.fn(), loadCart: vi.fn() };
+    multiCartFacade = {
+      createCart: vi.fn(),
+      addEntry: vi.fn(),
+      isStable: vi.fn(),
+      getCart: vi.fn(),
+      reloadCart: vi.fn(),
+      getCartEntity: vi.fn(),
+      loadCart: vi.fn(),
+    };
     userIdService = { takeUserId: vi.fn() };
     routingService = { getRouterState: vi.fn() };
     globalMessageService = { add: vi.fn() };
-    cartGuestUserFacade = { createCartGuestUser: vi.fn(), updateCartGuestUser: vi.fn() };
+    cartGuestUserFacade = {
+      createCartGuestUser: vi.fn(),
+      updateCartGuestUser: vi.fn(),
+    };
     authService = { isUserLoggedIn: vi.fn() };
     activeCartFacade = { isGuestCart: vi.fn() };
     singleProductCartOptions = { getSingleProductCartOptions: vi.fn() };
-    cartConnector = { getSupportedDeliveryModes: vi.fn(), createDeliveryAddress: vi.fn(), setBillingAddress: vi.fn(), setDeliveryMode: vi.fn(), getSelectedDeliveryMode: vi.fn() };
+    cartConnector = {
+      getSupportedDeliveryModes: vi.fn(),
+      createDeliveryAddress: vi.fn(),
+      setBillingAddress: vi.fn(),
+      setDeliveryMode: vi.fn(),
+      getSelectedDeliveryMode: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -87,8 +104,7 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
   });
 
   describe('cart accessors', () => {
-    it('should return current cart, cart id and total price',
-async () => {
+    it('should return current cart, cart id and total price', async () => {
       initCart({
         guid: 'cart-guid',
         totalPrice: { value: 42 },
@@ -108,7 +124,8 @@ async () => {
       });
 
       service.getDeliveryAddress().subscribe((address) => {
-        expect(address?.firstName).toBe('John');      });
+        expect(address?.firstName).toBe('John');
+      });
     });
   });
 
@@ -117,21 +134,24 @@ async () => {
       initCart({ guid: 'cart-guid', deliveryItemsQuantity: 2 } as Cart);
 
       service.getTransactionDeliveryType().subscribe((type) => {
-        expect(type).toBe(OpfQuickBuyDeliveryType.SHIPPING);      });
+        expect(type).toBe(OpfQuickBuyDeliveryType.SHIPPING);
+      });
     });
 
     it('should return pickup when cart has no delivery items', async () => {
       initCart({ guid: 'cart-guid', deliveryItemsQuantity: 0 } as Cart);
 
       service.getTransactionDeliveryType().subscribe((type) => {
-        expect(type).toBe(OpfQuickBuyDeliveryType.PICKUP);      });
+        expect(type).toBe(OpfQuickBuyDeliveryType.PICKUP);
+      });
     });
 
     it('should return delivery info from delivery type', async () => {
       initCart({ guid: 'cart-guid', deliveryItemsQuantity: 1 } as Cart);
 
       service.getTransactionDeliveryInfo().subscribe((info) => {
-        expect(info.type).toBe(OpfQuickBuyDeliveryType.SHIPPING);      });
+        expect(info.type).toBe(OpfQuickBuyDeliveryType.SHIPPING);
+      });
     });
   });
 
@@ -140,7 +160,8 @@ async () => {
       initCart();
 
       service.checkStableCart().subscribe((isStable) => {
-        expect(isStable).toBe(true);      });
+        expect(isStable).toBe(true);
+      });
     });
   });
 
@@ -158,7 +179,8 @@ async () => {
         expect(cartConnector.getSupportedDeliveryModes).toHaveBeenCalledWith(
           'anonymous',
           'cart-guid'
-        );      });
+        );
+      });
     });
 
     it('should set delivery address and reload cart', async () => {
@@ -170,7 +192,8 @@ async () => {
 
       service.setDeliveryAddress(address).subscribe((addressId) => {
         expect(addressId).toBe('addr-1');
-        expect(service['reloadCartAndWait']).toHaveBeenCalled();      });
+        expect(service['reloadCartAndWait']).toHaveBeenCalled();
+      });
     });
 
     it('should set billing address and reload cart', async () => {
@@ -179,7 +202,8 @@ async () => {
       cartConnector.setBillingAddress.mockReturnValue(of({}));
 
       service.setBillingAddress(address).subscribe((result) => {
-        expect(result).toBe(true);      });
+        expect(result).toBe(true);
+      });
     });
 
     it('should set delivery mode and return selected mode', async () => {
@@ -189,7 +213,8 @@ async () => {
       cartConnector.getSelectedDeliveryMode.mockReturnValue(of(mode));
 
       service.setDeliveryMode('standard').subscribe((selectedMode) => {
-        expect(selectedMode).toEqual(mode);      });
+        expect(selectedMode).toEqual(mode);
+      });
     });
 
     it('should return selected delivery mode', async () => {
@@ -197,7 +222,8 @@ async () => {
       cartConnector.getSelectedDeliveryMode.mockReturnValue(of(mode));
 
       service.getSelectedDeliveryMode().subscribe((selectedMode) => {
-        expect(selectedMode).toEqual(mode);      });
+        expect(selectedMode).toEqual(mode);
+      });
     });
   });
 
@@ -212,13 +238,13 @@ async () => {
           'anonymous',
           'cart-guid'
         );
-        expect(multiCartFacade.reloadCart).toHaveBeenCalledWith('cart-guid');      });
+        expect(multiCartFacade.reloadCart).toHaveBeenCalledWith('cart-guid');
+      });
     });
   });
 
   describe('prepareTransactionCart', () => {
-    it('should create cart, handle guest user and return current cart',
-async () => {
+    it('should create cart, handle guest user and return current cart', async () => {
       const cart = { guid: 'new-guid' } as Cart;
       vi.spyOn(service, 'createSingleProductCart').mockReturnValue(of(cart));
       vi.spyOn(service, 'handleCartGuestUser').mockReturnValue(of(true));
@@ -228,14 +254,16 @@ async () => {
         expect(result).toBe(cart);
         expect(service.createSingleProductCart).toHaveBeenCalled();
         expect(service.handleCartGuestUser).toHaveBeenCalled();
-        expect(service.getCurrentCart).toHaveBeenCalled();      });
+        expect(service.getCurrentCart).toHaveBeenCalled();
+      });
     });
   });
 
   describe('handleCartGuestUser', () => {
     it('should return true when cart is not initialized', async () => {
       service.handleCartGuestUser().subscribe((result) => {
-        expect(result).toBe(true);      });
+        expect(result).toBe(true);
+      });
     });
 
     it('should create guest user for anonymous non-guest cart', async () => {
@@ -254,7 +282,8 @@ async () => {
           'anonymous',
           'cart-guid'
         );
-        expect(multiCartFacade.reloadCart).toHaveBeenCalledWith('cart-guid');      });
+        expect(multiCartFacade.reloadCart).toHaveBeenCalledWith('cart-guid');
+      });
     });
   });
 
@@ -279,7 +308,8 @@ async () => {
             'anonymous',
             'cart-guid',
             { email: 'guest@example.com' }
-          );        });
+          );
+        });
     });
 
     it('should return false when cart is not a guest cart', async () => {
@@ -291,7 +321,8 @@ async () => {
           expect(result).toBe(false);
           expect(
             cartGuestUserFacade.updateCartGuestUser
-          ).not.toHaveBeenCalled();        });
+          ).not.toHaveBeenCalled();
+        });
     });
   });
 
@@ -359,7 +390,8 @@ async () => {
           3,
           undefined
         );
-        expect(cart.guid).toBe('new-guid');      });
+        expect(cart.guid).toBe('new-guid');
+      });
     });
   });
 });

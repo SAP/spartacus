@@ -43,9 +43,9 @@ class MockCheckoutDeliveryAddressFacade
 {
   createAndSetAddress = vi.fn().mockReturnValue(of({}));
   setDeliveryAddress = vi.fn().mockReturnValue(EMPTY);
-  getDeliveryAddressState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {

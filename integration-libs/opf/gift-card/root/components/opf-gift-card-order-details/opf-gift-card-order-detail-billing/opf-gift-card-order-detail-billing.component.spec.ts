@@ -39,9 +39,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       ],
     }).compileComponents();
 
-    translationService = TestBed.inject(
-      TranslationService
-    ) as any;
+    translationService = TestBed.inject(TranslationService) as any;
     fixture = TestBed.createComponent(OpfGiftCardOrderDetailBillingComponent);
     component = fixture.componentInstance;
 
@@ -144,7 +142,8 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
     it('should return card with translated title and text', async () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBe('Payment');
-        expect(card.text).toContain('Gift Card Payment');      });
+        expect(card.text).toContain('Gift Card Payment');
+      });
     });
 
     it('should call translate with correct keys for billing component', async () => {
@@ -154,7 +153,8 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
         );
         expect(translationService.translate).toHaveBeenCalledWith(
           'opfGiftCard.giftCardPayment'
-        );      });
+        );
+      });
     });
 
     it('should return card object with expected structure', async () => {
@@ -162,7 +162,8 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
         expect(card.title).toBeDefined();
         expect(card.text).toBeDefined();
         expect(Array.isArray(card.text)).toBe(true);
-        expect(card?.text?.length).toBeGreaterThan(0);      });
+        expect(card?.text?.length).toBeGreaterThan(0);
+      });
     });
 
     it('should use paymentForm.payment key instead of opfCheckout.paymentOption', async () => {
@@ -172,12 +173,14 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
         );
         expect(translationService.translate).not.toHaveBeenCalledWith(
           'opfCheckout.paymentOption'
-        );      });
+        );
+      });
     });
 
     it('should return card text as an array with single element', async () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
-        expect(card.text).toEqual(['Gift Card Payment']);      });
+        expect(card.text).toEqual(['Gift Card Payment']);
+      });
     });
 
     it('should handle translation service returning undefined', async () => {
@@ -186,7 +189,8 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card).toBeDefined();
         expect(card.title).toBeDefined();
-        expect(card.text).toBeDefined();      });
+        expect(card.text).toBeDefined();
+      });
     });
   });
 
@@ -308,7 +312,8 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBe('Payment');
-        expect(card?.text?.[0]).toBe('Gift Card Payment');      });
+        expect(card?.text?.[0]).toBe('Gift Card Payment');
+      });
     });
 
     it('should handle full order lifecycle', async () => {
@@ -331,7 +336,8 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(component.isGiftCardPayment).toBe(true);
-        expect(card.title).toBe('Payment');      });
+        expect(card.title).toBe('Payment');
+      });
     });
   });
 
@@ -442,7 +448,8 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       component.getPaymentMethodCardContent().subscribe(() => {
         expect(translationService.translate).toHaveBeenCalledWith(
           'paymentForm.payment'
-        );      });
+        );
+      });
     });
 
     it('should be a standalone component', () => {

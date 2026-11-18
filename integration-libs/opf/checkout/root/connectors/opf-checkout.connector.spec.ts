@@ -20,9 +20,7 @@ describe('OpfCheckoutConnector', () => {
     });
 
     connector = TestBed.inject(OpfCheckoutConnector);
-    adapter = TestBed.inject(
-      OpfCheckoutAdapter
-    ) as any;
+    adapter = TestBed.inject(OpfCheckoutAdapter) as any;
   });
 
   it('should call adapter.getCartUserEmail with correct parameters', () => {

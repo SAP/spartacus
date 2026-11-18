@@ -33,9 +33,9 @@ const mockGetApplePayWebSessionResponse: ApplePaySessionVerificationResponse = {
 const mockAccessCode = 'accessCode';
 
 class MockOpfQuickBuyAdapter implements OpfQuickBuyAdapter {
-  getApplePayWebSession = vi.fn().mockImplementation(() =>
-    of(mockGetApplePayWebSessionResponse)
-  );
+  getApplePayWebSession = vi
+    .fn()
+    .mockImplementation(() => of(mockGetApplePayWebSessionResponse));
 }
 
 describe('OpfQuickBuyConnector', () => {

@@ -78,20 +78,21 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
     is3DSRedirect: false,
     opf3DSRedirectReturnPath: undefined,
   });
-  updateOpfMetadata = vi.fn()
+  updateOpfMetadata = vi
+    .fn()
     .mockImplementation((payload: Partial<OpfMetadataModel>) => {
       this.opfMetadataState.next({
         ...this.opfMetadataState.value,
         ...payload,
       });
     });
-  getOpfMetadataState = vi.fn()
+  getOpfMetadataState = vi
+    .fn()
     .mockReturnValue(this.opfMetadataState.asObservable());
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = vi.fn()
-    .mockReturnValue(of('test-cart-id'));
+  getActiveCartId = vi.fn().mockReturnValue(of('test-cart-id'));
   getActive = vi.fn().mockReturnValue(of({} as any));
   takeActive = vi.fn().mockReturnValue(of({} as any));
   isStable = vi.fn().mockReturnValue(of(false, true));
@@ -113,7 +114,14 @@ class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService> {}
 
 function createOpfPaymentFacadeMock(): any {
-  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 function createOpfPaymentEventsServiceMock(): any {

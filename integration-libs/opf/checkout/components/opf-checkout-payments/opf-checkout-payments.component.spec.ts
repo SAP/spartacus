@@ -141,7 +141,10 @@ describe('OpfCheckoutPaymentsComponent', () => {
         refreshActiveConfigurationsSubject.asObservable(),
     };
 
-    opfMetadataStoreServiceMock = { getOpfMetadataState: vi.fn(), updateOpfMetadata: vi.fn() };
+    opfMetadataStoreServiceMock = {
+      getOpfMetadataState: vi.fn(),
+      updateOpfMetadata: vi.fn(),
+    };
 
     opfMetadataStoreServiceMock.getOpfMetadataState.mockReturnValue(
       of(mockOpfMetadata)
@@ -370,21 +373,24 @@ describe('OpfCheckoutPaymentsComponent', () => {
         expect(context).toBeTruthy();
         expect(context.selectedPaymentId).toBe(1);
         expect(context.savedCardsId).toBe(SAVED_CARDS_ID);
-        expect(typeof context.savedCardsSelected).toBe('function');      });
+        expect(typeof context.savedCardsSelected).toBe('function');
+      });
       component['emitOutletContext']();
     });
 
     it('should include showSavedCardsList flag when saved cards are selected', async () => {
       component.selectedPaymentId = SAVED_CARDS_ID;
       component['outletContext$'].subscribe((context) => {
-        expect(context.showSavedCardsList).toBe(true);      });
+        expect(context.showSavedCardsList).toBe(true);
+      });
       component['emitOutletContext']();
     });
 
     it('should exclude showSavedCardsList when other payment is selected', async () => {
       component.selectedPaymentId = 1;
       component['outletContext$'].subscribe((context) => {
-        expect(context.showSavedCardsList).toBe(false);      });
+        expect(context.showSavedCardsList).toBe(false);
+      });
       component['emitOutletContext']();
     });
 
@@ -392,7 +398,8 @@ describe('OpfCheckoutPaymentsComponent', () => {
       component.disabled = true;
       component.explicitTermsAndConditions = true;
       component['outletContext$'].subscribe((context) => {
-        expect(context.disabled).toBe(true);      });
+        expect(context.disabled).toBe(true);
+      });
       component['emitOutletContext']();
     });
   });
@@ -586,7 +593,8 @@ describe('OpfCheckoutPaymentsComponent', () => {
 
     it('should return default message when paymentId is undefined', async () => {
       component.getPaymentInfoMessage(undefined).subscribe((message) => {
-        expect(message).toBeTruthy();      });
+        expect(message).toBeTruthy();
+      });
     });
 
     it('should return mapped message when found in config', async () => {
@@ -603,7 +611,8 @@ describe('OpfCheckoutPaymentsComponent', () => {
       };
 
       component.getPaymentInfoMessage(1).subscribe((message) => {
-        expect(message).toBeTruthy();      });
+        expect(message).toBeTruthy();
+      });
     });
   });
 
@@ -686,7 +695,8 @@ describe('OpfCheckoutPaymentsComponent', () => {
       component['outletContext$'].subscribe((context) => {
         if (typeof context.savedCardsSelected === 'function') {
           context.savedCardsSelected();
-          expect(component.onSavedCardsSelected).toHaveBeenCalled();        }
+          expect(component.onSavedCardsSelected).toHaveBeenCalled();
+        }
       });
       component['emitOutletContext']();
     });

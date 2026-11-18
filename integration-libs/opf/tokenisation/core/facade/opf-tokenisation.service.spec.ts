@@ -52,7 +52,8 @@ describe('OpfTokenisationService', () => {
 
       service.getPaymentMethods().subscribe((result) => {
         expect(userPaymentService.getPaymentMethods).toHaveBeenCalled();
-        expect(result).toEqual(mockPayments);      });
+        expect(result).toEqual(mockPayments);
+      });
     });
   });
 
@@ -64,7 +65,8 @@ describe('OpfTokenisationService', () => {
 
       service.getPaymentMethodsLoading().subscribe((result) => {
         expect(userPaymentService.getPaymentMethodsLoading).toHaveBeenCalled();
-        expect(result).toBe(true);      });
+        expect(result).toBe(true);
+      });
     });
   });
 

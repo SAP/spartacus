@@ -16,7 +16,10 @@ describe('OpfQuickBuyPickupInStoreSingleProductService', () => {
   let intendedPickupLocation: any;
 
   beforeEach(() => {
-    intendedPickupLocation = { getPickupOption: vi.fn(), getIntendedLocation: vi.fn() };
+    intendedPickupLocation = {
+      getPickupOption: vi.fn(),
+      getIntendedLocation: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -42,7 +45,8 @@ describe('OpfQuickBuyPickupInStoreSingleProductService', () => {
       expect(options).toEqual({
         quantity: 1,
         pickupStore: 'Chiba',
-      });    });
+      });
+    });
   });
 
   it('should not return pickup store when delivery option is selected', async () => {
@@ -54,6 +58,7 @@ describe('OpfQuickBuyPickupInStoreSingleProductService', () => {
     service.getSingleProductCartOptions('product-1').subscribe((options) => {
       expect(options).toEqual({
         quantity: 1,
-      });    });
+      });
+    });
   });
 });

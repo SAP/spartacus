@@ -48,7 +48,8 @@ describe('OpfMetadataStoreService', () => {
     service.opfMetadataState.next(state);
 
     service.getOpfMetadataState().subscribe((state) => {
-      expect(state).toEqual(state);    });
+      expect(state).toEqual(state);
+    });
   });
 
   it('should update OpfMetadataStoreService with the given payload', () => {

@@ -30,10 +30,12 @@ const mockPunchoutRequisitionResponse: PunchoutRequisition = {
 };
 
 class MockPunchoutAdapter implements PunchoutAdapter {
-  getPunchoutSession = vi.fn().mockImplementation(() =>
-    of(mockPunchoutSessionResponse)
-  );
-  getPunchoutSessionRequisition = vi.fn().mockImplementation(() => of(mockPunchoutRequisitionResponse));
+  getPunchoutSession = vi
+    .fn()
+    .mockImplementation(() => of(mockPunchoutSessionResponse));
+  getPunchoutSessionRequisition = vi
+    .fn()
+    .mockImplementation(() => of(mockPunchoutRequisitionResponse));
 }
 
 describe('PunchoutConnector', () => {
@@ -62,7 +64,9 @@ describe('PunchoutConnector', () => {
   });
 
   it('getPunchoutSessionRequisition should call adapter', async () => {
-    const result = await firstValueFrom(service.getPunchoutSessionRequisition(mockSid));
+    const result = await firstValueFrom(
+      service.getPunchoutSessionRequisition(mockSid)
+    );
     expect(result).toEqual(mockPunchoutRequisitionResponse);
     expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
       mockSid,
@@ -71,7 +75,9 @@ describe('PunchoutConnector', () => {
   });
 
   it('getPunchoutSessionRequisition should call adapter with discardCartEntries true', async () => {
-    const result = await firstValueFrom(service.getPunchoutSessionRequisition(mockSid, true));
+    const result = await firstValueFrom(
+      service.getPunchoutSessionRequisition(mockSid, true)
+    );
     expect(result).toEqual(mockPunchoutRequisitionResponse);
     expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
       mockSid,

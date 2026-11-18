@@ -74,7 +74,23 @@ describe('ApplePayService', () => {
     opfPaymentFacadeMock = { submitPayment: vi.fn() };
     opfQuickBuyServiceMock = { getApplePayWebSession: vi.fn() };
     applePaySessionOrchestratorMock = { start: vi.fn() };
-    opfQuickBuyTransactionServiceMock = { deleteUserAddresses: vi.fn(), getTransactionLocationContext: vi.fn(), getTransactionDeliveryInfo: vi.fn(), getMerchantName: vi.fn(), checkStableCart: vi.fn(), getSupportedDeliveryModes: vi.fn(), setDeliveryAddress: vi.fn(), setBillingAddress: vi.fn(), getDeliveryAddress: vi.fn(), getCurrentCart: vi.fn(), getCurrentCartId: vi.fn(), getCurrentCartTotalPrice: vi.fn(), setDeliveryMode: vi.fn(), getSelectedDeliveryMode: vi.fn(), handleCartGuestUser: vi.fn() };
+    opfQuickBuyTransactionServiceMock = {
+      deleteUserAddresses: vi.fn(),
+      getTransactionLocationContext: vi.fn(),
+      getTransactionDeliveryInfo: vi.fn(),
+      getMerchantName: vi.fn(),
+      checkStableCart: vi.fn(),
+      getSupportedDeliveryModes: vi.fn(),
+      setDeliveryAddress: vi.fn(),
+      setBillingAddress: vi.fn(),
+      getDeliveryAddress: vi.fn(),
+      getCurrentCart: vi.fn(),
+      getCurrentCartId: vi.fn(),
+      getCurrentCartTotalPrice: vi.fn(),
+      setDeliveryMode: vi.fn(),
+      getSelectedDeliveryMode: vi.fn(),
+      handleCartGuestUser: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [

@@ -167,7 +167,8 @@ describe(`OpfApiPaymentAdapter`, () => {
         .verifyPayment(mockPaymentSessionId, mockPayload)
         .pipe(take(1))
         .subscribe((result) => {
-          expect(result).toEqual(mockResult);        });
+          expect(result).toEqual(mockResult);
+        });
 
       const url = service['verifyPaymentEndpoint'](mockPaymentSessionId);
       const mockReq = httpMock.expectOne(url);
@@ -182,7 +183,7 @@ describe(`OpfApiPaymentAdapter`, () => {
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, async () => {
-    vi.useFakeTimers();
+        vi.useFakeTimers();
         vi.spyOn(httpClient, 'post').mockReturnValue(throwError(mockJaloError));
 
         let result: HttpErrorModel | undefined;
@@ -195,11 +196,11 @@ describe(`OpfApiPaymentAdapter`, () => {
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      vi.useRealTimers();
-    });
+        vi.useRealTimers();
+      });
 
       it(`should successfully backOff on 500 error and recover after the 2nd retry`, async () => {
-    vi.useFakeTimers();
+        vi.useFakeTimers();
         let calledTimes = -1;
 
         vi.spyOn(httpClient, 'post').mockReturnValue(
@@ -225,11 +226,11 @@ describe(`OpfApiPaymentAdapter`, () => {
 
         expect(result).toEqual(mockResult);
         subscription.unsubscribe();
-      vi.useRealTimers();
-    });
+        vi.useRealTimers();
+      });
 
       it(`should unsuccessfully backOff on 500 error`, async () => {
-    vi.useFakeTimers();
+        vi.useFakeTimers();
         vi.spyOn(httpClient, 'post').mockReturnValue(throwError(mock500Error));
 
         let result: HttpErrorModel | undefined;
@@ -242,14 +243,14 @@ describe(`OpfApiPaymentAdapter`, () => {
         expect(result).toEqual(mockNormalized500Error);
 
         subscription.unsubscribe();
-      vi.useRealTimers();
-    });
+        vi.useRealTimers();
+      });
     });
   });
 
   describe(`submitPayment`, () => {
     it(`should merge HTTP 4xx error body into thrown error`, async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockErrorBody = {
         message: 'Payment request failed with status: REJECTED',
         type: 'business_error',
@@ -281,11 +282,11 @@ describe(`OpfApiPaymentAdapter`, () => {
       expect(result?.customFields).toEqual(mockErrorBody.customFields);
 
       subscription.unsubscribe();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it(`should not merge when HTTP error body is not an object`, async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockError = new HttpErrorResponse({
         error: 'plain string error',
         status: 500,
@@ -308,13 +309,13 @@ describe(`OpfApiPaymentAdapter`, () => {
       expect(result?.customFields).toBeUndefined();
 
       subscription.unsubscribe();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
   });
 
   describe(`submitCompletePayment`, () => {
     it(`should merge HTTP 4xx error body into thrown error`, async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockErrorBody = {
         message: 'Payment request failed with status: REJECTED',
         type: 'business_error',
@@ -342,11 +343,11 @@ describe(`OpfApiPaymentAdapter`, () => {
       expect(result?.customFields).toEqual(mockErrorBody.customFields);
 
       subscription.unsubscribe();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it(`should not merge when HTTP error body is not an object`, async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockError = new HttpErrorResponse({
         error: 'plain string error',
         status: 500,
@@ -365,7 +366,7 @@ describe(`OpfApiPaymentAdapter`, () => {
       expect(result?.customFields).toBeUndefined();
 
       subscription.unsubscribe();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
   });
 });

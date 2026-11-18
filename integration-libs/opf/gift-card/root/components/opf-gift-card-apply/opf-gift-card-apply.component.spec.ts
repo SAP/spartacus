@@ -61,11 +61,19 @@ describe('OpfGiftCardApplyComponent', () => {
   beforeEach(async () => {
     mockActiveCartFacade = { getActive: vi.fn(), reloadActiveCart: vi.fn() };
 
-    mockGiftCardFacade = { applyGiftCard: vi.fn(), isGiftCardEnabled: vi.fn(), isGiftCardCoveredTotalAmount: vi.fn() };
+    mockGiftCardFacade = {
+      applyGiftCard: vi.fn(),
+      isGiftCardEnabled: vi.fn(),
+      isGiftCardCoveredTotalAmount: vi.fn(),
+    };
 
     mockGlobalMessageService = { add: vi.fn() };
 
-    mockPaymentEventsService = { emitIsGiftCardCoveredTotalAmountEvent: vi.fn(), emitReinitiatePaymentEvent: vi.fn(), emitRefreshActiveConfigurationsEvent: vi.fn() };
+    mockPaymentEventsService = {
+      emitIsGiftCardCoveredTotalAmountEvent: vi.fn(),
+      emitReinitiatePaymentEvent: vi.fn(),
+      emitRefreshActiveConfigurationsEvent: vi.fn(),
+    };
     mockPaymentEventsService.isGiftCardCoveredTotalAmountEvent$ =
       isGiftCardCoveredSubject.asObservable();
 
@@ -218,6 +226,7 @@ describe('OpfGiftCardApplyComponent', () => {
 
     component['appliedGiftCards$'].subscribe((cards) => {
       expect(cards.length).toBe(1);
-      expect(cards[0].id).toBe('GC1');    });
+      expect(cards[0].id).toBe('GC1');
+    });
   });
 });

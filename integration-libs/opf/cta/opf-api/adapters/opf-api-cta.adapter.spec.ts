@@ -104,12 +104,8 @@ describe('OpfApiCtaAdapter', () => {
 
     adapter = TestBed.inject(OpfApiCtaAdapter);
     httpMock = TestBed.inject(HttpTestingController);
-    converterService = TestBed.inject(
-      ConverterService
-    ) as any;
-    opfEndpointsService = TestBed.inject(
-      OpfEndpointsService
-    ) as any;
+    converterService = TestBed.inject(ConverterService) as any;
+    opfEndpointsService = TestBed.inject(OpfEndpointsService) as any;
 
     opfEndpointsService.buildUrl.mockReturnValue('mockUrl');
   });

@@ -124,7 +124,8 @@ describe('OpfGiftCardPaymentApiInterceptor (CXSPA-14589)', () => {
 
     interceptor.intercept(request, nextMock).subscribe({
       error: (err) => {
-        expect(err).toBe(error);      },
+        expect(err).toBe(error);
+      },
     });
   });
 });

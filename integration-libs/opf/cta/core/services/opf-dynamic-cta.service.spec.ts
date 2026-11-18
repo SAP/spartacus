@@ -29,7 +29,10 @@ describe('OpfDynamicCtaService', () => {
     window.onbeforeunload = function () {
       return '';
     };
-    globalFunctionsFacadeMock = { registerGlobalFunctions: vi.fn(), unregisterGlobalFunctions: vi.fn() };
+    globalFunctionsFacadeMock = {
+      registerGlobalFunctions: vi.fn(),
+      unregisterGlobalFunctions: vi.fn(),
+    };
 
     eventServiceMock = { get: vi.fn() };
 
@@ -81,7 +84,8 @@ describe('OpfDynamicCtaService', () => {
         expect(languageServiceMock.getActive).toHaveBeenCalled();
         expect(ctaRequest.scriptLocations).toEqual([
           OpfCtaScriptsLocation.CART_MESSAGING,
-        ]);      });
+        ]);
+      });
   });
 
   it('should call productService on fillCtaRequestforProductPage', async () => {
@@ -100,7 +104,8 @@ describe('OpfDynamicCtaService', () => {
           ctaRequest.additionalData?.find(
             (keyVal) => keyVal.key === 'scriptIdentifier'
           )?.value
-        ).toEqual(mockScriptId);      });
+        ).toEqual(mockScriptId);
+      });
   });
 
   it('should start cartListener on cart page initiateEvents', async () => {
@@ -111,7 +116,8 @@ describe('OpfDynamicCtaService', () => {
       )
       .subscribe(() => {
         service.initiateEvents();
-        expect(eventServiceMock.get).toHaveBeenCalled();      });
+        expect(eventServiceMock.get).toHaveBeenCalled();
+      });
   });
 
   it('should not start cartListener on pdp initiateEvents', async () => {
@@ -122,7 +128,8 @@ describe('OpfDynamicCtaService', () => {
       )
       .subscribe(() => {
         service.initiateEvents();
-        expect(eventServiceMock.get).not.toHaveBeenCalled();      });
+        expect(eventServiceMock.get).not.toHaveBeenCalled();
+      });
   });
 
   it('should register ScriptReadyEvent global function', () => {
@@ -143,7 +150,8 @@ describe('OpfDynamicCtaService', () => {
         service.stopEvents();
         expect(
           globalFunctionsFacadeMock.unregisterGlobalFunctions
-        ).toHaveBeenCalled();      });
+        ).toHaveBeenCalled();
+      });
   });
 
   const mockAccountIds = [51, 22];

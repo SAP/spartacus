@@ -70,7 +70,8 @@ describe('OpfGiftCardOrderConfirmationTotalsComponent', () => {
       expect(order).toEqual({
         code: 'test-order-123',
         status: 'COMPLETE',
-      });    });
+      });
+    });
   });
 
   it('should call getOrderDetails on orderFacade during initialization', () => {

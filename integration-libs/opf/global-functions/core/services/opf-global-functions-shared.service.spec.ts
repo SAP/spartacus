@@ -40,8 +40,7 @@ const mockPaymentMethod =
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCartId = vi.fn()
-    .mockReturnValue(of('test-cart-id'));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
 class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
@@ -85,7 +84,14 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 function createOpfPaymentFacadeMock(): any {
-  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 describe('OpfGlobalFunctionsSharedService', () => {
@@ -192,8 +198,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
         mockPaymentSessionId
       );
 
-      const callArgs =
-        opfPaymentFacadeMock.submitPayment.mock.lastCall![0];
+      const callArgs = opfPaymentFacadeMock.submitPayment.mock.lastCall![0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 
@@ -206,8 +211,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
       );
 
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
-      const callArgs =
-        opfPaymentFacadeMock.submitPayment.mock.lastCall![0];
+      const callArgs = opfPaymentFacadeMock.submitPayment.mock.lastCall![0];
       expect(callArgs.paymentSessionId).toBe('options-session-id');
     });
 
@@ -284,9 +288,9 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
   describe('loader spinner', () => {
     it('should start loader spinner via LaunchDialogService', () => {
-      const launchSpy = vi.spyOn(launchDialogService, 'launch').mockReturnValue(
-        EMPTY
-      );
+      const launchSpy = vi
+        .spyOn(launchDialogService, 'launch')
+        .mockReturnValue(EMPTY);
 
       service.startLoaderSpinner(componentRef.instance.vcr);
 

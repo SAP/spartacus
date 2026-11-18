@@ -17,8 +17,7 @@ export default defineConfig({
     alias: {
       // NOTE: order matters — specific deep-path aliases must come before bare
       // package aliases, or they get shadowed and fail to resolve.
-      'core-libs/core/src/routing/configurable-routes/url-translation/testing':
-        `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing`,
+      'core-libs/core/src/routing/configurable-routes/url-translation/testing': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing`,
       '@spartacus/opf/base/core': `${root}/integration-libs/opf/base/core/public_api.ts`,
       '@spartacus/opf/base/root': `${root}/integration-libs/opf/base/root/public_api.ts`,
       '@spartacus/opf/checkout/components': `${root}/integration-libs/opf/checkout/components/public_api.ts`,

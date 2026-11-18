@@ -39,7 +39,8 @@ describe('OpfStaticCtaService', () => {
       .subscribe((ctaScriptRequest) => {
         expect(ctaScriptRequest.cartId).toContain('mockPaymentInfoId');
         expect(orderHistoryFacadeMock.getOrderDetails).toHaveBeenCalled();
-        expect(orderFacadeMock.getOrderDetails).not.toHaveBeenCalled();      });
+        expect(orderFacadeMock.getOrderDetails).not.toHaveBeenCalled();
+      });
   });
 
   it('should call orderFacade for CTA on confirmation page', async () => {
@@ -50,7 +51,8 @@ describe('OpfStaticCtaService', () => {
       .subscribe((ctaScriptRequest) => {
         expect(ctaScriptRequest.cartId).toContain('mockPaymentInfoId');
         expect(orderHistoryFacadeMock.getOrderDetails).not.toHaveBeenCalled();
-        expect(orderFacadeMock.getOrderDetails).toHaveBeenCalled();      });
+        expect(orderFacadeMock.getOrderDetails).toHaveBeenCalled();
+      });
   });
 
   it('should throw error when no order Id', async () => {
@@ -63,9 +65,11 @@ describe('OpfStaticCtaService', () => {
       )
       .subscribe({
         next: () => {
-          fail();        },
+          fail();
+        },
         error: (error) => {
-          expect(error).toBeTruthy();        },
+          expect(error).toBeTruthy();
+        },
       });
   });
 

@@ -25,7 +25,11 @@ describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
   let mockActiveCartFacade: any;
 
   beforeEach(async () => {
-    mockActiveCartFacade = { getActive: vi.fn(), addEntry: vi.fn(), removeEntry: vi.fn() };
+    mockActiveCartFacade = {
+      getActive: vi.fn(),
+      addEntry: vi.fn(),
+      removeEntry: vi.fn(),
+    };
 
     mockActiveCartFacade.getActive.mockReturnValue(
       of({
@@ -78,7 +82,8 @@ describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
         totalPrice: {
           value: 150,
         },
-      });    });
+      });
+    });
   });
 
   it('should call getActive on activeCartFacade during ngOnInit', () => {
@@ -102,7 +107,8 @@ describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
     fixture.detectChanges();
 
     component.cart$.subscribe((cart) => {
-      expect(cart).toEqual({});    });
+      expect(cart).toEqual({});
+    });
   });
 
   it('should handle null cart', async () => {
@@ -111,6 +117,7 @@ describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
     fixture.detectChanges();
 
     component.cart$.subscribe((cart) => {
-      expect(cart).toBeUndefined();    });
+      expect(cart).toBeUndefined();
+    });
   });
 });

@@ -70,22 +70,12 @@ describe('OpfCheckoutEmailUpdateComponent', () => {
     fixture = TestBed.createComponent(OpfCheckoutEmailUpdateComponent);
     component = fixture.componentInstance;
 
-    cartGuestUserFacade = TestBed.inject(
-      CartGuestUserFacade
-    ) as any;
-    multiCartFacade = TestBed.inject(
-      MultiCartFacade
-    ) as any;
-    userIdService = TestBed.inject(
-      UserIdService
-    ) as any;
+    cartGuestUserFacade = TestBed.inject(CartGuestUserFacade) as any;
+    multiCartFacade = TestBed.inject(MultiCartFacade) as any;
+    userIdService = TestBed.inject(UserIdService) as any;
     router = TestBed.inject(RoutingService) as any;
-    semanticPathService = TestBed.inject(
-      SemanticPathService
-    ) as any;
-    activeCartFacade = TestBed.inject(
-      ActiveCartFacade
-    ) as any;
+    semanticPathService = TestBed.inject(SemanticPathService) as any;
+    activeCartFacade = TestBed.inject(ActiveCartFacade) as any;
 
     userIdService.takeUserId.mockReturnValue(of('test-user-id'));
     activeCartFacade.takeActiveCartId.mockReturnValue(of('test-cart-id'));

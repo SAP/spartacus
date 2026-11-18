@@ -26,7 +26,8 @@ describe('OpfPaymentEventsService', () => {
   describe('reinitiatePaymentEvent$', () => {
     it('should emit undefined when no payment option ID is provided', async () => {
       service.reinitiatePaymentEvent$.subscribe((paymentOptionId) => {
-        expect(paymentOptionId).toBeUndefined();      });
+        expect(paymentOptionId).toBeUndefined();
+      });
 
       service.emitReinitiatePaymentEvent();
     });
@@ -35,7 +36,8 @@ describe('OpfPaymentEventsService', () => {
       const testPaymentOptionId = 123;
 
       service.reinitiatePaymentEvent$.subscribe((paymentOptionId) => {
-        expect(paymentOptionId).toBe(testPaymentOptionId);      });
+        expect(paymentOptionId).toBe(testPaymentOptionId);
+      });
 
       service.emitReinitiatePaymentEvent(testPaymentOptionId);
     });
@@ -44,7 +46,8 @@ describe('OpfPaymentEventsService', () => {
   describe('emitReinitiatePaymentEvent', () => {
     it('should emit undefined when called without parameters', async () => {
       service.reinitiatePaymentEvent$.subscribe((paymentOptionId) => {
-        expect(paymentOptionId).toBeUndefined();      });
+        expect(paymentOptionId).toBeUndefined();
+      });
 
       service.emitReinitiatePaymentEvent();
     });
@@ -53,7 +56,8 @@ describe('OpfPaymentEventsService', () => {
       const testPaymentOptionId = 789;
 
       service.reinitiatePaymentEvent$.subscribe((paymentOptionId) => {
-        expect(paymentOptionId).toBe(testPaymentOptionId);      });
+        expect(paymentOptionId).toBe(testPaymentOptionId);
+      });
 
       service.emitReinitiatePaymentEvent(testPaymentOptionId);
     });
@@ -62,7 +66,8 @@ describe('OpfPaymentEventsService', () => {
   describe('refreshActiveConfigurationsEvent$', () => {
     it('should emit when emitRefreshActiveConfigurationsEvent is called', async () => {
       service.refreshActiveConfigurationsEvent$.subscribe(() => {
-        expect(true).toBe(true);      });
+        expect(true).toBe(true);
+      });
 
       service.emitRefreshActiveConfigurationsEvent();
     });

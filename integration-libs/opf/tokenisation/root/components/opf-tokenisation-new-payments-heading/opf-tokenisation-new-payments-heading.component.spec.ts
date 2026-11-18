@@ -15,7 +15,10 @@ describe('OpfTokenisationNewPaymentsHeadingComponent', () => {
   let fixture: ComponentFixture<OpfTokenisationNewPaymentsHeadingComponent>;
 
   beforeEach(async () => {
-    const mockUserPaymentService = { getPaymentMethods: vi.fn(), loadPaymentMethods: vi.fn() };
+    const mockUserPaymentService = {
+      getPaymentMethods: vi.fn(),
+      loadPaymentMethods: vi.fn(),
+    };
     mockUserPaymentService.getPaymentMethods.mockReturnValue(of([{ id: '1' }]));
 
     await TestBed.configureTestingModule({

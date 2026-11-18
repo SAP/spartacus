@@ -92,19 +92,13 @@ describe('OpfCheckoutAuthGuard', () => {
     });
 
     guard = TestBed.inject(OpfCheckoutAuthGuard);
-    userIdService = TestBed.inject(
-      UserIdService
-    ) as any;
+    userIdService = TestBed.inject(UserIdService) as any;
     opfCartUserEmailChecker = TestBed.inject(
       OpfCartUserEmailCheckerService
     ) as any;
     routingService = TestBed.inject(RoutingService) as any;
-    semanticPathService = TestBed.inject(
-      SemanticPathService
-    ) as any;
-    activeCartFacade = TestBed.inject(
-      ActiveCartFacade
-    ) as any;
+    semanticPathService = TestBed.inject(SemanticPathService) as any;
+    activeCartFacade = TestBed.inject(ActiveCartFacade) as any;
   });
 
   it('should not call isCartUserHasEmail if not guest user', () => {
@@ -113,14 +107,14 @@ describe('OpfCheckoutAuthGuard', () => {
   });
 
   it('should call super.canActivate() when isGuestCart is false', async () => {
-    const superCanActivateSpy = vi.spyOn(
-      CheckoutAuthGuard.prototype,
-      'canActivate'
-    ).mockReturnValue(of(true));
+    const superCanActivateSpy = vi
+      .spyOn(CheckoutAuthGuard.prototype, 'canActivate')
+      .mockReturnValue(of(true));
     activeCartFacade.isGuestCart.mockReturnValue(of(false));
 
     guard.canActivate().subscribe(() => {
-      expect(superCanActivateSpy).toHaveBeenCalled();    });
+      expect(superCanActivateSpy).toHaveBeenCalled();
+    });
   });
 
   it('should redirect to opfCheckoutEmail if guest cart user does not have email', async () => {
@@ -131,7 +125,8 @@ describe('OpfCheckoutAuthGuard', () => {
     routingService.createUrlTree.mockReturnValue(urlTree);
 
     guard.canActivate().subscribe((result: any) => {
-      expect(result.toString()).toEqual('/opf-checkout-email');    });
+      expect(result.toString()).toEqual('/opf-checkout-email');
+    });
   });
 
   it('should allow activation if guest cart user has a valid email', async () => {
@@ -139,6 +134,7 @@ describe('OpfCheckoutAuthGuard', () => {
     opfCartUserEmailChecker.isCartUserHasEmail.mockReturnValue(of(true));
 
     guard.canActivate().subscribe((result: any) => {
-      expect(result).toBeTruthy();    });
+      expect(result).toBeTruthy();
+    });
   });
 });

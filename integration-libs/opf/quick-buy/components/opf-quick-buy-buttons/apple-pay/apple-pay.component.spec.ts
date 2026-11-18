@@ -46,7 +46,11 @@ describe('ApplePayComponent', () => {
     mockApplePayService = { start: vi.fn(), isApplePaySupported: vi.fn() };
     mockCurrentProductService = { getProduct: vi.fn() };
     mockOpfPaymentErrorHandlerService = { handlePaymentError: vi.fn() };
-    mockOpfQuickBuyTransactionService = { getTransactionLocationContext: vi.fn(), checkStableCart: vi.fn(), getCurrentCart: vi.fn() };
+    mockOpfQuickBuyTransactionService = {
+      getTransactionLocationContext: vi.fn(),
+      checkStableCart: vi.fn(),
+      getCurrentCart: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       imports: [ApplePayComponent],

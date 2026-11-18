@@ -67,7 +67,7 @@ describe('OpfResourceLoaderService', () => {
     });
 
     it('should load provider resources successfully for both scripts and styles', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockScriptResource = {
         url: 'script-url',
         type: OpfDynamicScriptResourceType.SCRIPT,
@@ -90,11 +90,11 @@ describe('OpfResourceLoaderService', () => {
 
       expect(opfResourceLoaderService['loadStyles']).toHaveBeenCalled();
       expect(opfResourceLoaderService['loadScript']).toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should load provider resources successfully for scripts', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockScriptResource = {
         attributes: [{ key: 'crossorigin', value: 'use-credentials' }],
         url: 'script-url',
@@ -109,11 +109,11 @@ describe('OpfResourceLoaderService', () => {
 
       expect(opfResourceLoaderService['loadStyles']).not.toHaveBeenCalled();
       expect(opfResourceLoaderService['loadScript']).toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should load provider resources successfully for styles', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockStyleResource = {
         url: 'style-url',
         type: OpfDynamicScriptResourceType.STYLES,
@@ -126,11 +126,11 @@ describe('OpfResourceLoaderService', () => {
 
       expect(opfResourceLoaderService['loadScript']).not.toHaveBeenCalled();
       expect(opfResourceLoaderService['loadStyles']).toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should load provider resources successfully for styles with no url', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockStyleResource = {
         type: OpfDynamicScriptResourceType.STYLES,
       };
@@ -142,11 +142,11 @@ describe('OpfResourceLoaderService', () => {
 
       expect(opfResourceLoaderService['loadScript']).not.toHaveBeenCalled();
       expect(opfResourceLoaderService['loadStyles']).not.toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should not load provider resources when no resources are provided', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       vi.spyOn<any>(opfResourceLoaderService, 'loadScript');
       vi.spyOn<any>(opfResourceLoaderService, 'loadStyles');
 
@@ -154,11 +154,11 @@ describe('OpfResourceLoaderService', () => {
 
       expect(opfResourceLoaderService['loadScript']).not.toHaveBeenCalled();
       expect(opfResourceLoaderService['loadStyles']).not.toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should mark resource as loaded when script is successfully loaded', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockScriptResource = {
         url: 'script-url',
         type: OpfDynamicScriptResourceType.SCRIPT,
@@ -178,11 +178,11 @@ describe('OpfResourceLoaderService', () => {
       expect(opfResourceLoaderService['loadStyles']).not.toHaveBeenCalled();
       expect(opfResourceLoaderService['loadScript']).toHaveBeenCalled();
       expect(ScriptLoader.prototype.embedScript).toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should handle resource loading error when script is not successfully loaded', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockScriptResource = {
         url: 'script-url',
         type: OpfDynamicScriptResourceType.SCRIPT,
@@ -206,11 +206,11 @@ describe('OpfResourceLoaderService', () => {
       expect(opfResourceLoaderService['loadScript']).toHaveBeenCalled();
 
       expect(ScriptLoader.prototype.embedScript).toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should mark resource as loaded when style is successfully loaded', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockStylesResources = {
         url: 'style-url',
         sri: 'fake-hash-code',
@@ -235,11 +235,11 @@ describe('OpfResourceLoaderService', () => {
       expect(opfResourceLoaderService['loadScript']).not.toHaveBeenCalled();
       expect(opfResourceLoaderService['loadStyles']).toHaveBeenCalled();
       expect(opfResourceLoaderService['embedStyles']).toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should handle resource loading error when style is not successfully loaded', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockStylesResources = {
         url: 'style-url',
         type: OpfDynamicScriptResourceType.STYLES,
@@ -263,11 +263,11 @@ describe('OpfResourceLoaderService', () => {
 
       expect(opfResourceLoaderService['loadStyles']).toHaveBeenCalled();
       expect(opfResourceLoaderService['embedStyles']).toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should not embed styles if there is no style in the element', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockStyleResource = {
         url: 'style-url',
         type: OpfDynamicScriptResourceType.STYLES,
@@ -275,17 +275,16 @@ describe('OpfResourceLoaderService', () => {
 
       vi.spyOn<any>(opfResourceLoaderService, 'embedStyles');
 
-      mockDocument.querySelector = vi.fn()
-        .mockReturnValue({} as Element);
+      mockDocument.querySelector = vi.fn().mockReturnValue({} as Element);
 
       opfResourceLoaderService.loadResources([], [mockStyleResource]);
 
       expect(opfResourceLoaderService['embedStyles']).not.toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should not embed script if there is no script in the element', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockScriptResource = {
         url: 'script-url',
         type: OpfDynamicScriptResourceType.SCRIPT,
@@ -294,13 +293,12 @@ describe('OpfResourceLoaderService', () => {
       const scriptLoader = TestBed.inject(ScriptLoader);
       vi.spyOn<any>(scriptLoader, 'embedScript');
 
-      mockDocument.querySelector = vi.fn()
-        .mockReturnValue({} as Element);
+      mockDocument.querySelector = vi.fn().mockReturnValue({} as Element);
 
       opfResourceLoaderService.loadResources([mockScriptResource]);
 
       expect(scriptLoader.embedScript).not.toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
   });
 
@@ -311,7 +309,7 @@ describe('OpfResourceLoaderService', () => {
     });
 
     it('should not loadStyles with SSR when platform is set to server', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockStyleResource = {
         url: 'style-url',
         type: OpfDynamicScriptResourceType.STYLES,
@@ -320,11 +318,11 @@ describe('OpfResourceLoaderService', () => {
       vi.spyOn<any>(opfResourceLoaderService, 'loadStyles');
       opfResourceLoaderService.loadResources([], [mockStyleResource]);
       expect(opfResourceLoaderService['loadStyles']).not.toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should not loadScript with SSR when platform is set to server', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const mockScriptResource = {
         url: 'script-url',
         type: OpfDynamicScriptResourceType.SCRIPT,
@@ -332,7 +330,7 @@ describe('OpfResourceLoaderService', () => {
       vi.spyOn<any>(opfResourceLoaderService, 'loadScript');
       opfResourceLoaderService.loadResources([], [mockScriptResource]);
       expect(opfResourceLoaderService['loadScript']).not.toHaveBeenCalled();
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
   });
 
@@ -344,7 +342,8 @@ describe('OpfResourceLoaderService', () => {
         remove: vi.fn(),
       };
 
-      mockDocument.querySelectorAll = vi.fn()
+      mockDocument.querySelectorAll = vi
+        .fn()
         .mockReturnValue([mockLinkElement]);
 
       opfResourceLoaderService.clearAllResources();
@@ -368,7 +367,7 @@ describe('OpfResourceLoaderService', () => {
     });
 
     it('should load local PSP resources when available', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       vi.spyOn<any>(opfResourceLoaderService, 'loadScript');
       vi.spyOn<any>(opfResourceLoaderService, 'loadStyles');
 
@@ -392,11 +391,11 @@ describe('OpfResourceLoaderService', () => {
           type: OpfDynamicScriptResourceType.STYLES,
         })
       );
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should fallback to external resources when no local resources are configured', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const externalScript = {
         url: 'external-script.js',
         type: OpfDynamicScriptResourceType.SCRIPT,
@@ -428,11 +427,11 @@ describe('OpfResourceLoaderService', () => {
           type: OpfDynamicScriptResourceType.STYLES,
         })
       );
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should fallback to external resources when paymentOptionId is undefined', async () => {
-    vi.useFakeTimers();
+      vi.useFakeTimers();
       const externalScript = {
         url: 'external-script.js',
         type: OpfDynamicScriptResourceType.SCRIPT,
@@ -448,7 +447,7 @@ describe('OpfResourceLoaderService', () => {
           type: OpfDynamicScriptResourceType.SCRIPT,
         })
       );
-    vi.useRealTimers();
+      vi.useRealTimers();
     });
   });
 
@@ -457,9 +456,14 @@ describe('OpfResourceLoaderService', () => {
       opfResourceLoaderService = TestBed.inject(OpfResourceLoaderService);
 
       const mockScript = document.createElement('script');
-      Object.defineProperty(mockScript, 'innerText', { value: 'console.log("Script executed");', writable: true });
+      Object.defineProperty(mockScript, 'innerText', {
+        value: 'console.log("Script executed");',
+        writable: true,
+      });
       const mockParsedDoc = { getElementsByTagName: () => [mockScript] } as any;
-      vi.spyOn(DOMParser.prototype, 'parseFromString').mockReturnValue(mockParsedDoc);
+      vi.spyOn(DOMParser.prototype, 'parseFromString').mockReturnValue(
+        mockParsedDoc
+      );
       vi.spyOn(console, 'log');
 
       opfResourceLoaderService.executeScriptFromHtml(

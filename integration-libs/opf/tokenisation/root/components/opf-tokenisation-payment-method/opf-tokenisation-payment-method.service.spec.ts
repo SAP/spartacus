@@ -70,10 +70,22 @@ describe('OpfTokenisationPaymentMethodService', () => {
   };
 
   beforeEach(() => {
-    userPaymentService = { loadPaymentMethods: vi.fn(), getPaymentMethods: vi.fn(), getPaymentMethodsLoading: vi.fn(), setPaymentMethodAsDefault: vi.fn() };
-    checkoutPaymentFacade = { getPaymentDetailsState: vi.fn(), setPaymentDetails: vi.fn(), createPaymentDetails: vi.fn() };
+    userPaymentService = {
+      loadPaymentMethods: vi.fn(),
+      getPaymentMethods: vi.fn(),
+      getPaymentMethodsLoading: vi.fn(),
+      setPaymentMethodAsDefault: vi.fn(),
+    };
+    checkoutPaymentFacade = {
+      getPaymentDetailsState: vi.fn(),
+      setPaymentDetails: vi.fn(),
+      createPaymentDetails: vi.fn(),
+    };
     opfMetadataStoreService = { getOpfMetadataState: vi.fn() };
-    savedCardsService = { markCardAsSelected: vi.fn(), clearSelectedPaymentMethodId: vi.fn() };
+    savedCardsService = {
+      markCardAsSelected: vi.fn(),
+      clearSelectedPaymentMethodId: vi.fn(),
+    };
     orderFacade = { placePaymentAuthorizedOrder: vi.fn() };
     routingService = { go: vi.fn() };
     checkoutStepService = { back: vi.fn() };
@@ -84,8 +96,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
     focusService = { findFirstFocusable: vi.fn() };
 
     const mockDocument = {
-      querySelectorAll: vi.fn()
-        .mockReturnValue([]),
+      querySelectorAll: vi.fn().mockReturnValue([]),
       activeElement: null,
     };
     windowRef = { document: mockDocument };
@@ -97,7 +108,9 @@ describe('OpfTokenisationPaymentMethodService', () => {
     savedCardsService = {
       markCardAsSelected: vi.fn(),
       clearSelectedPaymentMethodId: vi.fn(),
-      selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(undefined),
+      selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(
+        undefined
+      ),
     };
 
     // Default mock returns
@@ -172,7 +185,8 @@ describe('OpfTokenisationPaymentMethodService', () => {
       });
 
       service.showSavedCards$.subscribe((value) => {
-        expect(value).toBeTruthy();      });
+        expect(value).toBeTruthy();
+      });
     });
   });
 
@@ -180,12 +194,14 @@ describe('OpfTokenisationPaymentMethodService', () => {
     it('should emit true when busy$ is true', async () => {
       (service as any).busy$.next(true);
       service.isUpdating$.subscribe((value) => {
-        expect(value).toBeTruthy();      });
+        expect(value).toBeTruthy();
+      });
     });
 
     it('should emit false when all loading states are false', async () => {
       service.isUpdating$.subscribe((value) => {
-        expect(value).toBeFalsy();      });
+        expect(value).toBeFalsy();
+      });
     });
   });
 
@@ -195,28 +211,32 @@ describe('OpfTokenisationPaymentMethodService', () => {
       userPaymentService.getPaymentMethods.mockReturnValue(of(mockMethods));
 
       service.existingPaymentMethods$.subscribe((methods) => {
-        expect(methods).toEqual(mockMethods);      });
+        expect(methods).toEqual(mockMethods);
+      });
     });
 
     it('should return empty array when no payment methods', async () => {
       userPaymentService.getPaymentMethods.mockReturnValue(of([]));
 
       service.existingPaymentMethods$.subscribe((methods) => {
-        expect(methods).toEqual([]);      });
+        expect(methods).toEqual([]);
+      });
     });
   });
 
   describe('selectedMethod$', () => {
     it('should initially emit undefined', async () => {
       service.selectedMethod$.subscribe((method) => {
-        expect(method).toBeUndefined();      });
+        expect(method).toBeUndefined();
+      });
     });
 
     it('should emit updated value after selection', async () => {
       (service as any).selectedPaymentMethod$.next(mockPaymentDetails);
 
       service.selectedMethod$.subscribe((method) => {
-        expect(method).toEqual(mockPaymentDetails);      });
+        expect(method).toEqual(mockPaymentDetails);
+      });
     });
   });
 
@@ -430,7 +450,8 @@ describe('OpfTokenisationPaymentMethodService', () => {
       userPaymentService.getPaymentMethods.mockReturnValue(of([]));
 
       service.getCards$().subscribe((cards) => {
-        expect(cards).toEqual([]);      });
+        expect(cards).toEqual([]);
+      });
     });
 
     it('should return cards mapped from payment methods', async () => {
@@ -443,7 +464,8 @@ describe('OpfTokenisationPaymentMethodService', () => {
       service.getCards$().subscribe((cards) => {
         expect(cards.length).toBe(1);
         expect(cards[0].paymentMethod).toEqual(mockPaymentDetails);
-        expect(cards[0].content).toBeDefined();      });
+        expect(cards[0].content).toBeDefined();
+      });
     });
 
     it('should mark selected card with selected header', async () => {
@@ -455,7 +477,8 @@ describe('OpfTokenisationPaymentMethodService', () => {
       orderFacade.placePaymentAuthorizedOrder.mockReturnValue(of(null));
 
       service.getCards$().subscribe((cards) => {
-        expect(cards[0].content.header).toBe('paymentCard.selected');      });
+        expect(cards[0].content.header).toBe('paymentCard.selected');
+      });
     });
 
     it('should show action button for unselected cards', async () => {
@@ -465,7 +488,8 @@ describe('OpfTokenisationPaymentMethodService', () => {
       (service as any).selectedPaymentMethod$.next(undefined);
 
       service.getCards$().subscribe((cards) => {
-        expect(cards[0].content.actions?.length).toBeGreaterThan(0);      });
+        expect(cards[0].content.actions?.length).toBeGreaterThan(0);
+      });
     });
   });
 
@@ -979,7 +1003,8 @@ describe('OpfTokenisationPaymentMethodService', () => {
         }
       );
 
-      (windowRef.document as any).querySelectorAll = vi.fn()
+      (windowRef.document as any).querySelectorAll = vi
+        .fn()
         .mockReturnValue([mockCard]);
       (windowRef.document as any).activeElement = {
         closest: vi.fn().mockReturnValue(mockCard),
@@ -993,7 +1018,8 @@ describe('OpfTokenisationPaymentMethodService', () => {
       (service as any).busy$.next(false);
 
       expect(focusService.findFirstFocusable).toHaveBeenCalledWith(mockCard);
-      expect(mockFocusable.focus).toHaveBeenCalled();    });
+      expect(mockFocusable.focus).toHaveBeenCalled();
+    });
   });
 
   describe('destroy()', () => {

@@ -165,7 +165,9 @@ describe('PunchoutAuthService', () => {
   });
 
   it('should isLoggedIn fetch authService isLoggedIn first value only', async () => {
-    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false, true, true));
+    vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
+      of(false, true, true)
+    );
     let count = 0;
     await new Promise<void>((resolve) => {
       service.isUserLoggedIn().subscribe({

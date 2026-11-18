@@ -19,9 +19,7 @@ describe('OpfCartUserEmailCheckerService', () => {
     });
 
     service = TestBed.inject(OpfCartUserEmailCheckerService);
-    opfCheckoutConnector = TestBed.inject(
-      OpfCheckoutConnector
-    ) as any;
+    opfCheckoutConnector = TestBed.inject(OpfCheckoutConnector) as any;
   });
 
   it('should return false if the user email is not assigned', async () => {
@@ -31,7 +29,8 @@ describe('OpfCartUserEmailCheckerService', () => {
     service
       .isCartUserHasEmail('test-user-id', 'test-cart-id')
       .subscribe((result) => {
-        expect(result).toBeFalsy();      });
+        expect(result).toBeFalsy();
+      });
   });
 
   it('should return true if the user email is assigned', async () => {
@@ -41,6 +40,7 @@ describe('OpfCartUserEmailCheckerService', () => {
     service
       .isCartUserHasEmail('test-user-id', 'test-cart-id')
       .subscribe((result) => {
-        expect(result).toBeTruthy();      });
+        expect(result).toBeTruthy();
+      });
   });
 });

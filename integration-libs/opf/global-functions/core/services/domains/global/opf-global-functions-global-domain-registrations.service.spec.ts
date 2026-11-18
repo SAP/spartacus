@@ -88,14 +88,10 @@ class MockRoutingService implements Partial<RoutingService> {
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCart = vi.fn()
-    .mockReturnValue(of(mockCart));
-  getCurrentCartId = vi.fn()
-    .mockReturnValue(of('test-cart-id'));
-  getDeliveryAddress = vi.fn()
-    .mockReturnValue(of(undefined));
-  getSelectedDeliveryMode = vi.fn()
-    .mockReturnValue(of(undefined));
+  getCurrentCart = vi.fn().mockReturnValue(of(mockCart));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
+  getDeliveryAddress = vi.fn().mockReturnValue(of(undefined));
+  getSelectedDeliveryMode = vi.fn().mockReturnValue(of(undefined));
 }
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
@@ -103,7 +99,14 @@ class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
 }
 
 function createOpfPaymentFacadeMock(): any {
-  return { submitPayment: vi.fn(), submitCompletePayment: vi.fn(), getActiveConfigurationsState: vi.fn(), verifyPayment: vi.fn(), initiatePayment: vi.fn(), updatePaymentTransaction: vi.fn() };
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 describe('OpfGlobalFunctionsGlobalDomainRegistrationsService', () => {

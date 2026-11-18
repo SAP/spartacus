@@ -20,9 +20,7 @@ const routerStateSubject = new BehaviorSubject<RouterState>({
 } as unknown as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = vi.fn().mockReturnValue(
-    routerStateSubject.asObservable()
-  );
+  getRouterState = vi.fn().mockReturnValue(routerStateSubject.asObservable());
 }
 
 describe('OpfQuickBuyButtonsComponent', () => {
@@ -31,7 +29,12 @@ describe('OpfQuickBuyButtonsComponent', () => {
   let opfQuickBuyButtonsServiceMock: any;
 
   beforeEach(async () => {
-    opfQuickBuyButtonsServiceMock = { getPaymentGatewayConfiguration: vi.fn(), isQuickBuyProviderEnabled: vi.fn(), getQuickBuyProviderConfig: vi.fn(), getActiveConfigurationForProvider: vi.fn() };
+    opfQuickBuyButtonsServiceMock = {
+      getPaymentGatewayConfiguration: vi.fn(),
+      isQuickBuyProviderEnabled: vi.fn(),
+      getQuickBuyProviderConfig: vi.fn(),
+      getActiveConfigurationForProvider: vi.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [OpfQuickBuyButtonsComponent],

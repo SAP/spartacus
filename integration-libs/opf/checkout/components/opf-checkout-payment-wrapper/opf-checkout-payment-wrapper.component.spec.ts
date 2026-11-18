@@ -37,7 +37,12 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   let cartStableSubject: Subject<boolean>;
 
   beforeEach(() => {
-    mockService = { getRenderPaymentMethodEvent: vi.fn(), initiatePayment: vi.fn(), reloadPaymentMode: vi.fn(), removePaymentProviderResources: vi.fn() };
+    mockService = {
+      getRenderPaymentMethodEvent: vi.fn(),
+      initiatePayment: vi.fn(),
+      reloadPaymentMode: vi.fn(),
+      removePaymentProviderResources: vi.fn(),
+    };
 
     // Setup default return value for initiatePayment
     mockService.initiatePayment.mockReturnValue(
@@ -47,7 +52,10 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       })
     );
 
-    mockGlobalFunctionsService = { registerGlobalFunctions: vi.fn(), unregisterGlobalFunctions: vi.fn() };
+    mockGlobalFunctionsService = {
+      registerGlobalFunctions: vi.fn(),
+      unregisterGlobalFunctions: vi.fn(),
+    };
 
     mockPaymentEventsService = {
       emitReinitiatePaymentEvent: vi.fn(),
@@ -177,7 +185,9 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
 
   it('should bypassSecurityTrustHtml call bypassSecurityTrustHtml', () => {
     const html = '<script>console.log("script");</script>';
-    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(
+      () => {}
+    );
     component.bypassSecurityTrustHtml(html);
 
     expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(html);
@@ -185,7 +195,9 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
 
   it('should bypassSecurityTrustResourceUrl call bypassSecurityTrustResourceUrl', () => {
     const url = 'https://sap.com';
-    vi.spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').mockImplementation(() => {});
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').mockImplementation(
+      () => {}
+    );
     component.bypassSecurityTrustResourceUrl(url);
 
     expect(domSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
@@ -286,21 +298,27 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   });
 
   it('should handle bypassSecurityTrustHtml with null input', () => {
-    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(
+      () => {}
+    );
     component.bypassSecurityTrustHtml(null as any);
 
     expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(null);
   });
 
   it('should handle bypassSecurityTrustHtml with empty string', () => {
-    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(
+      () => {}
+    );
     component.bypassSecurityTrustHtml('');
 
     expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith('');
   });
 
   it('should handle bypassSecurityTrustResourceUrl with null input', () => {
-    vi.spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').mockImplementation(() => {});
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').mockImplementation(
+      () => {}
+    );
     component.bypassSecurityTrustResourceUrl(null as any);
 
     expect(domSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
@@ -309,7 +327,9 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   });
 
   it('should handle bypassSecurityTrustResourceUrl with empty string', () => {
-    vi.spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').mockImplementation(() => {});
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').mockImplementation(
+      () => {}
+    );
     component.bypassSecurityTrustResourceUrl('');
 
     expect(domSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(

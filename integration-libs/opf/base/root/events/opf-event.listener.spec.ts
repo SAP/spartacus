@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { OpfMetadataStoreService } from '../services';
 import { OpfEventListenerService } from './opf-event.listener';
 
-
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {

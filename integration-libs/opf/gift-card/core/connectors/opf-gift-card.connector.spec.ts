@@ -62,7 +62,8 @@ describe('OpfGiftCardConnector', () => {
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
         .subscribe((response) => {
-          expect(response).toEqual(mockSAPGiftCardResponse);        });
+          expect(response).toEqual(mockSAPGiftCardResponse);
+        });
     });
 
     it('should pass correct parameters to adapter', async () => {
@@ -80,7 +81,8 @@ describe('OpfGiftCardConnector', () => {
             'user-456',
             'cart-456',
             mockRequest
-          );        });
+          );
+        });
     });
 
     it('should handle adapter error', async () => {
@@ -94,7 +96,8 @@ describe('OpfGiftCardConnector', () => {
 
       connector.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe({
         error: (error) => {
-          expect(error).toEqual(mockError);        },
+          expect(error).toEqual(mockError);
+        },
       });
     });
 
@@ -113,7 +116,8 @@ describe('OpfGiftCardConnector', () => {
           expect(response.maskedNumber).toBe('****1111');
           expect(response.balance.value).toBe(100);
           expect(response.appliedAmount.value).toBe(20);
-          expect(response.remainingBalance.value).toBe(80);        });
+          expect(response.remainingBalance.value).toBe(80);
+        });
     });
 
     it('should handle different user IDs', async () => {
@@ -131,7 +135,8 @@ describe('OpfGiftCardConnector', () => {
             'user-special-id',
             'cart-123',
             mockRequest
-          );        });
+          );
+        });
     });
 
     it('should handle different cart IDs', async () => {
@@ -149,7 +154,8 @@ describe('OpfGiftCardConnector', () => {
             'user-123',
             'cart-special-id',
             mockRequest
-          );        });
+          );
+        });
     });
 
     it('should handle multiple gift card responses', async () => {
@@ -176,7 +182,8 @@ describe('OpfGiftCardConnector', () => {
         .applyGiftCard('user-123', 'cart-123', mockRequest)
         .subscribe((response) => {
           expect(response.id).toBe('gc-456');
-          expect(response.balance.value).toBe(50);        });
+          expect(response.balance.value).toBe(50);
+        });
     });
 
     it('should only call adapter once per subscription', async () => {
@@ -190,7 +197,8 @@ describe('OpfGiftCardConnector', () => {
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
         .subscribe(() => {
-          expect(mockAdapter.applyGiftCard).toHaveBeenCalledTimes(1);        });
+          expect(mockAdapter.applyGiftCard).toHaveBeenCalledTimes(1);
+        });
     });
   });
 
@@ -205,7 +213,8 @@ describe('OpfGiftCardConnector', () => {
             'user-123',
             'cart-123',
             'gc-123'
-          );        });
+          );
+        });
     });
 
     it('should pass correct parameters to adapter', async () => {
@@ -218,7 +227,8 @@ describe('OpfGiftCardConnector', () => {
             'user-456',
             'cart-456',
             'gc-456'
-          );        });
+          );
+        });
     });
 
     it('should handle successful removal', async () => {
@@ -230,7 +240,8 @@ describe('OpfGiftCardConnector', () => {
           completed = true;
         },
         complete: () => {
-          expect(completed).toBeTruthy();        },
+          expect(completed).toBeTruthy();
+        },
       });
     });
 
@@ -240,7 +251,8 @@ describe('OpfGiftCardConnector', () => {
 
       connector.removeGiftCard('user-123', 'cart-123', 'gc-123').subscribe({
         error: (error) => {
-          expect(error).toEqual(mockError);        },
+          expect(error).toEqual(mockError);
+        },
       });
     });
 
@@ -254,7 +266,8 @@ describe('OpfGiftCardConnector', () => {
             'user-123',
             'cart-123',
             'gc-special-id'
-          );        });
+          );
+        });
     });
 
     it('should handle multiple removals', async () => {
@@ -271,7 +284,8 @@ describe('OpfGiftCardConnector', () => {
 
       connector.removeGiftCard('user-123', 'cart-123', 'gc-123').subscribe({
         next: (result) => {
-          expect(result).toBeUndefined();        },
+          expect(result).toBeUndefined();
+        },
       });
     });
 
@@ -281,7 +295,8 @@ describe('OpfGiftCardConnector', () => {
       connector
         .removeGiftCard('user-123', 'cart-123', 'gc-123')
         .subscribe(() => {
-          expect(mockAdapter.removeGiftCard).toHaveBeenCalledTimes(1);        });
+          expect(mockAdapter.removeGiftCard).toHaveBeenCalledTimes(1);
+        });
     });
   });
 
@@ -352,7 +367,7 @@ describe('OpfGiftCardConnector', () => {
       });
 
       expect(subscription1Emitted).toBeTruthy();
-      expect(subscription2Emitted).toBeTruthy(); 
+      expect(subscription2Emitted).toBeTruthy();
     });
   });
 
@@ -368,7 +383,8 @@ describe('OpfGiftCardConnector', () => {
 
       connector.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe({
         error: (error) => {
-          expect(error).toEqual(mockError);        },
+          expect(error).toEqual(mockError);
+        },
       });
     });
 
@@ -378,7 +394,8 @@ describe('OpfGiftCardConnector', () => {
 
       connector.removeGiftCard('user-123', 'cart-123', 'gc-123').subscribe({
         error: (error) => {
-          expect(error).toEqual(mockError);        },
+          expect(error).toEqual(mockError);
+        },
       });
     });
   });
@@ -398,7 +415,8 @@ describe('OpfGiftCardConnector', () => {
           expect(typeof response).toBe('object');
           expect(response.id).toBeTruthy();
           expect(response.maskedNumber).toBeTruthy();
-          expect(response.balance).toBeTruthy();        });
+          expect(response.balance).toBeTruthy();
+        });
     });
 
     it('should return void type for removeGiftCard', async () => {
@@ -407,7 +425,8 @@ describe('OpfGiftCardConnector', () => {
       connector
         .removeGiftCard('user-123', 'cart-123', 'gc-123')
         .subscribe(() => {
-          expect(true).toBeTruthy();        });
+          expect(true).toBeTruthy();
+        });
     });
   });
 });

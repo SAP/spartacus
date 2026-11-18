@@ -234,7 +234,6 @@ describe('OpfTokenisationSavedCardsService', () => {
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: null });
       expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalled();
-
     });
 
     it('should not delete when staying in SAVED_CARDS_ID', async () => {
@@ -242,9 +241,7 @@ describe('OpfTokenisationSavedCardsService', () => {
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
 
-      expect(
-        checkoutPaymentFacade.deletePaymentDetails
-      ).not.toHaveBeenCalled();
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
 
     it('should not delete when prev is not SAVED_CARDS_ID', async () => {
@@ -252,18 +249,14 @@ describe('OpfTokenisationSavedCardsService', () => {
       metadataState$.next({ selectedPaymentOptionId: 100 });
       metadataState$.next({ selectedPaymentOptionId: 200 });
 
-      expect(
-        checkoutPaymentFacade.deletePaymentDetails
-      ).not.toHaveBeenCalled();
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
 
     it('should not delete when transitioning to SAVED_CARDS_ID', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: 999 });
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
-      expect(
-        checkoutPaymentFacade.deletePaymentDetails
-      ).not.toHaveBeenCalled();
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
   });
 
@@ -274,7 +267,6 @@ describe('OpfTokenisationSavedCardsService', () => {
       metadataState$.next({ selectedPaymentOptionId: 5 });
 
       expect((service as any).cardSelected$.value).toBe(false);
-
     });
 
     it('cardSelected$ should remain false if deletion not triggered', async () => {
@@ -283,7 +275,6 @@ describe('OpfTokenisationSavedCardsService', () => {
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
 
       expect((service as any).cardSelected$.value).toBe(true);
-
     });
   });
 
@@ -294,9 +285,7 @@ describe('OpfTokenisationSavedCardsService', () => {
       metadataState$.next({ selectedPaymentOptionId: 10 });
       metadataState$.next({ selectedPaymentOptionId: 1 });
 
-      expect(
-        checkoutPaymentFacade.deletePaymentDetails
-      ).not.toHaveBeenCalled();
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
 
     it('should process duplicate SAVED_CARDS_ID values once', async () => {
@@ -305,9 +294,7 @@ describe('OpfTokenisationSavedCardsService', () => {
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: 1 });
 
-      expect(
-        checkoutPaymentFacade.deletePaymentDetails
-      );
+      expect(checkoutPaymentFacade.deletePaymentDetails);
     });
   });
 

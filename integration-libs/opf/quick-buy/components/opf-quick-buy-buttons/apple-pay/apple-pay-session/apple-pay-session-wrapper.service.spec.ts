@@ -183,13 +183,17 @@ describe('ApplePaySessionFactory', () => {
   it('should return true for isApplePaySupported when device is supported', async () => {
     applePaySessionWrapperService.setIsDeviceSupported(true);
     const merchantId = 'merchantId';
-    const result = await firstValueFrom(applePaySessionWrapperService.isApplePaySupported(merchantId));
+    const result = await firstValueFrom(
+      applePaySessionWrapperService.isApplePaySupported(merchantId)
+    );
     expect(result).toEqual(true);
   });
   it('should return false for isApplePaySupported when device is not supported', async () => {
     applePaySessionWrapperService.setIsDeviceSupported(false);
     const merchantId = 'merchantId';
-    const result = await firstValueFrom(applePaySessionWrapperService.isApplePaySupported(merchantId));
+    const result = await firstValueFrom(
+      applePaySessionWrapperService.isApplePaySupported(merchantId)
+    );
     expect(result).toEqual(false);
   });
 

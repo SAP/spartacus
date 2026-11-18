@@ -23,7 +23,10 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
   let mockRoutingService: any;
 
   beforeEach(async () => {
-    mockCheckoutStepService = { goToNextStep: vi.fn(), getPreviousStep: vi.fn() };
+    mockCheckoutStepService = {
+      goToNextStep: vi.fn(),
+      getPreviousStep: vi.fn(),
+    };
 
     mockRouter = { navigate: vi.fn() };
 
@@ -100,7 +103,8 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
     fixture.detectChanges();
 
     component.isPaymentAndReviewStep$.subscribe((result) => {
-      expect(result).toBe(true);    });
+      expect(result).toBe(true);
+    });
   });
 
   it('should return false for isPaymentAndReviewStep$ when on delivery address step', async () => {
@@ -134,7 +138,8 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
     fixture.detectChanges();
 
     component.isPaymentAndReviewStep$.subscribe((result) => {
-      expect(result).toBe(false);    });
+      expect(result).toBe(false);
+    });
   });
 
   it('should calculate giftCardCartTotal correctly', () => {
