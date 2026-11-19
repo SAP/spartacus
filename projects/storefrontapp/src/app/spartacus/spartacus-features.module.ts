@@ -300,6 +300,7 @@ if (environment.cpq) {
         useGoogleMapsAsyncLoading: true,
         productConfiguratorConsolidatedButtonDisabling: true,
         productConfiguratorCPQContainer: true,
+        productConfiguratorDropDownList: true,
         productConfiguratorReadOnlyCartEntryConfiguration: true,
         improvedTabStyling: true,
         alignNavigationMenuWithHeader: true,

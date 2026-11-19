@@ -119,6 +119,7 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     return of({
       ...ovInput,
       groups,
+      possibleGroups: ovInput.possibleGroups,
     });
   }
 
