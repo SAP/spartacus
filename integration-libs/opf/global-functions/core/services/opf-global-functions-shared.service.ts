@@ -49,6 +49,7 @@ export type OpfSharedPaymentSubmitOptions = {
   paymentMethod: OpfPaymentMethod;
   paymentSessionId?: string;
   savePaymentMethod?: boolean;
+  cardNickName?: string;
 };
 
 export type OpfSharedPaymentSubmitCompleteOptions = {
@@ -59,6 +60,7 @@ export type OpfSharedPaymentSubmitCompleteOptions = {
   submitCancel?: OpfPaymentMerchantCallback;
   paymentSessionId?: string;
   savePaymentMethod?: boolean;
+  cardNickName?: string;
 };
 
 @Injectable()
@@ -135,6 +137,7 @@ export class OpfGlobalFunctionsSharedService {
         },
         paymentMethod,
         savePaymentMethod,
+        cardNickName,
       } = options;
 
       const callbacks: {
@@ -160,6 +163,7 @@ export class OpfGlobalFunctionsSharedService {
             paymentMethod,
             returnPath: undefined,
             savePaymentMethod,
+            cardNickName,
           })
           .pipe(
             last(() => true, true),
@@ -198,6 +202,7 @@ export class OpfGlobalFunctionsSharedService {
           // this is intentional
         },
         savePaymentMethod,
+        cardNickName,
       } = options;
 
       return this.runSubmitComplete(
@@ -211,7 +216,8 @@ export class OpfGlobalFunctionsSharedService {
         finalPaymentSessionId,
         undefined,
         vcr,
-        savePaymentMethod
+        savePaymentMethod,
+        cardNickName
       );
     });
   }
@@ -227,7 +233,8 @@ export class OpfGlobalFunctionsSharedService {
     paymentSessionId: string,
     returnPath?: string | undefined,
     vcr?: ViewContainerRef,
-    savePaymentMethod: boolean | undefined = undefined
+    savePaymentMethod: boolean | undefined = undefined,
+    cardNickName?: string
   ): Promise<boolean> {
     return this.ngZone.run(() => {
       let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
@@ -243,6 +250,7 @@ export class OpfGlobalFunctionsSharedService {
             callbacks,
             returnPath,
             savePaymentMethod,
+            cardNickName,
           })
           .pipe(
             finalize(() => {

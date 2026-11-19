@@ -203,6 +203,29 @@ describe('OpfGlobalFunctionsSharedService', () => {
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 
+    it('should forward cardNickName to submitPayment facade', async () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+
+      await service.submit(
+        { ...submitOptions, cardNickName: 'Corporate Card' },
+        mockPaymentSessionId
+      );
+
+      const callArgs =
+        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+      expect(callArgs.cardNickName).toBe('Corporate Card');
+    });
+
+    it('should not include cardNickName when omitted', async () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+
+      await service.submit({ ...submitOptions }, mockPaymentSessionId);
+
+      const callArgs =
+        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+      expect(callArgs.cardNickName).toBeUndefined();
+    });
+
     it('should use paymentSessionId from options when provided', async () => {
       opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
 
@@ -272,6 +295,29 @@ describe('OpfGlobalFunctionsSharedService', () => {
       const callArgs =
         opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
+    });
+
+    it('should forward cardNickName to submitCompletePayment facade', async () => {
+      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+
+      await service.submitComplete(
+        { ...submitOptions, cardNickName: 'Travel Card' },
+        mockPaymentSessionId
+      );
+
+      const callArgs =
+        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+      expect(callArgs.cardNickName).toBe('Travel Card');
+    });
+
+    it('should not include cardNickName when omitted', async () => {
+      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+
+      await service.submitComplete({ ...submitOptions }, mockPaymentSessionId);
+
+      const callArgs =
+        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+      expect(callArgs.cardNickName).toBeUndefined();
     });
 
     it('should use default callbacks when none are provided', async () => {
