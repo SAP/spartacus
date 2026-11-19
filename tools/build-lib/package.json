@@ -16,9 +16,9 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@angular-devkit/architect": "^0.2202.6"
+    "@angular-devkit/architect": "^0.2203.0"
   },
   "overrides": {
-    "fast-uri@^3": "3.1.8"
+    "fast-uri@^3": "3.1.9"
   }
 }

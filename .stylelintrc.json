@@ -1,6 +1,6 @@
 {
   "extends": "stylelint-config-recommended-scss",
-  "plugins": ["./tools/stylelint-rules"],
+  "plugins": ["./tools/stylelint-rules/index.js"],
   "rules": {
     "spartacus/valid-for-feature-mixin-argument": true,
     "block-no-empty": null,
