@@ -7,13 +7,22 @@
 import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
 import {
   CmsService,
+  FeatureToggles,
   isNotUndefined,
   LoggerService,
   Page,
+  PageTemplateService,
   UnifiedInjector,
 } from '@spartacus/core';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+} from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import {
   BREAKPOINT,
@@ -23,6 +32,8 @@ import {
 } from '../../../layout/config/layout-config';
 import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
 
+const SHELL_TEMPLATE_SECTIONS = ['header', 'navigation', 'footer'] as string[];
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,12 +42,14 @@ export class PageLayoutService implements OnDestroy {
   protected subscription = new Subscription();
 
   protected logger = inject(LoggerService);
+  protected pageTemplateService = inject(PageTemplateService);
+  private readonly featureToggles = inject(FeatureToggles);
 
   constructor(
-    private cms: CmsService,
-    private config: LayoutConfig,
-    private breakpointService: BreakpointService,
-    private unifiedInjector: UnifiedInjector
+    private readonly cms: CmsService,
+    private readonly config: LayoutConfig,
+    private readonly breakpointService: BreakpointService,
+    private readonly unifiedInjector: UnifiedInjector
   ) {
     this.subscription.add(
       this.unifiedInjector
@@ -51,11 +64,77 @@ export class PageLayoutService implements OnDestroy {
   private warnLogMessages: any = {};
   private logSlots: any = {};
 
+  get page$(): Observable<Page> {
+    return this.cms.getCurrentPage().pipe(filter((page) => !!page));
+  }
+
+  get templateName$(): Observable<string> {
+    return this.page$.pipe(
+      map((page: Page) => page.template),
+      filter(isNotUndefined)
+    );
+  }
+
+  /**
+   * Observable that emits true if the current page uses a custom template,
+   * false if it uses a predefined template.
+   */
+  get isCustomTemplate$(): Observable<boolean> {
+    return this.page$.pipe(
+      map((page: Page) => page.templateOrigin === 'CUSTOM')
+    );
+  }
+
+  get customSections$() {
+    return this.page$.pipe(
+      switchMap((page) =>
+        this.featureToggles.enableCustomPageTemplate &&
+        page.templateOrigin === 'CUSTOM' &&
+        page.templateId
+          ? this.pageTemplateService
+              .getPageTemplateSections(page.templateId)
+              .pipe(catchError(() => of(null)))
+          : of(null)
+      )
+    );
+  }
+
+  // Shared shell template fetch — one request per page, result cached and
+  // replayed to all section subscribers.
+  private readonly shellTemplate$ = this.page$.pipe(
+    distinctUntilChanged(
+      (a, b) =>
+        a.templateId === b.templateId && a.templateOrigin === b.templateOrigin
+    ),
+    switchMap((page) =>
+      page.templateOrigin === 'CUSTOM' && page.templateId
+        ? this.pageTemplateService
+            .getShellTemplate(page.templateId)
+            .pipe(catchError(() => of('')))
+        : of('')
+    ),
+    shareReplay(1)
+  );
+
   getSlots(section?: string): Observable<string[]> {
-    return combineLatest([this.page$, this.breakpointService.breakpoint$]).pipe(
-      map(([page, breakpoint]) => {
-        const pageTemplate = page.template;
-        const slots = this.resolveSlots(page, section, breakpoint);
+    return this.page$.pipe(
+      switchMap((page) =>
+        this.getOverrideTemplate(page, section).pipe(
+          switchMap((overrideTemplate) =>
+            this.breakpointService.breakpoint$.pipe(
+              map((breakpoint) => ({ page, breakpoint, overrideTemplate }))
+            )
+          )
+        )
+      ),
+      map(({ page, breakpoint, overrideTemplate }) => {
+        const slots = this.resolveSlots(
+          page,
+          section,
+          breakpoint,
+          overrideTemplate
+        );
+        const pageTemplate = overrideTemplate ?? page.template;
         return { slots, pageTemplate, breakpoint };
       }),
       switchMap(({ slots, pageTemplate, breakpoint }) => {
@@ -103,38 +182,50 @@ export class PageLayoutService implements OnDestroy {
     );
   }
 
+  /**
+   * Resolves the template used to read slot configuration for the current section.
+   * Custom pages reuse the shell template for header/navigation/footer sections
+   * so they inherit the configured slots, while other sections use the page template.
+   */
+  private getOverrideTemplate(
+    page: Page,
+    section: string | undefined
+  ): Observable<string | undefined> {
+    if (
+      this.featureToggles.enableCustomPageTemplate &&
+      page.templateOrigin === 'CUSTOM' &&
+      SHELL_TEMPLATE_SECTIONS.includes(section || '')
+    ) {
+      return this.shellTemplate$;
+    }
+    return of(page.template);
+  }
+
   private resolveSlots(
     page: Page,
     section: string | undefined,
-    breakpoint: BREAKPOINT
+    breakpoint: BREAKPOINT,
+    templateOverride?: string
   ): string[] {
+    const templateToUse = templateOverride ?? page.template ?? '';
     const config = this.getSlotConfig(
-      page.template ?? '',
+      templateToUse,
       'slots',
       section,
       breakpoint
     );
-    if (config && config.slots) {
+    if (config?.slots) {
       const pageSlots = page.slots ? Object.keys(page.slots) : [];
-      return config.slots.filter((slot) => pageSlots.includes(slot));
+      return config.slots.filter((slot: string) => pageSlots.includes(slot));
     } else if (!section) {
       this.logMissingLayoutConfig(page);
       return page.slots ? Object.keys(page.slots) : [];
+    } else if (page.templateOrigin === 'CUSTOM') {
+      return [];
     } else {
       this.logMissingLayoutConfig(page, section);
       return [];
     }
-  }
-
-  get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(filter((page) => !!page));
-  }
-
-  get templateName$(): Observable<string> {
-    return this.page$.pipe(
-      map((page: Page) => page.template),
-      filter(isNotUndefined)
-    );
   }
 
   /**

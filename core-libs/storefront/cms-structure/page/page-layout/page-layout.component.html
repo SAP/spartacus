@@ -10,9 +10,21 @@
 >
   <ng-content />
 
-  <cx-page-slot
-    *ngFor="let slot of slots$ | async"
-    [position]="slot"
-    [isPageFold]="slot === (pageFoldSlot$ | async)"
-  />
+  <ng-container *ngIf="customSections$ | async as sections; else normalSlots">
+    <div *ngFor="let section of sections" class="custom-section">
+      <cx-page-slot
+        *ngFor="let item of section.sectionItems"
+        class="custom-slot"
+        [position]="item.position"
+        [ngStyle]="convertToStyle(item)"
+      />
+    </div>
+  </ng-container>
+  <ng-template #normalSlots>
+    <cx-page-slot
+      *ngFor="let slot of slots$ | async"
+      [position]="slot"
+      [isPageFold]="slot === (pageFoldSlot$ | async)"
+    />
+  </ng-template>
 </ng-template>

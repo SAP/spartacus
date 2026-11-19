@@ -7,6 +7,28 @@
 import { CmsComponent } from '../../model/cms.model';
 import { ContentSlotData } from './content-slot-data.model';
 
+export interface CustomPageTemplate {
+  id: string;
+  name?: string;
+  sections?: CustomSection[];
+  shellTemplate?: string;
+  origin: 'BUILT_IN' | 'CUSTOM';
+}
+
+export interface CustomSection {
+  name: string;
+  sectionItems: SectionItem[];
+}
+
+export interface SectionItem {
+  name: string;
+  position: string;
+  rowStart: number;
+  colStart: number;
+  rowSpan: number;
+  colSpan: number;
+}
+
 export interface Page {
   pageId?: string;
   name?: string;
@@ -23,6 +45,16 @@ export interface Page {
    * Lists the page robot information for the given page: `INDEX`, `NOINDEX`, `FOLLOW` or `NOFOLLOW`
    */
   robots?: PageRobotsMeta[];
+
+  /**
+   * Indicates whether the page uses a built-in or custom page template.
+   */
+  templateOrigin?: 'BUILT_IN' | 'CUSTOM';
+
+  /**
+   * The base64-encoded unique identifier of the custom page template.
+   */
+  templateId?: string;
 }
 
 /**

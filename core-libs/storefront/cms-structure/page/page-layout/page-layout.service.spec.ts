@@ -1,7 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsService, Page } from '@spartacus/core';
+import {
+  CmsService,
+  CustomSection,
+  FeatureToggles,
+  Page,
+  PageTemplateService,
+} from '@spartacus/core';
 import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import {
+  EMPTY,
+  firstValueFrom,
+  Observable,
+  of,
+  ReplaySubject,
+  Subject,
+  throwError,
+} from 'rxjs';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 import { PageLayoutService } from './page-layout.service';
@@ -47,6 +61,16 @@ const MockLayoutConfig: LayoutConfig = {
     },
     page_template_3: {
       slots: ['slot1', 'slot123'],
+    },
+    // shell template used by custom pages
+    shell_template: {
+      slots: ['slot1', 'slot2'],
+      header: {
+        slots: ['HeaderSlot'],
+      },
+      footer: {
+        slots: ['FooterSlot'],
+      },
     },
     // page fold specific pages
     template_with_global_page_fold: {
@@ -104,9 +128,33 @@ const page_3 = {
   },
 };
 
+const page_custom = {
+  uid: 'page_custom',
+  template: 'custom_page_template',
+  templateOrigin: 'CUSTOM' as const,
+  templateId: 'customTplId',
+  title: PAGE_TITLE,
+  slots: {
+    slot1: {},
+    slot2: {},
+    HeaderSlot: {},
+    FooterSlot: {},
+  },
+};
+
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return EMPTY;
+  }
+}
+
+class MockPageTemplateService {
+  getPageTemplateSections(_templateId: string): Observable<CustomSection[]> {
+    return of([]);
+  }
+
+  getShellTemplate(_templateId: string): Observable<string> {
+    return of('');
   }
 }
 
@@ -126,6 +174,8 @@ describe('PageLayoutService', () => {
   let pageLayoutService: PageLayoutService;
   let cmsService: CmsService;
   let breakpointService: BreakpointService;
+  let currentPage$: ReplaySubject<Page>;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -134,6 +184,11 @@ describe('PageLayoutService', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: BreakpointService, useClass: MockBreakpointService },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
+        { provide: PageTemplateService, useClass: MockPageTemplateService },
+        {
+          provide: FeatureToggles,
+          useValue: { enableCustomPageTemplate: false },
+        },
         {
           provide: PAGE_LAYOUT_HANDLER,
           useClass: SimplePageLayoutHandler,
@@ -147,9 +202,16 @@ describe('PageLayoutService', () => {
       ],
     });
 
+    currentPage$ = new ReplaySubject<Page>(1);
+    cmsService = TestBed.inject(CmsService);
+    vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(currentPage$);
     pageLayoutService = TestBed.inject(PageLayoutService);
     breakpointService = TestBed.inject(BreakpointService);
-    cmsService = TestBed.inject(CmsService);
+    featureToggles = TestBed.inject(FeatureToggles);
+  });
+
+  afterEach(() => {
+    currentPage$.complete();
   });
 
   it('should inject service', () => {
@@ -326,6 +388,279 @@ describe('PageLayoutService', () => {
     });
   });
 
+  describe('isCustomTemplate$', () => {
+    it('should emit false for a standard page', () => {
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_1));
+      let result: boolean | undefined;
+      pageLayoutService.isCustomTemplate$
+        .subscribe((v) => (result = v))
+        .unsubscribe();
+      expect(result).toBe(false);
+    });
+
+    it('should emit true for a custom page', () => {
+      currentPage$.next(page_custom);
+      let result: boolean | undefined;
+      pageLayoutService.isCustomTemplate$
+        .subscribe((v) => (result = v))
+        .unsubscribe();
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('templateName$', () => {
+    it('should emit the template name of the current page', () => {
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_1));
+      let result: string | undefined;
+      pageLayoutService.templateName$
+        .subscribe((v) => (result = v))
+        .unsubscribe();
+      expect(result).toBe('page_template_1');
+    });
+  });
+
+  describe('Custom template — shell section override', () => {
+    let pageTemplateService: PageTemplateService;
+
+    beforeEach(() => {
+      pageTemplateService = TestBed.inject(PageTemplateService);
+      featureToggles.enableCustomPageTemplate = true;
+      currentPage$.next(page_custom);
+      vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
+        of(BREAKPOINT.xs)
+      );
+      vi.spyOn(pageTemplateService, 'getShellTemplate').mockReturnValue(
+        of('shell_template')
+      );
+    });
+
+    it('should use shell template slots for header section', () => {
+      let results: string[] | undefined;
+      pageLayoutService
+        .getSlots('header')
+        .subscribe((slots) => (results = slots))
+        .unsubscribe();
+      expect(results).toEqual(['HeaderSlot']);
+    });
+
+    it('should use shell template slots for footer section', () => {
+      let results: string[] | undefined;
+      pageLayoutService
+        .getSlots('footer')
+        .subscribe((slots) => (results = slots))
+        .unsubscribe();
+      expect(results).toEqual(['FooterSlot']);
+    });
+
+    it('should return empty array for non-shell sections on custom page', () => {
+      let results: string[] | undefined;
+      pageLayoutService
+        .getSlots('main')
+        .subscribe((slots) => (results = slots))
+        .unsubscribe();
+      expect(results).toEqual([]);
+    });
+
+    it('should share the shell lookup between header and footer', () => {
+      const headerSlots: string[][] = [];
+      const footerSlots: string[][] = [];
+      const headerSubscription = pageLayoutService
+        .getSlots('header')
+        .subscribe((slots) => headerSlots.push(slots));
+      const footerSubscription = pageLayoutService
+        .getSlots('footer')
+        .subscribe((slots) => footerSlots.push(slots));
+
+      expect(headerSlots).toEqual([['HeaderSlot']]);
+      expect(footerSlots).toEqual([['FooterSlot']]);
+      expect(
+        pageTemplateService.getShellTemplate
+      ).toHaveBeenCalledExactlyOnceWith('customTplId');
+
+      headerSubscription.unsubscribe();
+      footerSubscription.unsubscribe();
+    });
+
+    it('should keep configured slots and skip shell lookup when the feature is disabled', async () => {
+      featureToggles.enableCustomPageTemplate = false;
+      currentPage$.next({
+        ...page_1,
+        templateOrigin: 'CUSTOM',
+        templateId: 'customTplId',
+      });
+
+      const result = await firstValueFrom(pageLayoutService.getSlots('footer'));
+
+      expect(result).toEqual(DEFAULT_FOOTER_SLOT_CONFIG);
+      expect(pageTemplateService.getShellTemplate).not.toHaveBeenCalled();
+    });
+
+    it('should skip shell lookup for a built-in page even when it has a template ID', async () => {
+      currentPage$.next({
+        ...page_1,
+        templateOrigin: 'BUILT_IN',
+        templateId: 'builtInTplId',
+      });
+
+      const result = await firstValueFrom(pageLayoutService.getSlots('footer'));
+
+      expect(result).toEqual(DEFAULT_FOOTER_SLOT_CONFIG);
+      expect(pageTemplateService.getShellTemplate).not.toHaveBeenCalled();
+    });
+
+    it('should skip shell lookup when the custom page has no template ID', async () => {
+      currentPage$.next({ ...page_custom, templateId: undefined });
+
+      const result = await firstValueFrom(pageLayoutService.getSlots('header'));
+
+      expect(result).toEqual([]);
+      expect(pageTemplateService.getShellTemplate).not.toHaveBeenCalled();
+    });
+
+    it('should continue rendering normal page slots after a shell request fails', () => {
+      vi.mocked(pageTemplateService.getShellTemplate).mockReturnValueOnce(
+        throwError(() => new Error('Failed to load shell template'))
+      );
+      const results: string[][] = [];
+      const subscription = pageLayoutService
+        .getSlots('footer')
+        .subscribe((slots) => results.push(slots));
+
+      currentPage$.next(page_1);
+
+      expect(results).toEqual([[], DEFAULT_FOOTER_SLOT_CONFIG]);
+      expect(subscription.closed).toBe(false);
+      subscription.unsubscribe();
+    });
+
+    it('should render a subsequent custom page after a shell request fails', () => {
+      vi.mocked(pageTemplateService.getShellTemplate).mockReturnValueOnce(
+        throwError(() => new Error('Failed to load shell template'))
+      );
+      const results: string[][] = [];
+      const subscription = pageLayoutService
+        .getSlots('header')
+        .subscribe((slots) => results.push(slots));
+
+      currentPage$.next({ ...page_custom, templateId: 'nextCustomTplId' });
+
+      expect(results).toEqual([[], ['HeaderSlot']]);
+      expect(pageTemplateService.getShellTemplate).toHaveBeenLastCalledWith(
+        'nextCustomTplId'
+      );
+      subscription.unsubscribe();
+    });
+  });
+
+  describe('customSections$', () => {
+    const sections: CustomSection[] = [{ name: 'main', sectionItems: [] }];
+    let pageTemplateService: PageTemplateService;
+
+    beforeEach(() => {
+      featureToggles.enableCustomPageTemplate = true;
+      pageTemplateService = TestBed.inject(PageTemplateService);
+      vi.spyOn(pageTemplateService, 'getPageTemplateSections').mockReturnValue(
+        of(sections)
+      );
+    });
+
+    it('should load sections for a custom page when the feature is enabled', async () => {
+      currentPage$.next(page_custom);
+
+      const result = await firstValueFrom(pageLayoutService.customSections$);
+
+      expect(result).toEqual(sections);
+      expect(
+        pageTemplateService.getPageTemplateSections
+      ).toHaveBeenCalledExactlyOnceWith('customTplId');
+    });
+
+    it('should use normal layout without fetching sections when the feature is disabled', async () => {
+      featureToggles.enableCustomPageTemplate = false;
+      currentPage$.next(page_custom);
+
+      const result = await firstValueFrom(pageLayoutService.customSections$);
+
+      expect(result).toBeNull();
+      expect(
+        pageTemplateService.getPageTemplateSections
+      ).not.toHaveBeenCalled();
+    });
+
+    it.each([
+      { ...page_1, templateOrigin: 'BUILT_IN' as const, templateId: 'builtIn' },
+      page_1,
+      { ...page_custom, templateId: undefined },
+      { ...page_custom, templateId: '' },
+    ])(
+      'should skip custom sections for an ineligible page ($template, $templateId)',
+      async (page) => {
+        currentPage$.next(page);
+
+        const result = await firstValueFrom(pageLayoutService.customSections$);
+
+        expect(result).toBeNull();
+        expect(
+          pageTemplateService.getPageTemplateSections
+        ).not.toHaveBeenCalled();
+      }
+    );
+
+    it('should fall back to normal layout and recover on the next custom page after a request fails', () => {
+      vi.mocked(
+        pageTemplateService.getPageTemplateSections
+      ).mockReturnValueOnce(
+        throwError(() => new Error('Failed to load custom sections'))
+      );
+      const results: (CustomSection[] | null)[] = [];
+      const subscription = pageLayoutService.customSections$.subscribe(
+        (value) => results.push(value)
+      );
+
+      currentPage$.next(page_custom);
+      currentPage$.next({ ...page_custom, templateId: 'nextCustomTplId' });
+
+      expect(results).toEqual([null, sections]);
+      expect(subscription.closed).toBe(false);
+      subscription.unsubscribe();
+    });
+
+    it('should switch to normal layout when navigating away from a custom page', () => {
+      const results: (CustomSection[] | null)[] = [];
+      const subscription = pageLayoutService.customSections$.subscribe(
+        (value) => results.push(value)
+      );
+
+      currentPage$.next(page_custom);
+      currentPage$.next(page_1);
+
+      expect(results).toEqual([sections, null]);
+      subscription.unsubscribe();
+    });
+
+    it('should ignore a previous template response after navigating to another custom page', () => {
+      const firstResponse$ = new Subject<CustomSection[]>();
+      const secondResponse$ = new Subject<CustomSection[]>();
+      vi.mocked(pageTemplateService.getPageTemplateSections)
+        .mockReturnValueOnce(firstResponse$)
+        .mockReturnValueOnce(secondResponse$);
+      const results: (CustomSection[] | null)[] = [];
+      const subscription = pageLayoutService.customSections$.subscribe(
+        (value) => results.push(value)
+      );
+
+      currentPage$.next(page_custom);
+      currentPage$.next({ ...page_custom, templateId: 'nextCustomTplId' });
+      firstResponse$.next([{ name: 'previous', sectionItems: [] }]);
+      secondResponse$.next(sections);
+
+      expect(results).toEqual([sections]);
+      subscription.unsubscribe();
+      firstResponse$.complete();
+      secondResponse$.complete();
+    });
+  });
+
   describe('page fold', () => {
     describe('single page fold for all breakpoints', () => {
       Object.keys(BREAKPOINT).forEach((breakpoint) => {
@@ -440,6 +775,7 @@ describe('PageLayoutService', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: BreakpointService, useClass: MockBreakpointService },
         { provide: LayoutConfig, useValue: {} },
+        { provide: PageTemplateService, useClass: MockPageTemplateService },
         {
           provide: PAGE_LAYOUT_HANDLER,
           useClass: SimplePageLayoutHandler,

@@ -84,6 +84,26 @@ describe('OccCmsPageNormalizer', () => {
       expect(result?.page?.template).toEqual('pt');
     });
 
+    it('should have templateOrigin', () => {
+      const result = occCmsPageNormalizer.convert({ templateOrigin: 'CUSTOM' });
+      expect(result?.page?.templateOrigin).toEqual('CUSTOM');
+    });
+
+    it('should have templateId', () => {
+      const result = occCmsPageNormalizer.convert({ templateId: 'abc123' });
+      expect(result?.page?.templateId).toEqual('abc123');
+    });
+
+    it('should not have templateOrigin when not provided', () => {
+      const result = occCmsPageNormalizer.convert({});
+      expect(result?.page?.templateOrigin).toBeUndefined();
+    });
+
+    it('should not have templateId when not provided', () => {
+      const result = occCmsPageNormalizer.convert({});
+      expect(result?.page?.templateId).toBeUndefined();
+    });
+
     describe('robots', () => {
       function createPageWithRobot(robotTag: string) {
         return occCmsPageNormalizer.convert({ robotTag: robotTag as any });

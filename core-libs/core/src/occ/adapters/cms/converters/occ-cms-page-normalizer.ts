@@ -44,35 +44,21 @@ export class OccCmsPageNormalizer
     if (!source) {
       return;
     }
-    const page: Page = {};
-
-    if (source.name) {
-      page.name = source.name;
-    }
-    if (source.typeCode) {
-      page.type = source.typeCode;
-    }
-    if (source.label) {
-      page.label = source.label;
-    }
-    if (source.template) {
-      page.template = source.template;
-    }
-    if (source.uid) {
-      page.pageId = source.uid;
-    }
-    if (source.title) {
-      page.title = source.title;
-    }
-    if (source.description) {
-      page.description = source.description;
-    }
-    if (source.properties) {
-      page.properties = source.properties;
-    }
-
+    const page = Object.fromEntries(
+      Object.entries({
+        name: source.name,
+        type: source.typeCode,
+        label: source.label,
+        template: source.template,
+        pageId: source.uid,
+        title: source.title,
+        description: source.description,
+        properties: source.properties,
+        templateOrigin: source.templateOrigin,
+        templateId: source.templateId,
+      }).filter(([, val]) => Boolean(val))
+    ) as Page;
     this.normalizeRobots(source, page);
-
     target.page = page;
   }
 

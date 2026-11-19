@@ -14,6 +14,7 @@ export const defaultCmsModuleConfig: CmsConfig = {
         components: 'users/${userId}/cms/components',
         pages: 'users/${userId}/cms/pages',
         page: 'users/${userId}/cms/pages/${id}',
+        pageTemplate: 'users/${userId}/cms/pageTemplates/${pageTemplateId}',
       },
     },
   },
