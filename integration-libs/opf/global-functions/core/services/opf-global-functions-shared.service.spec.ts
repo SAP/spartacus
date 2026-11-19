@@ -198,7 +198,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
         mockPaymentSessionId
       );
 
-      const callArgs = opfPaymentFacadeMock.submitPayment.mock.lastCall![0];
+      const callArgs = opfPaymentFacadeMock.submitPayment.mock.lastCall[0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 
@@ -211,7 +211,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
       );
 
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
-      const callArgs = opfPaymentFacadeMock.submitPayment.mock.lastCall![0];
+      const callArgs = opfPaymentFacadeMock.submitPayment.mock.lastCall[0];
       expect(callArgs.paymentSessionId).toBe('options-session-id');
     });
 
@@ -268,7 +268,7 @@ describe('OpfGlobalFunctionsSharedService', () => {
       );
 
       const callArgs =
-        opfPaymentFacadeMock.submitCompletePayment.mock.lastCall![0];
+        opfPaymentFacadeMock.submitCompletePayment.mock.lastCall[0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 

@@ -121,7 +121,7 @@ describe('OpfGlobalFunctionsRedirectDomainService', () => {
 
       expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
       const callArgs =
-        opfPaymentFacadeMock.submitCompletePayment.mock.lastCall![0];
+        opfPaymentFacadeMock.submitCompletePayment.mock.lastCall[0];
       expect(callArgs.returnPath).toBe('opfCheckoutPaymentAndReview');
     });
   });

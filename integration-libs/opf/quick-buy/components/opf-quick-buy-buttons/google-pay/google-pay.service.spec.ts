@@ -691,7 +691,7 @@ describe('OpfGooglePayService', () => {
           ) as Promise<any>);
 
           const submitPaymentArgs =
-            mockPaymentFacade.submitPayment.mock.lastCall![0];
+            mockPaymentFacade.submitPayment.mock.lastCall[0];
 
           expect(result).toBeDefined();
           expect(mockPaymentFacade.submitPayment).toHaveBeenCalled();

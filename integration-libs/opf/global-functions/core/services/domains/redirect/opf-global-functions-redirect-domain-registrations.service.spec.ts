@@ -176,7 +176,7 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
       });
 
       const callArgs =
-        opfPaymentFacadeMock.submitCompletePayment.mock.lastCall![0];
+        opfPaymentFacadeMock.submitCompletePayment.mock.lastCall[0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
       expect(callArgs.returnPath).toBe('opfCheckoutPaymentAndReview');
     });
