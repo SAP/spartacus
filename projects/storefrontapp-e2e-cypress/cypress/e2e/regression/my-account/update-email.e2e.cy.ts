@@ -16,6 +16,8 @@ import { standardUser } from '../../../sample-data/shared-users';
 describe('My Account - Update Email', () => {
   viewportContext(['mobile', 'desktop'], () => {
     describe('Anonymous user', () => {
+      // Verifies that anonymous users cannot access the update email page and are redirected to the login page.
+      // The final check ensures the URL pathname contains '/login'.
       it('should redirect to login page', () => {
         cy.visit(updateEmail.UPDATE_EMAIL_URL);
         cy.location('pathname').should('contain', '/login');
@@ -33,6 +35,8 @@ describe('My Account - Update Email', () => {
         });
       });
 
+      // Tests that clicking the cancel button on the update email page navigates back to the homepage without updating the email.
+      // The final check verifies that the URL pathname contains '/' (the homepage).
       it('should click cancel update email and go back to the homepage', () => {
         cy.get('cx-update-email a.btn-secondary').click();
         checkBanner();
@@ -40,6 +44,8 @@ describe('My Account - Update Email', () => {
       });
 
       // Core e2e test. Check with different view port.
+      // Tests updating the email address and verifies that login works with the new email but fails with the old email.
+      // The final check verifies that attempting to login with the old email displays a 'Bad credentials' error.
       it('should update email and able to login with new and not with old email', () => {
         updateEmail.testUpdateEmailAndLogin();
         signOut();
