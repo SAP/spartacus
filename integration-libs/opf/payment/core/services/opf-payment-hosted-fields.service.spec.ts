@@ -171,6 +171,34 @@ describe('OpfPaymentHostedFieldsService', () => {
         },
       });
     });
+
+    it('should forward cardNickName in the submit request', (done) => {
+      mockOpfPaymentConnector.submitPayment.and.returnValue(
+        of({ status: OpfPaymentSubmitStatus.ACCEPTED })
+      );
+
+      service
+        .submitPayment({ ...mockInput, cardNickName: 'Corporate Card' })
+        .subscribe(() => {
+          const request =
+            mockOpfPaymentConnector.submitPayment.calls.mostRecent().args[0];
+          expect(request.cardNickName).toBe('Corporate Card');
+          done();
+        });
+    });
+
+    it('should not include cardNickName in submit request when omitted', (done) => {
+      mockOpfPaymentConnector.submitPayment.and.returnValue(
+        of({ status: OpfPaymentSubmitStatus.ACCEPTED })
+      );
+
+      service.submitPayment(mockInput).subscribe(() => {
+        const request =
+          mockOpfPaymentConnector.submitPayment.calls.mostRecent().args[0];
+        expect(request.cardNickName).toBeUndefined();
+        done();
+      });
+    });
   });
 
   describe('submitCompletePayment', () => {
@@ -214,6 +242,39 @@ describe('OpfPaymentHostedFieldsService', () => {
             opfPaymentErrorHandlerService.handlePaymentError
           ).toHaveBeenCalled();
         },
+      });
+    });
+
+    it('should forward cardNickName in the submit-complete request', (done) => {
+      mockOpfPaymentConnector.submitCompletePayment.and.returnValue(
+        of({ status: OpfPaymentSubmitStatus.ACCEPTED })
+      );
+
+      service
+        .submitCompletePayment({
+          ...mockSubmitCompleteInput,
+          cardNickName: 'Travel Card',
+        })
+        .subscribe(() => {
+          const request =
+            mockOpfPaymentConnector.submitCompletePayment.calls.mostRecent()
+              .args[0];
+          expect(request.cardNickName).toBe('Travel Card');
+          done();
+        });
+    });
+
+    it('should not include cardNickName in submit-complete request when omitted', (done) => {
+      mockOpfPaymentConnector.submitCompletePayment.and.returnValue(
+        of({ status: OpfPaymentSubmitStatus.ACCEPTED })
+      );
+
+      service.submitCompletePayment(mockSubmitCompleteInput).subscribe(() => {
+        const request =
+          mockOpfPaymentConnector.submitCompletePayment.calls.mostRecent()
+            .args[0];
+        expect(request.cardNickName).toBeUndefined();
+        done();
       });
     });
   });

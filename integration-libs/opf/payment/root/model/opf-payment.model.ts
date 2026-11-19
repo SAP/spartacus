@@ -32,6 +32,7 @@ export interface OpfPaymentGlobalMethods {
     submitCancel?: OpfPaymentMerchantCallback;
     paymentMethod: OpfPaymentMethod;
     paymentSessionId?: string;
+    cardNickName?: string;
   }): Promise<boolean>;
   submitComplete?(options: {
     /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
@@ -42,6 +43,7 @@ export interface OpfPaymentGlobalMethods {
     submitFailure: OpfPaymentMerchantCallback;
     submitCancel?: OpfPaymentMerchantCallback;
     paymentSessionId?: string;
+    cardNickName?: string;
   }): Promise<boolean>;
   submitCompleteRedirect?(options: {
     /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
@@ -52,6 +54,7 @@ export interface OpfPaymentGlobalMethods {
     submitFailure: OpfPaymentMerchantCallback;
     submitCancel?: OpfPaymentMerchantCallback;
     savePaymentMethod?: boolean;
+    cardNickName?: string;
   }): Promise<boolean>;
   throwPaymentError?(errorOptions?: OpfErrorDialogOptions): void;
   startLoadIndicator?(): void;
@@ -123,6 +126,7 @@ export interface OpfPaymentSubmitRequest {
   channel?: string;
   additionalData?: Array<OpfKeyValueMap>;
   savePaymentMethod?: boolean;
+  cardNickName?: string;
 }
 
 export interface OpfPaymentSubmitInput {
@@ -137,6 +141,7 @@ export interface OpfPaymentSubmitInput {
   paymentMethod: OpfPaymentMethod;
   encryptedToken?: string;
   savePaymentMethod?: boolean;
+  cardNickName?: string;
   /**
    * Optional cart ID used to resolve the cart access code.
    * When omitted, the active cart ID is used.
@@ -179,6 +184,7 @@ export interface OpfPaymentSubmitCompleteRequest {
   paymentSessionId?: string;
   additionalData?: Array<OpfKeyValueMap>;
   savePaymentMethod?: boolean;
+  cardNickName?: string;
 }
 export interface OpfPaymentSubmitCompleteInput {
   additionalData: Array<OpfKeyValueMap>;
@@ -190,6 +196,7 @@ export interface OpfPaymentSubmitCompleteInput {
   };
   returnPath?: string;
   savePaymentMethod?: boolean;
+  cardNickName?: string;
   /**
    * Optional cart ID used to resolve the cart access code.
    * When omitted, the active cart ID is used.

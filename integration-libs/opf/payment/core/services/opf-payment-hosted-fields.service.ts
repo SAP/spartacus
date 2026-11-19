@@ -67,6 +67,7 @@ export class OpfPaymentHostedFieldsService {
       returnPath,
       encryptedToken,
       savePaymentMethod,
+      cardNickName,
     } = submitInput;
 
     const submitRequest: OpfPaymentSubmitRequest = {
@@ -75,6 +76,7 @@ export class OpfPaymentHostedFieldsService {
       channel: OpfPaymentChannel.BROWSER,
       browserInfo: getBrowserInfo(this.winRef.nativeWindow),
       savePaymentMethod,
+      cardNickName,
     };
     if (paymentMethod !== OpfPaymentMethod.CREDIT_CARD) {
       submitRequest.encryptedToken = '';
@@ -126,13 +128,19 @@ export class OpfPaymentHostedFieldsService {
   submitCompletePayment(
     submitCompleteInput: OpfPaymentSubmitCompleteInput
   ): Observable<boolean> {
-    const { additionalData, paymentSessionId, returnPath, savePaymentMethod } =
-      submitCompleteInput;
+    const {
+      additionalData,
+      paymentSessionId,
+      returnPath,
+      savePaymentMethod,
+      cardNickName,
+    } = submitCompleteInput;
 
     const submitCompleteRequest: OpfPaymentSubmitCompleteRequest = {
       additionalData,
       paymentSessionId,
       savePaymentMethod,
+      cardNickName,
     };
     return this.getCartAccessCode(
       submitCompleteRequest,
