@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateAppConfig (runtime config) should add provideRuntimeOccConfig() to app.config.ts providers 1`] = `
+"
+import { ApplicationConfig } from '@angular/core';
+import { provideRuntimeOccConfig } from "@spartacus/setup";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // provideRuntimeOccConfig() must remain last: Spartacus merges ConfigChunk
+    // providers in declaration order (last wins). MetaTagConfigModule, brought
+    // in by importProvidersFrom above, sets the OCC URL from the index.html meta
+    // tag. Placing provideRuntimeOccConfig() after it ensures the /config.json
+    // value overrides the build-time meta tag at runtime.
+    provideRuntimeOccConfig()
+  ]
+};
+"
+`;

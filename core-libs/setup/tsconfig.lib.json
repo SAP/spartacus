@@ -11,7 +11,7 @@
     "strict": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "types": [],
+    "types": ["node"],
     "paths": {
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],

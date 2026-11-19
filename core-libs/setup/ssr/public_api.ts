@@ -9,6 +9,7 @@ export * from './express-utils/express-origin-validation-middleware';
 export * from './engine/cx-common-engine';
 export * from './engine/ng-express-engine';
 export * from './error-handling/index';
+export * from './get-server-runtime-environment';
 export * from './logger/index';
 export * from './optimized-engine/index';
 export * from './providers/index';

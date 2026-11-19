@@ -66,6 +66,7 @@ import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 import { updateAppConfig } from './update-app-config';
 import { updateAppModule } from './update-app-module';
+import { addRuntimeConfig } from '../add-runtime-config/index';
 
 function createStylesConfig(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
@@ -567,6 +568,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       createStylePreprocessorOptions(options),
 
       addFeatures(options, features),
+
+      addRuntimeConfig(options),
 
       addAiContext(options),
 
