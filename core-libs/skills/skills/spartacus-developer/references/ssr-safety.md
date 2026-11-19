@@ -55,4 +55,4 @@ AVOID `disableSSR` on publicly crawlable pages — the SSR-to-CSR transition cau
 
 ## Supplemental Information
 
-- [performance.md](performance.md) — what the server render has to contain for a fast first load, and the page speed rules that apply alongside SSR safety.
+- [performance.md](performance.md) — what keeps the server render from finishing (timers, pending or failing calls), and what it has to contain for a fast first load.

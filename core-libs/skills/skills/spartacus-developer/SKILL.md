@@ -1,6 +1,6 @@
 ---
 name: spartacus-developer
-description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration, and for any review or audit of such an application, including its page speed (Core Web Vitals). Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
+description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration, and for any review or audit of such an application, including its performance (Core Web Vitals, server rendering, requests, bundle size, memory). Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
 license: Apache-2.0
 ---
 
@@ -26,7 +26,7 @@ Each topic lives in its own `.md` file in the `references/` folder. Read a topic
 - [facades-not-store.md](references/facades-not-store.md) — read when reading or writing Spartacus state from a component.
 - [ssr-safety.md](references/ssr-safety.md) — read when touching `window`, `document`, `localStorage`, or any browser-only API.
 - [outlets.md](references/outlets.md) — read when sprinkling new UI into an existing Spartacus page without replacing it.
-- [performance.md](references/performance.md) — read before adding or changing anything a shopper sees when a page first loads (banner, image, block on a home, product or listing page), before adding a library, data file or third-party script, and whenever you review, audit or improve a storefront's page speed or Core Web Vitals.
+- [performance.md](references/performance.md) — read before adding or changing a component, a data call, a timer or listener, a library or a third-party script, and whenever you review, audit or improve a storefront's performance.
 
 Some topics link to further deep-dive material in the same `references/` folder.
 
@@ -50,15 +50,16 @@ State and customization:
 
 Components and SSR:
 - ALWAYS use `ChangeDetectionStrategy.OnPush` on new components, paired with the `async` pipe (preserve `Default` when extending a Spartacus component that uses it).
-- AVOID `.subscribe()` in components when the data drives the template; if you reach for `markForCheck()`, the data should be a stream.
+- AVOID `.subscribe()` in components when the data drives the template; if you reach for `markForCheck()`, the data should be a stream. In a zoneless app (the default for new storefronts) a field set inside `subscribe`, a timer or a `fetch` callback does not re-render: hand it to the template through the `async` pipe or a signal.
+- ALWAYS call `takeUntilDestroyed()` without arguments only in a constructor or field initializer; in `ngOnInit` or later pass an injected `DestroyRef` (`takeUntilDestroyed(this.destroyRef)`), otherwise it throws at runtime.
 - NEVER reference `window`/`document`/`localStorage` without guarding via `WindowRef.isBrowser()`.
 
-Page speed (applies to every feature, see [performance.md](references/performance.md)):
-- With SSR, ALWAYS let the server render what is visible on first load: AVOID `disableSSR` there (exceptions in [ssr-safety.md](references/ssr-safety.md)), guard the browser-only statement instead of the whole block, and put the main picture in the template rather than in a CSS `background-image`.
-- ALWAYS check image files you add to the project against the size they are displayed at. When a photo or illustration is far larger than needed (megabytes, or more than twice the displayed width), leave the delivered file untouched, serve a resized WebP copy made with a converter that is already installed, and tell the developer what you converted and the sizes before and after; with no converter, report it and change nothing. Leave logos, icons and images with text or transparency as they are. Phone and desktop crops go into one `<picture>`. CMS media stays in `cx-media`.
-- ALWAYS reserve the space of every image and late-arriving block you add (`width`/`height`, or CSS `aspect-ratio` per picture source — CMS media usually has none), and give a full-width component's host `display: block; width: 100%`. When a stock component outside the task shifts the layout, report it.
-- ALWAYS mark the largest first-screen image `loading="eager"` and `fetchpriority="high"` (CMS media: `*cxLcpContext` around `cx-media`); images below the first screen are `loading="lazy"`. Which stock component holds a page's main image is storefront-wide `lcpCmsComponents` configuration: set it when the task is about that part of the page, otherwise report it.
-- NEVER import a large or optional library or data file from code that loads with the page — use a lazy CMS mapping or `import()` started when the shopper reaches for the control.
+Performance (see [performance.md](references/performance.md)):
+- With SSR, ALWAYS keep first-screen content in the server render, and NEVER start timers, intervals or polling outside the browser — on the server they keep the render from settling (the empty client page is sent after 3 seconds) or leak with every request.
+- ALWAYS load data through Spartacus services with the narrowest scope (`ProductScope`); a list of product codes goes through `ProductSearchByCodeService` (one search request); NEVER `HttpClient` for product data, `fields=FULL`, a request per item, or a second subscription that repeats the request.
+- ALWAYS render backend media with `cx-media`, mark a page's main image (`*cxLcpContext`, `lcpCmsComponents`) and reserve the space of images and late-arriving blocks. NEVER convert or replace image files — report oversized ones.
+- NEVER put page-specific features, heavy libraries or data files into code that loads with every page — use a lazy feature module or `import()`.
+- ALWAYS end subscriptions and remove listeners and timers on destroy, and keep handlers light (`debounceTime`, `track`, `OnPush`).
 
 Configuration:
 - ALWAYS use `provideConfig()` (not `provideDefaultConfig()`)

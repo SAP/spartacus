@@ -1,130 +1,107 @@
-# Performance — Core Web Vitals
+# Performance
 
 ## Rule
 
-Apply this to every change a shopper sees when a page first loads, even when the request says nothing about speed. Four things decide Largest Contentful Paint (LCP), layout shift (CLS) and responsiveness in a Spartacus storefront. Section 1 applies to storefronts with SSR; the others apply either way.
+Write storefront code that is fast by default, and apply the same points when you review or audit existing code. Five things cause most performance problems in customer storefronts. Sections 1 and part of 2 apply to storefronts with SSR; the rest applies either way.
 
-## 1. The first screen comes from the server
+## 1. The server render has to finish
 
-A storefront with SSR sends finished HTML, so the browser starts the main image before any JavaScript runs. Only content that is in that HTML benefits.
+The server waits until the app is stable. After 3 seconds (`SsrOptimizationOptions.timeout`) it gives up and sends the empty client page, so the shopper and the crawler get no content. One Node process renders every request, so whatever a render leaves running stays in memory.
 
-- Render first-screen blocks on the server. Do not skip the whole component with `WindowRef.isBrowser()`, `*ngIf="isBrowser"` or `disableSSR`; `disableSSR` stays the last resort for a component with no useful server output (see [ssr-safety.md](./ssr-safety.md)). A button or heading is plain markup and belongs in the server HTML even when its action only works in the browser; keep the `isBrowser()` check inside the handler. If one value exists only in the browser (local time, `localStorage`), render the block on the server and fill that value in after hydration.
-- Put the main image in the template as `<img>`, `<picture>` or `cx-media`. A CSS `background-image` is found late; when a design forces one, preload it (`<link rel="preload" as="image" fetchpriority="high">`).
-- Read data through Spartacus facades, so it is loaded during the server render; product and CMS data are then handed to the browser instead of being fetched twice.
-- Switch between phone and desktop layouts with CSS media queries, not with `BreakpointService` driving `*ngIf` or classes. The server does not know the screen size, so markup chosen in code changes after hydration.
+- Start timers, intervals and polling only in the browser: `if (this.winRef.isBrowser()) { ... }` around the `setInterval`, `interval()` or `timer()`, not around the template. A countdown, carousel autoplay or stock poll that starts on the server keeps the render from finishing in an app with zone.js; in a zoneless app the render finishes, but every request leaves one more timer running in the server process.
+- Keep the content itself in the server HTML. Do not wrap a whole block in `*ngIf="isBrowser"` and avoid `disableSSR` ([ssr-safety.md](./ssr-safety.md) has the exceptions). Render the block on the server and fill in the browser-only value afterwards.
+- Make calls that are optional, personalised or slow (reviews, recommendations, stock from another system) in the browser. On the server every failed HTTP call turns the page into an error response, and a slow one runs into the timeout. If such a call must run on the server, give it its own limit with `HTTP_TIMEOUT_CONFIG` in the request's `HttpContext`.
+- One markup for all screen widths. Switch layouts with CSS media queries, not with `BreakpointService` driving `*ngIf` or classes: the server renders the smallest breakpoint and the browser then changes it.
 
-## 2. The main image: light, found early, prioritized
+## 2. Ask the backend once, and only for what you show
 
-One image is usually the largest thing on the first screen: the hero on a content page, the main photo on a product page, the first products on a listing.
-
-Its file size decides most of the loading time. A hero weighs tens to a few hundred kilobytes, not megabytes; a 2 MB picture alone takes more than ten seconds on a slow phone connection. Check every image file you add to the project against the size it is displayed at. When a photo or illustration is far larger than needed (megabytes, or more than twice the displayed width):
-
-- Leave the delivered file as it is. Never overwrite, move or delete it.
-- Make a copy resized to the largest width it is displayed at, times two for sharp screens (about 800 px for a phone crop, 1600 to 2000 px for desktop), saved as WebP at quality 70 to 80; AVIF only as an additional `<source>` beside it. Use a converter that is already installed (`cwebp`, `magick`, or `sharp` if the project depends on it; `sips` resizes and writes AVIF but not WebP). Do not download one.
-- Put the copies in the folder the build already serves (the `assets` entry in `angular.json`: `public/` in new apps, `src/assets/` in older ones) and reference the copies.
-- Tell the developer in your summary which files you converted, their pixel and file sizes before and after, and that pointing the template back at the delivered file undoes it.
-- If no converter is installed, or the developer asked for the files to be used unchanged, use the delivered file, still set its dimensions, and report its size and what a conversion would save.
-- Leave logos, icons and images with text or transparency as they are; lossy re-encoding blurs their edges. Leave files that are already small as well.
-
-Images managed in the CMS stay in `cx-media`. They are sized in the backend or by an image CDN, so report an oversized one instead of replacing it.
-
-Stock components (`cx-banner`, `cx-product-images`, product list and carousel items) load their image eagerly with high priority when the storefront knows they hold a page's main image. `lcpCmsComponents` says so in two ways: a CMS component whose UID contains the marker `__cxLCP__` (the default `idMarker`) is recognised without a deployment, and the app can list UIDs in `ids`. Nothing is marked or listed in a new storefront, so by default every stock image is `loading="lazy"`. This is storefront-wide configuration tied to CMS content: set it when the task is about that part of the page and say so; otherwise report which component should be marked and leave the configuration alone. To find a UID, log the page structure ("Debugging CMS page structure" in [cms-component-wiring.md](./cms-component-wiring.md)). When you add to `ids`, extend the existing list; a second `ids` array replaces the first:
+- Load product and CMS data through Spartacus services (`ProductService`, `ProductSearchService`, `CmsComponentData`). They share one request between all subscribers, and their state is handed from the server to the browser. Data loaded with `HttpClient`, a Query or your own state is fetched again in the browser after a server render: reserve that block's space (section 3), or keep it in an NgRx feature listed in `state.ssrTransfer.keys`.
+- Pass a scope: `productService.get(code, ProductScope.LIST)`, or `PRICE`, `STOCK`, `DETAILS`. Without one the large default payload is loaded. For an extra attribute add a custom scope with exactly those `fields`. Never use `fields=FULL`, and never replace `backend.occ.endpoints.product` with a single string: that removes every scope.
+- A list of known product codes is one request: `ProductSearchByCodeService.get({ code, scope })` for each code, as the stock product carousel does. Calls in the same tick are sent as one search. The scope must be a product search scope (`carouselMinimal` or `carousel`), not a `ProductScope`. Do not use `ProductSearchService` for this: it holds the search results of the listing page, and a second search replaces them.
 
 ```ts
-// CMS component UIDs; these two are from the electronics sample data
-provideConfig({ lcpCmsComponents: { ids: ['ElectronicsHompageSplashBannerComponent', 'ProductImagesComponent'] } })
+products$ = combineLatest(CODES.map((code) => this.productSearchByCode.get({ code, scope: 'carouselMinimal' })))
+  .pipe(map((products) => products.filter((p): p is Product => !!p)));
 ```
+```html
+<a *ngFor="let product of products$ | async; trackBy: trackByCode" [routerLink]="{ cxRoute: 'product', params: product } | cxUrl">
+  <cx-media [container]="product.images?.['PRIMARY']" format="product" [alt]="product.name ?? ''"></cx-media>
+  {{ product.name }} {{ product.price?.formattedValue }}
+</a>
+```
+- Subscribe once. Two `async` pipes on a stream that is not shared send the request twice: use one `async` with `as`, or `shareReplay({ bufferSize: 1, refCount: true })`. Do not create streams in getters or in methods called from the template.
+- Typed input: `debounceTime`, `distinctUntilChanged` and `switchMap` before any request or heavy filtering. Hand the result to the template through the `async` pipe or a signal; in a zoneless app a field set inside `subscribe` does not re-render.
+- Do not poll unless the task asks for it. If it does, poll in the browser only and stop when the component is destroyed.
 
-A custom CMS component reads the same setting. Import `LcpContextDirective` and `MediaModule` from `@spartacus/storefront` into the component; without the import the block renders nothing and the build only warns:
+## 3. The main image and the space on the page
+
+Pictures in a storefront come from the backend. The code decides when they load and whether the page jumps.
+
+- Render CMS and product media with `cx-media`, not a hand-built `<img [src]>`.
+- The largest picture of the first screen must not be lazy. Stock components (`cx-banner`, product images) load it eagerly with high priority when the storefront knows which CMS component holds it: either the component's UID contains the marker `__cxLCP__` (the default `lcpCmsComponents.idMarker`, set by content managers) or the UID is listed in `lcpCmsComponents.ids`. A custom CMS component asks the same way; import `LcpContextDirective` and `MediaModule` from `@spartacus/storefront`:
 
 ```html
 <ng-container *cxLcpContext="let lcp">
-  <cx-media [container]="data.media" elementType="picture" [fetchPriority]="lcp.fetchPriority$ | async" />
+  <cx-media [container]="data.media" [fetchPriority]="lcp.fetchPriority$ | async" />
 </ng-container>
 ```
 
-For artwork that lives in the project, write the markup yourself:
+- Reserve the space of everything that arrives after the first paint. CMS media carries no dimensions, so give its container a CSS `aspect-ratio` per picture source (the sources switch at the breakpoints in `media.pictureElementFormats`), and give a block that is filled in the browser a `min-height`. A full-width custom component needs `:host { display: block; }`. Do not insert a block above visible content after the page has loaded.
+- `lcpCmsComponents` and the styles of stock components are storefront-wide: change them when the task is about that part of the page, otherwise report what you found.
+- Do not convert, resize or replace image files. If a picture is far larger than it is displayed, say so in your summary; the fix belongs in the backend media formats or the image CDN.
 
-```html
-<picture>
-  <source media="(max-width: 767px)" srcset="campaign/hero-phone-800.webp" width="800" height="1000" />
-  <img src="campaign/hero-desktop-1920.webp" width="1920" height="720" alt="{{ title }}" loading="eager" fetchpriority="high" />
-</picture>
-```
+## 4. Load code when it is needed
 
-- Only the first-screen main image gets `fetchpriority="high"`. Other first-screen images stay eager without a priority; images below the first screen are `loading="lazy"`.
-- Different phone and desktop crops go into one `<picture>`. Two `<img>` hidden alternately with CSS both download.
-
-## 3. Nothing moves after it is shown
-
-Whatever arrives after the first paint needs its space reserved, or the content below it jumps.
-
-- Give every `<img>` and `<source>` the `width` and `height` of its file, with `max-width: 100%; height: auto` in CSS.
-- Give the host of a component that fills the page width (hero, banner, content block) `display: block; width: 100%` (`:host { … }` in component styles, or its element selector in global SCSS); not components that sit beside others, such as header links or buttons. A custom element is inline, and placed through an outlet into the flex layout of `cx-page-layout` it collapses to zero width until its picture has loaded, which throws away the space you reserved.
-- CMS media usually carries no dimensions (`cx-media` sets `width` and `height` only when the backend sends them). For a component the task covers, reserve the space in global SCSS with one ratio per picture source; the sources switch at the breakpoints in `media.pictureElementFormats` (by default up to 480 px, up to 770 px, up to 960 px, and wider). The ratios follow the artwork in the CMS, so say in your summary that they must change with it. Stock banners have the same gap: when one shifts the layout and the task does not cover it, report it instead of restyling it.
-
-```scss
-// Splash banner of the electronics sample data: its four files are 480x320, 770x350, 960x330 and 1400x440
-cx-page-slot.Section1 cx-banner cx-media img {
-  height: auto;
-  aspect-ratio: auto 480 / 320; // `auto` lets the loaded image keep its own ratio
-  @media (min-width: 481px) { aspect-ratio: auto 770 / 350; }
-  @media (min-width: 771px) { aspect-ratio: auto 960 / 330; }
-  @media (min-width: 961px) { aspect-ratio: auto 1400 / 440; }
-}
-```
-
-- A block that is filled in the browser (personalized, time-based, loaded on demand) keeps a `min-height` equal to its final height.
-- Do not insert a block above visible content after the page has loaded.
-
-## 4. Code that loads with the page stays small
-
-Everything an eagerly imported component or service imports is downloaded and executed on every page.
-
-- Register a CMS component that is not on every page lazily: `component: () => import('./price-history.component').then((m) => m.PriceHistoryComponent)`. For a whole feature use the [Spartacus lazy-loading pattern](./lazy-loading.md).
-- Import a library that is needed only after an action (PDF, spreadsheet, chart, map, zip) inside the function that uses it, and start that import when the shopper reaches for the control, so the first click does not wait:
+- A feature that is used on some pages only goes into a lazy feature module (`featureModules` with `module: () => import(...)` and its `cmsComponents`, see [lazy-loading.md](./lazy-loading.md)). Do not add page-specific components to a module that loads with the app.
+- Do not statically import from a lazy feature's entry point (for example `@spartacus/checkout/base/components`) in code that loads with the app, and do not turn a lazy feature of the generated app into a static import: the whole feature then lands in the main bundle.
+- Import a heavy library (PDF, spreadsheet, chart, map) inside the function that uses it: `const { jsPDF } = await import('jspdf')`. Fetch large data files when they are needed: put the file in `public/` (or the `assets` folder the build serves) and load it with `HttpClient` on first use. Never `import` a data file into code that loads with the app. The result arrives later, so hand it to the template as a signal:
 
 ```ts
-private pdf?: Promise<typeof import('jspdf')>;
-private load() {
-  return (this.pdf ??= import('jspdf').catch((e) => { this.pdf = undefined; throw e; }));
+results = signal<Dealer[]>([]);
+private dealers$?: Observable<Dealer[]>;
+search(term: string) {
+  this.dealers$ ??= this.http.get<Dealer[]>('dealers.json').pipe(shareReplay(1)); // fetched on the first search only
+  this.dealers$.subscribe((dealers) => this.results.set(firstMatches(dealers, term, 5)));
 }
-warm() { void this.load().catch(() => {}); } // (pointerenter), (focus), (pointerdown) on the button
-async download() { const { jsPDF } = await this.load(); /* … */ }
 ```
+- Third-party scripts get `async` or `defer`; fonts are self-hosted (the theme's `$font-url` can be overridden) or loaded with `font-display: swap`. Nothing render-blocking from another origin in `index.html` or the global styles.
 
-- Fetch large data files when they are needed instead of importing them into the bundle.
-- Add no render-blocking third-party tags: no `<script src>`, font `<link>` or `@import` from another origin in `index.html` or global styles. Self-host fonts with `font-display: swap`; load chat, review and analytics widgets on first use or after the page is interactive.
-- Split work that takes longer than about 50 ms in a handler so the browser can paint (`await new Promise((r) => setTimeout(r))` between chunks), or move it to a worker.
+## 5. Clean up, and stay responsive
+
+- Every subscription ends: `async` pipe or `takeUntilDestroyed()` ([subscriptions.md](./subscriptions.md)). A root service that subscribes and never unsubscribes leaks once per request on the server.
+- Remove what you add: `removeEventListener` and `clearInterval` in `ngOnDestroy` (or `DestroyRef.onDestroy`). A component that is created on every page visit otherwise adds one more listener or timer each time.
+- Scroll and resize handlers do little: no layout read followed by a style write on every event; use `IntersectionObserver`, CSS, or throttle with `requestAnimationFrame`.
+- Lists: `track` by a stable id, `ChangeDetectionStrategy.OnPush`, no method calls in the template for values that can be computed once.
+- Work that takes more than about 50 ms in a handler is debounced, split into chunks or moved to a worker. Filtering a long list on every keystroke is the usual case.
 
 ## Reviewing existing code
 
-When asked to review or audit page speed, check the whole storefront against sections 1 to 4, not only recently changed files. Look in:
+When asked to review or audit performance, check the whole storefront against sections 1 to 5, not only recently changed files. Look in:
 
-- `src/index.html` and the global styles: third-party tags and fonts.
-- The `assets` entries in `angular.json` and the image files they serve: file size against the size they are displayed at.
-- Every template with an `<img>`, `<picture>`, `cx-media` or a CSS `background-image`: dimensions, loading and priority.
-- Imports of libraries and data files in components and modules that load with the app.
-- `cmsComponents` mappings: `disableSSR`, and components that are not on every page but are not registered lazily.
-- `WindowRef.isBrowser()`, `isPlatformBrowser` and `BreakpointService` used to show or hide template blocks.
-- Whether `lcpCmsComponents` marks the main image of each page type.
-- Blocks added to the page after it has loaded (timers, browser-only requests): is their space reserved?
-- Event handlers that do heavy synchronous work, such as filtering or sorting a long list on every keystroke.
+- components and root services for `setInterval`, `interval`, `timer`, polling and `.subscribe()` without an end, and whether they run on the server;
+- templates for blocks behind `isBrowser`, `BreakpointService`, two `async` pipes on one stream, method calls, and lists without `track`;
+- `cmsComponents` mappings for `disableSSR`, and modules for page-specific components that load with the app;
+- every `HttpClient` call: does a Spartacus service already provide the data, is it one request or one per item, which `fields`;
+- `src/index.html`, global styles and the feature modules in `src/app/spartacus/features/`: blocking third-party tags, fonts, static imports of lazy features, heavy libraries and data files;
+- how media is rendered, whether the main image is marked, and whether late content has reserved space;
+- event listeners and handlers that do heavy synchronous work.
 
-Report each finding with file and line, the section it breaks, its effect on LCP, CLS or responsiveness, and the fix; order them by expected effect. Say what you measured and what you only read. Change code only when asked.
+Report each finding with file and line, the section it breaks, the effect (server render, requests, bundle size, LCP, CLS, responsiveness, memory) and the fix; order them by expected effect. Say what you measured and what you only read. Change code only when asked.
 
 ## Check before you finish
 
-Build for production and read the server HTML of the page you changed (`curl` it, or view source). The new first-screen content and its `<img>` are in it; the main image has `fetchpriority="high"` and images below the first screen are lazy; every image has dimensions or a reserved ratio; the initial JavaScript did not gain a library the first screen does not use. If the server returns an empty `<app-root>`, server rendering is falling back to the browser (host missing from `allowedHosts` or `NG_ALLOWED_HOSTS` in recent Angular versions, a render error, or the default 3-second SSR timeout). Report that to the developer instead of changing server settings; section 1 depends on it, the rest applies either way. Skip this check when the app has no SSR.
+Build for production. If you can run the SSR server, read the server HTML of the page you changed (`curl` it): the first-screen content is in it. An empty `<app-root>` means the render timed out or failed: look for a timer, a pending stream or a failed call from section 1, and report it instead of changing server settings.
 
 ## Source reference (in `node_modules/@spartacus/*`)
 
-- `LcpCmsComponentsConfig`, `CmsLcpService` and `LcpContextDirective` (`*cxLcpContext`) from `@spartacus/storefront` — which CMS component holds the main image.
-- `MediaComponent` (`cx-media`) inputs `fetchPriority`, `loading`, `elementType`; `MediaConfig.imageLoadingStrategy` — how stock images load.
-- `SsrOptimizationOptions` (`timeout`) from `@spartacus/setup/ssr` — when a slow server render falls back to the browser.
+- `SsrOptimizationOptions` (`timeout`) from `@spartacus/setup/ssr`; `HTTP_TIMEOUT_CONFIG` from `@spartacus/core`.
+- `ProductScope`, `ProductService.get(code, scope)`, `ProductSearchService`; `backend.occ.endpoints.product` and `backend.loadingScopes` in the OCC config; `StateConfig.state.ssrTransfer.keys`.
+- `LcpCmsComponentsConfig`, `CmsLcpService`, `LcpContextDirective`, `MediaComponent` (`cx-media`) from `@spartacus/storefront`.
+- `CmsConfig.featureModules` for lazy features.
 
 ## Supplemental Information
 
 - [ssr-safety.md](./ssr-safety.md) — browser-only code without giving up the server render.
 - [lazy-loading.md](./lazy-loading.md) — lazy feature modules.
-- [cms-component-wiring.md](./cms-component-wiring.md) — registering the component that renders the image.
+- [subscriptions.md](./subscriptions.md) — ending subscriptions, singleton services under SSR.
+- [backend-communication.md](./backend-communication.md) — adapters and OCC endpoints.
