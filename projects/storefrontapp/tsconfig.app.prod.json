@@ -4,6 +4,9 @@
     "paths": {
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
+      "@spartacus/setup/ssr/express-base-site": [
+        "dist/setup/ssr/express-base-site"
+      ],
       "@spartacus/user": ["dist/user"],
       "@spartacus/user/wishlist": ["dist/user/wishlist"],
       "@spartacus/user/wishlist/root": ["dist/user/wishlist/root"],

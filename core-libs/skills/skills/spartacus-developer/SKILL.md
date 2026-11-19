@@ -25,6 +25,7 @@ Each topic lives in its own `.md` file in the `references/` folder. Read a topic
 - [normalizers.md](references/normalizers.md) — read when surfacing extra OCC fields in the UI model.
 - [facades-not-store.md](references/facades-not-store.md) — read when reading or writing Spartacus state from a component.
 - [ssr-safety.md](references/ssr-safety.md) — read when touching `window`, `document`, `localStorage`, or any browser-only API.
+- [base-site-aware-handlers.md](references/base-site-aware-handlers.md) — read when adding or changing a custom Express endpoint that needs a base site, such as `llms.txt`, `robots.txt`, or a `.well-known` endpoint.
 - [outlets.md](references/outlets.md) — read when sprinkling new UI into an existing Spartacus page without replacing it.
 
 Some topics link to further deep-dive material in the same `references/` folder.
