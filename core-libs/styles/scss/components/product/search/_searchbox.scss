@@ -22,7 +22,7 @@
     // the searchbox requires an overlay over the page (except for the header)
     // we do this with an overlay under the header, on top of the rest of the page
     header,
-    .header {
+    header .header {
       position: relative;
       z-index: 100;
     }
