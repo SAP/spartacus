@@ -29,7 +29,8 @@ export class OpfGlobalFunctionsRedirectDomainService {
     },
     paymentSessionId: string,
     vcr?: ViewContainerRef,
-    savePaymentMethod: boolean | undefined = undefined
+    savePaymentMethod: boolean | undefined = undefined,
+    cardNickName?: string
   ): Promise<boolean> {
     return this.sharedService.runSubmitComplete(
       additionalData,
@@ -37,7 +38,8 @@ export class OpfGlobalFunctionsRedirectDomainService {
       paymentSessionId,
       OpfPage.CHECKOUT_REVIEW_PAGE,
       vcr,
-      savePaymentMethod
+      savePaymentMethod,
+      cardNickName
     );
   }
 }

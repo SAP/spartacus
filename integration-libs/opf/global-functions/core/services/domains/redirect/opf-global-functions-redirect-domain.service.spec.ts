@@ -106,6 +106,7 @@ describe('OpfGlobalFunctionsRedirectDomainService', () => {
         mockPaymentSessionId,
         OpfPage.CHECKOUT_REVIEW_PAGE,
         undefined,
+        undefined,
         undefined
       );
     });
@@ -128,6 +129,35 @@ describe('OpfGlobalFunctionsRedirectDomainService', () => {
       const callArgs =
         opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
       expect(callArgs.returnPath).toBe('opfCheckoutPaymentAndReview');
+    });
+
+    it('should forward cardNickName to runSubmitComplete', async () => {
+      spyOn(sharedService, 'runSubmitComplete').and.returnValue(
+        Promise.resolve(true)
+      );
+
+      await service.submitCompleteRedirect(
+        [],
+        {
+          onSuccess: () => {},
+          onPending: () => {},
+          onFailure: () => {},
+        },
+        mockPaymentSessionId,
+        undefined,
+        undefined,
+        'Corporate Card'
+      );
+
+      expect(sharedService.runSubmitComplete).toHaveBeenCalledWith(
+        [],
+        jasmine.any(Object),
+        mockPaymentSessionId,
+        OpfPage.CHECKOUT_REVIEW_PAGE,
+        undefined,
+        undefined,
+        'Corporate Card'
+      );
     });
   });
 });
