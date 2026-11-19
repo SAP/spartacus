@@ -452,8 +452,10 @@
         class="btn btn-link cx-action-link cx-btn-next"
         [disabled]="currentPage === maxPage || !loaded"
       >
-        <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span
-        ><cx-icon class="next" [type]="iconTypes.CARET_RIGHT" />
+        <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span><cx-icon
+          class="next"
+          [type]="iconTypes.CARET_RIGHT"
+        />
       </button>
     }
   </div>

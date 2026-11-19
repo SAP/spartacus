@@ -62,7 +62,10 @@ class MockFormComponentService implements Partial<RegistrationVerificationTokenF
   createVerificationToken = vi
     .fn()
     .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
-  displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
+  displayMessage = vi
+    .fn()
+    .mockName('displayMessage')
+    .mockImplementation(() => {});
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

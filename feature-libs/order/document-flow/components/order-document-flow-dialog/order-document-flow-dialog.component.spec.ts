@@ -128,7 +128,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
         },
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: vi.fn('markForCheck') },
+          useValue: { markForCheck: vi.fn().mockName('markForCheck') },
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],

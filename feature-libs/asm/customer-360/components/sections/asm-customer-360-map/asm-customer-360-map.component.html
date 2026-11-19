@@ -58,8 +58,7 @@
                 <div class="store-openings-date">
                   <span class="store-openings-day bold">{{
                     opening.weekDay
-                  }}</span
-                  >{{ getStoreOpening(opening) | async }}
+                  }}</span>{{ getStoreOpening(opening) | async }}
                 </div>
               }
             </div>
@@ -68,8 +67,9 @@
             <div class="store-openings-dates">
               @for (opening of specialDayOpeningList; track opening) {
                 <div class="store-openings-date">
-                  <span class="store-openings-day bold">{{ opening.name }}</span
-                  >{{ getStoreOpening(opening) | async }}
+                  <span class="store-openings-day bold">{{
+                    opening.name
+                  }}</span>{{ getStoreOpening(opening) | async }}
                 </div>
               }
             </div>

@@ -17,9 +17,13 @@ const verificationToken: VerificationToken = {
 
 class MockUserAdapter implements UserAccountAdapter {
   createVerificationToken = vi
-    .fn('createVerificationToken')
+    .fn()
+    .mockName('createVerificationToken')
     .mockImplementation(() => of(verificationToken));
-  load = vi.fn('load').mockImplementation((userId) => of(`load-${userId}`));
+  load = vi
+    .fn()
+    .mockName('load')
+    .mockImplementation((userId) => of(`load-${userId}`));
 }
 
 describe('UserConnector', () => {

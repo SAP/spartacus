@@ -118,7 +118,7 @@ describe('OrderAttachmentsDialogComponent', () => {
         },
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: vi.fn('markForCheck') },
+          useValue: { markForCheck: vi.fn().mockName('markForCheck') },
         },
       ],
     }).compileComponents();

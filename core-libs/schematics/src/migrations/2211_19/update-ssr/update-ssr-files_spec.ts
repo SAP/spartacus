@@ -1,5 +1,5 @@
 import { TempScopedNodeJsSyncHost } from '@angular-devkit/core/node/testing';
-import { HostTree } from '@angular-devkit/schematics/src/tree/host-tree';
+import { HostTree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
