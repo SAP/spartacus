@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -16,6 +17,10 @@ describe('ConfigurationConflictSuggestionComponent', () => {
       imports: [I18nTestingModule, ConfiguratorConflictSuggestionComponent],
       providers: [],
     })
+      .overrideComponent(ConfiguratorConflictSuggestionComponent, {
+        remove: { imports: [IconComponent] },
+        add: { imports: [IconTestingModule] },
+      })
       .overrideComponent(ConfiguratorConflictSuggestionComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
@@ -77,6 +82,18 @@ describe('ConfigurationConflictSuggestionComponent', () => {
       fixture.detectChanges();
     });
 
+    it("should contain cx-icon element with 'aria-hidden' attribute that removes cx-icon element from the accessibility tree", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        undefined,
+        0,
+        'aria-hidden',
+        'true'
+      );
+    });
+
     it("should contain div element with class name 'cx-title' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -91,9 +108,13 @@ describe('ConfigurationConflictSuggestionComponent', () => {
     });
 
     it("should contain span element 'aria-hidden' attribute that removes span element from the accessibility tree", () => {
+      const suggestionContent = htmlElem.querySelector(
+        '.cx-suggestion-content'
+      );
+      expect(suggestionContent).toBeTruthy();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
+        suggestionContent as HTMLElement,
         'span',
         undefined,
         0,
@@ -104,9 +125,13 @@ describe('ConfigurationConflictSuggestionComponent', () => {
     });
 
     it("should contain span element 'aria-hidden' attribute that hides span content with suggestion text from the accessibility tree", () => {
+      const suggestionContent = htmlElem.querySelector(
+        '.cx-suggestion-content'
+      );
+      expect(suggestionContent).toBeTruthy();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
+        suggestionContent as HTMLElement,
         'span',
         undefined,
         1,
