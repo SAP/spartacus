@@ -18,6 +18,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
 import bootstrap from './main.server';
+import { getChromeDevtoolsExpressMiddleware } from './app/private/ssr/get-chrome-devtools-express-middleware';
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
@@ -57,6 +58,12 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
+
+  /**
+   * TODO: after implementing a modern Angular SSR setup, this middleware should be removed due to ootb support:
+   * https://github.com/angular/angular-cli/blob/main/packages/angular/build/src/tools/vite/plugins/setup-middlewares-plugin.ts#L106
+   */
+  server.use(getChromeDevtoolsExpressMiddleware());
 
   // Serve static files from /browser
   server.get(
