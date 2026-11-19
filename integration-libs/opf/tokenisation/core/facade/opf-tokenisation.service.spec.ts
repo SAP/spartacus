@@ -41,40 +41,38 @@ describe('OpfTokenisationService', () => {
   });
 
   describe('getPaymentMethods', () => {
-    it('should delegate to UserPaymentService.getPaymentMethods', (done) => {
+    it('should delegate to UserPaymentService.getPaymentMethods', async () => {
       const mockPayments: OpfPaymentDetails[] = [
         { id: 'method1' } as OpfPaymentDetails,
         { id: 'method2' } as OpfPaymentDetails,
       ];
-      spyOn(userPaymentService, 'getPaymentMethods').and.returnValue(
+      vi.spyOn(userPaymentService, 'getPaymentMethods').mockReturnValue(
         of(mockPayments)
       );
 
       service.getPaymentMethods().subscribe((result) => {
         expect(userPaymentService.getPaymentMethods).toHaveBeenCalled();
         expect(result).toEqual(mockPayments);
-        done();
       });
     });
   });
 
   describe('getPaymentMethodsLoading', () => {
-    it('should delegate to UserPaymentService.getPaymentMethodsLoading', (done) => {
-      spyOn(userPaymentService, 'getPaymentMethodsLoading').and.returnValue(
+    it('should delegate to UserPaymentService.getPaymentMethodsLoading', async () => {
+      vi.spyOn(userPaymentService, 'getPaymentMethodsLoading').mockReturnValue(
         of(true)
       );
 
       service.getPaymentMethodsLoading().subscribe((result) => {
         expect(userPaymentService.getPaymentMethodsLoading).toHaveBeenCalled();
         expect(result).toBe(true);
-        done();
       });
     });
   });
 
   describe('loadPaymentMethods', () => {
     it('should delegate to UserPaymentService.loadPaymentMethods', () => {
-      spyOn(userPaymentService, 'loadPaymentMethods');
+      vi.spyOn(userPaymentService, 'loadPaymentMethods');
 
       service.loadPaymentMethods();
 
@@ -84,7 +82,7 @@ describe('OpfTokenisationService', () => {
 
   describe('deletePaymentMethod', () => {
     it('should delegate to UserPaymentService.deletePaymentMethod with correct id', () => {
-      spyOn(userPaymentService, 'deletePaymentMethod');
+      vi.spyOn(userPaymentService, 'deletePaymentMethod');
 
       service.deletePaymentMethod('method-123');
 

@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { Address } from '@spartacus/core';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
@@ -66,7 +67,7 @@ const mockCart = {
 } as any;
 
 class MockOpfCtaFacade implements Partial<OpfCtaFacade> {
-  emitScriptReadyEvent = jasmine.createSpy('emitScriptReadyEvent');
+  emitScriptReadyEvent = vi.fn();
 }
 
 class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
@@ -96,13 +97,13 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  getCart = jasmine.createSpy('getCart').and.returnValue(of(mockCart));
-  reloadCart = jasmine.createSpy('reloadCart');
+  getCart = vi.fn().mockReturnValue(of(mockCart));
+  reloadCart = vi.fn();
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
-  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
+  isStable = vi.fn().mockReturnValue(of(false, true));
+  reloadActiveCart = vi.fn();
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -120,56 +121,38 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  setDeliveryAddress = jasmine
-    .createSpy('setDeliveryAddress')
-    .and.returnValue(of('test-address-id'));
-  setDeliveryMode = jasmine
-    .createSpy('setDeliveryMode')
-    .and.returnValue(of(mockDeliveryMode));
-  deleteUserAddresses = jasmine.createSpy('deleteUserAddresses');
-  updateCartGuestUserEmail = jasmine
-    .createSpy('updateCartGuestUserEmail')
-    .and.returnValue(of(true));
-  createCartGuestUser = jasmine
-    .createSpy('createCartGuestUser')
-    .and.returnValue(of(true));
-  prepareTransactionCart = jasmine
-    .createSpy('prepareTransactionCart')
-    .and.returnValue(of(mockCart));
-  getCurrentCart = jasmine
-    .createSpy('getCurrentCart')
-    .and.returnValue(of(mockCart));
-  getCurrentCartId = jasmine
-    .createSpy('getCurrentCartId')
-    .and.returnValue(of('test-cart-id'));
-  getDeliveryAddress = jasmine
-    .createSpy('getDeliveryAddress')
-    .and.returnValue(of(mockDeliveryAddress));
-  getSelectedDeliveryMode = jasmine
-    .createSpy('getSelectedDeliveryMode')
-    .and.returnValue(of(mockDeliveryMode));
+  setDeliveryAddress = vi.fn().mockReturnValue(of('test-address-id'));
+  setDeliveryMode = vi.fn().mockReturnValue(of(mockDeliveryMode));
+  deleteUserAddresses = vi.fn();
+  updateCartGuestUserEmail = vi.fn().mockReturnValue(of(true));
+  createCartGuestUser = vi.fn().mockReturnValue(of(true));
+  prepareTransactionCart = vi.fn().mockReturnValue(of(mockCart));
+  getCurrentCart = vi.fn().mockReturnValue(of(mockCart));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
+  getDeliveryAddress = vi.fn().mockReturnValue(of(mockDeliveryAddress));
+  getSelectedDeliveryMode = vi.fn().mockReturnValue(of(mockDeliveryMode));
 }
 
 class MockOpfQuickBuyFacade implements Partial<OpfQuickBuyFacade> {
-  getApplePayWebSession = jasmine
-    .createSpy('getApplePayWebSession')
-    .and.returnValue(of({} as ApplePaySessionVerificationResponse));
+  getApplePayWebSession = vi
+    .fn()
+    .mockReturnValue(of({} as ApplePaySessionVerificationResponse));
 }
 
-function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
-  return jasmine.createSpyObj('OpfPaymentFacade', [
-    'submitPayment',
-    'submitCompletePayment',
-    'getActiveConfigurationsState',
-    'verifyPayment',
-    'initiatePayment',
-    'updatePaymentTransaction',
-  ]);
+function createOpfPaymentFacadeMock(): any {
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 describe('OpfGlobalFunctionsGlobalDomainService', () => {
   let service: OpfGlobalFunctionsGlobalDomainService;
-  let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
+  let opfPaymentFacadeMock: any;
   let opfQuickBuyTransactionService: OpfQuickBuyTransactionService;
 
   beforeEach(() => {
@@ -229,9 +212,7 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     });
 
     it('should return cart by id when cartId is provided', async () => {
-      const multiCartFacade = TestBed.inject(
-        MultiCartFacade
-      ) as jasmine.SpyObj<MultiCartFacade>;
+      const multiCartFacade = TestBed.inject(MultiCartFacade) as any;
       const cartId = 'specific-cart-id';
 
       const result = await service.getCart(cartId);
@@ -326,7 +307,7 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
       const mockResponse: OpfPaymentVerificationResponse = {
         result: 'success',
       };
-      opfPaymentFacadeMock.verifyPayment.and.returnValue(of(mockResponse));
+      opfPaymentFacadeMock.verifyPayment.mockReturnValue(of(mockResponse));
 
       const result = await service.verifyPayment(
         'test-session-id',
@@ -347,7 +328,7 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     };
 
     beforeEach(() => {
-      opfPaymentFacadeMock.initiatePayment.and.returnValue(of(mockSessionData));
+      opfPaymentFacadeMock.initiatePayment.mockReturnValue(of(mockSessionData));
     });
 
     it('should handle string configurationId', async () => {
@@ -371,17 +352,17 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     });
 
     it('should reject when configurationId is missing', async () => {
-      await expectAsync(
-        service.initiatePayment({} as any)
-      ).toBeRejectedWithError('configurationId is required');
+      await expect(service.initiatePayment({} as any)).rejects.toThrow(
+        'configurationId is required'
+      );
     });
 
     it('should reject when cartId is missing', async () => {
-      opfQuickBuyTransactionService.getCurrentCartId = jasmine
-        .createSpy('getCurrentCartId')
-        .and.returnValue(of(undefined));
+      opfQuickBuyTransactionService.getCurrentCartId = vi
+        .fn()
+        .mockReturnValue(of(undefined));
 
-      await expectAsync(service.initiatePayment('2301')).toBeRejectedWithError(
+      await expect(service.initiatePayment('2301')).rejects.toThrow(
         'Cart ID is required. No active cart found.'
       );
     });
@@ -437,7 +418,7 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
       const opfQuickBuyFacade = TestBed.inject(
         OpfQuickBuyFacade
       ) as unknown as MockOpfQuickBuyFacade;
-      opfQuickBuyFacade.getApplePayWebSession.and.returnValue(of(mockResponse));
+      opfQuickBuyFacade.getApplePayWebSession.mockReturnValue(of(mockResponse));
 
       const result = await service.getApplePayWebSession(mockRequest);
 

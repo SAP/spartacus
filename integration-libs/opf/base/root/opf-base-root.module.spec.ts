@@ -4,14 +4,15 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { OpfBaseRootModule } from './opf-base-root.module';
 import { OpfMetadataStatePersistanceService } from './services/opf-metadata-state-persistence.service';
 
 describe('OpfBaseRootModule', () => {
-  let initSyncSpy: jasmine.Spy;
+  let initSyncSpy: vi.Mock;
 
   beforeEach(() => {
-    initSyncSpy = spyOn(
+    initSyncSpy = vi.spyOn(
       OpfMetadataStatePersistanceService.prototype,
       'initSync'
     );

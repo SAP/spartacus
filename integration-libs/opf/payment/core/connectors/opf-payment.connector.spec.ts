@@ -22,7 +22,6 @@ import {
 import { of } from 'rxjs';
 import { OpfPaymentAdapter } from './opf-payment.adapter';
 import { OpfPaymentConnector } from './opf-payment.connector';
-import createSpy = jasmine.createSpy;
 
 const mockOpfPaymentVerificationPayload: OpfPaymentVerificationPayload = {
   responseMap: [],
@@ -76,24 +75,22 @@ const mockAfterRedirectScriptsResponse: OpfPaymentAfterRedirectScriptResponse =
   };
 
 class MockOpfPaymentAdapter implements OpfPaymentAdapter {
-  verifyPayment = createSpy('verifyPayment').and.callFake(() =>
-    of(mockOpfPaymentVerificationResponse)
-  );
-  submitPayment = createSpy('submitPayment').and.callFake(() =>
-    of(mockSubmitPaymentResponse)
-  );
-  submitCompletePayment = createSpy('submitCompletePayment').and.callFake(() =>
-    of(mockSubmitCompleteResponse)
-  );
-  initiatePayment = createSpy('initiatePayment').and.callFake(() =>
-    of(mockInitiatePayment)
-  );
-  updatePaymentTransaction = createSpy('updatePaymentTransaction').and.callFake(
-    () => of(mockInitiatePayment)
-  );
-  getAfterRedirectScripts = createSpy('getAfterRedirectScripts').and.callFake(
-    () => of(mockAfterRedirectScriptsResponse)
-  );
+  verifyPayment = vi
+    .fn()
+    .mockImplementation(() => of(mockOpfPaymentVerificationResponse));
+  submitPayment = vi
+    .fn()
+    .mockImplementation(() => of(mockSubmitPaymentResponse));
+  submitCompletePayment = vi
+    .fn()
+    .mockImplementation(() => of(mockSubmitCompleteResponse));
+  initiatePayment = vi.fn().mockImplementation(() => of(mockInitiatePayment));
+  updatePaymentTransaction = vi
+    .fn()
+    .mockImplementation(() => of(mockInitiatePayment));
+  getAfterRedirectScripts = vi
+    .fn()
+    .mockImplementation(() => of(mockAfterRedirectScriptsResponse));
 }
 
 describe('OpfPaymentConnector', () => {

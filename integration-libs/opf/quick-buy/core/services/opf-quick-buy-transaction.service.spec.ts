@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { flush, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { StoreModule } from '@ngrx/store';
 import {
   ActiveCartFacade,
@@ -41,99 +42,83 @@ import { OpfQuickBuyTransactionService } from './opf-quick-buy-transaction.servi
 
 describe('OpfQuickBuyTransactionService', () => {
   let service: OpfQuickBuyTransactionService;
-  let singleProductTransactionService: jasmine.SpyObj<OpfQuickBuySingleProductTransactionService>;
-  let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
-  let checkoutDeliveryModesFacade: jasmine.SpyObj<CheckoutDeliveryModesFacade>;
-  let checkoutDeliveryAddressFacade: jasmine.SpyObj<CheckoutDeliveryAddressFacade>;
-  let userAddressService: jasmine.SpyObj<UserAddressService>;
-  let multiCartFacade: jasmine.SpyObj<MultiCartFacade>;
-  let userIdService: jasmine.SpyObj<UserIdService>;
-  let eventService: jasmine.SpyObj<EventService>;
-  let checkoutBillingAddressFacade: jasmine.SpyObj<CheckoutBillingAddressFacade>;
-  let baseSiteService: jasmine.SpyObj<BaseSiteService>;
-  let routingService: jasmine.SpyObj<RoutingService>;
-  let opfGlobalMessageService: jasmine.SpyObj<OpfGlobalMessageService>;
-  let authService: jasmine.SpyObj<AuthService>;
-  let cartGuestUserFacade: jasmine.SpyObj<CartGuestUserFacade>;
+  let singleProductTransactionService: any;
+  let activeCartFacade: any;
+  let checkoutDeliveryModesFacade: any;
+  let checkoutDeliveryAddressFacade: any;
+  let userAddressService: any;
+  let multiCartFacade: any;
+  let userIdService: any;
+  let eventService: any;
+  let checkoutBillingAddressFacade: any;
+  let baseSiteService: any;
+  let routingService: any;
+  let opfGlobalMessageService: any;
+  let authService: any;
+  let cartGuestUserFacade: any;
 
   beforeEach(() => {
-    activeCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
-      'addEntry',
-      'isStable',
-      'takeActive',
-      'getActive',
-      'deleteCart',
-      'takeActiveCartId',
-      'getActiveCartId',
-      'isGuestCart',
-    ]);
-    checkoutDeliveryModesFacade = jasmine.createSpyObj(
-      'CheckoutDeliveryModesFacade',
-      [
-        'getSupportedDeliveryModes',
-        'setDeliveryMode',
-        'getSelectedDeliveryModeState',
-      ]
-    );
-    checkoutDeliveryAddressFacade = jasmine.createSpyObj(
-      'CheckoutDeliveryAddressFacade',
-      ['createAndSetAddress', 'getDeliveryAddressState']
-    );
-    userAddressService = jasmine.createSpyObj('UserAddressService', [
-      'deleteUserAddress',
-    ]);
-    multiCartFacade = jasmine.createSpyObj('MultiCartFacade', [
-      'deleteCart',
-      'getCartIdByType',
-      'createCart',
-      'addEntry',
-      'isStable',
-      'loadCart',
-      'getEntry',
-      'removeEntry',
-      'updateEntry',
-      'reloadCart',
-    ]);
-    userIdService = jasmine.createSpyObj('UserIdService', [
-      'getUserId',
-      'takeUserId',
-    ]);
-    eventService = jasmine.createSpyObj('EventService', ['get']);
-    checkoutBillingAddressFacade = jasmine.createSpyObj(
-      'CheckoutBillingAddressFacade',
-      ['setBillingAddress']
-    );
-    baseSiteService = jasmine.createSpyObj('BaseSiteService', ['get']);
-    routingService = jasmine.createSpyObj('RoutingService', ['getRouterState']);
-    opfGlobalMessageService = jasmine.createSpyObj('OpfGlobalMessageService', [
-      'disableGlobalMessage',
-    ]);
-    authService = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
-    cartGuestUserFacade = jasmine.createSpyObj('CartGuestUserFacade', [
-      'createCartGuestUser',
-      'updateCartGuestUser',
-    ]);
-    singleProductTransactionService = jasmine.createSpyObj(
-      'OpfQuickBuySingleProductTransactionService',
-      [
-        'prepareTransactionCart',
-        'getTransactionDeliveryType',
-        'getTransactionDeliveryInfo',
-        'checkStableCart',
-        'getSupportedDeliveryModes',
-        'setDeliveryAddress',
-        'setBillingAddress',
-        'getDeliveryAddress',
-        'getCurrentCart',
-        'getCurrentCartId',
-        'getCurrentCartTotalPrice',
-        'setDeliveryMode',
-        'getSelectedDeliveryMode',
-        'createCartGuestUser',
-        'updateCartGuestUserEmail',
-        'handleCartGuestUser',
-      ]
-    );
+    activeCartFacade = {
+      addEntry: vi.fn(),
+      isStable: vi.fn(),
+      takeActive: vi.fn(),
+      getActive: vi.fn(),
+      deleteCart: vi.fn(),
+      takeActiveCartId: vi.fn(),
+      getActiveCartId: vi.fn(),
+      isGuestCart: vi.fn(),
+    };
+    checkoutDeliveryModesFacade = {
+      getSupportedDeliveryModes: vi.fn(),
+      setDeliveryMode: vi.fn(),
+      getSelectedDeliveryModeState: vi.fn(),
+    };
+    checkoutDeliveryAddressFacade = {
+      createAndSetAddress: vi.fn(),
+      getDeliveryAddressState: vi.fn(),
+    };
+    userAddressService = { deleteUserAddress: vi.fn() };
+    multiCartFacade = {
+      deleteCart: vi.fn(),
+      getCartIdByType: vi.fn(),
+      createCart: vi.fn(),
+      addEntry: vi.fn(),
+      isStable: vi.fn(),
+      loadCart: vi.fn(),
+      getEntry: vi.fn(),
+      removeEntry: vi.fn(),
+      updateEntry: vi.fn(),
+      reloadCart: vi.fn(),
+    };
+    userIdService = { getUserId: vi.fn(), takeUserId: vi.fn() };
+    eventService = { get: vi.fn() };
+    checkoutBillingAddressFacade = { setBillingAddress: vi.fn() };
+    baseSiteService = { get: vi.fn() };
+    routingService = { getRouterState: vi.fn() };
+    opfGlobalMessageService = { disableGlobalMessage: vi.fn() };
+    authService = { isUserLoggedIn: vi.fn() };
+    cartGuestUserFacade = {
+      createCartGuestUser: vi.fn(),
+      updateCartGuestUser: vi.fn(),
+    };
+    singleProductTransactionService = {
+      prepareTransactionCart: vi.fn(),
+      getTransactionDeliveryType: vi.fn(),
+      getTransactionDeliveryInfo: vi.fn(),
+      checkStableCart: vi.fn(),
+      getSupportedDeliveryModes: vi.fn(),
+      setDeliveryAddress: vi.fn(),
+      setBillingAddress: vi.fn(),
+      getDeliveryAddress: vi.fn(),
+      getCurrentCart: vi.fn(),
+      getCurrentCartId: vi.fn(),
+      getCurrentCartTotalPrice: vi.fn(),
+      setDeliveryMode: vi.fn(),
+      getSelectedDeliveryMode: vi.fn(),
+      createCartGuestUser: vi.fn(),
+      updateCartGuestUserEmail: vi.fn(),
+      handleCartGuestUser: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
@@ -170,51 +155,49 @@ describe('OpfQuickBuyTransactionService', () => {
     });
 
     service = TestBed.inject(OpfQuickBuyTransactionService);
-    routingService.getRouterState.and.returnValue(
+    routingService.getRouterState.mockReturnValue(
       of({ state: { semanticRoute: 'cart' } } as RouterState)
     );
   });
 
   describe('checkStableCart', () => {
-    it('should return true if the cart is stable', fakeAsync(() => {
-      activeCartFacade.isStable.and.returnValue(of(true));
-      multiCartFacade.isStable.and.returnValue(of(true));
+    it('should return true if the cart is stable', async () => {
+      activeCartFacade.isStable.mockReturnValue(of(true));
+      multiCartFacade.isStable.mockReturnValue(of(true));
 
       service.checkStableCart().subscribe((isStable) => {
         expect(isStable).toBeTruthy();
-        flush();
       });
-    }));
+    });
   });
 
   describe('getSupportedDeliveryModes', () => {
-    it('should return an observable of delivery modes', (done) => {
+    it('should return an observable of delivery modes', async () => {
       const mockDeliveryModes: DeliveryMode[] = [
         { code: 'standard', name: 'Standard Delivery' },
         { code: 'express', name: 'Express Delivery' },
       ];
 
-      checkoutDeliveryModesFacade.getSupportedDeliveryModes.and.returnValue(
+      checkoutDeliveryModesFacade.getSupportedDeliveryModes.mockReturnValue(
         of(mockDeliveryModes)
       );
 
       service.getSupportedDeliveryModes().subscribe((deliveryModes) => {
         expect(deliveryModes).toEqual(mockDeliveryModes);
-        done();
       });
     });
   });
 
   describe('setDeliveryAddress', () => {
-    it('should set the delivery address and return its ID', (done) => {
+    it('should set the delivery address and return its ID', async () => {
       const mockAddress: Address = {};
       const mockAddressId = 'addressId';
 
-      activeCartFacade.isStable.and.returnValue(of(true));
-      checkoutDeliveryAddressFacade.createAndSetAddress.and.returnValue(
+      activeCartFacade.isStable.mockReturnValue(of(true));
+      checkoutDeliveryAddressFacade.createAndSetAddress.mockReturnValue(
         of(null)
       );
-      checkoutDeliveryAddressFacade.getDeliveryAddressState.and.returnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState.mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -227,18 +210,17 @@ describe('OpfQuickBuyTransactionService', () => {
         expect(
           checkoutDeliveryAddressFacade.createAndSetAddress
         ).toHaveBeenCalledWith(mockAddress);
-        done();
       });
     });
 
-    it('should handle an undefined address', (done) => {
+    it('should handle an undefined address', async () => {
       const mockAddress: Address = {};
 
-      checkoutDeliveryAddressFacade.createAndSetAddress.and.returnValue(
+      checkoutDeliveryAddressFacade.createAndSetAddress.mockReturnValue(
         of(null)
       );
-      activeCartFacade.isStable.and.returnValue(of(true));
-      checkoutDeliveryAddressFacade.getDeliveryAddressState.and.returnValue(
+      activeCartFacade.isStable.mockReturnValue(of(true));
+      checkoutDeliveryAddressFacade.getDeliveryAddressState.mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -248,21 +230,20 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.setDeliveryAddress(mockAddress).subscribe((result) => {
         expect(result).toEqual('');
-        done();
       });
     });
 
-    it('should handle an address without an id', (done) => {
+    it('should handle an address without an id', async () => {
       const mockAddress: Address = {
         firstName: 'John',
         lastName: 'Doe',
       };
 
-      checkoutDeliveryAddressFacade.createAndSetAddress.and.returnValue(
+      checkoutDeliveryAddressFacade.createAndSetAddress.mockReturnValue(
         of(null)
       );
-      activeCartFacade.isStable.and.returnValue(of(true));
-      checkoutDeliveryAddressFacade.getDeliveryAddressState.and.returnValue(
+      activeCartFacade.isStable.mockReturnValue(of(true));
+      checkoutDeliveryAddressFacade.getDeliveryAddressState.mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -272,31 +253,29 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.setDeliveryAddress(mockAddress).subscribe((result) => {
         expect(result).toEqual('');
-        done();
       });
     });
   });
 
   describe('setBillingAddress', () => {
-    it('should set the billing address and check if the cart is stable', (done) => {
+    it('should set the billing address and check if the cart is stable', async () => {
       const mockAddress: Address = {};
-      checkoutBillingAddressFacade.setBillingAddress.and.returnValue(of(true));
+      checkoutBillingAddressFacade.setBillingAddress.mockReturnValue(of(true));
 
-      activeCartFacade.isStable.and.returnValue(of(true));
+      activeCartFacade.isStable.mockReturnValue(of(true));
 
       service.setBillingAddress(mockAddress).subscribe((result) => {
         expect(result).toBeTruthy();
         expect(
           checkoutBillingAddressFacade.setBillingAddress
         ).toHaveBeenCalledWith(mockAddress);
-        done();
       });
     });
 
-    it('should return false if setting the billing address fails', (done) => {
+    it('should return false if setting the billing address fails', async () => {
       const mockAddress: Address = {};
 
-      checkoutBillingAddressFacade.setBillingAddress.and.returnValue(
+      checkoutBillingAddressFacade.setBillingAddress.mockReturnValue(
         throwError(() => new Error('Setting address failed'))
       );
 
@@ -306,83 +285,77 @@ describe('OpfQuickBuyTransactionService', () => {
           expect(
             checkoutBillingAddressFacade.setBillingAddress
           ).toHaveBeenCalledWith(mockAddress);
-          done();
         },
         (error) => {
           expect(error).toBeDefined();
-          done();
         }
       );
     });
   });
 
   describe('getCurrentCart', () => {
-    it('should return an observable of the current cart', (done) => {
+    it('should return an observable of the current cart', async () => {
       const mockCart: Cart = { guid: 'testId' };
 
-      activeCartFacade.takeActive.and.returnValue(of(mockCart));
+      activeCartFacade.takeActive.mockReturnValue(of(mockCart));
 
       service.getCurrentCart().subscribe((cart) => {
         expect(cart.guid).toEqual(mockCart.guid);
         expect(activeCartFacade.takeActive).toHaveBeenCalled();
-        done();
       });
     });
   });
 
   describe('getCurrentCartId', () => {
-    it('should return an observable of the current cart ID', (done) => {
+    it('should return an observable of the current cart ID', async () => {
       const mockCartId = '12345';
-      activeCartFacade.takeActiveCartId.and.returnValue(of(mockCartId));
+      activeCartFacade.takeActiveCartId.mockReturnValue(of(mockCartId));
 
       service.getCurrentCartId().subscribe((cartId) => {
         expect(cartId).toEqual(mockCartId);
         expect(activeCartFacade.takeActiveCartId).toHaveBeenCalled();
-        done();
       });
     });
   });
 
   describe('getCurrentCartTotalPrice', () => {
-    it('should return an observable of the current cart total price', (done) => {
+    it('should return an observable of the current cart total price', async () => {
       const mockTotalPrice = 100.5;
       const mockCart = { totalPrice: { value: mockTotalPrice } };
 
-      activeCartFacade.takeActive.and.returnValue(of(mockCart));
+      activeCartFacade.takeActive.mockReturnValue(of(mockCart));
 
       service.getCurrentCartTotalPrice().subscribe((totalPrice) => {
         expect(totalPrice).toEqual(mockTotalPrice);
         expect(activeCartFacade.takeActive).toHaveBeenCalled();
-        done();
       });
     });
 
-    it('should return undefined if the cart does not have a total price', (done) => {
+    it('should return undefined if the cart does not have a total price', async () => {
       const mockCart = { totalPrice: undefined };
 
-      activeCartFacade.takeActive.and.returnValue(of(mockCart));
+      activeCartFacade.takeActive.mockReturnValue(of(mockCart));
 
       service.getCurrentCartTotalPrice().subscribe((totalPrice) => {
         expect(totalPrice).toBeUndefined();
         expect(activeCartFacade.takeActive).toHaveBeenCalled();
-        done();
       });
     });
   });
 
   describe('setDeliveryMode', () => {
-    it('should set the delivery mode and return the selected mode', (done) => {
+    it('should set the delivery mode and return the selected mode', async () => {
       const mockMode = 'standard';
       const mockDeliveryMode: DeliveryMode = {
         code: mockMode,
         name: 'Standard Delivery',
       };
 
-      checkoutDeliveryModesFacade.setDeliveryMode.and.returnValue(
+      checkoutDeliveryModesFacade.setDeliveryMode.mockReturnValue(
         of(mockDeliveryMode)
       );
 
-      checkoutDeliveryModesFacade.getSelectedDeliveryModeState.and.returnValue(
+      checkoutDeliveryModesFacade.getSelectedDeliveryModeState.mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -395,14 +368,13 @@ describe('OpfQuickBuyTransactionService', () => {
         expect(
           checkoutDeliveryModesFacade.setDeliveryMode
         ).toHaveBeenCalledWith(mockMode);
-        done();
       });
     });
 
-    it('should return undefined if setting the delivery mode fails', (done) => {
+    it('should return undefined if setting the delivery mode fails', async () => {
       const mockMode = 'express';
 
-      checkoutDeliveryModesFacade.setDeliveryMode.and.returnValue(
+      checkoutDeliveryModesFacade.setDeliveryMode.mockReturnValue(
         throwError(new Error('Failed to set mode'))
       );
 
@@ -412,24 +384,22 @@ describe('OpfQuickBuyTransactionService', () => {
           expect(
             checkoutDeliveryModesFacade.setDeliveryMode
           ).toHaveBeenCalledWith(mockMode);
-          done();
         },
         (error) => {
           expect(error).toBeDefined();
-          done();
         }
       );
     });
   });
 
   describe('getSelectedDeliveryMode', () => {
-    it('should return an observable of the selected delivery mode', (done) => {
+    it('should return an observable of the selected delivery mode', async () => {
       const mockDeliveryMode: DeliveryMode = {
         code: 'standard',
         name: 'Standard Delivery',
       };
 
-      checkoutDeliveryModesFacade.getSelectedDeliveryModeState.and.returnValue(
+      checkoutDeliveryModesFacade.getSelectedDeliveryModeState.mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -439,12 +409,11 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.getSelectedDeliveryMode().subscribe((selectedMode) => {
         expect(selectedMode).toEqual(mockDeliveryMode);
-        done();
       });
     });
 
-    it('should return undefined if no delivery mode is selected', (done) => {
-      checkoutDeliveryModesFacade.getSelectedDeliveryModeState.and.returnValue(
+    it('should return undefined if no delivery mode is selected', async () => {
+      checkoutDeliveryModesFacade.getSelectedDeliveryModeState.mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -454,7 +423,6 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.getSelectedDeliveryMode().subscribe((selectedMode) => {
         expect(selectedMode).toBeUndefined();
-        done();
       });
     });
   });
@@ -463,7 +431,7 @@ describe('OpfQuickBuyTransactionService', () => {
     it('should call `deleteUserAddress` for each address ID for logged in users', () => {
       const addrIds = ['addr1', 'addr2', 'addr3'];
 
-      authService.isUserLoggedIn.and.returnValue(of(true));
+      authService.isUserLoggedIn.mockReturnValue(of(true));
 
       service.deleteUserAddresses(addrIds);
 
@@ -477,7 +445,7 @@ describe('OpfQuickBuyTransactionService', () => {
     it('should not call `deleteUserAddress` for unauthenticated users', () => {
       const addrIds = ['addr1', 'addr2', 'addr3'];
 
-      authService.isUserLoggedIn.and.returnValue(of(false));
+      authService.isUserLoggedIn.mockReturnValue(of(false));
 
       service.deleteUserAddresses(addrIds);
 
@@ -487,7 +455,7 @@ describe('OpfQuickBuyTransactionService', () => {
     it('should disable global messages for address deletion success', () => {
       const addrIds = ['addr1', 'addr2'];
 
-      authService.isUserLoggedIn.and.returnValue(of(true));
+      authService.isUserLoggedIn.mockReturnValue(of(true));
 
       service.deleteUserAddresses(addrIds);
 
@@ -498,40 +466,37 @@ describe('OpfQuickBuyTransactionService', () => {
   });
 
   describe('getMerchantName', () => {
-    it('should return baseSite name', (done) => {
+    it('should return baseSite name', async () => {
       const mockName = 'Store';
-      baseSiteService.get.and.returnValue(of({ name: mockName }));
+      baseSiteService.get.mockReturnValue(of({ name: mockName }));
       service.getMerchantName().subscribe((merchantName) => {
         expect(merchantName).toBe(mockName);
-        done();
       });
     });
-    it('should return default MerchantName name when empty', (done) => {
+    it('should return default MerchantName name when empty', async () => {
       const mockName = undefined;
-      baseSiteService.get.and.returnValue(of({ name: mockName }));
+      baseSiteService.get.mockReturnValue(of({ name: mockName }));
       service.getMerchantName().subscribe((merchantName) => {
         expect(merchantName).toBe(OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME);
-        done();
       });
     });
   });
 
   describe('resolveContext', () => {
-    it('should re-read route on each call without caching stale values', (done) => {
-      routingService.getRouterState.and.returnValue(
+    it('should re-read route on each call without caching stale values', async () => {
+      routingService.getRouterState.mockReturnValue(
         of({ state: { semanticRoute: 'product' } } as RouterState)
       );
 
       service['resolveContext']().subscribe((first) => {
         expect(first).toBe(OpfQuickBuyLocation.PRODUCT);
 
-        routingService.getRouterState.and.returnValue(
+        routingService.getRouterState.mockReturnValue(
           of({ state: { semanticRoute: 'cart' } } as RouterState)
         );
 
         service['resolveContext']().subscribe((second) => {
           expect(second).toBe(OpfQuickBuyLocation.CART);
-          done();
         });
       });
     });
@@ -542,7 +507,7 @@ describe('OpfQuickBuyTransactionService', () => {
       const routerState = new BehaviorSubject<RouterState>({
         state: { semanticRoute: 'cart' },
       } as RouterState);
-      routingService.getRouterState.and.returnValue(routerState);
+      routingService.getRouterState.mockReturnValue(routerState);
 
       service.getTransactionLocationContext().subscribe((context) => {
         expect(context).toBe(OpfQuickBuyLocation.CART);
@@ -552,10 +517,10 @@ describe('OpfQuickBuyTransactionService', () => {
 
   describe('createCartGuestUser', () => {
     it('should call `createCartGuestUser` from `CartGuestUserFacade` with params', () => {
-      userIdService.takeUserId.and.returnValue(of('userId'));
-      activeCartFacade.takeActiveCartId.and.returnValue(of('cartId'));
-      multiCartFacade.reloadCart.and.returnValue();
-      cartGuestUserFacade.createCartGuestUser.and.returnValue(of({}));
+      userIdService.takeUserId.mockReturnValue(of('userId'));
+      activeCartFacade.takeActiveCartId.mockReturnValue(of('cartId'));
+      multiCartFacade.reloadCart.mockReturnValue();
+      cartGuestUserFacade.createCartGuestUser.mockReturnValue(of({}));
 
       service
         .createCartGuestUser()
@@ -573,11 +538,11 @@ describe('OpfQuickBuyTransactionService', () => {
 
   describe('updateCartGuestUserEmail', () => {
     it('should call `updateCartGuestUser` from `CartGuestUserFacade` with params', () => {
-      userIdService.takeUserId.and.returnValue(of('userId'));
-      activeCartFacade.takeActiveCartId.and.returnValue(of('cartId'));
-      multiCartFacade.reloadCart.and.returnValue();
-      cartGuestUserFacade.updateCartGuestUser.and.returnValue(of({}));
-      activeCartFacade.isGuestCart.and.returnValue(of(true));
+      userIdService.takeUserId.mockReturnValue(of('userId'));
+      activeCartFacade.takeActiveCartId.mockReturnValue(of('cartId'));
+      multiCartFacade.reloadCart.mockReturnValue();
+      cartGuestUserFacade.updateCartGuestUser.mockReturnValue(of({}));
+      activeCartFacade.isGuestCart.mockReturnValue(of(true));
       const mockEmailAddr = 'mockemail@mockemail.com';
       service
         .updateCartGuestUserEmail(mockEmailAddr)
@@ -594,11 +559,11 @@ describe('OpfQuickBuyTransactionService', () => {
     });
 
     it('should return false when no email', () => {
-      userIdService.takeUserId.and.returnValue(of('userId'));
-      activeCartFacade.takeActiveCartId.and.returnValue(of('cartId'));
-      multiCartFacade.reloadCart.and.returnValue();
-      cartGuestUserFacade.updateCartGuestUser.and.returnValue(of({}));
-      activeCartFacade.isGuestCart.and.returnValue(of(true));
+      userIdService.takeUserId.mockReturnValue(of('userId'));
+      activeCartFacade.takeActiveCartId.mockReturnValue(of('cartId'));
+      multiCartFacade.reloadCart.mockReturnValue();
+      cartGuestUserFacade.updateCartGuestUser.mockReturnValue(of({}));
+      activeCartFacade.isGuestCart.mockReturnValue(of(true));
       const mockEmailAddr = '';
       service
         .updateCartGuestUserEmail(mockEmailAddr)
@@ -614,12 +579,12 @@ describe('OpfQuickBuyTransactionService', () => {
 
   describe('handleCartGuestUser', () => {
     it('should call `createCartGuestUser` if cart belongs to an anonymous user', () => {
-      authService.isUserLoggedIn.and.returnValue(of(false));
-      activeCartFacade.isGuestCart.and.returnValue(of(false));
-      userIdService.takeUserId.and.returnValue(of('userId'));
-      activeCartFacade.takeActiveCartId.and.returnValue(of('cartId'));
-      multiCartFacade.reloadCart.and.returnValue();
-      cartGuestUserFacade.createCartGuestUser.and.returnValue(of({}));
+      authService.isUserLoggedIn.mockReturnValue(of(false));
+      activeCartFacade.isGuestCart.mockReturnValue(of(false));
+      userIdService.takeUserId.mockReturnValue(of('userId'));
+      activeCartFacade.takeActiveCartId.mockReturnValue(of('cartId'));
+      multiCartFacade.reloadCart.mockReturnValue();
+      cartGuestUserFacade.createCartGuestUser.mockReturnValue(of({}));
 
       service
         .handleCartGuestUser()
@@ -644,58 +609,58 @@ describe('OpfQuickBuyTransactionService', () => {
     };
 
     beforeEach(() => {
-      routingService.getRouterState.and.returnValue(
+      routingService.getRouterState.mockReturnValue(
         of({ state: { semanticRoute: 'product' } } as RouterState)
       );
-      singleProductTransactionService.prepareTransactionCart.and.returnValue(
+      singleProductTransactionService.prepareTransactionCart.mockReturnValue(
         of(mockCart)
       );
-      singleProductTransactionService.checkStableCart.and.returnValue(of(true));
-      singleProductTransactionService.getSupportedDeliveryModes.and.returnValue(
+      singleProductTransactionService.checkStableCart.mockReturnValue(of(true));
+      singleProductTransactionService.getSupportedDeliveryModes.mockReturnValue(
         of([mockDeliveryMode])
       );
-      singleProductTransactionService.setDeliveryAddress.and.returnValue(
+      singleProductTransactionService.setDeliveryAddress.mockReturnValue(
         of('address-id')
       );
-      singleProductTransactionService.setBillingAddress.and.returnValue(
+      singleProductTransactionService.setBillingAddress.mockReturnValue(
         of(true)
       );
-      singleProductTransactionService.getDeliveryAddress.and.returnValue(
+      singleProductTransactionService.getDeliveryAddress.mockReturnValue(
         of(mockAddress)
       );
-      singleProductTransactionService.getCurrentCart.and.returnValue(
+      singleProductTransactionService.getCurrentCart.mockReturnValue(
         of(mockCart)
       );
-      singleProductTransactionService.getCurrentCartId.and.returnValue(
+      singleProductTransactionService.getCurrentCartId.mockReturnValue(
         of('product-cart')
       );
-      singleProductTransactionService.getCurrentCartTotalPrice.and.returnValue(
+      singleProductTransactionService.getCurrentCartTotalPrice.mockReturnValue(
         of(99)
       );
-      singleProductTransactionService.setDeliveryMode.and.returnValue(
+      singleProductTransactionService.setDeliveryMode.mockReturnValue(
         of(mockDeliveryMode)
       );
-      singleProductTransactionService.getSelectedDeliveryMode.and.returnValue(
+      singleProductTransactionService.getSelectedDeliveryMode.mockReturnValue(
         of(mockDeliveryMode)
       );
-      singleProductTransactionService.createCartGuestUser.and.returnValue(
+      singleProductTransactionService.createCartGuestUser.mockReturnValue(
         of(true)
       );
-      singleProductTransactionService.updateCartGuestUserEmail.and.returnValue(
+      singleProductTransactionService.updateCartGuestUserEmail.mockReturnValue(
         of(true)
       );
-      singleProductTransactionService.handleCartGuestUser.and.returnValue(
+      singleProductTransactionService.handleCartGuestUser.mockReturnValue(
         of(true)
       );
-      singleProductTransactionService.getTransactionDeliveryType.and.returnValue(
+      singleProductTransactionService.getTransactionDeliveryType.mockReturnValue(
         of(OpfQuickBuyDeliveryType.SHIPPING)
       );
-      singleProductTransactionService.getTransactionDeliveryInfo.and.returnValue(
+      singleProductTransactionService.getTransactionDeliveryInfo.mockReturnValue(
         of({ type: OpfQuickBuyDeliveryType.SHIPPING })
       );
     });
 
-    it('should delegate all cart operations to single product transaction service', (done) => {
+    it('should delegate all cart operations to single product transaction service', async () => {
       service.prepareTransactionCart().subscribe((cart) => {
         expect(cart).toBe(mockCart);
         expect(
@@ -755,7 +720,6 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.getTransactionDeliveryInfo().subscribe((info) => {
         expect(info.type).toBe(OpfQuickBuyDeliveryType.SHIPPING);
-        done();
       });
 
       service.createCartGuestUser().subscribe();

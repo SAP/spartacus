@@ -6,6 +6,7 @@
 
 import { of, throwError } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -29,28 +30,22 @@ describe('OpfGiftCardAppliedComponent', () => {
   let component: OpfGiftCardAppliedComponent;
   let fixture: ComponentFixture<OpfGiftCardAppliedComponent>;
 
-  let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
-  let mockGiftCardFacade: jasmine.SpyObj<OpfGiftCardFacade>;
-  let mockGlobalMessageService: jasmine.SpyObj<GlobalMessageService>;
-  let mockPaymentEventsService: jasmine.SpyObj<OpfPaymentEventsService>;
+  let mockActiveCartFacade: any;
+  let mockGiftCardFacade: any;
+  let mockGlobalMessageService: any;
+  let mockPaymentEventsService: any;
 
   beforeEach(async () => {
-    mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
-      'reloadActiveCart',
-    ]);
+    mockActiveCartFacade = { reloadActiveCart: vi.fn() };
 
-    mockGiftCardFacade = jasmine.createSpyObj('OpfGiftCardFacade', [
-      'removeGiftCard',
-    ]);
+    mockGiftCardFacade = { removeGiftCard: vi.fn() };
 
-    mockGlobalMessageService = jasmine.createSpyObj('GlobalMessageService', [
-      'add',
-    ]);
+    mockGlobalMessageService = { add: vi.fn() };
 
-    mockPaymentEventsService = jasmine.createSpyObj('OpfPaymentEventsService', [
-      'emitReinitiatePaymentEvent',
-      'emitRefreshActiveConfigurationsEvent',
-    ]);
+    mockPaymentEventsService = {
+      emitReinitiatePaymentEvent: vi.fn(),
+      emitRefreshActiveConfigurationsEvent: vi.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [OpfGiftCardAppliedComponent, I18nTestingModule],
@@ -78,7 +73,7 @@ describe('OpfGiftCardAppliedComponent', () => {
   });
 
   it('should remove gift card successfully', () => {
-    mockGiftCardFacade.removeGiftCard.and.returnValue(of(void 0));
+    mockGiftCardFacade.removeGiftCard.mockReturnValue(of(void 0));
 
     component.removeGiftCard('GC1');
 
@@ -91,7 +86,7 @@ describe('OpfGiftCardAppliedComponent', () => {
   });
 
   it('should emit reinitiatePaymentEvent after removing gift card', () => {
-    mockGiftCardFacade.removeGiftCard.and.returnValue(of(void 0));
+    mockGiftCardFacade.removeGiftCard.mockReturnValue(of(void 0));
 
     component.removeGiftCard('GC1');
 
@@ -101,7 +96,7 @@ describe('OpfGiftCardAppliedComponent', () => {
   });
 
   it('should emit refreshActiveConfigurationsEvent after removing gift card', () => {
-    mockGiftCardFacade.removeGiftCard.and.returnValue(of(void 0));
+    mockGiftCardFacade.removeGiftCard.mockReturnValue(of(void 0));
 
     component.removeGiftCard('GC1');
 
@@ -112,7 +107,7 @@ describe('OpfGiftCardAppliedComponent', () => {
 
   it('should handle error when removing gift card fails', () => {
     const error = { details: [{ message: 'Remove failed' }] };
-    mockGiftCardFacade.removeGiftCard.and.returnValue(throwError(() => error));
+    mockGiftCardFacade.removeGiftCard.mockReturnValue(throwError(() => error));
 
     component.removeGiftCard('GC1');
 

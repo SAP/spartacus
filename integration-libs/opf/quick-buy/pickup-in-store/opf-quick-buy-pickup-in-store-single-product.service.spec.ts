@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { OpfQuickBuyDefaultSingleProductService } from '@spartacus/opf/quick-buy/core';
 import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import { of } from 'rxjs';
@@ -12,13 +13,13 @@ import { OpfQuickBuyPickupInStoreSingleProductService } from './opf-quick-buy-pi
 
 describe('OpfQuickBuyPickupInStoreSingleProductService', () => {
   let service: OpfQuickBuyPickupInStoreSingleProductService;
-  let intendedPickupLocation: jasmine.SpyObj<IntendedPickupLocationFacade>;
+  let intendedPickupLocation: any;
 
   beforeEach(() => {
-    intendedPickupLocation = jasmine.createSpyObj(
-      'IntendedPickupLocationFacade',
-      ['getPickupOption', 'getIntendedLocation']
-    );
+    intendedPickupLocation = {
+      getPickupOption: vi.fn(),
+      getIntendedLocation: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -34,9 +35,9 @@ describe('OpfQuickBuyPickupInStoreSingleProductService', () => {
     service = TestBed.inject(OpfQuickBuyPickupInStoreSingleProductService);
   });
 
-  it('should return pickup store when pickup option is selected', (done) => {
-    intendedPickupLocation.getPickupOption.and.returnValue(of('pickup'));
-    intendedPickupLocation.getIntendedLocation.and.returnValue(
+  it('should return pickup store when pickup option is selected', async () => {
+    intendedPickupLocation.getPickupOption.mockReturnValue(of('pickup'));
+    intendedPickupLocation.getIntendedLocation.mockReturnValue(
       of({ name: 'Chiba' } as any)
     );
 
@@ -45,13 +46,12 @@ describe('OpfQuickBuyPickupInStoreSingleProductService', () => {
         quantity: 1,
         pickupStore: 'Chiba',
       });
-      done();
     });
   });
 
-  it('should not return pickup store when delivery option is selected', (done) => {
-    intendedPickupLocation.getPickupOption.and.returnValue(of('delivery'));
-    intendedPickupLocation.getIntendedLocation.and.returnValue(
+  it('should not return pickup store when delivery option is selected', async () => {
+    intendedPickupLocation.getPickupOption.mockReturnValue(of('delivery'));
+    intendedPickupLocation.getIntendedLocation.mockReturnValue(
       of({ name: 'Chiba' } as any)
     );
 
@@ -59,7 +59,6 @@ describe('OpfQuickBuyPickupInStoreSingleProductService', () => {
       expect(options).toEqual({
         quantity: 1,
       });
-      done();
     });
   });
 });

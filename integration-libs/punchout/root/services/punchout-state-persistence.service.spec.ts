@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { StatePersistenceService } from '@spartacus/core';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
+import { firstValueFrom } from 'rxjs';
 import { PunchoutFacade } from '../facade';
 import {
   PunchOutLevel,
@@ -51,14 +53,14 @@ describe('PunchoutStatePersistenceService', () => {
   let service: PunchoutStatePersistenceService;
   let punchoutStoreService: PunchoutStoreService;
   let punchoutDetectionService: PunchoutDetectionService;
-  let statePersistenceServiceMock: jasmine.SpyObj<StatePersistenceService>;
+  let statePersistenceServiceMock: any;
   let punchoutFacade: PunchoutFacade;
 
   beforeEach(() => {
-    statePersistenceServiceMock = jasmine.createSpyObj(
-      'StatePersistenceService',
-      ['syncWithStorage', 'readStateFromStorage']
-    );
+    statePersistenceServiceMock = {
+      syncWithStorage: vi.fn(),
+      readStateFromStorage: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -89,10 +91,10 @@ describe('PunchoutStatePersistenceService', () => {
   });
 
   it('should initialize the synchronization with state and browser storage', () => {
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+    vi.spyOn(punchoutStoreService, 'getPunchoutState').mockReturnValue(
       of(mockPunchoutState)
     );
-    spyOn(service['subscription'], 'add').and.returnValue();
+    vi.spyOn(service['subscription'], 'add').mockReturnValue(undefined as any);
     service.initSync();
 
     expect(service['subscription'].add).toHaveBeenCalled();
@@ -100,10 +102,10 @@ describe('PunchoutStatePersistenceService', () => {
   });
 
   it('should onRead call request PunchoutSession', () => {
-    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       false
     );
-    spyOn(punchoutFacade, 'initPunchoutSession').and.returnValue(
+    vi.spyOn(punchoutFacade, 'initPunchoutSession').mockReturnValue(
       of(mockPunchoutSession)
     );
     service['onRead'](mockPunchoutState.punchoutSessionId);
@@ -112,10 +114,10 @@ describe('PunchoutStatePersistenceService', () => {
   });
 
   it('should onRead do nothing when user on punchout session page', () => {
-    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       true
     );
-    spyOn(punchoutFacade, 'initPunchoutSession').and.returnValue(
+    vi.spyOn(punchoutFacade, 'initPunchoutSession').mockReturnValue(
       of(mockPunchoutSession)
     );
     service['onRead'](mockPunchoutState.punchoutSessionId);
@@ -123,10 +125,10 @@ describe('PunchoutStatePersistenceService', () => {
   });
 
   it('should onRead do nothing when no sessionId stored', () => {
-    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       true
     );
-    spyOn(punchoutFacade, 'initPunchoutSession').and.returnValue(
+    vi.spyOn(punchoutFacade, 'initPunchoutSession').mockReturnValue(
       of(mockPunchoutSession)
     );
     service['onRead'](undefined);
@@ -134,57 +136,43 @@ describe('PunchoutStatePersistenceService', () => {
   });
 
   it('should ngOnDestroy removes subscription', () => {
-    spyOn(service['subscription'], 'unsubscribe').and.returnValue();
+    vi.spyOn(service['subscription'], 'unsubscribe').mockReturnValue(
+      undefined as any
+    );
     service.ngOnDestroy();
     expect(service['subscription'].unsubscribe).toHaveBeenCalled();
   });
 
-  it('should getPunchoutSessionId stores sessionId', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+  it('should getPunchoutSessionId stores sessionId', async () => {
+    vi.spyOn(punchoutStoreService, 'getPunchoutState').mockReturnValue(
       of(mockPunchoutState)
     );
-    service['getPunchoutSessionId']().subscribe({
-      next: (response) => {
-        expect(response).toEqual(mockPunchoutState.punchoutSessionId);
-        done();
-      },
-    });
+    const response = await firstValueFrom(service['getPunchoutSessionId']());
+    expect(response).toEqual(mockPunchoutState.punchoutSessionId);
   });
 
-  it('should getPunchoutSessionId stores sessionId', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+  it('should getPunchoutSessionId stores sessionId', async () => {
+    vi.spyOn(punchoutStoreService, 'getPunchoutState').mockReturnValue(
       of(mockPunchoutState)
     );
-    service['getPunchoutSessionId']().subscribe({
-      next: (response) => {
-        expect(response).toEqual(mockPunchoutState.punchoutSessionId);
-        done();
-      },
-    });
+    const response = await firstValueFrom(service['getPunchoutSessionId']());
+    expect(response).toEqual(mockPunchoutState.punchoutSessionId);
   });
 
-  it('should getPunchoutSessionId stores undefined when punchout has not started yet', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+  it('should getPunchoutSessionId stores undefined when punchout has not started yet', async () => {
+    vi.spyOn(punchoutStoreService, 'getPunchoutState').mockReturnValue(
       of({ ...mockPunchoutState, punchoutSessionId: undefined })
     );
-    service['getPunchoutSessionId']().subscribe({
-      next: (response) => {
-        expect(response).toEqual(undefined);
-        done();
-      },
-    });
+    const response = await firstValueFrom(service['getPunchoutSessionId']());
+    expect(response).toEqual(undefined);
   });
 
-  it('should getPunchoutSessionId stores empty object when punchout has already started', (done) => {
+  it('should getPunchoutSessionId stores empty object when punchout has already started', async () => {
     service['hasPunchoutStarted'] = true;
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+    vi.spyOn(punchoutStoreService, 'getPunchoutState').mockReturnValue(
       of({ ...mockPunchoutState, punchoutSessionId: undefined })
     );
-    service['getPunchoutSessionId']().subscribe({
-      next: (response) => {
-        expect(response).toEqual('');
-        done();
-      },
-    });
+    const response = await firstValueFrom(service['getPunchoutSessionId']());
+    expect(response).toEqual('');
   });
 });

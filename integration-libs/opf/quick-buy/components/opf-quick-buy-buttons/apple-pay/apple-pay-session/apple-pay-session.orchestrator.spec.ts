@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { ApplePaySessionConfig } from '@spartacus/opf/quick-buy/root';
 import { Observable, of, throwError } from 'rxjs';
 import { ApplePaySessionWrapperService } from './apple-pay-session-wrapper.service';
@@ -163,7 +164,7 @@ interface ApplePaySessionConfigExt extends ApplePaySessionConfig {
 
 describe('ApplePaySessionOrchestrator', () => {
   let factory: ApplePaySessionOrchestrator;
-  let mockApplePaySessionFactory: jasmine.SpyObj<ApplePaySessionWrapperService>;
+  let mockApplePaySessionFactory: any;
   let mockApplePaySession: MockApplePaySession;
 
   const mockRequest: ApplePayJS.ApplePayPaymentRequest = {
@@ -190,10 +191,7 @@ describe('ApplePaySessionOrchestrator', () => {
   };
 
   beforeEach(() => {
-    const MockApplePaySessionFactory = jasmine.createSpyObj(
-      'ApplePaySessionFactory',
-      ['createSession']
-    );
+    const MockApplePaySessionFactory = { createSession: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -208,13 +206,13 @@ describe('ApplePaySessionOrchestrator', () => {
     factory = TestBed.inject(ApplePaySessionOrchestrator);
     mockApplePaySessionFactory = TestBed.inject(
       ApplePaySessionWrapperService
-    ) as jasmine.SpyObj<ApplePaySessionWrapperService>;
+    ) as any;
 
     mockApplePaySession = new MockApplePaySession(
       1,
       {} as ApplePayJS.ApplePayPaymentRequest
     );
-    spyOn(mockApplePaySession, 'addEventListener').and.callThrough();
+    vi.spyOn(mockApplePaySession, 'addEventListener');
   });
 
   it('should be created', () => {
@@ -226,7 +224,7 @@ describe('ApplePaySessionOrchestrator', () => {
       ...mockConfig,
     });
 
-    mockApplePaySessionFactory.createSession.and.returnValue(
+    mockApplePaySessionFactory.createSession.mockReturnValue(
       mockApplePaySession
     );
     expect(actual instanceof Observable).toBe(true);
@@ -241,7 +239,7 @@ describe('ApplePaySessionOrchestrator', () => {
   });
 
   it('should bind config event handlers to ApplePaySession', () => {
-    mockApplePaySessionFactory.createSession.and.returnValue(
+    mockApplePaySessionFactory.createSession.mockReturnValue(
       mockApplePaySession
     );
     factory.start(mockConfig).subscribe();
@@ -249,27 +247,27 @@ describe('ApplePaySessionOrchestrator', () => {
     expect(mockApplePaySession.addEventListener).toHaveBeenCalledTimes(6);
     expect(mockApplePaySession.addEventListener).toHaveBeenCalledWith(
       'cancel',
-      jasmine.any(Function)
+      expect.any(Function)
     );
     expect(mockApplePaySession.addEventListener).toHaveBeenCalledWith(
       'paymentauthorized',
-      jasmine.any(Function)
+      expect.any(Function)
     );
     expect(mockApplePaySession.addEventListener).toHaveBeenCalledWith(
       'paymentmethodselected',
-      jasmine.any(Function)
+      expect.any(Function)
     );
     expect(mockApplePaySession.addEventListener).toHaveBeenCalledWith(
       'shippingcontactselected',
-      jasmine.any(Function)
+      expect.any(Function)
     );
     expect(mockApplePaySession.addEventListener).toHaveBeenCalledWith(
       'shippingmethodselected',
-      jasmine.any(Function)
+      expect.any(Function)
     );
     expect(mockApplePaySession.addEventListener).toHaveBeenCalledWith(
       'validatemerchant',
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 
@@ -277,9 +275,9 @@ describe('ApplePaySessionOrchestrator', () => {
     let complete = false;
     let actualEmit: any;
     let actualError: any;
-    spyOn(mockApplePaySession, 'abort').and.stub();
+    vi.spyOn(mockApplePaySession, 'abort').mockImplementation(() => {});
 
-    mockApplePaySessionFactory.createSession.and.returnValue(
+    mockApplePaySessionFactory.createSession.mockReturnValue(
       mockApplePaySession
     );
     factory.start(mockConfig).subscribe(
@@ -313,13 +311,11 @@ describe('ApplePaySessionOrchestrator', () => {
     beforeEach(() => {
       configuration = {
         request: mockRequest,
-        onPaymentAuthorized: jasmine.createSpy('onPaymentAuthorized'),
-        onValidateMerchant: jasmine.createSpy('onValidateMerchant'),
-        onShippingContactSelected: jasmine.createSpy(
-          'onShippingContactSelected'
-        ),
-        onPaymentMethodSelected: jasmine.createSpy('onPaymentMethodSelected'),
-        onShippingMethodSelected: jasmine.createSpy('onShippingMethodSelected'),
+        onPaymentAuthorized: vi.fn(),
+        onValidateMerchant: vi.fn(),
+        onShippingContactSelected: vi.fn(),
+        onPaymentMethodSelected: vi.fn(),
+        onShippingMethodSelected: vi.fn(),
       };
 
       paymentAuthorizedReturnValue = { status: 0 };
@@ -334,22 +330,22 @@ describe('ApplePaySessionOrchestrator', () => {
         newTotal: { amount: '5.00', label: 'Shipping' },
       };
 
-      (configuration.onPaymentAuthorized as jasmine.Spy).and.returnValue(
+      (configuration.onPaymentAuthorized as any).mockReturnValue(
         of(paymentAuthorizedReturnValue)
       );
-      (configuration.onValidateMerchant as jasmine.Spy).and.returnValue(
+      (configuration.onValidateMerchant as any).mockReturnValue(
         of(validateMerchantReturnValue)
       );
-      (configuration.onShippingContactSelected as jasmine.Spy).and.returnValue(
+      (configuration.onShippingContactSelected as any).mockReturnValue(
         of(shippingContactSelectedReturnValue)
       );
-      (configuration.onPaymentMethodSelected as jasmine.Spy).and.returnValue(
+      (configuration.onPaymentMethodSelected as any).mockReturnValue(
         of(paymentMethodSelectedReturnValue)
       );
-      (configuration.onShippingMethodSelected as jasmine.Spy).and.returnValue(
+      (configuration.onShippingMethodSelected as any).mockReturnValue(
         of(shippingMethodSelectedReturnValue)
       );
-      mockApplePaySessionFactory.createSession.and.returnValue(
+      mockApplePaySessionFactory.createSession.mockReturnValue(
         mockApplePaySession
       );
       actual = factory.start(configuration);
@@ -362,11 +358,25 @@ describe('ApplePaySessionOrchestrator', () => {
         () => (actualComplete = true)
       );
 
-      spyOn(mockApplePaySession, 'completeMerchantValidation').and.stub();
-      spyOn(mockApplePaySession, 'completePayment').and.stub();
-      spyOn(mockApplePaySession, 'completePaymentMethodSelection').and.stub();
-      spyOn(mockApplePaySession, 'completeShippingContactSelection').and.stub();
-      spyOn(mockApplePaySession, 'completeShippingMethodSelection').and.stub();
+      vi.spyOn(
+        mockApplePaySession,
+        'completeMerchantValidation'
+      ).mockImplementation(() => {});
+      vi.spyOn(mockApplePaySession, 'completePayment').mockImplementation(
+        () => {}
+      );
+      vi.spyOn(
+        mockApplePaySession,
+        'completePaymentMethodSelection'
+      ).mockImplementation(() => {});
+      vi.spyOn(
+        mockApplePaySession,
+        'completeShippingContactSelection'
+      ).mockImplementation(() => {});
+      vi.spyOn(
+        mockApplePaySession,
+        'completeShippingMethodSelection'
+      ).mockImplementation(() => {});
     });
 
     it('should use validateMerchant callback to fill validateMerchant', () => {
@@ -442,7 +452,7 @@ describe('ApplePaySessionOrchestrator', () => {
         const event = <ApplePayJS.ApplePayValidateMerchantEvent>{
           validationURL: '',
         };
-        (configuration.onValidateMerchant as jasmine.Spy).and.returnValue(
+        (configuration.onValidateMerchant as any).mockReturnValue(
           throwError(new Error('Validation Error'))
         );
 
@@ -456,7 +466,7 @@ describe('ApplePaySessionOrchestrator', () => {
       });
 
       it('should abort when paymentauthorized failed with errors', () => {
-        spyOn(mockApplePaySession, 'abort').and.stub();
+        vi.spyOn(mockApplePaySession, 'abort').mockImplementation(() => {});
         const event = <ApplePayJS.ApplePayPaymentAuthorizedEvent>{
           payment: {},
         };
@@ -464,7 +474,7 @@ describe('ApplePaySessionOrchestrator', () => {
           status: 0,
           errors: [{ message: 'paymentauthorized failed' }],
         };
-        (configuration.onPaymentAuthorized as jasmine.Spy).and.returnValue(
+        (configuration.onPaymentAuthorized as any).mockReturnValue(
           of(paymentAuthorizedReturnValue)
         );
 
@@ -484,10 +494,10 @@ describe('ApplePaySessionOrchestrator', () => {
         it(`should abort the session on an error in ${callback}`, () => {
           const event = {};
           const callbackError = new Error('Error');
-          (configuration[callback] as jasmine.Spy).and.returnValue(
+          (configuration[callback] as any).mockReturnValue(
             throwError(callbackError)
           );
-          spyOn(mockApplePaySession, 'abort').and.stub();
+          vi.spyOn(mockApplePaySession, 'abort').mockImplementation(() => {});
 
           mockApplePaySession._stubMockEvent(eventType, event);
 

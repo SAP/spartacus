@@ -3,12 +3,15 @@ import { Router } from '@angular/router';
 import {
   AuthService,
   CmsActivatedRouteSnapshot,
+  Config,
   GlobalMessageService,
   GlobalMessageType,
   RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
+import { firstValueFrom } from 'rxjs';
 import {
   defaultPunchoutNavigationGuardConfig,
   PunchoutNavigationGuardConfig,
@@ -20,13 +23,13 @@ import { PunchoutNavigationGuard } from './punchout-navigation.guard';
 
 describe('PunchoutNavigationGuard', () => {
   let guard: PunchoutNavigationGuard;
-  let authService: jasmine.SpyObj<AuthService>;
-  let punchoutStoreService: jasmine.SpyObj<PunchoutStoreService>;
-  let punchoutFacade: jasmine.SpyObj<PunchoutFacade>;
-  let routingService: jasmine.SpyObj<RoutingService>;
-  let routingConfigService: jasmine.SpyObj<RoutingConfigService>;
-  let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
-  let punchoutNavigationGuardConfig: jasmine.SpyObj<PunchoutNavigationGuardConfig>;
+  let authService: any;
+  let punchoutStoreService: any;
+  let punchoutFacade: any;
+  let routingService: any;
+  let routingConfigService: any;
+  let globalMessageService: any;
+  let punchoutNavigationGuardConfig: any;
 
   const mockRoute = {
     url: [{ path: 'cart' }],
@@ -34,32 +37,32 @@ describe('PunchoutNavigationGuard', () => {
   } as unknown as CmsActivatedRouteSnapshot;
 
   beforeEach(() => {
+    const config = JSON.parse(
+      JSON.stringify(defaultPunchoutNavigationGuardConfig)
+    );
+
     TestBed.configureTestingModule({
       providers: [
         PunchoutNavigationGuard,
         {
           provide: AuthService,
-          useValue: jasmine.createSpyObj('AuthService', ['isUserLoggedIn']),
+          useValue: { isUserLoggedIn: vi.fn() },
         },
         {
           provide: PunchoutStoreService,
-          useValue: jasmine.createSpyObj('PunchoutStoreService', [
-            'getPunchoutState',
-          ]),
+          useValue: { getPunchoutState: vi.fn() },
         },
         {
           provide: PunchoutFacade,
-          useValue: jasmine.createSpyObj('PunchoutFacade', [
-            'requestPunchoutSession',
-          ]),
+          useValue: { requestPunchoutSession: vi.fn() },
         },
         {
           provide: RoutingService,
-          useValue: jasmine.createSpyObj('RoutingService', ['go']),
+          useValue: { go: vi.fn() },
         },
         {
           provide: GlobalMessageService,
-          useValue: jasmine.createSpyObj('GlobalMessageService', ['add']),
+          useValue: { add: vi.fn() },
         },
         {
           provide: Router,
@@ -67,41 +70,33 @@ describe('PunchoutNavigationGuard', () => {
         },
         {
           provide: PunchoutNavigationGuardConfig,
-          useValue: defaultPunchoutNavigationGuardConfig,
+          useValue: config,
+        },
+        {
+          provide: Config,
+          useValue: config,
         },
         {
           provide: RoutingConfigService,
-          useValue: jasmine.createSpyObj('RoutingConfigService', [
-            'getRouteName',
-          ]),
+          useValue: { getRouteName: vi.fn() },
         },
       ],
     });
 
     guard = TestBed.inject(PunchoutNavigationGuard);
-    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
-    punchoutStoreService = TestBed.inject(
-      PunchoutStoreService
-    ) as jasmine.SpyObj<PunchoutStoreService>;
-    punchoutFacade = TestBed.inject(
-      PunchoutFacade
-    ) as jasmine.SpyObj<PunchoutFacade>;
-    routingService = TestBed.inject(
-      RoutingService
-    ) as jasmine.SpyObj<RoutingService>;
-    routingConfigService = TestBed.inject(
-      RoutingConfigService
-    ) as jasmine.SpyObj<RoutingConfigService>;
-    globalMessageService = TestBed.inject(
-      GlobalMessageService
-    ) as jasmine.SpyObj<GlobalMessageService>;
+    authService = TestBed.inject(AuthService);
+    punchoutStoreService = TestBed.inject(PunchoutStoreService);
+    punchoutFacade = TestBed.inject(PunchoutFacade);
+    routingService = TestBed.inject(RoutingService);
+    routingConfigService = TestBed.inject(RoutingConfigService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
     punchoutNavigationGuardConfig = TestBed.inject(
       PunchoutNavigationGuardConfig
-    ) as jasmine.SpyObj<PunchoutNavigationGuardConfig>;
+    );
   });
 
-  it('should allow access for allowed cxRoute in EDIT mode', (done) => {
-    authService.isUserLoggedIn.and.returnValue(of(true));
+  it('should allow access for allowed cxRoute in EDIT mode', async () => {
+    authService.isUserLoggedIn.mockReturnValue(of(true));
 
     const state: PunchoutState = {
       punchoutSessionId: 'session123',
@@ -109,18 +104,18 @@ describe('PunchoutNavigationGuard', () => {
         punchOutOperation: PunchOutOperation.EDIT,
       } as PunchoutSession,
     };
-    punchoutStoreService.getPunchoutState.and.returnValue(of(state));
+    punchoutStoreService.getPunchoutState.mockReturnValue(of(state));
 
-    guard.canActivate(mockRoute, {} as any).subscribe((result) => {
-      expect(result).toBeTruthy();
-      expect(globalMessageService.add).not.toHaveBeenCalled();
-      expect(routingService.go).not.toHaveBeenCalled();
-      done();
-    });
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
+    expect(result).toBeTruthy();
+    expect(globalMessageService.add).not.toHaveBeenCalled();
+    expect(routingService.go).not.toHaveBeenCalled();
   });
 
-  it('should allow access for an allowed routeName', (done) => {
-    authService.isUserLoggedIn.and.returnValue(of(true));
+  it('should allow access for an allowed routeName', async () => {
+    authService.isUserLoggedIn.mockReturnValue(of(true));
 
     const state: PunchoutState = {
       punchoutSessionId: 'session123',
@@ -128,52 +123,48 @@ describe('PunchoutNavigationGuard', () => {
         punchOutOperation: PunchOutOperation.EDIT,
       } as PunchoutSession,
     };
-    punchoutStoreService.getPunchoutState.and.returnValue(of(state));
-    routingConfigService.getRouteName.and.returnValue('punchoutSession');
+    punchoutStoreService.getPunchoutState.mockReturnValue(of(state));
+    routingConfigService.getRouteName.mockReturnValue('punchoutSession');
 
-    guard
-      .canActivate(
+    const result = await firstValueFrom(
+      guard.canActivate(
         {
           url: [],
           data: { cxRoute: undefined },
         } as unknown as CmsActivatedRouteSnapshot,
         {} as any
       )
-      .subscribe((result) => {
-        expect(result).toBeTruthy();
-        expect(globalMessageService.add).not.toHaveBeenCalled();
-        expect(routingService.go).not.toHaveBeenCalled();
-        done();
-      });
+    );
+    expect(result).toBeTruthy();
+    expect(globalMessageService.add).not.toHaveBeenCalled();
+    expect(routingService.go).not.toHaveBeenCalled();
   });
 
-  it('should show warning message with logout cxRoute', (done) => {
-    authService.isUserLoggedIn.and.returnValue(of(true));
+  it('should show warning message with logout cxRoute', async () => {
+    authService.isUserLoggedIn.mockReturnValue(of(true));
 
     const state: PunchoutState = {
       punchoutSessionId: 'session123',
       punchoutSession: undefined,
     };
-    punchoutStoreService.getPunchoutState.and.returnValue(of(state));
+    punchoutStoreService.getPunchoutState.mockReturnValue(of(state));
 
-    guard
-      .canActivate(
+    const result = await firstValueFrom(
+      guard.canActivate(
         {
           url: ['product', '123'],
           data: { cxRoute: 'logout' },
         } as unknown as CmsActivatedRouteSnapshot,
         {} as any
       )
-      .subscribe((result) => {
-        expect(result).toBeTruthy();
-        expect(globalMessageService.add).toHaveBeenCalled();
-        expect(routingService.go).not.toHaveBeenCalled();
-        done();
-      });
+    );
+    expect(result).toBeTruthy();
+    expect(globalMessageService.add).toHaveBeenCalled();
+    expect(routingService.go).not.toHaveBeenCalled();
   });
 
-  it('should block access for disallowed route in INSPECT mode', (done) => {
-    authService.isUserLoggedIn.and.returnValue(of(true));
+  it('should block access for disallowed route in INSPECT mode', async () => {
+    authService.isUserLoggedIn.mockReturnValue(of(true));
 
     const state: PunchoutState = {
       punchoutSessionId: 'session123',
@@ -181,62 +172,63 @@ describe('PunchoutNavigationGuard', () => {
         punchOutOperation: PunchOutOperation.INSPECT,
       } as PunchoutSession,
     };
-    punchoutStoreService.getPunchoutState.and.returnValue(of(state));
+    punchoutStoreService.getPunchoutState.mockReturnValue(of(state));
 
-    guard.canActivate(mockRoute, {} as any).subscribe((result) => {
-      expect(result).toBeFalsy();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'punchout.noSufficientPermissions' },
-        GlobalMessageType.MSG_TYPE_WARNING
-      );
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'punchoutInspect',
-      });
-      done();
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
+    expect(result).toBeFalsy();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'punchout.noSufficientPermissions' },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'punchoutInspect',
     });
   });
 
-  it('should allow access if no punchout session exists', (done) => {
-    authService.isUserLoggedIn.and.returnValue(of(false));
+  it('should allow access if no punchout session exists', async () => {
+    authService.isUserLoggedIn.mockReturnValue(of(false));
 
-    guard.canActivate(mockRoute, {} as any).subscribe((result) => {
-      expect(result).toBeTruthy();
-      done();
-    });
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
+    expect(result).toBeTruthy();
   });
 
-  it('should handle punchout session fallback from facade', (done) => {
-    authService.isUserLoggedIn.and.returnValue(of(true));
+  it('should handle punchout session fallback from facade', async () => {
+    authService.isUserLoggedIn.mockReturnValue(of(true));
 
     const state: PunchoutState = {
       punchoutSessionId: 'session123',
       punchoutSession: undefined,
     };
-    punchoutStoreService.getPunchoutState.and.returnValue(of(state));
-    punchoutFacade.requestPunchoutSession.and.returnValue(
+    punchoutStoreService.getPunchoutState.mockReturnValue(of(state));
+    punchoutFacade.requestPunchoutSession.mockReturnValue(
       of({ punchOutOperation: PunchOutOperation.EDIT } as PunchoutSession)
     );
 
-    guard.canActivate(mockRoute, {} as any).subscribe((result) => {
-      expect(result).toBeTruthy();
-      done();
-    });
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
+    expect(result).toBeTruthy();
   });
 
-  it('should handle errors and allow access by default', (done) => {
-    authService.isUserLoggedIn.and.returnValue(of(true));
-    punchoutStoreService.getPunchoutState.and.returnValue(
+  it('should handle errors and allow access by default', async () => {
+    authService.isUserLoggedIn.mockReturnValue(of(true));
+    punchoutStoreService.getPunchoutState.mockReturnValue(
       of({} as PunchoutState)
     );
-    punchoutFacade.requestPunchoutSession.and.throwError(
-      new Error('Test error')
-    );
-
-    guard.canActivate(mockRoute, {} as any).subscribe((result) => {
-      expect(result).toBeTruthy();
-      done();
+    punchoutFacade.requestPunchoutSession.mockImplementation(() => {
+      throw new Error('Test error');
     });
+
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute, {} as any)
+    );
+    expect(result).toBeTruthy();
   });
+
   describe('isAllowedCxRoute', () => {
     it('should return true if cxRoute is in allowedCxRoutesForEdit', () => {
       const cxRoute = 'brand';

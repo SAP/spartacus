@@ -6,16 +6,14 @@ import { Subject } from 'rxjs';
 import { OpfMetadataStoreService } from '../services';
 import { OpfEventListenerService } from './opf-event.listener';
 
-import createSpy = jasmine.createSpy;
-
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
-  clearOpfMetadata = createSpy();
+  clearOpfMetadata = vi.fn();
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
 }
 
 describe(`OpfEventListenerService`, () => {
@@ -61,7 +59,7 @@ describe(`OpfEventListenerService`, () => {
     });
 
     it('should unsubscribe from subscriptions on destroy', () => {
-      spyOn(service['subscriptions'], 'unsubscribe');
+      vi.spyOn(service['subscriptions'], 'unsubscribe');
 
       service.ngOnDestroy();
 

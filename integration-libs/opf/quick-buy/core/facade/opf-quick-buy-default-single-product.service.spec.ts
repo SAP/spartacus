@@ -24,21 +24,19 @@ describe('OpfQuickBuyDefaultSingleProductService', () => {
     cartItemQuantityService = TestBed.inject(CartItemQuantityService);
   });
 
-  it('should return quantity from CartItemQuantityService', (done) => {
+  it('should return quantity from CartItemQuantityService', async () => {
     cartItemQuantityService.setQuantity(4);
 
     service.getSingleProductCartOptions('product-1').subscribe((options) => {
       expect(options).toEqual({ quantity: 4 });
-      done();
     });
   });
 
-  it('should reflect quantity updates', (done) => {
+  it('should reflect quantity updates', async () => {
     cartItemQuantityService.setQuantity(2);
 
     service.getSingleProductCartOptions('product-1').subscribe((options) => {
       expect(options.quantity).toBe(2);
-      done();
     });
   });
 });

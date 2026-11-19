@@ -11,6 +11,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
 import {
   ActiveCartFacade,
@@ -74,23 +75,21 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
     opfPaymentSessionId: undefined,
     isTermsAndConditionsAlertClosed: false,
   });
-  updateOpfMetadata = jasmine.createSpy('updateOpfMetadata');
-  getOpfMetadataState = jasmine.createSpy('getOpfMetadataState');
+  updateOpfMetadata = vi.fn();
+  getOpfMetadataState = vi.fn();
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine
-    .createSpy('getActiveCartId')
-    .and.returnValue(of('test-cart-id'));
-  getActive = jasmine.createSpy('getActive').and.returnValue(of({} as any));
-  takeActive = jasmine.createSpy('takeActive').and.returnValue(of({} as any));
-  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
-  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
+  getActiveCartId = vi.fn().mockReturnValue(of('test-cart-id'));
+  getActive = vi.fn().mockReturnValue(of({} as any));
+  takeActive = vi.fn().mockReturnValue(of({} as any));
+  isStable = vi.fn().mockReturnValue(of(false, true));
+  reloadActiveCart = vi.fn();
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  getCart = jasmine.createSpy('getCart').and.returnValue(of({} as any));
-  reloadCart = jasmine.createSpy('reloadCart');
+  getCart = vi.fn().mockReturnValue(of({} as any));
+  reloadCart = vi.fn();
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -108,25 +107,23 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCartId = jasmine
-    .createSpy('getCurrentCartId')
-    .and.returnValue(of('test-cart-id'));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
-function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
-  return jasmine.createSpyObj('OpfPaymentFacade', [
-    'submitPayment',
-    'submitCompletePayment',
-    'getActiveConfigurationsState',
-    'verifyPayment',
-    'initiatePayment',
-    'updatePaymentTransaction',
-  ]);
+function createOpfPaymentFacadeMock(): any {
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 describe('OpfGlobalFunctionsCheckoutDomainRegistrationsService', () => {
   let service: OpfGlobalFunctionsCheckoutDomainRegistrationsService;
-  let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
+  let opfPaymentFacadeMock: any;
   let launchDialogService: LaunchDialogService;
   let container: OpfPaymentGlobalMethods;
   let componentRef: ComponentRef<TestContainerComponent>;
@@ -143,9 +140,7 @@ describe('OpfGlobalFunctionsCheckoutDomainRegistrationsService', () => {
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
         {
           provide: OpfPaymentEventsService,
-          useValue: jasmine.createSpyObj('OpfPaymentEventsService', [
-            'emitReinitiatePaymentEvent',
-          ]),
+          useValue: { emitReinitiatePaymentEvent: vi.fn() },
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -197,8 +192,8 @@ describe('OpfGlobalFunctionsCheckoutDomainRegistrationsService', () => {
     });
 
     it('should handle submit through registered function', () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      opfPaymentFacadeMock.submitPayment.mockReturnValue(of(true));
+      vi.spyOn(launchDialogService, 'launch').mockReturnValue(of(componentRef));
 
       container.submit?.({
         additionalData: [],
@@ -212,8 +207,8 @@ describe('OpfGlobalFunctionsCheckoutDomainRegistrationsService', () => {
     });
 
     it('should handle submitComplete through registered function', () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
-      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      opfPaymentFacadeMock.submitCompletePayment.mockReturnValue(of(true));
+      vi.spyOn(launchDialogService, 'launch').mockReturnValue(of(componentRef));
 
       container.submitComplete?.({
         additionalData: [],

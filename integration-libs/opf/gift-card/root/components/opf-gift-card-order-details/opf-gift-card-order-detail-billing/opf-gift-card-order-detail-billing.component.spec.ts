@@ -6,6 +6,7 @@
 
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { Subject, of } from 'rxjs';
 
 import { OpfGiftCardOrderDetailBillingComponent } from './opf-gift-card-order-detail-billing.component';
@@ -16,14 +17,12 @@ import { TranslationService } from '@spartacus/core';
 describe('OpfGiftCardOrderDetailBillingComponent', () => {
   let component: OpfGiftCardOrderDetailBillingComponent;
   let fixture: ComponentFixture<OpfGiftCardOrderDetailBillingComponent>;
-  let translationService: jasmine.SpyObj<TranslationService>;
+  let translationService: any;
   let mockOrder: Order;
   let contextSubject: Subject<any>;
 
   beforeEach(async () => {
-    const translationServiceSpy = jasmine.createSpyObj('TranslationService', [
-      'translate',
-    ]);
+    const translationServiceSpy = { translate: vi.fn() };
 
     await TestBed.configureTestingModule({
       imports: [OpfGiftCardOrderDetailBillingComponent],
@@ -32,17 +31,15 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
         {
           provide: Store,
           useValue: {
-            pipe: jasmine.createSpy('pipe').and.returnValue(of({})),
-            dispatch: jasmine.createSpy('dispatch'),
-            select: jasmine.createSpy('select').and.returnValue(of({})),
+            pipe: vi.fn().mockReturnValue(of({})),
+            dispatch: vi.fn(),
+            select: vi.fn().mockReturnValue(of({})),
           },
         },
       ],
     }).compileComponents();
 
-    translationService = TestBed.inject(
-      TranslationService
-    ) as jasmine.SpyObj<TranslationService>;
+    translationService = TestBed.inject(TranslationService) as any;
     fixture = TestBed.createComponent(OpfGiftCardOrderDetailBillingComponent);
     component = fixture.componentInstance;
 
@@ -82,7 +79,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should subscribe to orderOutlet context when provided', (done) => {
+    it('should subscribe to orderOutlet context when provided', async () => {
       const mockOutletContext: Partial<OutletContextData<Order>> = {
         context$: contextSubject.asObservable(),
       };
@@ -92,10 +89,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
       contextSubject.next(mockOrder);
 
-      setTimeout(() => {
-        expect(component.order).toEqual(mockOrder);
-        done();
-      }, 10);
+      expect(component.order).toEqual(mockOrder);
     });
 
     it('should not subscribe if orderOutlet is not provided', () => {
@@ -106,7 +100,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       expect(component.order).toBeUndefined();
     });
 
-    it('should handle multiple order updates from context', (done) => {
+    it('should handle multiple order updates from context', async () => {
       const mockOutletContext: Partial<OutletContextData<Order>> = {
         context$: contextSubject.asObservable(),
       };
@@ -120,15 +114,10 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       ];
 
       contextSubject.next(orders[0] as Order);
-      setTimeout(() => {
-        expect(component.order.code).toBe('order-101');
+      expect(component.order.code).toBe('order-101');
 
-        contextSubject.next(orders[1] as Order);
-        setTimeout(() => {
-          expect(component.order.code).toBe('order-102');
-          done();
-        }, 10);
-      }, 10);
+      contextSubject.next(orders[1] as Order);
+      expect(component.order.code).toBe('order-102');
     });
 
     it('should not throw error when calling ngOnInit multiple times', () => {
@@ -141,7 +130,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
   describe('getPaymentMethodCardContent', () => {
     beforeEach(() => {
-      translationService.translate.and.callFake((key: string) => {
+      translationService.translate.mockImplementation((key: string) => {
         const translations: Record<string, string> = {
           'paymentForm.payment': 'Payment',
           'opfGiftCard.giftCardPayment': 'Gift Card Payment',
@@ -150,15 +139,14 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       });
     });
 
-    it('should return card with translated title and text', (done) => {
+    it('should return card with translated title and text', async () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBe('Payment');
         expect(card.text).toContain('Gift Card Payment');
-        done();
       });
     });
 
-    it('should call translate with correct keys for billing component', (done) => {
+    it('should call translate with correct keys for billing component', async () => {
       component.getPaymentMethodCardContent().subscribe(() => {
         expect(translationService.translate).toHaveBeenCalledWith(
           'paymentForm.payment'
@@ -166,21 +154,19 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
         expect(translationService.translate).toHaveBeenCalledWith(
           'opfGiftCard.giftCardPayment'
         );
-        done();
       });
     });
 
-    it('should return card object with expected structure', (done) => {
+    it('should return card object with expected structure', async () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBeDefined();
         expect(card.text).toBeDefined();
         expect(Array.isArray(card.text)).toBe(true);
         expect(card?.text?.length).toBeGreaterThan(0);
-        done();
       });
     });
 
-    it('should use paymentForm.payment key instead of opfCheckout.paymentOption', (done) => {
+    it('should use paymentForm.payment key instead of opfCheckout.paymentOption', async () => {
       component.getPaymentMethodCardContent().subscribe(() => {
         expect(translationService.translate).toHaveBeenCalledWith(
           'paymentForm.payment'
@@ -188,25 +174,22 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
         expect(translationService.translate).not.toHaveBeenCalledWith(
           'opfCheckout.paymentOption'
         );
-        done();
       });
     });
 
-    it('should return card text as an array with single element', (done) => {
+    it('should return card text as an array with single element', async () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.text).toEqual(['Gift Card Payment']);
-        done();
       });
     });
 
-    it('should handle translation service returning undefined', (done) => {
-      translationService.translate.and.returnValue(of(''));
+    it('should handle translation service returning undefined', async () => {
+      translationService.translate.mockReturnValue(of(''));
 
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card).toBeDefined();
         expect(card.title).toBeDefined();
         expect(card.text).toBeDefined();
-        done();
       });
     });
   });
@@ -318,8 +301,8 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       expect(component.isGiftCardPayment).toBe(true);
     });
 
-    it('should render card content with billing context', (done) => {
-      translationService.translate.and.callFake((key: string) => {
+    it('should render card content with billing context', async () => {
+      translationService.translate.mockImplementation((key: string) => {
         const translations: Record<string, string> = {
           'paymentForm.payment': 'Payment',
           'opfGiftCard.giftCardPayment': 'Gift Card Payment',
@@ -330,11 +313,10 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBe('Payment');
         expect(card?.text?.[0]).toBe('Gift Card Payment');
-        done();
       });
     });
 
-    it('should handle full order lifecycle', (done) => {
+    it('should handle full order lifecycle', async () => {
       const mockOutletContext: Partial<OutletContextData<Order>> = {
         context$: contextSubject.asObservable(),
       };
@@ -344,7 +326,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
       contextSubject.next(mockOrder);
 
-      translationService.translate.and.callFake((key: string) => {
+      translationService.translate.mockImplementation((key: string) => {
         const translations: Record<string, string> = {
           'paymentForm.payment': 'Payment',
           'opfGiftCard.giftCardPayment': 'Gift Card Payment',
@@ -355,7 +337,6 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(component.isGiftCardPayment).toBe(true);
         expect(card.title).toBe('Payment');
-        done();
       });
     });
   });
@@ -377,7 +358,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       expect(component.isGiftCardPayment).toBe(false);
     });
 
-    it('should handle rapid succession of order updates', (done) => {
+    it('should handle rapid succession of order updates', async () => {
       const mockOutletContext: Partial<OutletContextData<Order>> = {
         context$: contextSubject.asObservable(),
       };
@@ -417,10 +398,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
       orders.forEach((order) => contextSubject.next(order as Order));
 
-      setTimeout(() => {
-        expect((component.order as any).code).toBe('order-203');
-        done();
-      }, 10);
+      expect((component.order as any).code).toBe('order-203');
     });
 
     it('should handle decimal values in gift card amount', () => {
@@ -459,8 +437,8 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
   });
 
   describe('Differences from OpfGiftCardPaymentComponent', () => {
-    it('should use paymentForm.payment key for billing context', (done) => {
-      translationService.translate.and.callFake((key: string) => {
+    it('should use paymentForm.payment key for billing context', async () => {
+      translationService.translate.mockImplementation((key: string) => {
         if (key === 'paymentForm.payment') {
           return of('Payment Method');
         }
@@ -471,7 +449,6 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
         expect(translationService.translate).toHaveBeenCalledWith(
           'paymentForm.payment'
         );
-        done();
       });
     });
 

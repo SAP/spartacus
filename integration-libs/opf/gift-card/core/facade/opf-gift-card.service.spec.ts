@@ -18,6 +18,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardConnector } from '../connectors/opf-gift-card.connector';
 import { OpfGiftCardService } from './opf-gift-card.service';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { UserIdService } from '@spartacus/core';
 
 describe('OpfGiftCardService', () => {
@@ -34,26 +35,26 @@ describe('OpfGiftCardService', () => {
         {
           provide: OpfBaseFacade,
           useValue: {
-            getActiveConfigurationsState: jasmine.createSpy(),
+            getActiveConfigurationsState: vi.fn(),
           },
         },
         {
           provide: OpfGiftCardConnector,
           useValue: {
-            applyGiftCard: jasmine.createSpy(),
-            removeGiftCard: jasmine.createSpy(),
+            applyGiftCard: vi.fn(),
+            removeGiftCard: vi.fn(),
           },
         },
         {
           provide: ActiveCartFacade,
           useValue: {
-            getActiveCartId: jasmine.createSpy(),
+            getActiveCartId: vi.fn(),
           },
         },
         {
           provide: UserIdService,
           useValue: {
-            getUserId: jasmine.createSpy(),
+            getUserId: vi.fn(),
           },
         },
       ],
@@ -76,7 +77,7 @@ describe('OpfGiftCardService', () => {
     expect((service as any).userIdService).toBeTruthy();
   });
   describe('getGiftCardConfiguration', () => {
-    it('should return gift card configuration when found', (done) => {
+    it('should return gift card configuration when found', async () => {
       const mockConfig = {
         data: {
           value: [
@@ -88,20 +89,19 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as jasmine.Spy
-      ).and.returnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       service.getGiftCardConfiguration().subscribe((result) => {
         expect(result).toEqual({
           id: 123,
           providerType: OpfPaymentProviderType.STORED_VALUE_PAYMENT,
         });
-        done();
       });
     });
 
-    it('should return undefined when gift card configuration is not found', (done) => {
+    it('should return undefined when gift card configuration is not found', async () => {
       const mockConfig = {
         data: {
           value: [
@@ -113,56 +113,51 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as jasmine.Spy
-      ).and.returnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       service.getGiftCardConfiguration().subscribe((result) => {
         expect(result).toBeUndefined();
-        done();
       });
     });
 
-    it('should return undefined when configurations are empty', (done) => {
+    it('should return undefined when configurations are empty', async () => {
       const mockConfig = {
         data: {
           value: [],
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as jasmine.Spy
-      ).and.returnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       service.getGiftCardConfiguration().subscribe((result) => {
         expect(result).toBeUndefined();
-        done();
       });
     });
 
-    it('should handle null config data gracefully', (done) => {
+    it('should handle null config data gracefully', async () => {
       const mockConfig = {
         data: null,
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as jasmine.Spy
-      ).and.returnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       service.getGiftCardConfiguration().subscribe(
         (result) => {
           expect(result).toBeUndefined();
-          done();
         },
-        () => {
-          done();
-        }
+        () => {}
       );
     });
   });
 
   describe('isGiftCardEnabled', () => {
-    it('should return true when gift card configuration exists', (done) => {
+    it('should return true when gift card configuration exists', async () => {
       const mockConfig = {
         data: {
           value: [
@@ -174,9 +169,9 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as jasmine.Spy
-      ).and.returnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       const emissions: boolean[] = [];
       service.isGiftCardEnabled().subscribe((result) => {
@@ -184,21 +179,20 @@ describe('OpfGiftCardService', () => {
         if (emissions.length === 2) {
           expect(emissions[0]).toBe(false); // startWith(false)
           expect(emissions[1]).toBe(true); // actual value
-          done();
         }
       });
     });
 
-    it('should return false when gift card configuration does not exist', (done) => {
+    it('should return false when gift card configuration does not exist', async () => {
       const mockConfig = {
         data: {
           value: [],
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as jasmine.Spy
-      ).and.returnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       const emissions: boolean[] = [];
       service.isGiftCardEnabled().subscribe((result) => {
@@ -206,12 +200,11 @@ describe('OpfGiftCardService', () => {
         if (emissions.length === 2) {
           expect(emissions[0]).toBe(false); // startWith(false)
           expect(emissions[1]).toBe(false); // actual value
-          done();
         }
       });
     });
 
-    it('should emit false initially with startWith', (done) => {
+    it('should emit false initially with startWith', async () => {
       const mockConfig = {
         data: {
           value: [
@@ -223,9 +216,9 @@ describe('OpfGiftCardService', () => {
         },
       };
 
-      (
-        opfBaseFacade.getActiveConfigurationsState as jasmine.Spy
-      ).and.returnValue(of(mockConfig));
+      (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+        of(mockConfig)
+      );
 
       const results: boolean[] = [];
       service.isGiftCardEnabled().subscribe((result) => {
@@ -233,7 +226,6 @@ describe('OpfGiftCardService', () => {
         if (results.length === 2) {
           expect(results[0]).toBe(false); // Initial value from startWith
           expect(results[1]).toBe(true); // Actual value
-          done();
         }
       });
     });
@@ -255,67 +247,58 @@ describe('OpfGiftCardService', () => {
       remainingBalance: { value: 50.0, formattedValue: '$50.00' },
     };
 
-    it('should apply gift card successfully with valid userId and cartId', (done) => {
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(mockCartId)
-      );
-      (opfGiftCardConnector.applyGiftCard as jasmine.Spy).and.returnValue(
+    it('should apply gift card successfully with valid userId and cartId', async () => {
+      (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
+      (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
         of(mockGiftCardResponse)
       );
 
       service.applyGiftCard(mockGiftCardRequest).subscribe((result) => {
         expect(result).toEqual(mockGiftCardResponse);
-        expect(
-          opfGiftCardConnector.applyGiftCard as jasmine.Spy
-        ).toHaveBeenCalledWith(mockUserId, mockCartId, mockGiftCardRequest);
-        done();
+        expect(opfGiftCardConnector.applyGiftCard as any).toHaveBeenCalledWith(
+          mockUserId,
+          mockCartId,
+          mockGiftCardRequest
+        );
       });
     });
 
-    it('should not call connector if userId is missing', (done) => {
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(null));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(mockCartId)
-      );
+    it('should not call connector if userId is missing', async () => {
+      (userIdService.getUserId as any).mockReturnValue(of(null));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
 
       service.applyGiftCard(mockGiftCardRequest).subscribe({
         next: () => fail('Should not emit'),
         error: () => fail('Should not error'),
         complete: () => {
           expect(
-            opfGiftCardConnector.applyGiftCard as jasmine.Spy
+            opfGiftCardConnector.applyGiftCard as any
           ).not.toHaveBeenCalled();
-          done();
         },
       });
     });
 
-    it('should not call connector if cartId is missing', (done) => {
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(null)
-      );
+    it('should not call connector if cartId is missing', async () => {
+      (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(null));
 
       service.applyGiftCard(mockGiftCardRequest).subscribe({
         next: () => fail('Should not emit value'),
         error: () => fail('Should not error'),
         complete: () => {
           expect(
-            opfGiftCardConnector.applyGiftCard as jasmine.Spy
+            opfGiftCardConnector.applyGiftCard as any
           ).not.toHaveBeenCalled();
-          done();
         },
       });
     });
 
-    it('should handle connector errors', (done) => {
+    it('should handle connector errors', async () => {
       const error = new Error('Connector error');
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(mockCartId)
-      );
-      (opfGiftCardConnector.applyGiftCard as jasmine.Spy).and.returnValue(
+      (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
+      (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
         throwError(() => error)
       );
 
@@ -325,17 +308,14 @@ describe('OpfGiftCardService', () => {
         },
         (err) => {
           expect(err).toBe(error);
-          done();
         }
       );
     });
 
-    it('should take only the first emission and complete', (done) => {
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(mockCartId)
-      );
-      (opfGiftCardConnector.applyGiftCard as jasmine.Spy).and.returnValue(
+    it('should take only the first emission and complete', async () => {
+      (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
+      (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
         of(mockGiftCardResponse)
       );
 
@@ -343,7 +323,6 @@ describe('OpfGiftCardService', () => {
       service.applyGiftCard(mockGiftCardRequest).subscribe(() => {
         emissionCount++;
         expect(emissionCount).toBe(1);
-        done();
       });
     });
   });
@@ -353,66 +332,57 @@ describe('OpfGiftCardService', () => {
     const mockCartId = 'cart-456';
     const mockGiftCardId = 'gc-789';
 
-    it('should remove gift card successfully with valid userId and cartId', (done) => {
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(mockCartId)
-      );
-      (opfGiftCardConnector.removeGiftCard as jasmine.Spy).and.returnValue(
+    it('should remove gift card successfully with valid userId and cartId', async () => {
+      (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
+      (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
         of(undefined)
       );
 
       service.removeGiftCard(mockGiftCardId).subscribe(() => {
-        expect(
-          opfGiftCardConnector.removeGiftCard as jasmine.Spy
-        ).toHaveBeenCalledWith(mockUserId, mockCartId, mockGiftCardId);
-        done();
+        expect(opfGiftCardConnector.removeGiftCard as any).toHaveBeenCalledWith(
+          mockUserId,
+          mockCartId,
+          mockGiftCardId
+        );
       });
     });
 
-    it('should not call connector if userId is missing', (done) => {
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(null));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(mockCartId)
-      );
+    it('should not call connector if userId is missing', async () => {
+      (userIdService.getUserId as any).mockReturnValue(of(null));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
 
       service.removeGiftCard(mockGiftCardId).subscribe({
         next: () => fail('Should not emit value'),
         error: () => fail('Should not error'),
         complete: () => {
           expect(
-            opfGiftCardConnector.removeGiftCard as jasmine.Spy
+            opfGiftCardConnector.removeGiftCard as any
           ).not.toHaveBeenCalled();
-          done();
         },
       });
     });
 
-    it('should not call connector if cartId is missing', (done) => {
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(null)
-      );
+    it('should not call connector if cartId is missing', async () => {
+      (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(null));
 
       service.removeGiftCard(mockGiftCardId).subscribe({
         next: () => fail('Should not emit value'),
         error: () => fail('Should not error'),
         complete: () => {
           expect(
-            opfGiftCardConnector.removeGiftCard as jasmine.Spy
+            opfGiftCardConnector.removeGiftCard as any
           ).not.toHaveBeenCalled();
-          done();
         },
       });
     });
 
-    it('should handle connector errors', (done) => {
+    it('should handle connector errors', async () => {
       const error = new Error('Remove connector error');
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(mockCartId)
-      );
-      (opfGiftCardConnector.removeGiftCard as jasmine.Spy).and.returnValue(
+      (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
+      (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
         throwError(() => error)
       );
 
@@ -422,17 +392,14 @@ describe('OpfGiftCardService', () => {
         },
         (err) => {
           expect(err).toBe(error);
-          done();
         }
       );
     });
 
-    it('should take only the first emission and complete', (done) => {
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(mockCartId)
-      );
-      (opfGiftCardConnector.removeGiftCard as jasmine.Spy).and.returnValue(
+    it('should take only the first emission and complete', async () => {
+      (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
+      (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
         of(undefined)
       );
 
@@ -440,36 +407,34 @@ describe('OpfGiftCardService', () => {
       service.removeGiftCard(mockGiftCardId).subscribe(() => {
         emissionCount++;
         expect(emissionCount).toBe(1);
-        done();
       });
     });
 
-    it('should pass correct parameters to removeGiftCard connector', (done) => {
+    it('should pass correct parameters to removeGiftCard connector', async () => {
       const customUserId = 'custom-user';
       const customCartId = 'custom-cart';
       const customGiftCardId = 'custom-gc';
 
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(
-        of(customUserId)
-      );
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
+      (userIdService.getUserId as any).mockReturnValue(of(customUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(
         of(customCartId)
       );
-      (opfGiftCardConnector.removeGiftCard as jasmine.Spy).and.returnValue(
+      (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
         of(undefined)
       );
 
       service.removeGiftCard(customGiftCardId).subscribe(() => {
-        expect(
-          opfGiftCardConnector.removeGiftCard as jasmine.Spy
-        ).toHaveBeenCalledWith(customUserId, customCartId, customGiftCardId);
-        done();
+        expect(opfGiftCardConnector.removeGiftCard as any).toHaveBeenCalledWith(
+          customUserId,
+          customCartId,
+          customGiftCardId
+        );
       });
     });
   });
 
   describe('isGiftCardCoveredTotalAmount', () => {
-    it('should return true when giftCardsCoverFullAmount is true', (done) => {
+    it('should return true when giftCardsCoverFullAmount is true', async () => {
       const mockCart = {
         opfGiftCardSummary: {
           giftCardsCoverFullAmount: true,
@@ -483,11 +448,10 @@ describe('OpfGiftCardService', () => {
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
           expect(result).toBe(true);
-          done();
         });
     });
 
-    it('should return false when giftCardsCoverFullAmount is false', (done) => {
+    it('should return false when giftCardsCoverFullAmount is false', async () => {
       const mockCart = {
         opfGiftCardSummary: {
           giftCardsCoverFullAmount: false,
@@ -501,11 +465,10 @@ describe('OpfGiftCardService', () => {
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
           expect(result).toBe(false);
-          done();
         });
     });
 
-    it('should return false when  opfGiftCardSummary is null', (done) => {
+    it('should return false when  opfGiftCardSummary is null', async () => {
       const mockCart = {
         opfGiftCardSummary: null,
       };
@@ -514,11 +477,10 @@ describe('OpfGiftCardService', () => {
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
           expect(result).toBe(false);
-          done();
         });
     });
 
-    it('should return false when  opfGiftCardSummary is undefined', (done) => {
+    it('should return false when  opfGiftCardSummary is undefined', async () => {
       const mockCart = {
         opfGiftCardSummary: undefined,
       };
@@ -527,20 +489,18 @@ describe('OpfGiftCardService', () => {
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
           expect(result).toBe(false);
-          done();
         });
     });
 
-    it('should return false when cart is null', (done) => {
+    it('should return false when cart is null', async () => {
       service
         .isGiftCardCoveredTotalAmount(of(null as any))
         .subscribe((result) => {
           expect(result).toBe(false);
-          done();
         });
     });
 
-    it('should return false when giftCardsCoverFullAmount is undefined', (done) => {
+    it('should return false when giftCardsCoverFullAmount is undefined', async () => {
       const mockCart = {
         opfGiftCardSummary: {
           giftCardsCoverFullAmount: undefined,
@@ -554,11 +514,10 @@ describe('OpfGiftCardService', () => {
         .isGiftCardCoveredTotalAmount(of(mockCart as any))
         .subscribe((result) => {
           expect(result).toBe(false);
-          done();
         });
     });
 
-    it('should handle observable emissions correctly', (done) => {
+    it('should handle observable emissions correctly', async () => {
       const mockCart1 = {
         opfGiftCardSummary: {
           giftCardsCoverFullAmount: true,
@@ -584,14 +543,13 @@ describe('OpfGiftCardService', () => {
           if (results.length === 2) {
             expect(results[0]).toBe(true);
             expect(results[1]).toBe(false);
-            done();
           }
         });
     });
   });
 
   describe('Integration Tests', () => {
-    it('should combine user and cart observables correctly', (done) => {
+    it('should combine user and cart observables correctly', async () => {
       const mockUserId = 'user-123';
       const mockCartId = 'cart-456';
       const mockRequest: OpfGiftCardBalanceRequest = {
@@ -606,25 +564,22 @@ describe('OpfGiftCardService', () => {
         remainingBalance: { value: 0.0, formattedValue: '$0.00' },
       };
 
-      (userIdService.getUserId as jasmine.Spy).and.returnValue(of(mockUserId));
-      (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-        of(mockCartId)
-      );
-      (opfGiftCardConnector.applyGiftCard as jasmine.Spy).and.returnValue(
+      (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+      (activeCartFacade.getActiveCartId as any).mockReturnValue(of(mockCartId));
+      (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
         of(mockResponse)
       );
 
       service.applyGiftCard(mockRequest).subscribe((result) => {
         expect(result.maskedNumber).toEqual(mockResponse.maskedNumber);
         expect(result.balance).toEqual(mockResponse.balance);
-        done();
       });
     });
   });
 
   describe('Edge Cases and Additional Coverage', () => {
     describe('getGiftCardConfiguration - Multiple configurations', () => {
-      it('should return first matching gift card configuration when multiple exist', (done) => {
+      it('should return first matching gift card configuration when multiple exist', async () => {
         const mockConfig = {
           data: {
             value: [
@@ -644,13 +599,12 @@ describe('OpfGiftCardService', () => {
           },
         };
 
-        (
-          opfBaseFacade.getActiveConfigurationsState as jasmine.Spy
-        ).and.returnValue(of(mockConfig));
+        (opfBaseFacade.getActiveConfigurationsState as any).mockReturnValue(
+          of(mockConfig)
+        );
 
         service.getGiftCardConfiguration().subscribe((result) => {
           expect(result?.id).toBe(100);
-          done();
         });
       });
     });
@@ -659,7 +613,7 @@ describe('OpfGiftCardService', () => {
       const mockUserId = 'user-123';
       const mockCartId = 'cart-456';
 
-      it('should handle request with all properties', (done) => {
+      it('should handle request with all properties', async () => {
         const mockRequest: OpfGiftCardBalanceRequest = {
           number: '1234567890123456',
           securityCode: '0000',
@@ -672,13 +626,11 @@ describe('OpfGiftCardService', () => {
           remainingBalance: { value: 50.0, formattedValue: '$50.00' },
         };
 
-        (userIdService.getUserId as jasmine.Spy).and.returnValue(
-          of(mockUserId)
-        );
-        (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
-        (opfGiftCardConnector.applyGiftCard as jasmine.Spy).and.returnValue(
+        (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
           of(mockResponse)
         );
 
@@ -687,11 +639,10 @@ describe('OpfGiftCardService', () => {
           expect(result.balance).toBeDefined();
           expect(result.appliedAmount).toBeDefined();
           expect(result.remainingBalance).toBeDefined();
-          done();
         });
       });
 
-      it('should handle response with zero applied amount', (done) => {
+      it('should handle response with zero applied amount', async () => {
         const mockRequest: OpfGiftCardBalanceRequest = {
           number: '1234567890123456',
           securityCode: '0000',
@@ -704,23 +655,20 @@ describe('OpfGiftCardService', () => {
           remainingBalance: { value: 100.0, formattedValue: '$100.00' },
         };
 
-        (userIdService.getUserId as jasmine.Spy).and.returnValue(
-          of(mockUserId)
-        );
-        (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
-        (opfGiftCardConnector.applyGiftCard as jasmine.Spy).and.returnValue(
+        (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
           of(mockResponse)
         );
 
         service.applyGiftCard(mockRequest).subscribe((result) => {
           expect(result.appliedAmount.value).toBe(0.0);
-          done();
         });
       });
 
-      it('should handle response with remaining balance equal to zero', (done) => {
+      it('should handle response with remaining balance equal to zero', async () => {
         const mockRequest: OpfGiftCardBalanceRequest = {
           number: '1234567890123456',
           securityCode: '0000',
@@ -733,19 +681,16 @@ describe('OpfGiftCardService', () => {
           remainingBalance: { value: 0.0, formattedValue: '$0.00' },
         };
 
-        (userIdService.getUserId as jasmine.Spy).and.returnValue(
-          of(mockUserId)
-        );
-        (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
-        (opfGiftCardConnector.applyGiftCard as jasmine.Spy).and.returnValue(
+        (opfGiftCardConnector.applyGiftCard as any).mockReturnValue(
           of(mockResponse)
         );
 
         service.applyGiftCard(mockRequest).subscribe((result) => {
           expect(result.remainingBalance.value).toBe(0.0);
-          done();
         });
       });
     });
@@ -754,64 +699,54 @@ describe('OpfGiftCardService', () => {
       const mockUserId = 'user-123';
       const mockCartId = 'cart-456';
 
-      it('should handle empty string giftCardId', (done) => {
-        (userIdService.getUserId as jasmine.Spy).and.returnValue(
-          of(mockUserId)
-        );
-        (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
+      it('should handle empty string giftCardId', async () => {
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
-        (opfGiftCardConnector.removeGiftCard as jasmine.Spy).and.returnValue(
+        (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
           of(undefined)
         );
 
         service.removeGiftCard('').subscribe(() => {
           expect(
-            opfGiftCardConnector.removeGiftCard as jasmine.Spy
+            opfGiftCardConnector.removeGiftCard as any
           ).toHaveBeenCalledWith(mockUserId, mockCartId, '');
-          done();
         });
       });
 
-      it('should handle special characters in giftCardId', (done) => {
+      it('should handle special characters in giftCardId', async () => {
         const specialGiftCardId = 'gc-@#$%^&*()';
 
-        (userIdService.getUserId as jasmine.Spy).and.returnValue(
-          of(mockUserId)
-        );
-        (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
-        (opfGiftCardConnector.removeGiftCard as jasmine.Spy).and.returnValue(
+        (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
           of(undefined)
         );
 
         service.removeGiftCard(specialGiftCardId).subscribe(() => {
           expect(
-            opfGiftCardConnector.removeGiftCard as jasmine.Spy
+            opfGiftCardConnector.removeGiftCard as any
           ).toHaveBeenCalledWith(mockUserId, mockCartId, specialGiftCardId);
-          done();
         });
       });
 
-      it('should handle both userId and cartId as empty strings', (done) => {
-        (userIdService.getUserId as jasmine.Spy).and.returnValue(of(''));
-        (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-          of('')
-        );
+      it('should handle both userId and cartId as empty strings', async () => {
+        (userIdService.getUserId as any).mockReturnValue(of(''));
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(of(''));
 
         service.removeGiftCard('gc-123').subscribe({
           next: () => fail('Should not emit value'),
           error: () => fail('Should not error'),
-          complete: () => {
-            done();
-          },
+          complete: () => {},
         });
       });
     });
 
     describe('Concurrent operations', () => {
-      it('should handle multiple applyGiftCard calls', (done) => {
+      it('should handle multiple applyGiftCard calls', async () => {
         const mockUserId = 'user-123';
         const mockCartId = 'cart-456';
         const mockRequest1: OpfGiftCardBalanceRequest = {
@@ -837,13 +772,11 @@ describe('OpfGiftCardService', () => {
           remainingBalance: { value: 100.0, formattedValue: '$100.00' },
         };
 
-        (userIdService.getUserId as jasmine.Spy).and.returnValue(
-          of(mockUserId)
-        );
-        (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
-        (opfGiftCardConnector.applyGiftCard as jasmine.Spy).and.callFake(
+        (opfGiftCardConnector.applyGiftCard as any).mockImplementation(
           (request: OpfGiftCardBalanceRequest) => {
             if (request === mockRequest1) {
               return of(mockResponse1);
@@ -859,59 +792,49 @@ describe('OpfGiftCardService', () => {
         service.applyGiftCard(mockRequest1).subscribe(() => {
           completedCount++;
           if (completedCount === 2) {
-            done();
           }
         });
         service.applyGiftCard(mockRequest2).subscribe(() => {
           completedCount++;
           if (completedCount === 2) {
-            done();
           }
         });
       });
     });
 
     describe('Observable behavior', () => {
-      it('should not call connector when filter excludes both values', (done) => {
-        (userIdService.getUserId as jasmine.Spy).and.returnValue(of(null));
-        (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
-          of(null)
-        );
+      it('should not call connector when filter excludes both values', async () => {
+        (userIdService.getUserId as any).mockReturnValue(of(null));
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(of(null));
 
         service.removeGiftCard('gc-123').subscribe({
           next: () => fail('Should not emit'),
           error: () => fail('Should not error'),
           complete: () => {
             expect(
-              opfGiftCardConnector.removeGiftCard as jasmine.Spy
+              opfGiftCardConnector.removeGiftCard as any
             ).not.toHaveBeenCalled();
-            done();
           },
         });
       });
 
-      it('should complete after first emission with take(1)', (done) => {
+      it('should complete after first emission with take(1)', async () => {
         const mockUserId = 'user-123';
         const mockCartId = 'cart-456';
 
-        (userIdService.getUserId as jasmine.Spy).and.returnValue(
-          of(mockUserId)
-        );
-        (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(
+        (userIdService.getUserId as any).mockReturnValue(of(mockUserId));
+        (activeCartFacade.getActiveCartId as any).mockReturnValue(
           of(mockCartId)
         );
-        (opfGiftCardConnector.removeGiftCard as jasmine.Spy).and.returnValue(
+        (opfGiftCardConnector.removeGiftCard as any).mockReturnValue(
           of(undefined)
         );
 
         let emissionCount = 0;
         service.removeGiftCard('gc-123').subscribe(() => {
           emissionCount++;
-          setTimeout(() => {
-            expect(emissionCount).toBe(1);
-            done();
-          }, 100);
         });
+        expect(emissionCount).toBe(1);
       });
     });
   });

@@ -1,14 +1,9 @@
 import { ElementRef, Pipe, PipeTransform } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { PunchoutFacade, PunchoutRequisition } from '@spartacus/punchout/root';
 import { of, throwError } from 'rxjs';
+import { vi } from 'vitest';
 import { PunchoutRequisitionComponent } from './punchout-requisition.component';
 
 @Pipe({ name: 'cxTranslate' })
@@ -19,7 +14,7 @@ class MockTranslatePipe implements PipeTransform {
 describe('PunchoutRequisitionComponent', () => {
   let component: PunchoutRequisitionComponent;
   let fixture: ComponentFixture<PunchoutRequisitionComponent>;
-  let mockPunchoutFacade: jasmine.SpyObj<PunchoutFacade>;
+  let mockPunchoutFacade: any;
 
   const mockRequisition: PunchoutRequisition = {
     orderAsCXML: '<Order></Order>',
@@ -28,22 +23,22 @@ describe('PunchoutRequisitionComponent', () => {
 
   const formElRef = {
     nativeElement: {
-      submit: jasmine.createSpy('submit'),
+      submit: vi.fn(),
     },
   } as unknown as ElementRef<HTMLFormElement>;
 
-  beforeEach(waitForAsync(() => {
-    mockPunchoutFacade = jasmine.createSpyObj('PunchoutFacade', [
-      'getPunchoutSessionRequisition',
-      'logoutPunchoutUser',
-      'endPunchoutSession', // Add the missing method here
-    ]);
-    mockPunchoutFacade.getPunchoutSessionRequisition.and.returnValue(
+  beforeEach(async () => {
+    mockPunchoutFacade = {
+      getPunchoutSessionRequisition: vi.fn(),
+      logoutPunchoutUser: vi.fn(),
+      endPunchoutSession: vi.fn(),
+    };
+    mockPunchoutFacade.getPunchoutSessionRequisition.mockReturnValue(
       of(mockRequisition)
     );
-    mockPunchoutFacade.endPunchoutSession.and.returnValue(of(true)); // Mock the method
+    mockPunchoutFacade.endPunchoutSession.mockReturnValue(of(true));
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         PunchoutRequisitionComponent,
@@ -54,7 +49,7 @@ describe('PunchoutRequisitionComponent', () => {
         FormBuilder,
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PunchoutRequisitionComponent);
@@ -80,14 +75,15 @@ describe('PunchoutRequisitionComponent', () => {
     expect(mockPunchoutFacade.getPunchoutSessionRequisition).toHaveBeenCalled();
   });
 
-  it('should call logoutPunchoutUser and submit the form', fakeAsync(() => {
-    mockPunchoutFacade.logoutPunchoutUser.and.returnValue(of(true));
+  it('should call logoutPunchoutUser and submit the form', async () => {
+    vi.useFakeTimers();
+    mockPunchoutFacade.logoutPunchoutUser.mockReturnValue(of(true));
 
     fixture = TestBed.createComponent(PunchoutRequisitionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.punchoutFormElement = formElRef;
-    tick(10);
+    await vi.advanceTimersByTimeAsync(10);
 
     component.punchoutFormGroup
       .get(component.FORM_CONTROL_NAME.ORDER)
@@ -95,10 +91,12 @@ describe('PunchoutRequisitionComponent', () => {
 
     expect(mockPunchoutFacade.logoutPunchoutUser).toHaveBeenCalled();
     expect(formElRef.nativeElement.submit).toHaveBeenCalled();
-  }));
+    vi.useRealTimers();
+  });
 
-  it('should navigate to error page when there is an error ', fakeAsync(() => {
-    mockPunchoutFacade.logoutPunchoutUser.and.returnValue(
+  it('should navigate to error page when there is an error ', async () => {
+    vi.useFakeTimers();
+    mockPunchoutFacade.logoutPunchoutUser.mockReturnValue(
       throwError(() => new Error('Logout failed'))
     );
 
@@ -106,18 +104,20 @@ describe('PunchoutRequisitionComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.punchoutFormElement = formElRef;
-    tick(10);
+    await vi.advanceTimersByTimeAsync(10);
 
     component.punchoutFormGroup
       .get(component.FORM_CONTROL_NAME.ORDER)
       ?.setValue(mockRequisition.orderAsCXML);
 
     expect(mockPunchoutFacade.logoutPunchoutUser).toHaveBeenCalled();
-  }));
+    vi.useRealTimers();
+  });
 
-  it('should call endPunchoutSession on error', fakeAsync(() => {
-    mockPunchoutFacade.endPunchoutSession.and.returnValue(of(true));
-    mockPunchoutFacade.logoutPunchoutUser.and.returnValue(
+  it('should call endPunchoutSession on error', async () => {
+    vi.useFakeTimers();
+    mockPunchoutFacade.endPunchoutSession.mockReturnValue(of(true));
+    mockPunchoutFacade.logoutPunchoutUser.mockReturnValue(
       throwError(() => new Error('Logout failed'))
     );
 
@@ -125,29 +125,32 @@ describe('PunchoutRequisitionComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.punchoutFormElement = formElRef;
-    tick(10);
+    await vi.advanceTimersByTimeAsync(10);
 
     component.punchoutFormGroup
       .get(component.FORM_CONTROL_NAME.ORDER)
       ?.setValue(mockRequisition.orderAsCXML);
 
     expect(mockPunchoutFacade.endPunchoutSession).toHaveBeenCalled();
-  }));
+    vi.useRealTimers();
+  });
 
-  it('should call endPunchoutSession when form nativeElement does not exists', fakeAsync(() => {
-    mockPunchoutFacade.endPunchoutSession.and.returnValue(of(true));
-    mockPunchoutFacade.logoutPunchoutUser.and.returnValue(of(true));
+  it('should call endPunchoutSession when form nativeElement does not exists', async () => {
+    vi.useFakeTimers();
+    mockPunchoutFacade.endPunchoutSession.mockReturnValue(of(true));
+    mockPunchoutFacade.logoutPunchoutUser.mockReturnValue(of(true));
 
     fixture = TestBed.createComponent(PunchoutRequisitionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.punchoutFormElement = {} as ElementRef<HTMLFormElement>;
-    tick(10);
+    await vi.advanceTimersByTimeAsync(10);
 
     component.punchoutFormGroup
       .get(component.FORM_CONTROL_NAME.ORDER)
       ?.setValue(mockRequisition.orderAsCXML);
 
     expect(mockPunchoutFacade.endPunchoutSession).toHaveBeenCalled();
-  }));
+    vi.useRealTimers();
+  });
 });

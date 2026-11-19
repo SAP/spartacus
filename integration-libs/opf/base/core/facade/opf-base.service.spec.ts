@@ -5,25 +5,24 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { QueryService, QueryState } from '@spartacus/core';
 import {
   OpfActiveConfigurationsResponse,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
-import { of } from 'rxjs';
+import { of, firstValueFrom } from 'rxjs';
 import { OpfBaseConnector } from '../connectors/opf-base.connector';
 import { OpfBaseService } from './opf-base.service';
 
 describe('OpfBaseService', () => {
   let service: OpfBaseService;
-  let queryService: jasmine.SpyObj<QueryService>;
-  let opfBaseConnector: jasmine.SpyObj<OpfBaseConnector>;
+  let queryService: any;
+  let opfBaseConnector: any;
 
   beforeEach(() => {
-    const queryServiceSpy = jasmine.createSpyObj('QueryService', ['create']);
-    const opfBaseConnectorSpy = jasmine.createSpyObj('OpfBaseConnector', [
-      'getActiveConfigurations',
-    ]);
+    const queryServiceSpy = { create: vi.fn() };
+    const opfBaseConnectorSpy = { getActiveConfigurations: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -34,10 +33,8 @@ describe('OpfBaseService', () => {
     });
 
     service = TestBed.inject(OpfBaseService);
-    queryService = TestBed.inject(QueryService) as jasmine.SpyObj<QueryService>;
-    opfBaseConnector = TestBed.inject(
-      OpfBaseConnector
-    ) as jasmine.SpyObj<OpfBaseConnector>;
+    queryService = TestBed.inject(QueryService) as any;
+    opfBaseConnector = TestBed.inject(OpfBaseConnector) as any;
 
     const mockActiveConfigurations: OpfActiveConfigurationsResponse = {
       page: {
@@ -66,15 +63,13 @@ describe('OpfBaseService', () => {
       ],
     };
 
-    opfBaseConnector.getActiveConfigurations.and.returnValue(
+    opfBaseConnector.getActiveConfigurations.mockReturnValue(
       of(mockActiveConfigurations)
     );
 
     const mockQuery = {
-      get: jasmine
-        .createSpy('get')
-        .and.returnValue(of(mockActiveConfigurations)),
-      getState: jasmine.createSpy('getState').and.returnValue(
+      get: vi.fn().mockReturnValue(of(mockActiveConfigurations)),
+      getState: vi.fn().mockReturnValue(
         of({
           loading: false,
           error: undefined,
@@ -83,41 +78,35 @@ describe('OpfBaseService', () => {
       ),
     };
 
-    queryService.create.and.returnValue(mockQuery);
+    queryService.create.mockReturnValue(mockQuery);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getActiveConfigurationsState should return an observable with the correct state and call the connector', (done: DoneFn) => {
-    service
-      .getActiveConfigurationsState()
-      .subscribe(
-        (state: QueryState<OpfActiveConfigurationsResponse | undefined>) => {
-          expect(state.loading).toBeFalsy();
-          expect(state.error).toBeUndefined();
-          expect(state.data?.value).toEqual([
-            {
-              id: 1,
-              description: 'Payment gateway for merchant 123',
-              merchantId: '123',
-              providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
-              displayName: 'Gateway 123',
-              acquirerCountryCode: 'US',
-            },
-            {
-              id: 2,
-              description: 'Payment method for merchant 456',
-              merchantId: '456',
-              providerType: OpfPaymentProviderType.PAYMENT_METHOD,
-              displayName: 'Method 456',
-              acquirerCountryCode: 'GB',
-            },
-          ]);
-          done();
-        }
-      );
+  it('getActiveConfigurationsState should return an observable with the correct state and call the connector', async () => {
+    const state = await firstValueFrom(service.getActiveConfigurationsState());
+    expect(state.loading).toBeFalsy();
+    expect(state.error).toBeUndefined();
+    expect(state.data?.value).toEqual([
+      {
+        id: 1,
+        description: 'Payment gateway for merchant 123',
+        merchantId: '123',
+        providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
+        displayName: 'Gateway 123',
+        acquirerCountryCode: 'US',
+      },
+      {
+        id: 2,
+        description: 'Payment method for merchant 456',
+        merchantId: '456',
+        providerType: OpfPaymentProviderType.PAYMENT_METHOD,
+        displayName: 'Method 456',
+        acquirerCountryCode: 'GB',
+      },
+    ]);
 
     expect(queryService.create).toHaveBeenCalled();
   });

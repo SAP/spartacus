@@ -11,29 +11,28 @@ import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { OpfGiftCardOrderSummaryComponent } from './opf-gift-card-order-summary.component';
 import { Order } from '@spartacus/order/root';
 import { Router } from '@angular/router';
+import { vi } from 'vitest';
 import { RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
 
 describe('OpfGiftCardOrderSummaryComponent', () => {
   let component: OpfGiftCardOrderSummaryComponent;
   let fixture: ComponentFixture<OpfGiftCardOrderSummaryComponent>;
-  let mockCheckoutStepService: jasmine.SpyObj<CheckoutStepService>;
-  let mockRouter: jasmine.SpyObj<Router>;
-  let mockRoutingService: jasmine.SpyObj<RoutingService>;
+  let mockCheckoutStepService: any;
+  let mockRouter: any;
+  let mockRoutingService: any;
 
   beforeEach(async () => {
-    mockCheckoutStepService = jasmine.createSpyObj('CheckoutStepService', [
-      'goToNextStep',
-      'getPreviousStep',
-    ]);
+    mockCheckoutStepService = {
+      goToNextStep: vi.fn(),
+      getPreviousStep: vi.fn(),
+    };
 
-    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+    mockRouter = { navigate: vi.fn() };
 
-    mockRoutingService = jasmine.createSpyObj('RoutingService', [
-      'getRouterState',
-    ]);
+    mockRoutingService = { getRouterState: vi.fn() };
 
-    mockRoutingService.getRouterState.and.returnValue(
+    mockRoutingService.getRouterState.mockReturnValue(
       of({
         navigationId: 1,
         state: {
@@ -100,17 +99,16 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
     expect(component.cart).toEqual(mockOrder);
   });
 
-  it('should initialize isPaymentAndReviewStep$ observable', (done) => {
+  it('should initialize isPaymentAndReviewStep$ observable', async () => {
     fixture.detectChanges();
 
     component.isPaymentAndReviewStep$.subscribe((result) => {
       expect(result).toBe(true);
-      done();
     });
   });
 
-  it('should return false for isPaymentAndReviewStep$ when on delivery address step', (done) => {
-    mockRoutingService.getRouterState.and.returnValue(
+  it('should return false for isPaymentAndReviewStep$ when on delivery address step', async () => {
+    mockRoutingService.getRouterState.mockReturnValue(
       of({
         navigationId: 2,
         state: {
@@ -141,7 +139,6 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
 
     component.isPaymentAndReviewStep$.subscribe((result) => {
       expect(result).toBe(false);
-      done();
     });
   });
 

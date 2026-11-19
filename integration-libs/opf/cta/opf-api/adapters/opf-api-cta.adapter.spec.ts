@@ -9,6 +9,7 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { ConverterService, LoggerService } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
 import {
@@ -78,14 +79,12 @@ class MockOpfMetadataStatePersistanceService
 describe('OpfApiCtaAdapter', () => {
   let adapter: OpfApiCtaAdapter;
   let httpMock: HttpTestingController;
-  let converterService: jasmine.SpyObj<ConverterService>;
-  let opfEndpointsService: jasmine.SpyObj<OpfEndpointsService>;
+  let converterService: any;
+  let opfEndpointsService: any;
 
   beforeEach(() => {
-    const converterSpy = jasmine.createSpyObj('ConverterService', ['pipeable']);
-    const opfEndpointsSpy = jasmine.createSpyObj('OpfEndpointsService', [
-      'buildUrl',
-    ]);
+    const converterSpy = { pipeable: vi.fn() };
+    const opfEndpointsSpy = { buildUrl: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -105,14 +104,10 @@ describe('OpfApiCtaAdapter', () => {
 
     adapter = TestBed.inject(OpfApiCtaAdapter);
     httpMock = TestBed.inject(HttpTestingController);
-    converterService = TestBed.inject(
-      ConverterService
-    ) as jasmine.SpyObj<ConverterService>;
-    opfEndpointsService = TestBed.inject(
-      OpfEndpointsService
-    ) as jasmine.SpyObj<OpfEndpointsService>;
+    converterService = TestBed.inject(ConverterService) as any;
+    opfEndpointsService = TestBed.inject(OpfEndpointsService) as any;
 
-    opfEndpointsService.buildUrl.and.returnValue('mockUrl');
+    opfEndpointsService.buildUrl.mockReturnValue('mockUrl');
   });
 
   afterEach(() => {
@@ -120,7 +115,7 @@ describe('OpfApiCtaAdapter', () => {
   });
 
   it('should fetch CTA scripts successfully', () => {
-    converterService.pipeable.and.returnValue(
+    converterService.pipeable.mockReturnValue(
       (input$: Observable<OpfCtaScriptsResponse>) => input$
     );
 
@@ -145,7 +140,7 @@ describe('OpfApiCtaAdapter', () => {
       statusText: 'Internal Server Error',
     };
 
-    converterService.pipeable.and.returnValue(
+    converterService.pipeable.mockReturnValue(
       (input$: Observable<OpfCtaScriptsResponse>) => input$
     );
 
@@ -153,7 +148,7 @@ describe('OpfApiCtaAdapter', () => {
       .getCtaScripts(mockCtaScriptsRequest)
       .pipe(
         catchError((error) => {
-          expect(error).toEqual(jasmine.any(Error));
+          expect(error).toEqual(expect.any(Error));
           return of(null);
         })
       )

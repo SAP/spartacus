@@ -66,7 +66,7 @@ describe('OpfErrorModalComponent', () => {
   });
 
   it('should close dialogue when modal is dismissed', () => {
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
     component.dismissModal('opf test');
 
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
@@ -74,17 +74,14 @@ describe('OpfErrorModalComponent', () => {
 
   it('should closeModal when user click outside', () => {
     const el = fixture.debugElement.nativeElement;
-    spyOn(component, 'dismissModal');
+    vi.spyOn(component, 'dismissModal');
 
     el.click();
     expect(component.dismissModal).toHaveBeenCalledWith('Backdrop click');
   });
 
   it('should call the transalation service when component is init', () => {
-    spyOn(
-      opfErrorModalService,
-      'getMessageAndConfirmTranslations'
-    ).and.callThrough();
+    vi.spyOn(opfErrorModalService, 'getMessageAndConfirmTranslations');
     component.ngOnInit();
     fixture.detectChanges();
     expect(

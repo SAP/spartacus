@@ -146,9 +146,11 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
       displayName: 'Test Payment',
       description: 'Test Description',
     };
-    spyOn(checkoutStepService, 'disableEnableStep');
-    spyOn(checkoutPaymentTypeFacade, 'setPaymentType').and.returnValue(of({}));
-    spyOn(activeCartFacade, 'reloadActiveCart');
+    vi.spyOn(checkoutStepService, 'disableEnableStep');
+    vi.spyOn(checkoutPaymentTypeFacade, 'setPaymentType').mockReturnValue(
+      of({})
+    );
+    vi.spyOn(activeCartFacade, 'reloadActiveCart');
 
     component.handlePaymentChange(payment);
 
@@ -165,9 +167,11 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
   });
 
   it('should navigate to next step', () => {
-    spyOn(checkoutStepService, 'next');
-    spyOn(checkoutPaymentTypeFacade, 'setPaymentType').and.returnValue(of({}));
-    spyOn(activeCartFacade, 'reloadActiveCart');
+    vi.spyOn(checkoutStepService, 'next');
+    vi.spyOn(checkoutPaymentTypeFacade, 'setPaymentType').mockReturnValue(
+      of({})
+    );
+    vi.spyOn(activeCartFacade, 'reloadActiveCart');
 
     const payment: OpfActiveConfiguration = {
       id: 1,
@@ -188,7 +192,7 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
   });
 
   it('should navigate back', () => {
-    spyOn(checkoutStepService, 'back');
+    vi.spyOn(checkoutStepService, 'back');
     component.back();
     expect(checkoutStepService.back).toHaveBeenCalled();
   });

@@ -153,7 +153,7 @@ describe('OccOpfQuickBuyCartAdapter', () => {
       name: 'Express Delivery',
     };
 
-    spyOn(converter, 'convert').and.returnValue(deliveryMode);
+    vi.spyOn(converter, 'convert').mockReturnValue(deliveryMode);
 
     adapter.getSelectedDeliveryMode(userId, cartId).subscribe((result) => {
       expect(result).toEqual(deliveryMode);

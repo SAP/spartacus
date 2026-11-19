@@ -5,7 +5,7 @@
  */
 
 import { Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
@@ -26,7 +26,6 @@ import {
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPlaceOrderComponent } from './opf-b2b-checkout-place-order.component';
-import createSpy = jasmine.createSpy;
 
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
@@ -40,26 +39,26 @@ class MockCheckoutPlaceOrderComponent {
 }
 
 class MockStore {
-  dispatch = createSpy('dispatch');
-  pipe = createSpy('pipe').and.returnValue(of({}));
+  dispatch = vi.fn();
+  pipe = vi.fn().mockReturnValue(of({}));
 }
 
 class MockLaunchRenderStrategy {
-  render = createSpy('render');
+  render = vi.fn();
 }
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  placeOrder = createSpy().and.returnValue(of({}));
-  clearOrder = createSpy();
+  placeOrder = vi.fn().mockReturnValue(of({}));
+  clearOrder = vi.fn();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(Promise.resolve(true));
+  go = vi.fn().mockReturnValue(Promise.resolve(true));
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  launch = createSpy();
-  clear = createSpy();
+  launch = vi.fn();
+  clear = vi.fn();
 }
 
 describe('OpfB2bCheckoutPlaceOrderComponent', () => {
@@ -70,7 +69,7 @@ describe('OpfB2bCheckoutPlaceOrderComponent', () => {
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const mockCurrencyService = {
       getActive: () => of('USD'),
     };
@@ -99,7 +98,7 @@ describe('OpfB2bCheckoutPlaceOrderComponent', () => {
         add: { imports: [MockTranslatePipe, MockAtMessageDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OpfB2bCheckoutPlaceOrderComponent);

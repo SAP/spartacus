@@ -17,30 +17,27 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardCheckoutPlaceOrderComponent } from './opf-gift-card-checkout-place-order.component';
 import { OrderFacade } from '@spartacus/order/root';
 import { ViewContainerRef } from '@angular/core';
+import { vi } from 'vitest';
 
 class MockActiveCartFacade {
-  getActive = jasmine
-    .createSpy('getActive')
-    .and.returnValue(of({ code: '123' }));
+  getActive = vi.fn().mockReturnValue(of({ code: '123' }));
 }
 
 class MockOrderFacade {
-  placePaymentAuthorizedOrder = jasmine.createSpy(
-    'placePaymentAuthorizedOrder'
-  );
+  placePaymentAuthorizedOrder = vi.fn();
 }
 
 class MockRoutingService {
-  go = jasmine.createSpy('go');
+  go = vi.fn();
 }
 
 class MockLaunchDialogService {
-  launch = jasmine.createSpy('launch');
-  clear = jasmine.createSpy('clear');
+  launch = vi.fn();
+  clear = vi.fn();
 }
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy('add');
+  add = vi.fn();
 }
 
 describe('OpfGiftCardCheckoutPlaceOrderComponent', () => {
@@ -84,11 +81,9 @@ describe('OpfGiftCardCheckoutPlaceOrderComponent', () => {
     });
 
     it('should launch spinner and redirect on success', () => {
-      const mockComponentRef = { destroy: jasmine.createSpy('destroy') } as any;
-      (launchDialogService.launch as jasmine.Spy).and.returnValue(
-        of(mockComponentRef)
-      );
-      (orderFacade.placePaymentAuthorizedOrder as jasmine.Spy).and.returnValue(
+      const mockComponentRef = { destroy: vi.fn() } as any;
+      (launchDialogService.launch as any).mockReturnValue(of(mockComponentRef));
+      (orderFacade.placePaymentAuthorizedOrder as any).mockReturnValue(
         of({ code: '0001' })
       );
 
@@ -96,7 +91,7 @@ describe('OpfGiftCardCheckoutPlaceOrderComponent', () => {
 
       expect(launchDialogService.launch).toHaveBeenCalledWith(
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-        jasmine.any(ViewContainerRef)
+        expect.any(ViewContainerRef)
       );
       expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
         true
@@ -111,11 +106,9 @@ describe('OpfGiftCardCheckoutPlaceOrderComponent', () => {
     });
 
     it('should clear spinner and destroy component on error', () => {
-      const mockComponentRef = { destroy: jasmine.createSpy('destroy') } as any;
-      (launchDialogService.launch as jasmine.Spy).and.returnValue(
-        of(mockComponentRef)
-      );
-      (orderFacade.placePaymentAuthorizedOrder as jasmine.Spy).and.returnValue(
+      const mockComponentRef = { destroy: vi.fn() } as any;
+      (launchDialogService.launch as any).mockReturnValue(of(mockComponentRef));
+      (orderFacade.placePaymentAuthorizedOrder as any).mockReturnValue(
         throwError(() => new Error('fail'))
       );
 

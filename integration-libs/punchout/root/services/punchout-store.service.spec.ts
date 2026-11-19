@@ -6,6 +6,7 @@ import {
   PunchoutState,
 } from '../model';
 import { PunchoutStoreService } from './punchout-store.service';
+import { firstValueFrom } from 'rxjs';
 
 const INITIAL_STATE: PunchoutState = {
   punchoutSessionId: undefined,
@@ -53,15 +54,11 @@ describe('PunchoutStoreService', () => {
     expect(service['punchoutState'].value).toEqual(INITIAL_STATE);
   });
 
-  it('should return the current PunchoutStoreService as an observable', (done) => {
+  it('should return the current PunchoutStoreService as an observable', async () => {
     service['punchoutState'].next(mockPunchoutState);
 
-    service.getPunchoutState().subscribe({
-      next: (state) => {
-        expect(state).toEqual(mockPunchoutState);
-        done();
-      },
-    });
+    const state = await firstValueFrom(service.getPunchoutState());
+    expect(state).toEqual(mockPunchoutState);
   });
 
   it('should set PunchoutStoreService with the given payload', () => {

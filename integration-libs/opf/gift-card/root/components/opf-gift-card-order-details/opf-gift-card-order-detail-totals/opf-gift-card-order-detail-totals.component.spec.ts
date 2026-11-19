@@ -10,6 +10,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Cart } from '@spartacus/cart/base/root';
@@ -24,23 +25,19 @@ import { of } from 'rxjs';
 describe('OpfGiftCardOrderDetailTotalsComponent', () => {
   let fixture: ComponentFixture<OpfGiftCardOrderDetailTotalsComponent>;
   let component: OpfGiftCardOrderDetailTotalsComponent;
-  let mockStore: jasmine.SpyObj<Store>;
-  let mockOrderDetailsService: jasmine.SpyObj<any>;
+  let mockStore: any;
+  let mockOrderDetailsService: any;
 
   beforeEach(async () => {
-    mockStore = jasmine.createSpyObj('Store', ['pipe', 'dispatch', 'select']);
-    mockStore.pipe.and.returnValue(of({}));
+    mockStore = { pipe: vi.fn(), dispatch: vi.fn(), select: vi.fn() };
+    mockStore.pipe.mockReturnValue(of({}));
 
-    const translationServiceSpy = jasmine.createSpyObj('TranslationService', [
-      'translate',
-    ]);
-    translationServiceSpy.translate.and.returnValue(of({}));
+    const translationServiceSpy = { translate: vi.fn() };
+    translationServiceSpy.translate.mockReturnValue(of({}));
 
-    mockOrderDetailsService = jasmine.createSpyObj('OrderDetailsService', [
-      'getOrderDetails',
-    ]);
+    mockOrderDetailsService = { getOrderDetails: vi.fn() };
 
-    mockOrderDetailsService.getOrderDetails.and.returnValue(
+    mockOrderDetailsService.getOrderDetails.mockReturnValue(
       of({
         code: 'order-123',
       })
@@ -81,23 +78,14 @@ describe('OpfGiftCardOrderDetailTotalsComponent', () => {
 
     await TestBed.resetTestingModule();
 
-    const mockStore2 = jasmine.createSpyObj('Store', [
-      'pipe',
-      'dispatch',
-      'select',
-    ]);
-    mockStore2.pipe.and.returnValue(of({}));
+    const mockStore2 = { pipe: vi.fn(), dispatch: vi.fn(), select: vi.fn() };
+    mockStore2.pipe.mockReturnValue(of({}));
 
-    const mockOrderDetailsService2 = jasmine.createSpyObj(
-      'OrderDetailsService',
-      ['getOrderDetails']
-    );
-    mockOrderDetailsService2.getOrderDetails.and.returnValue(of(mockCart));
+    const mockOrderDetailsService2 = { getOrderDetails: vi.fn() };
+    mockOrderDetailsService2.getOrderDetails.mockReturnValue(of(mockCart));
 
-    const translationServiceSpy2 = jasmine.createSpyObj('TranslationService', [
-      'translate',
-    ]);
-    translationServiceSpy2.translate.and.returnValue(of({}));
+    const translationServiceSpy2 = { translate: vi.fn() };
+    translationServiceSpy2.translate.mockReturnValue(of({}));
 
     await TestBed.configureTestingModule({
       imports: [OpfGiftCardOrderDetailTotalsComponent],

@@ -76,9 +76,9 @@ describe('OpfCtaService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should execute getCtaScripts and return response', (done) => {
-    spyOn(opfCtaConnector, 'getCtaScripts').and.callThrough();
-    spyOn(commandService, 'create').and.callThrough();
+  it('should execute getCtaScripts and return response', async () => {
+    vi.spyOn(opfCtaConnector, 'getCtaScripts');
+    vi.spyOn(commandService, 'create');
     const request: OpfCtaScriptsRequest = {
       paymentAccountIds: [1],
       cartId: 'cart123',
@@ -90,7 +90,6 @@ describe('OpfCtaService', () => {
       .subscribe((response: OpfCtaScriptsResponse) => {
         expect(response).toEqual(ctaScriptsResponseMock);
         expect(opfCtaConnector.getCtaScripts).toHaveBeenCalledWith(request);
-        done();
       });
   });
 

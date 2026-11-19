@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
+import { vi } from 'vitest';
 import { WindowRef } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
 import { OpfCtaScriptsService } from '../opf-cta-scripts';
@@ -9,7 +10,7 @@ describe('OpfCtaButton', () => {
   let component: OpfCtaElementComponent;
   let fixture: ComponentFixture<OpfCtaElementComponent>;
   let domSanitizer: DomSanitizer;
-  let opfCtaScriptsServiceMock: jasmine.SpyObj<OpfCtaScriptsService>;
+  let opfCtaScriptsServiceMock: any;
   let windowRef: WindowRef;
 
   const dynamicScriptMock: OpfDynamicScript = {
@@ -29,10 +30,10 @@ describe('OpfCtaButton', () => {
   };
 
   beforeEach(() => {
-    opfCtaScriptsServiceMock = jasmine.createSpyObj('OpfCtaScriptsService', [
-      'removeScriptTags',
-      'loadAndRunScript',
-    ]);
+    opfCtaScriptsServiceMock = {
+      removeScriptTags: vi.fn(),
+      loadAndRunScript: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       imports: [OpfCtaElementComponent],
@@ -43,7 +44,7 @@ describe('OpfCtaButton', () => {
     fixture = TestBed.createComponent(OpfCtaElementComponent);
     component = fixture.componentInstance;
     domSanitizer = TestBed.inject(DomSanitizer);
-    opfCtaScriptsServiceMock.loadAndRunScript.and.returnValue(
+    opfCtaScriptsServiceMock.loadAndRunScript.mockReturnValue(
       Promise.resolve(dynamicScriptMock)
     );
     windowRef = TestBed.inject(WindowRef);
@@ -57,7 +58,9 @@ describe('OpfCtaButton', () => {
     const html =
       '<h1>Test1</h1><script>console.log("script1");</script><h2>Test2</h2><script>console.log("script2");</script>';
     const expectedHtml = '<h1>Test1</h1><h2>Test2</h2>';
-    spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(
+      () => {}
+    );
     component.renderHtml(html);
 
     expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
@@ -66,9 +69,11 @@ describe('OpfCtaButton', () => {
   });
 
   it('should renderHtml not call bypassSecurityTrustHtml in SSR', () => {
-    spyOn(windowRef, 'isBrowser').and.returnValue(false);
+    vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
     const html = '<h1>Test</h1><script>console.log("script");</script>';
-    spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+    vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(
+      () => {}
+    );
     component.renderHtml(html);
 
     expect(domSanitizer.bypassSecurityTrustHtml).not.toHaveBeenCalledWith(html);

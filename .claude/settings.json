@@ -30,6 +30,9 @@
       "Bash(git worktree prune *)",
       
       "Bash(npx vitest *)",
+      "Bash(npx tsc *)",
+
+      "mcp__ide__getDiagnostics",
 
       "Bash(gh pr *)",
       "Bash(gh issue *)",

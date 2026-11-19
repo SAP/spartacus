@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { vi } from 'vitest';
 import { PaymentDetails } from '@spartacus/core';
 import {
   isTokenisationCardExpired,
@@ -16,12 +17,12 @@ describe('opf-tokenisation-card-expiry.util', () => {
   const CURRENT_MONTH = 5;
 
   beforeEach(() => {
-    jasmine.clock().install();
-    jasmine.clock().mockDate(new Date(CURRENT_YEAR, CURRENT_MONTH - 1, 15));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(CURRENT_YEAR, CURRENT_MONTH - 1, 15));
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    vi.useRealTimers();
   });
 
   describe('isTokenisationCardExpired', () => {

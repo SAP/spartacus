@@ -28,7 +28,7 @@ describe('OpfOccOrderNormalizer', () => {
 
     const result = normalizer.convert(source);
 
-    expect(result).toEqual(jasmine.objectContaining(source));
+    expect(result).toEqual(expect.objectContaining(source));
   });
 
   it('should add sapBillingAddress to paymentInfo if not already present', () => {

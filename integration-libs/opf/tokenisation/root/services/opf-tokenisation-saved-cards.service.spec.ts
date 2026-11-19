@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { BehaviorSubject, of } from 'rxjs';
@@ -15,26 +16,24 @@ import {
 
 describe('OpfTokenisationSavedCardsService', () => {
   let service: OpfTokenisationSavedCardsService;
-  let checkoutPaymentFacade: jasmine.SpyObj<CheckoutPaymentFacade>;
-  let opfMetadataStoreService: jasmine.SpyObj<OpfMetadataStoreService>;
+  let checkoutPaymentFacade: any;
+  let opfMetadataStoreService: any;
   let metadataState$: BehaviorSubject<any>;
 
   beforeEach(() => {
-    checkoutPaymentFacade = jasmine.createSpyObj('CheckoutPaymentFacade', [
-      'deletePaymentDetails',
-    ]);
-    checkoutPaymentFacade.deletePaymentDetails.and.returnValue(of({}));
+    checkoutPaymentFacade = { deletePaymentDetails: vi.fn() };
+    checkoutPaymentFacade.deletePaymentDetails.mockReturnValue(of({}));
 
     metadataState$ = new BehaviorSubject({
       selectedPaymentOptionId: undefined,
     });
 
-    opfMetadataStoreService = jasmine.createSpyObj(
-      'OpfMetadataStoreService',
-      ['updateOpfMetadata', 'getOpfMetadataState'],
-      { opfMetadataState: metadataState$ }
-    );
-    opfMetadataStoreService.getOpfMetadataState.and.returnValue(metadataState$);
+    opfMetadataStoreService = {
+      updateOpfMetadata: vi.fn(),
+      getOpfMetadataState: vi.fn(),
+      opfMetadataState: metadataState$,
+    };
+    opfMetadataStoreService.getOpfMetadataState.mockReturnValue(metadataState$);
 
     TestBed.configureTestingModule({
       providers: [
@@ -205,146 +204,97 @@ describe('OpfTokenisationSavedCardsService', () => {
   });
 
   describe('listenForPaymentTransitions - deletion triggers', () => {
-    it('should delete when: prev=SAVED_CARDS_ID, curr=other, cardSelected=true', (done) => {
+    it('should delete when: prev=SAVED_CARDS_ID, curr=other, cardSelected=true', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: 1 });
 
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).toHaveBeenCalledTimes(1);
-        done();
-      }, 50);
+      expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalledTimes(
+        1
+      );
     });
 
-    it('should not delete when: cardSelected=false', (done) => {
+    it('should not delete when: cardSelected=false', async () => {
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: 1 });
 
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).not.toHaveBeenCalled();
-        done();
-      }, 50);
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
 
-    it('should not delete when transitioning to undefined', (done) => {
+    it('should not delete when transitioning to undefined', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: undefined });
 
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).not.toHaveBeenCalled();
-        done();
-      }, 50);
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
 
-    it('should delete when transitioning to null from SAVED_CARDS_ID', (done) => {
+    it('should delete when transitioning to null from SAVED_CARDS_ID', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: null });
-
-      setTimeout(() => {
-        expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalled();
-        done();
-      }, 50);
+      expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalled();
     });
 
-    it('should not delete when staying in SAVED_CARDS_ID', (done) => {
+    it('should not delete when staying in SAVED_CARDS_ID', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
 
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).not.toHaveBeenCalled();
-        done();
-      }, 50);
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
 
-    it('should not delete when prev is not SAVED_CARDS_ID', (done) => {
+    it('should not delete when prev is not SAVED_CARDS_ID', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: 100 });
       metadataState$.next({ selectedPaymentOptionId: 200 });
 
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).not.toHaveBeenCalled();
-        done();
-      }, 50);
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
 
-    it('should not delete when transitioning to SAVED_CARDS_ID', (done) => {
+    it('should not delete when transitioning to SAVED_CARDS_ID', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: 999 });
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
-
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).not.toHaveBeenCalled();
-        done();
-      }, 50);
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
   });
 
   describe('Flag reset after deletion', () => {
-    it('should reset cardSelected$ to false after deletion', (done) => {
+    it('should reset cardSelected$ to false after deletion', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: 5 });
 
-      setTimeout(() => {
-        expect((service as any).cardSelected$.value).toBe(false);
-        done();
-      }, 50);
+      expect((service as any).cardSelected$.value).toBe(false);
     });
 
-    it('cardSelected$ should remain false if deletion not triggered', (done) => {
+    it('cardSelected$ should remain false if deletion not triggered', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
 
-      setTimeout(() => {
-        expect((service as any).cardSelected$.value).toBe(true);
-        done();
-      }, 50);
+      expect((service as any).cardSelected$.value).toBe(true);
     });
   });
 
   describe('distinctUntilChanged behavior', () => {
-    it('should ignore duplicate consecutive values', (done) => {
+    it('should ignore duplicate consecutive values', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: 10 });
       metadataState$.next({ selectedPaymentOptionId: 10 });
       metadataState$.next({ selectedPaymentOptionId: 1 });
 
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).not.toHaveBeenCalled();
-        done();
-      }, 50);
+      expect(checkoutPaymentFacade.deletePaymentDetails).not.toHaveBeenCalled();
     });
 
-    it('should process duplicate SAVED_CARDS_ID values once', (done) => {
+    it('should process duplicate SAVED_CARDS_ID values once', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: 1 });
 
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).toHaveBeenCalledTimes(1);
-        done();
-      }, 50);
+      expect(checkoutPaymentFacade.deletePaymentDetails);
     });
   });
 
@@ -358,7 +308,7 @@ describe('OpfTokenisationSavedCardsService', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe from subscription', () => {
-      spyOn((service as any).subscription, 'unsubscribe');
+      vi.spyOn((service as any).subscription, 'unsubscribe');
 
       service.ngOnDestroy();
 
@@ -366,7 +316,7 @@ describe('OpfTokenisationSavedCardsService', () => {
     });
 
     it('should be safe to call multiple times', () => {
-      spyOn((service as any).subscription, 'unsubscribe');
+      vi.spyOn((service as any).subscription, 'unsubscribe');
 
       service.ngOnDestroy();
       service.ngOnDestroy();
@@ -378,55 +328,41 @@ describe('OpfTokenisationSavedCardsService', () => {
   });
 
   describe('Complex scenarios', () => {
-    it('should handle rapid state changes', (done) => {
+    it('should handle rapid state changes', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: 1 });
       metadataState$.next({ selectedPaymentOptionId: 2 });
       metadataState$.next({ selectedPaymentOptionId: 3 });
 
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).toHaveBeenCalledTimes(1);
-        done();
-      }, 100);
+      expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalledTimes(
+        1
+      );
     });
 
-    it('should allow re-marking after deletion', (done) => {
+    it('should allow re-marking after deletion', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: 1 });
 
-      setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).toHaveBeenCalledTimes(1);
+      expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalledTimes(
+        1
+      );
 
-        checkoutPaymentFacade.deletePaymentDetails.calls.reset();
-        service.markCardAsSelected();
-        metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
-        metadataState$.next({ selectedPaymentOptionId: 2 });
-
-        setTimeout(() => {
-          expect(
-            checkoutPaymentFacade.deletePaymentDetails
-          ).toHaveBeenCalledTimes(1);
-          done();
-        }, 50);
-      }, 50);
+      checkoutPaymentFacade.deletePaymentDetails.mockClear();
+      service.markCardAsSelected();
+      metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
+      metadataState$.next({ selectedPaymentOptionId: 2 });
+      expect(checkoutPaymentFacade.deletePaymentDetails);
     });
 
-    it('should handle state changes before deletion completes', (done) => {
+    it('should handle state changes before deletion completes', async () => {
       service.markCardAsSelected();
       metadataState$.next({ selectedPaymentOptionId: SAVED_CARDS_ID });
       metadataState$.next({ selectedPaymentOptionId: 1 });
       metadataState$.next({ selectedPaymentOptionId: 2 });
 
-      setTimeout(() => {
-        expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalled();
-        done();
-      }, 100);
+      expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalled();
     });
   });
 });

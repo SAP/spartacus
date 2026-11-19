@@ -3,6 +3,8 @@ import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { AuthService } from '@spartacus/core';
 import { PunchoutUiRestrictionService } from '@spartacus/punchout/root';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
+import { firstValueFrom } from 'rxjs';
 import { PunchoutInspectCartComponent } from './punchout-inspect-cart.component';
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
@@ -72,22 +74,18 @@ describe('PunchoutInspectCartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have isPunchoutSessionActive$ observable initialized', (done) => {
-    component.isPunchoutSessionActive$.subscribe((isActive) => {
-      expect(isActive).toBe(true);
-      done();
-    });
+  it('should have isPunchoutSessionActive$ observable initialized', async () => {
+    const isActive = await firstValueFrom(component.isPunchoutSessionActive$);
+    expect(isActive).toBe(true);
   });
 
-  it('should have cart$ observable initialized', (done) => {
-    component.cart$.subscribe((cart) => {
-      expect(cart).toBeTruthy();
-      expect(cart.code).toBe('testCart123');
-      done();
-    });
+  it('should have cart$ observable initialized', async () => {
+    const cart = await firstValueFrom(component.cart$);
+    expect(cart).toBeTruthy();
+    expect(cart.code).toBe('testCart123');
   });
 
-  it('should have entries$ observable initialized and filter empty entries', (done) => {
+  it('should have entries$ observable initialized and filter empty entries', async () => {
     const mockEntries: OrderEntry[] = [
       {
         entryNumber: 1,
@@ -95,30 +93,34 @@ describe('PunchoutInspectCartComponent', () => {
         product: { code: 'testProduct', name: 'Test Product' },
       },
     ];
-    spyOn(mockActiveCartFacade, 'getEntries').and.returnValue(of(mockEntries));
+    vi.spyOn(mockActiveCartFacade, 'getEntries').mockReturnValue(
+      of(mockEntries)
+    );
 
-    component.entries$.subscribe((entries) => {
-      expect(entries).toBeTruthy();
-      expect(entries.length).toBe(1);
-      expect(entries[0].product?.code).toBe('testProduct');
-      done();
-    });
+    const entries = await firstValueFrom(component.entries$);
+    expect(entries).toBeTruthy();
+    expect(entries.length).toBe(1);
+    expect(entries[0].product?.code).toBe('testProduct');
   });
 
-  it('entries$ observable should not emit if entries are empty', (done) => {
+  it('entries$ observable should not emit if entries are empty', async () => {
     const mockEntries: OrderEntry[] = [];
-    spyOn(mockActiveCartFacade, 'getEntries').and.returnValue(of(mockEntries));
+    vi.spyOn(mockActiveCartFacade, 'getEntries').mockReturnValue(
+      of(mockEntries)
+    );
 
     let emitted = false;
-    component.entries$.subscribe({
-      next: () => {
-        emitted = true;
-      },
-      error: (err) => done.fail(err),
-      complete: () => {
-        expect(emitted).toBe(true);
-        done();
-      },
+    await new Promise<void>((resolve, reject) => {
+      component.entries$.subscribe({
+        next: () => {
+          emitted = true;
+        },
+        error: (err) => reject(err),
+        complete: () => {
+          expect(emitted).toBe(true);
+          resolve();
+        },
+      });
     });
   });
 });

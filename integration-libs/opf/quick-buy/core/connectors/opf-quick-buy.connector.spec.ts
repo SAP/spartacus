@@ -12,7 +12,6 @@ import {
 import { of } from 'rxjs';
 import { OpfQuickBuyAdapter } from './opf-quick-buy.adapter';
 import { OpfQuickBuyConnector } from './opf-quick-buy.connector';
-import createSpy = jasmine.createSpy;
 
 const mockGetApplePayWebSessionRequest: ApplePaySessionVerificationRequest = {
   validationUrl: 'test',
@@ -34,9 +33,9 @@ const mockGetApplePayWebSessionResponse: ApplePaySessionVerificationResponse = {
 const mockAccessCode = 'accessCode';
 
 class MockOpfQuickBuyAdapter implements OpfQuickBuyAdapter {
-  getApplePayWebSession = createSpy('getApplePayWebSession').and.callFake(() =>
-    of(mockGetApplePayWebSessionResponse)
-  );
+  getApplePayWebSession = vi
+    .fn()
+    .mockImplementation(() => of(mockGetApplePayWebSessionResponse));
 }
 
 describe('OpfQuickBuyConnector', () => {

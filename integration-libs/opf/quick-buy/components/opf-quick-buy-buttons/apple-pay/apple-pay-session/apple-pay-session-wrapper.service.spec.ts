@@ -6,6 +6,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
+import { firstValueFrom } from 'rxjs';
 import { ApplePaySessionWrapperService } from './apple-pay-session-wrapper.service';
 
 class MockApplePaySession
@@ -179,25 +180,21 @@ describe('ApplePaySessionFactory', () => {
     expect(applePaySessionWrapperService.statusFailure).toEqual(1);
   });
 
-  it('should return true for isApplePaySupported when device is supported', (done: DoneFn) => {
+  it('should return true for isApplePaySupported when device is supported', async () => {
     applePaySessionWrapperService.setIsDeviceSupported(true);
     const merchantId = 'merchantId';
-    applePaySessionWrapperService
-      .isApplePaySupported(merchantId)
-      .subscribe((result) => {
-        expect(result).toEqual(true);
-        done();
-      });
+    const result = await firstValueFrom(
+      applePaySessionWrapperService.isApplePaySupported(merchantId)
+    );
+    expect(result).toEqual(true);
   });
-  it('should return false for isApplePaySupported when device is not supported', (done: DoneFn) => {
+  it('should return false for isApplePaySupported when device is not supported', async () => {
     applePaySessionWrapperService.setIsDeviceSupported(false);
     const merchantId = 'merchantId';
-    applePaySessionWrapperService
-      .isApplePaySupported(merchantId)
-      .subscribe((result) => {
-        expect(result).toEqual(false);
-        done();
-      });
+    const result = await firstValueFrom(
+      applePaySessionWrapperService.isApplePaySupported(merchantId)
+    );
+    expect(result).toEqual(false);
   });
 
   it('should return ApplePaySession when device is supported', () => {

@@ -7,6 +7,7 @@
 /// <reference types="@types/googlepay" />
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { Cart } from '@spartacus/cart/base/root';
 import { Address, PriceType, TranslationService } from '@spartacus/core';
 import {
@@ -23,7 +24,7 @@ import {
   OpfQuickBuyProviderType,
 } from '@spartacus/opf/quick-buy/root';
 import { CurrentProductService } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { OpfQuickBuyButtonsService } from '../opf-quick-buy-buttons.service';
 import { OpfGooglePayService } from './google-pay.service';
 
@@ -48,65 +49,57 @@ const mockConvertedAddress: Address = {
 describe('OpfGooglePayService', () => {
   const mockMerchantName = 'mockMerchantName';
   let service: OpfGooglePayService;
-  let mockResourceLoaderService: jasmine.SpyObj<OpfResourceLoaderService>;
-  let mockCurrentProductService: jasmine.SpyObj<CurrentProductService>;
-  let mockQuickBuyTransactionService: jasmine.SpyObj<OpfQuickBuyTransactionService>;
-  let mockPaymentFacade: jasmine.SpyObj<OpfPaymentFacade>;
-  let mockQuickBuyButtonsService: jasmine.SpyObj<OpfQuickBuyButtonsService>;
-  let mockTranslationService: jasmine.SpyObj<TranslationService>;
+  let mockResourceLoaderService: any;
+  let mockCurrentProductService: any;
+  let mockQuickBuyTransactionService: any;
+  let mockPaymentFacade: any;
+  let mockQuickBuyButtonsService: any;
+  let mockTranslationService: any;
 
   beforeEach(() => {
-    mockResourceLoaderService = jasmine.createSpyObj(
-      'OpfResourceLoaderService',
-      ['loadResources']
+    mockResourceLoaderService = { loadResources: vi.fn() };
+    mockCurrentProductService = { getProduct: vi.fn() };
+    mockQuickBuyTransactionService = {
+      deleteUserAddresses: vi.fn(),
+      checkStableCart: vi.fn(),
+      getSupportedDeliveryModes: vi.fn(),
+      setDeliveryAddress: vi.fn(),
+      setBillingAddress: vi.fn(),
+      getDeliveryAddress: vi.fn(),
+      getCurrentCart: vi.fn(),
+      getCurrentCartId: vi.fn(),
+      getCurrentCartTotalPrice: vi.fn(),
+      setDeliveryMode: vi.fn(),
+      getSelectedDeliveryMode: vi.fn(),
+      deleteUserAddresses: vi.fn(),
+      getTransactionDeliveryInfo: vi.fn(),
+      getTransactionLocationContext: vi.fn(),
+      getMerchantName: vi.fn(),
+      updateCartGuestUserEmail: vi.fn(),
+    };
+    mockPaymentFacade = { submitPayment: vi.fn() };
+    mockQuickBuyButtonsService = {
+      getQuickBuyProviderConfig: vi.fn(),
+      getActiveConfigurationForProvider: vi.fn(),
+    };
+    mockTranslationService = { translate: vi.fn() };
+    mockTranslationService.translate.mockImplementation((key: string) =>
+      of(key)
     );
-    mockCurrentProductService = jasmine.createSpyObj('CurrentProductService', [
-      'getProduct',
-    ]);
-    mockQuickBuyTransactionService = jasmine.createSpyObj(
-      'OpfQuickBuyTransactionService',
-      [
-        'deleteUserAddresses',
-        'checkStableCart',
-        'getSupportedDeliveryModes',
-        'setDeliveryAddress',
-        'setBillingAddress',
-        'getDeliveryAddress',
-        'getCurrentCart',
-        'getCurrentCartId',
-        'getCurrentCartTotalPrice',
-        'setDeliveryMode',
-        'getSelectedDeliveryMode',
-        'deleteUserAddresses',
-        'getTransactionDeliveryInfo',
-        'getTransactionLocationContext',
-        'getMerchantName',
-        'updateCartGuestUserEmail',
-      ]
-    );
-    mockPaymentFacade = jasmine.createSpyObj('OpfPaymentFacade', [
-      'submitPayment',
-    ]);
-    mockQuickBuyButtonsService = jasmine.createSpyObj(
-      'OpfQuickBuyButtonsService',
-      ['getQuickBuyProviderConfig', 'getActiveConfigurationForProvider']
-    );
-    mockTranslationService = jasmine.createSpyObj('TranslationService', [
-      'translate',
-    ]);
-    mockTranslationService.translate.and.callFake((key: string) => of(key));
 
+    const mockPaymentsClientInstance = {
+      loadPaymentData: vi.fn().mockReturnValue(Promise.resolve({})),
+      isReadyToPay: vi.fn().mockReturnValue(Promise.resolve({ result: true })),
+    };
     const googlePayApiMock = {
       payments: {
         api: {
-          PaymentsClient: jasmine.createSpy('PaymentsClient').and.returnValue({
-            loadPaymentData: jasmine
-              .createSpy()
-              .and.returnValue(Promise.resolve({})),
-            isReadyToPay: jasmine
-              .createSpy()
-              .and.returnValue(Promise.resolve({ result: true })),
-          }),
+          PaymentsClient: vi.fn().mockImplementation(
+            class {
+              loadPaymentData = mockPaymentsClientInstance.loadPaymentData;
+              isReadyToPay = mockPaymentsClientInstance.isReadyToPay;
+            }
+          ),
         },
       },
     };
@@ -158,7 +151,7 @@ describe('OpfGooglePayService', () => {
   });
 
   describe('getShippingOptionParameters', () => {
-    it('should transform delivery modes into shipping option parameters', (done) => {
+    it('should transform delivery modes into shipping option parameters', async () => {
       const mockDeliveryModes = [
         {
           code: 'STANDARD',
@@ -166,47 +159,46 @@ describe('OpfGooglePayService', () => {
           description: 'Delivers in 3-5 days',
         },
       ];
-      mockQuickBuyTransactionService.getSupportedDeliveryModes.and.returnValue(
+      mockQuickBuyTransactionService.getSupportedDeliveryModes.mockReturnValue(
         of(mockDeliveryModes)
       );
 
-      service['getShippingOptionParameters']().subscribe((shippingOptions) => {
-        expect(shippingOptions).toBeDefined();
-        expect(shippingOptions?.shippingOptions.length).toBe(
-          mockDeliveryModes.length
-        );
-        expect(shippingOptions?.defaultSelectedOptionId).toBe(
-          mockDeliveryModes[0].code
-        );
+      const shippingOptions = await firstValueFrom(
+        service['getShippingOptionParameters']()
+      );
+      expect(shippingOptions).toBeDefined();
+      expect(shippingOptions?.shippingOptions.length).toBe(
+        mockDeliveryModes.length
+      );
+      expect(shippingOptions?.defaultSelectedOptionId).toBe(
+        mockDeliveryModes[0].code
+      );
 
-        mockDeliveryModes.forEach((mode, index) => {
-          const shippingOption = shippingOptions?.shippingOptions[index];
-          expect(shippingOption?.id).toEqual(mode.code);
-          expect(shippingOption?.label).toEqual(mode.name);
-          expect(shippingOption?.description).toEqual(mode.description);
-        });
-
-        done();
+      mockDeliveryModes.forEach((mode, index) => {
+        const shippingOption = shippingOptions?.shippingOptions[index];
+        expect(shippingOption?.id).toEqual(mode.code);
+        expect(shippingOption?.label).toEqual(mode.name);
+        expect(shippingOption?.description).toEqual(mode.description);
       });
     });
 
-    it('should handle cases with no delivery modes available', (done) => {
-      mockQuickBuyTransactionService.getSupportedDeliveryModes.and.returnValue(
+    it('should handle cases with no delivery modes available', async () => {
+      mockQuickBuyTransactionService.getSupportedDeliveryModes.mockReturnValue(
         of([])
       );
 
-      service['getShippingOptionParameters']().subscribe((shippingOptions) => {
-        expect(shippingOptions).toBeDefined();
-        expect(shippingOptions?.shippingOptions).toEqual([]);
-        expect(shippingOptions?.defaultSelectedOptionId).toBeUndefined();
-        done();
-      });
+      const shippingOptions = await firstValueFrom(
+        service['getShippingOptionParameters']()
+      );
+      expect(shippingOptions).toBeDefined();
+      expect(shippingOptions?.shippingOptions).toEqual([]);
+      expect(shippingOptions?.defaultSelectedOptionId).toBeUndefined();
     });
   });
 
   describe('loadResources', () => {
     it('should load the Google Pay JS API', async () => {
-      mockResourceLoaderService.loadResources.and.returnValue(
+      mockResourceLoaderService.loadResources.mockReturnValue(
         Promise.resolve()
       );
 
@@ -216,13 +208,11 @@ describe('OpfGooglePayService', () => {
     });
 
     it('should handle errors when loading the Google Pay JS API', async () => {
-      mockResourceLoaderService.loadResources.and.returnValue(
+      mockResourceLoaderService.loadResources.mockReturnValue(
         Promise.reject(new Error('Load failed'))
       );
 
-      await expectAsync(service.loadResources()).toBeRejectedWithError(
-        'Load failed'
-      );
+      await expect(service.loadResources()).rejects.toThrow('Load failed');
     });
   });
 
@@ -232,19 +222,17 @@ describe('OpfGooglePayService', () => {
 
       service.initClient(activeConfiguration);
 
-      await expectAsync(service.isReadyToPay()).toBeResolvedTo({
+      await expect(service.isReadyToPay()).resolves.toEqual({
         result: true,
       });
     });
 
     it('should handle errors from the Google Pay API', async () => {
-      spyOn(service, 'isReadyToPay').and.returnValue(
+      vi.spyOn(service, 'isReadyToPay').mockReturnValue(
         Promise.reject(new Error('API error'))
       );
 
-      await expectAsync(service.isReadyToPay()).toBeRejectedWithError(
-        'API error'
-      );
+      await expect(service.isReadyToPay()).rejects.toThrow('API error');
     });
   });
 
@@ -292,7 +280,7 @@ describe('OpfGooglePayService', () => {
     it('should successfully set delivery address and return an address ID', async () => {
       const mockAddress = { countryCode: 'US' } as google.payments.api.Address;
       const mockAddressId = 'mockAddressId';
-      mockQuickBuyTransactionService['setDeliveryAddress'].and.returnValue(
+      mockQuickBuyTransactionService['setDeliveryAddress'].mockReturnValue(
         of(mockAddressId)
       );
 
@@ -302,81 +290,75 @@ describe('OpfGooglePayService', () => {
       expect(addressId).toEqual(mockAddressId);
     });
 
-    it('should correctly split name into first and last names and set delivery address', (done) => {
+    it('should correctly split name into first and last names and set delivery address', async () => {
       const mockAddress = {
         name: 'John Doe',
         countryCode: 'US',
       };
 
-      mockQuickBuyTransactionService.setDeliveryAddress.and.returnValue(
+      mockQuickBuyTransactionService.setDeliveryAddress.mockReturnValue(
         of('addressId')
       );
 
-      service['setDeliveryAddress'](
-        mockAddress as google.payments.api.Address
-      ).subscribe((addressId) => {
-        expect(addressId).toEqual('addressId');
-        expect(
-          mockQuickBuyTransactionService.setDeliveryAddress
-        ).toHaveBeenCalledWith(
-          jasmine.objectContaining({
-            firstName: 'John',
-            lastName: ' Doe',
-            country: { isocode: mockAddress.countryCode },
-          })
-        );
-        done();
-      });
+      const addressId = await firstValueFrom(
+        service['setDeliveryAddress'](
+          mockAddress as google.payments.api.Address
+        )
+      );
+      expect(addressId).toEqual('addressId');
+      expect(
+        mockQuickBuyTransactionService.setDeliveryAddress
+      ).toHaveBeenCalledWith(
+        expect.objectContaining({
+          firstName: 'John',
+          lastName: ' Doe',
+          country: { isocode: mockAddress.countryCode },
+        })
+      );
     });
   });
 
   describe('getNewTransactionInfo', () => {
-    it('should return transaction info for a given cart', (done) => {
+    it('should return transaction info for a given cart', async () => {
       const mockCart = {
         totalPriceWithTax: { value: 100.0, currencyIso: 'USD' },
         subTotal: { value: 80 },
       } as Cart;
 
-      service['getNewTransactionInfo'](mockCart).subscribe(
-        (transactionInfo) => {
-          expect(transactionInfo).toBeDefined();
-          expect(transactionInfo?.totalPrice).toBe('100');
-          expect(transactionInfo?.currencyCode).toBe('USD');
-          expect(transactionInfo?.totalPriceStatus).toBe('FINAL');
-          expect(transactionInfo?.displayItems?.length).toBe(1);
-          expect(transactionInfo?.totalPriceLabel).toBe('orderCost.total');
-          done();
-        }
+      const transactionInfo = await firstValueFrom(
+        service['getNewTransactionInfo'](mockCart)
       );
+      expect(transactionInfo).toBeDefined();
+      expect(transactionInfo?.totalPrice).toBe('100');
+      expect(transactionInfo?.currencyCode).toBe('USD');
+      expect(transactionInfo?.totalPriceStatus).toBe('FINAL');
+      expect(transactionInfo?.displayItems?.length).toBe(1);
+      expect(transactionInfo?.totalPriceLabel).toBe('orderCost.total');
     });
 
-    it('should handle cart with missing price information', (done) => {
+    it('should handle cart with missing price information', async () => {
       const mockCart = {} as Cart;
 
-      service['getNewTransactionInfo'](mockCart).subscribe(
-        (transactionInfo) => {
-          expect(transactionInfo).toBeUndefined();
-          done();
-        }
+      const transactionInfo = await firstValueFrom(
+        service['getNewTransactionInfo'](mockCart)
       );
+      expect(transactionInfo).toBeUndefined();
     });
 
-    it('should return undefined for cart with a total price of zero', (done) => {
+    it('should return undefined for cart with a total price of zero', async () => {
       const mockCart = {
         totalPriceWithTax: { value: 0, currencyIso: 'USD' },
       } as Cart;
 
-      service['getNewTransactionInfo'](mockCart).subscribe(
-        (transactionInfo) => {
-          expect(transactionInfo).toBeUndefined();
-          done();
-        }
+      const transactionInfo = await firstValueFrom(
+        service['getNewTransactionInfo'](mockCart)
       );
+      expect(transactionInfo).toBeUndefined();
     });
   });
 
   describe('buildDisplayItems', () => {
-    it('should build display items from cart values', (done) => {
+    it('should build display items from cart values', async () => {
       const mockCart = {
         subTotal: { value: 80 },
         totalTax: { value: 10 },
@@ -385,25 +367,23 @@ describe('OpfGooglePayService', () => {
         appliedOrderPromotions: [{ description: 'Promo' }],
       } as Cart;
 
-      service['buildDisplayItems'](mockCart).subscribe((items) => {
-        expect(items.length).toBe(4);
-        expect(items[0]).toEqual({
-          label: 'orderCost.subtotal',
-          type: 'SUBTOTAL',
-          price: '80',
-        });
-        expect(items.find((item) => item.type === 'DISCOUNT')?.price).toBe(
-          '-2'
-        );
-        done();
+      const items = await firstValueFrom(
+        service['buildDisplayItems'](mockCart)
+      );
+      expect(items.length).toBe(4);
+      expect(items[0]).toEqual({
+        label: 'orderCost.subtotal',
+        type: 'SUBTOTAL',
+        price: '80',
       });
+      expect(items.find((item) => item.type === 'DISCOUNT')?.price).toBe('-2');
     });
   });
 
   describe('setDeliveryMode', () => {
     it('should successfully set delivery mode', async () => {
       const mode = 'standard';
-      mockQuickBuyTransactionService.setDeliveryMode.and.returnValue(of({}));
+      mockQuickBuyTransactionService.setDeliveryMode.mockReturnValue(of({}));
 
       const result = await service.setDeliveryMode(mode).toPromise();
 
@@ -418,7 +398,7 @@ describe('OpfGooglePayService', () => {
         ...{ name: 'John Doe' },
       };
 
-      mockQuickBuyTransactionService.setBillingAddress.and.returnValue(
+      mockQuickBuyTransactionService.setBillingAddress.mockReturnValue(
         of(true)
       );
 
@@ -599,14 +579,16 @@ describe('OpfGooglePayService', () => {
   });
 
   describe('initTransaction', () => {
-    it('should initialize transaction for active cart context', (done: DoneFn) => {
-      spyOn(service, 'handleActiveCartTransaction').and.returnValue(of(null));
+    it('should initialize transaction for active cart context', async () => {
+      vi.spyOn(service, 'handleActiveCartTransaction').mockReturnValue(
+        of(null)
+      );
 
-      mockQuickBuyTransactionService.getTransactionLocationContext.and.returnValue(
+      mockQuickBuyTransactionService.getTransactionLocationContext.mockReturnValue(
         of(OpfQuickBuyLocation.CART)
       );
 
-      mockQuickBuyTransactionService.getMerchantName.and.returnValue(
+      mockQuickBuyTransactionService.getMerchantName.mockReturnValue(
         of(mockMerchantName)
       );
 
@@ -616,24 +598,18 @@ describe('OpfGooglePayService', () => {
         OpfQuickBuyLocation.CART
       );
 
-      setTimeout(() => {
-        expect(service.handleActiveCartTransaction).toHaveBeenCalled();
-
-        done();
-      }, 0);
+      expect(service.handleActiveCartTransaction).toHaveBeenCalled();
     });
   });
 
   describe('renderPaymentButton', () => {
-    let mockGooglePaymentClient: jasmine.SpyObj<google.payments.api.PaymentsClient>;
+    let mockGooglePaymentClient: any;
 
     beforeEach(() => {
-      mockGooglePaymentClient = jasmine.createSpyObj('PaymentsClient', [
-        'createButton',
-      ]);
+      mockGooglePaymentClient = { createButton: vi.fn() };
       service['googlePaymentClient'] = mockGooglePaymentClient;
 
-      mockGooglePaymentClient.createButton.and.callFake((config: any) => {
+      mockGooglePaymentClient.createButton.mockImplementation((config: any) => {
         const button = document.createElement('button');
         button.addEventListener('click', config.onClick);
 
@@ -653,7 +629,7 @@ describe('OpfGooglePayService', () => {
 
     it('should attach the correct click handler to the button', () => {
       const container = new ElementRef(document.createElement('div'));
-      spyOn(service, 'initTransaction');
+      vi.spyOn(service, 'initTransaction').mockImplementation(() => {});
 
       service.renderPaymentButton(container);
 
@@ -668,7 +644,7 @@ describe('OpfGooglePayService', () => {
     const encodedMockToken = 'encodedMockToken';
 
     beforeEach(() => {
-      spyOn(window, 'btoa').and.callFake(() => {
+      vi.spyOn(window, 'btoa').mockImplementation(() => {
         return encodedMockToken;
       });
     });
@@ -682,7 +658,7 @@ describe('OpfGooglePayService', () => {
     });
 
     describe('onPaymentAuthorized', () => {
-      it('should handle payment authorization', (done) => {
+      it('should handle payment authorization', async () => {
         const mockEmail = 'test@mail.com';
         const callbacks = service['handlePaymentCallbacks']();
         const mockToken = 'mockToken';
@@ -695,51 +671,50 @@ describe('OpfGooglePayService', () => {
           email: mockEmail,
         } as google.payments.api.PaymentData;
 
-        mockPaymentFacade.submitPayment.and.returnValue(of(true));
-        mockQuickBuyTransactionService.setBillingAddress.and.returnValue(
+        mockPaymentFacade.submitPayment.mockReturnValue(of(true));
+        mockQuickBuyTransactionService.setBillingAddress.mockReturnValue(
           of(true)
         );
-        mockQuickBuyTransactionService.setDeliveryAddress.and.returnValue(
+        mockQuickBuyTransactionService.setDeliveryAddress.mockReturnValue(
           of('addressId')
         );
-        mockQuickBuyTransactionService.updateCartGuestUserEmail.and.returnValue(
+        mockQuickBuyTransactionService.updateCartGuestUserEmail.mockReturnValue(
           of(true)
         );
-        mockQuickBuyTransactionService.getCurrentCartId.and.returnValue(
+        mockQuickBuyTransactionService.getCurrentCartId.mockReturnValue(
           of('cart-id')
         );
 
         if (callbacks.onPaymentAuthorized) {
-          (
-            callbacks.onPaymentAuthorized(paymentDataResponse) as Promise<any>
-          ).then((result) => {
-            const submitPaymentArgs =
-              mockPaymentFacade.submitPayment.calls.mostRecent().args[0];
+          const result = await (callbacks.onPaymentAuthorized(
+            paymentDataResponse
+          ) as Promise<any>);
 
-            expect(result).toBeDefined();
-            expect(mockPaymentFacade.submitPayment).toHaveBeenCalled();
-            expect(
-              mockQuickBuyTransactionService.updateCartGuestUserEmail
-            ).toHaveBeenCalledWith(mockEmail);
+          const submitPaymentArgs =
+            mockPaymentFacade.submitPayment.mock.lastCall[0];
 
-            expect(Object.values(submitPaymentArgs.callbacks).length).toBe(3);
-            Object.values(submitPaymentArgs.callbacks).forEach((callback) => {
-              expect(typeof callback).toBe('function');
-            });
-            expect(submitPaymentArgs.encryptedToken).toBe(encodedMockToken);
-            expect(submitPaymentArgs.paymentMethod).toBe(
-              OpfQuickBuyProviderType.GOOGLE_PAY
-            );
-            expect(submitPaymentArgs.cartId).toBe('cart-id');
-            expect(result).toEqual({ transactionState: 'SUCCESS' });
-            done();
+          expect(result).toBeDefined();
+          expect(mockPaymentFacade.submitPayment).toHaveBeenCalled();
+          expect(
+            mockQuickBuyTransactionService.updateCartGuestUserEmail
+          ).toHaveBeenCalledWith(mockEmail);
+
+          expect(Object.values(submitPaymentArgs.callbacks).length).toBe(3);
+          Object.values(submitPaymentArgs.callbacks).forEach((callback) => {
+            expect(typeof callback).toBe('function');
           });
+          expect(submitPaymentArgs.encryptedToken).toBe(encodedMockToken);
+          expect(submitPaymentArgs.paymentMethod).toBe(
+            OpfQuickBuyProviderType.GOOGLE_PAY
+          );
+          expect(submitPaymentArgs.cartId).toBe('cart-id');
+          expect(result).toEqual({ transactionState: 'SUCCESS' });
         }
       });
     });
 
     describe('onPaymentDataChanged', () => {
-      it('should handle payment data changes', (done) => {
+      it('should handle payment data changes', async () => {
         const callbacks = service['handlePaymentCallbacks']();
         const intermediatePaymentData =
           {} as google.payments.api.IntermediatePaymentData;
@@ -758,23 +733,23 @@ describe('OpfGooglePayService', () => {
           name: 'STANDARD DELIVERY',
         };
 
-        mockQuickBuyTransactionService.getCurrentCartId.and.returnValue(
+        mockQuickBuyTransactionService.getCurrentCartId.mockReturnValue(
           of('cartId')
         );
-        mockPaymentFacade.submitPayment.and.returnValue(of());
-        mockQuickBuyTransactionService.setDeliveryAddress.and.returnValue(
+        mockPaymentFacade.submitPayment.mockReturnValue(of());
+        mockQuickBuyTransactionService.setDeliveryAddress.mockReturnValue(
           of('addressId')
         );
-        mockQuickBuyTransactionService.setDeliveryMode.and.returnValue(
+        mockQuickBuyTransactionService.setDeliveryMode.mockReturnValue(
           of({
             code: 'code',
           })
         );
-        mockQuickBuyTransactionService.getCurrentCart.and.returnValue(of({}));
-        mockQuickBuyTransactionService.getSelectedDeliveryMode.and.returnValue(
+        mockQuickBuyTransactionService.getCurrentCart.mockReturnValue(of({}));
+        mockQuickBuyTransactionService.getSelectedDeliveryMode.mockReturnValue(
           of(selectedDeliveryMode)
         );
-        mockQuickBuyTransactionService.getSupportedDeliveryModes.and.returnValue(
+        mockQuickBuyTransactionService.getSupportedDeliveryModes.mockReturnValue(
           of([
             {
               code: 'code',
@@ -793,43 +768,39 @@ describe('OpfGooglePayService', () => {
         );
 
         if (callbacks.onPaymentDataChanged) {
-          (
-            callbacks.onPaymentDataChanged(
+          const paymentDataRequestUpdate =
+            await (callbacks.onPaymentDataChanged(
               intermediatePaymentData
-            ) as Promise<any>
-          ).then((paymentDataRequestUpdate) => {
-            expect(
-              paymentDataRequestUpdate.newShippingOptionParameters
-                .defaultSelectedOptionId
-            ).toEqual(selectedDeliveryMode.code);
-            expect(
-              paymentDataRequestUpdate.newShippingOptionParameters
-                .shippingOptions[0].id
-            ).toEqual(selectedDeliveryMode.code);
-            expect(
-              paymentDataRequestUpdate.newShippingOptionParameters
-                .shippingOptions[0].description
-            ).toEqual(selectedDeliveryMode.description);
-            expect(
-              paymentDataRequestUpdate.newShippingOptionParameters
-                .shippingOptions[0].label
-            ).toEqual(selectedDeliveryMode.name);
-            expect(paymentDataRequestUpdate).toBeDefined();
-            expect(
-              mockQuickBuyTransactionService.setDeliveryAddress
-            ).toHaveBeenCalled();
-            expect(
-              mockQuickBuyTransactionService.setDeliveryMode
-            ).toHaveBeenCalled();
-            expect(
-              mockQuickBuyTransactionService.getCurrentCart
-            ).toHaveBeenCalled();
-            expect(
-              mockQuickBuyTransactionService.getSelectedDeliveryMode
-            ).toHaveBeenCalledWith();
-
-            done();
-          });
+            ) as Promise<any>);
+          expect(
+            paymentDataRequestUpdate.newShippingOptionParameters
+              .defaultSelectedOptionId
+          ).toEqual(selectedDeliveryMode.code);
+          expect(
+            paymentDataRequestUpdate.newShippingOptionParameters
+              .shippingOptions[0].id
+          ).toEqual(selectedDeliveryMode.code);
+          expect(
+            paymentDataRequestUpdate.newShippingOptionParameters
+              .shippingOptions[0].description
+          ).toEqual(selectedDeliveryMode.description);
+          expect(
+            paymentDataRequestUpdate.newShippingOptionParameters
+              .shippingOptions[0].label
+          ).toEqual(selectedDeliveryMode.name);
+          expect(paymentDataRequestUpdate).toBeDefined();
+          expect(
+            mockQuickBuyTransactionService.setDeliveryAddress
+          ).toHaveBeenCalled();
+          expect(
+            mockQuickBuyTransactionService.setDeliveryMode
+          ).toHaveBeenCalled();
+          expect(
+            mockQuickBuyTransactionService.getCurrentCart
+          ).toHaveBeenCalled();
+          expect(
+            mockQuickBuyTransactionService.getSelectedDeliveryMode
+          ).toHaveBeenCalledWith();
         }
       });
     });

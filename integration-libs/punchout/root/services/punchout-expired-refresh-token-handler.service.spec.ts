@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthService } from '@spartacus/core';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
+import { firstValueFrom } from 'rxjs';
 import { PunchoutFacade } from '../facade';
 import { PunchOutLevel, PunchOutOperation, PunchoutSession } from '../model';
 import { PunchoutExpiredRefreshTokenHandler } from './punchout-expired-refresh-token-handler.service';
@@ -70,51 +72,57 @@ describe('PunchoutExpiredRefreshTokenHandler', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return false when not in punchout page nor punchout session', (done) => {
-    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
-    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+  it('should return false when not in punchout page nor punchout session', async () => {
+    vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       false
     );
-    spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(false);
-    spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(
+      false
+    );
+    vi.spyOn(punchoutfacade, 'endPunchoutSession');
 
-    service.handleExpiredRefreshTokenIfApplicable().subscribe((handled) => {
-      expect(handled).toBe(false);
-      expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalled();
-      expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalled();
-      done();
-    });
+    const handled = await firstValueFrom(
+      service.handleExpiredRefreshTokenIfApplicable()
+    );
+    expect(handled).toBe(false);
+    expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalled();
+    expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalled();
   });
 
-  it('should logout punchout user when on punchout session page', (done) => {
-    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+  it('should logout punchout user when on punchout session page', async () => {
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       true
     );
-    spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(true);
-    spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
-    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(
+      true
+    );
+    vi.spyOn(punchoutfacade, 'endPunchoutSession');
+    vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
 
-    service.handleExpiredRefreshTokenIfApplicable().subscribe((handled) => {
-      expect(handled).toBe(true);
-      expect(punchoutfacade.logoutPunchoutUser).toHaveBeenCalledWith();
-      expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalledWith();
-      done();
-    });
+    const handled = await firstValueFrom(
+      service.handleExpiredRefreshTokenIfApplicable()
+    );
+    expect(handled).toBe(true);
+    expect(punchoutfacade.logoutPunchoutUser).toHaveBeenCalledWith();
+    expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalledWith();
   });
 
-  it('should end punchout session when punchout session already exists', (done) => {
-    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+  it('should end punchout session when punchout session already exists', async () => {
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSessionPage').mockReturnValue(
       false
     );
-    spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(true);
-    spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
-    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
+    vi.spyOn(punchoutDetectionService, 'isPunchoutSession').mockReturnValue(
+      true
+    );
+    vi.spyOn(punchoutfacade, 'endPunchoutSession');
+    vi.spyOn(punchoutfacade, 'logoutPunchoutUser');
 
-    service.handleExpiredRefreshTokenIfApplicable().subscribe((handled) => {
-      expect(handled).toBe(true);
-      expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalledWith();
-      expect(punchoutfacade.endPunchoutSession).toHaveBeenCalledWith();
-      done();
-    });
+    const handled = await firstValueFrom(
+      service.handleExpiredRefreshTokenIfApplicable()
+    );
+    expect(handled).toBe(true);
+    expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalledWith();
+    expect(punchoutfacade.endPunchoutSession).toHaveBeenCalledWith();
   });
 });

@@ -6,6 +6,7 @@
 
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { Subject, of } from 'rxjs';
 
 import { OpfGiftCardPaymentMethodDetailComponent } from './opf-gift-card-payment-method-detail.component';
@@ -16,14 +17,12 @@ import { TranslationService } from '@spartacus/core';
 describe('OpfGiftCardPaymentMethodDetailComponent', () => {
   let component: OpfGiftCardPaymentMethodDetailComponent;
   let fixture: ComponentFixture<OpfGiftCardPaymentMethodDetailComponent>;
-  let translationService: jasmine.SpyObj<TranslationService>;
+  let translationService: any;
   let mockOrder: Order;
   let contextSubject: Subject<any>;
 
   beforeEach(async () => {
-    const translationServiceSpy = jasmine.createSpyObj('TranslationService', [
-      'translate',
-    ]);
+    const translationServiceSpy = { translate: vi.fn() };
 
     await TestBed.configureTestingModule({
       imports: [OpfGiftCardPaymentMethodDetailComponent],
@@ -31,14 +30,12 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         { provide: TranslationService, useValue: translationServiceSpy },
         {
           provide: Store,
-          useValue: { pipe: jasmine.createSpy('pipe').and.returnValue(of({})) },
+          useValue: { pipe: vi.fn().mockReturnValue(of({})) },
         },
       ],
     }).compileComponents();
 
-    translationService = TestBed.inject(
-      TranslationService
-    ) as jasmine.SpyObj<TranslationService>;
+    translationService = TestBed.inject(TranslationService) as any;
     fixture = TestBed.createComponent(OpfGiftCardPaymentMethodDetailComponent);
     component = fixture.componentInstance;
 
@@ -70,7 +67,7 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should subscribe to orderOutlet context when provided', (done) => {
+    it('should subscribe to orderOutlet context when provided', async () => {
       const mockOutletContext: Partial<OutletContextData<Order>> = {
         context$: contextSubject.asObservable(),
       };
@@ -80,10 +77,7 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
 
       contextSubject.next(mockOrder);
 
-      setTimeout(() => {
-        expect(component.order).toEqual(mockOrder);
-        done();
-      }, 10);
+      expect(component.order).toEqual(mockOrder);
     });
 
     it('should not subscribe if orderOutlet is not provided', () => {
@@ -94,7 +88,7 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       expect(component.order).toBeUndefined();
     });
 
-    it('should handle multiple order updates from context', (done) => {
+    it('should handle multiple order updates from context', async () => {
       const mockOutletContext: Partial<OutletContextData<Order>> = {
         context$: contextSubject.asObservable(),
       };
@@ -108,21 +102,16 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       ];
 
       contextSubject.next(orders[0] as Order);
-      setTimeout(() => {
-        expect(component.order.code).toBe('order-1');
+      expect(component.order.code).toBe('order-1');
 
-        contextSubject.next(orders[1] as Order);
-        setTimeout(() => {
-          expect(component.order.code).toBe('order-2');
-          done();
-        }, 10);
-      }, 10);
+      contextSubject.next(orders[1] as Order);
+      expect(component.order.code).toBe('order-2');
     });
   });
 
   describe('getPaymentMethodCardContent', () => {
     beforeEach(() => {
-      translationService.translate.and.callFake((key: string) => {
+      translationService.translate.mockImplementation((key: string) => {
         const translations: Record<string, string> = {
           'opfCheckout.paymentOption': 'Payment Option',
           'opfGiftCard.giftCardPayment': 'Gift Card Payment',
@@ -131,15 +120,14 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       });
     });
 
-    it('should return card with translated title and text', (done) => {
+    it('should return card with translated title and text', async () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBe('Payment Option');
         expect(card.text).toContain('Gift Card Payment');
-        done();
       });
     });
 
-    it('should call translate with correct keys', (done) => {
+    it('should call translate with correct keys', async () => {
       component.getPaymentMethodCardContent().subscribe(() => {
         expect(translationService.translate).toHaveBeenCalledWith(
           'opfCheckout.paymentOption'
@@ -147,27 +135,24 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         expect(translationService.translate).toHaveBeenCalledWith(
           'opfGiftCard.giftCardPayment'
         );
-        done();
       });
     });
 
-    it('should return card object with expected structure', (done) => {
+    it('should return card object with expected structure', async () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBeDefined();
         expect(card.text).toBeDefined();
         expect(Array.isArray(card.text)).toBe(true);
         expect(card.text?.length).toBeGreaterThan(0);
-        done();
       });
     });
 
-    it('should handle translation service errors gracefully', (done) => {
-      translationService.translate.and.returnValue(of('Fallback translation'));
+    it('should handle translation service errors gracefully', async () => {
+      translationService.translate.mockReturnValue(of('Fallback translation'));
 
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBeDefined();
         expect(card.text).toBeDefined();
-        done();
       });
     });
   });
@@ -257,8 +242,8 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       expect(component.isGiftCardPayment).toBe(true);
     });
 
-    it('should render card content when getPaymentMethodCardContent is called', (done) => {
-      translationService.translate.and.callFake((key: string) => {
+    it('should render card content when getPaymentMethodCardContent is called', async () => {
+      translationService.translate.mockImplementation((key: string) => {
         const translations: Record<string, string> = {
           'opfCheckout.paymentOption': 'Payment Option',
           'opfGiftCard.giftCardPayment': 'Gift Card Payment',
@@ -269,7 +254,6 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(card.title).toBe('Payment Option');
         expect(card.text?.[0]).toBe('Gift Card Payment');
-        done();
       });
     });
   });
@@ -291,7 +275,7 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       expect(component.isGiftCardPayment).toBe(false);
     });
 
-    it('should handle rapid succession of order updates', (done) => {
+    it('should handle rapid succession of order updates', async () => {
       const mockOutletContext: Partial<OutletContextData<Order>> = {
         context$: contextSubject.asObservable(),
       };
@@ -331,10 +315,7 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
 
       orders.forEach((order) => contextSubject.next(order as Order));
 
-      setTimeout(() => {
-        expect((component.order as any).code).toBe('order-3');
-        done();
-      }, 10);
+      expect((component.order as any).code).toBe('order-3');
     });
 
     it('should handle decimal values in gift card amount', () => {

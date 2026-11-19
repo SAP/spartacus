@@ -6,6 +6,7 @@
 
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { OpfGlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { OpfPaymentGlobalMethods } from '@spartacus/opf/payment/root';
@@ -21,25 +22,23 @@ import { OpfGlobalFunctionsRedirectDomainService } from './opf-global-functions-
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCartId = jasmine
-    .createSpy('getCurrentCartId')
-    .and.returnValue(of('test-cart-id'));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
-function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
-  return jasmine.createSpyObj('OpfPaymentFacade', [
-    'submitPayment',
-    'submitCompletePayment',
-    'getActiveConfigurationsState',
-    'verifyPayment',
-    'initiatePayment',
-    'updatePaymentTransaction',
-  ]);
+function createOpfPaymentFacadeMock(): any {
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
   let service: OpfGlobalFunctionsRedirectDomainRegistrationsService;
-  let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
+  let opfPaymentFacadeMock: any;
   let container: OpfPaymentGlobalMethods;
 
   const mockPaymentSessionId = 'mockSessionId';
@@ -64,11 +63,7 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
         },
         {
           provide: LaunchDialogService,
-          useValue: jasmine.createSpyObj('LaunchDialogService', [
-            'launch',
-            'clear',
-            'openDialog',
-          ]),
+          useValue: { launch: vi.fn(), clear: vi.fn(), openDialog: vi.fn() },
         },
       ],
     });
@@ -108,7 +103,7 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
     });
 
     it('should register submit function when paymentSessionId is provided', () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitPayment.mockReturnValue(of(true));
 
       service.registerAll(container, {
         domain: OpfGlobalFunctionsDomain.REDIRECT,
@@ -121,7 +116,7 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
     });
 
     it('should handle submit through registered function', () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitPayment.mockReturnValue(of(true));
 
       service.registerAll(container, {
         domain: OpfGlobalFunctionsDomain.REDIRECT,
@@ -135,14 +130,14 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
         submitSuccess: () => {},
         submitPending: () => {},
         submitFailure: () => {},
-        paymentMethod: jasmine.any(String) as any,
+        paymentMethod: expect.any(String) as any,
       });
 
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
     });
 
     it('should handle submitCompleteRedirect through registered function', () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitCompletePayment.mockReturnValue(of(true));
 
       service.registerAll(container, {
         domain: OpfGlobalFunctionsDomain.REDIRECT,
@@ -162,7 +157,7 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
     });
 
     it('should pass submitCancel callback through registered function', () => {
-      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitCompletePayment.mockReturnValue(of(true));
       const submitCancel = (): void => {};
 
       service.registerAll(container, {
@@ -181,7 +176,7 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
       });
 
       const callArgs =
-        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+        opfPaymentFacadeMock.submitCompletePayment.mock.lastCall[0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
       expect(callArgs.returnPath).toBe('opfCheckoutPaymentAndReview');
     });

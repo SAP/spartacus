@@ -60,17 +60,16 @@ describe('OpfErrorModalService', () => {
   });
 
   describe('getMessageAndConfirmTranslations', () => {
-    it('should translate from strings', (done) => {
+    it('should translate from strings', async () => {
       service
         .getMessageAndConfirmTranslations(mockDialogOptionsWithStrings)
         .subscribe((translation) => {
           expect(translation.message).toEqual('Opf Test Message');
           expect(translation.confirm).toEqual('Opf Test Confirm');
-          done();
         });
     });
 
-    it('should translate from keys and fallback to default when failing', (done) => {
+    it('should translate from keys and fallback to default when failing', async () => {
       service
         .getMessageAndConfirmTranslations(mockDialogOptionsWithKeys)
         .subscribe((translation) => {
@@ -78,11 +77,10 @@ describe('OpfErrorModalService', () => {
           expect(translation.confirm).toEqual(
             defaultOpfErrorDialogOptions.confirmKey
           );
-          done();
         });
     });
 
-    it('should translate with default key when empty labels provided', (done) => {
+    it('should translate with default key when empty labels provided', async () => {
       service
         .getMessageAndConfirmTranslations(mockDialogOptionsEmpty)
         .subscribe((translation) => {
@@ -92,11 +90,10 @@ describe('OpfErrorModalService', () => {
           expect(translation.confirm).toEqual(
             defaultOpfErrorDialogOptions.confirmKey
           );
-          done();
         });
     });
 
-    it('should translate with replacement and fallback to default when fail', (done) => {
+    it('should translate with replacement and fallback to default when fail', async () => {
       service
         .getMessageAndConfirmTranslations(
           mockDialogOptionsWithKeysAndReplacements
@@ -107,7 +104,6 @@ describe('OpfErrorModalService', () => {
             defaultOpfErrorDialogOptions.confirmKey
           );
         });
-      done();
     });
   });
 });

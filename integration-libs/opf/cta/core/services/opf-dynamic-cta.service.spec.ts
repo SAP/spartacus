@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
@@ -15,41 +16,31 @@ import { OpfDynamicCtaService } from './opf-dynamic-cta.service';
 
 describe('OpfDynamicCtaService', () => {
   let service: OpfDynamicCtaService;
-  let globalFunctionsFacadeMock: jasmine.SpyObj<OpfGlobalFunctionsFacade>;
-  let eventServiceMock: jasmine.SpyObj<EventService>;
-  let currencyServiceMock: jasmine.SpyObj<CurrencyService>;
-  let languageServiceMock: jasmine.SpyObj<LanguageService>;
-  let activeCartFacadeMock: jasmine.SpyObj<ActiveCartFacade>;
-  let opfCtaFacadeMock: jasmine.SpyObj<OpfCtaFacade>;
-  let currentProductServiceMock: jasmine.SpyObj<CurrentProductService>;
+  let globalFunctionsFacadeMock: any;
+  let eventServiceMock: any;
+  let currencyServiceMock: any;
+  let languageServiceMock: any;
+  let activeCartFacadeMock: any;
+  let opfCtaFacadeMock: any;
+  let currentProductServiceMock: any;
 
   beforeEach(() => {
     // Prevent external link navigation
     window.onbeforeunload = function () {
       return '';
     };
-    globalFunctionsFacadeMock = jasmine.createSpyObj('GlobalFunctionsFacade', [
-      'registerGlobalFunctions',
-      'unregisterGlobalFunctions',
-    ]);
+    globalFunctionsFacadeMock = {
+      registerGlobalFunctions: vi.fn(),
+      unregisterGlobalFunctions: vi.fn(),
+    };
 
-    eventServiceMock = jasmine.createSpyObj('EventService', ['get']);
+    eventServiceMock = { get: vi.fn() };
 
-    currencyServiceMock = jasmine.createSpyObj('CurrencyService', [
-      'getActive',
-    ]);
-    languageServiceMock = jasmine.createSpyObj('LanguageService', [
-      'getActive',
-    ]);
-    opfCtaFacadeMock = jasmine.createSpyObj('OpfCtaFacade', [
-      'listenScriptReadyEvent',
-    ]);
-    currentProductServiceMock = jasmine.createSpyObj('CurrentProductService', [
-      'getProduct',
-    ]);
-    activeCartFacadeMock = jasmine.createSpyObj('ActiveCartFacade', [
-      'takeActive',
-    ]);
+    currencyServiceMock = { getActive: vi.fn() };
+    languageServiceMock = { getActive: vi.fn() };
+    opfCtaFacadeMock = { listenScriptReadyEvent: vi.fn() };
+    currentProductServiceMock = { getProduct: vi.fn() };
+    activeCartFacadeMock = { takeActive: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -68,21 +59,21 @@ describe('OpfDynamicCtaService', () => {
       ],
     });
     service = TestBed.inject(OpfDynamicCtaService);
-    currencyServiceMock.getActive.and.returnValue(of(mockCurrency));
-    languageServiceMock.getActive.and.returnValue(of(mockLanguage));
-    eventServiceMock.get.and.returnValue(of(true));
-    opfCtaFacadeMock.listenScriptReadyEvent.and.returnValue(of(mockScriptId));
-    globalFunctionsFacadeMock.registerGlobalFunctions.and.returnValue();
-    globalFunctionsFacadeMock.unregisterGlobalFunctions.and.returnValue();
-    currentProductServiceMock.getProduct.and.returnValue(of(mockProduct));
-    activeCartFacadeMock.takeActive.and.returnValue(of(mockCart));
+    currencyServiceMock.getActive.mockReturnValue(of(mockCurrency));
+    languageServiceMock.getActive.mockReturnValue(of(mockLanguage));
+    eventServiceMock.get.mockReturnValue(of(true));
+    opfCtaFacadeMock.listenScriptReadyEvent.mockReturnValue(of(mockScriptId));
+    globalFunctionsFacadeMock.registerGlobalFunctions.mockReturnValue();
+    globalFunctionsFacadeMock.unregisterGlobalFunctions.mockReturnValue();
+    currentProductServiceMock.getProduct.mockReturnValue(of(mockProduct));
+    activeCartFacadeMock.takeActive.mockReturnValue(of(mockCart));
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call activeCart on fillCtaRequestforCartPage', (done) => {
+  it('should call activeCart on fillCtaRequestforCartPage', async () => {
     service
       .fillCtaRequestforCartPage(
         OpfCtaScriptsLocation.CART_MESSAGING,
@@ -94,11 +85,10 @@ describe('OpfDynamicCtaService', () => {
         expect(ctaRequest.scriptLocations).toEqual([
           OpfCtaScriptsLocation.CART_MESSAGING,
         ]);
-        done();
       });
   });
 
-  it('should call productService on fillCtaRequestforProductPage', (done) => {
+  it('should call productService on fillCtaRequestforProductPage', async () => {
     service
       .fillCtaRequestforProductPage(
         OpfCtaScriptsLocation.PDP_MESSAGING,
@@ -115,11 +105,10 @@ describe('OpfDynamicCtaService', () => {
             (keyVal) => keyVal.key === 'scriptIdentifier'
           )?.value
         ).toEqual(mockScriptId);
-        done();
       });
   });
 
-  it('should start cartListener on cart page initiateEvents', (done) => {
+  it('should start cartListener on cart page initiateEvents', async () => {
     service
       .fillCtaRequestforCartPage(
         OpfCtaScriptsLocation.CART_MESSAGING,
@@ -128,11 +117,10 @@ describe('OpfDynamicCtaService', () => {
       .subscribe(() => {
         service.initiateEvents();
         expect(eventServiceMock.get).toHaveBeenCalled();
-        done();
       });
   });
 
-  it('should not start cartListener on pdp initiateEvents', (done) => {
+  it('should not start cartListener on pdp initiateEvents', async () => {
     service
       .fillCtaRequestforProductPage(
         OpfCtaScriptsLocation.PDP_MESSAGING,
@@ -141,7 +129,6 @@ describe('OpfDynamicCtaService', () => {
       .subscribe(() => {
         service.initiateEvents();
         expect(eventServiceMock.get).not.toHaveBeenCalled();
-        done();
       });
   });
 
@@ -152,7 +139,7 @@ describe('OpfDynamicCtaService', () => {
     ).toHaveBeenCalled();
   });
 
-  it('should remove global functions on stopEvents', (done) => {
+  it('should remove global functions on stopEvents', async () => {
     service
       .fillCtaRequestforProductPage(
         OpfCtaScriptsLocation.CART_MESSAGING,
@@ -164,8 +151,6 @@ describe('OpfDynamicCtaService', () => {
         expect(
           globalFunctionsFacadeMock.unregisterGlobalFunctions
         ).toHaveBeenCalled();
-
-        done();
       });
   });
 

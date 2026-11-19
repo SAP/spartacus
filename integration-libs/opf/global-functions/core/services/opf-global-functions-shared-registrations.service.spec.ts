@@ -6,6 +6,7 @@
 
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { WindowRef } from '@spartacus/core';
 import {
   ActiveCartFacade,
@@ -41,17 +42,13 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine
-    .createSpy('getActiveCartId')
-    .and.returnValue(of('test-cart-id'));
+  getActiveCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
 class MockOpfQuickBuyTransactionService
   implements Partial<OpfQuickBuyTransactionService>
 {
-  getCurrentCartId = jasmine
-    .createSpy('getCurrentCartId')
-    .and.returnValue(of('test-cart-id'));
+  getCurrentCartId = vi.fn().mockReturnValue(of('test-cart-id'));
 }
 
 class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
@@ -60,21 +57,21 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
   }
 }
 
-function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
-  return jasmine.createSpyObj('OpfPaymentFacade', [
-    'submitPayment',
-    'submitCompletePayment',
-    'getActiveConfigurationsState',
-    'verifyPayment',
-    'initiatePayment',
-    'updatePaymentTransaction',
-  ]);
+function createOpfPaymentFacadeMock(): any {
+  return {
+    submitPayment: vi.fn(),
+    submitCompletePayment: vi.fn(),
+    getActiveConfigurationsState: vi.fn(),
+    verifyPayment: vi.fn(),
+    initiatePayment: vi.fn(),
+    updatePaymentTransaction: vi.fn(),
+  };
 }
 
 describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
   let service: OpfGlobalFunctionsSharedRegistrationsService;
   let sharedService: OpfGlobalFunctionsSharedService;
-  let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
+  let opfPaymentFacadeMock: any;
   let container: OpfPaymentGlobalMethods;
 
   const mockPaymentSessionId = 'mockSessionId';
@@ -89,11 +86,7 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
         {
           provide: LaunchDialogService,
-          useValue: jasmine.createSpyObj('LaunchDialogService', [
-            'launch',
-            'clear',
-            'openDialog',
-          ]),
+          useValue: { launch: vi.fn(), clear: vi.fn(), openDialog: vi.fn() },
         },
         {
           provide: OpfMetadataStoreService,
@@ -118,7 +111,7 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
 
   describe('registerSubmit', () => {
     it('should assign container.submit that delegates to shared service', async () => {
-      spyOn(sharedService, 'submit').and.returnValue(Promise.resolve(true));
+      vi.spyOn(sharedService, 'submit').mockReturnValue(Promise.resolve(true));
       service.registerSubmit(
         container,
         mockPaymentSessionId,
@@ -139,7 +132,7 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
 
   describe('registerSubmitComplete', () => {
     it('should assign container.submitComplete that delegates to shared service', async () => {
-      spyOn(sharedService, 'submitComplete').and.returnValue(
+      vi.spyOn(sharedService, 'submitComplete').mockReturnValue(
         Promise.resolve(true)
       );
       service.registerSubmitComplete(
@@ -161,9 +154,9 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
 
   describe('registerUpdatePaymentTransaction', () => {
     it('should assign container.updatePaymentTransaction', async () => {
-      const updateFn = jasmine
-        .createSpy('updatePaymentTransaction')
-        .and.returnValue(Promise.resolve({ paymentSessionId: 'updated' }));
+      const updateFn = vi
+        .fn()
+        .mockReturnValue(Promise.resolve({ paymentSessionId: 'updated' }));
 
       service.registerUpdatePaymentTransaction(container, updateFn);
 
@@ -175,7 +168,7 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
 
   describe('integration via shared service', () => {
     it('should wire submit to payment facade through shared service', async () => {
-      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+      opfPaymentFacadeMock.submitPayment.mockReturnValue(of(true));
       service.registerSubmit(container, mockPaymentSessionId);
 
       await container.submit?.({

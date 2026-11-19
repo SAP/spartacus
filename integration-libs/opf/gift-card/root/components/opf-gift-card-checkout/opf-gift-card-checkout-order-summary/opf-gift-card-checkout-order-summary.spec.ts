@@ -14,6 +14,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { vi } from 'vitest';
 import { OpfGiftCardCheckoutOrderSummaryComponent } from './opf-gift-card-checkout-order-summary.component';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -21,16 +22,16 @@ import { of } from 'rxjs';
 describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
   let component: OpfGiftCardCheckoutOrderSummaryComponent;
   let fixture: ComponentFixture<OpfGiftCardCheckoutOrderSummaryComponent>;
-  let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
+  let mockActiveCartFacade: any;
 
   beforeEach(async () => {
-    mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
-      'getActive',
-      'addEntry',
-      'removeEntry',
-    ]);
+    mockActiveCartFacade = {
+      getActive: vi.fn(),
+      addEntry: vi.fn(),
+      removeEntry: vi.fn(),
+    };
 
-    mockActiveCartFacade.getActive.and.returnValue(
+    mockActiveCartFacade.getActive.mockReturnValue(
       of({
         code: 'cart-123',
         totalItems: 2,
@@ -40,17 +41,11 @@ describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
       } as Cart)
     );
 
-    const mockStore = jasmine.createSpyObj('Store', [
-      'pipe',
-      'dispatch',
-      'select',
-    ]);
-    mockStore.pipe.and.returnValue(of({}));
+    const mockStore = { pipe: vi.fn(), dispatch: vi.fn(), select: vi.fn() };
+    mockStore.pipe.mockReturnValue(of({}));
 
-    const translationServiceSpy = jasmine.createSpyObj('TranslationService', [
-      'translate',
-    ]);
-    translationServiceSpy.translate.and.returnValue(of({}));
+    const translationServiceSpy = { translate: vi.fn() };
+    translationServiceSpy.translate.mockReturnValue(of({}));
 
     await TestBed.configureTestingModule({
       imports: [OpfGiftCardCheckoutOrderSummaryComponent],
@@ -77,7 +72,7 @@ describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
     expect(component['activeCartFacade']).toBe(mockActiveCartFacade);
   });
 
-  it('should initialize cart$ observable on ngOnInit', (done) => {
+  it('should initialize cart$ observable on ngOnInit', async () => {
     fixture.detectChanges();
 
     component.cart$.subscribe((cart) => {
@@ -88,7 +83,6 @@ describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
           value: 150,
         },
       });
-      done();
     });
   });
 
@@ -107,25 +101,23 @@ describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
     expect(component.cart$).toBeDefined();
   });
 
-  it('should handle empty cart', (done) => {
-    mockActiveCartFacade.getActive.and.returnValue(of({} as Cart));
+  it('should handle empty cart', async () => {
+    mockActiveCartFacade.getActive.mockReturnValue(of({} as Cart));
 
     fixture.detectChanges();
 
     component.cart$.subscribe((cart) => {
       expect(cart).toEqual({});
-      done();
     });
   });
 
-  it('should handle null cart', (done) => {
-    mockActiveCartFacade.getActive.and.returnValue(of(undefined));
+  it('should handle null cart', async () => {
+    mockActiveCartFacade.getActive.mockReturnValue(of(undefined));
 
     fixture.detectChanges();
 
     component.cart$.subscribe((cart) => {
       expect(cart).toBeUndefined();
-      done();
     });
   });
 });

@@ -10,6 +10,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
@@ -22,24 +23,16 @@ const OTHER_URL = '/some/other/endpoint';
 
 describe('OpfGiftCardPaymentApiInterceptor (CXSPA-14589)', () => {
   let interceptor: OpfGiftCardPaymentApiInterceptor;
-  let activeCartFacadeMock: jasmine.SpyObj<ActiveCartFacade>;
-  let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
-  let opfPaymentEventsServiceMock: jasmine.SpyObj<OpfPaymentEventsService>;
-  let nextMock: jasmine.SpyObj<HttpHandler>;
+  let activeCartFacadeMock: any;
+  let opfMetadataStoreServiceMock: any;
+  let opfPaymentEventsServiceMock: any;
+  let nextMock: any;
 
   beforeEach(() => {
-    activeCartFacadeMock = jasmine.createSpyObj('ActiveCartFacade', [
-      'reloadActiveCart',
-    ]);
-    opfMetadataStoreServiceMock = jasmine.createSpyObj(
-      'OpfMetadataStoreService',
-      ['updateOpfMetadata']
-    );
-    opfPaymentEventsServiceMock = jasmine.createSpyObj(
-      'OpfPaymentEventsService',
-      ['emitReinitiatePaymentEvent']
-    );
-    nextMock = jasmine.createSpyObj('HttpHandler', ['handle']);
+    activeCartFacadeMock = { reloadActiveCart: vi.fn() };
+    opfMetadataStoreServiceMock = { updateOpfMetadata: vi.fn() };
+    opfPaymentEventsServiceMock = { emitReinitiatePaymentEvent: vi.fn() };
+    nextMock = { handle: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -61,7 +54,7 @@ describe('OpfGiftCardPaymentApiInterceptor (CXSPA-14589)', () => {
 
   it('should pass through requests not matching paymentAuthorizedOrderPlacement', () => {
     const request = new HttpRequest('POST', OTHER_URL, {});
-    nextMock.handle.and.returnValue(EMPTY);
+    nextMock.handle.mockReturnValue(EMPTY);
 
     interceptor.intercept(request, nextMock).subscribe();
 
@@ -72,7 +65,7 @@ describe('OpfGiftCardPaymentApiInterceptor (CXSPA-14589)', () => {
   it('should reload cart on any paymentAuthorizedOrderPlacement failure', () => {
     const request = new HttpRequest('POST', PLACE_ORDER_URL, {});
     const error = new HttpErrorResponse({ status: 500, url: PLACE_ORDER_URL });
-    nextMock.handle.and.returnValue(throwError(() => error));
+    nextMock.handle.mockReturnValue(throwError(() => error));
 
     interceptor.intercept(request, nextMock).subscribe({ error: () => {} });
 
@@ -88,7 +81,7 @@ describe('OpfGiftCardPaymentApiInterceptor (CXSPA-14589)', () => {
         errors: [{ type: OPF_GIFT_CARD_AUTH_ERROR_TYPE }],
       },
     });
-    nextMock.handle.and.returnValue(throwError(() => error));
+    nextMock.handle.mockReturnValue(throwError(() => error));
 
     interceptor.intercept(request, nextMock).subscribe({ error: () => {} });
 
@@ -111,7 +104,7 @@ describe('OpfGiftCardPaymentApiInterceptor (CXSPA-14589)', () => {
         errors: [{ type: 'SomeOtherError' }],
       },
     });
-    nextMock.handle.and.returnValue(throwError(() => error));
+    nextMock.handle.mockReturnValue(throwError(() => error));
 
     interceptor.intercept(request, nextMock).subscribe({ error: () => {} });
 
@@ -124,15 +117,14 @@ describe('OpfGiftCardPaymentApiInterceptor (CXSPA-14589)', () => {
     ).not.toHaveBeenCalled();
   });
 
-  it('should propagate the error after handling', (done) => {
+  it('should propagate the error after handling', async () => {
     const request = new HttpRequest('POST', PLACE_ORDER_URL, {});
     const error = new HttpErrorResponse({ status: 500, url: PLACE_ORDER_URL });
-    nextMock.handle.and.returnValue(throwError(() => error));
+    nextMock.handle.mockReturnValue(throwError(() => error));
 
     interceptor.intercept(request, nextMock).subscribe({
       error: (err) => {
         expect(err).toBe(error);
-        done();
       },
     });
   });

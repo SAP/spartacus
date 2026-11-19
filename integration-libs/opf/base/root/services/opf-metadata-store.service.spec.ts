@@ -44,12 +44,11 @@ describe('OpfMetadataStoreService', () => {
     expect(service.opfMetadataState.value).toEqual(initialState);
   });
 
-  it('should return the current OpfMetadataStoreService as an observable', (done) => {
+  it('should return the current OpfMetadataStoreService as an observable', async () => {
     service.opfMetadataState.next(state);
 
     service.getOpfMetadataState().subscribe((state) => {
       expect(state).toEqual(state);
-      done();
     });
   });
 
