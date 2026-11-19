@@ -6,7 +6,11 @@
 
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
-import { AnonymousConsentsService, TranslatePipe } from '@spartacus/core';
+import {
+  AnonymousConsentsService,
+  CookieConsentService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
@@ -25,6 +29,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
 
   constructor(
     protected anonymousConsentsService: AnonymousConsentsService,
+    protected storageConsentService: CookieConsentService,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
   ) {}
@@ -42,12 +47,18 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   }
 
   allowAll(): void {
+    this.storageConsentService.acceptOptionalCookies();
     this.subscriptions.add(
       this.anonymousConsentsService
         .giveAllConsents()
         .pipe(tap(() => this.hideBanner()))
         .subscribe()
     );
+  }
+
+  rejectOptionalStorage(): void {
+    this.storageConsentService.rejectOptionalCookies();
+    this.hideBanner();
   }
 
   hideBanner(): void {
