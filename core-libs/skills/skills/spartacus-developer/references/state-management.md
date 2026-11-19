@@ -50,7 +50,7 @@ Look at the facade's service implementation in `node_modules/@spartacus/`:
 ```typescript
 // ❌ Hand-rolled BehaviorSubject for a feature that already has a facade.
 //    No caching across components, no integration with reloadOn/resetOn
-//    events, no replay for late subscribers, no SSR transfer-state.
+//    events, no replay for late subscribers.
 @Injectable({ providedIn: 'root' })
 export class GiftCardService {
   private http = inject(HttpClient);
