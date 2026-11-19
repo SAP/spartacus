@@ -301,6 +301,7 @@ if (environment.cpq) {
         productConfiguratorConsolidatedButtonDisabling: true,
         productConfiguratorCPQContainer: true,
         productConfiguratorReadOnlyCartEntryConfiguration: true,
+        productConfiguratorDropDownList: true,
         improvedTabStyling: true,
         alignNavigationMenuWithHeader: true,
         a11yKeyboardAccessibleZoom: true,

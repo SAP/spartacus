@@ -10,10 +10,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
 import {
+  FeatureConfigService,
   FeatureLevelDirective,
   I18nTestingModule,
   LoggerTestingModule,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import {
   FocusDirective,
@@ -195,8 +200,27 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
         },
+        ...provideMockFeatureToggles({
+          productConfiguratorDropDownList: false,
+        }),
       ],
     })
+      .overrideProvider(FeatureConfigService, {
+        useFactory: () => {
+          const ctrl = TestBed.inject(
+            MockFeatureTogglesController
+          ) as unknown as Record<string, unknown>;
+          return {
+            isEnabled: (feature: string) => {
+              const negated = feature.startsWith('!');
+              const key = negated ? feature.slice(1) : feature;
+              const val = !!ctrl[key];
+              return negated ? !val : val;
+            },
+            isLevel: () => false,
+          };
+        },
+      })
       .overrideComponent(ConfiguratorAttributeDropDownComponent, {
         remove: {
           imports: [
@@ -588,6 +612,152 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           value2?.valueDisplay,
         value2?.valueDisplay
       );
+    });
+  });
+
+  describe('feature toggle productConfiguratorDropDownList', () => {
+    beforeEach(() => {
+      createComponentWithData();
+    });
+
+    describe('when toggle is disabled (default)', () => {
+      it('should render native select element', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'select'
+        );
+      });
+
+      it('should not render custom dropdown', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-dropdown'
+        );
+      });
+    });
+
+    describe('when toggle is enabled', () => {
+      beforeEach(() => {
+        TestBed.inject(MockFeatureTogglesController).set(
+          'productConfiguratorDropDownList',
+          true
+        );
+      });
+
+      it('should render custom dropdown', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-dropdown'
+        );
+      });
+
+      it('should not render native select element', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          'select'
+        );
+      });
+
+      it('should render dropdown trigger button with aria-haspopup listbox', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'button',
+          'cx-dropdown-trigger',
+          0,
+          'aria-haspopup',
+          'listbox'
+        );
+      });
+
+      it('should show CDK listbox panel when trigger is clicked', () => {
+        component.toggleDropdown();
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-dropdown-panel[cdklistbox]'
+        );
+      });
+
+      it('should show backdrop when dropdown is open', () => {
+        component.toggleDropdown();
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-dropdown-backdrop'
+        );
+      });
+
+      it('should hide dropdown panel after closing', () => {
+        component.toggleDropdown();
+        component.closeDropdown();
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-dropdown-panel'
+        );
+      });
+
+      it('should render option price span for unselected value with price', () => {
+        if (component.attribute.values) {
+          component.attribute.values[1].valuePrice = {
+            currencyIso: '$',
+            formattedValue: '$10.00',
+            value: 10,
+          };
+          component.attribute.values[1].selected = false;
+        } else {
+          fail(ATTRIBUTE_VALUES_MISSING);
+        }
+        component.toggleDropdown();
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-dropdown-option-price'
+        );
+      });
+
+      it('should not render option price span for selected value', () => {
+        if (component.attribute.values) {
+          component.attribute.values[0].selected = true;
+          component.attribute.values[0].valuePrice = {
+            currencyIso: '$',
+            formattedValue: '$10.00',
+            value: 10,
+          };
+        } else {
+          fail(ATTRIBUTE_VALUES_MISSING);
+        }
+        component.toggleDropdown();
+        fixture.detectChanges();
+        const priceEls = htmlElem.querySelectorAll(
+          '.cx-dropdown-option[aria-selected="true"] .cx-dropdown-option-price'
+        );
+        expect(priceEls.length).toBe(0);
+      });
+
+      it('should use CDK option semantics on list items', () => {
+        component.toggleDropdown();
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'li.cx-dropdown-option.cdk-option'
+        );
+      });
     });
   });
 });
