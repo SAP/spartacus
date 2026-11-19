@@ -5,36 +5,31 @@ import {
   PunchoutStoreService,
   PunchoutUiRestrictionService,
 } from '@spartacus/punchout/root';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 
 describe('PunchoutUiRestrictionService', () => {
   let service: PunchoutUiRestrictionService;
-  let mockAuthService: jasmine.SpyObj<AuthService>;
-  let mockPunchoutStoreService: jasmine.SpyObj<PunchoutStoreService>;
-  let mockRendererFactory: jasmine.SpyObj<RendererFactory2>;
-  let mockRenderer: jasmine.SpyObj<Renderer2>;
-  let mockRootComponent: jasmine.SpyObj<ComponentRef<any>>;
+  let mockAuthService: { isUserLoggedIn: ReturnType<typeof vi.fn> };
+  let mockPunchoutStoreService: { getPunchoutState: ReturnType<typeof vi.fn> };
+  let mockRendererFactory: { createRenderer: ReturnType<typeof vi.fn> };
+  let mockRenderer: {
+    addClass: ReturnType<typeof vi.fn>;
+    removeClass: ReturnType<typeof vi.fn>;
+  };
+  let mockRootComponent: ComponentRef<any>;
 
   const mockRootElement = document.createElement('div');
 
   beforeEach(() => {
-    mockAuthService = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
-    mockPunchoutStoreService = jasmine.createSpyObj('PunchoutStoreService', [
-      'getPunchoutState',
-    ]);
-    mockRenderer = jasmine.createSpyObj('Renderer2', [
-      'addClass',
-      'removeClass',
-    ]);
-    mockRendererFactory = jasmine.createSpyObj('RendererFactory2', [
-      'createRenderer',
-    ]);
-    mockRendererFactory.createRenderer.and.returnValue(mockRenderer);
+    mockAuthService = { isUserLoggedIn: vi.fn() };
+    mockPunchoutStoreService = { getPunchoutState: vi.fn() };
+    mockRenderer = { addClass: vi.fn(), removeClass: vi.fn() };
+    mockRendererFactory = { createRenderer: vi.fn() };
+    mockRendererFactory.createRenderer.mockReturnValue(mockRenderer);
 
-    // Mock the ComponentRef with a getter for the location property
-    mockRootComponent = jasmine.createSpyObj('ComponentRef', [], {
+    mockRootComponent = {
       location: { nativeElement: mockRootElement },
-    });
+    } as unknown as ComponentRef<any>;
 
     TestBed.configureTestingModule({
       providers: [
@@ -53,45 +48,39 @@ describe('PunchoutUiRestrictionService', () => {
   });
 
   describe('isPunchoutSessionActive', () => {
-    it('should return true if user is logged in and punchoutSessionId exists', (done) => {
-      mockAuthService.isUserLoggedIn.and.returnValue(of(true));
-      mockPunchoutStoreService.getPunchoutState.and.returnValue(
+    it('should return true if user is logged in and punchoutSessionId exists', async () => {
+      mockAuthService.isUserLoggedIn.mockReturnValue(of(true));
+      mockPunchoutStoreService.getPunchoutState.mockReturnValue(
         of({ punchoutSessionId: '12345' })
       );
 
-      service.isPunchoutSessionActive().subscribe((result) => {
-        expect(result).toBe(true);
-        expect(mockAuthService.isUserLoggedIn).toHaveBeenCalled();
-        expect(mockPunchoutStoreService.getPunchoutState).toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(service.isPunchoutSessionActive());
+      expect(result).toBe(true);
+      expect(mockAuthService.isUserLoggedIn).toHaveBeenCalled();
+      expect(mockPunchoutStoreService.getPunchoutState).toHaveBeenCalled();
     });
 
-    it('should return false if user is logged in but no punchoutSessionId', (done) => {
-      mockAuthService.isUserLoggedIn.and.returnValue(of(true));
-      mockPunchoutStoreService.getPunchoutState.and.returnValue(
+    it('should return false if user is logged in but no punchoutSessionId', async () => {
+      mockAuthService.isUserLoggedIn.mockReturnValue(of(true));
+      mockPunchoutStoreService.getPunchoutState.mockReturnValue(
         of({ punchoutSessionId: undefined })
       );
 
-      service.isPunchoutSessionActive().subscribe((result) => {
-        expect(result).toBe(false);
-        expect(mockAuthService.isUserLoggedIn).toHaveBeenCalled();
-        expect(mockPunchoutStoreService.getPunchoutState).toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(service.isPunchoutSessionActive());
+      expect(result).toBe(false);
+      expect(mockAuthService.isUserLoggedIn).toHaveBeenCalled();
+      expect(mockPunchoutStoreService.getPunchoutState).toHaveBeenCalled();
     });
 
-    it('should return false if user is not logged in', (done) => {
-      mockAuthService.isUserLoggedIn.and.returnValue(of(false));
+    it('should return false if user is not logged in', async () => {
+      mockAuthService.isUserLoggedIn.mockReturnValue(of(false));
 
-      service.isPunchoutSessionActive().subscribe((result) => {
-        expect(result).toBe(false);
-        expect(mockAuthService.isUserLoggedIn).toHaveBeenCalled();
-        expect(
-          mockPunchoutStoreService.getPunchoutState
-        ).not.toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(service.isPunchoutSessionActive());
+      expect(result).toBe(false);
+      expect(mockAuthService.isUserLoggedIn).toHaveBeenCalled();
+      expect(
+        mockPunchoutStoreService.getPunchoutState
+      ).not.toHaveBeenCalled();
     });
   });
 
