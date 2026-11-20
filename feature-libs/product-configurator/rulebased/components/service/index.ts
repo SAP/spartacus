@@ -6,3 +6,4 @@
 
 export * from './configurator-message.service';
 export * from './configurator-storefront-utils.service';
+export * from './testing/index';

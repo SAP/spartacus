@@ -3,6 +3,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
 } from '@spartacus/product-configurator/common';
 import {
   BreakpointService,
@@ -10,18 +11,13 @@ import {
   LayoutConfig,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
 
 const standardRouterData: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 let routerData: ConfiguratorRouter.Data;
-class MockRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(routerData);
-  }
-}
 let isLargeResolution: boolean;
 const displayOnlyHeaderSlotsLargeResolution = [
   'SiteContext',
@@ -66,12 +62,11 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BreakpointTestingModule],
+      imports: [
+        BreakpointTestingModule,
+        ConfiguratorRouterExtractorTestingModule,
+      ],
       providers: [
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockRouterExtractorService,
-        },
         {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,
@@ -84,6 +79,10 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     vi.spyOn(breakpointService, 'isUp').mockImplementation(() =>
       of(isLargeResolution)
     );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockImplementation(() => of(routerData));
     classUnderTest = TestBed.inject(VariantConfiguratorPageLayoutHandler);
   });
 

@@ -8,13 +8,15 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorOverviewFilterComponent } from './configurator-overview-filter.component';
 
 const owner: CommonConfigurator.Owner =
@@ -49,7 +51,12 @@ function initTestData() {
 }
 
 function initMocks() {
-  mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
+  mockConfigCommonsService = TestBed.inject(ConfiguratorCommonsService);
+  vi.spyOn(mockConfigCommonsService, 'updateConfigurationOverview');
+  vi.spyOn(
+    TestBed.inject(ConfiguratorStorefrontUtilsService),
+    'isDisplayOnlyVariant'
+  ).mockImplementation(() => of(isDisplayOnlyVariant));
 }
 
 function initTestComponent() {
@@ -71,27 +78,17 @@ class MockConfiguratorOverviewFilterBarComponent {
 }
 
 let isDisplayOnlyVariant: boolean;
-class MockConfiguratorStorefrontUtilsService {
-  isDisplayOnlyVariant(): Observable<boolean> {
-    return of(isDisplayOnlyVariant);
-  }
-}
 
 describe('ConfiguratorOverviewFilterComponent', () => {
   function configureTestingModule(): TestBed {
     mockRouterState.state.params.displayOnly = false;
 
     return TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, ConfiguratorOverviewFilterComponent],
-      providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
+      imports: [
+        ReactiveFormsModule,
+        ConfiguratorOverviewFilterComponent,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
     }).overrideComponent(ConfiguratorOverviewFilterComponent, {
       remove: {
@@ -108,8 +105,8 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
   beforeEach(async () => {
     initTestData();
-    initMocks();
     await configureTestingModule().compileComponents();
+    initMocks();
     initTestComponent();
   });
 

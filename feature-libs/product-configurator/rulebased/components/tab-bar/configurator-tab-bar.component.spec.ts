@@ -16,10 +16,14 @@ import { KeyboardFocusService } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -58,18 +62,6 @@ const mockRouterData: ConfiguratorRouter.Data = {
   owner: configWithOverview.owner,
 };
 
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
-
-class MockConfigUtilsService {
-  focusFirstActiveElement(): void {}
-}
-
-class MockConfiguratorGroupsService {}
-
 describe('ConfigTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
@@ -89,20 +81,9 @@ describe('ConfigTabBarComponent', () => {
         RouterModule,
         ConfiguratorTabBarComponent,
         RoutingTestingModule,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
+        ConfiguratorGroupsTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorTabBarComponent, {
@@ -123,6 +104,10 @@ describe('ConfigTabBarComponent', () => {
       TestBed.inject(RoutingService),
       'getRouterState'
     ).mockImplementation(() => routerStateObservable);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(() => configurationObs);
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

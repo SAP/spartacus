@@ -25,9 +25,10 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
-import { BehaviorSubject, NEVER, Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Subject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -37,6 +38,7 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
 const owner: CommonConfigurator.Owner =
@@ -76,48 +78,6 @@ let defaultRouterStateObservable: any;
 let component: ConfiguratorOverviewFormComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFormComponent>;
 let htmlElem: HTMLElement;
-
-class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    configCreate.productCode = productCode;
-    return configurationObservable
-      ? configurationObservable
-      : defaultConfigObservable;
-  }
-
-  getConfigurationWithOverview(
-    configuration: Configurator.Configuration
-  ): Observable<Configurator.Configuration> {
-    return overviewObservable ? overviewObservable : of(configuration);
-  }
-
-  removeConfiguration(): void {}
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  scrollToConfigurationElement = vi.fn();
-  isDisplayOnly = vi.fn(() => false);
-
-  createOvGroupId(prefix: string, groupId: string): string {
-    return `${this.getPrefixId(prefix, groupId)}-ovGroup`;
-  }
-
-  getPrefixId(idPrefix: string | undefined, groupId: string): string {
-    return idPrefix ? idPrefix + '--' + groupId : `cx--${groupId}`;
-  }
-
-  idSelector(id: string): string {
-    return `#${id}`;
-  }
-
-  navigateToOverviewGroup = vi.fn((idPrefix: string, groupId: string) => {
-    this.scrollToConfigurationElement(
-      this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
-    );
-  });
-}
 
 const productForBundleOverview$: BehaviorSubject<Product> =
   new BehaviorSubject<Product>({ images: {} });
@@ -188,17 +148,11 @@ describe('ConfigurationOverviewFormComponent', () => {
         RoutingTestingModule,
         ProductTestingModule,
         DirectionTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
       ],
     })
       .overrideComponent(ConfiguratorOverviewFormComponent, {
@@ -220,6 +174,48 @@ describe('ConfigurationOverviewFormComponent', () => {
     overviewObservable = null;
     defaultRouterStateObservable = of(mockRouterState);
     defaultConfigObservable = of(configCreate2);
+
+    const configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService
+    );
+    vi.spyOn(
+      configuratorCommonsService,
+      'getOrCreateConfiguration'
+    ).mockImplementation(() =>
+      configurationObservable
+        ? configurationObservable
+        : defaultConfigObservable
+    );
+    vi.spyOn(
+      configuratorCommonsService,
+      'getConfigurationWithOverview'
+    ).mockImplementation((configuration: Configurator.Configuration) =>
+      overviewObservable ? overviewObservable : of(configuration)
+    );
+
+    const storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
+    vi.spyOn(storefrontUtils, 'scrollToConfigurationElement');
+    vi.spyOn(storefrontUtils, 'isDisplayOnly').mockReturnValue(false);
+    vi.spyOn(storefrontUtils, 'getPrefixId').mockImplementation(
+      (idPrefix: string | undefined, groupId: string) =>
+        idPrefix ? idPrefix + '--' + groupId : `cx--${groupId}`
+    );
+    vi.spyOn(storefrontUtils, 'createOvGroupId').mockImplementation(
+      (prefix: string, groupId: string) =>
+        `${storefrontUtils.getPrefixId(prefix, groupId)}-ovGroup`
+    );
+    vi.spyOn(storefrontUtils, 'idSelector').mockImplementation(
+      (id: string) => `#${id}`
+    );
+    vi.spyOn(storefrontUtils, 'navigateToOverviewGroup').mockImplementation(
+      (idPrefix: string, groupId: string) => {
+        storefrontUtils.scrollToConfigurationElement(
+          storefrontUtils.idSelector(
+            storefrontUtils.createOvGroupId(idPrefix, groupId)
+          ) + ' h2'
+        );
+      }
+    );
   });
 
   it('should create component', () => {

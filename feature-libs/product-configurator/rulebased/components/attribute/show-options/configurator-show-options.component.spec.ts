@@ -2,27 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { getTestScheduler } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../../core/facade/testing/index';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../service/testing/index';
 import { ConfiguratorShowOptionsComponent } from './configurator-show-options.component';
-
-class MockConfiguratorCommonsService {
-  readAttributeDomain() {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  focusFirstActiveElement() {}
-  createAttributeUiKey() {}
-  idSelector(id: string): string {
-    return '#' + id;
-  }
-}
 
 describe('ConfiguratorShowOptionsComponent', () => {
   let component: ConfiguratorShowOptionsComponent;
@@ -33,16 +19,11 @@ describe('ConfiguratorShowOptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ConfiguratorShowOptionsComponent],
-      providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
+      imports: [
+        I18nTestingModule,
+        ConfiguratorShowOptionsComponent,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
     }).compileComponents();
 
@@ -51,6 +32,10 @@ describe('ConfiguratorShowOptionsComponent', () => {
       ConfiguratorStorefrontUtilsService
     );
     vi.spyOn(configuratorCommonsService, 'readAttributeDomain');
+    vi.spyOn(
+      configuratorStorefrontUtilsService,
+      'idSelector'
+    ).mockImplementation((id: string) => '#' + id);
     fixture = TestBed.createComponent(ConfiguratorShowOptionsComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

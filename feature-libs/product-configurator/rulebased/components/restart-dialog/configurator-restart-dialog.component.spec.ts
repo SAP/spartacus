@@ -21,6 +21,7 @@ import {
 import { BehaviorSubject, lastValueFrom, of, ReplaySubject } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
 
@@ -29,17 +30,13 @@ const owner: CommonConfigurator.Owner =
 
 const product: Product = { code: 'pCode' };
 
-class MockConfiguratorCommonsService {
-  forceNewConfiguration = vi.fn();
-}
-
 describe('ConfiguratorRestartDialogComponent', () => {
   let component: ConfiguratorRestartDialogComponent;
   let fixture: ComponentFixture<ConfiguratorRestartDialogComponent>;
   let htmlElem: HTMLElement;
 
   let mockLaunchDialogService: LaunchDialogService;
-  let mockConfigCommonsService: MockConfiguratorCommonsService;
+  let mockConfigCommonsService: ConfiguratorCommonsService;
   let mockRoutingService: RoutingService;
   let mockProductService: ProductService;
 
@@ -48,7 +45,8 @@ describe('ConfiguratorRestartDialogComponent', () => {
   >;
 
   function initialize() {
-    resetServiceMocks();
+    mockConfigCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(mockConfigCommonsService, 'forceNewConfiguration');
     mockRoutingService = TestBed.inject(RoutingService);
     mockProductService = TestBed.inject(ProductService);
     vi.spyOn(mockRoutingService, 'go');
@@ -68,28 +66,14 @@ describe('ConfiguratorRestartDialogComponent', () => {
     vi.spyOn(mockLaunchDialogService, 'closeDialog');
   }
 
-  function createServiceMocks(): void {
-    mockConfigCommonsService = new MockConfiguratorCommonsService();
-  }
-
-  function resetServiceMocks(): void {
-    mockConfigCommonsService.forceNewConfiguration.mockReset();
-  }
-
   beforeEach(async () => {
-    createServiceMocks();
     await TestBed.configureTestingModule({
       imports: [
         ConfiguratorRestartDialogComponent,
         LaunchDialogTestingModule,
         RoutingTestingModule,
         ProductTestingModule,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useFactory: () => mockConfigCommonsService,
-        },
+        ConfiguratorCommonsTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorRestartDialogComponent, {
@@ -247,7 +231,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
     let productSender: ReplaySubject<Product>;
 
     beforeEach(() => {
-      resetServiceMocks();
+      vi.mocked(mockConfigCommonsService.forceNewConfiguration).mockClear();
       productSender = new ReplaySubject<Product>(1);
       vi.spyOn(mockProductService, 'get').mockReturnValue(
         productSender.asObservable()

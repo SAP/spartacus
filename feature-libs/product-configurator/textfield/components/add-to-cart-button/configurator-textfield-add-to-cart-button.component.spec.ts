@@ -16,6 +16,7 @@ import {
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
+import { ConfiguratorTextfieldTestingModule } from '../../core/facade/testing/index';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
 
@@ -40,11 +41,6 @@ const mockRouterState: any = {
     queryParams: {},
   },
 };
-
-class MockConfiguratorTextfieldService {
-  addToCart(): void {}
-  updateCartEntry(): void {}
-}
 
 describe('ConfigTextfieldAddToCartButtonComponent', () => {
   let classUnderTest: ConfiguratorTextfieldAddToCartButtonComponent;
@@ -72,12 +68,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
         ConfiguratorTextfieldAddToCartButtonComponent,
         RouterModule.forRoot([]),
         RoutingTestingModule,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorTextfieldService,
-          useClass: MockConfiguratorTextfieldService,
-        },
+        ConfiguratorTextfieldTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {

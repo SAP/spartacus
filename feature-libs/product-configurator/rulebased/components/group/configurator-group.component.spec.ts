@@ -20,7 +20,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
-  ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
 } from '@spartacus/product-configurator/common';
 import {
   IconTestingModule,
@@ -32,8 +32,13 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { ConfiguratorExpertModeTestingModule } from '../../core/services/testing/index';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorAttributeCompositionConfig } from '../attribute/composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionDirective } from '../attribute/composition/configurator-attribute-composition.directive';
@@ -58,6 +63,7 @@ import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/
 import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorGroupComponent } from './configurator-group.component';
 
 const config: Configurator.Configuration =
@@ -140,64 +146,7 @@ class MockConfiguratorAttributeNumericInputFieldComponent {
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 }
 
-let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  removeConfiguration(): void {}
-
-  updateConfiguration(): void {}
-
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoadingObservable;
-  }
-
-  hasConflicts(): void {}
-}
-
-class MockConfiguratorGroupsService {
-  getCurrentGroup(): Observable<string> {
-    return currentGroupObservable;
-  }
-
-  getNextGroup(): Observable<string> {
-    return of('');
-  }
-
-  getPreviousGroup(): Observable<string> {
-    return of('');
-  }
-
-  isGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-
-  subscribeToUpdateConfiguration() {}
-
-  setGroupStatusVisited(): void {}
-
-  navigateToConflictSolver(): void {}
-
-  navigateToFirstIncompleteGroup(): void {}
-
-  isConflictGroupType() {}
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive() {
-    return of(false);
-  }
-}
 
 const product: Product = {
   name: 'Product Name',
@@ -223,27 +172,7 @@ const product: Product = {
   },
 };
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData() {
-    return EMPTY;
-  }
-}
-
 const isCartEntryOrGroupVisited = true;
-class MockConfiguratorStorefrontUtilsService {
-  createGroupId(groupId?: string): string | undefined {
-    if (groupId) {
-      return groupId + '-group';
-    }
-  }
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-  isLastSelected(): boolean {
-    return false;
-  }
-  createAttributeUiKey() {}
-}
 
 const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig =
   {
@@ -325,32 +254,17 @@ describe('ConfiguratorGroupComponent', () => {
         ConfiguratorAttributeMultiSelectionBundleComponent,
         ConfiguratorAttributeContainerComponent,
         ProductTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
+        ConfiguratorExpertModeTestingModule,
+        ConfiguratorRouterExtractorTestingModule,
       ],
       providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
         { provide: LanguageService, useValue: mockLanguageService },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
-        {
-          provide: ConfiguratorExpertModeService,
-          useClass: MockConfiguratorExpertModeService,
-        },
         {
           provide: ConfiguratorAttributeCompositionConfig,
           useValue: mockConfiguratorAttributeCompositionConfig,
-        },
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
         },
       ],
     })
@@ -366,7 +280,16 @@ describe('ConfiguratorGroupComponent', () => {
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
-    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
+    vi.spyOn(
+      configuratorCommonsService,
+      'isConfigurationLoading'
+    ).mockImplementation(() => isConfigurationLoadingObservable);
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+      of(config)
+    );
+    vi.spyOn(configuratorGroupsService, 'isGroupVisited').mockReturnValue(
+      of(true)
+    );
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
@@ -375,6 +298,12 @@ describe('ConfiguratorGroupComponent', () => {
 
     configuratorUtils.setOwnerKey(OWNER);
     storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
+    vi.spyOn(storefrontUtils, 'createGroupId').mockImplementation(
+      (groupId?: string) => (groupId ? groupId + '-group' : undefined)
+    );
+    vi.spyOn(storefrontUtils, 'isCartEntryOrGroupVisited').mockReturnValue(
+      of(isCartEntryOrGroupVisited)
+    );
     isConfigurationLoadingObservable = of(false);
     conflictGroup = structuredClone(conflictGroupBase);
     vi.spyOn(TestBed.inject(ProductService), 'get').mockReturnValue(

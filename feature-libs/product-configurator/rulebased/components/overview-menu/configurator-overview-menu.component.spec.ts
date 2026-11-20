@@ -8,11 +8,12 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { ConfiguratorGroupsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 
 const OWNER: CommonConfigurator.Owner =
@@ -26,26 +27,6 @@ const CONFIGURATION: Configurator.ConfigurationWithOverview = {
   overview: ConfigurationTestData.productConfiguration
     .overview as Configurator.Overview,
 };
-
-class MockConfiguratorGroupsService {
-  setGroupStatusVisited = vi.fn();
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  getElementById = vi.fn();
-  getElements = vi.fn();
-  getPrefixId = vi.fn();
-  hasScrollbar = vi.fn();
-  getClosestElement = vi.fn();
-  changeStylingOfElement = vi.fn();
-  removeStylingOfElement = vi.fn();
-  createOvGroupId = vi.fn((_idPrefix?: string, _groupId?: string) => '');
-  createOvMenuItemId = vi.fn();
-  ensureElementVisible = vi.fn();
-  getSpareViewportHeight = vi.fn();
-  getVerticallyScrolledPixels = vi.fn();
-  navigateToOverviewGroup = vi.fn();
-}
 
 let component: ConfiguratorOverviewMenuComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
@@ -70,16 +51,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorOverviewMenuComponent,
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
     })
@@ -88,6 +63,21 @@ describe('ConfigurationOverviewMenuComponent', () => {
         add: { imports: [I18nTestingModule, MockIconComponent] },
       })
       .compileComponents();
+
+    const storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
+    vi.spyOn(storefrontUtils, 'getElementById');
+    vi.spyOn(storefrontUtils, 'getElements');
+    vi.spyOn(storefrontUtils, 'getPrefixId');
+    vi.spyOn(storefrontUtils, 'hasScrollbar');
+    vi.spyOn(storefrontUtils, 'getClosestElement');
+    vi.spyOn(storefrontUtils, 'changeStylingOfElement');
+    vi.spyOn(storefrontUtils, 'removeStylingOfElement');
+    vi.spyOn(storefrontUtils, 'createOvGroupId');
+    vi.spyOn(storefrontUtils, 'createOvMenuItemId');
+    vi.spyOn(storefrontUtils, 'ensureElementVisible');
+    vi.spyOn(storefrontUtils, 'getSpareViewportHeight');
+    vi.spyOn(storefrontUtils, 'getVerticallyScrolledPixels');
+    vi.spyOn(storefrontUtils, 'navigateToOverviewGroup');
   });
 
   afterEach(() => {

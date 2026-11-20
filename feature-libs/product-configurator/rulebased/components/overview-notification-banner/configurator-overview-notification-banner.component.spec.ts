@@ -5,6 +5,7 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconComponent, IconTestingModule } from '@spartacus/storefront';
@@ -17,6 +18,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import {
   CONFIG_ID,
@@ -25,6 +27,7 @@ import {
   productConfigurationWithoutIssues,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 const productConfigurationWithDetailedIssuesCountedInOverview: Configurator.Configuration =
@@ -82,21 +85,7 @@ const orderRouterData: ConfiguratorRouter.Data = {
 };
 
 let routerObs: any;
-class MockConfigRouterExtractorService {
-  extractRouterData() {
-    return routerObs;
-  }
-}
-
 let configurationObs: Observable<Configurator.Configuration>;
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
-class MockConfiguratorStorefrontUtilsService {
-  isDisplayOnly = vi.fn(() => false);
-}
 
 let component: ConfiguratorOverviewNotificationBannerComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewNotificationBannerComponent>;
@@ -118,21 +107,15 @@ class MockActivatedRoute {
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterModule, ConfiguratorOverviewNotificationBannerComponent],
+      imports: [
+        RouterModule,
+        ConfiguratorOverviewNotificationBannerComponent,
+        ConfiguratorRouterExtractorTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
+      ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfigRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
         ...provideMockFeatureToggles({
           productConfiguratorReadOnlyCartEntryConfiguration: false,
         }),
@@ -147,6 +130,19 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
         },
       })
       .compileComponents();
+
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockImplementation(() => routerObs);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(() => configurationObs);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'isDisplayOnly'
+    ).mockReturnValue(false);
   });
 
   it('should create', () => {

@@ -8,6 +8,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconComponent, IconTestingModule } from '@spartacus/storefront';
@@ -15,9 +16,10 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-conflict-and-error-messages.component';
@@ -152,18 +154,6 @@ function createConfigWithContainerRows(
 
 let configuration: Configurator.Configuration;
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(mockRouterData);
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(configuration);
-  }
-}
-
 describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   let component: ConfiguratorConflictAndErrorMessagesComponent;
   let fixture: ComponentFixture<ConfiguratorConflictAndErrorMessagesComponent>;
@@ -177,16 +167,10 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorConflictAndErrorMessagesComponent,
+        ConfiguratorRouterExtractorTestingModule,
+        ConfiguratorCommonsTestingModule,
       ],
       providers: [
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
@@ -201,6 +185,14 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', false);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockReturnValue(of(mockRouterData));
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(() => of(configuration));
 
     fixture = TestBed.createComponent(
       ConfiguratorConflictAndErrorMessagesComponent

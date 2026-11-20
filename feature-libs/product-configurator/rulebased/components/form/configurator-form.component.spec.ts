@@ -30,8 +30,13 @@ import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { ConfiguratorExpertModeTestingModule } from '../../core/services/testing/index';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -98,73 +103,8 @@ const configRead2: Configurator.Configuration = {
 let routerStateObservable: Observable<RouterState> = EMPTY;
 let configurationCreateObservable: Observable<Configurator.Configuration> =
   EMPTY;
-let currentGroupObservable: Observable<string> = EMPTY;
+let currentGroupObservable: Observable<Configurator.Group> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
-
-class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
-  removeConfiguration(): void {}
-
-  updateConfiguration(): void {}
-
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoadingObservable;
-  }
-
-  hasConflicts(): Observable<boolean> {
-    return hasConfigurationConflictsObservable;
-  }
-  checkConflictSolverDialog(): void {}
-}
-
-class MockConfiguratorGroupsService {
-  getCurrentGroup(): Observable<string> {
-    return currentGroupObservable;
-  }
-
-  getNextGroup(): Observable<string> {
-    return of('');
-  }
-
-  getPreviousGroup(): Observable<string> {
-    return of('');
-  }
-
-  isGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-
-  subscribeToUpdateConfiguration() {}
-
-  setGroupStatusVisited(): void {}
-
-  navigateToConflictSolver(): void {}
-
-  navigateToFirstAttributeGroup(): void {}
-
-  navigateToFirstIncompleteGroup(): void {}
-
-  navigateToContainerRow(): void {}
-
-  isConflictGroupType() {}
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive() {}
-}
 
 function checkConfigurationObs(
   routerMarbels: string,
@@ -267,20 +207,11 @@ describe('ConfiguratorFormComponent', () => {
         RoutingTestingModule,
         GlobalMessageTestingModule,
         LaunchDialogTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorExpertModeTestingModule,
       ],
       providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
-        {
-          provide: ConfiguratorExpertModeService,
-          useClass: MockConfiguratorExpertModeService,
-        },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
@@ -311,15 +242,29 @@ describe('ConfiguratorFormComponent', () => {
 
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
+    vi.spyOn(configuratorGroupsService, 'getCurrentGroup').mockImplementation(
+      () => currentGroupObservable
+    );
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
     vi.spyOn(configuratorGroupsService, 'navigateToConflictSolver');
     vi.spyOn(configuratorGroupsService, 'navigateToFirstIncompleteGroup');
     vi.spyOn(configuratorGroupsService, 'navigateToContainerRow');
 
     configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
-    vi.spyOn(configuratorCommonsService, 'isConfigurationLoading');
-    vi.spyOn(configuratorCommonsService, 'getOrCreateConfiguration');
-    vi.spyOn(configuratorCommonsService, 'getConfiguration');
+    vi.spyOn(
+      configuratorCommonsService,
+      'isConfigurationLoading'
+    ).mockImplementation(() => isConfigurationLoadingObservable);
+    vi.spyOn(
+      configuratorCommonsService,
+      'getOrCreateConfiguration'
+    ).mockImplementation(() => configurationCreateObservable);
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockImplementation(
+      () => configurationCreateObservable
+    );
+    vi.spyOn(configuratorCommonsService, 'hasConflicts').mockImplementation(
+      () => hasConfigurationConflictsObservable
+    );
     vi.spyOn(configuratorCommonsService, 'checkConflictSolverDialog');
 
     globalMessageService = TestBed.inject(GlobalMessageService);

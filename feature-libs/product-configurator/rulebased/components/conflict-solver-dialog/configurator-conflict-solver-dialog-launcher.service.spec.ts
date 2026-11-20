@@ -10,9 +10,11 @@ import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { ConfiguratorGroupsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -37,26 +39,12 @@ const defaultMockRouterData: ConfiguratorRouter.Data = {
 let mockRouterData: ConfiguratorRouter.Data;
 let routerData$: Observable<ConfiguratorRouter.Data>;
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return routerData$;
-  }
-}
-
 function createConflictGroup(): Configurator.Group {
   return ConfiguratorTestUtils.createGroup('TEST_PRODUCT.1000');
 }
 
 let group: Configurator.Group;
 let groupSubject: Subject<Configurator.Group | undefined>;
-
-class MockConfiguratorGroupsService {
-  getConflictGroupForImmediateConflictResolution(): Observable<
-    Configurator.Group | undefined
-  > {
-    return groupSubject.asObservable();
-  }
-}
 
 describe('ConfiguratorConflictSolverDialogLauncherService', () => {
   let listener: ConfiguratorConflictSolverDialogLauncherService;
@@ -75,19 +63,21 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LaunchDialogTestingModule],
-      providers: [
-        ConfiguratorConflictSolverDialogLauncherService,
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
+      imports: [
+        LaunchDialogTestingModule,
+        ConfiguratorRouterExtractorTestingModule,
+        ConfiguratorGroupsTestingModule,
       ],
+      providers: [ConfiguratorConflictSolverDialogLauncherService],
     });
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockImplementation(() => routerData$);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorGroupsService),
+      'getConflictGroupForImmediateConflictResolution'
+    ).mockImplementation(() => groupSubject.asObservable());
     group = createConflictGroup();
     groupSubject = new Subject<Configurator.Group | undefined>();
     mockRouterData = structuredClone(defaultMockRouterData);

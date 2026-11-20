@@ -15,25 +15,14 @@ import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
-
-class MockConfiguratorStorefrontUtilsService {
-  shouldHideBasePriceAndSelectedOptions(
-    configuration: Configurator.Configuration
-  ): boolean {
-    const configuratorType = configuration.owner?.configuratorType;
-    if (configuratorType === ConfiguratorType.CPQ) {
-      return !!TestBed.inject(ConfiguratorUISettingsConfig).productConfigurator
-        ?.cpqHideBasePriceAndSelectedOptions;
-    }
-    return !!configuration.hideBasePriceAndSelectedOptions;
-  }
-}
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -79,11 +68,6 @@ const defaultConfig: Configurator.Configuration = {
 };
 
 let routerStateObservable: Observable<RouterState>;
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-}
 
 describe('ConfigPriceSummaryComponent', () => {
   let component: ConfiguratorPriceSummaryComponent;
@@ -98,19 +82,13 @@ describe('ConfigPriceSummaryComponent', () => {
         I18nTestingModule,
         ConfiguratorPriceSummaryComponent,
         MockFeatureLevelDirective,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
           provide: ConfiguratorUISettingsConfig,
           useValue: structuredClone(defaultConfiguratorUISettingsConfig),
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
     })
@@ -127,6 +105,21 @@ describe('ConfigPriceSummaryComponent', () => {
       TestBed.inject(RoutingService),
       'getRouterState'
     ).mockImplementation(() => routerStateObservable);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(() => of(config));
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'shouldHideBasePriceAndSelectedOptions'
+    ).mockImplementation((configuration: Configurator.Configuration) => {
+      const configuratorType = configuration.owner?.configuratorType;
+      if (configuratorType === ConfiguratorType.CPQ) {
+        return !!TestBed.inject(ConfiguratorUISettingsConfig)
+          .productConfigurator?.cpqHideBasePriceAndSelectedOptions;
+      }
+      return !!configuration.hideBasePriceAndSelectedOptions;
+    });
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

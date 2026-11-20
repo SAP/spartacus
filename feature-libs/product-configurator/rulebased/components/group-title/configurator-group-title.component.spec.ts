@@ -20,11 +20,16 @@ import { NEVER, Observable, of, Subscription } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 
 const config: Configurator.Configuration =
@@ -38,40 +43,12 @@ class MockRouter {
   public events = of('');
 }
 
-class MockConfiguratorGroupService {
-  navigateToGroup(): void {}
-
-  getCurrentGroup(): Observable<Configurator.Group> {
-    return currentGroupObservable;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
-  }
-
-  readConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-}
-
 @Component({
   selector: 'cx-hamburger-menu',
   template: '',
   imports: [ReactiveFormsModule, NgSelectModule],
 })
 class MockHamburgerMenuComponent {}
-
-class MockConfiguratorStorefrontUtilsService {
-  changeStyling(): void {}
-  focusFirstActiveElement(): void {}
-  removeStyling(): void {}
-}
 
 describe('ConfiguratorGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
@@ -95,24 +72,15 @@ describe('ConfiguratorGroupTitleComponent', () => {
         ConfiguratorGroupTitleComponent,
         RoutingTestingModule,
         BreakpointTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         HamburgerMenuService,
         {
           provide: Router,
           useClass: MockRouter,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
     })
@@ -130,6 +98,14 @@ describe('ConfiguratorGroupTitleComponent', () => {
       TestBed.inject(RoutingService),
       'getRouterState'
     ).mockImplementation(() => routerStateObservable);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorGroupsService),
+      'getCurrentGroup'
+    ).mockImplementation(() => currentGroupObservable);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockReturnValue(of(config));
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

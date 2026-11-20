@@ -15,9 +15,9 @@ import {
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../../../core/facade/testing/index';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import {
@@ -25,6 +25,7 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../../service/testing/index';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import {
@@ -81,19 +82,7 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-class MockConfiguratorCommonsService {
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-  updateConfiguration(): void {}
-}
-
 let showRequiredErrorMessage: boolean;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(showRequiredErrorMessage);
-  }
-}
 
 class MockActivatedRoute {
   constructor(public snapshot: any) {}
@@ -224,20 +213,14 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         StoreModule.forRoot({}),
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         ConfiguratorShowMoreComponent,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
         },
       ],
     })
@@ -283,6 +266,13 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         }
       )
       .compileComponents();
+  });
+
+  beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'isCartEntryOrGroupVisited'
+    ).mockImplementation(() => of(showRequiredErrorMessage));
   });
 
   afterEach(() => {

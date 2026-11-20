@@ -22,7 +22,7 @@ import {
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../../../core/facade/testing/index';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
@@ -33,6 +33,7 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../../service/testing/index';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import {
@@ -95,20 +96,7 @@ class MockConfiguratorShowMoreComponent {
   @Input() itemLabel?: string;
 }
 
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-}
-
 let showRequiredErrorMessage: boolean;
-
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(showRequiredErrorMessage);
-  }
-}
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -181,19 +169,13 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ConfiguratorAttributeDropDownComponent,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
         },
       ],
     })
@@ -221,6 +203,13 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
+  });
+
+  beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'isCartEntryOrGroupVisited'
+    ).mockImplementation(() => of(showRequiredErrorMessage));
   });
 
   it('should create', () => {

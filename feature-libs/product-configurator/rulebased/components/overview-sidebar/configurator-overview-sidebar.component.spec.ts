@@ -24,15 +24,17 @@ import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { EMPTY, firstValueFrom, NEVER, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, NEVER, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -41,6 +43,7 @@ import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configur
 import { ConfiguratorOverviewFormComponent } from '../overview-form/configurator-overview-form.component';
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
 
 const OWNER: CommonConfigurator.Owner =
@@ -78,57 +81,32 @@ function initTestComponent() {
   vi.spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
 }
 
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return defaultConfigObservable;
-  }
-}
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of({
+function mockConfiguratorServices(configuratorType: string): void {
+  vi.spyOn(
+    TestBed.inject(ConfiguratorCommonsService),
+    'getConfiguration'
+  ).mockImplementation(() => defaultConfigObservable);
+  vi.spyOn(
+    TestBed.inject(ConfiguratorRouterExtractorService),
+    'extractRouterData'
+  ).mockReturnValue(
+    of({
       owner: {
         ...ConfigurationTestData.productConfiguration.owner,
-        configuratorType: ConfiguratorType.VARIANT,
+        configuratorType,
       },
-    } as ConfiguratorRouter.Data);
-  }
-}
-
-class MockConfiguratorRouterExtractorServiceCpqOverview {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of({
-      owner: {
-        ...ConfigurationTestData.productConfiguration.owner,
-        configuratorType: ConfiguratorType.CPQ,
-      },
-    } as ConfiguratorRouter.Data);
-  }
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  getElement(): void {}
-  getElements(): void {}
-  getPrefixId(): void {}
-  changeStyling(): void {}
-  removeStyling(): void {}
-  createOvMenuItemId(): void {}
-  getSpareViewportHeight(): void {}
-  getVerticallyScrolledPixels(): void {}
-  isDisplayOnlyVariant(): void {}
-  isDisplayOnly(): boolean {
-    return false;
-  }
-  isOverviewMenuFilterTabVisible(
-    configuratorType: string | undefined
-  ): boolean {
-    return configuratorType === ConfiguratorType.VARIANT;
-  }
-  idSelector(id: string): string {
-    return '#' + id;
-  }
-  scrollToConfigurationElement(): void {}
-  focusConfigurationElement(): void {}
+    } as ConfiguratorRouter.Data)
+  );
+  const storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
+  vi.spyOn(
+    storefrontUtils,
+    'isOverviewMenuFilterTabVisible'
+  ).mockImplementation(
+    (type: string | undefined) => type === ConfiguratorType.VARIANT
+  );
+  vi.spyOn(storefrontUtils, 'idSelector').mockImplementation(
+    (id: string) => '#' + id
+  );
 }
 
 @Component({
@@ -205,20 +183,11 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         ConfiguratorOverviewSidebarComponent,
         RoutingTestingModule,
         ProductTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorRouterExtractorTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
         provideDefaultConfig(defaultConfiguratorUISettingsConfig),
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
       ],
@@ -245,6 +214,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
+    mockConfiguratorServices(ConfiguratorType.VARIANT);
     initTestComponent();
   });
 
@@ -565,20 +535,11 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           ConfiguratorOverviewSidebarComponent,
           RoutingTestingModule,
           ProductTestingModule,
+          ConfiguratorCommonsTestingModule,
+          ConfiguratorRouterExtractorTestingModule,
+          ConfiguratorStorefrontUtilsTestingModule,
         ],
         providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorServiceCpqOverview,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
           provideDefaultConfig(defaultConfiguratorUISettingsConfig),
           provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
         ],
@@ -602,6 +563,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           },
         })
         .compileComponents();
+      mockConfiguratorServices(ConfiguratorType.CPQ);
       initTestComponent();
       fixture.detectChanges();
 
@@ -648,20 +610,11 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           ConfiguratorOverviewSidebarComponent,
           RoutingTestingModule,
           ProductTestingModule,
+          ConfiguratorCommonsTestingModule,
+          ConfiguratorRouterExtractorTestingModule,
+          ConfiguratorStorefrontUtilsTestingModule,
         ],
         providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorServiceCpqOverview,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
           provideDefaultConfig(defaultConfiguratorUISettingsConfig),
           provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
         ],
@@ -685,6 +638,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           },
         })
         .compileComponents();
+      mockConfiguratorServices(ConfiguratorType.CPQ);
       initTestComponent();
       component.showFilter = true;
       fixture.detectChanges();
@@ -807,20 +761,11 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           ConfiguratorOverviewSidebarComponent,
           RoutingTestingModule,
           ProductTestingModule,
+          ConfiguratorCommonsTestingModule,
+          ConfiguratorRouterExtractorTestingModule,
+          ConfiguratorStorefrontUtilsTestingModule,
         ],
         providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorServiceCpqOverview,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
           provideDefaultConfig(defaultConfiguratorUISettingsConfig),
           provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
         ],
@@ -844,6 +789,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           },
         })
         .compileComponents();
+      mockConfiguratorServices(ConfiguratorType.CPQ);
       initSidebarWithCpqContainerToggle(false);
 
       expect(

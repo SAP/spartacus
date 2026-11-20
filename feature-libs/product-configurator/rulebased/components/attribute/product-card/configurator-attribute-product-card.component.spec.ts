@@ -50,6 +50,7 @@ import {
 } from '../../price/configurator-price.component';
 import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../service/testing/index';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import {
   ConfiguratorAttributeQuantityComponent,
@@ -89,12 +90,6 @@ const productTransformed: Product = {
   images: {},
   name: 'Lorem Ipsum Dolor',
 };
-
-class MockConfiguratorStorefrontUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(true);
-  }
-}
 
 let focusService: KeyboardFocusService;
 
@@ -187,12 +182,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
         ProductTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
         ...provideMockFeatureToggles({
           productConfiguratorConsolidatedButtonDisabling: true,
           productConfiguratorCPQContainer: true,
@@ -252,6 +244,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(() =>
       of(product)
     );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'isCartEntryOrGroupVisited'
+    ).mockReturnValue(of(true));
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
     );
