@@ -10,8 +10,9 @@ import {
   Product,
   ProductScope,
   ProductService,
-  RouterState,
+  ProductTestingModule,
   RoutingService,
+  RoutingTestingModule,
 } from '@spartacus/core';
 import {
   IconComponent,
@@ -150,14 +151,6 @@ class MockConfiguratorRouterExtractorService {
   }
 }
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go = () => Promise.resolve(true);
-}
-
 const mockRouterState: any = {
   state: {
     semanticRoute: ROUTE_CONFIGURATION,
@@ -171,12 +164,6 @@ const mockRouterState: any = {
 
 class MockRouter {
   public events = of('');
-}
-
-class MockProductService implements Partial<ProductService> {
-  get(_code?: string): Observable<Product> {
-    return productObservable;
-  }
 }
 
 class MockConfiguratorCommonsService {
@@ -227,6 +214,9 @@ function initialize(options?: {
   routerStateObservable = of(mockRouterState);
   productConfigurationObservable = of(mockConfiguration);
   productObservable = of(mockProduct);
+  vi.spyOn(TestBed.inject(RoutingService), 'getRouterState').mockImplementation(
+    () => routerStateObservable
+  );
   fixture = TestBed.createComponent(ConfiguratorProductTitleComponent);
   changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
   htmlElem = fixture.nativeElement;
@@ -427,15 +417,13 @@ describe('ConfigProductTitleComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorProductTitleComponent,
+        RoutingTestingModule,
+        ProductTestingModule,
       ],
       providers: [
         {
           provide: Router,
           useClass: MockRouter,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
         },
         {
           provide: ConfiguratorRouterExtractorService,
@@ -444,10 +432,6 @@ describe('ConfigProductTitleComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
         },
         {
           provide: ConfiguratorExpertModeService,
@@ -476,6 +460,9 @@ describe('ConfigProductTitleComponent', () => {
 
   beforeEach(() => {
     mockRouterData = structuredClone(baseMockRouterData);
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(
+      () => productObservable
+    );
     initialize();
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);

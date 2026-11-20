@@ -4,8 +4,8 @@ import {
   I18nTestingModule,
   Product,
   ProductService,
+  ProductTestingModule,
   TranslatePipe,
-  TranslationService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -64,18 +64,6 @@ class MockCarouselComponent {
   @Input() hideIndicators: any;
 }
 
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of('Pre-configured Versions');
-  }
-}
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
-}
-
 class MockConfigRouterExtractorService {
   extractRouterData() {
     return of(router);
@@ -113,6 +101,7 @@ let htmlElem: HTMLElement;
 
 function initialize(configuration: Configurator.Configuration) {
   configurationObs = of(configuration);
+  vi.spyOn(TestBed.inject(ProductService), 'get').mockReturnValue(of(product));
   fixture = TestBed.createComponent(ConfiguratorVariantCarouselComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
@@ -132,13 +121,12 @@ const router: ConfiguratorRouter.Data = {
 describe('ConfiguratorVariantCarouselComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorVariantCarouselComponent],
+      imports: [
+        ConfiguratorVariantCarouselComponent,
+        ProductTestingModule,
+        I18nTestingModule,
+      ],
       providers: [
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockConfigRouterExtractorService,

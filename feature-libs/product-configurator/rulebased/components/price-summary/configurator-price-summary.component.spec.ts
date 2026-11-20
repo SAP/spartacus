@@ -4,6 +4,7 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  RoutingTestingModule,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -78,11 +79,6 @@ const defaultConfig: Configurator.Configuration = {
 };
 
 let routerStateObservable: Observable<RouterState>;
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
@@ -98,6 +94,7 @@ describe('ConfigPriceSummaryComponent', () => {
     routerStateObservable = of(mockRouterState);
     await TestBed.configureTestingModule({
       imports: [
+        RoutingTestingModule,
         I18nTestingModule,
         ConfiguratorPriceSummaryComponent,
         MockFeatureLevelDirective,
@@ -106,10 +103,6 @@ describe('ConfigPriceSummaryComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
         },
         {
           provide: ConfiguratorUISettingsConfig,
@@ -130,6 +123,10 @@ describe('ConfigPriceSummaryComponent', () => {
   });
   beforeEach(() => {
     config = { ...defaultConfig };
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => routerStateObservable);
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

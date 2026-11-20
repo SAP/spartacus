@@ -5,8 +5,8 @@ import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
 import {
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -16,7 +16,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { cold } from 'jasmine-marbles';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import {
   CommonConfigurator,
@@ -48,12 +48,6 @@ const mockBaseRouterState: any = {
 
 let mockRouterState: RouterState;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-}
-
 describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
@@ -64,13 +58,13 @@ describe('ConfigureCartEntryComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [RouterModule, ConfigureCartEntryComponent],
+      imports: [
+        RouterModule,
+        ConfigureCartEntryComponent,
+        RoutingTestingModule,
+      ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
@@ -85,6 +79,10 @@ describe('ConfigureCartEntryComponent', () => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', false);
     mockRouterState = structuredClone(mockBaseRouterState);
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => of(mockRouterState));
     fixture = TestBed.createComponent(ConfigureCartEntryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

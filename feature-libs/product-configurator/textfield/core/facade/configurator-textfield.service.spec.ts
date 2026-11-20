@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  ActiveCartTestingModule,
+  Cart,
+} from '@spartacus/cart/base/root';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   UserIdService,
+  UserIdTestingModule,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -111,38 +116,27 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-class MockActiveCartService {
-  requireLoadedCart(): any {
-    return of(cart);
-  }
-}
-
-class MockUserIdService {
-  getUserId(): Observable<string> {
-    return of(OCC_USER_ID_ANONYMOUS);
-  }
-}
-
 describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      providers: [
-        ConfiguratorTextfieldService,
-        {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartService,
-        },
-        {
-          provide: UserIdService,
-          useClass: MockUserIdService,
-        },
+      imports: [
+        StoreModule.forRoot({}),
+        ActiveCartTestingModule,
+        UserIdTestingModule,
       ],
+      providers: [ConfiguratorTextfieldService],
     }).compileComponents();
   });
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(ActiveCartFacade),
+      'requireLoadedCart'
+    ).mockReturnValue(of(cart));
+    vi.spyOn(TestBed.inject(UserIdService), 'getUserId').mockReturnValue(
+      of(OCC_USER_ID_ANONYMOUS)
+    );
     serviceUnderTest = TestBed.inject(ConfiguratorTextfieldService);
     store = TestBed.inject(Store);
 

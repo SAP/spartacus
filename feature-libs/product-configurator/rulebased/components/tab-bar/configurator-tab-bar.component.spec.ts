@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -40,14 +40,6 @@ const mockRouterStateBase: any = {
 let mockRouterState: any;
 
 let routerStateObservable: any = null;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go = () => Promise.resolve(true);
-}
 
 let configurationObs: Observable<Configurator.Configuration>;
 
@@ -93,12 +85,12 @@ describe('ConfigTabBarComponent', () => {
 
     routerStateObservable = of(mockRouterState);
     await TestBed.configureTestingModule({
-      imports: [RouterModule, ConfiguratorTabBarComponent],
+      imports: [
+        RouterModule,
+        ConfiguratorTabBarComponent,
+        RoutingTestingModule,
+      ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
@@ -127,6 +119,10 @@ describe('ConfigTabBarComponent', () => {
       .compileComponents();
   });
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => routerStateObservable);
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

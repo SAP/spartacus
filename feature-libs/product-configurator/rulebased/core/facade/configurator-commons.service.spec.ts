@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  ActiveCartTestingModule,
+  Cart,
+} from '@spartacus/cart/base/root';
 import { LoggerTestingModule, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -91,15 +95,6 @@ let configQuoteObservable: Observable<Configurator.Configuration>;
 let isStableObservable: Observable<boolean>;
 let cartObs: Observable<Cart>;
 
-class MockActiveCartService {
-  isStable(): Observable<boolean> {
-    return isStableObservable;
-  }
-  getActive(): Observable<Cart> {
-    return cartObs;
-  }
-}
-
 class MockconfiguratorUtilsService {
   createConfigurationExtract(): Configurator.Configuration {
     return productConfiguration;
@@ -176,16 +171,13 @@ describe('ConfiguratorCommonsService', () => {
         LoggerTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ActiveCartTestingModule,
       ],
       providers: [
         ConfiguratorCommonsService,
         {
           provide: ConfiguratorCartService,
           useClass: MockConfiguratorCartService,
-        },
-        {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartService,
         },
         {
           provide: ConfiguratorUtilsService,
@@ -199,6 +191,12 @@ describe('ConfiguratorCommonsService', () => {
     configCartObservable = of(productConfiguration);
     isStableObservable = of(true);
 
+    vi.spyOn(TestBed.inject(ActiveCartFacade), 'isStable').mockImplementation(
+      () => isStableObservable
+    );
+    vi.spyOn(TestBed.inject(ActiveCartFacade), 'getActive').mockImplementation(
+      () => cartObs
+    );
     serviceUnderTest = TestBed.inject(ConfiguratorCommonsService);
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtilsService = TestBed.inject(ConfiguratorUtilsService);

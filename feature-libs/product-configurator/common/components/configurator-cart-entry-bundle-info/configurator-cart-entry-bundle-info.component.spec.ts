@@ -20,6 +20,7 @@ import {
   I18nTestingModule,
   Product,
   ProductService,
+  ProductTestingModule,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -42,7 +43,6 @@ import {
   BehaviorSubject,
   EMPTY,
   firstValueFrom,
-  Observable,
   of,
   ReplaySubject,
   throwError,
@@ -56,12 +56,6 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
-  }
-}
-
-class MockProductService implements Partial<ProductService> {
-  get(): Observable<Product | undefined> {
-    return of(undefined);
   }
 }
 
@@ -139,13 +133,13 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       imports: [
         ConfiguratorCartEntryBundleInfoComponent,
         RouterModule.forRoot([]),
+        ProductTestingModule,
       ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
           provide: ControlContainer,
         },
-        { provide: ProductService, useClass: MockProductService },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
@@ -183,6 +177,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     vi.spyOn(configCartEntryBundleInfoService, 'retrieveLineItems');
 
     breakpointService = TestBed.inject(BreakpointService);
+
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockReturnValue(
+      of(undefined)
+    );
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
     changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
@@ -1548,8 +1546,9 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
       imports: [
         ConfiguratorCartEntryBundleInfoComponent,
         RouterModule.forRoot([]),
+        ProductTestingModule,
       ],
-      providers: [{ provide: ProductService, useClass: MockProductService }],
+      providers: [],
     })
       .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
         remove: {
@@ -1574,6 +1573,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
   });
 
   beforeEach(() => {
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockReturnValue(
+      of(undefined)
+    );
+
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
     component = fixture.componentInstance;
   });

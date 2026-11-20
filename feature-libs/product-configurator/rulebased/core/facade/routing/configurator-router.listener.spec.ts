@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterState, RoutingService } from '@spartacus/core';
+import {
+  RouterState,
+  RoutingService,
+  RoutingTestingModule,
+} from '@spartacus/core';
 import { Observable, Subscription, of } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
 import { ConfiguratorRouterListener } from './configurator-router.listener';
@@ -41,12 +45,6 @@ const routerStateCartRoute: RouterState = {
   },
 };
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(routerState);
-  }
-}
-
 class MockConfiguratorQuantityService {
   getQuantity(): Observable<number> {
     return of(QUANTITY);
@@ -57,22 +55,17 @@ class MockConfiguratorQuantityService {
 let mockConfiguratorCartService: MockConfiguratorCartService =
   new MockConfiguratorCartService();
 
-let mockRoutingService: MockRoutingService = new MockRoutingService();
-
 describe('ConfiguratorRouterListener', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configuratorQuantityService: ConfiguratorQuantityService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RoutingTestingModule],
       providers: [
         {
           provide: ConfiguratorCartService,
           useValue: mockConfiguratorCartService,
-        },
-        {
-          provide: RoutingService,
-          useValue: mockRoutingService,
         },
         {
           provide: ConfiguratorQuantityService,
@@ -85,6 +78,10 @@ describe('ConfiguratorRouterListener', () => {
     configuratorCartService = TestBed.inject(ConfiguratorCartService);
     configuratorQuantityService = TestBed.inject(ConfiguratorQuantityService);
 
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => of(routerState));
     vi.spyOn(configuratorCartService, 'removeCartBoundConfigurations');
     vi.spyOn(configuratorQuantityService, 'setQuantity');
   });

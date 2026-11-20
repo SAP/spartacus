@@ -5,8 +5,9 @@ import { By } from '@angular/platform-browser';
 import {
   Product,
   ProductService,
-  RouterState,
+  ProductTestingModule,
   RoutingService,
+  RoutingTestingModule,
   LoggerTestingModule,
   WindowRef,
 } from '@spartacus/core';
@@ -118,21 +119,7 @@ class MockComponent {}
 
 let routerStateObservable: any = null;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go() {}
-}
-
 let product: Product;
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
-}
 
 describe('ConfiguratorStorefrontUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
@@ -152,7 +139,12 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     routerStateObservable = of(mockRouterState);
 
     TestBed.configureTestingModule({
-      imports: [LoggerTestingModule, MockComponent],
+      imports: [
+        LoggerTestingModule,
+        MockComponent,
+        RoutingTestingModule,
+        ProductTestingModule,
+      ],
       providers: [
         {
           provide: ConfiguratorGroupsService,
@@ -161,14 +153,6 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         {
           provide: KeyboardFocusService,
           useClass: MockKeyboardFocusService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
         },
         { provide: WindowRef, useClass: MockedWindowRef },
         {
@@ -179,6 +163,13 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => routerStateObservable);
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(() =>
+      of(product)
+    );
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
     fixture = TestBed.createComponent(MockComponent);
     htmlElem = fixture.nativeElement;

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injectable,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -11,8 +6,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import {
-  DirectionMode,
   DirectionService,
+  DirectionTestingModule,
   FocusDirective,
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
@@ -77,13 +72,6 @@ class MockConfiguratorAttributePriceChangeService {
   }
 }
 
-@Injectable()
-class MockDirectionService implements Partial<DirectionService> {
-  getDirection(): DirectionMode {
-    return DirectionMode.LTR;
-  }
-}
-
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
@@ -106,6 +94,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         NgSelectModule,
         ConfiguratorAttributeCheckBoxComponent,
         I18nTestingModule,
+        DirectionTestingModule,
       ],
       providers: [
         {
@@ -119,10 +108,6 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
-        },
-        {
-          provide: DirectionService,
-          useClass: MockDirectionService,
         },
       ],
     })

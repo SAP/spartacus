@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CxDatePipe,
   I18nTestingModule,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -21,11 +21,6 @@ import { ConfiguratorMessageConfig } from '../config/configurator-message.config
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
 let routerStateObservable: any = null;
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -65,12 +60,9 @@ describe('ConfiguratorUpdateMessageComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorUpdateMessageComponent,
+        RoutingTestingModule,
       ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorMessageConfig,
           useClass: MockMessageConfig,
@@ -90,6 +82,10 @@ describe('ConfiguratorUpdateMessageComponent', () => {
     });
   });
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => routerStateObservable);
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;

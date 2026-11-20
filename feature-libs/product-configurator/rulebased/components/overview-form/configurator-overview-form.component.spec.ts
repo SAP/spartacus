@@ -1,12 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injectable,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfigModule,
@@ -15,14 +9,17 @@ import {
   LoggerTestingModule,
   Product,
   ProductService,
+  ProductTestingModule,
+  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
+import { DirectionTestingModule } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -80,14 +77,6 @@ let component: ConfiguratorOverviewFormComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFormComponent>;
 let htmlElem: HTMLElement;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable
-      ? routerStateObservable
-      : defaultRouterStateObservable;
-  }
-}
-
 class MockConfiguratorCommonsService {
   getOrCreateConfiguration(
     productCode: string
@@ -133,11 +122,16 @@ class MockConfiguratorStorefrontUtilsService {
 const productForBundleOverview$: BehaviorSubject<Product> =
   new BehaviorSubject<Product>({ images: {} });
 
-class MockProductService {
-  get = () => productForBundleOverview$.asObservable();
-}
-
 function initialize() {
+  vi.spyOn(TestBed.inject(RoutingService), 'getRouterState').mockImplementation(
+    () =>
+      routerStateObservable
+        ? routerStateObservable
+        : defaultRouterStateObservable
+  );
+  vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(() =>
+    productForBundleOverview$.asObservable()
+  );
   fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
@@ -181,13 +175,6 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-@Injectable()
-class MockDirectionService implements Partial<DirectionService> {
-  getDirection(): DirectionMode {
-    return DirectionMode.LTR;
-  }
-}
-
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -198,13 +185,12 @@ describe('ConfigurationOverviewFormComponent', () => {
         LoggerTestingModule,
         ConfiguratorOverviewFormComponent,
         ConfiguratorOverviewAttributeComponent,
+        RoutingTestingModule,
+        ProductTestingModule,
+        DirectionTestingModule,
       ],
       providers: [
         provideMockFeatureToggles({ productConfiguratorCPQContainer: false }),
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
@@ -213,8 +199,6 @@ describe('ConfigurationOverviewFormComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
-        { provide: ProductService, useClass: MockProductService },
-        { provide: DirectionService, useClass: MockDirectionService },
       ],
     })
       .overrideComponent(ConfiguratorOverviewFormComponent, {

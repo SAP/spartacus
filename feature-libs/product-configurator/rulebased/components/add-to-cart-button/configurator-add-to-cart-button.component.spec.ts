@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
   ActiveCartFacade,
+  ActiveCartTestingModule,
   Cart,
   CartItemQuantityService,
   MultiCartFacade,
@@ -11,9 +12,10 @@ import {
 import {
   FeatureLevelDirective,
   GlobalMessageService,
+  GlobalMessageTestingModule,
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
@@ -165,10 +167,6 @@ function initTestData() {
       position: '',
     },
   };
-}
-
-class MockGlobalMessageService {
-  add(): void {}
 }
 
 class MockConfiguratorQuantityService {
@@ -409,20 +407,8 @@ function performUpdateOnOV() {
   component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go = () => Promise.resolve(true);
-}
-
 class MockConfiguratorAddToCartButtonComponent {
   goToOrderDetails() {}
-}
-
-class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActive = vi.fn().mockReturnValue(of(cart));
 }
 
 class MockConfiguratorStorefrontUtilsService {
@@ -455,12 +441,13 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorAddToCartButtonComponent],
+      imports: [
+        ConfiguratorAddToCartButtonComponent,
+        GlobalMessageTestingModule,
+        RoutingTestingModule,
+        ActiveCartTestingModule,
+      ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorQuantityService,
           useClass: MockConfiguratorQuantityService,
@@ -481,11 +468,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        {
-          provide: OrderHistoryFacade,
-          useClass: MockOrderHistoryFacade,
-        },
+        { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
         {
           provide: CommonConfiguratorUtilsService,
           useClass: MockCommonConfiguratorUtilsService,
@@ -510,7 +493,6 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           provide: MultiCartFacade,
           useClass: MockMultiCartFacade,
         },
-        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
         }),
@@ -551,6 +533,13 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     );
     intersectionService = TestBed.inject(IntersectionService);
     keyboardFocusService = TestBed.inject(KeyboardFocusService);
+
+    vi.spyOn(routingService, 'getRouterState').mockImplementation(
+      () => routerStateObservable
+    );
+    vi.spyOn(TestBed.inject(ActiveCartFacade), 'getActive').mockReturnValue(
+      of(cart)
+    );
 
     vi.spyOn(configuratorGroupsService, 'setGroupStatusVisited');
     vi.spyOn(routingService, 'go');

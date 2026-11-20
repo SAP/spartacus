@@ -4,7 +4,11 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
+import {
+  BreakpointService,
+  BreakpointTestingModule,
+  LayoutConfig,
+} from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
@@ -23,11 +27,6 @@ class MockRouterExtractorService {
   }
 }
 let isLargeResolution: boolean;
-class MockBreakpointService {
-  isUp(): Observable<boolean> {
-    return of(isLargeResolution);
-  }
-}
 const headerSlots = ['SiteLogo', 'MiniCart'];
 const headerSlotsIncludingPreHeader = ['PreHeader', 'SiteLogo', 'MiniCart'];
 const overviewNavigationSlot = 'CpqConfigOverviewNavigation';
@@ -103,14 +102,11 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [BreakpointTestingModule],
       providers: [
         {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockRouterExtractorService,
-        },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
         },
         {
           provide: LayoutConfig,
@@ -121,6 +117,10 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     }).compileComponents();
   });
   beforeEach(() => {
+    const breakpointService = TestBed.inject(BreakpointService);
+    vi.spyOn(breakpointService, 'isUp').mockImplementation(() =>
+      of(isLargeResolution)
+    );
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', true);
     classUnderTest = TestBed.inject(CpqConfiguratorPageLayoutHandler);

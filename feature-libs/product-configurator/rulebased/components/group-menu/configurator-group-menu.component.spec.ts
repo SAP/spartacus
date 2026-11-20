@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterState } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   I18nTestingModule,
   MockTranslationService,
+  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -17,8 +19,10 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   BreakpointService,
+  BreakpointTestingModule,
   DirectionMode,
   DirectionService,
+  DirectionTestingModule,
   FocusDirective,
   HamburgerMenuService,
   ICON_TYPE,
@@ -57,12 +61,6 @@ let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
 let mockProductConfiguration: Configurator.Configuration =
   structuredClone(productConfiguration);
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
 
 const baseStyleClass = 'cx-menu-item';
 const completeStyleClass = ' COMPLETE';
@@ -180,18 +178,6 @@ class MockConfiguratorCommonsService {
   }
 }
 
-class MockDirectionService {
-  getDirection() {
-    return direction;
-  }
-}
-
-class MockBreakpointService {
-  isDown(): Observable<boolean> {
-    return breakpointObservable;
-  }
-}
-
 class MockConfiguratorStorefrontUtilsService {
   createGroupId(groupId?: string): string | undefined {
     if (groupId) {
@@ -228,6 +214,15 @@ let breakpointObservable: Observable<boolean> = NEVER;
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
   direction = mockDirection;
+  vi.spyOn(TestBed.inject(RoutingService), 'getRouterState').mockImplementation(
+    () => routerStateObservable
+  );
+  vi.spyOn(TestBed.inject(BreakpointService), 'isDown').mockImplementation(
+    () => breakpointObservable
+  );
+  vi.spyOn(TestBed.inject(DirectionService), 'getDirection').mockImplementation(
+    () => direction
+  );
   fixture = TestBed.createComponent(ConfiguratorGroupMenuComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
@@ -241,6 +236,9 @@ describe('ConfiguratorGroupMenuComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorGroupMenuComponent,
+        RoutingTestingModule,
+        DirectionTestingModule,
+        BreakpointTestingModule,
       ],
       providers: [
         HamburgerMenuService,
@@ -249,24 +247,12 @@ describe('ConfiguratorGroupMenuComponent', () => {
           useClass: MockRouter,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupService,
-        },
-        {
-          provide: DirectionService,
-          useClass: MockDirectionService,
-        },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,

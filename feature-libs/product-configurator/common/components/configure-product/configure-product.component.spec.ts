@@ -7,6 +7,7 @@ import {
   Product,
   ProductScope,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -60,10 +61,6 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
-}
-
 let component: ConfigureProductComponent;
 let currentProductService: CurrentProductService;
 let fixture: ComponentFixture<ConfigureProductComponent>;
@@ -81,7 +78,7 @@ function setupWithCurrentProductService(
     productListItemContextReturnsNull
   ) {
     TestBed.configureTestingModule({
-      imports: [RouterModule, ConfigureProductComponent],
+      imports: [RouterModule, ConfigureProductComponent, RoutingTestingModule],
       providers: [
         {
           provide: ProductListItemContext,
@@ -90,10 +87,6 @@ function setupWithCurrentProductService(
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductServiceReturnsNull,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
         },
       ],
     })
@@ -104,15 +97,15 @@ function setupWithCurrentProductService(
       .compileComponents();
   } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
+      imports: [
+        StoreModule.forRoot({}),
+        ConfigureProductComponent,
+        RoutingTestingModule,
+      ],
       providers: [
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
         },
       ],
     })
@@ -123,7 +116,11 @@ function setupWithCurrentProductService(
       .compileComponents();
   } else {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
+      imports: [
+        StoreModule.forRoot({}),
+        ConfigureProductComponent,
+        RoutingTestingModule,
+      ],
       providers: [
         {
           provide: ProductListItemContext,
@@ -132,10 +129,6 @@ function setupWithCurrentProductService(
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
         },
       ],
     })

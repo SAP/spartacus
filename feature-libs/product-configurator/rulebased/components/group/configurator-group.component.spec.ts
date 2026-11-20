@@ -14,6 +14,7 @@ import {
   LanguageService,
   Product,
   ProductService,
+  ProductTestingModule,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -222,12 +223,6 @@ const product: Product = {
   },
 };
 
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
-}
-
 class MockConfiguratorRouterExtractorService {
   extractRouterData() {
     return EMPTY;
@@ -329,6 +324,7 @@ describe('ConfiguratorGroupComponent', () => {
         ConfiguratorAttributeSingleSelectionBundleComponent,
         ConfiguratorAttributeMultiSelectionBundleComponent,
         ConfiguratorAttributeContainerComponent,
+        ProductTestingModule,
       ],
       providers: [
         {
@@ -351,10 +347,6 @@ describe('ConfiguratorGroupComponent', () => {
         {
           provide: ConfiguratorAttributeCompositionConfig,
           useValue: mockConfiguratorAttributeCompositionConfig,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
         },
         {
           provide: ConfiguratorRouterExtractorService,
@@ -385,6 +377,9 @@ describe('ConfiguratorGroupComponent', () => {
     storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
     isConfigurationLoadingObservable = of(false);
     conflictGroup = structuredClone(conflictGroupBase);
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockReturnValue(
+      of(product)
+    );
   });
 
   function createComponent(): ConfiguratorGroupComponent {
