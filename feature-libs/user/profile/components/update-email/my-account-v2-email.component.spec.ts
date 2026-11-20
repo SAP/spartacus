@@ -73,9 +73,7 @@ class MockPageMetaService implements Partial<PageMetaService> {
 class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
-class MockMyAccountV2EmailService
-  implements Partial<UpdateEmailComponentService>
-{
+class MockMyAccountV2EmailService implements Partial<UpdateEmailComponentService> {
   updateSucceed$ = new Subject();
   form: UntypedFormGroup = new UntypedFormGroup({
     oldEmail: new UntypedFormControl(),

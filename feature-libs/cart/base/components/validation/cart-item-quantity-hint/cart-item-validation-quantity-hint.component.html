@@ -1,14 +1,19 @@
-<ng-container *ngIf="quantityInfo$ | async as qty">
-  <div
-    class="cx-qty-hint"
-    *ngIf="qty.min !== undefined || qty.max !== undefined"
-    [attr.id]="qty.code ? 'cx-qty-hint-' + qty.code : null"
-  >
-    <span *ngIf="qty.min !== undefined">{{
-      'validation.minQuantity' | cxTranslate: { min: qty.min }
-    }}</span>
-    <span *ngIf="qty.max !== undefined">{{
-      'validation.maxQuantity' | cxTranslate: { max: qty.max }
-    }}</span>
-  </div>
-</ng-container>
+@if (quantityInfo$ | async; as qty) {
+  @if (qty.min !== undefined || qty.max !== undefined) {
+    <div
+      class="cx-qty-hint"
+      [attr.id]="qty.code ? 'cx-qty-hint-' + qty.code : null"
+    >
+      @if (qty.min !== undefined) {
+        <span>{{
+          'validation.minQuantity' | cxTranslate: { min: qty.min }
+        }}</span>
+      }
+      @if (qty.max !== undefined) {
+        <span>{{
+          'validation.maxQuantity' | cxTranslate: { max: qty.max }
+        }}</span>
+      }
+    </div>
+  }
+}

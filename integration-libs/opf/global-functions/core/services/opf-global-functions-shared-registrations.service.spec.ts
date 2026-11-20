@@ -46,9 +46,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
     .and.returnValue(of('test-cart-id'));
 }
 
-class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService>
-{
+class MockOpfQuickBuyTransactionService implements Partial<OpfQuickBuyTransactionService> {
   getCurrentCartId = jasmine
     .createSpy('getCurrentCartId')
     .and.returnValue(of('test-cart-id'));

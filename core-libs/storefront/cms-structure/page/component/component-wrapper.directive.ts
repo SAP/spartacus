@@ -9,15 +9,15 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
-  EventEmitter,
   Injector,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   Renderer2,
   Type,
   ViewContainerRef,
+  inject,
+  output,
 } from '@angular/core';
 import {
   ContentSlotComponentData,
@@ -41,8 +41,19 @@ import { ComponentHandlerService } from './services/component-handler.service';
  */
 @Directive({ selector: '[cxComponentWrapper]' })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
+  protected vcr = inject(ViewContainerRef);
+  protected cmsComponentsService = inject(CmsComponentsService);
+  protected injector = inject(Injector);
+  protected dynamicAttributeService = inject(DynamicAttributeService);
+  protected renderer = inject(Renderer2);
+  protected componentHandler = inject(ComponentHandlerService);
+  protected cmsInjector = inject(CmsInjectorService);
+  protected eventService = inject(EventService);
+
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cxComponentWrapper: ContentSlotComponentData;
-  @Output() cxComponentRef = new EventEmitter<ComponentRef<any>>();
+  readonly cxComponentRef = output<ComponentRef<any> | undefined>();
 
   /**
    * This property in unsafe, i.e.
@@ -52,17 +63,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   protected cmpRef?: ComponentRef<any>;
 
   private launcherResource?: Subscription;
-
-  constructor(
-    protected vcr: ViewContainerRef,
-    protected cmsComponentsService: CmsComponentsService,
-    protected injector: Injector,
-    protected dynamicAttributeService: DynamicAttributeService,
-    protected renderer: Renderer2,
-    protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService,
-    protected eventService: EventService
-  ) {}
 
   ngOnInit() {
     this.cmsComponentsService

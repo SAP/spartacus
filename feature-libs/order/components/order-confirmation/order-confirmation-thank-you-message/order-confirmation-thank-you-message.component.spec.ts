@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -37,8 +37,8 @@ class MockAddtoHomeScreenBannerComponent {}
   template: '',
 })
 class MockGuestRegisterFormComponent {
-  @Input() guid: string;
-  @Input() email: string;
+  readonly guid = input<string>();
+  readonly email = input<string>();
 }
 
 class MockOrderFacade implements Partial<OrderFacade> {

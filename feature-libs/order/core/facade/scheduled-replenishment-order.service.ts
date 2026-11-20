@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   Command,
@@ -26,9 +26,16 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
 
 @Injectable()
-export class ScheduledReplenishmentOrderService
-  implements ScheduledReplenishmentOrderFacade
-{
+export class ScheduledReplenishmentOrderService implements ScheduledReplenishmentOrderFacade {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected commandService = inject(CommandService);
+  protected scheduledReplenishmentOrderConnector = inject(
+    ScheduledReplenishmentOrderConnector
+  );
+  protected eventService = inject(EventService);
+  protected orderFacade = inject(OrderFacade);
+
   protected scheduleReplenishmentOrderCommand: Command<
     { termsChecked: boolean; form: ScheduleReplenishmentForm },
     ReplenishmentOrder
@@ -66,15 +73,6 @@ export class ScheduledReplenishmentOrderService
       strategy: CommandStrategy.CancelPrevious,
     }
   );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
-    protected commandService: CommandService,
-    protected scheduledReplenishmentOrderConnector: ScheduledReplenishmentOrderConnector,
-    protected eventService: EventService,
-    protected orderFacade: OrderFacade
-  ) {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([

@@ -1,10 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, Input, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -29,7 +23,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
     template: '',
   })
   class MockCxIconComponent {
-    @Input() type: ICON_TYPE;
+    readonly type = input<ICON_TYPE>();
   }
 
   @Component({
@@ -37,9 +31,9 @@ describe('AsmCustomer360PromotionListingComponent', () => {
     template: '',
   })
   class MockCxMessageComponent {
-    @Input() text: string;
-    @Input() type: GlobalMessageType;
-    @Output() closeMessage = new EventEmitter();
+    readonly text = input<string>();
+    readonly type = input<GlobalMessageType>();
+    readonly closeMessage = output();
   }
 
   const mockEntries: Array<PromotionListEntry> = [
@@ -76,9 +70,9 @@ describe('AsmCustomer360PromotionListingComponent', () => {
         (remove)="removeCouponToCustomer($event)"
         (removeAlert)="closeErrorAlert()"
         (removeAlertForApplyAction)="closeErrorAlertForApplyAction()"
-        [applyButtonText]="applyButtonText"
+        [applyButtonText]="applyButtonText()"
         [applied]="applied"
-        [removeButtonText]="removeButtonText"
+        [removeButtonText]="removeButtonText()"
         [showRemoveButton]="true"
         [showApplyButton]="true"
       />
@@ -86,16 +80,28 @@ describe('AsmCustomer360PromotionListingComponent', () => {
     imports: [AsmCustomer360PromotionListingComponent],
   })
   class TestHostComponent {
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() headerText: string;
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() emptyStateText: string;
-    @Input() applyButtonText: string;
+    readonly applyButtonText = input<string>();
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() applied: string;
-    @Input() removeButtonText: string;
+    readonly removeButtonText = input<string>();
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() entries: Array<PromotionListEntry> | null;
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() showAlert: boolean | null;
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() showAlertForApplyAction: boolean | null;
-    @Input() showRemoveButton: boolean;
-    @Input() showApplyButton: boolean;
+    readonly showRemoveButton = input<boolean>();
+    readonly showApplyButton = input<boolean>();
     apply = void {};
     remove = void {};
     removeAlert = void {};

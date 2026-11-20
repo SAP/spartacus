@@ -4,18 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  KeyValuePipe,
-  NgFor,
-  NgIf,
-  TitleCasePipe,
-} from '@angular/common';
+import { AsyncPipe, KeyValuePipe, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -34,8 +29,6 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IconComponent,
-    NgFor,
-    NgIf,
     AsyncPipe,
     TitleCasePipe,
     KeyValuePipe,
@@ -45,6 +38,10 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy
 {
+  protected checkoutReplenishmentFormService = inject(
+    CheckoutReplenishmentFormService
+  );
+
   protected subscription = new Subscription();
 
   iconTypes = ICON_TYPE;
@@ -62,10 +59,6 @@ export class CheckoutScheduleReplenishmentOrderComponent
   numberOfWeeks: string[];
   currentDate: string | undefined;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
-
-  constructor(
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

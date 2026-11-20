@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   FeatureDirective,
@@ -58,5 +59,30 @@ describe('BreadcrumbComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('separates the visible breadcrumb labels from their list positions', () => {
+    vi.spyOn(MockTranslatePipe.prototype, 'transform').mockImplementation(
+      (key) =>
+        key === 'common.of'
+          ? 'of'
+          : key === 'common.breadcrumbsCurrentPage'
+            ? 'Current Page'
+            : String(key)
+    );
+    vi.spyOn(TestBed.inject(PageMetaService), 'getMeta').mockReturnValue(
+      of({
+        breadcrumbs: [
+          { label: 'Home', link: '/' },
+          { label: 'Canon', link: '/c/brand_10' },
+        ],
+      })
+    );
+    fixture = TestBed.createComponent(BreadcrumbComponent);
+    fixture.detectChanges();
+
+    const links = fixture.debugElement.queryAll(By.css('nav a'));
+    expect(links[0].attributes['aria-label']).toBe('Home 1 of 2');
+    expect(links[1].attributes['aria-label']).toBe('Current Page Canon 2 of 2');
   });
 });

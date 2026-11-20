@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
@@ -29,9 +29,9 @@ class MockCurrentUserGroupService {
   template: '',
 })
 class MockSubListComponent {
-  messageService = {
+  messageService = signal({
     add(_message) {},
-  };
+  });
 }
 
 class MockUserGroupUserListService {
@@ -92,10 +92,11 @@ describe('UserGroupUserListComponent', () => {
   });
 
   it('should notify after unassign all members', () => {
-    vi.spyOn(component.subList.messageService, 'add');
+    const messageService = component.subList.messageService();
+    vi.spyOn(messageService, 'add');
 
     component.unassignAll();
-    expect(component.subList.messageService.add).toHaveBeenCalledWith({
+    expect(messageService.add).toHaveBeenCalledWith({
       message: {
         key: `orgUserGroupUsers.unassignAllConfirmation`,
         params: {

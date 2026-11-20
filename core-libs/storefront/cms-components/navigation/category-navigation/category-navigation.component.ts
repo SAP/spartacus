@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CmsNavigationComponent, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -17,17 +17,16 @@ import { NavigationService } from '../navigation/navigation.service';
   selector: 'cx-category-navigation',
   templateUrl: './category-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NavigationUIComponent, NgClass, AsyncPipe, TranslatePipe],
+  imports: [NavigationUIComponent, NgClass, AsyncPipe, TranslatePipe],
 })
 export class CategoryNavigationComponent {
+  protected componentData =
+    inject<CmsComponentData<CmsNavigationComponent>>(CmsComponentData);
+  protected service = inject(NavigationService);
+
   node$: Observable<NavigationNode> = this.service.getNavigationNode(
     this.componentData.data$
   );
 
   data$: Observable<CmsNavigationComponent> = this.componentData.data$;
-
-  constructor(
-    protected componentData: CmsComponentData<CmsNavigationComponent>,
-    protected service: NavigationService
-  ) {}
 }

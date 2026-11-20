@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -191,8 +191,8 @@ class MockConfiguratorCommonsService {
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: any;
+  readonly container = input<any>();
+  readonly format = input<any>();
 }
 
 class MockConfiguratorExpertModeService {
@@ -232,8 +232,6 @@ function initialize(options?: {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   if (!options?.keepGhostStyle) {
-    // Stabilizes first CD while deprecated ghostStyle is still updated in tap().
-    component.ghostStyle = false;
   }
   if (options?.detectChanges !== false) {
     fixture.detectChanges();
@@ -597,7 +595,7 @@ describe('ConfigProductTitleComponent', () => {
     });
   });
 
-  describe('product$', () => {
+  describe('productTitleData$', () => {
     beforeEach(() => {
       vi.spyOn(productService, 'get').mockReturnValue(productObservable);
     });
@@ -703,7 +701,9 @@ describe('ConfigProductTitleComponent', () => {
       initialize();
 
       let emitted = false;
-      component.product$.subscribe(() => (emitted = true)).unsubscribe();
+      component.productTitleData$
+        .subscribe(() => (emitted = true))
+        .unsubscribe();
 
       expect(emitted).toBe(false);
     });
@@ -714,7 +714,9 @@ describe('ConfigProductTitleComponent', () => {
       initialize();
 
       let emitted = false;
-      component.product$.subscribe(() => (emitted = true)).unsubscribe();
+      component.productTitleData$
+        .subscribe(() => (emitted = true))
+        .unsubscribe();
 
       expect(emitted).toBe(false);
     });
@@ -724,8 +726,8 @@ describe('ConfigProductTitleComponent', () => {
       initialize();
 
       let product: Product | undefined;
-      component.product$
-        .subscribe((emitted) => (product = emitted))
+      component.productTitleData$
+        .subscribe((emitted) => (product = emitted.product))
         .unsubscribe();
 
       expect(product).toEqual(mockProduct);
@@ -1292,13 +1294,13 @@ describe('ConfigProductTitleComponent', () => {
     );
 
     const media = fixture.debugElement.query(By.css('cx-media'));
-    expect(media.componentInstance.container).toEqual(
+    expect(media.componentInstance.container()).toEqual(
       mockProduct.images?.PRIMARY
     );
-    expect(media.componentInstance.format).toBe('product');
+    expect(media.componentInstance.format()).toBe('product');
 
     const icon = fixture.debugElement.query(By.css('cx-icon'));
-    expect(icon.componentInstance.type).toBe(component.iconTypes.CARET_UP);
+    expect(icon.componentInstance.type()).toBe(component.iconTypes.CARET_UP);
   });
 
   it('should render the show more icon when details are collapsed', () => {
@@ -1306,7 +1308,7 @@ describe('ConfigProductTitleComponent', () => {
     initialize();
 
     const icon = fixture.debugElement.query(By.css('cx-icon'));
-    expect(icon.componentInstance.type).toBe(component.iconTypes.CARET_DOWN);
+    expect(icon.componentInstance.type()).toBe(component.iconTypes.CARET_DOWN);
   });
 
   it('should not render name, code or description spans when those product fields are missing', () => {

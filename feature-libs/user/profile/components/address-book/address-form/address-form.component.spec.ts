@@ -1,9 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  DebugElement,
-  Directive,
-  Input,
-} from '@angular/core';
+import { outputToObservable } from '@angular/core/rxjs-interop';
+import { DebugElement, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -145,7 +141,10 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 @Directive({ selector: '[cxNgSelectA11y]' })
 class MockNgSelectA11yDirective {
-  @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
+  readonly cxNgSelectA11y = input<{
+    ariaLabel?: string;
+    ariaControls?: string;
+  }>();
 }
 
 describe('AddressFormComponent', () => {
@@ -200,7 +199,6 @@ describe('AddressFormComponent', () => {
     })
       .overrideComponent(AddressFormComponent, {
         add: {
-          changeDetection: ChangeDetectionStrategy.Eager,
           imports: [MockFeatureDirective],
         },
         remove: {
@@ -356,7 +354,9 @@ describe('AddressFormComponent', () => {
       decision: 'REVIEW',
     };
 
-    const addressPromise = firstValueFrom(component.submitAddress);
+    const addressPromise = firstValueFrom(
+      outputToObservable(component.submitAddress)
+    );
     component.openSuggestedAddress(mockAddressVerificationResult);
     dialogClose$.next(mockAddress);
 
@@ -395,7 +395,7 @@ describe('AddressFormComponent', () => {
 
   it('should call back()', () => {
     component.back();
-    expect(component.backToAddress.emit).toHaveBeenCalledWith();
+    expect(component.backToAddress.emit).toHaveBeenCalledWith(undefined);
   });
 
   it('should toggleDefaultAddress() adapt control value', () => {
@@ -955,11 +955,7 @@ describe('AddressFormComponent — enableFormFieldMaxLength', () => {
         },
         ...provideMockFeatureToggles({ enableFormFieldMaxLength: enabled }),
       ],
-    })
-      .overrideComponent(AddressFormComponent, {
-        add: { changeDetection: ChangeDetectionStrategy.Eager },
-      })
-      .compileComponents();
+    }).compileComponents();
 
   describe('when enabled', () => {
     let component: AddressFormComponent;

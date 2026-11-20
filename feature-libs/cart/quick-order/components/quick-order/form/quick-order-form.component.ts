@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
   OnDestroy,
   OnInit,
-  ViewChild,
   inject,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -22,7 +22,10 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import {
+  QuickOrderConfig,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
 import {
   Config,
   FeatureToggles,
@@ -54,38 +57,35 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     IconComponent,
-    NgFor,
     MediaComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
+  config = inject<Config & QuickOrderConfig>(Config);
+  protected cd = inject(ChangeDetectorRef);
+  protected quickOrderService = inject(QuickOrderFacade);
+  protected winRef = inject(WindowRef);
+
   form: UntypedFormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
   noResults: boolean = false;
   results: Product[] = [];
 
-  @Input() limit: number;
+  readonly limit = input<number>();
 
-  @ViewChild('quickOrderInput') quickOrderInput: ElementRef;
+  readonly quickOrderInput = viewChild<ElementRef>('quickOrderInput');
 
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
   private featureToggles = inject(FeatureToggles);
 
-  constructor(
-    public config: Config,
-    protected cd: ChangeDetectorRef,
-    protected quickOrderService: QuickOrderFacade,
-    protected winRef: WindowRef
-  ) {
+  constructor() {
     useFeatureStyles('a11yHighContrastFix');
   }
-
   ngOnInit(): void {
     this.buildForm();
     this.subscription.add(this.watchProductAdd());
@@ -109,7 +109,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
       if (!this.featureToggles.a11yQuickOrderResetFocus) {
         requestAnimationFrame(() => {
-          this.quickOrderInput.nativeElement.focus();
+          this.quickOrderInput()?.nativeElement.focus();
         });
       }
     }
@@ -128,7 +128,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.featureToggles.a11yQuickOrderResetFocus) {
       requestAnimationFrame(() => {
-        this.quickOrderInput.nativeElement.focus();
+        this.quickOrderInput()?.nativeElement.focus();
       });
     }
   }
@@ -148,7 +148,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     }
 
     this.quickOrderService.addProduct(product);
-    this.quickOrderInput.nativeElement.focus();
+    this.quickOrderInput()?.nativeElement.focus();
   }
 
   addProduct(event: Event): void {

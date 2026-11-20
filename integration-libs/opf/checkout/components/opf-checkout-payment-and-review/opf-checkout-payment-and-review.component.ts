@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,15 +24,12 @@ import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { CmsService, Page, TranslatePipe, UrlPipe } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
-import {
-  OpfBaseFacade,
-  OpfMetadataStoreService,
-} from '@spartacus/opf/base/root';
+import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
   OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT,
   OpfCheckoutOutlets,
 } from '@spartacus/opf/checkout/root';
+import { OutletModule } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   filter,
@@ -41,6 +38,7 @@ import {
   switchMap,
   take,
 } from 'rxjs';
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
 import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments/opf-checkout-payments.component';
 import {
@@ -48,14 +46,12 @@ import {
   OpfCheckoutReviewCartDetailsModule,
 } from '../opf-checkout-review-cart-details';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
-import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
   templateUrl: './opf-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     OpfCheckoutReviewCartDetailsModule,
     OpfCheckoutTermsAndConditionsAlertComponent,
     NgClass,
@@ -79,11 +75,7 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cmsService = inject(CmsService);
   protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
-  /**
-   * @deprecated since 221121.21. No longer used internally.
-   * This property will be removed in a future major version.
-   */
-  protected opfBaseFacade = inject(OpfBaseFacade);
+
   protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected opfCheckoutBillingAddressFormService = inject(

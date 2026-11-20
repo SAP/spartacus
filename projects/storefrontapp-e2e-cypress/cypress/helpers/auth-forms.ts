@@ -91,7 +91,7 @@ export function fillCustomLoginForm(
 
 export function fillKymaLoginForm({ username, password }: LoginUser) {
   cy.origin(
-    `${Cypress.env('API_URL')}`,
+    `${Cypress.expose('API_URL')}`,
     { args: { username, password } },
     ({ username, password }) => {
       cy.get('form[id="loginForm"]').within(() => {
@@ -170,7 +170,7 @@ export function login(
 
 export function agentLoginForJDK21(username: string, password: string) {
   cy.origin(
-    `${Cypress.env('API_URL')}`,
+    `${Cypress.expose('API_URL')}`,
     { args: { username, password } },
     ({ username, password }) => {
       cy.wait(2000);

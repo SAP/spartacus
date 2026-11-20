@@ -5,43 +5,51 @@ import { OrderHistoryConnector } from './order-history.connector';
 
 class MockOrderHistoryAdapter implements OrderHistoryAdapter {
   load = vi
-    .fn('OrderHistoryAdapter.load')
+    .fn()
+    .mockName('OrderHistoryAdapter.load')
     .mockImplementation((userId, orderCode) =>
       of(`order-${userId}-${orderCode}`)
     );
 
   loadHistory = vi
-    .fn('OrderHistoryAdapter.loadHistory')
+    .fn()
+    .mockName('OrderHistoryAdapter.loadHistory')
     .mockImplementation((userId) => of(`orderHistory-${userId}`));
 
   getConsignmentTracking = vi
-    .fn('OrderHistoryAdapter.getConsignmentTracking')
+    .fn()
+    .mockName('OrderHistoryAdapter.getConsignmentTracking')
     .mockImplementation((orderCode, consignmentCode, userId) =>
       of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`)
     );
 
   createReturnRequest = vi
-    .fn('OrderHistoryAdapter.createReturnRequest')
+    .fn()
+    .mockName('OrderHistoryAdapter.createReturnRequest')
     .mockImplementation((userId, {}) => of(`orderReturnRequest-${userId}`));
 
   loadReturnRequestList = vi
-    .fn('OrderHistoryAdapter.loadReturnRequestList')
+    .fn()
+    .mockName('OrderHistoryAdapter.loadReturnRequestList')
     .mockImplementation((userId) => of(`loadReturnRequestList-${userId}`));
 
   loadReturnRequestDetail = vi
-    .fn('OrderHistoryAdapter.loadReturnRequestDetail')
+    .fn()
+    .mockName('OrderHistoryAdapter.loadReturnRequestDetail')
     .mockImplementation((userId, returnRequestCode) =>
       of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
     );
 
   cancel = vi
-    .fn('OrderHistoryAdapter.cancel')
+    .fn()
+    .mockName('OrderHistoryAdapter.cancel')
     .mockImplementation((userId, orderCode, {}) =>
       of(`cancel-${userId}-${orderCode}`)
     );
 
   cancelReturnRequest = vi
-    .fn('OrderHistoryAdapter.cancelReturnRequest')
+    .fn()
+    .mockName('OrderHistoryAdapter.cancelReturnRequest')
     .mockImplementation((userId, returnRequestCode, {}) =>
       of(`cancelReturnRequest-${userId}-${returnRequestCode}`)
     );

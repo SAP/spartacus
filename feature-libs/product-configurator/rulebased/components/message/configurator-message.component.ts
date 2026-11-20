@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -20,7 +20,7 @@ import { ConfiguratorTranslatableMessage } from '../service/configurator-message
   selector: 'cx-configurator-message',
   templateUrl: './configurator-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, NgClass, IconComponent, TranslatePipe],
+  imports: [NgClass, IconComponent, TranslatePipe],
 })
 export class ConfiguratorMessageComponent {
   /**
@@ -29,27 +29,39 @@ export class ConfiguratorMessageComponent {
    * Callers merge their plain and translatable messages into this single list.
    * Empty or undefined lists render nothing.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() messages?: ConfiguratorTranslatableMessage[];
   /**
    * CSS class applied to each message row.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() messageClass?: string;
   /**
    * Icon representing the message severity.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() iconType?: ICON_TYPE;
   /**
    * Whether the severity icon is displayed.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() showIcon = false;
   /**
    * Prefix used to build a unique id for each message row. The row index
    * is appended as a suffix.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() idPrefix?: string;
   /**
    * Optional ARIA role, for example `alert` for errors.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() role?: string;
 
   /**

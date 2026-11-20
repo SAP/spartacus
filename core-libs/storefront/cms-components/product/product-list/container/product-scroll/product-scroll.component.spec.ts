@@ -1,9 +1,9 @@
 import {
   Component,
   DebugElement,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -137,8 +137,8 @@ const showMoreBtn = 'productList.showMoreBtn';
   imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockStarRatingComponent {
-  @Input() rating: number;
-  @Input() disabled: boolean;
+  readonly rating = input<number>();
+  readonly disabled = input<boolean>();
 }
 
 @Component({
@@ -147,8 +147,8 @@ class MockStarRatingComponent {
   imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockProductListItemComponent {
-  @Input() product: any;
-  @Input() itemIndex: number;
+  readonly product = input<any>();
+  readonly itemIndex = input<number>();
 }
 
 @Component({
@@ -157,8 +157,8 @@ class MockProductListItemComponent {
   imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockProductGridItemComponent {
-  @Input() product: any;
-  @Input() itemIndex: number;
+  readonly product = input<any>();
+  readonly itemIndex = input<number>();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -172,8 +172,8 @@ class MockUrlPipe implements PipeTransform {
   imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockAddToCartComponent {
-  @Input() product: string;
-  @Input() showQuantity: boolean;
+  readonly product = input<string>();
+  readonly showQuantity = input<boolean>();
 }
 
 class MockProductListComponentService {
@@ -191,7 +191,7 @@ class MockProductListComponentService {
   imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockStyleIconsComponent {
-  @Input() variants: any[];
+  readonly variants = input<any[]>();
 }
 
 describe('ProductScrollComponent', () => {
@@ -419,14 +419,14 @@ describe('ProductScrollComponent', () => {
           By.directive(MockProductListItemComponent)
         );
         expect(listItems.length).toBe(2);
-        expect(listItems[0].componentInstance.product).toEqual(
+        expect(listItems[0].componentInstance.product()).toEqual(
           mockModel3.products?.[0]
         );
-        expect(listItems[0].componentInstance.itemIndex).toEqual(0);
-        expect(listItems[1].componentInstance.product).toEqual(
+        expect(listItems[0].componentInstance.itemIndex()).toEqual(0);
+        expect(listItems[1].componentInstance.product()).toEqual(
           mockModel3.products?.[1]
         );
-        expect(listItems[1].componentInstance.itemIndex).toEqual(1);
+        expect(listItems[1].componentInstance.itemIndex()).toEqual(1);
       });
 
       it('should NOT render product Grid item components', () => {
@@ -451,14 +451,14 @@ describe('ProductScrollComponent', () => {
           By.directive(MockProductGridItemComponent)
         );
         expect(gridItems.length).toBe(2);
-        expect(gridItems[0].componentInstance.product).toEqual(
+        expect(gridItems[0].componentInstance.product()).toEqual(
           mockModel3.products?.[0]
         );
-        expect(gridItems[0].componentInstance.itemIndex).toEqual(0);
-        expect(gridItems[1].componentInstance.product).toEqual(
+        expect(gridItems[0].componentInstance.itemIndex()).toEqual(0);
+        expect(gridItems[1].componentInstance.product()).toEqual(
           mockModel3.products?.[1]
         );
-        expect(gridItems[1].componentInstance.itemIndex).toEqual(1);
+        expect(gridItems[1].componentInstance.itemIndex()).toEqual(1);
       });
 
       it('should NOT render product List item components', () => {

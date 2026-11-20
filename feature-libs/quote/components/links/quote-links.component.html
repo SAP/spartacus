@@ -1,4 +1,4 @@
-<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+@if (quoteDetails$ | async; as quoteDetails) {
   <section>
     <ul>
       <li>
@@ -20,37 +20,41 @@
           {{ 'quote.links.quotes' | cxTranslate }}
         </a>
       </li>
-      <li *ngIf="hasAttachment(quoteDetails.sapAttachments!)">
-        <button
-          [attr.aria-label]="'quote.links.a11y.download' | cxTranslate"
-          type="button"
-          class="link cx-action-link"
-          (click)="
-            onDownloadAttachment(
-              quoteDetails.code,
-              quoteDetails.sapAttachments!
-            )
-          "
-        >
-          {{ 'quote.links.download' | cxTranslate }}
-        </button>
-      </li>
-      <ng-container *ngIf="orderConfig.showOrderQuoteLink">
-        <li *ngIf="quoteDetails.sapOrderCode">
-          <a
-            [attr.aria-label]="'quote.links.a11y.order' | cxTranslate"
+      @if (hasAttachment(quoteDetails.sapAttachments!)) {
+        <li>
+          <button
+            [attr.aria-label]="'quote.links.a11y.download' | cxTranslate"
+            type="button"
             class="link cx-action-link"
-            [routerLink]="
-              {
-                cxRoute: 'orderDetails',
-                params: { code: quoteDetails.sapOrderCode },
-              } | cxUrl
+            (click)="
+              onDownloadAttachment(
+                quoteDetails.code,
+                quoteDetails.sapAttachments!
+              )
             "
           >
-            {{ 'quote.links.order' | cxTranslate }}</a
-          >
+            {{ 'quote.links.download' | cxTranslate }}
+          </button>
         </li>
-      </ng-container>
+      }
+      @if (orderConfig.showOrderQuoteLink) {
+        @if (quoteDetails.sapOrderCode) {
+          <li>
+            <a
+              [attr.aria-label]="'quote.links.a11y.order' | cxTranslate"
+              class="link cx-action-link"
+              [routerLink]="
+                {
+                  cxRoute: 'orderDetails',
+                  params: { code: quoteDetails.sapOrderCode },
+                } | cxUrl
+              "
+            >
+              {{ 'quote.links.order' | cxTranslate }}</a
+            >
+          </li>
+        }
+      }
     </ul>
   </section>
-</ng-container>
+}

@@ -1,4 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { DeliveryMode } from '@spartacus/cart/base/root';
@@ -62,14 +62,10 @@ class MockOrderFacade implements Partial<OrderFacade> {
   imports: [I18nTestingModule, PromotionsModule, OutletModule],
 })
 class MockCardComponent {
-  @Input()
-  border: boolean;
-  @Input()
-  content: Card;
-  @Input()
-  fitToContainer: boolean;
-  @Input()
-  index: number;
+  readonly border = input<boolean>();
+  readonly content = input<Card>();
+  readonly fitToContainer = input<boolean>();
+  readonly index = input<number>();
 }
 
 @Directive({

@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -23,25 +24,23 @@ import { take } from 'rxjs/operators';
   selector: 'cx-clear-cart',
   templateUrl: './clear-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ClearCartComponent implements OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   cart$: Observable<Cart> = this.activeCartFacade.getActive();
 
   protected subscription = new Subscription();
 
-  @ViewChild('element') element: ElementRef;
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+  readonly element = viewChild<ElementRef>('element');
 
   openDialog(event: Event): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CLEAR_CART,
-      this.element,
+      this.element(),
       this.vcr
     );
     if (dialog) {

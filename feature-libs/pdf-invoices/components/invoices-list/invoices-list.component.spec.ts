@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -116,19 +116,19 @@ const mockOrderInvoiceList: OrderInvoiceList = {
   selector: 'cx-pagination',
 })
 class MockPaginationComponent {
-  @Input() pagination: any;
-  @Output() viewPageEvent = new EventEmitter<string>();
+  readonly pagination = input<any>();
+  readonly viewPageEvent = output<string>();
 }
 @Component({
   template: '',
   selector: 'cx-sorting',
 })
 class MockSortingComponent {
-  @Input() sortOptions: any;
-  @Input() sortLabels: any;
-  @Input() selectedOption: any;
-  @Input() placeholder: any;
-  @Output() sortListEvent = new EventEmitter<string>();
+  readonly sortOptions = input<any>();
+  readonly sortLabels = input<any>();
+  readonly selectedOption = input<any>();
+  readonly placeholder = input<any>();
+  readonly sortListEvent = output<string>();
 }
 
 class MockPDFInvoicesFacade implements Partial<PDFInvoicesFacade> {

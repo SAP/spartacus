@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -20,7 +20,7 @@ import { FutureStockAccordionComponent } from './future-stock-accordion.componen
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 const mockFutureStocks = {
@@ -95,6 +95,7 @@ describe('FutureStockAccordionComponent', () => {
 
     beforeEach(() => {
       component.futureStocks$ = of({});
+      fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
       button = fixture.debugElement.query(
         By.css('.cx-future-stock-accordion-header')
@@ -113,21 +114,22 @@ describe('FutureStockAccordionComponent', () => {
       let icon = fixture.debugElement.query(
         By.css('cx-icon')
       ).componentInstance;
-      expect(icon.type).toBe(ICON_TYPE.CARET_DOWN);
+      expect(icon.type()).toBe(ICON_TYPE.CARET_DOWN);
       button.click();
       fixture.detectChanges();
       icon = fixture.debugElement.query(By.css('cx-icon')).componentInstance;
-      expect(icon.type).toBe(ICON_TYPE.CARET_UP);
+      expect(icon.type()).toBe(ICON_TYPE.CARET_UP);
       button.click();
       fixture.detectChanges();
       icon = fixture.debugElement.query(By.css('cx-icon')).componentInstance;
-      expect(icon.type).toBe(ICON_TYPE.CARET_DOWN);
+      expect(icon.type()).toBe(ICON_TYPE.CARET_DOWN);
     });
   });
 
   describe('Show Future Stocks', () => {
     it('should show no stocks message', () => {
       component.futureStocks$ = of({});
+      fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
       let button = fixture.debugElement.query(
@@ -147,6 +149,7 @@ describe('FutureStockAccordionComponent', () => {
 
     it('should show mocked future stocks', () => {
       component.futureStocks$ = of(mockFutureStocks);
+      fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
       let button = fixture.debugElement.query(

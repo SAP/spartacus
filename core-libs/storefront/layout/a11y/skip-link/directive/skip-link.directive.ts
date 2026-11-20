@@ -4,23 +4,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  inject,
+  input,
+} from '@angular/core';
 import { SkipLinkService } from '../service/skip-link.service';
 
 @Directive({ selector: '[cxSkipLink]' })
 export class SkipLinkDirective implements OnInit, OnDestroy {
-  @Input() cxSkipLink: string;
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected skipLinkService = inject(SkipLinkService);
 
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    protected skipLinkService: SkipLinkService
-  ) {}
+  readonly cxSkipLink = input.required<string>();
 
   ngOnInit(): void {
-    this.skipLinkService.add(this.cxSkipLink, this.elementRef.nativeElement);
+    this.skipLinkService.add(this.cxSkipLink(), this.elementRef.nativeElement);
   }
 
   ngOnDestroy(): void {
-    this.skipLinkService.remove(this.cxSkipLink);
+    this.skipLinkService.remove(this.cxSkipLink());
   }
 }

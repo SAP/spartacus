@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
@@ -21,14 +20,17 @@ import { OrderSubsequentDocumentNodeComponent } from './order-subsequent-documen
   selector: 'cx-order-subsequent-document-list',
   templateUrl: './order-subsequent-document-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, OrderSubsequentDocumentNodeComponent, TranslatePipe],
+  imports: [OrderSubsequentDocumentNodeComponent, TranslatePipe],
 })
 export class OrderSubsequentDocumentListComponent {
   iconTypes = ICON_TYPE;
 
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() documents: OrderSubsequentDocument[];
-  @Input() selectedDocument?: OrderSubsequentDocument;
-  @Output() documentSelected = new EventEmitter<OrderSubsequentDocument>();
+  readonly selectedDocument = input<OrderSubsequentDocument>();
+  readonly documentSelected = output<OrderSubsequentDocument>();
 
   onDocumentSelection(document: OrderSubsequentDocument): void {
     this.documentSelected.emit(document);

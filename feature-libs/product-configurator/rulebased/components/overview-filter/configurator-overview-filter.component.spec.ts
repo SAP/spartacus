@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -67,7 +67,7 @@ function initTestComponent() {
   imports: [ReactiveFormsModule],
 })
 class MockConfiguratorOverviewFilterBarComponent {
-  @Input() config: Configurator.ConfigurationWithOverview;
+  readonly config = input<Configurator.ConfigurationWithOverview>();
 }
 
 let isDisplayOnlyVariant: boolean;

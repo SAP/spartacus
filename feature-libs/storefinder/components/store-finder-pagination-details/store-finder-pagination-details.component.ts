@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { PaginationModel, TranslatePipe } from '@spartacus/core';
 
 @Component({
@@ -13,28 +13,27 @@ import { PaginationModel, TranslatePipe } from '@spartacus/core';
   imports: [TranslatePipe],
 })
 export class StoreFinderPaginationDetailsComponent {
-  @Input()
-  pagination: PaginationModel;
+  readonly pagination = input<PaginationModel>();
 
   constructor() {
     // Intentional empty constructor
   }
 
   getResultsPerPage(): string {
-    if (this.pagination.totalResults > this.pagination.pageSize) {
+    if (this.pagination().totalResults > this.pagination().pageSize) {
       const firstItem =
-        this.pagination.currentPage * this.pagination.pageSize + 1;
+        this.pagination().currentPage * this.pagination().pageSize + 1;
 
       let resultsPerPage =
-        (this.pagination.currentPage + 1) * this.pagination.pageSize;
+        (this.pagination().currentPage + 1) * this.pagination().pageSize;
 
-      if (resultsPerPage > this.pagination.totalResults) {
-        resultsPerPage = this.pagination.totalResults;
+      if (resultsPerPage > this.pagination().totalResults) {
+        resultsPerPage = this.pagination().totalResults;
       }
 
       return `${firstItem} - ${resultsPerPage}`;
     } else {
-      return `1 - ${this.pagination.totalResults}`;
+      return `1 - ${this.pagination().totalResults}`;
     }
   }
 }

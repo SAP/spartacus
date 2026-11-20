@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -27,12 +27,9 @@ import { CartCouponComponent } from './cart-coupon.component';
   template: '',
 })
 class MockAppliedCouponsComponent {
-  @Input()
-  vouchers: Voucher[];
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  isReadOnly = false;
+  readonly vouchers = input<Voucher[]>();
+  readonly cartIsLoading = input(false);
+  readonly isReadOnly = input(false);
 }
 
 describe('CartCouponComponent', () => {

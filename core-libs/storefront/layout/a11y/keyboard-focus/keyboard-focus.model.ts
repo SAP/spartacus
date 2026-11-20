@@ -117,10 +117,7 @@ export enum TrapFocus {
 }
 
 export type TrapFocusType =
-  | boolean
-  | TrapFocus.start
-  | TrapFocus.end
-  | TrapFocus.both;
+  boolean | TrapFocus.start | TrapFocus.end | TrapFocus.both;
 
 /**
  * The keyboard navigation (tab, shift-tab and up down keys) is _trapped_

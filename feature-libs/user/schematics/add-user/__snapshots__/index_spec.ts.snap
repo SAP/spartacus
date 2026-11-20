@@ -201,17 +201,7 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/user.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -389,17 +379,7 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup st
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/user.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

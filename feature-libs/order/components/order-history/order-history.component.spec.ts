@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Pipe, PipeTransform, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Params, RouterModule } from '@angular/router';
@@ -96,19 +89,19 @@ const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
   selector: 'cx-pagination',
 })
 class MockPaginationComponent {
-  @Input() pagination;
-  @Output() viewPageEvent = new EventEmitter<string>();
+  readonly pagination = input(undefined);
+  readonly viewPageEvent = output<string>();
 }
 @Component({
   template: '',
   selector: 'cx-sorting',
 })
 class MockSortingComponent {
-  @Input() sortOptions;
-  @Input() sortLabels;
-  @Input() selectedOption;
-  @Input() placeholder;
-  @Output() sortListEvent = new EventEmitter<string>();
+  readonly sortOptions = input(undefined);
+  readonly sortLabels = input(undefined);
+  readonly selectedOption = input(undefined);
+  readonly placeholder = input(undefined);
+  readonly sortListEvent = output<string>();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -144,9 +137,7 @@ class MockTranslationService {
   }
 }
 
-class MockReplenishmentOrderHistoryFacade
-  implements Partial<ReplenishmentOrderHistoryFacade>
-{
+class MockReplenishmentOrderHistoryFacade implements Partial<ReplenishmentOrderHistoryFacade> {
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return mockReplenishmentOrder$.asObservable();
   }

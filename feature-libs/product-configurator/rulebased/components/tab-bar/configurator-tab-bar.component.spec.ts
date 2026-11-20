@@ -122,7 +122,7 @@ describe('ConfigTabBarComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorTabBarComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

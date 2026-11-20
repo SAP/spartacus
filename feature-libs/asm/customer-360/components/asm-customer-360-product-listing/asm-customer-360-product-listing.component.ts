@@ -4,21 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   TemplateRef,
+  inject,
+  output,
+  input,
 } from '@angular/core';
 import { Product, TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
@@ -32,42 +27,46 @@ import { ProductItem } from './product-item.model';
   templateUrl: './asm-customer-360-product-listing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     NgClass,
-    NgFor,
     AsmCustomer360ProductItemComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class AsmCustomer360ProductListingComponent implements OnInit {
+  protected breakpointService = inject(BreakpointService);
+
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   emptyResultDescription: string;
 
-  @Input()
-  headerInactive: boolean;
+  readonly headerInactive = input<boolean>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   headerText: string;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   products: Array<ProductItem | Product>;
 
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input()
   headerTemplate: TemplateRef<void>;
 
-  @Output()
-  clickHeader: EventEmitter<void> = new EventEmitter();
+  readonly clickHeader = output<void>();
 
-  @Output()
-  selectProduct: EventEmitter<Product> = new EventEmitter();
+  readonly selectProduct = output<Product>();
 
   numberofColumns$: Observable<number>;
 
   showMore: boolean;
-
-  constructor(protected breakpointService: BreakpointService) {}
 
   ngOnInit(): void {
     this.numberofColumns$ = this.getNumberofColumns();

@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  Optional,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
@@ -42,17 +42,11 @@ import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-c
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 
-/**
- * Requires default change detection strategy, as the disabled state of the quantity form control may change,
- * which would not be properly detected with OnPush strategy.
- */
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     NgTemplateOutlet,
     RouterLink,
     ConfigureCartEntryComponent,
@@ -64,20 +58,23 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
-  @ViewChild('toggleItemsButton')
-  protected toggleItemsButton?: ElementRef<HTMLButtonElement>;
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected configCartEntryBundleInfoService = inject(
+    ConfiguratorCartEntryBundleInfoService
+  );
+  protected breakpointService = inject(BreakpointService);
+  protected translation = inject(TranslationService);
+  protected cartItemContext? =
+    inject(CartItemContext, { optional: true }) ?? undefined;
+
+  protected readonly toggleItemsButton =
+    viewChild<ElementRef<HTMLButtonElement>>('toggleItemsButton');
 
   protected config = inject(CommonConfiguratorUISettingsConfig);
   private featureToggles = inject(FeatureToggles);
   protected productService = inject(ProductService);
 
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
-    protected breakpointService: BreakpointService,
-    protected translation: TranslationService,
-    @Optional() protected cartItemContext?: CartItemContext
-  ) {
+  constructor() {
     useFeatureStyles('productConfiguratorCPQContainer');
   }
 
@@ -91,6 +88,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     this.cartItemContext?.readonly$ ?? EMPTY;
 
   protected itemsHidden = true;
+  protected changeDetectorRef = inject(ChangeDetectorRef);
 
   /**
    * Emits 'true' from the first time the list is expanded onwards, so that
@@ -116,6 +114,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     if (!hideItems) {
       this.hasBeenExpanded$.next(true);
     }
+    this.changeDetectorRef.markForCheck();
   }
 
   lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(
@@ -157,7 +156,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    * or collapses, including when nested configure links are rendered.
    */
   protected retainFocusOnToggleItemsButton(): void {
-    queueMicrotask(() => this.toggleItemsButton?.nativeElement?.focus());
+    queueMicrotask(() => this.toggleItemsButton()?.nativeElement?.focus());
   }
 
   /**

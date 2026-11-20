@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FeatureDirective,
   GlobalMessageEntities,
@@ -21,22 +21,17 @@ import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'cx-global-message',
   templateUrl: './global-message.component.html',
-  imports: [
-    NgIf,
-    NgFor,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-    FeatureDirective,
-  ],
+  imports: [IconComponent, AsyncPipe, TranslatePipe, FeatureDirective],
 })
 export class GlobalMessageComponent implements OnInit {
+  protected globalMessageService = inject(GlobalMessageService);
+
   iconTypes = ICON_TYPE;
 
   messages$: Observable<GlobalMessageEntities>;
   messageType: typeof GlobalMessageType = GlobalMessageType;
 
-  constructor(protected globalMessageService: GlobalMessageService) {
+  constructor() {
     useFeatureStyles('a11yIncreaseContastGlobalMessageCloseButton');
     useFeatureStyles('globalMessageCloseButtonPadding');
   }

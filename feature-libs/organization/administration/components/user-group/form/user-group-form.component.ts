@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -44,7 +49,6 @@ import { UserGroupItemService } from '../services/user-group-item.service';
   ],
   imports: [
     FormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormRequiredLegendComponent,
@@ -56,6 +60,9 @@ import { UserGroupItemService } from '../services/user-group-item.service';
   ],
 })
 export class UserGroupFormComponent implements OnInit {
+  protected itemService = inject<ItemService<UserGroup>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
 
   // getList ???
@@ -68,11 +75,6 @@ export class UserGroupFormComponent implements OnInit {
         }
       })
     );
-
-  constructor(
-    protected itemService: ItemService<UserGroup>,
-    protected unitService: OrgUnitService
-  ) {}
 
   ngOnInit(): void {
     this.unitService.loadList();

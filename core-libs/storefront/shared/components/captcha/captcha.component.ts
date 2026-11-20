@@ -9,11 +9,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   Injector,
   OnDestroy,
-  Output,
-  ViewChild,
+  inject,
+  output,
+  viewChild,
 } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -27,17 +27,15 @@ import { CaptchaRenderer } from './captcha.renderer';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
-  // Emits true if user confirms captcha
-  @Output() confirmed = new EventEmitter<boolean>();
+  protected config = inject(CaptchaApiConfig);
+  protected injector = inject(Injector);
 
-  @ViewChild('captcha', { static: false }) captchaRef: ElementRef;
+  // Emits true if user confirms captcha
+  readonly confirmed = output<boolean>();
+
+  readonly captchaRef = viewChild.required<ElementRef>('captcha');
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected config: CaptchaApiConfig,
-    protected injector: Injector
-  ) {}
 
   /**
    * Add fields from CaptchaApiConfig. Call backend to get captcha
@@ -55,7 +53,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             concatMap((captchaConfig) => {
               if (captchaConfig?.enabled) {
                 return captchaRenderer.renderCaptcha({
-                  element: this.captchaRef.nativeElement,
+                  element: this.captchaRef().nativeElement,
                 });
               } else {
                 return of(null);

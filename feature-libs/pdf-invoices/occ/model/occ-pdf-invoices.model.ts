@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 declare module '@spartacus/core' {
   interface OccEndpoints {
@@ -14,7 +14,7 @@ declare module '@spartacus/core' {
      * @member {string} [pdfInvoicesListInvoices]
      */
 
-    pdfInvoicesListInvoices?: string | OccEndpoint;
+    pdfInvoicesListInvoices?: string | CoreOccEndpoint;
 
     /**
      * Get the invoice document as a PDF file
@@ -22,6 +22,6 @@ declare module '@spartacus/core' {
      * @member {string} [pdfInvoicesDownloadInvoicePDF]
      */
 
-    pdfInvoicesDownloadInvoicePDF?: string | OccEndpoint;
+    pdfInvoicesDownloadInvoicePDF?: string | CoreOccEndpoint;
   }
 }

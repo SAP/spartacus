@@ -9,6 +9,9 @@ import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/fe
 
 @Directive({ selector: '[cxPersistFocus]' })
 class CustomFocusDirective extends PersistFocusDirective {
+  // TODO: Skipped for migration because:
+  //  This input overrides a field from a superclass, while the superclass field
+  //  is not migrated.
   @Input('cxPersistFocus') protected config: PersistFocusConfig;
 }
 @Component({

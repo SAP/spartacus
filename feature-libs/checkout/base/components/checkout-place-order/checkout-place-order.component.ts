@@ -71,6 +71,12 @@ const PLACE_ORDER_GATE_SAFETY_VALVE_MS = 10_000;
   ],
 })
 export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
+  protected orderFacade = inject(OrderFacade);
+  protected routingService = inject(RoutingService);
+  protected fb = inject(UntypedFormBuilder);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   placedOrder: void | Observable<ComponentRef<any> | undefined>;
   params$ = new Observable<string[]>();
   checkoutSubmitForm: UntypedFormGroup = this.fb.group({
@@ -105,14 +111,6 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   get termsAndConditionInvalid(): boolean {
     return this.checkoutSubmitForm.invalid;
   }
-
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected routingService: RoutingService,
-    protected fb: UntypedFormBuilder,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   ngOnInit() {
     this.params$ = combineLatest([

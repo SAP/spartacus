@@ -12,6 +12,7 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { CustomerCoupon, CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -33,6 +34,9 @@ import { IconComponent } from '../../../../misc/icon/icon.component';
   ],
 })
 export class CouponDialogComponent implements OnDestroy, OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   private subscription = new Subscription();
   iconTypes = ICON_TYPE;
   coupon: CustomerCoupon;
@@ -50,11 +54,6 @@ export class CouponDialogComponent implements OnDestroy, OnInit {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

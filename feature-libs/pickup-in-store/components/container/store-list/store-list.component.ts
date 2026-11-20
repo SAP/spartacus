@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, Input, OnInit, inject, output } from '@angular/core';
 import { PointOfServiceStock, TranslatePipe } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
@@ -22,31 +22,24 @@ import { StoreComponent } from '../../presentational/store/store.component';
 @Component({
   selector: 'cx-store-list',
   templateUrl: 'store-list.component.html',
-  imports: [
-    NgIf,
-    NgFor,
-    StoreComponent,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [StoreComponent, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class StoreListComponent implements OnInit {
+  protected intendedPickupLocationService = inject(
+    IntendedPickupLocationFacade
+  );
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+
   /** The product code for the stock levels at each location */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() productCode: string;
   /** Event emitter triggered when a store is selected for pickup */
-  @Output() storeSelected: EventEmitter<null> = new EventEmitter<null>();
+  readonly storeSelected = output<null | undefined>();
 
   stores$: Observable<PointOfServiceStock[]>;
   hasSearchStarted$: Observable<boolean>;
   isSearchRunning$: Observable<boolean>;
-
-  constructor(
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade
-  ) {
-    // Intentional empty constructor
-  }
 
   ngOnInit() {
     this.stores$ = this.pickupLocationsSearchService.getSearchResults(
@@ -72,6 +65,6 @@ export class StoreListComponent implements OnInit {
       pickupOption: 'pickup',
     });
 
-    this.storeSelected.emit();
+    this.storeSelected.emit(undefined);
   }
 }

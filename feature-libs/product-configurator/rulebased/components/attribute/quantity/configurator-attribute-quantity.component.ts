@@ -7,11 +7,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  inject,
+  output,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
@@ -43,13 +43,15 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit
 {
+  protected config = inject(ConfiguratorUISettingsConfig);
+
   quantity = new UntypedFormControl(1);
   optionsChangeSub: Subscription = new Subscription();
   quantityChangeSub: Subscription = new Subscription();
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<number>();
-
-  constructor(protected config: ConfiguratorUISettingsConfig) {}
+  readonly changeQuantity = output<number>();
 
   ngOnInit(): void {
     this.quantity.setValue(this.quantityOptions?.initialQuantity);

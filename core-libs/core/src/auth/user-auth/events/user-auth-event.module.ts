@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideEnvironmentInitializer } from '@angular/core';
 import { UserAuthEventBuilder } from './user-auth-event.builder';
 
-@NgModule({})
-export class UserAuthEventModule {
-  constructor(_userAuthEventBuilder: UserAuthEventBuilder) {
-    // Intentional empty constructor
-  }
-}
+@NgModule({
+  providers: [
+    provideEnvironmentInitializer(() => {
+      inject(UserAuthEventBuilder);
+    }),
+  ],
+})
+export class UserAuthEventModule {}

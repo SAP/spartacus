@@ -41,6 +41,4 @@ export class LoadClientTokenSuccess extends StateUtils.LoaderSuccessAction {
 }
 
 export type ClientTokenAction =
-  | LoadClientToken
-  | LoadClientTokenFail
-  | LoadClientTokenSuccess;
+  LoadClientToken | LoadClientTokenFail | LoadClientTokenSuccess;

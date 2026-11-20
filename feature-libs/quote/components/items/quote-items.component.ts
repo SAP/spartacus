@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AbstractOrderType, CartOutlets } from '@spartacus/cart/base/root';
@@ -37,11 +37,9 @@ import {
   selector: 'cx-quote-items',
   templateUrl: './quote-items.component.html',
   imports: [
-    NgIf,
     IconComponent,
     AbstractOrderContextDirective,
     OutletDirective,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
   ],

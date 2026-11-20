@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -21,13 +20,16 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
   selector: 'cx-opf-cta-element',
   templateUrl: './opf-cta-element.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf],
+  imports: [],
 })
 export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);
   protected opfCtaScriptsService = inject(OpfCtaScriptsService);
   protected windowRef = inject(WindowRef);
 
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() ctaScriptHtml: OpfDynamicScript;
 
   ngAfterViewInit(): void {

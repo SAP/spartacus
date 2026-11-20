@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import {
   OrganizationItemStatus,
@@ -19,14 +19,10 @@ import { CurrentUnitService } from './current-unit.service';
   providedIn: 'root',
 })
 export class UnitItemService extends ItemService<B2BUnit> {
-  constructor(
-    protected currentItemService: CurrentUnitService,
-    protected routingService: RoutingService,
-    protected formService: UnitFormService,
-    protected unitService: OrgUnitService
-  ) {
-    super(currentItemService, routingService, formService);
-  }
+  protected override currentItemService = inject(CurrentUnitService);
+  protected override routingService = inject(RoutingService);
+  protected override formService = inject(UnitFormService);
+  protected unitService = inject(OrgUnitService);
 
   /**
    * @override

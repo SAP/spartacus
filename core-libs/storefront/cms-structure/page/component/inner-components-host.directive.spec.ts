@@ -61,15 +61,11 @@ class MockCmsService implements Partial<CmsService> {
   getComponentData(): any {}
 }
 
-class MockDynamicAttributeService
-  implements Partial<MockDynamicAttributeService>
-{
+class MockDynamicAttributeService implements Partial<MockDynamicAttributeService> {
   addAttributesToComponent(): void {}
 }
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable = () => of(MockCmsModuleConfig);
 }
 
@@ -84,20 +80,16 @@ const MockCmsComponentData: CmsComponentData<CmsComponent> = {
 
 describe('InnerComponentsHostDirective', () => {
   it('should create an instance', () => {
-    const directive = new InnerComponentsHostDirective(
-      {
-        data$: of({}),
-        uid: '',
-      },
-      {} as ViewContainerRef,
-      {} as CmsComponentsService,
-      {} as Injector,
-      {} as DynamicAttributeService,
-      {} as Renderer2,
-      {} as ComponentHandlerService,
-      {} as CmsInjectorService,
-      {} as EventService
-    );
+    TestBed.configureTestingModule({
+      providers: [
+        InnerComponentsHostDirective,
+        {
+          provide: CmsComponentData,
+          useValue: { data$: of({}), uid: '' },
+        },
+      ],
+    });
+    const directive = TestBed.inject(InnerComponentsHostDirective);
     expect(directive).toBeTruthy();
   });
 

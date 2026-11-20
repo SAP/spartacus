@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,9 +15,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -63,7 +62,6 @@ import { filter, map, startWith, take } from 'rxjs/operators';
   templateUrl: './add-to-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     ItemCounterComponent,
@@ -75,22 +73,46 @@ import { filter, map, startWith, take } from 'rxjs/operators';
   ],
 })
 export class AddToCartComponent implements OnInit, OnDestroy {
+  protected currentProductService = inject(CurrentProductService);
+  protected cd = inject(ChangeDetectorRef);
+  protected activeCartService = inject(ActiveCartFacade);
+  protected component =
+    inject<CmsComponentData<CmsAddToCartComponent>>(CmsComponentData);
+  protected eventService = inject(EventService);
+  protected productListItemContext? = inject(ProductListItemContext, {
+    optional: true,
+  });
+
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() productCode: string;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() showQuantity = true;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() options: CartItemComponentOptions;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() pickupStore: string | undefined;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() savedCart: Cart | undefined;
 
   /**
    * As long as we do not support #5026, we require product input, as we need
    *  a reference to the product model to fetch the stock data.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() product: Product;
 
   /**
    * Element responsible for opening the modal. The reference is used to refocus the modal after it closes.
    */
-  @ViewChild('addToCartDialogTriggerEl') addToCartDialogTriggerEl: ElementRef;
+  readonly addToCartDialogTriggerEl = viewChild<ElementRef>(
+    'addToCartDialogTriggerEl'
+  );
 
   maxQuantity: number;
 
@@ -139,14 +161,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected cd: ChangeDetectorRef,
-    protected activeCartService: ActiveCartFacade,
-    protected component: CmsComponentData<CmsAddToCartComponent>,
-    protected eventService: EventService,
-    @Optional() protected productListItemContext?: ProductListItemContext
-  ) {
+  constructor() {
     useFeatureStyles('a11yInStockInfoTextContrast');
   }
 
@@ -156,8 +171,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.product) {
       this.productCode = this.product.code ?? '';
       // Order history and saved cart pass product as an input; in those contexts
-      // OrderEntry.product has no price, so the purchasable check is skipped.
-      this.isPurchasable = true;
+      // OrderEntry.product has no price; retain an explicit purchasable=false.
+      this.isPurchasable = this.product.purchasable !== false;
       this.setStockInfo(this.product);
       this.unavailable = !this.productCatalogService.isProductInCatalog(
         this.product
@@ -211,7 +226,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   protected isProductPurchasable(product: Product): boolean {
-    return Boolean(product.price) && product.purchasable !== false;
+    // Cart and order entry actions receive partial products whose price is
+    // stored on the entry, rather than on product.price.
+    return (
+      (Boolean(product.price) || this.options?.displayAddToCart === true) &&
+      product.purchasable !== false
+    );
   }
 
   protected setStockInfo(product: Product): void {
@@ -327,7 +347,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     newEvent.quantity = quantity;
     newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
     newEvent.pickupStoreName = storeName;
-    newEvent.triggerElementRef = this.addToCartDialogTriggerEl;
+    newEvent.triggerElementRef = this.addToCartDialogTriggerEl();
     return newEvent;
   }
 

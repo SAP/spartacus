@@ -105,7 +105,7 @@ describe('Order detail reorder component', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.REORDER,
-      component.element,
+      component.element(),
       component['vcr'],
       dialogData
     );

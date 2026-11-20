@@ -31,9 +31,7 @@ import { PickupOptionsStubComponent } from '../../presentational/pickup-options/
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-dialog.component.spec';
 
-class MockPickupLocationsSearchFacade
-  implements Partial<PickupLocationsSearchFacade>
-{
+class MockPickupLocationsSearchFacade implements Partial<PickupLocationsSearchFacade> {
   startSearch = vi.fn();
   hasSearchStarted = vi.fn();
   isSearchRunning = vi.fn();

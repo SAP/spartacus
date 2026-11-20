@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { B2BUnit, TranslatePipe } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -35,9 +35,9 @@ import { UnitChildrenService } from './unit-children.service';
   ],
 })
 export class UnitChildrenComponent {
+  protected currentUnitService = inject(CurrentUnitService);
+
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService
     ? this.currentUnitService.item$
     : of({ active: true });
-
-  constructor(protected currentUnitService: CurrentUnitService) {}
 }

@@ -1,6 +1,6 @@
 /// <reference types="jest" />
 
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
+import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -30,6 +30,11 @@ import {
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
+
+type RunSchematicTaskOptions<T> = NonNullable<
+  ReturnType<RunSchematicTask<T>['toConfiguration']>['options']
+>;
+
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/opf.scss';
 

@@ -155,18 +155,7 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/cart.scss",
-              "src/styles/spartacus/estimated-delivery-date.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

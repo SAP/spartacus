@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
   AddOrderEntriesContext,
@@ -33,15 +33,13 @@ import {
 export class SavedCartOrderEntriesContext
   implements AddOrderEntriesContext, GetOrderEntriesContext
 {
-  readonly type = OrderEntriesSource.SAVED_CART;
+  protected importInfoService = inject(ProductImportInfoService);
+  protected userIdService = inject(UserIdService);
+  protected multiCartService = inject(MultiCartFacade);
+  protected savedCartService = inject(SavedCartFacade);
+  protected routingService = inject(RoutingService);
 
-  constructor(
-    protected importInfoService: ProductImportInfoService,
-    protected userIdService: UserIdService,
-    protected multiCartService: MultiCartFacade,
-    protected savedCartService: SavedCartFacade,
-    protected routingService: RoutingService
-  ) {}
+  readonly type = OrderEntriesSource.SAVED_CART;
 
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),

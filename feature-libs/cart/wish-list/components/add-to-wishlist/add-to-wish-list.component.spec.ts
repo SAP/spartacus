@@ -3,9 +3,9 @@ import {
   Component,
   DebugElement,
   Directive,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -96,7 +96,7 @@ class MockCurrentProductService {
   template: '',
 })
 class MockIconComponent {
-  @Input() type;
+  readonly type = input(undefined);
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -106,7 +106,7 @@ class MockUrlPipe implements PipeTransform {
 
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
+  readonly cxAtMessage = input<string | string[]>();
 }
 
 describe('AddToWishListComponent', () => {

@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
@@ -41,10 +42,8 @@ import { map, take, tap } from 'rxjs/operators';
   templateUrl: './replenishment-order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     BtnLikeLinkDirective,
     RouterLinkActive,
@@ -56,7 +55,15 @@ import { map, take, tap } from 'rxjs/operators';
   ],
 })
 export class ReplenishmentOrderHistoryComponent implements OnDestroy {
-  @ViewChild('element') element: ElementRef;
+  protected routing = inject(RoutingService);
+  protected replenishmentOrderHistoryFacade = inject(
+    ReplenishmentOrderHistoryFacade
+  );
+  protected translation = inject(TranslationService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
+  readonly element = viewChild<ElementRef>('element');
 
   private subscription = new Subscription();
 
@@ -76,14 +83,6 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
 
   isLoaded$: Observable<boolean> =
     this.replenishmentOrderHistoryFacade.getReplenishmentOrderHistoryListSuccess();
-
-  constructor(
-    protected routing: RoutingService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    protected translation: TranslationService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   changeSortCode(sortCode: string): void {
     const event: { sortCode: string; currentPage: number } = {
@@ -132,7 +131,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   openDialog(event: Event, replenishmentOrderCode: string): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
-      this.element,
+      this.element(),
       this.vcr,
       replenishmentOrderCode
     );

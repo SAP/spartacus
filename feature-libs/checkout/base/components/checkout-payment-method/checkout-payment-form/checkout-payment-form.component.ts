@@ -4,20 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild,
   forwardRef,
   inject,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -67,7 +67,6 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
   templateUrl: './checkout-payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     FeatureDirective,
     FocusDirective,
@@ -87,6 +86,17 @@ import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-addr
   ],
 })
 export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected userPaymentService = inject(UserPaymentService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected fb = inject(UntypedFormBuilder);
+  protected userAddressService = inject(UserAddressService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected translationService = inject(TranslationService);
+
   iconTypes = ICON_TYPE;
 
   /**
@@ -107,29 +117,32 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
 
   cardTypes$: Observable<CardType[]>;
 
-  @Input()
-  loading: boolean;
+  readonly loading = input<boolean>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   setAsDefaultField: boolean;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   paymentMethodsCount: number;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   paymentDetails?: PaymentDetails;
 
-  @Output()
-  goBack = new EventEmitter<any>();
+  readonly goBack = output<any>();
 
-  @Output()
-  closeForm = new EventEmitter<any>();
+  readonly closeForm = output<any>();
 
-  @Output()
-  setPaymentDetails = new EventEmitter<any>();
+  readonly setPaymentDetails = output<any>();
 
-  @ViewChild(forwardRef(() => FocusFirstInvalidFieldDirective))
-  protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
+  protected readonly firstInvalidFieldFocus = viewChild(
+    forwardRef(() => FocusFirstInvalidFieldDirective)
+  );
 
   cvvTooltipDismissed = false;
 
@@ -157,22 +170,9 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
       : null;
   }
 
-  constructor(
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected userPaymentService: UserPaymentService,
-    protected globalMessageService: GlobalMessageService,
-    protected fb: UntypedFormBuilder,
-    protected userAddressService: UserAddressService,
-    protected launchDialogService: LaunchDialogService,
-    protected translationService: TranslationService
-  ) {
+  constructor() {
     useFeatureStyles('a11yCvvInfoIconKeyboardAccessible');
   }
-  /**
-   * @deprecated  This property is obsolete since 2211.42
-   */
-  useExtractedBillingAddressComponent: boolean = true;
 
   /**
    * Handles Escape on the CVV info button. Adds a dismissed class to the
@@ -263,11 +263,11 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
-    this.closeForm.emit();
+    this.closeForm.emit(undefined);
   }
 
   back(): void {
-    this.goBack.emit();
+    this.goBack.emit(undefined);
   }
 
   next(): void {
@@ -306,7 +306,7 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
       }
 
       if (this.featureToggles.a11yImproveCheckoutFocus) {
-        this.firstInvalidFieldFocus?.focusFirstInvalidField();
+        this.firstInvalidFieldFocus()?.focusFirstInvalidField();
       }
     }
   }

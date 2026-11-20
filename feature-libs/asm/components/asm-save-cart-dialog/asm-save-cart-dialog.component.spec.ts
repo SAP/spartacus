@@ -1,11 +1,10 @@
 import {
   Component,
   DebugElement,
-  EventEmitter,
-  Input,
-  Output,
   Pipe,
   PipeTransform,
+  output,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -51,9 +50,9 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   template: '',
 })
 class MockCxMessageComponent {
-  @Input() text: string;
-  @Input() type: GlobalMessageType;
-  @Output() closeMessage = new EventEmitter();
+  readonly text = input<string>();
+  readonly type = input<GlobalMessageType>();
+  readonly closeMessage = output();
 }
 
 describe('AsmSaveCartDialogComponent', () => {

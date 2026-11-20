@@ -67,7 +67,7 @@ describe('ImportOrderEntriesComponent', () => {
     component.openDialog(contextService);
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.IMPORT_TO_CART,
-      component.element,
+      component.element(),
       { orderEntriesContext: contextService }
     );
   });

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Type, input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
@@ -39,9 +39,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isGuestCart = createSpy().and.returnValue(of(false));
 }
 
-class MockCheckoutDeliveryAddressFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressFacade implements Partial<CheckoutDeliveryAddressFacade> {
   createAndSetAddress = createSpy().and.returnValue(of({}));
   setDeliveryAddress = createSpy().and.returnValue(EMPTY);
   getDeliveryAddressState = createSpy().and.returnValue(
@@ -55,9 +53,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   getBackBntText = createSpy().and.returnValue('common.back');
 }
 
-class MockCheckoutFlowOrchestratorService
-  implements Partial<CheckoutFlowOrchestratorService>
-{
+class MockCheckoutFlowOrchestratorService implements Partial<CheckoutFlowOrchestratorService> {
   getCheckoutFlow = createSpy();
 }
 
@@ -65,9 +61,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-class MockCheckoutDeliveryModesFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModesFacade implements Partial<CheckoutDeliveryModesFacade> {
   clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
 }
 
@@ -114,10 +108,10 @@ const mockActivatedRoute = {
   imports: [I18nTestingModule, CheckoutModule],
 })
 class MockAddressFormComponent {
-  @Input() cancelBtnLabel: string;
-  @Input() showTitleCode: boolean;
-  @Input() setAsDefaultField: boolean;
-  @Input() addressData: Address;
+  readonly cancelBtnLabel = input<string>();
+  readonly showTitleCode = input<boolean>();
+  readonly setAsDefaultField = input<boolean>();
+  readonly addressData = input<Address>();
 }
 
 @Component({
@@ -133,22 +127,17 @@ class MockSpinnerComponent {}
   imports: [I18nTestingModule, CheckoutModule],
 })
 class MockCardComponent {
-  @Input()
-  border: boolean;
-  @Input()
-  content: Card;
-  @Input()
-  fitToContainer: boolean;
-  @Input()
-  index: number;
+  readonly border = input<boolean>();
+  readonly content = input<Card>();
+  readonly fitToContainer = input<boolean>();
+  readonly index = input<number>();
 }
 
 @Component({
   selector: 'cx-opf-b2b-checkout-cost-center',
   template: '',
 })
-class MockOpfB2bCheckoutCostCenterComponent
-  implements Partial<OpfB2bCheckoutCostCenterComponent> {}
+class MockOpfB2bCheckoutCostCenterComponent implements Partial<OpfB2bCheckoutCostCenterComponent> {}
 
 describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
   let component: OpfB2bCheckoutDeliveryAddressComponent;

@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, OnInit, inject, output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutBillingAddressFormComponent,
@@ -31,28 +30,23 @@ import { DpLocalStorageService } from './../../../facade/dp-local-storage.servic
   selector: 'cx-dp-payment-callback',
   templateUrl: './dp-payment-callback.component.html',
   imports: [
-    NgIf,
     CheckoutBillingAddressFormComponent,
     SpinnerComponent,
     TranslatePipe,
   ],
 })
 export class DpPaymentCallbackComponent implements OnInit {
-  @Output()
-  closeCallback = new EventEmitter<any>();
-  @Output()
-  paymentDetailsAdded = new EventEmitter<any>();
+  protected dpPaymentService = inject(DpCheckoutPaymentService);
+  protected dpStorageService = inject(DpLocalStorageService);
+  protected globalMsgService = inject(GlobalMessageService);
+  protected route = inject(ActivatedRoute);
+
+  readonly closeCallback = output<any>();
+  readonly paymentDetailsAdded = output<any>();
 
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
   protected launchDialogService = inject(LaunchDialogService);
   showBillingAddressForm = false;
-
-  constructor(
-    protected dpPaymentService: DpCheckoutPaymentService,
-    protected dpStorageService: DpLocalStorageService,
-    protected globalMsgService: GlobalMessageService,
-    protected route: ActivatedRoute
-  ) {}
 
   ngOnInit(): void {
     const dpResponse = this.route.snapshot.queryParamMap.get(
@@ -65,7 +59,7 @@ export class DpPaymentCallbackComponent implements OnInit {
         { key: 'dpPaymentForm.cancelledOrFailed' },
         GlobalMessageType.MSG_TYPE_WARNING
       );
-      this.closeCallback.emit();
+      this.closeCallback.emit(undefined);
     }
   }
 
@@ -82,7 +76,7 @@ export class DpPaymentCallbackComponent implements OnInit {
             { key: 'dpPaymentForm.cancelledOrFailed' },
             GlobalMessageType.MSG_TYPE_WARNING
           );
-          this.closeCallback.emit();
+          this.closeCallback.emit(undefined);
         }
       });
     }
@@ -118,7 +112,7 @@ export class DpPaymentCallbackComponent implements OnInit {
               { key: 'dpPaymentForm.error.paymentFetch' },
               GlobalMessageType.MSG_TYPE_ERROR
             );
-            this.closeCallback.emit();
+            this.closeCallback.emit(undefined);
           }
         });
     } else {
@@ -126,7 +120,7 @@ export class DpPaymentCallbackComponent implements OnInit {
         { key: 'dpPaymentForm.error.unknown' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      this.closeCallback.emit();
+      this.closeCallback.emit(undefined);
     }
   }
 }

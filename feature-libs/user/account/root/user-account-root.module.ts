@@ -47,13 +47,11 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
     },
   };
 
-  if (
-    !(
-      oauthCallbackPage &&
-      asyncAuthConfigInitializer &&
-      authorizationCodeFlowByDefault
-    )
-  ) {
+  if (!(
+    oauthCallbackPage &&
+    asyncAuthConfigInitializer &&
+    authorizationCodeFlowByDefault
+  )) {
     // remove OAuthCallbackComponent entry
     const cmsComponents = (
       config.featureModules as Record<string, FeatureModuleConfig>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +12,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
+  input,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -54,13 +56,11 @@ import { CreateButtonType, ListService } from './list.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SplitViewComponent,
-    NgIf,
     ViewComponent,
     PopoverDirective,
     IconComponent,
     NgSelectComponent,
     FormsModule,
-    NgFor,
     NgOptionComponent,
     RouterLinkActive,
     RouterLink,
@@ -75,6 +75,9 @@ import { CreateButtonType, ListService } from './list.service';
 export class ListComponent<T = any, P = PaginationModel>
   implements OnInit, OnDestroy
 {
+  protected service = inject<ListService<T, P>>(ListService);
+  protected organizationItemService = inject<ItemService<T>>(ItemService);
+
   private searchSubject$ = new Subject<{ pagination: P; query: string }>();
 
   private destroy$ = new Subject<void>();
@@ -106,10 +109,7 @@ export class ListComponent<T = any, P = PaginationModel>
 
   hasGhostData = false;
 
-  constructor(
-    protected service: ListService<T, P>,
-    protected organizationItemService: ItemService<T>
-  ) {
+  constructor() {
     useFeatureStyles('a11yNavigationChevronContrast');
   }
 
@@ -186,8 +186,10 @@ export class ListComponent<T = any, P = PaginationModel>
       })
     );
 
-  @Input() key = this.service.key();
+  readonly key = input(this.service.key());
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() hideAddButton = false;
 
   /**

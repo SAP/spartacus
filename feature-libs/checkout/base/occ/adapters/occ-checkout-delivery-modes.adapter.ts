@@ -24,16 +24,12 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
-export class OccCheckoutDeliveryModesAdapter
-  implements CheckoutDeliveryModesAdapter
-{
-  protected logger = inject(LoggerService);
+export class OccCheckoutDeliveryModesAdapter implements CheckoutDeliveryModesAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   public setMode(
     userId: string,

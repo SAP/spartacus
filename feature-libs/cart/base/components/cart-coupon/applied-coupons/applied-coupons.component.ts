@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+  input,
+} from '@angular/core';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -14,19 +19,18 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, IconComponent, TranslatePipe],
+  imports: [IconComponent, TranslatePipe],
 })
 export class AppliedCouponsComponent {
+  protected cartVoucherService = inject(CartVoucherFacade);
+
+  // The getter initializes this input with ??=; the official migration misses that write.
   @Input()
   vouchers: Voucher[];
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  isReadOnly = false;
+  readonly cartIsLoading = input(false);
+  readonly isReadOnly = input(false);
 
   iconTypes = ICON_TYPE;
-
-  constructor(protected cartVoucherService: CartVoucherFacade) {}
 
   public get sortedVouchers(): Voucher[] {
     this.vouchers ??= [];

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -17,17 +17,15 @@ import { ActivatedRoutesService } from '../services/activated-routes.service';
  */
 @Injectable({ providedIn: 'root' })
 export class RoutingParamsService {
+  protected router = inject(Router);
+  protected activatedRoutesService = inject(ActivatedRoutesService);
+
   protected readonly params$: Observable<{
     [key: string]: string;
   }> = this.activatedRoutesService.routes$.pipe(
     map((routes) => this.findAllParam(routes)),
     shareReplay({ refCount: true, bufferSize: 1 })
   );
-
-  constructor(
-    protected router: Router,
-    protected activatedRoutesService: ActivatedRoutesService
-  ) {}
 
   /**
    * Get the list of all parameters of the full route. This includes

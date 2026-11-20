@@ -1,4 +1,4 @@
-import { Component, DOCUMENT, Input } from '@angular/core';
+import { Component, DOCUMENT, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
@@ -29,8 +29,8 @@ const ALL_PRODUCTS_ID = '';
   ],
 })
 class MockCxMessagingComponent {
-  @Input() messageEvents$: Observable<Array<MessageEvent>>;
-  @Input() messagingConfigs?: MessagingConfigs;
+  readonly messageEvents$ = input<Observable<Array<MessageEvent>>>();
+  readonly messagingConfigs = input<MessagingConfigs>();
   resetForm(): void {}
 }
 
@@ -39,7 +39,7 @@ class MockCxMessagingComponent {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 describe('QuoteCommentsComponent', () => {
@@ -96,7 +96,7 @@ describe('QuoteCommentsComponent', () => {
   /** Renders the component and sets up ViewChild spies. Call at the start of each test that needs the DOM or ViewChild. */
   function renderComponent() {
     fixture.detectChanges();
-    vi.spyOn(component.commentsComponent, 'resetForm');
+    vi.spyOn(component.commentsComponent(), 'resetForm');
   }
 
   function initTestData() {
@@ -433,7 +433,7 @@ describe('QuoteCommentsComponent', () => {
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
       );
-      expect(component.commentsComponent.resetForm).toHaveBeenCalled();
+      expect(component.commentsComponent().resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
     it('should handle errors', () => {
@@ -445,7 +445,7 @@ describe('QuoteCommentsComponent', () => {
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
       );
-      expect(component.commentsComponent.resetForm).toHaveBeenCalled();
+      expect(component.commentsComponent().resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toEqual(
         'quote.comments.invalidComment'
       );

@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
+  inject,
+  input,
 } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -37,7 +38,6 @@ const DISABLED_STATUS = 'DISABLED';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   imports: [
-    NgIf,
     FormsModule,
     CardComponent,
     ItemActiveDirective,
@@ -48,14 +48,19 @@ const DISABLED_STATUS = 'DISABLED';
   ],
 })
 export class FormComponent<T> implements OnInit, OnDestroy {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject(MessageService, { optional: true });
+
   /**
    * i18n root for all localizations. The i18n root key is suffixed with
    * either `.edit` or `.create`, depending on the usage of the component.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() i18nRoot: string;
 
-  @Input() animateBack = true;
-  @Input() subtitle?: string;
+  readonly animateBack = input(true);
+  readonly subtitle = input<string>();
 
   /**
    * i18n key for the localizations.
@@ -81,11 +86,6 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     switchMap((form) => form?.statusChanges ?? EMPTY),
     map((status) => status === DISABLED_STATUS)
   );
-
-  constructor(
-    protected itemService: ItemService<T>,
-    @Optional() protected messageService: MessageService
-  ) {}
 
   save(form: UntypedFormGroup): void {
     this.itemService.key$
@@ -128,7 +128,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   }
 
   back(event: MouseEvent, card: CardComponent<any>) {
-    if (this.animateBack) {
+    if (this.animateBack()) {
       card.closeView(event);
     }
   }

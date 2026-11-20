@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface OccOpfPaymentEndpoints {
   /**
    * Sets the payment option for the checkout cart
    */
-  setCartPaymentOption?: string | OccEndpoint;
+  setCartPaymentOption?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {

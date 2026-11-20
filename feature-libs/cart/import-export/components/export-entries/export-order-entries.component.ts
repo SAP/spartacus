@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+} from '@angular/core';
 import {
   ORDER_ENTRIES_CONTEXT,
   OrderEntriesContext,
@@ -21,15 +26,13 @@ import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.se
   selector: 'cx-export-order-entries',
   templateUrl: './export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ExportOrderEntriesComponent {
-  @HostBinding('class') styles = 'container';
+  protected exportEntriesService = inject(ExportOrderEntriesToCsvService);
+  protected contextService = inject(ContextService);
 
-  constructor(
-    protected exportEntriesService: ExportOrderEntriesToCsvService,
-    protected contextService: ContextService
-  ) {}
+  @HostBinding('class') styles = 'container';
 
   protected orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);

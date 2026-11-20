@@ -4,25 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
-  Output,
   QueryList,
   Renderer2,
   TemplateRef,
   ViewChild,
   ViewChildren,
   inject,
+  output,
 } from '@angular/core';
 import { Facet, TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -45,26 +44,32 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './facet-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FocusDirective,
     IconComponent,
     TabComponent,
-    NgFor,
     FacetComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
+  protected facetService = inject(FacetService);
+  protected elementRef = inject(ElementRef);
+  protected renderer = inject(Renderer2);
+
   protected subscriptions = new Subscription();
   private _isDialog: boolean;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('backToResultsBtn')
   backToResultsBtn: ElementRef<HTMLButtonElement>;
 
   /**
    * Indicates that the facet navigation is rendered in dialog.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set isDialog(value: boolean) {
     this._isDialog = value;
@@ -78,7 +83,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /** Emits when the list must close */
-  @Output() closeList = new EventEmitter();
+  readonly closeList = output<boolean | undefined>();
 
   /** The list of all facet and values related to the products in the list */
   facetList$: Observable<FacetList> = this.facetService.facetList$;
@@ -101,6 +106,8 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
 
+  // TODO: Skipped for migration because:
+  //  There are references to this query that cannot be migrated automatically.
   @ViewChildren('facetsRef') facetsRef: QueryList<TemplateRef<any>>;
 
   @HostListener('click') handleClick() {
@@ -108,11 +115,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   @Optional() focusService = inject(KeyboardFocusService, { optional: true });
 
-  constructor(
-    protected facetService: FacetService,
-    protected elementRef: ElementRef,
-    protected renderer: Renderer2
-  ) {
+  constructor() {
     useFeatureStyles('a11yFacetFilterByLabel');
   }
 

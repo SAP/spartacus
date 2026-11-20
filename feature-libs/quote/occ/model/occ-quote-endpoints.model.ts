@@ -4,58 +4,58 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface QuoteOccEndpoints {
   /**
    * Get all quotes for user.
    */
-  getQuotes?: string | OccEndpoint;
+  getQuotes?: string | CoreOccEndpoint;
 
   /**
    * Request a quote.
    */
-  createQuote?: string | OccEndpoint;
+  createQuote?: string | CoreOccEndpoint;
 
   /**
    * Get Order Code associated with the Quote. The Order Code is present if the quote was used to place an order.
    */
-  getOrderCode?: string | OccEndpoint;
+  getOrderCode?: string | CoreOccEndpoint;
 
   /**
    * Get a specific quote.
    */
-  getQuote?: string | OccEndpoint;
+  getQuote?: string | CoreOccEndpoint;
 
   /**
    * Edit the quote.
    */
-  editQuote?: string | OccEndpoint;
+  editQuote?: string | CoreOccEndpoint;
 
   /**
    * Perform workflow actions with the quote.
    */
-  performQuoteAction?: string | OccEndpoint;
+  performQuoteAction?: string | CoreOccEndpoint;
 
   /**
    * Add a comment to a quote.
    */
-  addComment?: string | OccEndpoint;
+  addComment?: string | CoreOccEndpoint;
 
   /**
    * Apply a discount to an existing quote.
    */
-  addDiscount?: string | OccEndpoint;
+  addDiscount?: string | CoreOccEndpoint;
 
   /**
    * Add a comment to a line item of a quote.
    */
-  addQuoteEntryComment?: string | OccEndpoint;
+  addQuoteEntryComment?: string | CoreOccEndpoint;
 
   /**
    * Downloads the proposal document associated with a quote.
    */
-  downloadAttachment?: string | OccEndpoint;
+  downloadAttachment?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {

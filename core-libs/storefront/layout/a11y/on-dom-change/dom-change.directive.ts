@@ -7,11 +7,10 @@
 import {
   Directive,
   ElementRef,
-  EventEmitter,
   inject,
   Input,
   OnDestroy,
-  Output,
+  output,
 } from '@angular/core';
 
 /**
@@ -32,10 +31,11 @@ export class DomChangeDirective implements OnDestroy {
   /**
    * Optional Css Selector Input filtering DOM mutations to those targeting only elements described via provided selector
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cxDomChangeTargetSelector?: string;
 
-  @Output()
-  public cxDomChange = new EventEmitter<MutationRecord>();
+  public readonly cxDomChange = output<MutationRecord>();
 
   protected elementRef: ElementRef;
 

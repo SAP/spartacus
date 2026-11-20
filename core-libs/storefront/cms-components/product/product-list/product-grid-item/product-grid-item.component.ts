@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -41,7 +41,6 @@ import { ProductListService } from '../product-list.service';
     LcpContextDirective,
     MediaComponent,
     OutletDirective,
-    NgIf,
     StarRatingComponent,
     InnerComponentsHostDirective,
     AsyncPipe,
@@ -50,6 +49,8 @@ import { ProductListService } from '../product-list.service';
   ],
 })
 export class ProductGridItemComponent implements OnChanges {
+  protected productListItemContextSource = inject(ProductListItemContextSource);
+
   protected productListService = inject(ProductListService);
   hideAddToCartButton = false;
 
@@ -58,16 +59,18 @@ export class ProductGridItemComponent implements OnChanges {
   /**
    * The product item to be displayed in the grid.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() product: any;
 
   /**
    * The index of the item in the product grid.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() itemIndex?: number;
 
-  constructor(
-    protected productListItemContextSource: ProductListItemContextSource
-  ) {
+  constructor() {
     useFeatureStyles('a11yProductListItemNameMargin');
   }
 

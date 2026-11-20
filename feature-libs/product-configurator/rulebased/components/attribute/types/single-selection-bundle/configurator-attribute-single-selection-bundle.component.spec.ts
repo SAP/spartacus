@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -48,7 +48,8 @@ class MockConfiguratorStorefrontUtilsService {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockProductCardComponent {
-  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+  readonly productCardOptions =
+    input<ConfiguratorAttributeProductCardComponentOptions>();
 }
 
 @Component({
@@ -57,7 +58,7 @@ class MockProductCardComponent {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 @Component({
@@ -66,7 +67,8 @@ class MockConfiguratorPriceComponent {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  readonly quantityOptions =
+    input<ConfiguratorAttributeQuantityComponentOptions>();
 }
 
 function getSelected(
@@ -174,7 +176,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeSingleSelectionBundleComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

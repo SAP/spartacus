@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Type, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -41,9 +41,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
-class MockCheckoutDeliveryAddressFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressFacade implements Partial<CheckoutDeliveryAddressFacade> {
   createAndSetAddress = vi.fn().mockReturnValue(of({}));
   setDeliveryAddress = vi.fn().mockReturnValue(EMPTY);
   getDeliveryAddressState = vi
@@ -51,9 +49,7 @@ class MockCheckoutDeliveryAddressFacade
     .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
-class MockCheckoutFlowOrchestratorService
-  implements Partial<CheckoutFlowOrchestratorService>
-{
+class MockCheckoutFlowOrchestratorService implements Partial<CheckoutFlowOrchestratorService> {
   getCheckoutFlow = vi.fn();
 }
 
@@ -72,9 +68,7 @@ class MockUserCostCenterService implements Partial<UserCostCenterService> {
   getCostCenterAddresses = vi.fn().mockReturnValue(of(mockAddresses));
 }
 
-class MockCheckoutCostCenterService
-  implements Partial<CheckoutCostCenterFacade>
-{
+class MockCheckoutCostCenterService implements Partial<CheckoutCostCenterFacade> {
   getCostCenterState = vi.fn().mockReturnValue(
     of({
       loading: false,
@@ -88,9 +82,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = vi.fn();
 }
 
-class MockCheckoutDeliveryModesFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModesFacade implements Partial<CheckoutDeliveryModesFacade> {
   clearCheckoutDeliveryMode = vi.fn().mockReturnValue(EMPTY);
 }
 
@@ -133,9 +125,9 @@ const mockActivatedRoute = {
   template: '',
 })
 class MockAddressFormComponent {
-  @Input() cancelBtnLabel: string;
-  @Input() showTitleCode: boolean;
-  @Input() setAsDefaultField: boolean;
+  readonly cancelBtnLabel = input<string>();
+  readonly showTitleCode = input<boolean>();
+  readonly setAsDefaultField = input<boolean>();
 }
 
 @Component({
@@ -149,14 +141,10 @@ class MockSpinnerComponent {}
   template: '',
 })
 class MockCardComponent {
-  @Input()
-  border: boolean;
-  @Input()
-  content: Card;
-  @Input()
-  fitToContainer: boolean;
-  @Input()
-  index: number;
+  readonly border = input<boolean>();
+  readonly content = input<Card>();
+  readonly fitToContainer = input<boolean>();
+  readonly index = input<number>();
 }
 
 describe('B2BCheckoutDeliveryAddressComponent', () => {

@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -101,13 +101,10 @@ const mockPaymentTypes: PaymentType[] = [
   template: '',
 })
 class MockCardComponent {
-  @Input()
-  content: Card;
+  readonly content = input<Card>();
 }
 
-class MockCheckoutDeliveryAddressService
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressService implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return of({
       loading: false,
@@ -117,9 +114,7 @@ class MockCheckoutDeliveryAddressService
   }
 }
 
-class MockCheckoutDeliveryModesService
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModesService implements Partial<CheckoutDeliveryModesFacade> {
   loadSupportedDeliveryModes = vi.fn();
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
@@ -171,9 +166,7 @@ class MockCheckoutStepService {
   }
 }
 
-class MockCheckoutPaymentTypeFacade
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeFacade implements Partial<CheckoutPaymentTypeFacade> {
   getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
     return of({ loading: false, error: false, data: 'test-po' });
   }
@@ -191,9 +184,7 @@ class MockCheckoutPaymentTypeFacade
   }
 }
 
-class MockCheckoutCostCenterService
-  implements Partial<CheckoutCostCenterFacade>
-{
+class MockCheckoutCostCenterService implements Partial<CheckoutCostCenterFacade> {
   getCostCenterState(): Observable<QueryState<CostCenter | undefined>> {
     return of({
       loading: false,

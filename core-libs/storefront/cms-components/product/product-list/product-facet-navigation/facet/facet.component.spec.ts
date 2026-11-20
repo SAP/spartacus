@@ -3,8 +3,8 @@ import {
   Component,
   DebugElement,
   Directive,
-  Input,
   QueryList,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -27,11 +27,11 @@ import { FacetComponent } from './facet.component';
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 @Directive({ selector: '[cxFocus]' })
 class MockKeyboadFocusDirective {
-  @Input() cxFocus;
+  readonly cxFocus = input(undefined);
 }
 
 const MockFacetService = {
@@ -164,21 +164,6 @@ describe('FacetComponent', () => {
     });
   });
 
-  describe('toggleGroup', () => {
-    beforeEach(() => {
-      component.facet = MockFacet;
-      fixture.detectChanges();
-    });
-
-    it('should expand the facet', () => {
-      const spyFacetToggle = vi.spyOn(facetService, 'toggle');
-      vi.spyOn(component, 'isExpanded', 'get').mockReturnValue(true);
-      component.toggleGroup(new UIEvent('close'));
-      fixture.detectChanges();
-      expect(spyFacetToggle).toHaveBeenCalledWith(component.facet, true);
-    });
-  });
-
   describe('A11y', () => {
     const firstOptionElement = document.createElement('a');
     const secondOptionElement = document.createElement('a');
@@ -216,7 +201,6 @@ describe('FacetComponent', () => {
       component.facetHeader = {
         nativeElement: facetHeaderElement,
       };
-      vi.spyOn(component, 'toggleGroup');
       vi.spyOn(firstOptionElement, 'focus');
       vi.spyOn(secondOptionElement, 'focus');
     });

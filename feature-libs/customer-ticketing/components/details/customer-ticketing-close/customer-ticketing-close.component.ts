@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
@@ -23,29 +23,27 @@ import { CustomerTicketingCloseComponentService } from './customer-ticketing-clo
 @Component({
   selector: 'cx-customer-ticketing-close',
   templateUrl: './customer-ticketing-close.component.html',
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class CustomerTicketingCloseComponent implements OnDestroy {
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   protected subscription = new Subscription();
   protected customerTicketingCloseComponentService = inject(
     CustomerTicketingCloseComponentService
   );
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   enableCloseButton$: Observable<boolean | undefined> =
     this.customerTicketingCloseComponentService.enableCloseButton();
 
-  constructor(
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
-
   openDialog() {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CUSTOMER_TICKETING_CLOSE,
-      this.element,
+      this.element(),
       this.vcr
     );
 

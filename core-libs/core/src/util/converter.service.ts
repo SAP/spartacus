@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, InjectionToken, OnDestroy } from '@angular/core';
+import { Injectable, InjectionToken, OnDestroy, inject } from '@angular/core';
 import { Observable, OperatorFunction, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UnifiedInjector } from '../lazy-loading/unified-injector';
@@ -33,9 +33,11 @@ export interface Converter<SOURCE, TARGET> {
   providedIn: 'root',
 })
 export class ConverterService implements OnDestroy {
+  protected unifiedInjector = inject(UnifiedInjector);
+
   protected subscriptions = new Subscription();
 
-  constructor(protected unifiedInjector: UnifiedInjector) {
+  constructor() {
     // Clear cached converters when new injectors appear
     const cacheResetLogic = this.unifiedInjector.injectors$.pipe(
       tap(() => this.converters.clear())

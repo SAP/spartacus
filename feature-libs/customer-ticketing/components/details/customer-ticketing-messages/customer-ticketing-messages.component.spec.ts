@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   EventService,
@@ -43,9 +43,7 @@ describe('CustomerTicketMessagesComponent', () => {
   const createTicketResponse$ = new BehaviorSubject<TicketEvent>({});
   const getTicket$ = new BehaviorSubject<TicketDetails>({});
 
-  class MockCustomerTicketingFacade
-    implements Partial<CustomerTicketingFacade>
-  {
+  class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
     createTicketEvent = () => createTicketResponse$;
     getTicket = vi.fn().mockReturnValue(getTicket$.asObservable());
     downloadAttachment = vi.fn().mockReturnValue(EMPTY);
@@ -61,9 +59,9 @@ describe('CustomerTicketMessagesComponent', () => {
     template: '',
   })
   class MockCxMessagingComponent {
-    @Input() messageEvents$: Observable<Array<MessageEvent>>;
-    @Input() scrollToInput?: boolean = true;
-    @Input() messagingConfigs?: MessagingConfigs;
+    readonly messageEvents$ = input<Observable<Array<MessageEvent>>>();
+    readonly scrollToInput = input<boolean | undefined>(true);
+    readonly messagingConfigs = input<MessagingConfigs>();
   }
 
   beforeEach(async () => {

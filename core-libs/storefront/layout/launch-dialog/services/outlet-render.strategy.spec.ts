@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { OutletPosition, OutletService } from '../../../cms-structure/index';
@@ -10,9 +10,12 @@ import { OutletRenderStrategy } from './outlet-render.strategy';
 @Component({
   template: 'test',
 })
-class TestContainerComponent {
-  componentType = 'TestContainerComponent';
-}
+class TestContainerComponent {}
+
+@Component({
+  template: 'other',
+})
+class TestOtherComponent {}
 
 const mockLaunchConfig: LayoutConfig = {
   launch: {
@@ -32,12 +35,11 @@ class MockOutletDirective {
   renderedComponents = new Map<OutletPosition, any>().set(
     OutletPosition.AFTER,
     [
-      { componentType: 'TestContainerComponent' },
-      { componentType: 'TestOtherComponent' },
+      { componentType: TestContainerComponent },
+      { componentType: TestOtherComponent },
     ]
   );
 }
-const testTemplate = {} as any;
 
 class MockOutletService {
   add() {}
@@ -46,12 +48,6 @@ class MockOutletService {
 class MockOutletRendererService {
   render() {}
   getOutletRef() {}
-}
-
-class MockComponentFactoryResolver {
-  resolveComponentFactory() {
-    return testTemplate;
-  }
 }
 
 describe('OutletRenderStrategy', () => {
@@ -64,10 +60,6 @@ describe('OutletRenderStrategy', () => {
       providers: [
         OutletRenderStrategy,
         { provide: OutletService, useClass: MockOutletService },
-        {
-          provide: ComponentFactoryResolver,
-          useClass: MockComponentFactoryResolver,
-        },
         { provide: OutletRendererService, useClass: MockOutletRendererService },
       ],
     });
@@ -89,7 +81,11 @@ describe('OutletRenderStrategy', () => {
 
   describe('render', () => {
     describe('should render', () => {
-      it('should add template to outlet', () => {
+      beforeAll(() => {
+        vi.spyOn<any>(service, 'shouldRender').mockReturnValue(true);
+      });
+
+      it('should add component to outlet', () => {
         const config = mockLaunchConfig.launch[
           'TEST_OUTLET'
         ] as LaunchOutletDialog;
@@ -97,7 +93,7 @@ describe('OutletRenderStrategy', () => {
 
         expect(outletService.add).toHaveBeenCalledWith(
           config.outlet,
-          testTemplate,
+          config.component,
           config.position
         );
 
@@ -114,7 +110,7 @@ describe('OutletRenderStrategy', () => {
 
         expect(outletService.add).toHaveBeenCalledWith(
           config.outlet,
-          testTemplate,
+          config.component,
           OutletPosition.BEFORE
         );
 
@@ -124,6 +120,10 @@ describe('OutletRenderStrategy', () => {
       });
     });
     describe('should not render', () => {
+      beforeAll(() => {
+        vi.spyOn<any>(service, 'shouldRender').mockReturnValue(false);
+      });
+
       it('should not render', () => {
         expect(outletService.add).not.toHaveBeenCalled();
         expect(outletRendererService.render).not.toHaveBeenCalled();

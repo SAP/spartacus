@@ -1,4 +1,4 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { Component, DebugElement, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -34,12 +34,12 @@ const mockCssClassForMessage: Record<string, boolean> = {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
+  readonly cxAtMessage = input<string | string[]>();
 }
 
 describe('MessageComponent', () => {
@@ -148,7 +148,7 @@ describe('MessageComponent', () => {
   it('should focus on messageContainer after a message with an accordion renders', () => {
     fixture.detectChanges();
     const focusSpy = vi.spyOn(
-      component.messageContainer.nativeElement,
+      component.messageContainer().nativeElement,
       'focus'
     );
     component.accordionText = 'Test';
@@ -161,7 +161,7 @@ describe('MessageComponent', () => {
   it('should focus on messageContainer after a message with a button renders', () => {
     fixture.detectChanges();
     const focusSpy = vi.spyOn(
-      component.messageContainer.nativeElement,
+      component.messageContainer().nativeElement,
       'focus'
     );
     component.actionButtonText = 'Test';

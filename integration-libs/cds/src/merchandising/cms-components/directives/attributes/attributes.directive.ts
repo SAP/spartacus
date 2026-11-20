@@ -10,27 +10,32 @@ import {
   Input,
   OnChanges,
   Renderer2,
+  inject,
+  input,
 } from '@angular/core';
 
 @Directive({ selector: '[cxAttributes]' })
 export class AttributesDirective implements OnChanges {
-  @Input() cxAttributes: { [attribute: string]: any };
+  private renderer = inject(Renderer2);
+  private elementRef = inject(ElementRef);
+
+  readonly cxAttributes = input<{
+    [attribute: string]: any;
+  }>();
 
   private _attributesNamePrefix: string;
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxAttributesNamePrefix(attributesNamePrefix: string) {
     this._attributesNamePrefix = attributesNamePrefix;
   }
 
-  constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef
-  ) {}
-
   ngOnChanges(): void {
-    if (this.cxAttributes) {
-      for (const attributeName in this.cxAttributes) {
-        if (this.cxAttributes.hasOwnProperty(attributeName)) {
-          const attributeValue = this.cxAttributes[attributeName];
+    const cxAttributes = this.cxAttributes();
+    if (cxAttributes) {
+      for (const attributeName in cxAttributes) {
+        if (cxAttributes.hasOwnProperty(attributeName)) {
+          const attributeValue = cxAttributes[attributeName];
           if (attributeValue) {
             const _attributeName = this._attributesNamePrefix
               ? `${this._attributesNamePrefix}-${attributeName}`

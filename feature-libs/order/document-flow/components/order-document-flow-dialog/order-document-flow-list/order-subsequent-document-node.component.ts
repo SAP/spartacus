@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
@@ -20,15 +20,19 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
   selector: 'cx-order-subsequent-document-node',
   templateUrl: './order-subsequent-document-node.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, NgClass, NgIf, IconComponent, TranslatePipe, CxDatePipe],
+  imports: [NgClass, IconComponent, TranslatePipe, CxDatePipe],
 })
 export class OrderSubsequentDocumentNodeComponent {
   iconTypes = ICON_TYPE;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() documents: OrderSubsequentDocument[];
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() selectedDocument?: OrderSubsequentDocument;
-  @Input() depth: number = 0;
-  @Output() documentSelected = new EventEmitter<OrderSubsequentDocument>();
+  readonly depth = input<number>(0);
+  readonly documentSelected = output<OrderSubsequentDocument>();
 
   haveSubNodes(document: OrderSubsequentDocument): boolean {
     return (

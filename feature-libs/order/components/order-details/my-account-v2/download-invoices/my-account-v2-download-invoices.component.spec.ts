@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -79,7 +79,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({

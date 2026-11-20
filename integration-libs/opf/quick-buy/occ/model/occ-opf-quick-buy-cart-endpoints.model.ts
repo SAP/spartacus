@@ -4,29 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface OccOpfQuickBuyCartEndpoints {
   /**
    * Endpoint for creating a delivery address on a cart
    */
-  quickBuyCreateDeliveryAddress?: string | OccEndpoint;
+  quickBuyCreateDeliveryAddress?: string | CoreOccEndpoint;
   /**
    * Endpoint for setting a billing address on a cart
    */
-  quickBuySetBillingAddress?: string | OccEndpoint;
+  quickBuySetBillingAddress?: string | CoreOccEndpoint;
   /**
    * Endpoint for getting supported delivery modes for a cart
    */
-  quickBuyDeliveryModes?: string | OccEndpoint;
+  quickBuyDeliveryModes?: string | CoreOccEndpoint;
   /**
    * Endpoint for setting a delivery mode on a cart
    */
-  quickBuySetDeliveryMode?: string | OccEndpoint;
+  quickBuySetDeliveryMode?: string | CoreOccEndpoint;
   /**
    * Endpoint for getting the selected delivery mode on a cart
    */
-  quickBuySelectedDeliveryMode?: string | OccEndpoint;
+  quickBuySelectedDeliveryMode?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {

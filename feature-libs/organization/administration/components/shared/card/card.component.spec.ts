@@ -158,9 +158,10 @@ describe('CardComponent', () => {
       const ev = {
         stopPropagation: () => {},
       };
-      vi.spyOn(component.view, 'toggle');
+      const view = component.view();
+      vi.spyOn(view, 'toggle');
       component.closeView(ev as MouseEvent);
-      expect(component.view.toggle).toHaveBeenCalledWith(true);
+      expect(view.toggle).toHaveBeenCalledWith(true);
     });
   });
 

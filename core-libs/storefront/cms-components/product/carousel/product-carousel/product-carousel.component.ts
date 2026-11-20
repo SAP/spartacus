@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,7 +31,6 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
   templateUrl: './product-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CarouselScrollingComponent,
     ProductCarouselItemComponent,
     AsyncPipe,
@@ -39,6 +38,9 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
   ],
 })
 export class ProductCarouselComponent {
+  protected componentData = inject<CmsComponentData<model>>(CmsComponentData);
+  protected productService = inject(ProductService);
+
   protected productSearchByCodeService: ProductSearchByCodeService = inject(
     ProductSearchByCodeService
   );
@@ -83,12 +85,7 @@ export class ProductCarouselComponent {
     );
 
   trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
-    item?.code;
-
-  constructor(
-    protected componentData: CmsComponentData<model>,
-    protected productService: ProductService
-  ) {}
+    item?.code ?? item;
 
   handleCategoryCodes(data: model): Observable<model> {
     const categoryCodes = data?.categoryCodes?.split(' ');

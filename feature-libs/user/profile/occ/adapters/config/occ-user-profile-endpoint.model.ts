@@ -4,53 +4,53 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface UserProfileOccEndpoints {
   /**
    * Titles used for user's personal info.
    */
-  titles?: string | OccEndpoint;
+  titles?: string | CoreOccEndpoint;
 
   /**
    * Register a new user.
    */
-  userRegister?: string | OccEndpoint;
+  userRegister?: string | CoreOccEndpoint;
 
   /**
    * Request an email to reset the password
    */
-  userForgotPassword?: string | OccEndpoint;
+  userForgotPassword?: string | CoreOccEndpoint;
 
   /**
    * Request an email to reset the password
    */
-  userRestoreToken?: string | OccEndpoint;
+  userRestoreToken?: string | CoreOccEndpoint;
 
   /**
    * Reset the password once the email is received.
    */
-  userResetPassword?: string | OccEndpoint;
+  userResetPassword?: string | CoreOccEndpoint;
 
   /**
    * Update the user id with which the user authenticates.
    */
-  userUpdateLoginId?: string | OccEndpoint;
+  userUpdateLoginId?: string | CoreOccEndpoint;
 
   /**
    * Update the user's password
    */
-  userUpdatePassword?: string | OccEndpoint;
+  userUpdatePassword?: string | CoreOccEndpoint;
 
   /**
    * Update the user's profile
    */
-  userUpdateProfile?: string | OccEndpoint;
+  userUpdateProfile?: string | CoreOccEndpoint;
 
   /**
    * Close user account
    */
-  userCloseAccount?: string | OccEndpoint;
+  userCloseAccount?: string | CoreOccEndpoint;
 }
 declare module '@spartacus/core' {
   interface OccEndpoints extends UserProfileOccEndpoints {}

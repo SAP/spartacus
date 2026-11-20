@@ -12,6 +12,7 @@ import {
   HostListener,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   CmsScrollToTopComponent,
@@ -32,6 +33,11 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
   imports: [IconComponent, TranslatePipe],
 })
 export class ScrollToTopComponent implements OnInit {
+  protected winRef = inject(WindowRef);
+  protected componentData =
+    inject<CmsComponentData<CmsScrollToTopComponent>>(CmsComponentData);
+  protected selectFocusUtility = inject(SelectFocusUtility);
+
   iconTypes = ICON_TYPE;
 
   @HostBinding('class.display')
@@ -42,14 +48,10 @@ export class ScrollToTopComponent implements OnInit {
   protected displayThreshold: number = (this.window?.innerHeight ?? 400) / 2;
   protected triggedByKeypress: boolean = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('button')
   button: ElementRef;
-
-  constructor(
-    protected winRef: WindowRef,
-    protected componentData: CmsComponentData<CmsScrollToTopComponent>,
-    protected selectFocusUtility: SelectFocusUtility
-  ) {}
 
   ngOnInit(): void {
     this.setConfig();

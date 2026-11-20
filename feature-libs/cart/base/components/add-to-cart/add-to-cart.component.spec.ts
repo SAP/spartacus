@@ -1,8 +1,7 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ActiveCartFacade,
   Cart,
@@ -133,10 +132,10 @@ class MockProductAvailabilityAdapter {}
   ],
 })
 class MockItemCounterComponent {
-  @Input() min;
-  @Input() max;
-  @Input() step;
-  @Input() control;
+  readonly min = input(undefined);
+  readonly max = input(undefined);
+  readonly step = input(undefined);
+  readonly control = input(undefined);
 }
 
 class MockEventService implements Partial<EventService> {
@@ -160,7 +159,6 @@ describe('AddToCartComponent', () => {
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule,
         SpinnerModule,
         ReactiveFormsModule,
         OutletModule,
@@ -271,6 +269,39 @@ describe('AddToCartComponent', () => {
         addToCartComponent.productCode = '123';
         addToCartComponent.ngOnInit();
         expect(addToCartComponent.hasStock).toEqual(true);
+      });
+    });
+
+    describe('Cart and order entry actions', () => {
+      it('should render and activate the action for an entry product without a price', () => {
+        addToCartComponent.product = {
+          code: productCode,
+          stock: { stockLevelStatus: 'inStock', stockLevel: 5 },
+        };
+        addToCartComponent.options = { displayAddToCart: true };
+        vi.spyOn(addToCartComponent, 'addToCart').mockImplementation(() => {});
+
+        addToCartComponent.ngOnInit();
+        addToCartComponent.unavailable = false;
+        fixture.detectChanges();
+
+        expect(getButton()).not.toBeNull();
+        getButton().nativeElement.click();
+        expect(addToCartComponent.addToCart).toHaveBeenCalled();
+      });
+
+      it('should hide the entry action when the product is explicitly not purchasable', () => {
+        addToCartComponent.product = {
+          code: productCode,
+          stock: { stockLevelStatus: 'inStock', stockLevel: 5 },
+          purchasable: false,
+        };
+        addToCartComponent.options = { displayAddToCart: true };
+
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(getButton()).toBeNull();
       });
     });
 

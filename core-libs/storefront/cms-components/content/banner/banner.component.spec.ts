@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -79,9 +79,9 @@ class MockSemanticPathService {
   imports: [FeaturesConfigModule, LcpContextDirectiveModule],
 })
 class MockMediaComponent {
-  @Input() container: any;
-  @Input() elementType: 'img' | 'picture' = 'img';
-  @Input() fetchPriority: ImageFetchPriority | null | undefined;
+  readonly container = input<any>();
+  readonly elementType = input<'img' | 'picture'>('img');
+  readonly fetchPriority = input<ImageFetchPriority | null>();
 }
 
 describe('BannerComponent', () => {
@@ -150,7 +150,7 @@ describe('BannerComponent', () => {
           const mediaComponents = fixture.debugElement.queryAll(
             By.directive(MockMediaComponent)
           );
-          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+          expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
             ImageFetchPriority.HIGH
           );
         });
@@ -166,7 +166,7 @@ describe('BannerComponent', () => {
           const mediaComponents = fixture.debugElement.queryAll(
             By.directive(MockMediaComponent)
           );
-          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+          expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
             undefined
           );
         });

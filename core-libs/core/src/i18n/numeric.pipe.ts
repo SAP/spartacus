@@ -11,9 +11,11 @@ import { LanguageService } from '../site-context/facade/language.service';
 
 @Pipe({ name: 'cxNumeric' })
 export class CxNumericPipe extends DecimalPipe implements PipeTransform {
+  protected language = inject(LanguageService);
+
   protected logger = inject(LoggerService);
 
-  constructor(protected language: LanguageService) {
+  constructor() {
     super('');
   }
 

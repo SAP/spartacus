@@ -421,10 +421,11 @@ export function createStylePreprocessorOptions(
               ...architectBuild,
               options: buildOptions,
             },
-            test: {
-              ...architectTest,
-              options: testOptions,
-            },
+            test:
+              (architectTest?.builder as string | undefined) ===
+              '@angular/build:unit-test'
+                ? architectTest
+                : { ...architectTest, options: testOptions },
           },
         },
       },

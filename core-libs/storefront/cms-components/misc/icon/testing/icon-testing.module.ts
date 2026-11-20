@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, NgModule, input } from '@angular/core';
 import { IconLoaderService } from '../icon-loader.service';
 
 // PRIVATE TESTING UTIL
 @Component({
   selector: 'cx-icon,[cxIcon]',
-  template: `{{ type || cxIcon }}`,
+  template: `{{ type() || cxIcon() }}`,
 })
 export class MockIconComponent {
-  @Input() cxIcon: any;
-  @Input() type: any;
+  readonly cxIcon = input<any>();
+  readonly type = input<any>();
 }
 
 const mockComponents = [MockIconComponent];

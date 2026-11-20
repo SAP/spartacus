@@ -6,18 +6,17 @@
 
 import {
   ChangeDetectorRef,
-  ComponentFactoryResolver,
   ComponentRef,
   Directive,
   ElementRef,
-  EventEmitter,
   HostListener,
-  Input,
   OnInit,
-  Output,
   Renderer2,
   TemplateRef,
   ViewContainerRef,
+  inject,
+  output,
+  input,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Subject } from 'rxjs';
@@ -31,25 +30,32 @@ import { PopoverService } from './popover.service';
  */
 @Directive({ selector: '[cxPopover]' })
 export class PopoverDirective implements OnInit {
+  protected element = inject(ElementRef);
+  protected viewContainer = inject(ViewContainerRef);
+  protected renderer = inject(Renderer2);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+  protected popoverService = inject(PopoverService);
+  protected winRef = inject(WindowRef);
+
   /**
    * Template or string to be rendered inside popover wrapper component.
    */
-  @Input() cxPopover: string | TemplateRef<any>;
+  readonly cxPopover = input<string | TemplateRef<any>>();
 
   /**
    * Options set for popover component.
    */
-  @Input() cxPopoverOptions?: PopoverOptions;
+  readonly cxPopoverOptions = input<PopoverOptions>();
 
   /**
    * An event emitted when the popover is opened.
    */
-  @Output() openPopover: EventEmitter<void> = new EventEmitter();
+  readonly openPopover = output<void>();
 
   /**
    * An event emitted when the popover is closed.
    */
-  @Output() closePopover: EventEmitter<void> = new EventEmitter();
+  readonly closePopover = output<void>();
 
   /**
    * Flag used to inform about current state of popover component.
@@ -140,11 +146,12 @@ export class PopoverDirective implements OnInit {
    * Method performs open action for popover component.
    */
   open(event: PopoverEvent) {
-    if (!this.cxPopoverOptions?.disable) {
+    const cxPopoverOptions = this.cxPopoverOptions();
+    if (!cxPopoverOptions?.disable) {
       this.isOpen = true;
       this.focusConfig = this.popoverService.getFocusConfig(
         event,
-        this.cxPopoverOptions?.appendToBody || false
+        cxPopoverOptions?.appendToBody || false
       );
       this.renderPopover();
       this.openPopover.emit();
@@ -185,29 +192,30 @@ export class PopoverDirective implements OnInit {
    * Method creates instance and pass parameters to popover component.
    */
   renderPopover() {
-    const containerFactory =
-      this.componentFactoryResolver.resolveComponentFactory(PopoverComponent);
+    const content = this.cxPopover();
+    if (content === undefined) {
+      return;
+    }
     this.popoverContainer =
-      this.viewContainer.createComponent(containerFactory);
+      this.viewContainer.createComponent(PopoverComponent);
 
     const componentInstance = this.popoverContainer.instance;
     if (componentInstance) {
-      componentInstance.content = this.cxPopover;
+      componentInstance.content = content;
       componentInstance.triggerElement = this.element;
       componentInstance.popoverInstance = this.popoverContainer;
       componentInstance.focusConfig = this.focusConfig;
       componentInstance.eventSubject = this.eventSubject;
-      componentInstance.position = this.cxPopoverOptions?.placement;
-      componentInstance.customClass = this.cxPopoverOptions?.class;
-      componentInstance.appendToBody = this.cxPopoverOptions?.appendToBody;
-      componentInstance.positionOnScroll =
-        this.cxPopoverOptions?.positionOnScroll;
+      const cxPopoverOptions = this.cxPopoverOptions();
+      componentInstance.position = cxPopoverOptions?.placement;
+      componentInstance.customClass = cxPopoverOptions?.class;
+      componentInstance.appendToBody = cxPopoverOptions?.appendToBody;
+      componentInstance.positionOnScroll = cxPopoverOptions?.positionOnScroll;
       componentInstance.displayCloseButton =
-        this.cxPopoverOptions?.displayCloseButton;
-      componentInstance.autoPositioning =
-        this.cxPopoverOptions?.autoPositioning;
+        cxPopoverOptions?.displayCloseButton;
+      componentInstance.autoPositioning = cxPopoverOptions?.autoPositioning;
 
-      if (this.cxPopoverOptions?.appendToBody) {
+      if (cxPopoverOptions?.appendToBody) {
         const body = this.winRef.document.body;
         const element = body.firstElementChild ?? body;
         this.renderer.appendChild(
@@ -223,14 +231,4 @@ export class PopoverDirective implements OnInit {
   ngOnInit() {
     this.handlePopoverEvents();
   }
-
-  constructor(
-    protected element: ElementRef,
-    protected viewContainer: ViewContainerRef,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected renderer: Renderer2,
-    protected changeDetectorRef: ChangeDetectorRef,
-    protected popoverService: PopoverService,
-    protected winRef: WindowRef
-  ) {}
 }

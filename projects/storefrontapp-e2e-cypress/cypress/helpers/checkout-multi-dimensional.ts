@@ -140,7 +140,7 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 
     cy.intercept(
       'GET',
-      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/carts?fields*`
     ).as('carts');
@@ -160,7 +160,7 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 
     cy.intercept(
       'GET',
-      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/users/current/carts?fields*`
     ).as('carts');

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreAddressComponent } from '../store/store-address/store-address.component';
 import { StoreScheduleComponent } from '../store/store-schedule/store-schedule.component';
@@ -15,5 +15,5 @@ import { StoreScheduleComponent } from '../store/store-schedule/store-schedule.c
   imports: [StoreAddressComponent, StoreScheduleComponent, TranslatePipe],
 })
 export class PickupInfoComponent {
-  @Input() storeDetails: PointOfService;
+  readonly storeDetails = input<PointOfService>();
 }

@@ -157,17 +157,7 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            },
-            "styles": [
-              "src/styles/spartacus/qualtrics-embedded-feedback.scss"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

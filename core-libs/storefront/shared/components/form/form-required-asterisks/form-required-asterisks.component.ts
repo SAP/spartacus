@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 
@@ -16,11 +15,13 @@ import { I18nModule } from '@spartacus/core';
   templateUrl: './form-required-asterisks.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, I18nModule],
+  imports: [I18nModule],
 })
 export class FormRequiredAsterisksComponent {
   /**
    * Component Title translation (defaulted to common.required)
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() titleTranslation?: string = 'common.required';
 }

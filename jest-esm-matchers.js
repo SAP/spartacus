@@ -37,6 +37,20 @@ const esmMatchers = [
   'get-east-asian-width',
   'parse5',
   'entities',
+  // ESM-only deps pulled in by `@angular/ssr/node` (via cheerio/htmlparser2) on
+  // Angular 22. Needed so `@spartacus/setup/ssr` Jest tests can load it as CJS.
+  'cheerio',
+  'cheerio-select',
+  'css-select',
+  'css-what',
+  'domhandler',
+  'domutils',
+  'dom-serializer',
+  'domelementtype',
+  'htmlparser2',
+  'nth-check',
+  'boolbase',
+  'parse5-htmlparser2-tree-adapter',
 ];
 
 module.exports = { esmMatchers };

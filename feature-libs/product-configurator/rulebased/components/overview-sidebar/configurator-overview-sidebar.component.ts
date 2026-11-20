@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -20,7 +20,7 @@ import {
 } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction } from 'rxjs';
-import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
@@ -33,37 +33,29 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-sidebar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorOverviewFilterComponent,
     ConfiguratorOverviewMenuComponent,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
     FeatureDirective,
   ],
 })
 export class ConfiguratorOverviewSidebarComponent {
-  /**
-   * @deprecated since 221121.23 - Prefer the `#ghostSidebar` template
-   * (`.cx-ghost-menu.ghost`) for loading UI. Host `class.ghost` via
-   * `@HostBinding` was removed because CMS slots do not refresh host bindings
-   * when sidebar data resolves. This flag is still cleared when data arrives
-   * for compatibility; it no longer affects the host. Will be removed in the
-   * next major.
-   */
-  ghostStyle = true;
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
 
-  @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
-  @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
+  readonly menuTab = viewChild<ElementRef<HTMLElement>>('menuTab');
+  readonly filterTab = viewChild<ElementRef<HTMLElement>>('filterTab');
   showFilter: boolean = false;
 
   private featureToggles = inject(FeatureToggles);
 
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
+  constructor() {
     useFeatureStyles('productConfiguratorCPQContainer');
   }
 
@@ -78,21 +70,22 @@ export class ConfiguratorOverviewSidebarComponent {
     );
 
   configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
-    this.configRouterExtractorService.extractRouterData().pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner).pipe(
-          filter(
-            (configuration) => configuration.overview != null
-          ) as OperatorFunction<
-            Configurator.Configuration,
-            Configurator.ConfigurationWithOverview
-          >,
-          tap(() => {
-            this.ghostStyle = false;
-          })
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorCommonsService
+            .getConfiguration(routerData.owner)
+            .pipe(
+              filter(
+                (configuration) => configuration.overview != null
+              ) as OperatorFunction<
+                Configurator.Configuration,
+                Configurator.ConfigurationWithOverview
+              >
+            )
         )
-      )
-    );
+      );
 
   /**
    * Triggers display of the filter view in the overview sidebar
@@ -191,9 +184,9 @@ export class ConfiguratorOverviewSidebarComponent {
     if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
       event.preventDefault();
       if (currentTab === '#menuTab') {
-        this.filterTab.nativeElement?.focus();
+        this.filterTab()?.nativeElement?.focus();
       } else {
-        this.menuTab.nativeElement?.focus();
+        this.menuTab()?.nativeElement?.focus();
       }
     }
   }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,7 +36,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-bundle-attribute.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     MediaComponent,
     ConfiguratorPriceComponent,
     AsyncPipe,
@@ -45,33 +44,39 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   ],
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
+  protected productService = inject(ProductService);
+  protected translation = inject(TranslationService);
+
   product$: Observable<Product>;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() attributeOverview: Configurator.AttributeOverview;
 
   /**
    * Prefix that reflects parent groups in the overview hierarchy.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() overviewIdPrefix = '';
 
   /**
    * Id of the group that contains the bundle attribute.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() parentGroupId: string;
 
   /**
    * Indicates whether a configuration details section exists for this item.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() hasConfigurationDetails = false;
 
   protected configuratorStorefrontUtilsService = inject(
     ConfiguratorStorefrontUtilsService
   );
-
-  constructor(
-    protected productService: ProductService,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit() {
     const noCommerceProduct: Product = { images: {} };

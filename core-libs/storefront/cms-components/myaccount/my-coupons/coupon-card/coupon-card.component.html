@@ -4,13 +4,13 @@
       <div class="cx-coupon-card-row top">
         <div class="cx-coupon-card-head">
           <span class="card-label-bold cx-coupon-card-id">{{
-            coupon?.couponId
+            coupon()?.couponId
           }}</span>
-          <span>: {{ coupon?.name }}</span>
+          <span>: {{ coupon()?.name }}</span>
         </div>
 
-        <div class="cx-coupon-status {{ coupon?.status | lowercase }}">
-          {{ 'myCoupons.' + coupon?.status | cxTranslate }}
+        <div class="cx-coupon-status {{ coupon()?.status | lowercase }}">
+          {{ 'myCoupons.' + coupon()?.status | cxTranslate }}
         </div>
       </div>
 
@@ -18,10 +18,10 @@
         <p>{{ 'myCoupons.effectiveTitle' | cxTranslate }}</p>
         <div class="cx-coupon-date">
           <div class="cx-coupon-date-start">
-            {{ coupon?.startDate | cxDate: 'medium' }} -&nbsp;
+            {{ coupon()?.startDate | cxDate: 'medium' }} -&nbsp;
           </div>
           <div class="cx-coupon-date-end">
-            {{ coupon?.endDate | cxDate: 'medium' }}
+            {{ coupon()?.endDate | cxDate: 'medium' }}
           </div>
         </div>
       </div>
@@ -38,10 +38,10 @@
             <input
               type="checkbox"
               class="form-check-input"
-              [cxFocus]="{ key: 'coupon-notification-' + coupon?.couponId }"
-              [checked]="coupon?.notificationOn"
-              [class.disabled]="couponSubscriptionLoading$ | async"
-              [disabled]="couponSubscriptionLoading$ | async"
+              [cxFocus]="{ key: 'coupon-notification-' + coupon()?.couponId }"
+              [checked]="coupon()?.notificationOn"
+              [class.disabled]="couponSubscriptionLoading$() | async"
+              [disabled]="couponSubscriptionLoading$() | async"
               (change)="onSubscriptionChange()"
             />
             <span class="form-check-label">

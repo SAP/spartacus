@@ -11,7 +11,7 @@ import * as sampleData from '../../../sample-data/b2b-bulk-pricing';
 describe('Bulk pricing accessibility', () => {
   before(() => {
     clearAllStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
     cy.a11yContinuumSetup();
   });
 

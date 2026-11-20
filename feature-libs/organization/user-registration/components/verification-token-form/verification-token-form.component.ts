@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,8 +12,8 @@ import {
   ElementRef,
   HostBinding,
   OnInit,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -47,7 +47,6 @@ import { RegisterVerificationTokenFormComponentService } from './verification-to
   templateUrl: './verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -77,9 +76,9 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
 
   @HostBinding('class.user-form') style = true;
 
-  @ViewChild('noReceiveCodeLink') element: ElementRef;
+  readonly element = viewChild<ElementRef>('noReceiveCodeLink');
 
-  @ViewChild('resendLink') resendLink: ElementRef;
+  readonly resendLink = viewChild<ElementRef>('resendLink');
 
   tokenId: string;
 
@@ -158,8 +157,11 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
   resendOTP(): void {
     this.isResendDisabled = true;
     this.waitTime = 60;
-    this.resendLink.nativeElement.tabIndex = -1;
-    this.resendLink.nativeElement.blur();
+    const resendLink = this.resendLink();
+    if (resendLink) {
+      resendLink.nativeElement.tabIndex = -1;
+      resendLink.nativeElement.blur();
+    }
     this.startWaitTimeInterval();
     this.verificationTokenFacade
       .createVerificationToken({
@@ -183,7 +185,10 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
       if (this.waitTime <= 0) {
         clearInterval(interval);
         this.isResendDisabled = false;
-        this.resendLink.nativeElement.tabIndex = 0;
+        const resendLink = this.resendLink();
+        if (resendLink) {
+          resendLink.nativeElement.tabIndex = 0;
+        }
         this.cdr.detectChanges();
       }
     }, 1000);
@@ -205,7 +210,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
   openInfoDailog(): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ACCOUNT_VERIFICATION_TOKEN,
-      this.element
+      this.element()
     );
   }
 

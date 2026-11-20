@@ -84,9 +84,7 @@ class MockRoutingService implements Partial<RoutingService> {
   }
 }
 
-class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService>
-{
+class MockOpfQuickBuyTransactionService implements Partial<OpfQuickBuyTransactionService> {
   getCurrentCart = jasmine
     .createSpy('getCurrentCart')
     .and.returnValue(of(mockCart));

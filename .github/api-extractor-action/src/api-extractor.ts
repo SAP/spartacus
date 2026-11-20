@@ -10,7 +10,7 @@ import { ExecOptions } from '@actions/exec';
 import * as glob from '@actions/glob';
 import * as io from '@actions/io';
 import * as fs from 'fs';
-import { BASE_BRANCH_DIR, BUILD_DIR } from './const';
+import { BASE_BRANCH_DIR, BUILD_DIR } from './const.js';
 
 export enum Status {
   Unknown = 'unknown',

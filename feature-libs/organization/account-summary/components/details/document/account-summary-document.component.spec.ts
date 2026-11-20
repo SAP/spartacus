@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -46,19 +46,19 @@ const blob = new Blob();
   selector: 'cx-pagination',
 })
 class MockPaginationComponent {
-  @Input() pagination: any;
-  @Output() viewPageEvent = new EventEmitter<string>();
+  readonly pagination = input<any>();
+  readonly viewPageEvent = output<string>();
 }
 @Component({
   template: '',
   selector: 'cx-sorting',
 })
 class MockSortingComponent {
-  @Input() sortOptions: any;
-  @Input() sortLabels: any;
-  @Input() selectedOption: any;
-  @Input() placeholder: any;
-  @Output() sortListEvent = new EventEmitter<string>();
+  readonly sortOptions = input<any>();
+  readonly sortLabels = input<any>();
+  readonly selectedOption = input<any>();
+  readonly placeholder = input<any>();
+  readonly sortListEvent = output<string>();
 }
 
 @Component({
@@ -66,9 +66,9 @@ class MockSortingComponent {
   selector: 'cx-account-summary-document-filter',
 })
 class MockAccountSummaryDocumentFilterComponent {
-  @Input() documentTypeOptions: any;
-  @Input() initialFilters: any;
-  @Output() filterListEvent = new EventEmitter<DocumentQueryParams>();
+  readonly documentTypeOptions = input<any>();
+  readonly initialFilters = input<any>();
+  readonly filterListEvent = output<DocumentQueryParams>();
 }
 class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {

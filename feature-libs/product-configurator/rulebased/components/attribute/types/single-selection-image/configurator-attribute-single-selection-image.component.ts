@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -39,8 +39,6 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
-    NgIf,
-    NgFor,
     FormsModule,
     ReactiveFormsModule,
     FocusDirective,
@@ -56,6 +54,11 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected attributeComponentContext = inject(
+    ConfiguratorAttributeCompositionContext
+  );
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   attributeRadioButtonForm = new UntypedFormControl('');
 
   attribute: Configurator.Attribute;
@@ -65,11 +68,10 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
 
-  constructor(
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;

@@ -22,13 +22,7 @@ import {
   OpfMetadataStoreService,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, output, input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { PaginationComponent } from '@spartacus/storefront';
@@ -46,8 +40,8 @@ import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
   imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
 })
 class MockPaginationComponent {
-  @Input() pagination: PaginationModel;
-  @Output() viewPageEvent = new EventEmitter<string>();
+  readonly pagination = input<PaginationModel>();
+  readonly viewPageEvent = output<string>();
 }
 
 @Component({

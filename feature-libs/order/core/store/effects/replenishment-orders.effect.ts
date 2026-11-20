@@ -15,6 +15,11 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class ReplenishmentOrdersEffect {
+  private actions$ = inject(Actions);
+  private replenishmentOrderConnector = inject(
+    ReplenishmentOrderHistoryConnector
+  );
+
   protected logger = inject(LoggerService);
 
   loadUserReplenishmentOrders$: Observable<OrderActions.UserReplenishmentOrdersAction> =
@@ -49,9 +54,4 @@ export class ReplenishmentOrdersEffect {
         })
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector
-  ) {}
 }

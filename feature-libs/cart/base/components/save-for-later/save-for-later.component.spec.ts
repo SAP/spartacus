@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -25,14 +25,14 @@ import { SaveForLaterComponent } from './save-for-later.component';
   selector: 'cx-cart-item-list',
 })
 class MockCartItemListComponent {
-  @Input() readonly = false;
-  @Input() items: OrderEntry[];
-  @Input() cartIsLoading: Observable<boolean>;
-  @Input() promotionLocation: PromotionLocation;
-  @Input() options: CartItemComponentOptions = {
+  readonly readonly = input(false);
+  readonly items = input<OrderEntry[]>();
+  readonly cartIsLoading = input<Observable<boolean>>();
+  readonly promotionLocation = input<PromotionLocation>();
+  readonly options = input<CartItemComponentOptions>({
     isSaveForLater: false,
     optionalBtn: null,
-  };
+  });
 }
 
 describe('SaveForLaterComponent', () => {

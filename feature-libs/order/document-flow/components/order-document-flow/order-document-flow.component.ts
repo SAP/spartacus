@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
   inject,
-  ViewChild,
   ViewContainerRef,
+  viewChild,
 } from '@angular/core';
 import { QueryService, TranslatePipe, UserIdService } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
@@ -24,7 +24,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-order-document-flow',
   templateUrl: './order-document-flow.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class OrderDocumentFlowComponent {
   protected orderDetailsService = inject(OrderDetailsService);
@@ -34,13 +34,13 @@ export class OrderDocumentFlowComponent {
   protected queryService: QueryService = inject(QueryService);
   protected userIdService: UserIdService = inject(UserIdService);
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 
   onOrderDocumentFlowClick(orderCode: string): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ORDER_DOCUMENT_FLOW,
-      this.element,
+      this.element(),
       { orderCode }
     );
   }

@@ -12,6 +12,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { BaseFocusConfig } from '../keyboard-focus.model';
 import { BaseFocusService } from './base-focus.service';
@@ -28,6 +29,9 @@ import { BaseFocusService } from './base-focus.service';
  */
 @Directive()
 export abstract class BaseFocusDirective implements OnInit, OnChanges {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected service = inject(BaseFocusService);
+
   /**
    * Optional configuration for the focus directive drives the behaviour of the keyboard
    * focus directive.
@@ -40,12 +44,9 @@ export abstract class BaseFocusDirective implements OnInit, OnChanges {
    */
   protected defaultConfig: BaseFocusConfig = {};
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() @HostBinding('attr.tabindex') tabindex: number;
-
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
-  ) {}
 
   ngOnInit(): void {
     this.setDefaultConfiguration();

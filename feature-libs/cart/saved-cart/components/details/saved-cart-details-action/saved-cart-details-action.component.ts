@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFormType } from '@spartacus/cart/saved-cart/root';
@@ -23,26 +24,24 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 @Component({
   selector: 'cx-saved-cart-details-action',
   templateUrl: './saved-cart-details-action.component.html',
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class SavedCartDetailsActionComponent implements OnDestroy {
+  protected savedCartDetailsService = inject(SavedCartDetailsService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
   savedCart$: Observable<Cart | undefined> =
     this.savedCartDetailsService.getCartDetails();
-
-  constructor(
-    protected savedCartDetailsService: SavedCartDetailsService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   openDialog(cart: Cart, type: SavedCartFormType): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.SAVED_CART,
-      this.element,
+      this.element(),
       this.vcr,
       { cart, layoutOption: type }
     );

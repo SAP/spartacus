@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import { AbstractOrderType } from '@spartacus/cart/base/root';
@@ -21,8 +21,8 @@ import { QuoteItemsComponentService } from './quote-items.component.service';
 
 @Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
-  @Input() cxOutletContext: string;
+  readonly cxOutlet = input<string>();
+  readonly cxOutletContext = input<string>();
 }
 const quote: Quote = {
   ...createEmptyQuote(),

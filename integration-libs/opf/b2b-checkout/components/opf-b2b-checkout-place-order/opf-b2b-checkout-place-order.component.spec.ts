@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -30,7 +30,7 @@ import createSpy = jasmine.createSpy;
 
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
+  readonly cxAtMessage = input<string | string[]>();
 }
 
 class MockCheckoutPlaceOrderComponent {

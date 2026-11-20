@@ -64,15 +64,11 @@ class MockCartService implements Partial<ActiveCartFacade> {
   getActive = () => cart$.asObservable();
 }
 
-class MockCheckoutFlowOrchestratorService
-  implements Partial<CheckoutFlowOrchestratorService>
-{
+class MockCheckoutFlowOrchestratorService implements Partial<CheckoutFlowOrchestratorService> {
   getCheckoutFlow = vi.fn();
 }
 
-class MockCheckoutDeliveryModesFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModesFacade implements Partial<CheckoutDeliveryModesFacade> {
   getSupportedDeliveryModesState = vi
     .fn()
     .mockReturnValue(

@@ -83,7 +83,7 @@ export function navigateToOverviewPage() {
 export function registerCMSPagesRoute() {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/${cmsEndpoints.pages}*`,
   }).as(CMS_PAGES_ALIAS.substring(1)); // strip the '@'
@@ -95,7 +95,7 @@ export function registerCMSPagesRoute() {
 export function registerConfigurationRoute() {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(GET_CONFIG_ALIAS.substring(1)); // strip the '@'
@@ -107,7 +107,7 @@ export function registerConfigurationRoute() {
 export function registerCreateConfigurationRoute() {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/products/*/configurators/ccpconfigurator*`,
   }).as(CREATE_CONFIG_ALIAS.substring(1)); // strip the '@'
@@ -672,7 +672,7 @@ export function clickAddToCartBtn(): void {
 export function registerConfigurationUpdateRoute() {
   cy.intercept({
     method: 'PATCH',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(UPDATE_CONFIG_ALIAS.substring(1)); // strip the '@'
@@ -685,7 +685,7 @@ export function registerConfigurationUpdateRoute() {
 export function registerConfigurationPricingRoute() {
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/ccpconfigurator/*/pricing*`,
   }).as(CONFIG_PRICING_ALIAS.substring(1)); // strip the '@'
@@ -786,8 +786,8 @@ export function checkCommerceRelease(
 ) {
   cy.request(
     'GET',
-    Cypress.env('API_URL') +
-      Cypress.env('OCC_PREFIX') +
+    Cypress.expose('API_URL') +
+      Cypress.expose('OCC_PREFIX') +
       '/' +
       shop +
       '/products/' +

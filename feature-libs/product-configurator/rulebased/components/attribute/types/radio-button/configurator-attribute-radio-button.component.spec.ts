@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
@@ -51,7 +51,8 @@ class MockGroupService {}
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  readonly quantityOptions =
+    input<ConfiguratorAttributeQuantityComponentOptions>();
 }
 
 @Component({
@@ -60,7 +61,7 @@ class MockConfiguratorAttributeQuantityComponent {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 @Component({
@@ -69,12 +70,12 @@ class MockConfiguratorPriceComponent {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
+  readonly text = input<string>();
+  readonly textSize = input(60);
+  readonly productName = input<string>();
+  readonly attributeLabel = input<string>();
+  readonly valueLabel = input<string>();
+  readonly itemLabel = input<string>();
 }
 
 class MockConfiguratorCommonsService {
@@ -176,7 +177,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

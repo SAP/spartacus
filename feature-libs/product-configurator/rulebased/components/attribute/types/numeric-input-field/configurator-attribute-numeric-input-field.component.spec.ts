@@ -156,7 +156,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

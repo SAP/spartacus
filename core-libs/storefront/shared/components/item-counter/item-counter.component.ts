@@ -11,7 +11,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -44,17 +45,23 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Holds the value of the counter, the state of the `FormControl`
    * can be managed outside of the item counter.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() control: UntypedFormControl;
 
   /**
    * This can be used in case an item has a minmum order quantity.
    * @default 1
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() min = 1;
 
   /**
    * This can be used in case an item has a maximum order quantity.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() max: number;
 
   /**
@@ -62,19 +69,23 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * positive integer or float.
    * @default 1
    */
-  @Input() step = 1;
+  readonly step = input(1);
 
   /**
    * Indicates that the input can be manually set to zero,
    * despite the fact that the input controls will be limited to
    * the minimum. The zero value can be used to remove an item.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() allowZero = false;
 
   /**
    * ID of the element associated with the number input,
    * so it gets narrated by a screen reader
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() ariaDescribedById: string = '';
 
   /**
@@ -83,9 +94,12 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Please not that readonly is different from the `disabled` form state.
    * @default false
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @HostBinding('class.readonly') @Input() readonly = false;
 
-  @ViewChild('qty') private input: ElementRef<HTMLInputElement>;
+  private readonly input =
+    viewChild.required<ElementRef<HTMLInputElement>>('qty');
 
   /**
    * Subscription responsible for auto-correcting control's value when it's invalid.
@@ -112,19 +126,19 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    */
   updateValue(): void {
     // Convert string value to number(prevents us from having '1' + 1 = '11' on increment)
-    this.control.setValue(+this.input.nativeElement.value);
+    this.control.setValue(+this.input().nativeElement.value);
     this.control.markAsDirty();
   }
 
   increment() {
     // it's too early to use the `stepUp` and `stepDown` API...
     // let's wait for FF: https://caniuse.com/#search=stepUp
-    this.control.setValue(this.control.value + this.step);
+    this.control.setValue(this.control.value + this.step());
     this.control.markAsDirty();
   }
 
   decrement() {
-    this.control.setValue(this.control.value - this.step);
+    this.control.setValue(this.control.value - this.step());
     this.control.markAsDirty();
   }
 

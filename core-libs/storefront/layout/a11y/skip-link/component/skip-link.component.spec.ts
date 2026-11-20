@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -30,7 +30,7 @@ const mockSkipLinks: SkipLink[] = [
 
 @Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  protected readonly config = input(undefined, { alias: 'cxFocus' });
 }
 
 class MockSkipLinkService {

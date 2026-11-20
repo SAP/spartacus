@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
@@ -43,11 +43,16 @@ import {
   selector: 'cx-payment-type',
   templateUrl: './checkout-payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, SpinnerComponent, AsyncPipe, TranslatePipe],
+  imports: [SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class CheckoutPaymentTypeComponent {
-  @ViewChild('poNumber', { static: false })
-  private poNumberInputElement: ElementRef<HTMLInputElement>;
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected globalMessageService = inject(GlobalMessageService);
+
+  private readonly poNumberInputElement =
+    viewChild<ElementRef<HTMLInputElement>>('poNumber');
 
   protected busy$ = new BehaviorSubject<boolean>(false);
 
@@ -107,7 +112,7 @@ export class CheckoutPaymentTypeComponent {
           this.checkoutPaymentTypeFacade
             .setPaymentType(
               availablePaymentTypes[0].code as string,
-              this.poNumberInputElement?.nativeElement?.value
+              this.poNumberInputElement()?.nativeElement?.value
             )
             .subscribe({
               complete: () => this.onSuccess(),
@@ -143,19 +148,12 @@ export class CheckoutPaymentTypeComponent {
     .getActive()
     .pipe(map((cart) => !cart?.quotePurchaseOrderNumber));
 
-  constructor(
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute,
-    protected globalMessageService: GlobalMessageService
-  ) {}
-
   changeType(code: string): void {
     this.busy$.next(true);
     this.typeSelected = code;
 
     this.checkoutPaymentTypeFacade
-      .setPaymentType(code, this.poNumberInputElement.nativeElement.value)
+      .setPaymentType(code, this.poNumberInputElement()?.nativeElement.value)
       .subscribe({
         complete: () => this.onSuccess(),
         error: (error) => {
@@ -175,7 +173,7 @@ export class CheckoutPaymentTypeComponent {
       return;
     }
 
-    const poNumberInput = this.poNumberInputElement.nativeElement.value;
+    const poNumberInput = this.poNumberInputElement()?.nativeElement.value;
     // if the PO number didn't change
     if (poNumberInput === getLastValueSync(this.cartPoNumber$)) {
       this.checkoutStepService.next(this.activatedRoute);

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AuthService,
@@ -24,18 +24,12 @@ import { LogoutGuard } from '@spartacus/storefront';
   providedIn: 'root',
 })
 export class CdcLogoutGuard extends LogoutGuard {
-  constructor(
-    protected auth: AuthService,
-    /** @deprecated since 2611 - only used in the legacy code path when {@link FeatureToggles.useConfigurableLogoutRedirect} is disabled.
-     *  Will be removed in the major release of 2028. */
-    @Optional() protected cms: CmsService | null,
-    protected semanticPathService: SemanticPathService,
-    protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router,
-    protected winRef: WindowRef
-  ) {
-    super(auth, cms, semanticPathService, protectedRoutes, router);
-  }
+  protected override auth = inject(AuthService);
+  protected override cms = inject(CmsService, { optional: true });
+  protected override semanticPathService = inject(SemanticPathService);
+  protected override protectedRoutes = inject(ProtectedRoutesService);
+  protected override router = inject(Router);
+  protected winRef = inject(WindowRef);
 
   /**
    * Logout user from CDC

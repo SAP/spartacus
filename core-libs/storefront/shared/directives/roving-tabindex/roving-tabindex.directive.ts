@@ -9,11 +9,11 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
-  EventEmitter,
   HostListener,
   inject,
   Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 
 /**
@@ -63,17 +63,19 @@ export class CxRovingTabindexDirective implements AfterViewInit {
    * items in the template. Override to a plain tag or class selector (e.g. 'a')
    * when items cannot carry an Angular attribute directive.
    */
-  @Input('cxRovingTabindex') itemSelector = '[cxRovingTabindexItem]';
+  readonly itemSelector = input('[cxRovingTabindexItem]', {
+    alias: 'cxRovingTabindex',
+  });
 
   /** Navigation axis: 'vertical' uses ArrowDown/Up; 'horizontal' uses ArrowRight/Left. */
-  @Input() cxRovingTabindexAxis: 'vertical' | 'horizontal' = 'vertical';
+  readonly cxRovingTabindexAxis = input<'vertical' | 'horizontal'>('vertical');
 
   /**
    * Whether to emit itemActivated when the user presses Enter or Space.
    * Set to false for containers whose items are native links — the browser
    * activates those natively and the keypress should not be swallowed.
    */
-  @Input() cxRovingTabindexActivate = true;
+  readonly cxRovingTabindexActivate = input(true);
 
   /**
    * When true, arrow keys on the secondary axis (the one perpendicular to
@@ -86,7 +88,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
    * re-dispatched as a bubbling keydown on the descendant so its existing
    * (keydown) handler runs unchanged.
    */
-  @Input() cxRovingTabindexForwardSecondaryAxis = false;
+  readonly cxRovingTabindexForwardSecondaryAxis = input(false);
 
   /**
    * Optional hint for the initial focused index. Set this before a data refresh
@@ -101,6 +103,8 @@ export class CxRovingTabindexDirective implements AfterViewInit {
    * items are already rendered and only the focus hint changed, e.g. after a
    * page navigation where the DOM has not yet mutated.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxRovingTabindexInitialIndex(value: number) {
     if (value >= 0) {
       this.focusedIndex = value;
@@ -109,7 +113,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
   }
 
   /** Emits the zero-based index of the item activated by Enter or Space. */
-  @Output() itemActivated = new EventEmitter<number>();
+  readonly itemActivated = output<number>();
 
   /** Index of the item that currently holds tabindex=0. Public for host inspection. */
   focusedIndex = 0;
@@ -166,7 +170,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
    */
   @HostListener('keyup', ['$event'])
   onKeyup(event: KeyboardEvent): void {
-    if (event.key !== ' ' || !this.cxRovingTabindexActivate) {
+    if (event.key !== ' ' || !this.cxRovingTabindexActivate()) {
       return;
     }
     if (this.isNativeInteractiveTarget(event.target as HTMLElement)) {
@@ -282,7 +286,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
   ): number | null {
     if (
       event.key === 'Enter' ||
-      (event.key === 'ArrowRight' && this.cxRovingTabindexAxis === 'vertical')
+      (event.key === 'ArrowRight' && this.cxRovingTabindexAxis() === 'vertical')
     ) {
       return this.emitActivate(event, current);
     }
@@ -302,7 +306,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
    * without moving focus.
    */
   private emitActivate(event: KeyboardEvent, current: number): null {
-    if (this.cxRovingTabindexActivate) {
+    if (this.cxRovingTabindexActivate()) {
       event.preventDefault();
       this.itemActivated.emit(current);
     }
@@ -310,18 +314,18 @@ export class CxRovingTabindexDirective implements AfterViewInit {
   }
 
   private get forwardKey(): string {
-    return this.cxRovingTabindexAxis === 'vertical'
+    return this.cxRovingTabindexAxis() === 'vertical'
       ? 'ArrowDown'
       : 'ArrowRight';
   }
 
   private get backwardKey(): string {
-    return this.cxRovingTabindexAxis === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
+    return this.cxRovingTabindexAxis() === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
   }
 
   /** Arrow keys perpendicular to the primary navigation axis. */
   private get secondaryAxisKeys(): [string, string] {
-    return this.cxRovingTabindexAxis === 'vertical'
+    return this.cxRovingTabindexAxis() === 'vertical'
       ? ['ArrowLeft', 'ArrowRight']
       : ['ArrowUp', 'ArrowDown'];
   }
@@ -352,7 +356,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
     items: HTMLElement[]
   ): boolean {
     if (
-      !this.cxRovingTabindexForwardSecondaryAxis ||
+      !this.cxRovingTabindexForwardSecondaryAxis() ||
       !this.secondaryAxisKeys.includes(event.key)
     ) {
       return false;
@@ -377,7 +381,7 @@ export class CxRovingTabindexDirective implements AfterViewInit {
 
   getItems(): HTMLElement[] {
     return Array.from(
-      this.host.querySelectorAll(this.itemSelector) as NodeListOf<HTMLElement>
+      this.host.querySelectorAll(this.itemSelector()) as NodeListOf<HTMLElement>
     );
   }
 

@@ -4,11 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  formatNumber,
-  getLocaleNumberSymbol,
-  NumberSymbol,
-} from '@angular/common';
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -71,12 +66,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     if (decimalPlaces === undefined) {
       decimalPlaces = 0;
     }
-    const formatted = formatNumber(
-      intervalValue,
-      locale,
-      '1.' + decimalPlaces + '-' + decimalPlaces
-    );
-    return formatted;
+    return this.getNumberFormatter(locale, decimalPlaces).format(intervalValue);
   }
 
   /**
@@ -243,11 +233,9 @@ export class ConfiguratorAttributeNumericInputFieldService {
         input.substring(totalLength - decimalPlaces, totalLength);
     }
     const inputAsNumber: number = Number(input);
-    let formatted = formatNumber(
-      inputAsNumber,
-      locale,
-      '1.' + decimalPlaces + '-' + decimalPlaces
-    ).replace(/9/g, '#');
+    let formatted = this.getNumberFormatter(locale, decimalPlaces)
+      .format(inputAsNumber)
+      .replaceAll('9', '#');
     if (negativeAllowed) {
       formatted = '-' + formatted;
     }
@@ -288,6 +276,22 @@ export class ConfiguratorAttributeNumericInputFieldService {
     };
   }
 
+  /** Creates a locale formatter while retaining the Latin digits accepted by numeric inputs. */
+  protected getNumberFormatter(
+    locale: string,
+    decimalPlaces?: number
+  ): Intl.NumberFormat {
+    return new Intl.NumberFormat(locale.replaceAll('_', '-'), {
+      numberingSystem: 'latn',
+      ...(decimalPlaces === undefined
+        ? {}
+        : {
+            minimumFractionDigits: decimalPlaces,
+            maximumFractionDigits: decimalPlaces,
+          }),
+    });
+  }
+
   protected getValidationErrorsNumericFormat(
     input: string,
     locale: string,
@@ -297,11 +301,11 @@ export class ConfiguratorAttributeNumericInputFieldService {
   ): { [key: string]: any } | null {
     //allowed: only numbers and separators
 
-    const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
-    const decimalSeparator = getLocaleNumberSymbol(
-      locale,
-      NumberSymbol.Decimal
-    );
+    const parts = this.getNumberFormatter(locale).formatToParts(12345.6);
+    const groupingSeparator =
+      parts.find((part) => part.type === 'group')?.value ?? ',';
+    const decimalSeparator =
+      parts.find((part) => part.type === 'decimal')?.value ?? '.';
     const expressionPrefix = negativeAllowed ? '^-?' : '^';
     const expressionOnlyNumericalInput: RegExp = new RegExp(
       expressionPrefix +
@@ -407,11 +411,11 @@ export class ConfiguratorAttributeNumericInputFieldService {
   }
 
   protected parseInput(input: string, locale: string): number {
-    const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
-    const decimalSeparator = getLocaleNumberSymbol(
-      locale,
-      NumberSymbol.Decimal
-    );
+    const parts = this.getNumberFormatter(locale).formatToParts(12345.6);
+    const groupingSeparator =
+      parts.find((part) => part.type === 'group')?.value ?? ',';
+    const decimalSeparator =
+      parts.find((part) => part.type === 'decimal')?.value ?? '.';
     return this.parseInputForSeparators(
       input,
       groupingSeparator,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,12 +25,16 @@ import {
   selector: 'cx-cart-item-validation-warning',
   templateUrl: './cart-item-validation-warning.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class CartItemValidationWarningComponent {
+  protected cartValidationFacade = inject(CartValidationFacade);
+
   private featureToggles = inject(FeatureToggles);
   protected cartConfigService = inject(CartConfigService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   code: string;
 
@@ -58,8 +62,6 @@ export class CartItemValidationWarningComponent {
         )
       )
     );
-
-  constructor(protected cartValidationFacade: CartValidationFacade) {}
 
   /**
    * Whether the modification is a min/max order quantity violation. For these the

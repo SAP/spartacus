@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -79,7 +79,7 @@ class NewMockOrderAmendService extends MockOrderAmendService {
   imports: [FormErrorsModule],
 })
 class MockCancelOrReturnItemsComponent {
-  @Input() entries: OrderEntry[];
+  readonly entries = input<OrderEntry[]>();
 }
 
 @Component({
@@ -88,10 +88,10 @@ class MockCancelOrReturnItemsComponent {
   imports: [FormErrorsModule],
 })
 class MockAmendOrderActionComponent {
-  @Input() orderCode: string;
-  @Input() amendOrderForm: UntypedFormGroup;
-  @Input() backRoute: string;
-  @Input() forwardRoute: string;
+  readonly orderCode = input<string>();
+  readonly amendOrderForm = input<UntypedFormGroup>();
+  readonly backRoute = input<string>();
+  readonly forwardRoute = input<string>();
 }
 
 describe('ReturnOrderComponent', () => {

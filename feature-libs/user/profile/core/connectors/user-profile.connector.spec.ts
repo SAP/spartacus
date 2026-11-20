@@ -5,19 +5,24 @@ import { UserProfileAdapter } from './user-profile.adapter';
 import { UserProfileConnector } from './user-profile.connector';
 
 class MockUserAdapter implements UserProfileAdapter {
-  update = vi.fn('update').mockReturnValue(of({}));
-  register = vi.fn('register').mockImplementation((userId) => of(userId));
-  registerGuest = vi
-    .fn('registerGuest')
+  update = vi.fn().mockName('update').mockReturnValue(of({}));
+  register = vi
+    .fn()
+    .mockName('register')
     .mockImplementation((userId) => of(userId));
-  close = vi.fn('remove').mockReturnValue(of({}));
+  registerGuest = vi
+    .fn()
+    .mockName('registerGuest')
+    .mockImplementation((userId) => of(userId));
+  close = vi.fn().mockName('remove').mockReturnValue(of({}));
   requestForgotPasswordEmail = vi
-    .fn('requestForgotPasswordEmail')
+    .fn()
+    .mockName('requestForgotPasswordEmail')
     .mockReturnValue(of({}));
-  resetPassword = vi.fn('resetPassword').mockReturnValue(of({}));
-  updateEmail = vi.fn('updateEmail').mockReturnValue(of({}));
-  updatePassword = vi.fn('updatePassword').mockReturnValue(of({}));
-  loadTitles = vi.fn('loadTitles').mockReturnValue(of([]));
+  resetPassword = vi.fn().mockName('resetPassword').mockReturnValue(of({}));
+  updateEmail = vi.fn().mockName('updateEmail').mockReturnValue(of({}));
+  updatePassword = vi.fn().mockName('updatePassword').mockReturnValue(of({}));
+  loadTitles = vi.fn().mockName('loadTitles').mockReturnValue(of([]));
 }
 
 describe('UserConnector', () => {

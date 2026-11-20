@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, input, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AddOrderEntriesContext,
@@ -55,10 +55,9 @@ class MockContextService implements Partial<ContextService> {
   imports: [PageComponentModule],
 })
 export class MockImportOrderEntriesComponent {
-  @ViewChild('open') element: ElementRef;
+  readonly element = viewChild<ElementRef>('open');
 
-  @Input()
-  context: AddOrderEntriesContext | GetOrderEntriesContext;
+  readonly context = input<AddOrderEntriesContext | GetOrderEntriesContext>();
 }
 
 @Component({
@@ -67,8 +66,7 @@ export class MockImportOrderEntriesComponent {
   imports: [PageComponentModule],
 })
 export class MockExportOrderEntriesComponent {
-  @Input()
-  entries: OrderEntry[];
+  readonly entries = input<OrderEntry[]>();
 }
 
 describe('ImportExportComponent', () => {

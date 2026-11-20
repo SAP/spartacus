@@ -3,7 +3,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -115,5 +115,5 @@ describe('StoreListComponent', () => {
   template: '',
 })
 export class StoreListStubComponent {
-  @Input() productCode: string;
+  readonly productCode = input<string>();
 }

@@ -46,9 +46,7 @@ class LocalMockWinRef extends MockWinRef {
   override sessionStorage: any = undefined;
 }
 
-class MockFormComponentService
-  implements Partial<VerificationTokenFormComponentService>
-{
+class MockFormComponentService implements Partial<VerificationTokenFormComponentService> {
   form: UntypedFormGroup = new UntypedFormGroup({
     tokenId: new UntypedFormControl(),
     tokenCode: new UntypedFormControl(),
@@ -58,7 +56,10 @@ class MockFormComponentService
   createVerificationToken = vi
     .fn()
     .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
-  displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
+  displayMessage = vi
+    .fn()
+    .mockName('displayMessage')
+    .mockImplementation(() => {});
 }
 
 class MockRoutingService {

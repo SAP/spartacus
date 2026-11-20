@@ -8,7 +8,7 @@ import * as cache from '@actions/cache';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as io from '@actions/io';
-import { BASE_BRANCH_DIR, BUILD_DIR, REPORT_DIR } from './const';
+import { BASE_BRANCH_DIR, BUILD_DIR, REPORT_DIR } from './const.js';
 
 /**
  * Prepare repository with base branch clone for api-extractor

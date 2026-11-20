@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -38,9 +38,9 @@ const mockQueryParams: DocumentQueryParams = {
   ],
 })
 class MockDatePickerComponent {
-  @Input() control: any;
-  @Input() min: any;
-  @Input() max: any;
+  readonly control = input<any>();
+  readonly min = input<any>();
+  readonly max = input<any>();
 }
 
 describe('AccountSummaryDocumentFilterComponent', () => {

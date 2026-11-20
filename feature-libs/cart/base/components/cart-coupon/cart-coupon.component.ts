@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -32,16 +32,19 @@ import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.compo
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     AppliedCouponsComponent,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
+  protected cartVoucherService = inject(CartVoucherFacade);
+  protected formBuilder = inject(UntypedFormBuilder);
+  protected customerCouponService = inject(CustomerCouponService);
+  protected activeCartService = inject(ActiveCartFacade);
+
   MAX_CUSTOMER_COUPON_PAGE = 100;
   couponForm: UntypedFormGroup;
   cartIsLoading$: Observable<boolean>;
@@ -54,13 +57,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   couponBoxIsActive = false;
-
-  constructor(
-    protected cartVoucherService: CartVoucherFacade,
-    protected formBuilder: UntypedFormBuilder,
-    protected customerCouponService: CustomerCouponService,
-    protected activeCartService: ActiveCartFacade
-  ) {}
 
   ngOnInit() {
     if (this.customerCouponService) {

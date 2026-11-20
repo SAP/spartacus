@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
@@ -58,10 +58,10 @@ const product: Product = {
   template: '',
 })
 class MockCarouselComponent {
-  @Input() items: any;
-  @Input() template: any;
-  @Input() itemWidth: any;
-  @Input() hideIndicators: any;
+  readonly items = input<any>();
+  readonly template = input<any>();
+  readonly itemWidth = input<any>();
+  readonly hideIndicators = input<any>();
 }
 
 class MockTranslationService {

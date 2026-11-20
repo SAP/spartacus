@@ -341,7 +341,7 @@ export function checkoutB2B(): void {
 export function registerCartRouteForBaseSite(baseSite: string): void {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${baseSite}/users/*/carts/*?fields=DEFAULT*`
+    `${Cypress.expose('OCC_PREFIX')}/${baseSite}/users/*/carts/*?fields=DEFAULT*`
   ).as('getCart');
 }
 
@@ -358,7 +358,7 @@ export function registerRemoveCartEntryRouteForBaseSite(
 ): void {
   cy.intercept(
     'DELETE',
-    `${Cypress.env('OCC_PREFIX')}/${baseSite}/users/*/carts/*/entries/*`
+    `${Cypress.expose('OCC_PREFIX')}/${baseSite}/users/*/carts/*/entries/*`
   ).as(REMOVE_CART_ENTRY_ALIAS);
 }
 

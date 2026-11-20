@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,8 +12,8 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewContainerRef,
+  viewChild,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { ProductCatalogService, TranslatePipe } from '@spartacus/core';
@@ -26,18 +26,16 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-details-reorder',
   templateUrl: './order-detail-reorder.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   protected productCatalogService = inject(ProductCatalogService);
 
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
-
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
   protected subscription = new Subscription();
   order$: Observable<any>;
 
@@ -63,7 +61,7 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   launchDialog(orderCode: string) {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.REORDER,
-      this.element,
+      this.element(),
       this.vcr,
       { orderCode }
     );

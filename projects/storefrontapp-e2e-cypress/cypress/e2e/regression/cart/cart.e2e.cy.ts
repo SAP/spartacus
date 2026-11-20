@@ -175,7 +175,7 @@ describe('Cart', () => {
         });
         cy.clearLocalStorage();
         cy.intercept(
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/current/carts?fields*`
         ).as('carts');
@@ -201,9 +201,9 @@ describe('Cart', () => {
           // remove cart
           cy.request({
             method: 'DELETE',
-            url: `${Cypress.env('API_URL')}${Cypress.env(
+            url: `${Cypress.expose('API_URL')}${Cypress.expose(
               'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
+            )}/${Cypress.expose('BASE_SITE')}/users/current/carts/current`,
             headers: {
               Authorization: `bearer ${res.body.access_token}`,
             },
@@ -221,9 +221,9 @@ describe('Cart', () => {
           cy.request({
             // create cart
             method: 'POST',
-            url: `${Cypress.env('API_URL')}${Cypress.env(
+            url: `${Cypress.expose('API_URL')}${Cypress.expose(
               'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
+            )}/${Cypress.expose('BASE_SITE')}/users/current/carts`,
             headers: {
               Authorization: `bearer ${res.body.access_token}`,
             },
@@ -231,9 +231,9 @@ describe('Cart', () => {
             // add entry to cart
             return cy.request({
               method: 'POST',
-              url: `${Cypress.env('API_URL')}${Cypress.env(
+              url: `${Cypress.expose('API_URL')}${Cypress.expose(
                 'OCC_PREFIX'
-              )}/${Cypress.env('BASE_SITE')}/users/current/carts/${
+              )}/${Cypress.expose('BASE_SITE')}/users/current/carts/${
                 response.body.code
               }/entries`,
               headers: {
@@ -273,9 +273,9 @@ describe('Cart', () => {
           cy.log('Removing current Cart for the test case');
           cy.request({
             method: 'DELETE',
-            url: `${Cypress.env('API_URL')}${Cypress.env(
+            url: `${Cypress.expose('API_URL')}${Cypress.expose(
               'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
+            )}/${Cypress.expose('BASE_SITE')}/users/current/carts/current`,
             headers: {
               Authorization: `bearer ${res.body.access_token}`,
             },
@@ -287,7 +287,7 @@ describe('Cart', () => {
         cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
         cy.intercept({
           method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/current/carts`,
         }).as('cart');
@@ -299,7 +299,7 @@ describe('Cart', () => {
         // cleanup
         cy.intercept({
           method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
             'BASE_SITE'
           )}/users/current/carts/*`,
           query: {
@@ -349,7 +349,7 @@ describe('Cart', () => {
         cy.intercept(
           {
             method: 'POST',
-            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
               'BASE_SITE'
             )}/users/anonymous/carts/*/entries`,
           },
@@ -388,7 +388,7 @@ describe('Cart', () => {
         cart.checkAddedToCartDialog();
         cart.closeAddedToCartDialog();
 
-        cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/cart`);
+        cy.visit(`/${Cypress.expose('BASE_SITE')}/en/USD/cart`);
         cart.checkProductInCart(cart.products[0]);
         cy.get('cx-global-message .alert-danger').should('not.exist');
 

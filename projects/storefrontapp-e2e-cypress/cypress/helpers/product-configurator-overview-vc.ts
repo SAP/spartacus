@@ -146,7 +146,7 @@ export const READ_CONFIG_OV_ALIAS = '@readConfigOverview';
 export function registerConfigurationOverviewRoute() {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`
   ).as(READ_CONFIG_OV_ALIAS.substring(1)); // strip the '@'
@@ -158,7 +158,7 @@ export function registerConfigurationOverviewRoute() {
 export function registerConfigurationOverviewUpdateRoute() {
   cy.intercept({
     method: 'PATCH',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(UPDATE_CONFIG_OV_ALIAS.substring(1)); // strip the '@'

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -29,7 +29,7 @@ class MockLanguageService {
   template: '',
 })
 class MockConfigureCpqDiscountsComponent {
-  @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;
+  readonly cartEntry = input<Partial<OrderEntry & Array<CpqDiscounts>>>();
 }
 
 describe('CpqQuoteOfferComponent', () => {
@@ -85,6 +85,7 @@ describe('CpqQuoteOfferComponent', () => {
     });
     it('should be displayed if model provides data', () => {
       mockCartItemContext.item$.next({
+        basePrice: { value: 100 },
         cpqDiscounts: [
           {
             appliedValue: 1,

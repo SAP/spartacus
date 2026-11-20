@@ -22,9 +22,9 @@ import { firstValueFrom, of } from 'rxjs';
 import {
   ChangeDetectorRef,
   Component,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -74,17 +74,13 @@ const mockEntries: OrderEntry[] = [
   { entryNumber: 456 },
 ];
 
-class MockCheckoutDeliveryAddressService
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressService implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState = vi
     .fn()
     .mockReturnValue(of({ loading: false, error: false, data: mockAddress }));
 }
 
-class MockCheckoutDeliveryModesService
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModesService implements Partial<CheckoutDeliveryModesFacade> {
   getSupportedDeliveryModesState = vi
     .fn()
     .mockReturnValue(of({ loading: false, error: false, data: [] }));
@@ -130,14 +126,10 @@ class MockUrlPipe implements PipeTransform {
   imports: [I18nTestingModule, IconTestingModule, OutletModule],
 })
 class MockCardComponent {
-  @Input()
-  border: boolean;
-  @Input()
-  content: Card;
-  @Input()
-  fitToContainer: boolean;
-  @Input()
-  index: number;
+  readonly border = input<boolean>();
+  readonly content = input<Card>();
+  readonly fitToContainer = input<boolean>();
+  readonly index = input<number>();
 }
 
 describe('CheckoutReviewShippingComponent', () => {

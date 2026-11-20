@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  input,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
@@ -22,7 +27,6 @@ import { OpfCheckoutReviewCardEditConfig } from './opf-checkout-review-card.mode
   templateUrl: './opf-checkout-review-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CardComponent,
     RouterLink,
     IconComponent,
@@ -32,7 +36,10 @@ import { OpfCheckoutReviewCardEditConfig } from './opf-checkout-review-card.mode
   ],
 })
 export class OpfCheckoutReviewCardComponent {
-  @Input() cardContent$: Observable<Card | null | undefined>;
+  readonly cardContent$ = input<Observable<Card | null | undefined>>();
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() editConfig: OpfCheckoutReviewCardEditConfig;
 
   iconTypes = ICON_TYPE;

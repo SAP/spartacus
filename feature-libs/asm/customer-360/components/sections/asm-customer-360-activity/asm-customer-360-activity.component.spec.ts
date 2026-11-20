@@ -1,9 +1,9 @@
 import {
   DebugElement,
   Directive,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -32,7 +32,7 @@ import { AsmCustomer360ActivityComponent } from './asm-customer-360-activity.com
   selector: '[cxFocus]',
 })
 export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
+  readonly config = input<FocusConfig>({}, { alias: 'cxFocus' });
 }
 
 describe('AsmCustomer360ActivityComponent', () => {

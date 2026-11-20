@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,7 +13,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { FeatureToggles, UrlPipe } from '@spartacus/core';
 import {
@@ -21,26 +21,42 @@ import {
   TableDataOutletContext,
   TableFieldOptions,
 } from '@spartacus/storefront';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'cx-org-cell',
   templateUrl: './cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe],
+  imports: [RouterLink, NgTemplateOutlet, UrlPipe],
 })
 export class CellComponent implements OnInit {
+  protected outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
+  protected readonly initialContext = toSignal(
+    this.outlet.context$.pipe(take(1)),
+    { initialValue: { _type: '', _field: '' } }
+  );
+  protected updatedContext?: TableDataOutletContext;
+
+  protected get currentContext(): TableDataOutletContext {
+    return this.updatedContext ?? this.initialContext();
+  }
+
+  protected set currentContext(context: TableDataOutletContext) {
+    this.updatedContext = context;
+  }
+
   changeDetectorRef = inject(ChangeDetectorRef);
   private featureToggles = inject(FeatureToggles);
   private destroyRef = inject(DestroyRef);
-
-  constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   ngOnInit(): void {
     if (this.featureToggles.a11yCardNotificationMessage) {
       this.outlet.context$
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((context) => {
-          this.outlet.context = context;
+          this.currentContext = context;
           this.changeDetectorRef.markForCheck();
         });
     }
@@ -51,11 +67,11 @@ export class CellComponent implements OnInit {
   }
 
   get model(): TableDataOutletContext {
-    return this.outlet.context;
+    return this.currentContext;
   }
 
   get property(): string | undefined {
-    return this.model?.[this.outlet?.context?._field];
+    return this.model?.[this.currentContext?._field];
   }
 
   /**
@@ -75,7 +91,7 @@ export class CellComponent implements OnInit {
    */
   get cellOptions(): TableFieldOptions {
     return (
-      this.outlet.context?._options?.cells?.[this.outlet.context?._field] ?? {}
+      this.currentContext?._options?.cells?.[this.currentContext?._field] ?? {}
     );
   }
 
@@ -83,11 +99,11 @@ export class CellComponent implements OnInit {
    * Generates the configurable route to the detail page of the given context item.
    */
   get route(): string {
-    return this.outlet.context._type + 'Details';
+    return this.currentContext._type + 'Details';
   }
 
   get routeModel(): any {
-    return this.outlet.context;
+    return this.currentContext;
   }
 
   get type(): string {
@@ -102,10 +118,10 @@ export class CellComponent implements OnInit {
   }
 
   protected get item(): any {
-    if (!this.outlet.context) {
+    if (!this.currentContext) {
       return null;
     }
-    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
+    const { _field, _options, _type, _i18nRoot, ...all } = this.currentContext;
     return all;
   }
 }

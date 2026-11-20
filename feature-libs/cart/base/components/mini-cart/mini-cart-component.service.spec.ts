@@ -44,9 +44,7 @@ class MockStatePersistenceService implements Partial<StatePersistenceService> {
     return {} as T | undefined;
   }
 }
-class MockSiteContextParamsService
-  implements Partial<SiteContextParamsService>
-{
+class MockSiteContextParamsService implements Partial<SiteContextParamsService> {
   getValues(_params: string[]): Observable<Array<string>> {
     return of([]);
   }

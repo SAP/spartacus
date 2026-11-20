@@ -9,6 +9,8 @@ import {
 } from '@spartacus/organization/administration/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
+import { CurrentUserService } from '../../../../user/services/current-user.service';
+import { UserFormService } from '../../../../user/form/user-form.service';
 import { UnitUserItemService } from './unit-user-item.service';
 
 class MockRoutingService {
@@ -33,6 +35,18 @@ class MockB2bUserService {
 }
 
 class MockUnitFormService {}
+class MockCurrentUserService {
+  key$ = EMPTY;
+  item$ = EMPTY;
+  b2bUnit$ = EMPTY;
+  getError() {
+    return EMPTY;
+  }
+  getRouterParam() {
+    return EMPTY;
+  }
+}
+class MockUserFormService {}
 
 describe('ChildUnitItemService', () => {
   let service: UnitUserItemService;
@@ -45,6 +59,8 @@ describe('ChildUnitItemService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitFormService, useClass: MockUnitFormService },
         { provide: B2BUserService, useClass: MockB2bUserService },
+        { provide: CurrentUserService, useClass: MockCurrentUserService },
+        { provide: UserFormService, useClass: MockUserFormService },
       ],
     });
 

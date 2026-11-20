@@ -33,7 +33,7 @@ describe('Multisite Isolation', () => {
 
   describe('Standalone authorization', () => {
     beforeEach(() => {
-      Cypress.env('BASE_SITE', ELECTRONICS_STANDALONE_BASESITE);
+      Cypress.expose('BASE_SITE', ELECTRONICS_STANDALONE_BASESITE);
 
       cy.cxConfig({
         context: {
@@ -49,7 +49,7 @@ describe('Multisite Isolation', () => {
     });
 
     it.skip('should not authenticate already registered customer outside isolated baseSite', () => {
-      Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
+      Cypress.expose('BASE_SITE', ELECTRONICS_BASESITE);
 
       cy.cxConfig({
         context: {
@@ -75,7 +75,7 @@ describe('Multisite Isolation', () => {
     });
 
     it.skip('should not authenticate already registered customer outside isolated baseSite (B2B)', () => {
-      Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+      Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
 
       cy.cxConfig({
         context: {

@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -19,15 +24,17 @@ import { PageTemplateDirective } from './page-template.directive';
   templateUrl: './page-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     PageTemplateDirective,
     OutletDirective,
-    NgFor,
     PageSlotComponent,
     AsyncPipe,
   ],
 })
 export class PageLayoutComponent {
+  protected pageLayoutService = inject(PageLayoutService);
+
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set section(value: string) {
     this.section$.next(value);
   }
@@ -52,7 +59,7 @@ export class PageLayoutComponent {
       distinctUntilChanged()
     );
 
-  constructor(protected pageLayoutService: PageLayoutService) {
+  constructor() {
     useFeatureStyles('a11yB2BRegisterComponent');
   }
 }

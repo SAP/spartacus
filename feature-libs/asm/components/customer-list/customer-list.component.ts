@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -61,9 +61,7 @@ import { CustomerListAction } from './customer-list.model';
   imports: [
     FocusDirective,
     NgTemplateOutlet,
-    NgIf,
     SpinnerComponent,
-    NgFor,
     PaginationComponent,
     IconComponent,
     FormsModule,
@@ -76,6 +74,13 @@ import { CustomerListAction } from './customer-list.model';
   ],
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected breakpointService = inject(BreakpointService);
+  protected asmConfig = inject(AsmConfig);
+  protected translation = inject(TranslationService);
+  protected asmCustomerListFacade = inject(AsmCustomerListFacade);
+  protected occConfig? = inject(OccConfig);
+
   protected DEFAULT_PAGE_SIZE = 5;
 
   focusConfig: FocusConfig = {
@@ -131,19 +136,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   protected teardown: Subscription = new Subscription();
 
-  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
+  readonly addNewCustomerLink = viewChild<ElementRef>('addNewCustomerLink');
 
   isAsmCustomer360Configured: boolean | undefined = false;
   protected featureModules = inject(FeatureModulesService);
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected breakpointService: BreakpointService,
-    protected asmConfig: AsmConfig,
-    protected translation: TranslationService,
-    protected asmCustomerListFacade: AsmCustomerListFacade,
-    protected occConfig?: OccConfig
-  ) {
+  constructor() {
     this.breakpoint$ = this.getBreakpoint();
   }
 
@@ -423,7 +421,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      this.addNewCustomerLink
+      this.addNewCustomerLink()
     );
   }
 

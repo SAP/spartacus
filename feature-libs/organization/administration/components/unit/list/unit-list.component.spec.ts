@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -24,8 +24,8 @@ import { UnitTreeService } from '../services/unit-tree.service';
   imports: [I18nTestingModule, UrlTestingModule],
 })
 class MockListComponent {
-  @Input() key: any;
-  @Input() hideAddButton = false;
+  readonly key = input<any>();
+  readonly hideAddButton = input(false);
 }
 
 class MockUnitTreeService {

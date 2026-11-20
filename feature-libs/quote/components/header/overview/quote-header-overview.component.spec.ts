@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Type, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   EventService,
@@ -55,7 +55,7 @@ const mockQuote: Quote = {
   imports: [I18nTestingModule, CardModule],
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({
@@ -64,7 +64,7 @@ class MockCxIconComponent {
   imports: [I18nTestingModule, CardModule],
 })
 class MockQuoteHeaderBuyerEditComponent {
-  @Input() content: EditCard | null;
+  readonly content = input<EditCard | null>();
 }
 
 class MockTranslationService implements Partial<TranslationService> {

@@ -20,13 +20,11 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccReorderOrderAdapter implements ReorderOrderAdapter {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   reorder(orderId: string, userId: string): Observable<CartModificationList> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

@@ -79,16 +79,22 @@ export class HorizontalScrollingPositionDirective
    * It is used to scroll the carousel items horizontally and to detect when the user
    * scrolls to the start or end of the carousel.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() scrollingArea: HTMLElement | undefined;
 
   /**
    * Dummy element to detect when the user scrolls to the start of the carousel.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() scrollingAreaStart: HTMLElement | undefined;
 
   /**
    * Dummy element to detect when the user scrolls to the end of the carousel.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() scrollingAreaEnd: HTMLElement | undefined;
 
   protected readonly _isScrollStart$ = new BehaviorSubject(true);

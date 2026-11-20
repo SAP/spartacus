@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -43,23 +43,19 @@ import { OpfCheckoutBillingAddressFormService } from '@spartacus/opf/checkout/co
   standalone: true,
 })
 class MockOpfCheckoutPaymentsComponent {
-  @Input() onlyPaymentWrapperMode: boolean;
-  @Input() isHeadingDisplayed: boolean;
-  @Input() isPaymentRenderBelow: boolean;
-  @Input() isPaymentInfoMessageEnabled: boolean;
-  @Input() showBeforePaymentOptionsOutlet: boolean;
-  @Input() forceDefaultPaymentOptionInputSelection: boolean;
+  readonly onlyPaymentWrapperMode = input<boolean>();
+  readonly isHeadingDisplayed = input<boolean>();
+  readonly isPaymentRenderBelow = input<boolean>();
+  readonly isPaymentInfoMessageEnabled = input<boolean>();
+  readonly showBeforePaymentOptionsOutlet = input<boolean>();
+  readonly forceDefaultPaymentOptionInputSelection = input<boolean>();
 }
 
-class MockOpfCheckoutBillingAddressFormService
-  implements Partial<OpfCheckoutBillingAddressFormService>
-{
+class MockOpfCheckoutBillingAddressFormService implements Partial<OpfCheckoutBillingAddressFormService> {
   paymentOptionsDisabled$ = of(false);
 }
 
-class MockCheckoutPaymentTypeFacade
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeFacade implements Partial<CheckoutPaymentTypeFacade> {
   setPaymentType = () => of({});
   getPurchaseOrderNumberState = () =>
     of({

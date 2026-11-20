@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   inject,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { OrderOutlets } from '@spartacus/order/root';
@@ -33,14 +32,12 @@ import {
     FocusDirective,
     IconComponent,
     InvoicesListComponent,
-    NgIf,
     SpinnerComponent,
     TranslatePipe,
   ],
 })
 export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
-  @ViewChild(InvoicesListComponent, { static: false })
-  public invoiceComponent: InvoicesListComponent;
+  public readonly invoiceComponent = viewChild(InvoicesListComponent);
   readonly OrderOutlets = OrderOutlets;
   invoiceCount: number | undefined = undefined;
   iconTypes = ICON_TYPE;
@@ -56,11 +53,9 @@ export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
-    if (
-      this.invoiceComponent &&
-      this.invoiceComponent.pagination !== undefined
-    ) {
-      this.invoiceCount = this.invoiceComponent.pagination.totalResults;
+    const invoiceComponent = this.invoiceComponent();
+    if (invoiceComponent && invoiceComponent.pagination !== undefined) {
+      this.invoiceCount = invoiceComponent.pagination.totalResults;
     }
   }
 

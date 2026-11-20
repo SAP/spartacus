@@ -2,11 +2,7 @@ import { DefaultExpressServerLogger } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { SsrOptimizationOptions } from './ssr-optimization-options';
 
-class MockLogger extends DefaultExpressServerLogger {
-  constructor() {
-    super();
-  }
-}
+class MockLogger extends DefaultExpressServerLogger {}
 
 describe('getLoggableSsrOptimizationOptions', () => {
   const ssrOptions: SsrOptimizationOptions = {
@@ -15,7 +11,6 @@ describe('getLoggableSsrOptimizationOptions', () => {
     forcedSsrTimeout: 60000,
     maxRenderTime: 300000,
     reuseCurrentRendering: true,
-    debug: false,
   };
 
   it('should return options in the same shape as provided', () => {
@@ -23,7 +18,6 @@ describe('getLoggableSsrOptimizationOptions', () => {
       .toMatchInlineSnapshot(`
       {
         "concurrency": 10,
-        "debug": false,
         "forcedSsrTimeout": 60000,
         "maxRenderTime": 300000,
         "reuseCurrentRendering": true,
@@ -41,7 +35,6 @@ describe('getLoggableSsrOptimizationOptions', () => {
     ).toMatchInlineSnapshot(`
       {
         "concurrency": 10,
-        "debug": false,
         "forcedSsrTimeout": 60000,
         "logger": "MockLogger",
         "maxRenderTime": 300000,
@@ -60,7 +53,6 @@ describe('getLoggableSsrOptimizationOptions', () => {
     ).toMatchInlineSnapshot(`
       {
         "concurrency": 10,
-        "debug": false,
         "forcedSsrTimeout": 60000,
         "maxRenderTime": 300000,
         "reuseCurrentRendering": true,
@@ -81,7 +73,6 @@ describe('getLoggableSsrOptimizationOptions', () => {
     ).toMatchInlineSnapshot(`
       {
         "concurrency": 10,
-        "debug": false,
         "forcedSsrTimeout": 60000,
         "maxRenderTime": 300000,
         "renderKeyResolver": "(req) => req.url",

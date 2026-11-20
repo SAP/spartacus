@@ -9,11 +9,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
   ViewContainerRef,
+  inject,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 import { CustomerCoupon, CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -35,36 +35,37 @@ import { MyCouponsComponentService } from '../my-coupons.component.service';
   ],
 })
 export class CouponCardComponent {
-  @Input() coupon: CustomerCoupon;
-  @Input() couponSubscriptionLoading$: Observable<boolean>;
+  protected myCouponsComponentService = inject(MyCouponsComponentService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
 
-  @Output()
-  notificationChanged = new EventEmitter<{
+  readonly coupon = input<CustomerCoupon>();
+  readonly couponSubscriptionLoading$ = input<Observable<boolean>>();
+
+  readonly notificationChanged = output<{
     couponId: string;
     notification: boolean;
   }>();
 
-  @ViewChild('element') element: ElementRef;
-
-  constructor(
-    protected myCouponsComponentService: MyCouponsComponentService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
+  readonly element = viewChild<ElementRef>('element');
 
   onSubscriptionChange(): void {
+    const coupon = this.coupon();
+    if (!coupon) {
+      return;
+    }
     this.notificationChanged.emit({
-      couponId: this.coupon.couponId ?? '',
-      notification: !this.coupon.notificationOn,
+      couponId: coupon.couponId ?? '',
+      notification: !coupon.notificationOn,
     });
   }
 
   readMore() {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.COUPON,
-      this.element,
+      this.element(),
       this.vcr,
-      { coupon: this.coupon }
+      { coupon: this.coupon() }
     );
 
     if (dialog) {
@@ -73,6 +74,9 @@ export class CouponCardComponent {
   }
 
   findProducts(): void {
-    this.myCouponsComponentService.launchSearchPage(this.coupon);
+    const coupon = this.coupon();
+    if (coupon) {
+      this.myCouponsComponentService.launchSearchPage(coupon);
+    }
   }
 }

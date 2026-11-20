@@ -59,6 +59,53 @@ describe('ConfiguratorGroupMenuService', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
+  describe('readonly arrays from signal queries', () => {
+    it('wraps ArrowDown from the last group to the first', () => {
+      const elements = Object.freeze(groups.toArray());
+      elements[2].nativeElement.focus();
+
+      classUnderTest.switchGroupOnArrowPress(
+        new KeyboardEvent('keydown', { code: 'ArrowDown' }),
+        2,
+        elements
+      );
+
+      expect(document.activeElement).toBe(elements[0].nativeElement);
+    });
+
+    it('wraps ArrowUp from the first group to the last', () => {
+      const elements = Object.freeze(groups.toArray());
+      elements[0].nativeElement.focus();
+
+      classUnderTest.switchGroupOnArrowPress(
+        new KeyboardEvent('keydown', { code: 'ArrowUp' }),
+        0,
+        elements
+      );
+
+      expect(document.activeElement).toBe(elements[2].nativeElement);
+    });
+
+    it('finds the focused back button and active group in a readonly array', () => {
+      const backButton = createBackButton();
+      document
+        .querySelector('main cx-configurator-group-menu')
+        ?.prepend(backButton);
+      groups.toArray()[1].nativeElement.classList.add('active');
+      const elements = Object.freeze([
+        new ElementRef(backButton),
+        ...groups.toArray(),
+      ]);
+      backButton.focus();
+
+      expect(classUnderTest.isBackBtnFocused(elements)).toBe(true);
+      expect(classUnderTest.isActiveGroupInGroupList(elements)).toBe(true);
+      expect(classUnderTest.isActiveGroupInGroupList(Object.freeze([]))).toBe(
+        false
+      );
+    });
+  });
+
   describe('getFocusedGroupIndex', () => {
     it('returns index of focused element', () => {
       groups.toArray()[2].nativeElement?.focus();

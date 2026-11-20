@@ -12,8 +12,8 @@
     "importHelpers": true,
     "types": [],
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefront"]
+      "@spartacus/core": ["../../dist/core"],
+      "@spartacus/storefront": ["../../dist/storefront"]
     }
   },
   "angularCompilerOptions": {

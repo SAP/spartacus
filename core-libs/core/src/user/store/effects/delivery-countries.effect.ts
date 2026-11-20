@@ -16,6 +16,9 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class DeliveryCountriesEffects {
+  private actions$ = inject(Actions);
+  private siteConnector = inject(SiteConnector);
+
   protected logger = inject(LoggerService);
 
   loadDeliveryCountries$: Observable<UserActions.DeliveryCountriesAction> =
@@ -39,9 +42,4 @@ export class DeliveryCountriesEffects {
         })
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private siteConnector: SiteConnector
-  ) {}
 }

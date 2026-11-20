@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import {
   GlobalMessageService,
@@ -22,14 +24,13 @@ import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { BtnLikeLinkDirective } from '@spartacus/storefront';
-import { map, Observable, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'cx-s4-service-order-detail-actions',
   templateUrl: './s4-service-order-detail-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     BtnLikeLinkDirective,
     RouterLink,
     AsyncPipe,
@@ -46,40 +47,15 @@ export class S4ServiceOrderDetailActionsComponent
   );
   protected globalMessageService = inject(GlobalMessageService);
 
-  /**
-   * @deprecated since 221121.1 - Displaying the individual action buttons will depend on their boolean flags from API response.
-   */
-  displayActions$: Observable<boolean> = this.order$.pipe(
-    map((order) => this.checkServiceStatus(order))
-  );
+  private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.order$.pipe(tap((order) => this.displayServiceMessage(order)));
-  }
-
-  /**
-   * @deprecated since 221121.1 - Displaying the individual action buttons will depend on their boolean flags from API response.
-   * Displaying notification for a service not amendable will be carried out by 'displayServiceMessage' instead.
-   */
-  protected checkServiceStatus(order: Order): boolean {
-    if (order && order.status === 'CANCELLED') {
-      return false;
-    } else if (order && order.servicedAt) {
-      const hoursFromSchedule =
-        this.checkoutServiceSchedulePickerService.getHoursFromServiceSchedule(
-          order.servicedAt
-        );
-      if (hoursFromSchedule > 0 && hoursFromSchedule <= 24) {
-        this.globalMessageService.add(
-          { key: 'rescheduleService.serviceNotAmendable' },
-          GlobalMessageType.MSG_TYPE_INFO
-        );
-        return false;
-      } else if (hoursFromSchedule > 24) {
-        return true;
-      }
-    }
-    return true;
+    this.order$
+      .pipe(
+        tap((order) => this.displayServiceMessage(order)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   protected displayServiceMessage(order: Order): void {

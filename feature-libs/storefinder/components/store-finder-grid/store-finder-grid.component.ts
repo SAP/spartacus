@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GeoPoint, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
@@ -18,8 +23,6 @@ import { StoreFinderListItemComponent } from '../store-finder-list-item/store-fi
   templateUrl: './store-finder-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     StoreFinderListItemComponent,
     SpinnerComponent,
     AsyncPipe,
@@ -27,16 +30,14 @@ import { StoreFinderListItemComponent } from '../store-finder-list-item/store-fi
   ],
 })
 export class StoreFinderGridComponent implements OnInit {
+  private storeFinderService = inject(StoreFinderService);
+  private route = inject(ActivatedRoute);
+
   defaultLocation: GeoPoint;
   country: string;
   region: string;
   locations$: any;
   isLoading$: Observable<boolean>;
-
-  constructor(
-    private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.isLoading$ = this.storeFinderService.getStoresLoading();

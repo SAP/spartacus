@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  QueryList,
-  ViewChildren,
   inject,
+  viewChildren,
 } from '@angular/core';
 import { TranslatePipe, TranslationService } from '@spartacus/core';
 import {
@@ -42,18 +41,22 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
   selector: 'cx-configurator-group-menu',
   templateUrl: './configurator-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    FocusDirective,
-    IconComponent,
-    NgClass,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [FocusDirective, IconComponent, NgClass, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorGroupMenuComponent {
-  @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
+  protected configCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected hamburgerMenuService = inject(HamburgerMenuService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected configGroupMenuService = inject(ConfiguratorGroupMenuService);
+  protected directionService = inject(DirectionService);
+  protected translation = inject(TranslationService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+
+  readonly groups = viewChildren<ElementRef<HTMLElement>>('groupItem');
 
   protected breakpointService = inject(BreakpointService);
 
@@ -129,18 +132,6 @@ export class ConfiguratorGroupMenuComponent {
    * Cleared when the user opens a submenu or selects another group.
    */
   menuReturnOriginGroupId?: string;
-
-  constructor(
-    protected configCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected hamburgerMenuService: HamburgerMenuService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected configGroupMenuService: ConfiguratorGroupMenuService,
-    protected directionService: DirectionService,
-    protected translation: TranslationService,
-    protected configExpertModeService: ConfiguratorExpertModeService
-  ) {}
 
   protected changeDetectorRef = inject(ChangeDetectorRef);
 
@@ -498,7 +489,7 @@ export class ConfiguratorGroupMenuComponent {
     const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
     return Boolean(
       configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
-        !group.consistent
+      !group.consistent
     );
   }
 
@@ -585,14 +576,14 @@ export class ConfiguratorGroupMenuComponent {
       this.configGroupMenuService.switchGroupOnArrowPress(
         event,
         groupIndex,
-        this.groups
+        this.groups()
       );
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
         this.click(targetGroup, currentGroup);
       }
     } else if (this.isBackNavigation(event)) {
-      if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
+      if (this.configGroupMenuService.isBackBtnFocused(this.groups())) {
         this.navigateUp(currentGroup);
       }
     }
@@ -612,10 +603,9 @@ export class ConfiguratorGroupMenuComponent {
       .pipe(take(1))
       .subscribe((isMobile) => {
         if (isMobile && event.code === 'Tab' && !event.shiftKey) {
-          if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
-            if (
-              !this.configGroupMenuService.isActiveGroupInGroupList(this.groups)
-            ) {
+          const groups = this.groups();
+          if (this.configGroupMenuService.isBackBtnFocused(groups)) {
+            if (!this.configGroupMenuService.isActiveGroupInGroupList(groups)) {
               event.preventDefault();
               this.configUtils.focusFirstActiveElement('cx-hamburger-menu');
             }

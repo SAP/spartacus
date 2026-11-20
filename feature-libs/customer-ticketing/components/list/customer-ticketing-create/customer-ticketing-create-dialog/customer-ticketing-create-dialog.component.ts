@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit, input } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -56,7 +56,6 @@ import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticke
     FormRequiredLegendComponent,
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
-    NgIf,
     NgSelectComponent,
     NgSelectA11yDirective,
     NgOptionTemplateDirective,
@@ -90,11 +89,9 @@ export class CustomerTicketingCreateDialogComponent
     );
   subscription: Subscription;
 
-  @Input()
-  selectedCategory: Category;
+  readonly selectedCategory = input<Category>();
 
-  @Input()
-  selectedAssociatedObject: AssociatedObject;
+  readonly selectedAssociatedObject = input<AssociatedObject>();
 
   attachment: File;
 

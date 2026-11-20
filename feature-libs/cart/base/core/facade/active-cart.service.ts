@@ -48,6 +48,10 @@ import {
 
 @Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected winRef = inject(WindowRef);
+
   private featureToggles = inject(FeatureToggles);
   protected activeCartStatePersistenceService = inject(
     ActiveCartStatePersistenceService
@@ -76,11 +80,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // Instead of loading cart will run loadOrMerge method
   protected shouldLoadCartOnCodeFlow = true;
 
-  constructor(
-    protected multiCartFacade: MultiCartFacade,
-    protected userIdService: UserIdService,
-    protected winRef: WindowRef
-  ) {
+  constructor() {
     this.initActiveCart();
     this.detectUserChange();
     if (
@@ -508,8 +508,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         filter(([cartState, userId]) =>
           Boolean(
             userId === OCC_USER_ID_ANONYMOUS ||
-              cartState.success ||
-              cartState.error
+            cartState.success ||
+            cartState.error
           )
         ),
         take(1)
@@ -653,8 +653,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     const cartUser = cart.user;
     return Boolean(
       cartUser &&
-        (cartUser.name === OCC_USER_ID_GUEST ||
-          isEmail(cartUser.uid?.split('|').slice(1).join('|')))
+      (cartUser.name === OCC_USER_ID_GUEST ||
+        isEmail(cartUser.uid?.split('|').slice(1).join('|')))
     );
   }
 

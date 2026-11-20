@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Converter,
   ConverterService,
@@ -16,14 +16,11 @@ import { PERMISSION_TYPE_NORMALIZER } from '@spartacus/organization/administrati
 @Injectable({
   providedIn: 'root',
 })
-export class OccPermissionTypeListNormalizer
-  implements
-    Converter<
-      Occ.OrderApprovalPermissionTypeList,
-      OrderApprovalPermissionType[]
-    >
-{
-  constructor(private converter: ConverterService) {}
+export class OccPermissionTypeListNormalizer implements Converter<
+  Occ.OrderApprovalPermissionTypeList,
+  OrderApprovalPermissionType[]
+> {
+  private converter = inject(ConverterService);
 
   convert(
     source: Occ.OrderApprovalPermissionTypeList,

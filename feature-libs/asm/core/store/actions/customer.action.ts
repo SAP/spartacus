@@ -73,14 +73,18 @@ export class CustomerListCustomersSearchFail
   }
 }
 
-export class CustomerListCustomersSearchSuccess extends StateUtils.LoaderSuccessAction {
+export class CustomerListCustomersSearchSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = CUSTOMER_LIST_CUSTOMERS_SEARCH_SUCCESS;
   constructor(public payload: CustomerSearchPage) {
     super(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA);
   }
 }
 
-export class CustomerListCustomersSearchReset extends StateUtils.LoaderResetAction {
+export class CustomerListCustomersSearchReset
+  extends StateUtils.LoaderResetAction
+{
   readonly type = CUSTOMER_LIST_CUSTOMERS_SEARCH_RESET;
   constructor() {
     super(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA);

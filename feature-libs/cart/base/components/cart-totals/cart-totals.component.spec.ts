@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
@@ -26,7 +26,7 @@ class MockActiveCartService {
   template: '',
 })
 class MockOrderSummaryComponent {
-  @Input() cart: Cart;
+  readonly cart = input<Cart>();
 }
 
 describe('CartTotalsComponent', () => {

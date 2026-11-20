@@ -10,9 +10,10 @@ import { Converter } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable()
-export class ProductReferenceNormalizer
-  implements Converter<Occ.Product, Product>
-{
+export class ProductReferenceNormalizer implements Converter<
+  Occ.Product,
+  Product
+> {
   convert(source: Occ.Product, target?: Product): Product {
     if (target === undefined) {
       target = { ...(source as any) } as Product;

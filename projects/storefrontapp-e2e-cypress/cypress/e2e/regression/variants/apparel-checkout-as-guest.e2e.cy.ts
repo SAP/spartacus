@@ -19,7 +19,7 @@ context('Apparel - checkout as guest', () => {
       });
 
       beforeEach(() => {
-        Cypress.env('BASE_SITE', APPAREL_BASESITE);
+        Cypress.expose('BASE_SITE', APPAREL_BASESITE);
         configureProductWithVariants();
       });
 
@@ -34,7 +34,7 @@ context('Apparel - checkout as guest', () => {
       });
 
       beforeEach(() => {
-        Cypress.env('BASE_SITE', APPAREL_BASESITE);
+        Cypress.expose('BASE_SITE', APPAREL_BASESITE);
         configureProductWithVariants();
       });
 

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -36,10 +36,8 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
   imports: [
-    NgIf,
     SortingComponent,
     CustomerTicketingCreateComponent,
-    NgFor,
     RouterLink,
     NgClass,
     PaginationComponent,
@@ -51,12 +49,12 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
   ],
 })
 export class CustomerTicketingListComponent {
-  constructor(
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routingService: RoutingService,
-    protected translationService: TranslationService,
-    protected customerTicketingConfig: CustomerTicketingConfig
-  ) {
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected routingService = inject(RoutingService);
+  protected translationService = inject(TranslationService);
+  protected customerTicketingConfig = inject(CustomerTicketingConfig);
+
+  constructor() {
     useFeatureStyles('a11yHighContrastFix');
   }
   PAGE_SIZE =

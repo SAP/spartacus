@@ -1,10 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -86,11 +80,11 @@ class MockActivatedRoute {
   imports: [I18nTestingModule, UrlTestingModule, PaginationTestingModule],
 })
 class MockSortingComponent {
-  @Input() sortOptions;
-  @Input() sortLabels;
-  @Input() selectedOption;
-  @Input() placeholder;
-  @Output() sortListEvent = new EventEmitter<string>();
+  readonly sortOptions = input(undefined);
+  readonly sortLabels = input(undefined);
+  readonly selectedOption = input(undefined);
+  readonly placeholder = input(undefined);
+  readonly sortListEvent = output<string>();
 }
 
 class MockOrderApprovalService {

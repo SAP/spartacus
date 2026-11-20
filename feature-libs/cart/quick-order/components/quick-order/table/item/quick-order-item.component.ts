@@ -12,6 +12,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
+  input,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -35,12 +37,17 @@ import { Subscription } from 'rxjs';
   ],
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
+  protected cd = inject(ChangeDetectorRef);
+  protected quickOrderService = inject(QuickOrderFacade);
+
   quantityControl: UntypedFormControl;
 
   get entry(): OrderEntry {
     return this._entry;
   }
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set entry(value: OrderEntry) {
     this._entry = value;
     this.quantityControl = new UntypedFormControl(this.entry.quantity, {
@@ -48,19 +55,15 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
     });
   }
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   index: number;
 
-  @Input()
-  loading: boolean = false;
+  readonly loading = input<boolean>(false);
 
   protected _entry: OrderEntry;
   protected subscription = new Subscription();
-
-  constructor(
-    protected cd: ChangeDetectorRef,
-    protected quickOrderService: QuickOrderFacade
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

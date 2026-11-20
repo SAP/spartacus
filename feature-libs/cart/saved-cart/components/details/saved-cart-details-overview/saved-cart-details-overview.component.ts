@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslatePipe, TranslationService } from '@spartacus/core';
@@ -29,30 +30,21 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 @Component({
   selector: 'cx-saved-cart-details-overview',
   templateUrl: './saved-cart-details-overview.component.html',
-  imports: [
-    NgIf,
-    CardComponent,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-    CxDatePipe,
-  ],
+  imports: [CardComponent, IconComponent, AsyncPipe, TranslatePipe, CxDatePipe],
 })
 export class SavedCartDetailsOverviewComponent implements OnDestroy {
+  protected savedCartDetailsService = inject(SavedCartDetailsService);
+  protected translation = inject(TranslationService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   private subscription = new Subscription();
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   iconTypes = ICON_TYPE;
   savedCart$: Observable<Cart | undefined> =
     this.savedCartDetailsService.getCartDetails();
-
-  constructor(
-    protected savedCartDetailsService: SavedCartDetailsService,
-    protected translation: TranslationService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   getCartName(cartName: string): Observable<Card> {
     return this.translation.translate('savedCartDetails.cartName').pipe(
@@ -129,7 +121,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
   openDialog(cart: Cart): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.SAVED_CART,
-      this.element,
+      this.element(),
       this.vcr,
       { cart, layoutOption: 'edit' }
     );

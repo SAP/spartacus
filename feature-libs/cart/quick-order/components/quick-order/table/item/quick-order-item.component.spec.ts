@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -45,9 +45,9 @@ class MockUrlPipe implements PipeTransform {
   imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockItemCounterComponent {
-  @Input() max: number;
-  @Input() control: any;
-  @Input() readonly: boolean;
+  readonly max = input<number>();
+  readonly control = input<any>();
+  readonly readonly = input<boolean>();
 }
 
 @Component({
@@ -56,8 +56,8 @@ class MockItemCounterComponent {
   imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockMediaComponent {
-  @Input() container;
-  @Input() alt: string;
+  readonly container = input(undefined);
+  readonly alt = input<string>();
 }
 
 describe('QuickOrderItemComponent', () => {

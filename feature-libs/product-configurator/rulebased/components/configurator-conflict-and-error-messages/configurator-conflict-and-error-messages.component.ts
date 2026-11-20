@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FeatureToggles, TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -12,40 +12,30 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
+import { Configurator } from '../../core/model/configurator.model';
 import {
   ConfiguratorMessageService,
   ConfiguratorMessagesView,
 } from '../service/configurator-message.service';
-import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
-import { Configurator } from '../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-configuration-conflict-and-error-messages',
   templateUrl: './configurator-conflict-and-error-messages.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, NgFor, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+
   protected configuratorUtilsService = inject(ConfiguratorUtilsService);
   protected configuratorMessageService = inject(ConfiguratorMessageService);
   private featureToggles = inject(FeatureToggles);
 
   iconTypes = ICON_TYPE;
-
-  /**
-   * @deprecated since 221121.23 - Use `messages$` instead, which only exposes
-   * the messages of the configuration that is currently viewed. This
-   * observable remains for backward compatibility and will be removed in a
-   * future major version.
-   */
-  configuration$: Observable<Configurator.Configuration> =
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
-        )
-      );
 
   /**
    * Messages of the configuration the user currently views. While a nested
@@ -72,11 +62,6 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   toggleErrors(): void {
     this.showErrors = !this.showErrors;
   }
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {}
 
   /**
    * Determines the messages to display for the given configuration, taking the

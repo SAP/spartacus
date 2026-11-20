@@ -25,6 +25,10 @@ import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ResetPasswordComponentService {
+  protected userPasswordService = inject(UserPasswordFacade);
+  protected routingService = inject(RoutingService);
+  protected globalMessage = inject(GlobalMessageService);
+
   // TODO: Delete FeatureToggles injection
   // When: upon removing feature toogle: useEnhancedSecurePasswordValidators and not used anywhere else
   private featureToggles = inject(FeatureToggles);
@@ -35,12 +39,6 @@ export class ResetPasswordComponentService {
         CustomFormValidators.mustEndWithLegalCharacter,
       ]
     : CustomFormValidators.securePasswordValidators;
-
-  constructor(
-    protected userPasswordService: UserPasswordFacade,
-    protected routingService: RoutingService,
-    protected globalMessage: GlobalMessageService
-  ) {}
 
   protected busy$ = new BehaviorSubject(false);
 

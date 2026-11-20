@@ -28,10 +28,7 @@ import { createImports, isImportedFrom, removeImports } from './import-utils';
 import { getSourceRoot } from './workspace-utils';
 
 export type ModuleProperty =
-  | 'imports'
-  | 'exports'
-  | 'declarations'
-  | 'providers';
+  'imports' | 'exports' | 'declarations' | 'providers';
 export interface Import {
   moduleSpecifier: string;
   namedImports: string[];

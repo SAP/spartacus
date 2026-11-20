@@ -6,7 +6,7 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "@angular/build:ng-packagr",
       "options": {
         "tsConfig": "feature-libs/storefinder/tsconfig.lib.json",
         "project": "feature-libs/storefinder/ng-package.json"
@@ -27,7 +27,7 @@
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npm run test:schematics",
+        "command": "npm run test:schematics --",
         "cwd": "feature-libs/storefinder"
       }
     },

@@ -30,9 +30,7 @@ import { DpLocalStorageService } from './../../../facade/dp-local-storage.servic
 import { DpPaymentRequest } from './../../../models/dp-checkout.model';
 import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 
-class MockDpCheckoutPaymentService
-  implements Partial<DpCheckoutPaymentService>
-{
+class MockDpCheckoutPaymentService implements Partial<DpCheckoutPaymentService> {
   createPaymentDetails(): Observable<PaymentDetails> {
     return of({});
   }
@@ -44,9 +42,7 @@ class MockDpLocalStorageService implements Partial<DpLocalStorageService> {
   }
 }
 
-class MockCheckoutBillingAddressFormService
-  implements Partial<CheckoutBillingAddressFormService>
-{
+class MockCheckoutBillingAddressFormService implements Partial<CheckoutBillingAddressFormService> {
   markAllAsTouched(): void {}
   isBillingAddressSameAsDeliveryAddress(): boolean {
     return true;

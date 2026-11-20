@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -44,7 +44,7 @@ class MockMessageServiceWithAssistive {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: any;
+  readonly type = input<any>();
 }
 
 const ASSISTIVE_SELECTOR = '.cx-visually-hidden[aria-live="polite"]';

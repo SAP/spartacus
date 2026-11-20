@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, input } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -42,6 +42,10 @@ import { UserRegisterFacade } from '@spartacus/user/profile/root';
   ],
 })
 export class OrderGuestRegisterFormComponent {
+  protected userRegisterFacade = inject(UserRegisterFacade);
+  protected routingService = inject(RoutingService);
+  protected fb = inject(UntypedFormBuilder);
+
   private featureToggles = inject(FeatureToggles);
   protected authRedirectService = inject(AuthRedirectService);
   protected passwordValidators = this.featureToggles
@@ -52,8 +56,10 @@ export class OrderGuestRegisterFormComponent {
       ]
     : CustomFormValidators.securePasswordValidators;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() guid: string;
-  @Input() email: string;
+  readonly email = input<string>();
 
   guestRegisterForm: UntypedFormGroup = this.fb.group(
     {
@@ -67,12 +73,6 @@ export class OrderGuestRegisterFormComponent {
       ),
     }
   );
-
-  constructor(
-    protected userRegisterFacade: UserRegisterFacade,
-    protected routingService: RoutingService,
-    protected fb: UntypedFormBuilder
-  ) {}
 
   submit() {
     if (this.guestRegisterForm.valid) {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -23,16 +23,19 @@ import { OpfGooglePayService } from './google-pay.service';
   selector: 'cx-opf-google-pay',
   templateUrl: './google-pay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe],
+  imports: [AsyncPipe],
 })
 export class OpfGooglePayComponent implements OnInit {
   protected opfGooglePayService = inject(OpfGooglePayService);
   protected changeDetectionRef = inject(ChangeDetectorRef);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() activeConfiguration:
-    | OpfActiveConfiguration
-    | OpfActiveConfiguration[];
+    OpfActiveConfiguration | OpfActiveConfiguration[];
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('googlePayButtonContainer') googlePayButtonContainer: ElementRef;
 
   isReadyToPayState$: BehaviorSubject<boolean> = new BehaviorSubject(false);

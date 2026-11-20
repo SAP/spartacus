@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,6 +17,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  input,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { FeatureToggles, TranslatePipe, WindowRef } from '@spartacus/core';
@@ -41,9 +42,7 @@ const ARIA_EXPANDED_ATTR = 'aria-expanded';
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     IconComponent,
-    NgFor,
     NgTemplateOutlet,
     GenericLinkComponent,
     AsyncPipe,
@@ -51,27 +50,37 @@ const ARIA_EXPANDED_ATTR = 'aria-expanded';
   ],
 })
 export class NavigationUIComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private renderer = inject(Renderer2);
+  private elemRef = inject(ElementRef);
+  protected hamburgerMenuService = inject(HamburgerMenuService);
+  protected winRef = inject(WindowRef);
+
   /**
    * The navigation node to render.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() node: NavigationNode | null;
 
   /**
    * The number of child nodes that must be wrapped.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() wrapAfter: number;
 
   /**
    * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
    */
-  @Input() resetMenuOnClose: boolean | undefined;
+  readonly resetMenuOnClose = input<boolean>();
 
   /**
    * Include non intractable node titles within the tabbing order.
    */
-  @Input() focusableNodeTitles: boolean = false;
+  readonly focusableNodeTitles = input<boolean>(false);
 
-  @Input() navAriaLabel: string | null | undefined;
+  readonly navAriaLabel = input<string | null>();
   /**
    * the icon type that will be used for navigation nodes
    * with children.
@@ -83,8 +92,12 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * If flyout is set to true, the
    * nested child navigation nodes will only appear on hover or focus.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() @HostBinding('class.flyout') flyout = true;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() @HostBinding('class.is-open') isOpen = false;
 
   private openNodes: HTMLElement[] = [];
@@ -108,13 +121,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
   private featureToggles = inject(FeatureToggles);
 
-  constructor(
-    private router: Router,
-    private renderer: Renderer2,
-    private elemRef: ElementRef,
-    protected hamburgerMenuService: HamburgerMenuService,
-    protected winRef: WindowRef
-  ) {
+  constructor() {
     this.subscriptions.add(
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
@@ -131,7 +138,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * During initialization of this component, we will check the resetMenuOnClose flag and attach a menu reset listener if needed.
    */
   ngOnInit() {
-    if (this.resetMenuOnClose) {
+    if (this.resetMenuOnClose()) {
       this.resetOnMenuCollapse();
     }
   }

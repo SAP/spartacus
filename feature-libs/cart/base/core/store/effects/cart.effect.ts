@@ -41,6 +41,10 @@ import {
 
 @Injectable()
 export class CartEffects {
+  private actions$ = inject(Actions);
+  private cartConnector = inject(CartConnector);
+  private store = inject<Store<StateWithMultiCart>>(Store);
+
   private featureToggles = inject(FeatureToggles);
 
   private enableCartReloadOnContextChange =
@@ -368,8 +372,7 @@ export class CartEffects {
         const nonActiveCartIds = allCartIds.filter((id) => id !== activeCartId);
 
         const actions: (
-          | CartActions.LoadCart
-          | CartActions.ResetCartDetailsByIds
+          CartActions.LoadCart | CartActions.ResetCartDetailsByIds
         )[] = nonActiveCartIds.length
           ? [
               new CartActions.ResetCartDetailsByIds({
@@ -463,10 +466,4 @@ export class CartEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private cartConnector: CartConnector,
-    private store: Store<StateWithMultiCart>
-  ) {}
 }

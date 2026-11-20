@@ -11,7 +11,7 @@ name: Validate Configuration of Translation Files
 
 permissions:
   contents: read
-  
+
 jobs:
   validate-translations:
     name: Validate Translations
@@ -29,21 +29,25 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Run Translation Validation Script
+        env:
+          BASE_COMMIT: ${{ github.event.pull_request.base.sha }}
+          HEAD_COMMIT: ${{ github.event.pull_request.head.sha }}
         run: |
-          BASE_COMMIT=${{ github.event.pull_request.base.sha }}
-          HEAD_COMMIT=${{ github.event.pull_request.head.sha }}
+          set -o pipefail
+          # Include deletions so remaining translation indexes are still checked.
+          translation_paths=$(git diff --name-only "$BASE_COMMIT" "$HEAD_COMMIT" -- \
+            '**/assets/translations/**' '**/assets/src/translations/**' \
+            | sed -En 's|^(.*assets/(src/)?translations)/.*|\1|p' | sort -u)
 
-          # Get the paths of the changed files
-          changed_files=$(git diff --name-only $BASE_COMMIT $HEAD_COMMIT | grep -E 'assets/translations|assets/src/translations')
-
-          if [ -n "$changed_files" ]; then
-            for file in $changed_files; do
-              # Extract the folder path from the file path to pass to the script
-              folder_path=$(echo "$file" | sed -E 's|(.*assets/(src/)?translations).*|\1|')
+          if [ -n "$translation_paths" ]; then
+            while IFS= read -r folder_path; do
+              if [ ! -d "$folder_path" ]; then
+                echo "Translation folder removed: $folder_path; skipping validation"
+                continue
+              fi
               echo "Changes detected in $folder_path"
               sh ./ci-scripts/validate-translations.sh "$folder_path"
-            done
+            done <<< "$translation_paths"
           else
             echo "No translation changes detected"
-            exit 1
           fi

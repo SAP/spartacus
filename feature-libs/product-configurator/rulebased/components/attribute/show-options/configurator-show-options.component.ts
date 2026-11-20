@@ -23,13 +23,15 @@ import { ConfiguratorAttributeCompositionContext } from '../composition/configur
   imports: [TranslatePipe],
 })
 export class ConfiguratorShowOptionsComponent {
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
-
-  constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
 
   /**
    * fires a request to read the attribute domain,

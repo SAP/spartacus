@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   Input,
+  input,
 } from '@angular/core';
 import {
   BaseOption,
@@ -30,19 +31,18 @@ import { filter, map, take } from 'rxjs/operators';
   selector: 'cx-product-variant-size-selector',
   templateUrl: './product-variant-size-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ProductVariantSizeSelectorComponent {
+  private productService = inject(ProductService);
+  private routingService = inject(RoutingService);
+
   protected translationService = inject(TranslationService);
 
-  constructor(
-    private productService: ProductService,
-    private routingService: RoutingService
-  ) {}
+  readonly product = input<Product>();
 
-  @Input()
-  product: Product;
-
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   variants: BaseOption;
 

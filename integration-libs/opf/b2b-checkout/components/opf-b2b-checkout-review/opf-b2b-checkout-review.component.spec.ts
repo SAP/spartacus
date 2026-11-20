@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -43,15 +43,13 @@ import { OpfB2bCheckoutReviewComponent } from './opf-b2b-checkout-review.compone
   template: '',
 })
 class MockOpfCheckoutPaymentsComponent {
-  @Input() onlyPaymentWrapperMode: boolean;
-  @Input() isHeadingDisplayed: boolean;
-  @Input() isPaymentRenderBelow: boolean;
-  @Input() isPaymentInfoMessageEnabled: boolean;
+  readonly onlyPaymentWrapperMode = input<boolean>();
+  readonly isHeadingDisplayed = input<boolean>();
+  readonly isPaymentRenderBelow = input<boolean>();
+  readonly isPaymentInfoMessageEnabled = input<boolean>();
 }
 
-class MockCheckoutPaymentTypeFacade
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeFacade implements Partial<CheckoutPaymentTypeFacade> {
   setPaymentType = () => of({});
   getPurchaseOrderNumberState = () =>
     of({
@@ -61,9 +59,7 @@ class MockCheckoutPaymentTypeFacade
     } as QueryState<string>);
 }
 
-class MockCheckoutCostCenterFacade
-  implements Partial<CheckoutCostCenterFacade>
-{
+class MockCheckoutCostCenterFacade implements Partial<CheckoutCostCenterFacade> {
   getCostCenterState = () =>
     of({
       data: { code: 'CC123', name: 'Test Cost Center' },

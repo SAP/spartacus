@@ -6,11 +6,12 @@
 
 import {
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
-  Output,
   Type,
+  inject,
+  output,
+  input,
 } from '@angular/core';
 import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
@@ -33,30 +34,40 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   imports: [NgComponentOutlet],
 })
 export class AsmCustomer360SectionComponent implements OnDestroy {
-  @Input()
-  component: Type<unknown>;
+  protected source = inject<AsmCustomer360SectionContextSource<unknown>>(
+    AsmCustomer360SectionContextSource
+  );
 
+  readonly component = input<Type<unknown>>();
+
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set customer(customer: User) {
     this.source.customer$.next(customer);
   }
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set config(config: AsmCustomer360SectionConfig) {
     this.source.config$.next(config);
   }
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set data(data: Observable<unknown>) {
     this.source.data$.next(data);
   }
 
-  @Output()
-  navigate: EventEmitter<UrlCommand> = new EventEmitter();
+  readonly navigate = output<UrlCommand>();
 
   protected subscription = new Subscription();
 
-  constructor(protected source: AsmCustomer360SectionContextSource<unknown>) {
+  constructor() {
+    const source = this.source;
+
     this.subscription.add(
       source.navigate$.subscribe((urlCommand) => this.navigate.emit(urlCommand))
     );

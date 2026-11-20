@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FeatureStylesService,
@@ -133,7 +133,7 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
   template: '',
 })
 export class SetPreferredStoreStubComponent {
-  @Input() pointOfServiceName: PointOfServiceNames;
+  readonly pointOfServiceName = input<PointOfServiceNames>();
 }
 
 class MockFeatureStylesService {

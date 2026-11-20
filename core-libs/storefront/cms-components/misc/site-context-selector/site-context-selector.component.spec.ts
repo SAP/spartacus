@@ -1,13 +1,12 @@
 import {
   Component,
   DebugElement,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   CmsComponent,
   CmsService,
@@ -43,7 +42,7 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type;
+  readonly type = input(undefined);
 }
 
 describe('SiteContextSelectorComponent in CmsLib', () => {
@@ -88,11 +87,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        SiteContextSelectorComponent,
-        I18nTestingModule,
-      ],
+      imports: [SiteContextSelectorComponent, I18nTestingModule],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {

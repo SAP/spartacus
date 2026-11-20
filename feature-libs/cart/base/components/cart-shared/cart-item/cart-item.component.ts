@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
@@ -40,8 +46,6 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
     NgClass,
     RouterLink,
     MediaComponent,
-    NgIf,
-    NgFor,
     ItemCounterComponent,
     PromotionsComponent,
     NgTemplateOutlet,
@@ -51,14 +55,28 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
   ],
 })
 export class CartItemComponent implements OnChanges {
+  protected cartItemContextSource = inject(CartItemContextSource);
+
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() compact = false;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() item: OrderEntry;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() readonly = false;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() quantityControl: UntypedFormControl;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   // TODO: evaluate whether this is generic enough
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
@@ -67,8 +85,6 @@ export class CartItemComponent implements OnChanges {
 
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
-
-  constructor(protected cartItemContextSource: CartItemContextSource) {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {

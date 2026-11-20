@@ -23,12 +23,10 @@ import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class ComponentsEffects {
-  protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private cmsComponentConnector = inject(CmsComponentConnector);
 
-  constructor(
-    private actions$: Actions,
-    private cmsComponentConnector: CmsComponentConnector
-  ) {}
+  protected logger = inject(LoggerService);
 
   private contextChange$: Observable<Action> = this.actions$.pipe(
     ofType(

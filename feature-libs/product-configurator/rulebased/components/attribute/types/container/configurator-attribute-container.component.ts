@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,7 +13,7 @@ import {
   HostListener,
   inject,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -28,12 +28,12 @@ import {
 } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { ConfiguratorUtilsService } from '../../../../core/facade/utils/configurator-utils.service';
+import { Configurator } from '../../../../core/model/configurator.model';
 import {
   ConfiguratorMessageGroup,
   ConfiguratorMessageService,
   ConfiguratorMessagesView,
 } from '../../../service/configurator-message.service';
-import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import {
   ConfiguratorAttributeProductCardComponent,
@@ -51,8 +51,6 @@ import { ConfiguratorAttributeSelectionBaseComponent } from '../base/configurato
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     NgTemplateOutlet,
     IconComponent,
     TranslatePipe,
@@ -101,8 +99,9 @@ export class ConfiguratorAttributeContainerComponent
    */
   availableProductsSearchTerm = '';
 
-  @ViewChild('availableProductsSearchInput')
-  protected availableProductsSearchInput?: ElementRef<HTMLInputElement>;
+  protected readonly availableProductsSearchInput = viewChild<
+    ElementRef<HTMLInputElement>
+  >('availableProductsSearchInput');
 
   constructor() {
     super();
@@ -517,9 +516,6 @@ export class ConfiguratorAttributeContainerComponent
       multiSelect: true,
       productBoundValue: this.mapRowToValue(row),
       attribute: this.attribute,
-      attributeId: this.getAttributeCode(this.attribute),
-      attributeLabel: this.attribute.label,
-      attributeName: this.attribute.name,
       itemCount,
       itemIndex: index,
       loading$: this.loading$,
@@ -592,7 +588,7 @@ export class ConfiguratorAttributeContainerComponent
    */
   protected focusAvailableProductsSearchInput(): void {
     setTimeout(() => {
-      const searchInput = this.availableProductsSearchInput?.nativeElement;
+      const searchInput = this.availableProductsSearchInput()?.nativeElement;
       searchInput?.focus();
     });
   }

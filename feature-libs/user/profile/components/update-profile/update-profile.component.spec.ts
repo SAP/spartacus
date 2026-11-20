@@ -3,7 +3,7 @@ import {
   Component,
   DebugElement,
   Directive,
-  Input,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -47,13 +47,14 @@ class MockCxSpinnerComponent {}
 
 @Directive({ selector: '[cxNgSelectA11y]' })
 class MockNgSelectA11yDirective {
-  @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
+  readonly cxNgSelectA11y = input<{
+    ariaLabel?: string;
+    ariaControls?: string;
+  }>();
 }
 const isBusySubject = new BehaviorSubject(false);
 
-class MockUpdateProfileService
-  implements Partial<UpdateProfileComponentService>
-{
+class MockUpdateProfileService implements Partial<UpdateProfileComponentService> {
   user$ = of({});
   titles$ = of([]);
   form: UntypedFormGroup = new UntypedFormGroup({

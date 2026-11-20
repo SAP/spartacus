@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { Params, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   CxDatePipe,
@@ -35,11 +40,9 @@ import { filter, map, take, tap } from 'rxjs/operators';
   templateUrl: './order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgClass,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     BtnLikeLinkDirective,
     RouterLinkActive,
@@ -51,12 +54,12 @@ import { filter, map, take, tap } from 'rxjs/operators';
   ],
 })
 export class OrderHistoryComponent implements OnDestroy {
-  constructor(
-    protected routing: RoutingService,
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
-  ) {}
+  protected routing = inject(RoutingService);
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected translation = inject(TranslationService);
+  protected replenishmentOrderHistoryFacade = inject(
+    ReplenishmentOrderHistoryFacade
+  );
 
   private PAGE_SIZE = 5;
   sortType: string;
@@ -128,8 +131,8 @@ export class OrderHistoryComponent implements OnDestroy {
     );
   }
 
-  getQueryParams(order: Order): Params | null {
-    return this.orderHistoryFacade.getQueryParams(order);
+  getQueryParams(_order: Order): Params | null {
+    return null;
   }
 
   getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {

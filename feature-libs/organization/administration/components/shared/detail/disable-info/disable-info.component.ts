@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, Input, OnInit, inject, input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -17,20 +17,28 @@ import { DisableInfoService } from './disable-info.service';
   selector: 'cx-org-disable-info',
   templateUrl: './disable-info.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class DisableInfoComponent<T extends BaseItem> implements OnInit {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected disableInfoService =
+    inject<DisableInfoService<T>>(DisableInfoService);
+
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
    *
    * `[i18nRoot].info.disabledEdit`
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() i18nRoot: string;
 
   /**
    * To configure the messages to display and override defaultMessageConfig
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() displayInfoConfig: {
     disabledCreate?: boolean;
     disabledEdit?: boolean;
@@ -41,7 +49,7 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**
    * Flag to enable display custom message(s) even if no condition has been met
    */
-  @Input() displayCustomInfo = false;
+  readonly displayCustomInfo = input(false);
 
   /**
    * resolves the current item.
@@ -49,11 +57,6 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   current$: Observable<T | undefined> = this.itemService.current$;
 
   iconTypes = ICON_TYPE;
-
-  constructor(
-    protected itemService: ItemService<T>,
-    protected disableInfoService: DisableInfoService<T>
-  ) {}
 
   protected get defaultInfoConfig() {
     return {

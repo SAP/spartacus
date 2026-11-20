@@ -4,10 +4,10 @@ import {
   DebugElement,
   Directive,
   Injector,
-  Input,
   Pipe,
   PipeTransform,
   SimpleChange,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -36,8 +36,8 @@ import { WishListItemComponent } from './wish-list-item.component';
   template: '<button>add to cart</button>',
 })
 class MockAddToCartComponent {
-  @Input() product;
-  @Input() showQuantity;
+  readonly product = input(undefined);
+  readonly showQuantity = input(undefined);
 }
 
 @Component({
@@ -45,8 +45,8 @@ class MockAddToCartComponent {
   template: 'mock picture component',
 })
 class MockPictureComponent {
-  @Input() container;
-  @Input() alt;
+  readonly container = input(undefined);
+  readonly alt = input(undefined);
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -83,7 +83,7 @@ const mockCartEntry: OrderEntry = {
 
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
+  readonly cxAtMessage = input<string | string[]>();
 }
 
 @Directive({

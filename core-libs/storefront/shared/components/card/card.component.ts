@@ -4,15 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  NgClass,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgTemplateOutlet,
-} from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { Component, Input, OnInit, output, input } from '@angular/core';
 import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -52,14 +45,10 @@ export interface Card {
   selector: 'cx-card',
   templateUrl: './card.component.html',
   imports: [
-    NgIf,
-    NgFor,
     NgTemplateOutlet,
     IconComponent,
     FocusDirective,
     AtMessageDirective,
-    NgSwitch,
-    NgSwitchCase,
     GenericLinkComponent,
     NgClass,
     TruncateTextPopoverComponent,
@@ -69,46 +58,58 @@ export interface Card {
 export class CardComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  @Output()
-  deleteCard: EventEmitter<number> = new EventEmitter();
-  @Output()
-  setDefaultCard: EventEmitter<number> = new EventEmitter();
-  @Output()
-  sendCard: EventEmitter<number> = new EventEmitter();
-  @Output()
-  editCard: EventEmitter<number> = new EventEmitter();
-  @Output()
-  cancelCard: EventEmitter<number> = new EventEmitter();
+  readonly deleteCard = output<number>();
+  readonly setDefaultCard = output<number>();
+  readonly sendCard = output<number>();
+  readonly editCard = output<number>();
+  readonly cancelCard = output<number>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   border = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   editMode = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   isDefault = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   content: Card | null;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   fitToContainer = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   truncateText = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   truncateParagraphText = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   charactersLimit = 100;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   index: number;
 
-  @Input()
-  role?: string;
+  readonly role = input<string>();
 
   // ACTIONS
 

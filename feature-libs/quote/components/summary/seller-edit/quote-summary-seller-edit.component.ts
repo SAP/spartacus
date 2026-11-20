@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -50,7 +50,6 @@ import {
   selector: 'cx-quote-summary-seller-edit',
   templateUrl: './quote-summary-seller-edit.component.html',
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     IconComponent,
@@ -80,7 +79,7 @@ export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
     map(([_localizationElements, quote]) => quote)
   );
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   form: FormGroup = new FormGroup({
     discount: new FormControl<string | null>(null),

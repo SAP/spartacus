@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,7 +13,7 @@ import {
   ElementRef,
   inject,
   signal,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -55,7 +55,6 @@ import { OrderDocumentOrderEntryListComponent } from './order-document-order-ent
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
     IconComponent,
     MessageComponent,
     OrderDocumentOrderEntryListComponent,
@@ -72,7 +71,7 @@ export class OrderDocumentFlowDialogComponent {
   protected cd = inject(ChangeDetectorRef);
   protected destroyRef = inject(DestroyRef);
 
-  @ViewChild('scrollContainer') scrollContainerRef: ElementRef;
+  readonly scrollContainerRef = viewChild<ElementRef>('scrollContainer');
   protected savedScrollPosition = 0;
 
   globalMessageType = GlobalMessageType;
@@ -166,13 +165,16 @@ export class OrderDocumentFlowDialogComponent {
   }
 
   protected saveScrollPosition(): void {
-    this.savedScrollPosition = this.scrollContainerRef.nativeElement.scrollTop;
+    this.savedScrollPosition =
+      this.scrollContainerRef()?.nativeElement.scrollTop ?? 0;
   }
 
   protected restoreScrollPosition(): void {
     setTimeout(() => {
-      this.scrollContainerRef.nativeElement.scrollTop =
-        this.savedScrollPosition;
+      const scrollContainer = this.scrollContainerRef();
+      if (scrollContainer) {
+        scrollContainer.nativeElement.scrollTop = this.savedScrollPosition;
+      }
     }, 0);
   }
 }

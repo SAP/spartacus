@@ -11,6 +11,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FeatureDirective, Product, UrlPipe } from '@spartacus/core';
@@ -46,19 +47,21 @@ import {
   ],
 })
 export class ProductCarouselItemComponent implements OnChanges {
+  protected productListItemContextSource = inject(ProductListItemContextSource);
+
   /**
    * The product item to be displayed in the carousel.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() item: Product;
 
   /**
    * The index of the item in the carousel.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() itemIndex: number;
-
-  constructor(
-    protected productListItemContextSource: ProductListItemContextSource
-  ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.item) {

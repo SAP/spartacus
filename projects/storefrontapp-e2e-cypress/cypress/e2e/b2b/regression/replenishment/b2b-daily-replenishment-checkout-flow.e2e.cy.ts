@@ -23,7 +23,7 @@ context(
     isolateTests();
     before(() => {
       clearAllStorage();
-      Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+      Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
     });
 
     beforeEach(() => {

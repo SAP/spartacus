@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,6 +12,7 @@ import {
   inject,
   Input,
   OnInit,
+  input,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
@@ -23,7 +24,7 @@ import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-ad
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
   templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, TranslatePipe, AsyncPipe],
+  imports: [IconComponent, TranslatePipe, AsyncPipe],
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
@@ -39,14 +40,16 @@ export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   /**
    * Defines if alert could be dismissed or not
    */
-  @Input() isDismissible: boolean;
+  readonly isDismissible = input<boolean>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() isVisible: boolean;
   /**
    * Explicit Terms and Conditions (isExplicit true) requires user to accept T&C to see and select payments options.
    * Implicit Terms and Conditions (isExplicit false) only displays the T&C message without checkbox, payment options are always enabled.
    */
-  @Input() isExplicit: boolean | undefined | null;
+  readonly isExplicit = input<boolean | null>();
 
   close() {
     this.isVisible = false;

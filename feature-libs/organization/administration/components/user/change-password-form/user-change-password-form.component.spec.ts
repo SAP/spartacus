@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -51,7 +51,7 @@ class MockUserChangePasswordFormService {
   selector: '[cxFocus]',
 })
 export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
+  readonly config = input<FocusConfig>({}, { alias: 'cxFocus' });
 }
 
 describe('UserChangePasswordFormComponent', () => {

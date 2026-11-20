@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,8 +12,8 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewContainerRef,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Cart } from '@spartacus/cart/base/root';
@@ -42,8 +42,6 @@ import { map, skip, take } from 'rxjs/operators';
   templateUrl: './saved-cart-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,
@@ -53,12 +51,17 @@ import { map, skip, take } from 'rxjs/operators';
   ],
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
+  protected routing = inject(RoutingService);
+  protected savedCartService = inject(SavedCartFacade);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   private subscription = new Subscription();
   protected readonly siteContextService = inject(SiteContextComponentService, {
     optional: true,
   });
 
-  @ViewChild('element') restoreButton: ElementRef;
+  readonly restoreButton = viewChild<ElementRef>('element');
 
   isLoading$: Observable<boolean>;
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList().pipe(
@@ -74,13 +77,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
       })
     )
   );
-
-  constructor(
-    protected routing: RoutingService,
-    protected savedCartService: SavedCartFacade,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
@@ -99,7 +95,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   openDialog(event: Event, cart: Cart): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.SAVED_CART,
-      this.restoreButton,
+      this.restoreButton(),
       this.vcr,
       { cart, layoutOption: SavedCartFormType.RESTORE }
     );

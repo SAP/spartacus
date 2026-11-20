@@ -1,23 +1,24 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
-  <label
-    *ngIf="inputType === 'date'"
-    class="cx-visually-hidden"
-    id="{{ createAttributeUiKey('labelForDate', attribute.name) }}"
-    [attr.aria-label]="
-      isUserInputEmpty
-        ? ('configurator.a11y.valueOfDateAttributeBlank'
-          | cxTranslate
-            : {
-                attribute: attribute.label,
-              })
-        : ('configurator.a11y.valueOfDateAttributeFull'
-          | cxTranslate
-            : {
-                value: attribute.userInput,
-                attribute: attribute.label,
-              })
-    "
-  ></label>
+  @if (inputType === 'date') {
+    <label
+      class="cx-visually-hidden"
+      id="{{ createAttributeUiKey('labelForDate', attribute.name) }}"
+      [attr.aria-label]="
+        isUserInputEmpty
+          ? ('configurator.a11y.valueOfDateAttributeBlank'
+            | cxTranslate
+              : {
+                  attribute: attribute.label,
+                })
+          : ('configurator.a11y.valueOfDateAttributeFull'
+            | cxTranslate
+              : {
+                  value: attribute.userInput,
+                  attribute: attribute.label,
+                })
+      "
+    ></label>
+  }
   <input
     [formControl]="attributeInputForm"
     class="form-control"

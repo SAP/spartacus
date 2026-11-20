@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,6 +16,9 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
+  input,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -40,8 +43,6 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './facet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     FocusDirective_1,
     FeatureDirective,
@@ -52,21 +53,31 @@ import { FacetService } from '../services/facet.service';
   ],
 })
 export class FacetComponent implements AfterViewInit {
+  protected facetService = inject(FacetService);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected cd = inject(ChangeDetectorRef);
+
   protected _facet: Facet;
 
   state$: Observable<FacetCollapseState>;
   /** configurable icon that is used to collapse the facet group  */
-  @Input() expandIcon: ICON_TYPE = ICON_TYPE.EXPAND;
-  @Input() collapseIcon: ICON_TYPE = ICON_TYPE.COLLAPSE;
+  readonly expandIcon = input<ICON_TYPE>(ICON_TYPE.EXPAND);
+  readonly collapseIcon = input<ICON_TYPE>(ICON_TYPE.COLLAPSE);
 
   @HostBinding('class.multi-select') isMultiSelect: boolean;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChildren('facetValue') values: QueryList<ElementRef<HTMLElement>>;
 
-  @ViewChild(FocusDirective) keyboardFocus: FocusDirective;
+  readonly keyboardFocus = viewChild(FocusDirective);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('facetHeader') facetHeader: ElementRef<HTMLElement>;
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set facet(value: Facet) {
     this._facet = value;
@@ -78,36 +89,9 @@ export class FacetComponent implements AfterViewInit {
     return this._facet;
   }
 
-  constructor(
-    protected facetService: FacetService,
-    protected elementRef: ElementRef<HTMLElement>,
-    protected cd: ChangeDetectorRef
-  ) {}
-
   ngAfterViewInit(): void {
     // Update the value of `this.isExpanded` after `this.values` was initialized
     this.cd.detectChanges();
-  }
-
-  /**
-   * @deprecated: Header will no longer be used in favour of TabComponent headers.
-   *
-   * Handles clicking the heading of the facet group, which means toggling
-   * the visibility of the group (collapse / expand) and optionally focusing
-   * the group.
-   */
-  toggleGroup(event: UIEvent) {
-    const host: HTMLElement = this.elementRef.nativeElement;
-    const isLocked = this.keyboardFocus?.isLocked;
-
-    this.facetService.toggle(this.facet, this.isExpanded);
-
-    if (!isLocked || this.isExpanded) {
-      host.focus();
-      // we stop propagating the event as otherwise the focus on the host will trigger
-      // an unlock event from the LockFocus directive.
-      event.stopPropagation();
-    }
   }
 
   get isExpanded(): boolean {

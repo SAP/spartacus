@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   Command,
@@ -21,6 +21,12 @@ import { OrderConnector } from '../connectors/order.connector';
 
 @Injectable()
 export class OrderService implements OrderFacade {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected commandService = inject(CommandService);
+  protected orderConnector = inject(OrderConnector);
+  protected eventService = inject(EventService);
+
   protected placedOrder$ = new BehaviorSubject<Order | undefined>(undefined);
 
   protected placeOrderCommand: Command<boolean, Order> =
@@ -84,14 +90,6 @@ export class OrderService implements OrderFacade {
         strategy: CommandStrategy.CancelPrevious,
       }
     );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
-    protected commandService: CommandService,
-    protected orderConnector: OrderConnector,
-    protected eventService: EventService
-  ) {}
 
   /**
    * Performs the necessary checkout preconditions.

@@ -1,5 +1,4 @@
-import { NgIf } from '@angular/common';
-import { Component, TemplateRef } from '@angular/core';
+import { Component, signal, TemplateRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
@@ -13,21 +12,21 @@ const CUSTOM_TEXT = 'customized';
 
 @Component({
   template: `
-    <ng-container *ngIf="outletRefVisible">
+    @if (outletRefVisible()) {
       <ng-template [cxOutletRef]="outletName"> {{ customText }} </ng-template>
-    </ng-container>
+    }
 
-    <ng-container *ngIf="outletVisible">
+    @if (outletVisible()) {
       <ng-template [cxOutlet]="outletName">
         {{ standardText }}
       </ng-template>
-    </ng-container>
+    }
   `,
-  imports: [OutletDirective, OutletRefDirective, NgIf],
+  imports: [OutletDirective, OutletRefDirective],
 })
 class TestContainerComponent {
-  outletRefVisible = true;
-  outletVisible = true;
+  outletRefVisible = signal(true);
+  outletVisible = signal(true);
   outletName = OUTLET_NAME;
   customText = CUSTOM_TEXT;
   standardText = STANDARD_TEXT;
@@ -50,11 +49,9 @@ function getContent(fixture: ComponentFixture<any>): string {
  * the no-changes verifier in a subsequent detectChanges() to throw.
  */
 function refreshOutlet(fixture: ComponentFixture<TestContainerComponent>) {
-  fixture.componentInstance.outletVisible = false;
-  fixture.changeDetectorRef.markForCheck();
+  fixture.componentInstance.outletVisible.set(false);
   fixture.detectChanges(false);
-  fixture.componentInstance.outletVisible = true;
-  fixture.changeDetectorRef.markForCheck();
+  fixture.componentInstance.outletVisible.set(true);
   fixture.detectChanges(false);
 }
 
@@ -89,7 +86,7 @@ describe('OutletRefDirective', () => {
 
   it('should unregister template on cxOutletRef destroy', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
-    fixture.componentInstance.outletRefVisible = false;
+    fixture.componentInstance.outletRefVisible.set(false);
 
     refreshOutlet(fixture);
 
@@ -99,8 +96,8 @@ describe('OutletRefDirective', () => {
 
   it('should re-register template on cxOutletRef re-creation', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
-    fixture.componentInstance.outletRefVisible = false;
-    fixture.componentInstance.outletRefVisible = true;
+    fixture.componentInstance.outletRefVisible.set(false);
+    fixture.componentInstance.outletRefVisible.set(true);
 
     refreshOutlet(fixture);
 

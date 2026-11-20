@@ -21,7 +21,7 @@ const OPF_B2B_ACCOUNT_PAYMENT_OPTION_ID = '2720';
 
 context('OPF B2B - Account Checkout flow', () => {
   before(() => {
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
   it('Should checkout using an account payment type (CXSPA-9698)', () => {

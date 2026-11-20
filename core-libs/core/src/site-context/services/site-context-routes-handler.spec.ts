@@ -71,7 +71,7 @@ describe('SiteContextRoutesHandler', () => {
     });
 
     service = TestBed.inject(SiteContextRoutesHandler);
-    service.init();
+    service.initOnce();
   });
 
   it('should be created', () => {

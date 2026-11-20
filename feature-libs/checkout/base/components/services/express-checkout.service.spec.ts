@@ -61,17 +61,13 @@ const mockGetDeliveryAddressState = new BehaviorSubject<
   error: false,
   data: mockCheckoutDeliveryAddress,
 });
-class MockCheckoutDeliveryAddressFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressFacade implements Partial<CheckoutDeliveryAddressFacade> {
   setDeliveryAddress = vi.fn().mockReturnValue(of(undefined));
   getDeliveryAddressState = vi
     .fn()
     .mockReturnValue(mockGetDeliveryAddressState.asObservable());
 }
-class MockCheckoutDeliveryModesFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+class MockCheckoutDeliveryModesFacade implements Partial<CheckoutDeliveryModesFacade> {
   getSelectedDeliveryModeState = vi.fn().mockReturnValue(
     of({
       loading: false,

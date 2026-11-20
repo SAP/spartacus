@@ -59,7 +59,7 @@ const THRESHOLD_EXCEEDED = EXPECTED_BUNDLE_LINE_ITEMS - 1;
 const testConfig = [
   {
     name: 'CPQ Configuration Cart Bundle Info',
-    backendURL: `${Cypress.env('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
+    backendURL: `${Cypress.expose('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
   },
 ];
 

@@ -57,16 +57,7 @@ export const DEFAULT_AUTH_HTTP_HEADER_SERVICE =
     'DEFAULT_AUTH_HTTP_HEADER_SERVICE',
     {
       providedIn: 'root',
-      factory: () =>
-        new AuthHttpHeaderService(
-          inject(AuthService),
-          inject(AuthStorageService),
-          inject(OAuthLibWrapperService),
-          inject(RoutingService),
-          inject(OccEndpointsService),
-          inject(GlobalMessageService),
-          inject(AuthRedirectService)
-        ),
+      factory: () => new AuthHttpHeaderService(),
     }
   );
 
@@ -88,6 +79,14 @@ export const DELEGATED_AUTH_HTTP_HEADER_SERVICE =
   providedIn: 'root',
 })
 export class AuthHttpHeaderService implements OnDestroy {
+  protected authService = inject(AuthService);
+  protected authStorageService = inject(AuthStorageService);
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
+  protected routingService = inject(RoutingService);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected authRedirectService = inject(AuthRedirectService);
+
   private featureToggles = inject(FeatureToggles);
 
   /**
@@ -154,15 +153,7 @@ export class AuthHttpHeaderService implements OnDestroy {
   protected handlers =
     inject(EXPIRED_REFRESH_TOKEN_HANDLERS, { optional: true }) ?? [];
 
-  constructor(
-    protected authService: AuthService,
-    protected authStorageService: AuthStorageService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected routingService: RoutingService,
-    protected occEndpoints: OccEndpointsService,
-    protected globalMessageService: GlobalMessageService,
-    protected authRedirectService: AuthRedirectService
-  ) {
+  constructor() {
     // We need to have stopProgress$ stream active for the whole time,
     // so when the logout finishes we finish it's process.
     // It could happen when retryToken$ is not active.

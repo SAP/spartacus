@@ -20,6 +20,11 @@ import { CdcAuthActions } from '../actions/index';
 
 @Injectable()
 export class CdcUserTokenEffects {
+  private actions$ = inject(Actions);
+  private userTokenService = inject(CdcUserAuthenticationTokenService);
+  private globalMessageService = inject(GlobalMessageService);
+  private cdcAuthService = inject(CdcAuthService);
+
   protected logger = inject(LoggerService);
 
   loadCdcUserToken$: Observable<CdcAuthActions.CdcUserTokenAction> =
@@ -57,11 +62,4 @@ export class CdcUserTokenEffects {
         )
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private userTokenService: CdcUserAuthenticationTokenService,
-    private globalMessageService: GlobalMessageService,
-    private cdcAuthService: CdcAuthService
-  ) {}
 }

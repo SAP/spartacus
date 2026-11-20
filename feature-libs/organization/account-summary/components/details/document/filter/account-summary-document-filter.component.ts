@@ -4,15 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  inject,
+  output,
+  input,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -57,7 +58,6 @@ interface GroupValidator {
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     DatePickerComponent,
     FormErrorsComponent,
     NgSelectComponent,
@@ -69,19 +69,21 @@ interface GroupValidator {
 export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy
 {
-  @Input()
-  cxNgSelectA11yAriaControls?: string;
+  protected translation = inject(TranslationService);
+  protected fb = inject(FormBuilder);
 
-  @Input()
-  documentTypeOptions: Array<AccountSummaryDocumentType>;
+  readonly cxNgSelectA11yAriaControls = input<string>();
 
+  readonly documentTypeOptions = input<Array<AccountSummaryDocumentType>>();
+
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set initialFilters(initialFilters: DocumentQueryParams) {
     this.initializeForm(initialFilters);
   }
 
-  @Output()
-  filterListEvent = new EventEmitter<DocumentQueryParams>();
+  readonly filterListEvent = output<DocumentQueryParams>();
 
   /* For Enum use in HTML */
   FilterByOptions = FilterByOptions;
@@ -92,11 +94,6 @@ export class AccountSummaryDocumentFilterComponent
 
   statusOptions: ItemType[];
   filterByOptions: ItemType[];
-
-  constructor(
-    protected translation: TranslationService,
-    protected fb: FormBuilder
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

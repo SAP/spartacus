@@ -40,7 +40,6 @@ SPARTACUS_PROJECTS=(
         "dist/cdc:integration-libs/cdc"
         "dist/cdp:integration-libs/cdp"
         "dist/opps:integration-libs/opps"
-        "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/opf:integration-libs/opf"
         "dist/punchout:integration-libs/punchout"
         "dist/product-configurator:feature-libs/product-configurator"
@@ -64,7 +63,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^21.1.0'
+ANGULAR_CLI_VERSION='^22.0.0'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
@@ -89,8 +88,6 @@ ADD_CPQ=false
 ADD_QUOTE=false
 ADD_CDC=false
 ADD_OPPS=false
-# config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
-ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
 # config.opf.sh contains default values to use in your config.sh when ADD_OPF is true.
 ADD_OPF=false
@@ -101,13 +98,10 @@ ADD_S4_SERVICE=false
 ADD_PRODUCT_MULTI_DIMENSIONAL=false
 ADD_PUNCHOUT=false
 
-# The base URL (origin) of the SAP EPD Visualization Fiori launchpad
-EPD_VISUALIZATION_BASE_URL=
 
 # The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
 OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
-OPF_ACCESS_CODE_HEADER_ENABLED=true
 
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char

@@ -3,8 +3,8 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   DebugElement,
   Directive,
-  Input,
   NO_ERRORS_SCHEMA,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -89,7 +89,7 @@ const duplicatedUidErrorResponse: HttpErrorModel = {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -106,7 +106,7 @@ class MockAsmCreateCustomerFacade implements Partial<AsmCreateCustomerFacade> {
 
 @Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
+  readonly config = input<FocusConfig>({}, { alias: 'cxFocus' });
 }
 
 export class MockGlobalMessageService implements Partial<GlobalMessageService> {

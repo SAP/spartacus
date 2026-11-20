@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -31,11 +36,11 @@ import { UserGroupUserListService } from './user-group-user-list.service';
   imports: [SubListComponent, RouterLink, TranslatePipe],
 })
 export class UserGroupUserListComponent {
-  constructor(
-    protected currentUserGroupService: CurrentUserGroupService,
-    protected userGroupUserListService: UserGroupUserListService
-  ) {}
+  protected currentUserGroupService = inject(CurrentUserGroupService);
+  protected userGroupUserListService = inject(UserGroupUserListService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('subList')
   subList: SubListComponent;
 
@@ -56,7 +61,7 @@ export class UserGroupUserListComponent {
   }
 
   protected notify(item: UserGroup | undefined) {
-    this.subList.messageService.add({
+    this.subList.messageService().add({
       message: {
         key: `orgUserGroupUsers.unassignAllConfirmation`,
         params: {

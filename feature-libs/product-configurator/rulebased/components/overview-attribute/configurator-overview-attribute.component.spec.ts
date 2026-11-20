@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -18,7 +18,7 @@ import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-
   imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 describe('ConfigurationOverviewAttributeComponent', () => {

@@ -56,7 +56,9 @@ export class LoadConsignmentTrackingByIdFail
   }
 }
 
-export class LoadConsignmentTrackingByIdSuccess extends StateUtils.EntitySuccessAction {
+export class LoadConsignmentTrackingByIdSuccess
+  extends StateUtils.EntitySuccessAction
+{
   readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_SUCCESS;
   constructor(
     public payload: {

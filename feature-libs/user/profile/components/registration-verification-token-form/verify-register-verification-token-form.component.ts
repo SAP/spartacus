@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -12,8 +12,8 @@ import {
   Component,
   ElementRef,
   OnInit,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -58,7 +58,6 @@ import { RegistrationVerificationTokenFormComponentService } from './verify-regi
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
-    NgIf,
     NgClass,
     SpinnerComponent,
     TranslatePipe,
@@ -165,9 +164,9 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
 
   isLoading$ = new BehaviorSubject(false);
 
-  @ViewChild('noReceiveCodeLink') element: ElementRef;
+  readonly element = viewChild<ElementRef>('noReceiveCodeLink');
 
-  @ViewChild('resendLink') resendLink: ElementRef;
+  readonly resendLink = viewChild<ElementRef>('resendLink');
 
   tokenId: string;
 
@@ -266,7 +265,10 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
 
   resendOTP(): void {
     this.isResendDisabled = true;
-    this.resendLink.nativeElement.tabIndex = -1;
+    const resendLink = this.resendLink();
+    if (resendLink) {
+      resendLink.nativeElement.tabIndex = -1;
+    }
     this.waitTime = 60;
     this.startWaitTimeInterval();
     this.createRegistrationVerificationToken(
@@ -296,7 +298,10 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       if (this.waitTime <= 0) {
         clearInterval(interval);
         this.isResendDisabled = false;
-        this.resendLink.nativeElement.tabIndex = 0;
+        const resendLink = this.resendLink();
+        if (resendLink) {
+          resendLink.nativeElement.tabIndex = 0;
+        }
         this.cdr.detectChanges();
       }
     }, 1000);
@@ -318,7 +323,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   openInfoDailog(): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ACCOUNT_VERIFICATION_TOKEN,
-      this.element
+      this.element()
     );
   }
 

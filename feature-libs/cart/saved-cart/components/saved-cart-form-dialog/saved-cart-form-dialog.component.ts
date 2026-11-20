@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +12,7 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -61,12 +62,9 @@ export interface SavedCartFormDialogOptions {
   templateUrl: './saved-cart-form-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FocusDirective,
     FormsModule,
     ReactiveFormsModule,
-    NgSwitch,
-    NgSwitchCase,
     IconComponent,
     FormRequiredLegendComponent,
     FormRequiredAsterisksComponent,
@@ -76,6 +74,13 @@ export interface SavedCartFormDialogOptions {
   ],
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+  protected savedCartService = inject(SavedCartFacade);
+  protected eventService = inject(EventService);
+  protected routingService = inject(RoutingService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
   form: UntypedFormGroup;
@@ -112,15 +117,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef,
-    protected savedCartService: SavedCartFacade,
-    protected eventService: EventService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit(): void {
     this.resetSavedCartStates();

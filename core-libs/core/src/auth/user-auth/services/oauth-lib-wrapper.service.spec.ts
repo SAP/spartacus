@@ -118,9 +118,7 @@ class MockStorage implements Storage {
   }
 }
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable(..._scopes: string[]): Observable<Config> {
     return of(<Config>{});
   }

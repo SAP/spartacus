@@ -110,7 +110,7 @@ describe('StoreComponent', () => {
     let iconDebugElement = fixture.debugElement.query(
       By.css('.cx-store-opening-hours-icon cx-icon')
     );
-    expect(iconDebugElement.componentInstance.type).toEqual(
+    expect(iconDebugElement.componentInstance.type()).toEqual(
       ICON_TYPE.CARET_DOWN
     );
 
@@ -125,7 +125,9 @@ describe('StoreComponent', () => {
     iconDebugElement = fixture.debugElement.query(
       By.css('.cx-store-opening-hours-icon cx-icon')
     );
-    expect(iconDebugElement.componentInstance.type).toEqual(ICON_TYPE.CARET_UP);
+    expect(iconDebugElement.componentInstance.type()).toEqual(
+      ICON_TYPE.CARET_UP
+    );
 
     toggleButton.click();
     fixture.detectChanges();
@@ -134,7 +136,7 @@ describe('StoreComponent', () => {
     iconDebugElement = fixture.debugElement.query(
       By.css('.cx-store-opening-hours-icon cx-icon')
     );
-    expect(iconDebugElement.componentInstance.type).toEqual(
+    expect(iconDebugElement.componentInstance.type()).toEqual(
       ICON_TYPE.CARET_DOWN
     );
   });

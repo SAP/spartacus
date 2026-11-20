@@ -2,12 +2,13 @@ import {
   Component,
   DebugElement,
   Directive,
-  EventEmitter,
   Injectable,
   Input,
-  Output,
   TemplateRef,
   ViewContainerRef,
+  inject as inject_1,
+  output,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -66,7 +67,7 @@ class MockAuthService implements Partial<AuthService> {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
@@ -137,18 +138,15 @@ class MockAsmSessionTimerComponent {}
   template: '',
 })
 class MockCustomerSelectionComponent {
-  @Output()
-  submitEvent = new EventEmitter();
+  readonly submitEvent = output();
 }
 @Component({
   selector: 'cx-csagent-login-form',
   template: '',
 })
 class MockCSAgentLoginFormComponent {
-  @Output()
-  submitEvent = new EventEmitter();
-  @Input()
-  csAgentTokenLoading = false;
+  readonly submitEvent = output();
+  readonly csAgentTokenLoading = input(false);
 }
 @Component({
   template: '',
@@ -203,11 +201,11 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
 
 @Directive({ selector: '[cxFeature]' })
 export class MockRevertedFeatureDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
+  protected templateRef = inject_1<TemplateRef<any>>(TemplateRef);
+  protected viewContainer = inject_1(ViewContainerRef);
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeature(_feature: string) {
     if (_feature.toString().includes('!')) {
       this.viewContainer.createEmbeddedView(this.templateRef);
@@ -598,7 +596,7 @@ describe('AsmMainUiComponent', () => {
     component.showCustomList();
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.ASM_CUSTOMER_LIST,
-      component.element
+      component.element()
     );
   });
 
@@ -628,7 +626,7 @@ describe('AsmMainUiComponent', () => {
 
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.ASM_CUSTOMER_360,
-      component.element,
+      component.element(),
       // any parameter is accept
       expect.any(Object)
     );
@@ -640,7 +638,7 @@ describe('AsmMainUiComponent', () => {
     component.createCustomer();
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      component.addNewCustomerLink
+      component.addNewCustomerLink()
     );
   });
 

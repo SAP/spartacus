@@ -582,10 +582,11 @@ function addLibraryAssets(
               ...architectBuild,
               options: buildOptions,
             },
-            test: {
-              ...architectTest,
-              options: testOptions,
-            },
+            test:
+              (architectTest?.builder as string | undefined) ===
+              '@angular/build:unit-test'
+                ? architectTest
+                : { ...architectTest, options: testOptions },
           },
         },
       },
@@ -715,10 +716,17 @@ export function addLibraryStyles(
                 libraryScssPath
               ),
             },
-            test: {
-              ...architect?.test,
-              options: createArchitectOptions(architect?.test, libraryScssPath),
-            },
+            test:
+              (architect?.test?.builder as string | undefined) ===
+              '@angular/build:unit-test'
+                ? architect?.test
+                : {
+                    ...architect?.test,
+                    options: createArchitectOptions(
+                      architect?.test,
+                      libraryScssPath
+                    ),
+                  },
           },
         },
       },

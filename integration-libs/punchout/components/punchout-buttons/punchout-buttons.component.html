@@ -1,4 +1,4 @@
-<ng-container *ngIf="(isPunchoutSessionActive$ | async) === true">
+@if ((isPunchoutSessionActive$ | async) === true) {
   <button
     type="button"
     class="btn btn-block btn-primary"
@@ -6,12 +6,13 @@
   >
     {{ 'punchout.backToRequisition' | cxTranslate }}
   </button>
-  <button
-    *ngIf="!removeCancelButton"
-    type="button"
-    class="btn btn-block btn-primary"
-    (click)="submitRequisition(true)"
-  >
-    {{ 'punchout.cancel' | cxTranslate }}
-  </button>
-</ng-container>
+  @if (!removeCancelButton) {
+    <button
+      type="button"
+      class="btn btn-block btn-primary"
+      (click)="submitRequisition(true)"
+    >
+      {{ 'punchout.cancel' | cxTranslate }}
+    </button>
+  }
+}

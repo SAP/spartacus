@@ -4,7 +4,7 @@
   [formControl]="control"
   [attr.min]="min"
   [attr.max]="max"
-  [attr.required]="required === false ? undefined : required"
+  [attr.required]="required() === false ? undefined : required()"
   (change)="change()"
   [placeholder]="placeholder"
   [pattern]="pattern"
@@ -18,7 +18,7 @@
   prefix="formErrors.labeled.date"
   fallbackPrefix="formErrors.date"
   [translationParams]="{
-    label: label ?? '' | cxTranslate,
+    label: label() ?? '' | cxTranslate,
     max: getDate(max) | cxDate,
     min: getDate(min) | cxDate,
   }"

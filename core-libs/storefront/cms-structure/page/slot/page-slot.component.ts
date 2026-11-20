@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,6 +14,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  inject,
 } from '@angular/core';
 import {
   CmsService,
@@ -49,9 +49,16 @@ import { PageSlotService } from './page-slot.service';
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, OutletDirective, NgFor, ComponentWrapperDirective],
+  imports: [OutletDirective, ComponentWrapperDirective],
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
+  protected cmsService = inject(CmsService);
+  protected dynamicAttributeService = inject(DynamicAttributeService);
+  protected renderer = inject(Renderer2);
+  protected elementRef = inject(ElementRef);
+  protected cd = inject(ChangeDetectorRef);
+  protected pageSlotService = inject(PageSlotService);
+
   /**
    * The position represents the unique key for a page slot on a single page, but can
    * be reused cross pages.
@@ -59,6 +66,8 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * The position is used to find the CMS components for the page slot. It is also
    * added as an additional CSS class so that layout can be applied.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @HostBinding('attr.position')
   @Input()
   set position(value: string | undefined) {
@@ -71,11 +80,15 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   /**
    * Maintains css classes introduced by the host and adds additional classes.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() @HostBinding() class: string;
 
   /**
    * Indicates that the page slot is the last page slot above the fold.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @HostBinding('class.page-fold') @Input() isPageFold = false;
 
   /**
@@ -88,6 +101,8 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * Indicates that the page slot doesn't contain any components. This is no
    * longer used in spartacus, but kept for backwards compatibility.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @HostBinding('class.has-components') @Input() hasComponents = false;
 
   protected position$ = new BehaviorSubject<string | undefined>(undefined);
@@ -112,14 +127,6 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   /** Tracks the last used position, in case the page slot is used dynamically */
   private lastPosition: string;
-  constructor(
-    protected cmsService: CmsService,
-    protected dynamicAttributeService: DynamicAttributeService,
-    protected renderer: Renderer2,
-    protected elementRef: ElementRef,
-    protected cd: ChangeDetectorRef,
-    protected pageSlotService: PageSlotService
-  ) {}
 
   ngOnInit() {
     this.subscription.add(
@@ -204,11 +211,11 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   ): boolean {
     return Boolean(
       current.components &&
-        old.components &&
-        old.components.length === current.components.length &&
-        !old.components.find(
-          (el, index) => el.uid !== current.components?.[index].uid
-        )
+      old.components &&
+      old.components.length === current.components.length &&
+      !old.components.find(
+        (el, index) => el.uid !== current.components?.[index].uid
+      )
     );
   }
 

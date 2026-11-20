@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
@@ -23,14 +23,13 @@ import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configur
   imports: [
     FocusDirective,
     IconComponent,
-    NgIf,
     ConfiguratorOverviewFilterComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewFilterDialogComponent {
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  protected launchDialogService = inject(LaunchDialogService);
 
   config$ = this.launchDialogService.data$;
 

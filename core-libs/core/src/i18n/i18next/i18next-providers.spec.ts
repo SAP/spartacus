@@ -6,9 +6,7 @@ import { I18nConfig } from '../config/i18n-config';
 import { I18nextInitializer } from './i18next-initializer';
 import { i18nextProviders } from './i18next-providers';
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable() {
     return of({ i18n: {} });
   }

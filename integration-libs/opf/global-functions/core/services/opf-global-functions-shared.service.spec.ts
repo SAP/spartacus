@@ -9,6 +9,7 @@ import {
   ComponentRef,
   ElementRef,
   ViewContainerRef,
+  inject as inject_1,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
@@ -30,15 +31,13 @@ import { UserIdService } from '@spartacus/core';
 
 @Component({ template: '' })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
 }
 
 const mockPaymentMethod =
   OpfQuickBuyProviderType.APPLE_PAY as unknown as OpfPaymentMethod;
 
-class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService>
-{
+class MockOpfQuickBuyTransactionService implements Partial<OpfQuickBuyTransactionService> {
   getCurrentCartId = jasmine
     .createSpy('getCurrentCartId')
     .and.returnValue(of('test-cart-id'));

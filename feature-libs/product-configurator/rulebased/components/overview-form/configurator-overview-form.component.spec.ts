@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Injectable,
-  Input,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -178,7 +178,7 @@ function checkConfigurationOverviewObs(
   ],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 @Injectable()
@@ -226,7 +226,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorOverviewFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

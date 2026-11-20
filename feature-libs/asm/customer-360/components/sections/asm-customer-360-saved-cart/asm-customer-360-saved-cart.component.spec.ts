@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -129,9 +129,9 @@ describe('AsmCustomer360SavedCartComponent', () => {
     selector: 'cx-media',
   })
   class MockMediaComponent {
-    @Input() container: any;
-    @Input() format: any;
-    @Input() alt: any;
+    readonly container = input<any>();
+    readonly format = input<any>();
+    readonly alt = input<any>();
   }
 
   beforeEach(async () => {

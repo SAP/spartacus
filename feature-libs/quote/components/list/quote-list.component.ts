@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,10 +34,8 @@ import { QuoteListComponentService } from './quote-list-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     NgClass,
     IconComponent,

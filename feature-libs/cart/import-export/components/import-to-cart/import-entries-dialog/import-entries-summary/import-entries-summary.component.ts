@@ -5,18 +5,11 @@
  */
 
 import {
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-} from '@angular/common';
-import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import {
   OrderEntriesSource,
@@ -29,15 +22,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
   selector: 'cx-import-entries-summary',
   templateUrl: './import-entries-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgSwitch,
-    NgSwitchCase,
-    NgSwitchDefault,
-    IconComponent,
-    NgFor,
-    TranslatePipe,
-  ],
+  imports: [IconComponent, TranslatePipe],
 })
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;
@@ -46,14 +31,14 @@ export class ImportEntriesSummaryComponent {
   warningDetailsOpened: boolean = false;
   errorDetailsOpened: boolean = false;
 
-  @Input()
-  type: string;
+  readonly type = input<string>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   summary: ProductImportSummary;
 
-  @Output()
-  closeEvent = new EventEmitter<string>();
+  readonly closeEvent = output<string>();
 
   close(reason: string): void {
     this.closeEvent.emit(reason);
