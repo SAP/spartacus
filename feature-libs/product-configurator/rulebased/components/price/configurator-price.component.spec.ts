@@ -5,7 +5,11 @@ import {
   I18nTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
+import {
+  DirectionMode,
+  DirectionService,
+  DirectionTestingModule,
+} from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
@@ -15,10 +19,6 @@ class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
   }
-}
-
-class MockDirectionService {
-  getDirection(): void {}
 }
 
 const createFormula = (
@@ -43,13 +43,7 @@ describe('ConfiguratorPriceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorPriceComponent],
-      providers: [
-        {
-          provide: DirectionService,
-          useClass: MockDirectionService,
-        },
-      ],
+      imports: [ConfiguratorPriceComponent, DirectionTestingModule],
     })
       .overrideComponent(ConfiguratorPriceComponent, {
         remove: {

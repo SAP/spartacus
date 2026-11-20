@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   ErrorModel,
   GlobalMessageService,
+  GlobalMessageTestingModule,
   GlobalMessageType,
   HttpResponseStatus,
   Priority,
@@ -97,12 +98,6 @@ const mockProductListNotFoundResponse = {
   },
 } as HttpErrorResponse;
 
-class MockGlobalMessageService {
-  add() {}
-
-  remove() {}
-}
-
 describe('ConfiguratorBadRequestHandler', () => {
   let classUnderTest: ConfiguratorBadRequestHandler;
   let globalMessageService: GlobalMessageService;
@@ -110,12 +105,9 @@ describe('ConfiguratorBadRequestHandler', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [GlobalMessageTestingModule],
       providers: [
         ConfiguratorBadRequestHandler,
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
         ...provideMockFeatureToggles({ productConfiguratorCPQContainer: true }),
       ],
     });

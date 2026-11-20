@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -26,12 +26,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
 let routerStateObservable: any = null;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
 
 class MockConfiguratorGroupsService {
   getCurrentGroupId() {
@@ -147,12 +141,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       imports: [
         ConfiguratorPreviousNextButtonsComponent,
         KeyboardFocusTestingModule,
+        RoutingTestingModule,
       ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
@@ -186,6 +177,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => routerStateObservable);
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

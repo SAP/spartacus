@@ -3,8 +3,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -38,14 +38,6 @@ const productConfig: ConfiguratorTextfield.Configuration = {
   configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return cold('-r', {
-      r: mockRouterState,
-    });
-  }
-}
-
 class MockConfiguratorTextfieldService {
   createConfiguration(): Observable<ConfiguratorTextfield.Configuration> {
     return cold('-p', {
@@ -86,12 +78,9 @@ describe('TextfieldFormComponent', () => {
         ConfiguratorTextfieldFormComponent,
         ConfiguratorTextfieldInputFieldComponent,
         ConfiguratorTextfieldAddToCartButtonComponent,
+        RoutingTestingModule,
       ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         {
           provide: ConfiguratorTextfieldService,
           useClass: MockConfiguratorTextfieldService,
@@ -100,6 +89,10 @@ describe('TextfieldFormComponent', () => {
     }).compileComponents();
   });
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => cold('-r', { r: mockRouterState }));
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;
     textfieldService = TestBed.inject(ConfiguratorTextfieldService);

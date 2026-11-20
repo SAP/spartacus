@@ -5,7 +5,9 @@ import {
   I18nTestingModule,
   Product,
   ProductService,
+  ProductTestingModule,
   RoutingService,
+  RoutingTestingModule,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -14,7 +16,10 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService } from '@spartacus/storefront';
+import {
+  BreakpointService,
+  BreakpointTestingModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -63,21 +68,6 @@ class MockConfiguratorCommonsService {
   }
 }
 
-class MockRoutingService {
-  go() {}
-}
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(PRODUCT);
-  }
-}
-
-class MockBreakpointService {
-  isUp() {}
-  isDown() {}
-}
-
 let component: ConfiguratorExitButtonComponent;
 let fixture: ComponentFixture<ConfiguratorExitButtonComponent>;
 let htmlElem: HTMLElement;
@@ -113,6 +103,9 @@ describe('ConfiguratorExitButton', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorExitButtonComponent,
+        RoutingTestingModule,
+        ProductTestingModule,
+        BreakpointTestingModule,
       ],
       providers: [
         {
@@ -123,18 +116,6 @@ describe('ConfiguratorExitButton', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
       ],
     });
   });
@@ -142,6 +123,9 @@ describe('ConfiguratorExitButton', () => {
   beforeEach(() => {
     routingService = TestBed.inject(RoutingService);
     breakpointService = TestBed.inject(BreakpointService);
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockReturnValue(
+      of(PRODUCT)
+    );
   });
 
   it('should create component', () => {

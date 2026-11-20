@@ -18,9 +18,10 @@ import {
   KeyboardFocusService,
   KeyboardFocusTestingModule,
   LaunchDialogService,
+  LaunchDialogTestingModule,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -50,14 +51,6 @@ const mockData: any = {
 
 const mockDialogData$ = new BehaviorSubject<any>(mockData);
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  get data$(): Observable<any> {
-    return mockDialogData$.asObservable();
-  }
-
-  closeDialog(_reason: string): void {}
-}
-
 @Component({
   selector: 'cx-configurator-group',
   template: '',
@@ -86,7 +79,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorConflictSolverDialogComponent],
+      imports: [
+        ConfiguratorConflictSolverDialogComponent,
+        LaunchDialogTestingModule,
+      ],
       providers: [
         {
           provide: ConfiguratorStorefrontUtilsService,
@@ -96,7 +92,6 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     })
       .overrideComponent(ConfiguratorConflictSolverDialogComponent, {
@@ -124,6 +119,11 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   });
 
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(LaunchDialogService),
+      'data$',
+      'get'
+    ).mockReturnValue(mockDialogData$.asObservable());
     fixture = TestBed.createComponent(
       ConfiguratorConflictSolverDialogComponent
     );

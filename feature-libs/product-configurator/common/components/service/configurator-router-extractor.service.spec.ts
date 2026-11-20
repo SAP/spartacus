@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorRouter } from './configurator-router-data';
@@ -19,28 +19,20 @@ const CONFIG_ID_TEMPLATE = 'abcd';
 
 let mockRouterState: any;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-}
-
 describe('ConfigRouterExtractorService', () => {
   let serviceUnderTest: ConfiguratorRouterExtractorService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-      ],
+      imports: [I18nTestingModule, RoutingTestingModule],
     }).compileComponents();
   });
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(ConfiguratorRouterExtractorService);
+    const routingService = TestBed.inject(RoutingService);
+    vi.spyOn(routingService, 'getRouterState').mockImplementation(() =>
+      of(mockRouterState)
+    );
 
     mockRouterState = {
       state: {

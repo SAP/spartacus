@@ -7,6 +7,7 @@ import {
   ImageType,
   Product,
   ProductService,
+  ProductTestingModule,
 } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import { MediaComponent } from '@spartacus/storefront';
@@ -56,10 +57,6 @@ const noCommerceProduct = { images: {} };
 
 const product$: BehaviorSubject<Product> = new BehaviorSubject(mockProduct);
 
-class MockProductService {
-  get = () => product$.asObservable();
-}
-
 class MockConfiguratorStorefrontUtilsService {
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
     return idPrefix ? `${idPrefix}--${groupId}` : `cx--${groupId}`;
@@ -99,9 +96,11 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorOverviewBundleAttributeComponent],
+      imports: [
+        ConfiguratorOverviewBundleAttributeComponent,
+        ProductTestingModule,
+      ],
       providers: [
-        { provide: ProductService, useClass: MockProductService },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
@@ -129,6 +128,9 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(() =>
+      product$.asObservable()
+    );
   });
 
   beforeEach(() => {

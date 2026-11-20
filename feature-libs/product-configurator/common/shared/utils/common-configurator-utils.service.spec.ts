@@ -11,10 +11,11 @@ import {
   OCC_USER_ID_ANONYMOUS,
   provideDefaultConfig,
   UserIdService,
+  UserIdTestingModule,
 } from '@spartacus/core';
 import { defaultCommonConfiguratorUISettingsConfig } from '../../components/config/default-common-configurator-ui-settings.config';
 import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -39,12 +40,6 @@ const cartAnonymous: Cart = {
 };
 
 let cartItem: OrderEntry;
-
-class MockUserIdService {
-  getUserId(): Observable<string> {
-    return of(NAMED_USER);
-  }
-}
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -82,11 +77,8 @@ describe('CommonConfiguratorUtilsService', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [UserIdTestingModule],
       providers: [
-        {
-          provide: UserIdService,
-          useClass: MockUserIdService,
-        },
         { provide: CartItemContext, useClass: MockCartItemContext },
         provideDefaultConfig(defaultCommonConfiguratorUISettingsConfig),
       ],
@@ -94,6 +86,8 @@ describe('CommonConfiguratorUtilsService', () => {
   });
   beforeEach(() => {
     classUnderTest = TestBed.inject(CommonConfiguratorUtilsService);
+    const userIdService = TestBed.inject(UserIdService);
+    vi.spyOn(userIdService, 'getUserId').mockReturnValue(of(NAMED_USER));
     owner = ConfiguratorModelUtils.createInitialOwner();
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
     cartItem = {};

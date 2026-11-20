@@ -15,6 +15,7 @@ import {
   I18nTestingModule,
   Product,
   ProductService,
+  ProductTestingModule,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -88,12 +89,6 @@ const productTransformed: Product = {
   images: {},
   name: 'Lorem Ipsum Dolor',
 };
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
-}
 
 class MockConfiguratorStorefrontUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
@@ -191,12 +186,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         ConfiguratorAttributeProductCardComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
+        ProductTestingModule,
       ],
       providers: [
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
@@ -257,6 +249,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
+    vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(() =>
+      of(product)
+    );
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
     );

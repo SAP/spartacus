@@ -4,7 +4,9 @@ import {
   I18nTestingModule,
   Product,
   ProductService,
+  ProductTestingModule,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -14,6 +16,7 @@ import {
   IconTestingModule,
   KeyboardFocusTestingModule,
   LaunchDialogService,
+  LaunchDialogTestingModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, lastValueFrom, of, ReplaySubject } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -30,14 +33,6 @@ class MockConfiguratorCommonsService {
   forceNewConfiguration = vi.fn();
 }
 
-class MockRoutingService {
-  go = vi.fn();
-}
-
-class MockProductService {
-  get = vi.fn();
-}
-
 describe('ConfiguratorRestartDialogComponent', () => {
   let component: ConfiguratorRestartDialogComponent;
   let fixture: ComponentFixture<ConfiguratorRestartDialogComponent>;
@@ -45,8 +40,8 @@ describe('ConfiguratorRestartDialogComponent', () => {
 
   let mockLaunchDialogService: LaunchDialogService;
   let mockConfigCommonsService: MockConfiguratorCommonsService;
-  let mockRoutingService: MockRoutingService;
-  let mockProductService: MockProductService;
+  let mockRoutingService: RoutingService;
+  let mockProductService: ProductService;
 
   let dialogDataSender: BehaviorSubject<
     { owner: CommonConfigurator.Owner } | undefined
@@ -54,9 +49,18 @@ describe('ConfiguratorRestartDialogComponent', () => {
 
   function initialize() {
     resetServiceMocks();
+    mockRoutingService = TestBed.inject(RoutingService);
+    mockProductService = TestBed.inject(ProductService);
+    vi.spyOn(mockRoutingService, 'go');
+    vi.spyOn(mockProductService, 'get').mockReturnValue(of(product));
     dialogDataSender = new BehaviorSubject<
       { owner: CommonConfigurator.Owner } | undefined
     >({ owner: owner });
+    vi.spyOn(
+      TestBed.inject(LaunchDialogService),
+      'data$',
+      'get'
+    ).mockReturnValue(dialogDataSender.asObservable());
     fixture = TestBed.createComponent(ConfiguratorRestartDialogComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
@@ -64,43 +68,27 @@ describe('ConfiguratorRestartDialogComponent', () => {
     vi.spyOn(mockLaunchDialogService, 'closeDialog');
   }
 
-  class MockLaunchDialogService {
-    closeDialog(): void {}
-    get data$() {
-      return dialogDataSender;
-    }
-  }
-
   function createServiceMocks(): void {
     mockConfigCommonsService = new MockConfiguratorCommonsService();
-    mockRoutingService = new MockRoutingService();
-    mockProductService = new MockProductService();
   }
 
   function resetServiceMocks(): void {
     mockConfigCommonsService.forceNewConfiguration.mockReset();
-    mockRoutingService.go.mockReset();
-    mockProductService.get.mockReset();
-    mockProductService.get.mockReturnValue(of(product));
   }
 
   beforeEach(async () => {
     createServiceMocks();
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorRestartDialogComponent],
+      imports: [
+        ConfiguratorRestartDialogComponent,
+        LaunchDialogTestingModule,
+        RoutingTestingModule,
+        ProductTestingModule,
+      ],
       providers: [
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: ConfiguratorCommonsService,
           useFactory: () => mockConfigCommonsService,
-        },
-        {
-          provide: RoutingService,
-          useFactory: () => mockRoutingService,
-        },
-        {
-          provide: ProductService,
-          useFactory: () => mockProductService,
         },
       ],
     })
@@ -261,10 +249,17 @@ describe('ConfiguratorRestartDialogComponent', () => {
     beforeEach(() => {
       resetServiceMocks();
       productSender = new ReplaySubject<Product>(1);
-      mockProductService.get.mockReturnValue(productSender.asObservable());
+      vi.spyOn(mockProductService, 'get').mockReturnValue(
+        productSender.asObservable()
+      );
       dialogDataSender = new BehaviorSubject<
         { owner: CommonConfigurator.Owner } | undefined
       >(undefined);
+      vi.spyOn(
+        TestBed.inject(LaunchDialogService),
+        'data$',
+        'get'
+      ).mockReturnValue(dialogDataSender.asObservable());
       fixture = TestBed.createComponent(ConfiguratorRestartDialogComponent);
       htmlElem = fixture.nativeElement;
       component = fixture.componentInstance;

@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { LanguageService, TranslationService } from '@spartacus/core';
+import {
+  LanguageService,
+  LoggerTestingModule,
+  SiteContextTestingModule,
+  TranslationService,
+} from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
@@ -169,12 +174,6 @@ const cpqConfigurationIncompleteConsistent: Cpq.Configuration = {
 
 const cpqConfigurationId = '1234-56-7890';
 
-class MockLanguageService {
-  getActive(): Observable<string> {
-    return of('en-US');
-  }
-}
-
 class MockTranslationService {
   translate(key: string, options: any): Observable<string> {
     if (key.endsWith('incomplete')) {
@@ -192,13 +191,10 @@ describe('CpqConfiguratorNormalizer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [LoggerTestingModule, SiteContextTestingModule],
       providers: [
         CpqConfiguratorNormalizer,
         CpqConfiguratorNormalizerUtilsService,
-        {
-          provide: LanguageService,
-          useClass: MockLanguageService,
-        },
         {
           provide: TranslationService,
           useClass: MockTranslationService,
@@ -207,6 +203,9 @@ describe('CpqConfiguratorNormalizer', () => {
       ],
     });
 
+    vi.spyOn(TestBed.inject(LanguageService), 'getActive').mockReturnValue(
+      of('en-US')
+    );
     cpqConfiguratorNormalizer = TestBed.inject(CpqConfiguratorNormalizer);
   });
 
@@ -969,13 +968,10 @@ describe('CpqConfiguratorNormalizer', () => {
         it('should map CONTAINER displayAs to NOT_IMPLEMENTED when the toggle is disabled', () => {
           TestBed.resetTestingModule();
           TestBed.configureTestingModule({
+            imports: [LoggerTestingModule, SiteContextTestingModule],
             providers: [
               CpqConfiguratorNormalizer,
               CpqConfiguratorNormalizerUtilsService,
-              {
-                provide: LanguageService,
-                useClass: MockLanguageService,
-              },
               {
                 provide: TranslationService,
                 useClass: MockTranslationService,
@@ -985,6 +981,10 @@ describe('CpqConfiguratorNormalizer', () => {
               }),
             ],
           });
+          vi.spyOn(
+            TestBed.inject(LanguageService),
+            'getActive'
+          ).mockReturnValue(of('en-US'));
           const normalizerWithToggleOff = TestBed.inject(
             CpqConfiguratorNormalizer
           );
@@ -3163,13 +3163,10 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should not attach containers when productConfiguratorCPQContainer is disabled', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
+        imports: [LoggerTestingModule, SiteContextTestingModule],
         providers: [
           CpqConfiguratorNormalizer,
           CpqConfiguratorNormalizerUtilsService,
-          {
-            provide: LanguageService,
-            useClass: MockLanguageService,
-          },
           {
             provide: TranslationService,
             useClass: MockTranslationService,
@@ -3179,6 +3176,9 @@ describe('CpqConfiguratorNormalizer', () => {
           }),
         ],
       });
+      vi.spyOn(TestBed.inject(LanguageService), 'getActive').mockReturnValue(
+        of('en-US')
+      );
       const normalizerWithToggleOff = TestBed.inject(CpqConfiguratorNormalizer);
       expect(normalizerWithToggleOff['isCpqContainerFeatureEnabled']()).toBe(
         false
@@ -4039,13 +4039,10 @@ describe('CpqConfiguratorNormalizer', () => {
       it('should not create row groups when productConfiguratorCPQContainer is disabled', () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
+          imports: [LoggerTestingModule, SiteContextTestingModule],
           providers: [
             CpqConfiguratorNormalizer,
             CpqConfiguratorNormalizerUtilsService,
-            {
-              provide: LanguageService,
-              useClass: MockLanguageService,
-            },
             {
               provide: TranslationService,
               useClass: MockTranslationService,
@@ -4055,8 +4052,11 @@ describe('CpqConfiguratorNormalizer', () => {
             }),
           ],
         });
+        vi.spyOn(TestBed.inject(LanguageService), 'getActive').mockReturnValue(
+          of('en-US')
+        );
         const normalizerWithToggleOff = TestBed.inject(
-          CpqConfiguratorNormalizer as Type<CpqConfiguratorNormalizer>
+          CpqConfiguratorNormalizer
         );
 
         const result = normalizerWithToggleOff.convert(

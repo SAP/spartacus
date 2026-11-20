@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  ActiveCartTestingModule,
+  Cart,
+} from '@spartacus/cart/base/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
@@ -10,6 +14,7 @@ import {
   QueryState,
   StateUtils,
   UserIdService,
+  UserIdTestingModule,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -78,24 +83,9 @@ const productConfiguration: Configurator.Configuration = {
 let cartObs: Observable<Cart>;
 let isStableObs: Observable<boolean>;
 let checkoutLoadingObs: Observable<QueryState<CheckoutState>>;
-class MockActiveCartService {
-  requireLoadedCart(): Observable<Cart> {
-    return cartObs;
-  }
-  isStable(): Observable<boolean> {
-    return isStableObs;
-  }
-}
-
 class MockCheckoutQueryFacade {
   getCheckoutDetailsState(): Observable<QueryState<CheckoutState>> {
     return checkoutLoadingObs;
-  }
-}
-
-class MockUserIdService {
-  getUserId(): Observable<string> {
-    return of(USER_ID);
   }
 }
 
@@ -112,21 +102,15 @@ describe('ConfiguratorCartService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ActiveCartTestingModule,
+        UserIdTestingModule,
       ],
       providers: [
         ConfiguratorCartService,
 
         {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartService,
-        },
-        {
           provide: CheckoutQueryFacade,
           useClass: MockCheckoutQueryFacade,
-        },
-        {
-          provide: UserIdService,
-          useClass: MockUserIdService,
         },
         ...provideMockFeatureToggles({
           productConfiguratorReadOnlyCartEntryConfiguration: false,
@@ -135,6 +119,16 @@ describe('ConfiguratorCartService', () => {
     }).compileComponents();
   });
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(ActiveCartFacade),
+      'requireLoadedCart'
+    ).mockImplementation(() => cartObs);
+    vi.spyOn(TestBed.inject(ActiveCartFacade), 'isStable').mockImplementation(
+      () => isStableObs
+    );
+    vi.spyOn(TestBed.inject(UserIdService), 'getUserId').mockReturnValue(
+      of(USER_ID)
+    );
     serviceUnderTest = TestBed.inject(ConfiguratorCartService);
     store = TestBed.inject(Store);
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);

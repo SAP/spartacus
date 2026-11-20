@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
-  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -14,7 +14,7 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
@@ -40,13 +40,6 @@ const mockRouterState: any = {
     queryParams: {},
   },
 };
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-  go(): void {}
-}
 
 class MockConfiguratorTextfieldService {
   addToCart(): void {}
@@ -78,15 +71,12 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
       imports: [
         ConfiguratorTextfieldAddToCartButtonComponent,
         RouterModule.forRoot([]),
+        RoutingTestingModule,
       ],
       providers: [
         {
           provide: ConfiguratorTextfieldService,
           useClass: MockConfiguratorTextfieldService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
         },
       ],
     })
@@ -107,6 +97,9 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   });
 
   beforeEach(() => {
+    vi.spyOn(TestBed.inject(RoutingService), 'getRouterState').mockReturnValue(
+      of(mockRouterState)
+    );
     fixture = TestBed.createComponent(
       ConfiguratorTextfieldAddToCartButtonComponent
     );

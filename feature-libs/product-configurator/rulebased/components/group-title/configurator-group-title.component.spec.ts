@@ -1,12 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterState } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { RoutingService } from '@spartacus/core';
+import {
+  RouterState,
+  RoutingService,
+  RoutingTestingModule,
+} from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import {
   BreakpointService,
+  BreakpointTestingModule,
   HamburgerMenuComponent,
   HamburgerMenuService,
   IconTestingModule,
@@ -28,12 +33,6 @@ const config: Configurator.Configuration =
 let routerStateObservable: Observable<RouterState>;
 let currentGroupObservable: Observable<Configurator.Group>;
 const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
 
 class MockRouter {
   public events = of('');
@@ -59,12 +58,6 @@ class MockConfiguratorCommonsService {
   readConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
   }
-}
-
-class MockBreakpointService {
-  isDown(): void {}
-
-  isUp(): void {}
 }
 
 @Component({
@@ -100,6 +93,8 @@ describe('ConfiguratorGroupTitleComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorGroupTitleComponent,
+        RoutingTestingModule,
+        BreakpointTestingModule,
       ],
       providers: [
         HamburgerMenuService,
@@ -108,20 +103,12 @@ describe('ConfiguratorGroupTitleComponent', () => {
           useClass: MockRouter,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
         {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupService,
-        },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
@@ -139,6 +126,10 @@ describe('ConfiguratorGroupTitleComponent', () => {
       .compileComponents();
   });
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => routerStateObservable);
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

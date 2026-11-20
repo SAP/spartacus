@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
+  GlobalMessageTestingModule,
   I18nTestingModule,
+  RouterState,
   RoutingService,
+  RoutingTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -17,6 +19,7 @@ import {
   KeyboardFocusService,
   LAUNCH_CALLER,
   LaunchDialogService,
+  LaunchDialogTestingModule,
 } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
@@ -98,12 +101,6 @@ let configurationCreateObservable: Observable<Configurator.Configuration> =
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
 class MockConfiguratorCommonsService {
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
@@ -167,14 +164,6 @@ class MockConfiguratorExpertModeService {
   setExpModeActive(): void {}
 
   getExpModeActive() {}
-}
-
-class MockLaunchDialogService {
-  openDialogAndSubscribe() {}
-}
-
-class MockGlobalMessageService {
-  add(): void {}
 }
 
 function checkConfigurationObs(
@@ -271,13 +260,15 @@ let featureToggles: MockFeatureTogglesController;
 describe('ConfiguratorFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, ConfiguratorFormComponent],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorFormComponent,
+        RoutingTestingModule,
+        GlobalMessageTestingModule,
+        LaunchDialogTestingModule,
+      ],
       providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
@@ -289,10 +280,6 @@ describe('ConfiguratorFormComponent', () => {
         {
           provide: ConfiguratorExpertModeService,
           useClass: MockConfiguratorExpertModeService,
-        },
-        {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
         },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
@@ -316,6 +303,11 @@ describe('ConfiguratorFormComponent', () => {
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', false);
+
+    vi.spyOn(
+      TestBed.inject(RoutingService),
+      'getRouterState'
+    ).mockImplementation(() => routerStateObservable);
 
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
