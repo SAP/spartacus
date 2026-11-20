@@ -24,6 +24,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
@@ -44,10 +45,17 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/testing/comm
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCartTestingModule,
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
+import { ConfiguratorQuantityTestingModule } from '../../core/services/testing/index';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '001+1';
@@ -169,14 +177,6 @@ function initTestData() {
   };
 }
 
-class MockConfiguratorQuantityService {
-  getQuantity(): Observable<number> {
-    return of(QUANTITY);
-  }
-
-  setQuantity(): void {}
-}
-
 class MockCartItemQuantityService implements Partial<CartItemQuantityService> {
   getQuantity(): Observable<number> {
     return of(PDP_QUANTITY);
@@ -185,43 +185,7 @@ class MockCartItemQuantityService implements Partial<CartItemQuantityService> {
   setQuantity(): void {}
 }
 
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-
-  getConfigurationWithOverview(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-
-  removeConfiguration() {}
-
-  removeUiState() {}
-
-  hasPendingChanges() {
-    return pendingChangesObservable;
-  }
-}
-
 const mockOrderEntry: OrderEntry = { orderCode: '123' };
-
-class MockConfiguratorCartService {
-  updateCartEntry() {}
-
-  addToCart() {}
-
-  getEntry() {
-    return orderEntryObservable;
-  }
-}
-
-class MockConfiguratorGroupsService {
-  setGroupStatusVisited() {}
-}
 
 class MockCommonConfiguratorUtilsService {
   decomposeOwnerId(ownerId: string): any {
@@ -236,12 +200,6 @@ class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
 
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
-  }
-}
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(mockRouterData);
   }
 }
 
@@ -411,12 +369,6 @@ class MockConfiguratorAddToCartButtonComponent {
   goToOrderDetails() {}
 }
 
-class MockConfiguratorStorefrontUtilsService {
-  focusFirstActiveElement(): void {}
-  getElement(): void {}
-  changeStyling(): void {}
-}
-
 describe('ConfiguratorAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
@@ -446,27 +398,17 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         GlobalMessageTestingModule,
         RoutingTestingModule,
         ActiveCartTestingModule,
+        ConfiguratorQuantityTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorCartTestingModule,
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorRouterExtractorTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         {
-          provide: ConfiguratorQuantityService,
-          useClass: MockConfiguratorQuantityService,
-        },
-        {
           provide: CartItemQuantityService,
           useClass: MockCartItemQuantityService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorCartService,
-          useClass: MockConfiguratorCartService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
         },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
         {
@@ -474,16 +416,8 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           useClass: MockCommonConfiguratorUtilsService,
         },
         {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
           provide: ConfiguratorAddToCartButtonComponent,
           useClass: MockConfiguratorAddToCartButtonComponent,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: IntersectionService,
@@ -522,11 +456,37 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   beforeEach(() => {
     initTestData();
     pendingChangesObservable = of(false);
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorQuantityService = TestBed.inject(ConfiguratorQuantityService);
+    configuratorCartService = TestBed.inject(ConfiguratorCartService);
+    vi.spyOn(configuratorQuantityService, 'getQuantity').mockReturnValue(
+      of(QUANTITY)
+    );
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockImplementation(
+      () => productConfigurationObservable
+    );
+    vi.spyOn(
+      configuratorCommonsService,
+      'getOrCreateConfiguration'
+    ).mockImplementation(() => productConfigurationObservable);
+    vi.spyOn(
+      configuratorCommonsService,
+      'getConfigurationWithOverview'
+    ).mockImplementation(() => productConfigurationObservable);
+    vi.spyOn(
+      configuratorCommonsService,
+      'hasPendingChanges'
+    ).mockImplementation(() => pendingChangesObservable);
+    vi.spyOn(configuratorCartService, 'getEntry').mockImplementation(
+      () => orderEntryObservable
+    );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockImplementation(() => of(mockRouterData));
     initialize();
     routingService = TestBed.inject(RoutingService);
-    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    configuratorQuantityService = TestBed.inject(ConfiguratorQuantityService);
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
@@ -546,8 +506,6 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
     vi.spyOn(globalMessageService, 'add');
     vi.spyOn(configuratorCommonsService, 'removeConfiguration');
     vi.spyOn(configuratorQuantityService, 'setQuantity');
-    configuratorCartService = TestBed.inject(ConfiguratorCartService);
-    vi.spyOn(configuratorCartService, 'getEntry');
     vi.spyOn(
       configuratorStorefrontUtilsService,
       'changeStyling'

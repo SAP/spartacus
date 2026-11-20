@@ -4,9 +4,12 @@ import { ConfiguratorAttributePriceChangeService } from './configurator-attribut
 
 import {
   CommonConfigurator,
+  ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
 } from '@spartacus/product-configurator/common';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../../core/facade/testing/index';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 
@@ -22,20 +25,7 @@ const mockConfigTemplate: Configurator.Configuration = {
   ),
 };
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData() {
-    return of({ owner: mockConfigTemplate.owner });
-  }
-}
-
 const configSubject = new Subject<Configurator.Configuration>();
-class MockConfiguratorCommonsService {
-  getConfiguration(
-    owner: CommonConfigurator.Owner
-  ): Observable<Configurator.Configuration> {
-    return owner === mockConfigTemplate.owner ? configSubject : EMPTY;
-  }
-}
 
 describe('ConfiguratorAttributePriceChangeService', () => {
   let classUnderTest: ConfiguratorAttributePriceChangeService;
@@ -43,18 +33,28 @@ describe('ConfiguratorAttributePriceChangeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        ConfiguratorAttributePriceChangeService,
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+      imports: [
+        ConfiguratorRouterExtractorTestingModule,
+        ConfiguratorCommonsTestingModule,
       ],
+      providers: [ConfiguratorAttributePriceChangeService],
     });
+
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockReturnValue(
+      of({ owner: mockConfigTemplate.owner } as ConfiguratorRouter.Data)
+    );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(
+      (
+        owner: CommonConfigurator.Owner
+      ): Observable<Configurator.Configuration> =>
+        owner === mockConfigTemplate.owner ? configSubject : EMPTY
+    );
 
     classUnderTest = TestBed.inject(ConfiguratorAttributePriceChangeService);
 

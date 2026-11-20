@@ -11,8 +11,10 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../../../core/facade/testing/index';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { defaultNumericAttributeMetadata } from '../../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -21,6 +23,7 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../../service/testing/index';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import {
@@ -42,8 +45,6 @@ function createValue(code: string, name: string, isSelected: boolean) {
   };
   return value;
 }
-
-class MockGroupService {}
 
 @Component({
   selector: 'cx-configurator-attribute-quantity',
@@ -75,20 +76,6 @@ class MockConfiguratorShowMoreComponent {
   @Input() attributeLabel?: string;
   @Input() valueLabel?: string;
   @Input() itemLabel?: string;
-}
-
-class MockConfiguratorCommonsService {
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-  updateConfiguration(): void {}
-}
-
-const isCartEntryOrGroupVisited = true;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
 }
 
 class MockConfiguratorAttributePriceChangeService {
@@ -137,23 +124,14 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         ConfiguratorAttributeInputFieldComponent,
         ConfiguratorAttributeNumericInputFieldComponent,
         ItemCounterComponent,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockGroupService,
-        },
-        {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
         },
       ],
     })
@@ -182,6 +160,10 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'isCartEntryOrGroupVisited'
+    ).mockReturnValue(of(true));
     fixture = TestBed.createComponent(
       ConfiguratorAttributeRadioButtonComponent
     );

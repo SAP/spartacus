@@ -6,7 +6,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { LoggerTestingModule } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import { firstValueFrom, Observable, of, Subject } from 'rxjs';
+import { firstValueFrom, of, Subject } from 'rxjs';
 import {
   CONFIG_ID,
   GROUP_ID_1,
@@ -23,10 +23,10 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { Configurator } from './../model/configurator.model';
-import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
+import { ConfiguratorCartTestingModule } from './testing/index';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
@@ -37,12 +37,6 @@ const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
     isConflictResolutionMode: true,
   },
 };
-
-class MockConfiguratorCartService {
-  checkForActiveCartUpdateDone(): Observable<boolean> {
-    return of(true);
-  }
-}
 
 describe('ConfiguratorGroupsService', () => {
   let classUnderTest: ConfiguratorGroupsService;
@@ -57,16 +51,13 @@ describe('ConfiguratorGroupsService', () => {
         LoggerTestingModule,
         StoreModule.forRoot({}),
         ActiveCartTestingModule,
+        ConfiguratorCartTestingModule,
       ],
       providers: [
         ConfiguratorGroupsService,
         ConfiguratorCommonsService,
         ConfiguratorGroupStatusService,
         ConfiguratorUtilsService,
-        {
-          provide: ConfiguratorCartService,
-          useClass: MockConfiguratorCartService,
-        },
       ],
     }).compileComponents();
   });

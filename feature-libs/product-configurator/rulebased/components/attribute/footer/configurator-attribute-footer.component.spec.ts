@@ -7,20 +7,16 @@ import {
 } from '@spartacus/product-configurator/common';
 import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../service/testing/index';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
 
 let showRequiredMessageForUserInput: boolean;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(showRequiredMessageForUserInput);
-  }
-}
 
 function createComponentWithData(
   isCartEntryOrGroupVisited: boolean = true
@@ -65,12 +61,9 @@ describe('ConfigAttributeFooterComponent', () => {
       imports: [
         ConfiguratorAttributeFooterComponent,
         MockFeatureLevelDirective,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
@@ -89,6 +82,11 @@ describe('ConfigAttributeFooterComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
+
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'isCartEntryOrGroupVisited'
+    ).mockImplementation(() => of(showRequiredMessageForUserInput));
   });
 
   it('should render an empty component because showRequiredMessageForUserInput$ is `false`', () => {

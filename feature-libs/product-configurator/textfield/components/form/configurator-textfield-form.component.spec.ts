@@ -12,8 +12,8 @@ import {
 } from '@spartacus/product-configurator/common';
 import { PageLayoutModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
+import { ConfiguratorTextfieldTestingModule } from '../../core/facade/testing/index';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from '../add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configurator-textfield-input-field.component';
@@ -38,31 +38,6 @@ const productConfig: ConfiguratorTextfield.Configuration = {
   configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
-class MockConfiguratorTextfieldService {
-  createConfiguration(): Observable<ConfiguratorTextfield.Configuration> {
-    return cold('-p', {
-      p: productConfig,
-    });
-  }
-  updateConfiguration(): void {}
-  readConfigurationForCartEntry(): Observable<ConfiguratorTextfield.Configuration> {
-    return cold('-p', {
-      p: productConfig,
-    });
-  }
-  readConfigurationForOrderEntry(): Observable<ConfiguratorTextfield.Configuration> {
-    return cold('-p', {
-      p: productConfig,
-    });
-  }
-
-  readConfigurationForQuoteEntry(): Observable<ConfiguratorTextfield.Configuration> {
-    return cold('-p', {
-      p: productConfig,
-    });
-  }
-}
-
 describe('TextfieldFormComponent', () => {
   let component: ConfiguratorTextfieldFormComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
@@ -79,12 +54,7 @@ describe('TextfieldFormComponent', () => {
         ConfiguratorTextfieldInputFieldComponent,
         ConfiguratorTextfieldAddToCartButtonComponent,
         RoutingTestingModule,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorTextfieldService,
-          useClass: MockConfiguratorTextfieldService,
-        },
+        ConfiguratorTextfieldTestingModule,
       ],
     }).compileComponents();
   });
@@ -93,9 +63,20 @@ describe('TextfieldFormComponent', () => {
       TestBed.inject(RoutingService),
       'getRouterState'
     ).mockImplementation(() => cold('-r', { r: mockRouterState }));
+    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
+    vi.spyOn(textfieldService, 'createConfiguration').mockImplementation(() =>
+      cold('-p', { p: productConfig })
+    );
+    vi.spyOn(
+      textfieldService,
+      'readConfigurationForCartEntry'
+    ).mockImplementation(() => cold('-p', { p: productConfig }));
+    vi.spyOn(
+      textfieldService,
+      'readConfigurationForOrderEntry'
+    ).mockImplementation(() => cold('-p', { p: productConfig }));
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;
-    textfieldService = TestBed.inject(ConfiguratorTextfieldService);
   });
 
   it('should create component', () => {

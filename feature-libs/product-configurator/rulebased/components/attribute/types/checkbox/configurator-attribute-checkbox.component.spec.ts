@@ -13,7 +13,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../../../core/facade/testing/index';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import {
@@ -21,6 +21,7 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../../service/testing/index';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
@@ -46,24 +47,6 @@ class MockConfiguratorShowMoreComponent {
   @Input() attributeLabel?: string;
   @Input() valueLabel?: string;
   @Input() itemLabel?: string;
-}
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  lastSelected?: { attributeName: string; valueCode: string };
-  setLastSelected(attributeName: string, valueCode: string): void {
-    this.lastSelected = { attributeName, valueCode };
-  }
-  isLastSelected(attributeName: string, valueCode: string): boolean {
-    return (
-      !!this.lastSelected &&
-      this.lastSelected.attributeName === attributeName &&
-      this.lastSelected.valueCode === valueCode
-    );
-  }
 }
 
 class MockConfiguratorAttributePriceChangeService {
@@ -95,19 +78,13 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         ConfiguratorAttributeCheckBoxComponent,
         I18nTestingModule,
         DirectionTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
     })
@@ -146,6 +123,25 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   const value1 = createValue('1', 'val1', false);
   beforeEach(() => {
     const values: Configurator.Value[] = [value1];
+
+    const configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService
+    );
+    let lastSelected: { attributeName: string; valueCode: string } | undefined;
+    vi.spyOn(
+      configuratorStorefrontUtilsService,
+      'setLastSelected'
+    ).mockImplementation((attributeName: string, valueCode: string) => {
+      lastSelected = { attributeName, valueCode };
+    });
+    vi.spyOn(
+      configuratorStorefrontUtilsService,
+      'isLastSelected'
+    ).mockImplementation(
+      (attributeName: string, valueCode: string) =>
+        lastSelected?.attributeName === attributeName &&
+        lastSelected?.valueCode === valueCode
+    );
 
     fixture = TestBed.createComponent(ConfiguratorAttributeCheckBoxComponent);
     component = fixture.componentInstance;

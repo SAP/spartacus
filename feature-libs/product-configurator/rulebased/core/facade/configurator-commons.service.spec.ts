@@ -25,6 +25,7 @@ import {
 import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
+import { ConfiguratorCartTestingModule } from './testing/index';
 import { ConfiguratorUtilsService } from './utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -91,7 +92,6 @@ const configurationStateWoLoading: ConfiguratorState = {
 
 let configCartObservable: Observable<Configurator.Configuration>;
 let configOrderObservable: Observable<Configurator.Configuration>;
-let configQuoteObservable: Observable<Configurator.Configuration>;
 let isStableObservable: Observable<boolean>;
 let cartObs: Observable<Cart>;
 
@@ -110,18 +110,6 @@ class MockconfiguratorUtilsService {
     configurationLoaderState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
   ): Configurator.Configuration | undefined {
     return configurationLoaderState.value;
-  }
-}
-
-class MockConfiguratorCartService {
-  readConfigurationForCartEntry() {
-    return configCartObservable;
-  }
-  readConfigurationForOrderEntry() {
-    return configOrderObservable;
-  }
-  readConfigurationForQuoteEntry() {
-    return configQuoteObservable;
   }
 }
 
@@ -159,7 +147,6 @@ describe('ConfiguratorCommonsService', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configurationWithOverview: Configurator.Configuration;
   configOrderObservable = of(productConfiguration);
-  configQuoteObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
   isStableObservable = of(true);
   const cart: Cart = {};
@@ -172,13 +159,10 @@ describe('ConfiguratorCommonsService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ActiveCartTestingModule,
+        ConfiguratorCartTestingModule,
       ],
       providers: [
         ConfiguratorCommonsService,
-        {
-          provide: ConfiguratorCartService,
-          useClass: MockConfiguratorCartService,
-        },
         {
           provide: ConfiguratorUtilsService,
           useClass: MockconfiguratorUtilsService,
@@ -236,6 +220,14 @@ describe('ConfiguratorCommonsService', () => {
     };
     store = TestBed.inject(Store);
     configuratorCartService = TestBed.inject(ConfiguratorCartService);
+    vi.spyOn(
+      configuratorCartService,
+      'readConfigurationForCartEntry'
+    ).mockImplementation(() => configCartObservable);
+    vi.spyOn(
+      configuratorCartService,
+      'readConfigurationForOrderEntry'
+    ).mockImplementation(() => configOrderObservable);
     vi.spyOn(configuratorUtilsService, 'createConfigurationExtract');
     vi.spyOn(store, 'dispatch');
   });

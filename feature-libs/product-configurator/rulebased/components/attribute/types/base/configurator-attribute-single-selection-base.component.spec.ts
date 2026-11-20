@@ -3,8 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../../../core/facade/testing/index';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
@@ -61,13 +62,6 @@ const createTestValue = (
 
 const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
 
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return isConfigurationLoading$.asObservable();
-  }
-}
-
 @Component({
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
@@ -109,6 +103,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ExampleConfiguratorAttributeSingleSelectionComponent,
+        ConfiguratorCommonsTestingModule,
       ],
       providers: [
         ConfiguratorAttributeQuantityService,
@@ -116,12 +111,13 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
       ],
     }).compileComponents();
+
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'isConfigurationLoading'
+    ).mockImplementation(() => isConfigurationLoading$.asObservable());
   });
 
   beforeEach(() => {

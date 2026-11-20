@@ -12,12 +12,14 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { CarouselComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
@@ -64,12 +66,6 @@ class MockCarouselComponent {
   @Input() hideIndicators: any;
 }
 
-class MockConfigRouterExtractorService {
-  extractRouterData() {
-    return of(router);
-  }
-}
-
 let configurationWithoutVariants: Configurator.Configuration =
   ConfiguratorTestUtils.createConfiguration(
     'a',
@@ -88,19 +84,19 @@ let configurationWithVariants: Configurator.Configuration =
     )
   );
 
-let configurationObs: any;
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-}
-
 let component: ConfiguratorVariantCarouselComponent;
 let fixture: ComponentFixture<ConfiguratorVariantCarouselComponent>;
 let htmlElem: HTMLElement;
 
 function initialize(configuration: Configurator.Configuration) {
-  configurationObs = of(configuration);
+  vi.spyOn(
+    TestBed.inject(ConfiguratorRouterExtractorService),
+    'extractRouterData'
+  ).mockReturnValue(of(router));
+  vi.spyOn(
+    TestBed.inject(ConfiguratorCommonsService),
+    'getConfiguration'
+  ).mockReturnValue(of(configuration));
   vi.spyOn(TestBed.inject(ProductService), 'get').mockReturnValue(of(product));
   fixture = TestBed.createComponent(ConfiguratorVariantCarouselComponent);
   component = fixture.componentInstance;
@@ -125,16 +121,8 @@ describe('ConfiguratorVariantCarouselComponent', () => {
         ConfiguratorVariantCarouselComponent,
         ProductTestingModule,
         I18nTestingModule,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfigRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        ConfiguratorRouterExtractorTestingModule,
+        ConfiguratorCommonsTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorVariantCarouselComponent, {

@@ -35,6 +35,10 @@ import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../core/facade/testing/index';
 import { ConfiguratorUtilsService } from '../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
@@ -54,6 +58,7 @@ import {
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from './../service/testing/index';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
 
@@ -134,65 +139,6 @@ const mockRouterStateIssueNavigation: any = {
   },
 };
 
-class MockConfiguratorGroupService {
-  setMenuParentGroup(): void {}
-
-  getGroupStatus() {
-    return of(null);
-  }
-
-  isGroupVisited() {
-    return groupVisitedObservable;
-  }
-
-  findParentGroup() {
-    return null;
-  }
-
-  navigateToGroup(): void {}
-
-  getCurrentGroup(): Observable<Configurator.Group> {
-    return of(mockProductConfiguration.groups[0]);
-  }
-
-  getMenuParentGroup(): Observable<Configurator.Group | undefined> {
-    return of(undefined);
-  }
-
-  hasSubGroups(group: Configurator.Group): boolean {
-    return group.subGroups ? group.subGroups.length > 0 : false;
-  }
-
-  getParentGroup(): Configurator.Group | undefined {
-    return undefined;
-  }
-
-  isConflictGroupType() {
-    return isConflictGroupType;
-  }
-}
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-}
-
-class MockConfiguratorStorefrontUtilsService {
-  createGroupId(groupId?: string): string | undefined {
-    if (groupId) {
-      return groupId + '-group';
-    }
-  }
-
-  scrollToConfigurationElement(): void {}
-  setFocus(): void {}
-  focusFirstActiveElement(): void {}
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(mockGroupVisited);
-  }
-}
-
 let component: ConfiguratorGroupMenuComponent;
 let fixture: ComponentFixture<ConfiguratorGroupMenuComponent>;
 let configuratorGroupsService: ConfiguratorGroupsService;
@@ -239,24 +185,15 @@ describe('ConfiguratorGroupMenuComponent', () => {
         RoutingTestingModule,
         DirectionTestingModule,
         BreakpointTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         HamburgerMenuService,
         {
           provide: Router,
           useClass: MockRouter,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
           provide: TranslationService,
@@ -286,14 +223,36 @@ describe('ConfiguratorGroupMenuComponent', () => {
       configuratorGroupsService,
       'setMenuParentGroup'
     ).mockImplementation(() => {});
-    vi.spyOn(configuratorGroupsService, 'isGroupVisited');
+    vi.spyOn(configuratorGroupsService, 'isGroupVisited').mockImplementation(
+      () => groupVisitedObservable
+    );
     isConflictGroupType = false;
-    vi.spyOn(configuratorGroupsService, 'isConflictGroupType');
+    vi.spyOn(
+      configuratorGroupsService,
+      'isConflictGroupType'
+    ).mockImplementation(() => isConflictGroupType);
+    vi.spyOn(configuratorGroupsService, 'getCurrentGroup').mockImplementation(
+      () => of(mockProductConfiguration.groups[0])
+    );
+    vi.spyOn(configuratorGroupsService, 'hasSubGroups').mockImplementation(
+      (group: Configurator.Group) =>
+        group.subGroups ? group.subGroups.length > 0 : false
+    );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(() => productConfigurationObservable);
 
     hamburgerMenuService = TestBed.inject(HamburgerMenuService);
     vi.spyOn(hamburgerMenuService, 'toggle').mockImplementation(() => {});
 
     configUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
+    vi.spyOn(configUtils, 'createGroupId').mockImplementation(
+      (groupId?: string) => (groupId ? groupId + '-group' : undefined)
+    );
+    vi.spyOn(configUtils, 'isCartEntryOrGroupVisited').mockImplementation(() =>
+      of(mockGroupVisited)
+    );
     vi.spyOn(configUtils, 'setFocus').mockImplementation(() => {});
     vi.spyOn(configUtils, 'focusFirstActiveElement').mockImplementation(
       () => {}

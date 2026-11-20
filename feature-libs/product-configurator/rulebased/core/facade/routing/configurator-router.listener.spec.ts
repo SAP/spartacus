@@ -4,15 +4,12 @@ import {
   RoutingService,
   RoutingTestingModule,
 } from '@spartacus/core';
-import { Observable, Subscription, of } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
+import { ConfiguratorCartTestingModule } from '../testing/index';
 import { ConfiguratorRouterListener } from './configurator-router.listener';
 import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
-
-const QUANTITY = 99;
-class MockConfiguratorCartService {
-  removeCartBoundConfigurations() {}
-}
+import { ConfiguratorQuantityTestingModule } from '../../services/testing/index';
 
 let routerState: RouterState = {
   navigationId: 1,
@@ -45,32 +42,16 @@ const routerStateCartRoute: RouterState = {
   },
 };
 
-class MockConfiguratorQuantityService {
-  getQuantity(): Observable<number> {
-    return of(QUANTITY);
-  }
-  setQuantity(): void {}
-}
-
-let mockConfiguratorCartService: MockConfiguratorCartService =
-  new MockConfiguratorCartService();
-
 describe('ConfiguratorRouterListener', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configuratorQuantityService: ConfiguratorQuantityService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RoutingTestingModule],
-      providers: [
-        {
-          provide: ConfiguratorCartService,
-          useValue: mockConfiguratorCartService,
-        },
-        {
-          provide: ConfiguratorQuantityService,
-          useClass: MockConfiguratorQuantityService,
-        },
+      imports: [
+        RoutingTestingModule,
+        ConfiguratorCartTestingModule,
+        ConfiguratorQuantityTestingModule,
       ],
     }).compileComponents();
   });

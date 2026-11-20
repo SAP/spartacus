@@ -7,21 +7,12 @@ import {
 } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
+import { ConfiguratorExpertModeTestingModule } from '../services/testing/index';
 import { ConfiguratorLogoutEventListener } from './configurator-logout-event.listener';
 
 const mockEventStream$ = new Subject<CxEvent>();
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-  getExpModeRequested() {}
-  setExpModeActive(): void {}
-  getExpModeActive() {}
-}
-
-class MockConfiguratorCommonsService {
-  removeProductBoundConfigurations(): void {}
-}
 
 describe(`ConfiguratorLogoutEventListener`, () => {
   let classUnderTest: ConfiguratorLogoutEventListener;
@@ -30,18 +21,12 @@ describe(`ConfiguratorLogoutEventListener`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [EventTestingModule],
-      providers: [
-        ConfiguratorLogoutEventListener,
-        {
-          provide: ConfiguratorExpertModeService,
-          useClass: MockConfiguratorExpertModeService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+      imports: [
+        EventTestingModule,
+        ConfiguratorExpertModeTestingModule,
+        ConfiguratorCommonsTestingModule,
       ],
+      providers: [ConfiguratorLogoutEventListener],
     });
 
     const eventService = TestBed.inject(EventService);

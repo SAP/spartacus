@@ -23,6 +23,7 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { ConfiguratorRouterExtractorTestingModule } from '@spartacus/product-configurator/common';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
@@ -30,8 +31,10 @@ import { CommonConfigurator } from '../../../common/core/model/common-configurat
 import { ConfiguratorModelUtils } from '../../../common/shared/utils/configurator-model-utils';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { ConfiguratorExpertModeTestingModule } from '../../core/services/testing/index';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
@@ -145,12 +148,6 @@ const mockInnerNestedProduct: Product = {
   },
 };
 
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return routerDataObservable;
-  }
-}
-
 const mockRouterState: any = {
   state: {
     semanticRoute: ROUTE_CONFIGURATION,
@@ -166,12 +163,6 @@ class MockRouter {
   public events = of('');
 }
 
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return productConfigurationObservable;
-  }
-}
-
 @Component({
   template: '',
   selector: 'cx-media',
@@ -180,18 +171,6 @@ class MockConfiguratorCommonsService {
 class MockMediaComponent {
   @Input() container: any;
   @Input() format: any;
-}
-
-class MockConfiguratorExpertModeService {
-  setExpModeRequested(): void {}
-
-  getExpModeRequested() {}
-
-  setExpModeActive(): void {}
-
-  getExpModeActive(): Observable<boolean> {
-    return of(true);
-  }
 }
 
 let component: ConfiguratorProductTitleComponent;
@@ -419,23 +398,14 @@ describe('ConfigProductTitleComponent', () => {
         ConfiguratorProductTitleComponent,
         RoutingTestingModule,
         ProductTestingModule,
+        ConfiguratorRouterExtractorTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorExpertModeTestingModule,
       ],
       providers: [
         {
           provide: Router,
           useClass: MockRouter,
-        },
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorExpertModeService,
-          useClass: MockConfiguratorExpertModeService,
         },
         ...provideMockFeatureToggles({
           productConfiguratorCPQContainer: false,
@@ -463,6 +433,18 @@ describe('ConfigProductTitleComponent', () => {
     vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(
       () => productObservable
     );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockImplementation(() => routerDataObservable);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockImplementation(() => productConfigurationObservable);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorExpertModeService),
+      'getExpModeActive'
+    ).mockReturnValue(of(true));
     initialize();
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);

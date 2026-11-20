@@ -25,6 +25,7 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { ConfiguratorGroupsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../config/configurator-ui-settings.config';
@@ -65,12 +66,6 @@ const mockRouterStateTemplate: any = {
     semanticRoute: CONFIGURATOR_ROUTE,
   },
 };
-
-class MockConfiguratorGroupsService {
-  isGroupVisited(): Observable<boolean> {
-    return isGroupVisited;
-  }
-}
 
 class MockKeyboardFocusService {
   findFocusable = vi.fn();
@@ -144,12 +139,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         MockComponent,
         RoutingTestingModule,
         ProductTestingModule,
+        ConfiguratorGroupsTestingModule,
       ],
       providers: [
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
         {
           provide: KeyboardFocusService,
           useClass: MockKeyboardFocusService,
@@ -170,6 +162,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     vi.spyOn(TestBed.inject(ProductService), 'get').mockImplementation(() =>
       of(product)
     );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorGroupsService),
+      'isGroupVisited'
+    ).mockImplementation(() => isGroupVisited);
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
     fixture = TestBed.createComponent(MockComponent);
     htmlElem = fixture.nativeElement;

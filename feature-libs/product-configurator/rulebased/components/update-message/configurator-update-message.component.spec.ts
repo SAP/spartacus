@@ -14,8 +14,9 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
@@ -27,12 +28,6 @@ const owner: CommonConfigurator.Owner =
 
 let hasPendingChanges = false;
 let waitingTime: number | undefined = 1000;
-
-class MockConfiguratorCommonsService {
-  hasPendingChanges(): Observable<boolean> {
-    return of(hasPendingChanges);
-  }
-}
 
 class MockMessageConfig {
   productConfigurator = {
@@ -61,15 +56,12 @@ describe('ConfiguratorUpdateMessageComponent', () => {
         NgSelectModule,
         ConfiguratorUpdateMessageComponent,
         RoutingTestingModule,
+        ConfiguratorCommonsTestingModule,
       ],
       providers: [
         {
           provide: ConfiguratorMessageConfig,
           useClass: MockMessageConfig,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
         },
       ],
     }).overrideComponent(ConfiguratorUpdateMessageComponent, {
@@ -86,6 +78,10 @@ describe('ConfiguratorUpdateMessageComponent', () => {
       TestBed.inject(RoutingService),
       'getRouterState'
     ).mockImplementation(() => routerStateObservable);
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'hasPendingChanges'
+    ).mockImplementation(() => of(hasPendingChanges));
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;

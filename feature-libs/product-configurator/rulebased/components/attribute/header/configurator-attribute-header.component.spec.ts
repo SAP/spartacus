@@ -15,16 +15,21 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { getTestScheduler } from 'jasmine-marbles';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../../core/facade/testing/index';
 import { Configurator } from '../../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorMessageService } from '../../service/configurator-message.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../service/testing/index';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
@@ -53,20 +58,6 @@ class MockConfiguratorShowOptionsComponent {
 
 let isCartEntryOrGroupVisited = true;
 
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-
-  focusValue(): void {}
-
-  scrollToConfigurationElement(): void {}
-
-  idSelector(id: string): string {
-    return '#' + id;
-  }
-}
-
 const configWithoutConflicts: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
@@ -74,20 +65,6 @@ const configConflict: Configurator.Configuration =
   ConfigurationTestData.productConfigurationWithConflicts;
 
 let config: Configurator.Configuration;
-
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  isConfigurationLoading(): Observable<boolean> {
-    return of(true);
-  }
-}
-
-class MockConfiguratorGroupsService {
-  navigateToGroup(): void {}
-}
 
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
@@ -138,20 +115,11 @@ describe('ConfigAttributeHeaderComponent', () => {
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
         MockConfiguratorShowOptionsComponent,
+        ConfiguratorStorefrontUtilsTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorGroupsTestingModule,
       ],
       providers: [
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
         {
           provide: ConfiguratorUISettingsConfig,
           useValue: structuredClone(testConfiguratorUISettings),
@@ -181,6 +149,26 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   beforeEach(() => {
     config = configWithoutConflicts;
+    configurationGroupsService = TestBed.inject(ConfiguratorGroupsService);
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService
+    );
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(
+      configuratorStorefrontUtilsService,
+      'isCartEntryOrGroupVisited'
+    ).mockImplementation(() => of(isCartEntryOrGroupVisited));
+    vi.spyOn(
+      configuratorStorefrontUtilsService,
+      'idSelector'
+    ).mockImplementation((id: string) => '#' + id);
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockImplementation(
+      () => of(config)
+    );
+    vi.spyOn(
+      configuratorCommonsService,
+      'isConfigurationLoading'
+    ).mockReturnValue(of(true));
     fixture = TestBed.createComponent(ConfiguratorAttributeHeaderComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -199,11 +187,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.isNavigationToGroupEnabled = true;
     component['logError'] = () => {};
 
-    configurationGroupsService = TestBed.inject(ConfiguratorGroupsService);
-    configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService
-    );
-    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     configuratorUISettingsConfig = TestBed.inject(ConfiguratorUISettingsConfig);
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', false);

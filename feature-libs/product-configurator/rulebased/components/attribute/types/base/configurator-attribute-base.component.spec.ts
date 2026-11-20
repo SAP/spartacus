@@ -5,6 +5,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../../service/testing/index';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
@@ -36,7 +37,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       configuratorUISettingsConfigTemplate
     );
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, ConfiguratorStorefrontUtilsTestingModule],
       providers: [
         ConfiguratorAttributeBaseComponent,
         {
@@ -46,10 +47,6 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         {
           provide: ConfiguratorAttributePriceChangeService,
           useClass: MockConfiguratorAttributePriceChangeService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
         },
       ],
     });

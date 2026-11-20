@@ -11,7 +11,7 @@ import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
 } from '../../../price/configurator-price.component';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../../service/testing/index';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
@@ -98,15 +98,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
-        },
       ],
       imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         ConfiguratorAttributeReadOnlyComponent,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {

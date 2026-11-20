@@ -10,3 +10,4 @@ export * from './configurator-group-status.service';
 export * from './configurator-groups.service';
 export * from './routing/index';
 export * from './utils/index';
+export * from './testing/index';

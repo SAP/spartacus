@@ -3,6 +3,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouterExtractorTestingModule,
 } from '@spartacus/product-configurator/common';
 import {
   BreakpointService,
@@ -14,18 +15,13 @@ import {
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
 
 const standardRouterData: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 let routerData: ConfiguratorRouter.Data;
-class MockRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(routerData);
-  }
-}
 let isLargeResolution: boolean;
 const headerSlots = ['SiteLogo', 'MiniCart'];
 const headerSlotsIncludingPreHeader = ['PreHeader', 'SiteLogo', 'MiniCart'];
@@ -102,12 +98,11 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BreakpointTestingModule],
+      imports: [
+        BreakpointTestingModule,
+        ConfiguratorRouterExtractorTestingModule,
+      ],
       providers: [
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockRouterExtractorService,
-        },
         {
           provide: LayoutConfig,
           useValue: mockLayoutConfig,
@@ -121,6 +116,10 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     vi.spyOn(breakpointService, 'isUp').mockImplementation(() =>
       of(isLargeResolution)
     );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorRouterExtractorService),
+      'extractRouterData'
+    ).mockImplementation(() => of(routerData));
     featureToggles = TestBed.inject(MockFeatureTogglesController);
     featureToggles.set('productConfiguratorCPQContainer', true);
     classUnderTest = TestBed.inject(CpqConfiguratorPageLayoutHandler);

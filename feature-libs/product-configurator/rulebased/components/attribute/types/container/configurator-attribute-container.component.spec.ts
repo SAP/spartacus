@@ -7,16 +7,21 @@ import {
   IconComponent,
   IconTestingModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../../../core/facade/testing/index';
 import { ConfiguratorUtilsService } from '../../../../core/facade/utils/configurator-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../../service/testing/index';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import {
   ConfiguratorAttributeProductCardComponent,
@@ -74,29 +79,6 @@ class MockProductCardComponent {
   addAction = Configurator.ContainerRowAction.ADD;
   editAction = Configurator.ContainerRowAction.EDIT;
   copyAction = Configurator.ContainerRowAction.COPY;
-}
-
-class MockConfiguratorCommonsService {
-  configuration$ = new BehaviorSubject(
-    ConfiguratorTestUtils.createConfiguration('config-id')
-  );
-
-  addContainerRow(): void {}
-  removeContainerRow(): void {}
-  copyContainerRow(): void {}
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return this.configuration$;
-  }
-}
-
-class MockConfiguratorGroupsService {
-  navigateToGroup(): void {}
-  getCurrentGroupId(): Observable<string> {
-    return of('testGroup');
-  }
 }
 
 describe('ConfiguratorAttributeContainerComponent', () => {
@@ -165,7 +147,12 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorAttributeContainerComponent],
+      imports: [
+        ConfiguratorAttributeContainerComponent,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
+      ],
       providers: [
         {
           provide: ConfiguratorUISettingsConfig,
@@ -175,22 +162,7 @@ describe('ConfiguratorAttributeContainerComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
         ConfiguratorUtilsService,
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {
-            isCartEntryOrGroupVisited: () => of(true),
-            focusElement: () => {},
-          },
-        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeContainerComponent, {
@@ -213,11 +185,23 @@ describe('ConfiguratorAttributeContainerComponent', () => {
   });
 
   beforeEach(() => {
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
+      new BehaviorSubject(
+        ConfiguratorTestUtils.createConfiguration('config-id')
+      )
+    );
+    vi.spyOn(configuratorGroupsService, 'getCurrentGroupId').mockReturnValue(
+      of('testGroup')
+    );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'isCartEntryOrGroupVisited'
+    ).mockReturnValue(of(true));
     fixture = TestBed.createComponent(ConfiguratorAttributeContainerComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
-    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     component.attribute = createAttribute();
   });
 

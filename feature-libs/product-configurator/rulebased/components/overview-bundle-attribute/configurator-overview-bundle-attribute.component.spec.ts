@@ -20,6 +20,7 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.component';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
@@ -57,28 +58,6 @@ const noCommerceProduct = { images: {} };
 
 const product$: BehaviorSubject<Product> = new BehaviorSubject(mockProduct);
 
-class MockConfiguratorStorefrontUtilsService {
-  getPrefixId(idPrefix: string | undefined, groupId: string): string {
-    return idPrefix ? `${idPrefix}--${groupId}` : `cx--${groupId}`;
-  }
-
-  createOvGroupId(prefix: string, groupId: string): string {
-    return `${prefix}--${groupId}-ovGroup`;
-  }
-
-  idSelector(id: string): string {
-    return `#${id}`;
-  }
-
-  scrollToConfigurationElement = vi.fn();
-
-  navigateToOverviewGroup = vi.fn((idPrefix: string, groupId: string) => {
-    this.scrollToConfigurationElement(
-      this.idSelector(this.createOvGroupId(idPrefix, groupId)) + ' h2'
-    );
-  });
-}
-
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'cx-configurator-price',
@@ -99,12 +78,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       imports: [
         ConfiguratorOverviewBundleAttributeComponent,
         ProductTestingModule,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorOverviewBundleAttributeComponent, {
@@ -123,6 +97,26 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   });
 
   beforeEach(() => {
+    const storefrontUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
+    vi.spyOn(storefrontUtils, 'getPrefixId').mockImplementation(
+      (idPrefix: string | undefined, groupId: string) =>
+        idPrefix ? `${idPrefix}--${groupId}` : `cx--${groupId}`
+    );
+    vi.spyOn(storefrontUtils, 'createOvGroupId').mockImplementation(
+      (prefix: string, groupId: string) => `${prefix}--${groupId}-ovGroup`
+    );
+    vi.spyOn(storefrontUtils, 'idSelector').mockImplementation(
+      (id: string) => `#${id}`
+    );
+    vi.spyOn(storefrontUtils, 'scrollToConfigurationElement');
+    vi.spyOn(storefrontUtils, 'navigateToOverviewGroup').mockImplementation(
+      (idPrefix: string, groupId: string) =>
+        storefrontUtils.scrollToConfigurationElement(
+          storefrontUtils.idSelector(
+            storefrontUtils.createOvGroupId(idPrefix, groupId)
+          ) + ' h2'
+        )
+    );
     fixture = TestBed.createComponent(
       ConfiguratorOverviewBundleAttributeComponent
     );

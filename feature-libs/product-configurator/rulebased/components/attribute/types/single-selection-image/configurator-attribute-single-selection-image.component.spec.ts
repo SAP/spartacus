@@ -15,21 +15,22 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../../../core/facade/testing/index';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
 } from '../../../price/configurator-price.component';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../../service/testing/index';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
 const VALUE_DISPLAY_NAME = 'val2';
-class MockGroupService {}
 
 @Component({
   selector: 'cx-configurator-price',
@@ -44,10 +45,6 @@ class MockGroupService {}
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
 }
 
 class MockConfiguratorAttributePriceChangeService {
@@ -75,24 +72,14 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         NgSelectModule,
         PopoverModule,
         ConfiguratorAttributeSingleSelectionImageComponent,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
-        ConfiguratorStorefrontUtilsService,
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockGroupService,
-        },
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
         },
       ],
     })

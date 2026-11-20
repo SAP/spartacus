@@ -5,3 +5,4 @@
  */
 
 export * from './configurator-textfield.service';
+export * from './testing/index';

@@ -24,16 +24,13 @@ import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feat
 import { BehaviorSubject, NEVER, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from './../service/testing/index';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
-
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-  dismissConflictSolverDialog(): void {}
-}
 
 const mockRouterData: ConfiguratorRouter.Data = {
   owner: {
@@ -62,12 +59,6 @@ class MockConfiguratorDefaultFormComponent {
   @Input() isNavigationToGroupEnabled = true;
 }
 
-class MockConfigUtilsService {
-  scrollToConfigurationElement(): void {}
-
-  focusFirstAttribute(): void {}
-}
-
 describe('ConfiguratorConflictSolverDialogComponent', () => {
   let component: ConfiguratorConflictSolverDialogComponent;
   let fixture: ComponentFixture<ConfiguratorConflictSolverDialogComponent>;
@@ -82,16 +73,8 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       imports: [
         ConfiguratorConflictSolverDialogComponent,
         LaunchDialogTestingModule,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+        ConfiguratorStorefrontUtilsTestingModule,
+        ConfiguratorCommonsTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorConflictSolverDialogComponent, {

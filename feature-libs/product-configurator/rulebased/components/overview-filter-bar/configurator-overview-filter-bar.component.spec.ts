@@ -5,10 +5,12 @@ import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
 
 const owner: CommonConfigurator.Owner =
@@ -25,7 +27,7 @@ let fixture: ComponentFixture<ConfiguratorOverviewFilterBarComponent>;
 let htmlElem: HTMLElement;
 let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
-let mockConfigCommonsService: ConfiguratorCommonsService;
+let configuratorCommonsService: ConfiguratorCommonsService;
 
 let config: Configurator.Configuration;
 let ovConfig: Configurator.ConfigurationWithOverview;
@@ -49,29 +51,15 @@ function initTestData() {
     },
   };
 }
-function initMocks() {
-  mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
-}
-
-class MockConfigUtilsService {
-  getElementById(): void {}
-}
 
 describe('ConfiguratorOverviewFilterBarComponent', () => {
   beforeEach(async () => {
     initTestData();
-    initMocks();
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorOverviewFilterBarComponent],
-      providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
+      imports: [
+        ConfiguratorOverviewFilterBarComponent,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorOverviewFilterBarComponent, {
@@ -84,6 +72,8 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
   });
 
   beforeEach(() => {
+    configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
+    vi.spyOn(configuratorCommonsService, 'updateConfigurationOverview');
     fixture = TestBed.createComponent(ConfiguratorOverviewFilterBarComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
@@ -169,7 +159,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         });
 
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledTimes(3); // My Selections, Group 1, Remove All
     });
 
@@ -269,7 +259,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.attributeFilters = [PRICE_RELEVANT];
       component.onAttrFilterRemove(ovConfig, MY_SELECTIONS);
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
@@ -278,7 +268,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.groupFilters = ['3'];
       component.onGroupFilterRemove(ovConfig, '1');
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
@@ -289,7 +279,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.attributeFilters = [];
       component.onRemoveAll(ovConfig);
       expect(
-        mockConfigCommonsService.updateConfigurationOverview
+        configuratorCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 

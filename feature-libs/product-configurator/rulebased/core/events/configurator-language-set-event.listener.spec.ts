@@ -7,13 +7,10 @@ import {
 } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../core/facade/testing/index';
 import { ConfiguratorLanguageSetEventListener } from '@spartacus/product-configurator/rulebased';
 
 const mockEventStream$ = new Subject<CxEvent>();
-
-class MockConfiguratorCommonsService {
-  removeProductBoundConfigurations(): void {}
-}
 
 describe(`ConfiguratorLanguageSetEventListener`, () => {
   let classUnderTest: ConfiguratorLanguageSetEventListener;
@@ -21,14 +18,8 @@ describe(`ConfiguratorLanguageSetEventListener`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [EventTestingModule],
-      providers: [
-        ConfiguratorLanguageSetEventListener,
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-      ],
+      imports: [EventTestingModule, ConfiguratorCommonsTestingModule],
+      providers: [ConfiguratorLanguageSetEventListener],
     });
 
     const eventService = TestBed.inject(EventService);

@@ -14,42 +14,23 @@ import {
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsTestingModule,
+  ConfiguratorGroupsTestingModule,
+} from '../../core/facade/testing/index';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { GROUP_ID_1, PRODUCT_CODE } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../service/testing/index';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
 let routerStateObservable: any = null;
-
-class MockConfiguratorGroupsService {
-  getCurrentGroupId() {
-    return of('');
-  }
-
-  getNextGroupId() {
-    return of('');
-  }
-
-  getPreviousGroupId() {
-    return of('');
-  }
-
-  navigateToGroup() {}
-
-  getPreviousGroupDescription() {
-    return of('previousGroupDescription');
-  }
-
-  getNextGroupDescription() {
-    return of('nextGroupDescription');
-  }
-}
 
 const groups: Configurator.Group = {
   id: GROUP_ID_1,
@@ -110,22 +91,6 @@ const configWithSingleRootAndNestedGroups: Configurator.Configuration = {
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
-class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-
-  isConfigurationLoading(): Observable<boolean> {
-    return of(false);
-  }
-}
-
-class MockConfigUtilsService {
-  scrollToConfigurationElement(): void {}
-
-  focusFirstAttribute(): void {}
-}
-
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
@@ -142,20 +107,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         ConfiguratorPreviousNextButtonsComponent,
         KeyboardFocusTestingModule,
         RoutingTestingModule,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
+        ConfiguratorGroupsTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
     })
       .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
@@ -181,6 +135,19 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       TestBed.inject(RoutingService),
       'getRouterState'
     ).mockImplementation(() => routerStateObservable);
+    const groupsService = TestBed.inject(ConfiguratorGroupsService);
+    vi.spyOn(groupsService, 'getNextGroupId').mockReturnValue(of(''));
+    vi.spyOn(groupsService, 'getPreviousGroupId').mockReturnValue(of(''));
+    vi.spyOn(groupsService, 'getPreviousGroupDescription').mockReturnValue(
+      of('previousGroupDescription')
+    );
+    vi.spyOn(groupsService, 'getNextGroupDescription').mockReturnValue(
+      of('nextGroupDescription')
+    );
+    vi.spyOn(
+      TestBed.inject(ConfiguratorCommonsService),
+      'getConfiguration'
+    ).mockReturnValue(of(config));
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;

@@ -7,26 +7,18 @@ import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorCommonsTestingModule } from '../../../../core/facade/testing/index';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
+import { ConfiguratorStorefrontUtilsTestingModule } from '../../../service/testing/index';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
-class MockConfiguratorCommonsService {
-  updateConfiguration(): void {}
-}
-
 let isCartEntryOrGroupVisited = of(true);
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return isCartEntryOrGroupVisited;
-  }
-}
 const DEBOUNCE_TIME: number = 600;
 const DEBOUNCE_TIME_DATE: number = 1600;
 
@@ -45,6 +37,8 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         ReactiveFormsModule,
         ConfiguratorAttributeInputFieldComponent,
         KeyboardFocusTestingModule,
+        ConfiguratorCommonsTestingModule,
+        ConfiguratorStorefrontUtilsTestingModule,
       ],
       providers: [
         {
@@ -54,14 +48,6 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
         },
       ],
     })
@@ -80,6 +66,10 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
   });
 
   beforeEach(() => {
+    vi.spyOn(
+      TestBed.inject(ConfiguratorStorefrontUtilsService),
+      'isCartEntryOrGroupVisited'
+    ).mockImplementation(() => isCartEntryOrGroupVisited);
     fixture = TestBed.createComponent(ConfiguratorAttributeInputFieldComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
