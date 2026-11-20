@@ -15,6 +15,7 @@ import {
 import { META_REDUCERS } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { Config } from '../../config/config-tokens';
+import { FeatureToggles } from '../../features-config';
 import { getTransferStateReducer } from './transfer-state.reducer';
 
 export { getStateSlice } from '../utils/get-state-slice';
@@ -33,6 +34,7 @@ export const stateMetaReducers: Provider[] = [
       [new Optional(), TransferState],
       [new Optional(), Config],
       [new Optional(), AuthStatePersistenceService],
+      [new Optional(), FeatureToggles],
     ],
   },
   {

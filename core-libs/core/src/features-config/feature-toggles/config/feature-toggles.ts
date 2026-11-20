@@ -1024,6 +1024,14 @@ export interface FeatureTogglesInterface {
    * - `core-libs/styles/scss/components/layout/header/_site-context-selector.scss`
    */
   a11yHighContrastFix?: boolean;
+
+  /**
+   * When enabled, the SSR transfer-state meta-reducer defers `transferState.set()`
+   * to a microtask, so that all synchronous NgRx actions in a single render cycle
+   * are batched into a single write instead of one write per action.
+   * Improves SSR rendering performance on pages with many store dispatches.
+   */
+  deferredTransferState?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1134,4 +1142,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
   a11yHighContrastFix: false,
+  deferredTransferState: false,
 };

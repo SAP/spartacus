@@ -9,6 +9,7 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { INIT } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
+import { FeatureToggles } from '../../features-config';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
 import { makeStateKey, StateKey, TransferState } from '@angular/core';
@@ -19,7 +20,8 @@ export function getTransferStateReducer(
   platformId: Object,
   transferState?: TransferState,
   config?: StateConfig,
-  authStatePersistenceService?: AuthStatePersistenceService
+  authStatePersistenceService?: AuthStatePersistenceService,
+  featureToggles?: FeatureToggles
 ) {
   if (transferState && config?.state?.ssrTransfer?.keys) {
     if (isPlatformBrowser(platformId)) {
@@ -31,7 +33,8 @@ export function getTransferStateReducer(
     } else if (isPlatformServer(platformId)) {
       return getServerTransferStateReducer(
         transferState,
-        config.state.ssrTransfer.keys
+        config.state.ssrTransfer.keys,
+        featureToggles?.deferredTransferState ?? false
       );
     }
   }
@@ -41,7 +44,8 @@ export function getTransferStateReducer(
 
 export function getServerTransferStateReducer(
   transferState: TransferState,
-  keys: { [key: string]: StateTransferType | undefined }
+  keys: { [key: string]: StateTransferType | undefined },
+  deferred = false
 ) {
   const transferStateKeys = filterKeysByType(
     keys,
@@ -49,22 +53,27 @@ export function getServerTransferStateReducer(
   );
 
   return function (reducer: any) {
-    let pendingState: any = undefined;
+    let pendingState: any;
     let scheduled = false;
 
     return function (state: any, action: any) {
       const newState = reducer(state, action);
       if (newState) {
-        pendingState = newState;
-        if (!scheduled) {
-          scheduled = true;
-          // Write once per microtask batch: if multiple actions fire
-          // synchronously only the final state snapshot is serialized.
-          Promise.resolve().then(() => {
-            scheduled = false;
-            const stateSlice = getStateSlice(transferStateKeys, [], pendingState);
-            transferState.set(CX_KEY, stateSlice);
-          });
+        if (deferred) {
+          pendingState = newState;
+          if (!scheduled) {
+            scheduled = true;
+            // Write once per microtask batch: if multiple actions fire
+            // synchronously only the final state snapshot is serialized.
+            Promise.resolve().then(() => {
+              scheduled = false;
+              const stateSlice = getStateSlice(transferStateKeys, [], pendingState);
+              transferState.set(CX_KEY, stateSlice);
+            });
+          }
+        } else {
+          const stateSlice = getStateSlice(transferStateKeys, [], newState);
+          transferState.set(CX_KEY, stateSlice);
         }
       }
 
