@@ -59,6 +59,9 @@ export class LoginFormComponent {
   action = this.service.action;
   method = this.service.method;
   showResetPassword = this.service.showResetPassword;
+  get authReqId() {
+    return this.service.authReqId;
+  }
 
   constructor(protected service: LoginFormComponentService) {
     this.service.handleCustomLoginError();

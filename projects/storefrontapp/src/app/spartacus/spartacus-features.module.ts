@@ -401,6 +401,7 @@ if (environment.cpq) {
         a11yCarouselItemArrowKeyNavigation: true,
         a11yCouponDialogResetButtonKeyboardAccessible: true,
         a11yInStockInfoTextContrast: true,
+        concurrentLoginPagesSupport: true,
         a11yHighContrastFix: true,
         useConfigurableLogoutRedirect: true,
       };
