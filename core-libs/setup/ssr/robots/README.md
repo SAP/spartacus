@@ -152,7 +152,7 @@ const robotsFileByBaseSite: Partial<Record<string, string>> = {
   'powertools-spa': resolve(process.cwd(), 'robots/robots-powertools.txt'),
 };
 
-function robotsFileHandler({ res, baseSite }: BaseSiteHandlerContext): void {
+function robotsFileHandler({ res, next, baseSite }: BaseSiteHandlerContext): void {
   const filePath = robotsFileByBaseSite[baseSite];
 
   if (filePath === undefined) {
@@ -160,14 +160,23 @@ function robotsFileHandler({ res, baseSite }: BaseSiteHandlerContext): void {
     return;
   }
 
-  res.status(200).type('text/plain').sendFile(filePath);
+  res
+    .status(200)
+    .type('text/plain')
+    .sendFile(filePath, (error) => {
+      if (error) {
+        next(error);
+      }
+    });
 }
 ```
 
 Add the files to the server application's deployment output or package them
 alongside the server, then keep the absolute paths in the map aligned with their
 deployed locations. A mapped zero-byte file is an explicit empty response. Only
-an unmapped base site falls back to `EXAMPLE_ROBOTS_TXT`.
+an unmapped base site falls back to `EXAMPLE_ROBOTS_TXT`. A missing or unreadable
+mapped file is a deployment error, not an unmapped site: the handler forwards it
+through `next(error)` rather than falling back to the example content.
 
 ## Public references
 
