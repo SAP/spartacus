@@ -2,7 +2,9 @@
 
 ## Rule
 
-Use `configureBaseSiteAwareRoutes` from `@spartacus/setup/ssr/express-base-site` for custom Express endpoints that serve site-specific content, such as `/<baseSite>/llms.txt` or a domain-based `/llms.txt`. These endpoints run entirely in Express, independently of the Angular SSR pipeline. The returned `createBaseSiteAwareRoute` function resolves the base site before calling application code.
+Use `configureBaseSiteAwareRoutes` from `@spartacus/setup/ssr/express-base-site` for custom Express endpoints that serve site-specific or domain-root content, such as `/<baseSite>/llms.txt` or `/llms.txt`. These endpoints run entirely in Express, independently of the Angular SSR pipeline. The returned `createBaseSiteAwareRoute` function resolves the base site before calling application code.
+
+For a request to add, publish, or customize server-served text files, start with [Server-Served Text Files](server-served-text-files.md). That reference owns the document-specific workflows for content selection, file deployment, and verification; this reference supplies the routing infrastructure.
 
 Call `configureBaseSiteAwareRoutes` once during server setup and reuse the returned `createBaseSiteAwareRoute` function for participating handlers. It creates Express routes sharing one resolver and its OCC cache; mount each route with `server.use(...)`.
 
@@ -155,30 +157,7 @@ Express middleware order determines which handler runs. Place applicable origin 
 
 The callback receives `{ req, res, next, baseSite }`. For default prefixed routes, `BaseSiteHandlerContext` has `baseSite: string`, matching the leading segment; the wrapper returns 404 for an unknown or mismatched prefix before invoking application code. For `withBaseSiteInPath: false`, use `BaseSiteHandlerContext<string | null>`: `baseSite` is the first matching UID in OCC order, or `null` if no site's URL patterns match the full request URL.
 
-Domain-root endpoints such as `/robots.txt` and `/.well-known/security.txt` can receive `null` when sites are identified by path. The framework does not infer a default site from the origin. Let the handler choose default domain content. For example, with OCC resolution already configured:
-
-```typescript
-export function robotsHandler({ res, baseSite }: BaseSiteHandlerContext<string | null>): void {
-  const defaultContent = 'User-agent: *\nDisallow:\n';
-  const contentByBaseSite: Record<string, string> = {
-    'electronics-spa': 'User-agent: *\nDisallow: /electronics-spa/checkout\n',
-  };
-  const content = baseSite === null
-    ? defaultContent
-    : contentByBaseSite[baseSite] ?? defaultContent;
-  res.type('text/plain').send(content);
-}
-
-server.use(
-  createBaseSiteAwareRoute({
-    route: '/robots.txt',
-    withBaseSiteInPath: false,
-    handler: robotsHandler,
-  })
-);
-```
-
-Reuse the `BaseSiteHandlerContext` import shown above. Replace these example rules with the requested domain policy; the application owns both matched and default content.
+Domain-root endpoints can receive `null` when sites are identified by path. The framework does not infer a default site from the origin. Let the handler choose default domain content; see the [robots.txt publication workflow](server-served-text-files.md#robotstxt) for a document-specific example.
 
 The callback owns the response status, headers, and body. The wrapper accepts all HTTP methods. For a request to display the current base site, the handler simply returns that UID, as shown above. If the customer specifies allowed methods or the application's existing API contract defines them, implement that policy in the application-owned handler. Calling the supplied `next()` continues through Express. Thrown errors and rejected callback promises are forwarded through `next(error)`.
 
@@ -205,7 +184,7 @@ Use the customer's actual build and SSR start scripts from `package.json`, proje
    For `withBaseSiteInPath: false`, request `<STOREFRONT_ORIGIN>/llms.txt` using a host whose full request URL matches an OCC site's URL patterns. If multiple storefront domains are configured, check that each resolves to the expected UID.
 
 2. Check the status, content type, and requested site-specific body. For the `llms.txt` example, expect plain text rather than an Angular-rendered page.
-3. For a prefixed endpoint, request the same suffix using a UID confirmed absent from the configuration and expect wrapper 404 before the callback, not an Angular-rendered 404 page. For an unprefixed OCC endpoint, request a full URL confirmed not to match any site's URL patterns and verify the handler's chosen default response. For the `/robots.txt` example, expect HTTP 200 with default plain text, not 404 or Angular HTML.
+3. For a prefixed endpoint, request the same suffix using a UID confirmed absent from the configuration and expect wrapper 404 before the callback, not an Angular-rendered 404 page. For an unprefixed OCC endpoint, request a full URL confirmed not to match any site's URL patterns and verify the handler's chosen default response.
 4. If the endpoint has a specified method policy, test it. Paths outside the configured route shape can reach later Express or Angular middleware; do not describe their response as a wrapper 404.
 
 If the endpoint returns Angular HTML or a storefront 404 page, inspect route shape and middleware order. If it returns wrapper 503, inspect the configured OCC address and resolver failure rather than changing the UID list or mode to bypass the problem.
