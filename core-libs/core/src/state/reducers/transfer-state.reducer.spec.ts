@@ -49,24 +49,38 @@ describe('TransferStateReducer', () => {
       reducer = metaReducer(subReducer);
     });
 
-    it('should set transfer state for an action', () => {
+    it('should set transfer state after the microtask flushes', async () => {
       reducer({}, {});
+      expect(transferStateMock.set).not.toHaveBeenCalled();
+      await Promise.resolve();
       expect(transferStateMock.set).toHaveBeenCalled();
     });
 
-    it('should take into account keys configuration', () => {
+    it('should take into account keys configuration', async () => {
       const samplePayload = { test: 'test' };
       reducer({}, { payload: samplePayload });
+      await Promise.resolve();
       expect(transferStateMock.set).toHaveBeenCalledWith(CX_KEY, samplePayload);
     });
 
-    it('should take into account keys configuration and not include unrelated state', () => {
+    it('should take into account keys configuration and not include unrelated state', async () => {
       const samplePayload = { test2: 'test' };
       reducer({}, { payload: samplePayload });
+      await Promise.resolve();
       expect(transferStateMock.set).toHaveBeenCalledWith(CX_KEY, {});
     });
 
-    it('should call the sub reducer and returns proper state', () => {
+    it('should batch multiple synchronous actions into a single write', async () => {
+      const firstPayload = { test: 'first' };
+      const lastPayload = { test: 'last' };
+      reducer({}, { payload: firstPayload });
+      reducer({}, { payload: lastPayload });
+      await Promise.resolve();
+      expect(transferStateMock.set).toHaveBeenCalledTimes(1);
+      expect(transferStateMock.set).toHaveBeenCalledWith(CX_KEY, lastPayload);
+    });
+
+    it('should call the sub reducer and returns proper state synchronously', () => {
       const samplePayload = { test: 'test' };
       const state = reducer({}, { payload: samplePayload });
       expect(state).toEqual(samplePayload);

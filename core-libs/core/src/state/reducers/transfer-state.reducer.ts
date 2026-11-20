@@ -49,11 +49,23 @@ export function getServerTransferStateReducer(
   );
 
   return function (reducer: any) {
+    let pendingState: any = undefined;
+    let scheduled = false;
+
     return function (state: any, action: any) {
       const newState = reducer(state, action);
       if (newState) {
-        const stateSlice = getStateSlice(transferStateKeys, [], newState);
-        transferState.set(CX_KEY, stateSlice);
+        pendingState = newState;
+        if (!scheduled) {
+          scheduled = true;
+          // Write once per microtask batch: if multiple actions fire
+          // synchronously only the final state snapshot is serialized.
+          Promise.resolve().then(() => {
+            scheduled = false;
+            const stateSlice = getStateSlice(transferStateKeys, [], pendingState);
+            transferState.set(CX_KEY, stateSlice);
+          });
+        }
       }
 
       return newState;
