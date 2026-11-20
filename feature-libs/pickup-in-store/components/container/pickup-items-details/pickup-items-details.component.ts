@@ -48,7 +48,11 @@ export class PickUpItemsDetailsComponent implements OnInit {
     inject<CmsComponentData<CmsPickupItemDetails>>(CmsComponentData);
   protected deliveryPointsService = inject(DeliveryPointsService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() showEdit: boolean;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() itemsDetails: Observable<Array<DeliveryPointOfService>>;
   readonly ICON_TYPE = ICON_TYPE;
 

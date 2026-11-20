@@ -9,8 +9,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -49,8 +49,8 @@ export class ConfiguratorOverviewSidebarComponent {
     ConfiguratorStorefrontUtilsService
   );
 
-  @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
-  @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
+  readonly menuTab = viewChild<ElementRef<HTMLElement>>('menuTab');
+  readonly filterTab = viewChild<ElementRef<HTMLElement>>('filterTab');
   showFilter: boolean = false;
 
   private featureToggles = inject(FeatureToggles);
@@ -184,9 +184,9 @@ export class ConfiguratorOverviewSidebarComponent {
     if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
       event.preventDefault();
       if (currentTab === '#menuTab') {
-        this.filterTab.nativeElement?.focus();
+        this.filterTab()?.nativeElement?.focus();
       } else {
-        this.menuTab.nativeElement?.focus();
+        this.menuTab()?.nativeElement?.focus();
       }
     }
   }

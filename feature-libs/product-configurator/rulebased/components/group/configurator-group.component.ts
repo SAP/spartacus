@@ -10,6 +10,7 @@ import {
   Component,
   Input,
   inject,
+  input,
 } from '@angular/core';
 import { LanguageService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -43,10 +44,14 @@ export class ConfiguratorGroupComponent {
   protected configExpertModeService = inject(ConfiguratorExpertModeService);
 
   protected readonly typePrefix = 'AttributeType_';
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() group: Configurator.Group;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() owner: CommonConfigurator.Owner;
-  @Input() isNavigationToGroupEnabled: boolean;
-  @Input() isPricingAsync?: boolean;
+  readonly isNavigationToGroupEnabled = input<boolean>();
+  readonly isPricingAsync = input<boolean>();
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;

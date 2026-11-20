@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
@@ -31,8 +31,8 @@ mockEntries.forEach((entry) => {
   selector: 'cx-media',
 })
 class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: any;
+  readonly container = input<any>();
+  readonly format = input<any>();
 }
 
 @Component({
@@ -40,10 +40,10 @@ class MockMediaComponent {
   selector: 'cx-item-counter',
 })
 class MockItemCounterComponent {
-  @Input() min: any;
-  @Input() max: any;
-  @Input() readonly: any;
-  @Input() control: any;
+  readonly min = input<any>();
+  readonly max = input<any>();
+  readonly readonly = input<any>();
+  readonly control = input<any>();
 }
 
 class MockOrderAmendService {

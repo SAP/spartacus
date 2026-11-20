@@ -10,8 +10,8 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -81,8 +81,8 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   globalMessageType = GlobalMessageType;
   listLimitReached$: Observable<boolean>;
 
-  @ViewChild('quickOrderForm')
-  quickOrderForm: QuickOrderFormComponent;
+  readonly quickOrderForm =
+    viewChild<QuickOrderFormComponent>('quickOrderForm');
 
   protected cartErrors$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
   protected cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);

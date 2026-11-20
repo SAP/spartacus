@@ -24,6 +24,8 @@ export class FeatureLevelDirective {
 
   private hasView = false;
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeatureLevel(level: string | number) {
     if (this.featureConfig.isLevel(level.toString()) && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);

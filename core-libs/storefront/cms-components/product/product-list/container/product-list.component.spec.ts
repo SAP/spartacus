@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -56,8 +56,8 @@ const mockProducts = [
   ],
 })
 class MockStarRatingComponent {
-  @Input() rating;
-  @Input() disabled;
+  readonly rating = input(undefined);
+  readonly disabled = input(undefined);
 }
 
 class MockPageLayoutService {
@@ -81,8 +81,8 @@ class MockPageLayoutService {
   ],
 })
 class MockProductListItemComponent {
-  @Input() product: any;
-  @Input() itemIndex: number;
+  readonly product = input<any>();
+  readonly itemIndex = input<number>();
 }
 
 @Component({
@@ -97,8 +97,8 @@ class MockProductListItemComponent {
   ],
 })
 class MockProductGridItemComponent {
-  @Input() product: any;
-  @Input() itemIndex: number;
+  readonly product = input<any>();
+  readonly itemIndex = input<number>();
 }
 
 @Component({
@@ -131,7 +131,7 @@ class MockUrlPipe implements PipeTransform {
   ],
 })
 class MockCxIconComponent {
-  @Input() type;
+  readonly type = input(undefined);
 }
 
 class MockViewConfig {
@@ -306,14 +306,14 @@ describe('ProductListComponent', () => {
             By.directive(MockProductListItemComponent)
           );
           expect(listItems.length).toBe(2);
-          expect(listItems[0].componentInstance.product).toEqual(
+          expect(listItems[0].componentInstance.product()).toEqual(
             mockProducts[0]
           );
-          expect(listItems[0].componentInstance.itemIndex).toEqual(0);
-          expect(listItems[1].componentInstance.product).toEqual(
+          expect(listItems[0].componentInstance.itemIndex()).toEqual(0);
+          expect(listItems[1].componentInstance.product()).toEqual(
             mockProducts[1]
           );
-          expect(listItems[1].componentInstance.itemIndex).toEqual(1);
+          expect(listItems[1].componentInstance.itemIndex()).toEqual(1);
         });
 
         it('should NOT render product grid item components', () => {
@@ -337,14 +337,14 @@ describe('ProductListComponent', () => {
             By.directive(MockProductGridItemComponent)
           );
           expect(gridItems.length).toBe(2);
-          expect(gridItems[0].componentInstance.product).toEqual(
+          expect(gridItems[0].componentInstance.product()).toEqual(
             mockProducts[0]
           );
-          expect(gridItems[0].componentInstance.itemIndex).toEqual(0);
-          expect(gridItems[1].componentInstance.product).toEqual(
+          expect(gridItems[0].componentInstance.itemIndex()).toEqual(0);
+          expect(gridItems[1].componentInstance.product()).toEqual(
             mockProducts[1]
           );
-          expect(gridItems[1].componentInstance.itemIndex).toEqual(1);
+          expect(gridItems[1].componentInstance.itemIndex()).toEqual(1);
         });
 
         it('should NOT render product list item components', () => {

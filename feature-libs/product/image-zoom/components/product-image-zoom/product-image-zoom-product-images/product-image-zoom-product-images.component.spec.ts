@@ -1,5 +1,5 @@
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, output, input, TrackByFunction } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -86,27 +86,28 @@ class MockCurrentProductService {
   template: '',
 })
 class MockMediaComponent {
-  @Input() container: any;
-  @Input() fetchPriority: ImageFetchPriority | null | undefined;
+  readonly container = input<any>();
+  readonly fetchPriority = input<ImageFetchPriority | null>();
 }
 
 @Component({
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
-    @for (item$ of items; track item$) {
+    @for (item$ of items(); track item$) {
       <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async }"
+        *ngTemplateOutlet="template(); context: { item: item$ | async }"
       />
     }
   `,
   imports: [NgTemplateOutlet, AsyncPipe],
 })
 class MockCarouselScrollingComponent {
-  @Input() items: any;
-  @Input() itemWidth: any;
-  @Input() template: any;
-  @Input() hideIndicators: any;
+  readonly items = input<any>();
+  readonly trackByFn = input<TrackByFunction<any>>();
+  readonly itemWidth = input<any>();
+  readonly template = input<any>();
+  readonly hideIndicators = input<any>();
 }
 
 @Component({
@@ -114,9 +115,9 @@ class MockCarouselScrollingComponent {
   template: ``,
 })
 class MockProductImageZoomTriggerComponent {
-  @Input() expandImage: any;
-  @Input() galleryIndex: any;
-  @Output() dialogClose = new EventEmitter<void>();
+  readonly expandImage = input<any>();
+  readonly galleryIndex = input<any>();
+  readonly dialogClose = output<void>();
 }
 
 describe('ProductImageZoomProductImagesComponent', () => {
@@ -241,7 +242,7 @@ describe('ProductImageZoomProductImagesComponent', () => {
             const mediaComponents = fixture.debugElement.queryAll(
               By.directive(MockMediaComponent)
             );
-            expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
               ImageFetchPriority.HIGH
             );
           });
@@ -251,10 +252,10 @@ describe('ProductImageZoomProductImagesComponent', () => {
             const mediaComponents = fixture.debugElement.queryAll(
               By.directive(MockMediaComponent)
             );
-            expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
+            expect(mediaComponents[1].componentInstance.fetchPriority()).toBe(
               undefined
             );
-            expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
+            expect(mediaComponents[2].componentInstance.fetchPriority()).toBe(
               undefined
             );
           });
@@ -270,13 +271,13 @@ describe('ProductImageZoomProductImagesComponent', () => {
             const mediaComponents = fixture.debugElement.queryAll(
               By.directive(MockMediaComponent)
             );
-            expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
               undefined
             );
-            expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
+            expect(mediaComponents[1].componentInstance.fetchPriority()).toBe(
               undefined
             );
-            expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
+            expect(mediaComponents[2].componentInstance.fetchPriority()).toBe(
               undefined
             );
           });
@@ -335,7 +336,7 @@ describe('ProductImageZoomProductImagesComponent', () => {
           const mediaComponents = fixture.debugElement.queryAll(
             By.directive(MockMediaComponent)
           );
-          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+          expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
             ImageFetchPriority.HIGH
           );
         });
@@ -351,7 +352,7 @@ describe('ProductImageZoomProductImagesComponent', () => {
           const mediaComponents = fixture.debugElement.queryAll(
             By.directive(MockMediaComponent)
           );
-          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+          expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
             undefined
           );
         });

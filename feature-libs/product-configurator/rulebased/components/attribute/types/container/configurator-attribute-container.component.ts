@@ -13,7 +13,7 @@ import {
   HostListener,
   inject,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -99,8 +99,9 @@ export class ConfiguratorAttributeContainerComponent
    */
   availableProductsSearchTerm = '';
 
-  @ViewChild('availableProductsSearchInput')
-  protected availableProductsSearchInput?: ElementRef<HTMLInputElement>;
+  protected readonly availableProductsSearchInput = viewChild<
+    ElementRef<HTMLInputElement>
+  >('availableProductsSearchInput');
 
   constructor() {
     super();
@@ -587,7 +588,7 @@ export class ConfiguratorAttributeContainerComponent
    */
   protected focusAvailableProductsSearchInput(): void {
     setTimeout(() => {
-      const searchInput = this.availableProductsSearchInput?.nativeElement;
+      const searchInput = this.availableProductsSearchInput()?.nativeElement;
       searchInput?.focus();
     });
   }

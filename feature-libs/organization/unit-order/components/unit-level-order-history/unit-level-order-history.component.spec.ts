@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Pipe, PipeTransform, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -81,8 +74,8 @@ const mockEmptyOrderList: OrderHistoryList = {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockPaginationComponent {
-  @Input() pagination: PaginationModel;
-  @Output() viewPageEvent = new EventEmitter<string>();
+  readonly pagination = input<PaginationModel>();
+  readonly viewPageEvent = output<string>();
 }
 
 @Component({
@@ -91,11 +84,11 @@ class MockPaginationComponent {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockSortingComponent {
-  @Input() sortOptions: SortModel;
-  @Input() sortLabels: string;
-  @Input() selectedOption: string;
-  @Input() placeholder: string;
-  @Output() sortListEvent = new EventEmitter<string>();
+  readonly sortOptions = input<SortModel>();
+  readonly sortLabels = input<string>();
+  readonly selectedOption = input<string>();
+  readonly placeholder = input<string>();
+  readonly sortListEvent = output<string>();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -154,7 +147,7 @@ class MockTranslationService {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({
@@ -163,7 +156,7 @@ class MockCxIconComponent {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockTotalComponent {
-  @Input() pagination: any;
+  readonly pagination = input<any>();
 }
 
 describe('UnitLevelOrderHistoryComponent', () => {

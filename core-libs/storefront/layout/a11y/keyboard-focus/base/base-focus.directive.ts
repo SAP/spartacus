@@ -44,6 +44,8 @@ export abstract class BaseFocusDirective implements OnInit, OnChanges {
    */
   protected defaultConfig: BaseFocusConfig = {};
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() @HostBinding('attr.tabindex') tabindex: number;
 
   ngOnInit(): void {

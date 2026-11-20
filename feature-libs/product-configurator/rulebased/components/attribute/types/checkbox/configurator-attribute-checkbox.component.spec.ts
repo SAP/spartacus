@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Injectable,
-  Input,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -36,7 +36,7 @@ import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute
   imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 @Component({
@@ -45,12 +45,12 @@ class MockConfiguratorPriceComponent {
   imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
+  readonly text = input<string>();
+  readonly textSize = input(60);
+  readonly productName = input<string>();
+  readonly attributeLabel = input<string>();
+  readonly valueLabel = input<string>();
+  readonly itemLabel = input<string>();
 }
 
 class MockConfiguratorCommonsService {

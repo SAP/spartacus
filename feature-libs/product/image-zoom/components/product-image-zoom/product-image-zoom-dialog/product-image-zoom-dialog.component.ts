@@ -46,6 +46,8 @@ export class ProductImageZoomDialogComponent {
     focusOnEscape: true,
   };
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() galleryIndex: number;
 
   @HostListener('click', ['$event'])

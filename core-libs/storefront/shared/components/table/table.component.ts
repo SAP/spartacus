@@ -7,12 +7,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   inject,
   Input,
   isDevMode,
-  Output,
+  output,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -71,6 +70,8 @@ export class TableComponent<T> {
   private featureToggles = inject(FeatureToggles);
 
   private _structure: TableStructure;
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set structure(structure: TableStructure) {
     this._structure = structure;
     this.init();
@@ -79,12 +80,16 @@ export class TableComponent<T> {
     return this._structure;
   }
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() data: T[];
 
   /**
    * The i18nRoot is passed into the table cell context, so that
    * cell components can concatenate the i18n root and label.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() i18nRoot: string;
 
   /**
@@ -93,9 +98,11 @@ export class TableComponent<T> {
    * The `property` refers to the dataset.value property, and the value tot the
    * matching property value.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() currentItem: { value: any; property: string };
 
-  @Output() launch = new EventEmitter();
+  readonly launch = output<any>();
 
   constructor() {
     useFeatureStyles('a11yTableKeyboardNavigation');

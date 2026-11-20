@@ -10,8 +10,8 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import { FeatureModulesService, TranslatePipe, User } from '@spartacus/core';
@@ -39,8 +39,9 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
 
-  @ViewChild('asmCustomer360Launcher')
-  asmCustomer360LauncherElement: ElementRef;
+  readonly asmCustomer360LauncherElement = viewChild<ElementRef>(
+    'asmCustomer360Launcher'
+  );
 
   protected subscription = new Subscription();
 
@@ -77,7 +78,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
           const data = { customer: this.customer };
           this.launchDialogService?.openDialogAndSubscribe(
             LAUNCH_CALLER.ASM_CUSTOMER_360,
-            this.asmCustomer360LauncherElement,
+            this.asmCustomer360LauncherElement(),
             data
           );
 

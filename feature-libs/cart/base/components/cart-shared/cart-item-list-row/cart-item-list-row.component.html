@@ -117,7 +117,7 @@
   <ng-template
     [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_BODY"
     [cxOutletContext]="{
-      items,
+      items: items(),
       item,
       parent: 'cart',
     }"
@@ -191,7 +191,7 @@
             options.optionalBtn;
             context: {
               $implicit: {
-                loading: quantityDisabled,
+                loading: quantityDisabled(),
                 item: this.item,
                 options: this.options,
               },

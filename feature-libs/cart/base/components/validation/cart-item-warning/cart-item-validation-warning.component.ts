@@ -33,6 +33,8 @@ export class CartItemValidationWarningComponent {
   private featureToggles = inject(FeatureToggles);
   protected cartConfigService = inject(CartConfigService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   code: string;
 

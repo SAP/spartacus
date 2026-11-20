@@ -32,6 +32,8 @@ export class ConfiguratorOverviewFilterBarComponent {
     ConfiguratorStorefrontUtilsService
   );
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() config: Configurator.ConfigurationWithOverview;
 
   iconTypes = ICON_TYPE;

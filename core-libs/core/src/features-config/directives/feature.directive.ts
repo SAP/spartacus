@@ -22,6 +22,8 @@ export class FeatureDirective {
 
   private hasView = false;
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeature(feature: FeatureToggleExpression) {
     if (this.featureConfig.isEnabled(feature) && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);

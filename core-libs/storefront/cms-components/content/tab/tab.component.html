@@ -19,7 +19,7 @@
         [attr.id]="tab.id"
         [attr.title]="getTitle(mode, i)"
         [class.active]="isOpen(i)"
-        [disabled]="disabled"
+        [disabled]="disabled()"
         #tabHeader
       >
         {{

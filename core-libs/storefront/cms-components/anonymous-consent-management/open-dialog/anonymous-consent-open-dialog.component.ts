@@ -8,9 +8,9 @@ import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { AnonymousConsentsService, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -28,14 +28,14 @@ export class AnonymousConsentOpenDialogComponent {
   protected anonymousConsentsService = inject(AnonymousConsentsService);
   protected launchDialogService = inject(LaunchDialogService);
 
-  @ViewChild('open') openElement: ElementRef;
+  readonly openElement = viewChild<ElementRef>('open');
   bannerVisible$: Observable<boolean> =
     this.anonymousConsentsService.isBannerVisible();
 
   openDialog(): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.ANONYMOUS_CONSENT,
-      this.openElement,
+      this.openElement(),
       this.vcr
     );
     if (dialog) {

@@ -10,9 +10,9 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
@@ -63,7 +63,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   protected vcr = inject(ViewContainerRef);
   protected launchDialogService = inject(LaunchDialogService);
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   private subscription = new Subscription();
 
@@ -131,7 +131,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   openDialog(event: Event, replenishmentOrderCode: string): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
-      this.element,
+      this.element(),
       this.vcr,
       replenishmentOrderCode
     );

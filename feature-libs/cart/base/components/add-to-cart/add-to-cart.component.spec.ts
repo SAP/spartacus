@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -132,10 +132,10 @@ class MockProductAvailabilityAdapter {}
   ],
 })
 class MockItemCounterComponent {
-  @Input() min;
-  @Input() max;
-  @Input() step;
-  @Input() control;
+  readonly min = input(undefined);
+  readonly max = input(undefined);
+  readonly step = input(undefined);
+  readonly control = input(undefined);
 }
 
 class MockEventService implements Partial<EventService> {

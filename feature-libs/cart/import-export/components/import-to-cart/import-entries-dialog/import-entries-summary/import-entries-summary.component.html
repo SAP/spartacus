@@ -1,7 +1,7 @@
 <div class="cx-import-entries-summary-status">
   @if (!summary.loading) {
     <p>
-      @switch (type) {
+      @switch (type()) {
         @case (orderEntriesSource.QUICK_ORDER) {
           {{ 'importEntriesDialog.summary.loaded' | cxTranslate: summary }}
         }

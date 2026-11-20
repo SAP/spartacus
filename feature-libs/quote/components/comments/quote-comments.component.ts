@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, DOCUMENT } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   EventService,
@@ -43,7 +43,7 @@ export class QuoteCommentsComponent {
   protected quoteUIConfig = inject(QuoteUIConfig);
   protected document = inject(DOCUMENT);
 
-  @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
+  readonly commentsComponent = viewChild(MessagingComponent);
 
   expandComments = true;
   iconTypes = ICON_TYPE;
@@ -65,7 +65,7 @@ export class QuoteCommentsComponent {
       .pipe(
         take(1),
         // do for error and success
-        finalize(() => this.commentsComponent.resetForm())
+        finalize(() => this.commentsComponent()?.resetForm())
       )
       .subscribe(
         // success

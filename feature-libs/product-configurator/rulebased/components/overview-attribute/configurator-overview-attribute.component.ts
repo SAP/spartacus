@@ -29,6 +29,8 @@ import {
 export class ConfiguratorOverviewAttributeComponent {
   protected breakpointService = inject(BreakpointService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() attributeOverview: Configurator.AttributeOverview;
 
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {

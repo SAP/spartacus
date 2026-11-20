@@ -6,11 +6,11 @@
 
 import {
   Directive,
-  Input,
   OnDestroy,
   OnInit,
   TemplateRef,
   inject,
+  input,
 } from '@angular/core';
 import { OutletPosition } from '../outlet.model';
 import { OutletService } from '../outlet.service';
@@ -20,16 +20,14 @@ export class OutletRefDirective implements OnInit, OnDestroy {
   private tpl = inject<TemplateRef<any>>(TemplateRef);
   private outletService = inject(OutletService);
 
-  @Input()
-  cxOutletRef: string;
-  @Input()
-  cxOutletPos: OutletPosition;
+  readonly cxOutletRef = input.required<string>();
+  readonly cxOutletPos = input<OutletPosition>();
 
   ngOnInit() {
-    this.outletService.add(this.cxOutletRef, this.tpl, this.cxOutletPos);
+    this.outletService.add(this.cxOutletRef(), this.tpl, this.cxOutletPos());
   }
 
   ngOnDestroy() {
-    this.outletService.remove(this.cxOutletRef, this.cxOutletPos, this.tpl);
+    this.outletService.remove(this.cxOutletRef(), this.cxOutletPos(), this.tpl);
   }
 }

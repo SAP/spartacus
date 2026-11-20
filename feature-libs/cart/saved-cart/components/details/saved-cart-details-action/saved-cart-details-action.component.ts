@@ -9,9 +9,9 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFormType } from '@spartacus/cart/saved-cart/root';
@@ -34,14 +34,14 @@ export class SavedCartDetailsActionComponent implements OnDestroy {
   private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
   savedCart$: Observable<Cart | undefined> =
     this.savedCartDetailsService.getCartDetails();
 
   openDialog(cart: Cart, type: SavedCartFormType): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.SAVED_CART,
-      this.element,
+      this.element(),
       this.vcr,
       { cart, layoutOption: type }
     );

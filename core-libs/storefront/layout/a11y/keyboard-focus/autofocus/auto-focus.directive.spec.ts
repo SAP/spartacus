@@ -7,6 +7,9 @@ import { AutoFocusService } from './auto-focus.service';
 
 @Directive({ selector: '[cxAutoFocus]' })
 class CustomFocusDirective extends AutoFocusDirective {
+  // TODO: Skipped for migration because:
+  //  This input overrides a field from a superclass, while the superclass field
+  //  is not migrated.
   @Input('cxAutoFocus') protected config: AutoFocusConfig;
 }
 

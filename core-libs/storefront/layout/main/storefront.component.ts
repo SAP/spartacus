@@ -16,7 +16,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
@@ -94,7 +94,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   // required by esc focus
   @HostBinding('tabindex') tabindex = '-1';
 
-  @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
+  readonly child = viewChild(SkipLinkComponent);
 
   private keyboardFocusConfig: FocusConfig = {
     focusOnEscape: true,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, NgModule, input } from '@angular/core';
 import { CurrentItemService } from '../current-item.service';
 import { FormService } from './form.service';
 
@@ -13,7 +13,7 @@ import { FormService } from './form.service';
   template: '<ng-content />',
 })
 class MockFormComponent {
-  @Input() i18nRoot;
+  readonly i18nRoot = input(undefined);
 }
 
 export class MockBudgetFormService {}

@@ -10,7 +10,8 @@ import {
   Component,
   HostBinding,
   Input,
-  ViewChild,
+  input,
+  viewChild,
 } from '@angular/core';
 import { EntitiesModel, TranslatePipe } from '@spartacus/core';
 import {
@@ -42,15 +43,18 @@ import { MessageService } from '../message/services/message.service';
 export class SubListComponent extends ListComponent {
   hostClass = '';
 
-  @ViewChild(MessageService, { read: MessageService })
-  messageService: MessageService;
+  readonly messageService = viewChild.required(MessageService, {
+    read: MessageService,
+  });
 
-  @Input() previous: boolean | string = true;
+  readonly previous = input<boolean | string>(true);
 
-  @Input() key = this.service.key();
+  readonly key = input(this.service.key());
 
-  @Input() showHint? = false;
+  readonly showHint = input<boolean | undefined>(false);
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set routerKey(key: string) {
     this.subKey$ = this.organizationItemService.getRouterParam(key);
   }

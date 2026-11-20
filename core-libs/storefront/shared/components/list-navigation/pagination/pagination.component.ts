@@ -8,10 +8,10 @@ import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
   inject,
+  output,
+  input,
 } from '@angular/core';
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import {
@@ -48,21 +48,25 @@ export class PaginationComponent {
   private activatedRoute = inject(ActivatedRoute);
 
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
-  @Input() pageRoute: string = '.';
+  readonly pageRoute = input<string>('.');
 
   /** The (optional) query parameter which is added to the page route.  */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() queryParam: string;
 
   /**
    * Whenever there's a default page specified, the routing logic
    * will omit the page number in routeLink or parameters.
    */
-  @Input() defaultPage: number | undefined;
+  readonly defaultPage = input<number>();
 
   private _pagination: PaginationModel;
   get pagination(): PaginationModel {
     return this._pagination;
   }
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set pagination(value: PaginationModel | undefined) {
     if (value) {
       this.render(value);
@@ -112,9 +116,9 @@ export class PaginationComponent {
    * If more than one pagination is present on a page, a unique id should be set for each instance.
    * This ensures the focus can be preserved after navigating to a different page.
    */
-  @Input() paginationID: string = 'pagination';
+  readonly paginationID = input<string>('pagination');
 
-  @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
+  readonly viewPageEvent = output<number>();
 
   pages: PaginationItem[] = [];
 
@@ -209,13 +213,15 @@ export class PaginationComponent {
     }
     // omit the page number from the query parameters in case it's the default
     // to clean up the experience and avoid unnecessary polluting of the URL
-    if (queryParams[this.queryParam] === this.defaultPage) {
+    if (queryParams[this.queryParam] === this.defaultPage()) {
       delete queryParams[this.queryParam];
     }
     return queryParams;
   }
 
   pageChange(page: PaginationItem): void {
-    this.viewPageEvent.emit(page.number);
+    if (page.number !== undefined) {
+      this.viewPageEvent.emit(page.number);
+    }
   }
 }

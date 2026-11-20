@@ -9,8 +9,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import { RoutingService, TranslatePipe } from '@spartacus/core';
 import {
@@ -36,8 +36,8 @@ export class ConfiguratorTabBarComponent {
   );
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
 
-  @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
-  @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
+  readonly configTab = viewChild<ElementRef<HTMLElement>>('configTab');
+  readonly overviewTab = viewChild<ElementRef<HTMLElement>>('overviewTab');
 
   private static readonly TAB_BAR_QUERY_SELECTOR = 'cx-configurator-tab-bar';
   protected routingService = inject(RoutingService);
@@ -198,9 +198,9 @@ export class ConfiguratorTabBarComponent {
     if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
       event.preventDefault();
       if (currentTab === '#configTab') {
-        this.overviewTab.nativeElement?.focus();
+        this.overviewTab()?.nativeElement?.focus();
       } else {
-        this.configTab.nativeElement?.focus();
+        this.configTab()?.nativeElement?.focus();
       }
     }
   }

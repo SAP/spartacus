@@ -10,9 +10,9 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -35,12 +35,12 @@ export class ClearCartComponent implements OnDestroy {
 
   protected subscription = new Subscription();
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   openDialog(event: Event): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CLEAR_CART,
-      this.element,
+      this.element(),
       this.vcr
     );
     if (dialog) {

@@ -26,11 +26,11 @@
           cxHorizontalScrollingPosition.isScrollNeeded$ | async
         "
       >
-        <cx-icon [type]="previousIcon" />
+        <cx-icon [type]="previousIcon()" />
       </button>
       <div class="carousel-items" #scrollingArea>
         <span #scrollingAreaStart class="carousel-items-start"></span>
-        @for (item of items; track trackByFn(i, item); let i = $index) {
+        @for (item of items; track trackByFn()(i, item); let i = $index) {
           @if (item | async; as data) {
             <div
               class="item"
@@ -39,7 +39,7 @@
             >
               <ng-container
                 *ngTemplateOutlet="
-                  template;
+                  template();
                   context: { item: data, itemIndex: i }
                 "
               />
@@ -64,7 +64,7 @@
           cxHorizontalScrollingPosition.isScrollNeeded$ | async
         "
       >
-        <cx-icon [type]="nextIcon" />
+        <cx-icon [type]="nextIcon()" />
       </button>
     </div>
   </ng-container>

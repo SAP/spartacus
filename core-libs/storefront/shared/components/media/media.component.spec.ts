@@ -31,6 +31,8 @@ export class MockFeatureDirective {
     IS_CONFIGURABLE_MEDIA_COMPONENT
   );
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeature(_feature: string) {
     const featureIncludesExclamation = _feature.toString().includes('!');
     const shouldCreateView =

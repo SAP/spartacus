@@ -1,4 +1,4 @@
-@if (thumbs$ | async; as thumbs) {
+@if (thumbs$() | async; as thumbs) {
   @if (thumbs.length) {
     <cx-carousel
       class="thumbs"

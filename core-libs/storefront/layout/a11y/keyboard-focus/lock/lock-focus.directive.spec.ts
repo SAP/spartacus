@@ -7,6 +7,9 @@ import { LockFocusService } from './lock-focus.service';
 
 @Directive({ selector: '[cxLockFocus]' })
 class CustomFocusDirective extends LockFocusDirective {
+  // TODO: Skipped for migration because:
+  //  This input overrides a field from a superclass, while the superclass field
+  //  is not migrated.
   @Input('cxLockFocus') protected config: LockFocusConfig;
 }
 @Component({

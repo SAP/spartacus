@@ -65,6 +65,8 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
     }>
   >(OutletContextData, { optional: true });
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() showItemList: boolean = true;
 
   readonly cartOutlets = CartOutlets;

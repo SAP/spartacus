@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, input } from '@angular/core';
 import { CartItemListRowComponent } from '@spartacus/cart/base/components';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -35,10 +35,10 @@ class MockCartItemContext implements Partial<CartItemContext> {
   imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
+  readonly cartEntry = input<OrderEntry>();
+  readonly readOnly = input<boolean>();
+  readonly msgBanner = input<boolean>();
+  readonly disabled = input<boolean>();
 }
 
 describe('ConfiguratorCartEntryInfoComponent', () => {
@@ -249,7 +249,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(false);
+          expect(component.readOnly()).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
@@ -263,7 +263,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(false);
+          expect(component.readOnly()).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is false', () => {
@@ -273,7 +273,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(false);
+          expect(component.readOnly()).toBe(false);
         });
 
         it('should expose readonly$ as true in case readonly$ is true', () => {
@@ -283,7 +283,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(true);
+          expect(component.readOnly()).toBe(true);
         });
       });
 
@@ -325,7 +325,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           fixture.debugElement.query(By.css('cx-configure-cart-entry'))
             .componentInstance;
 
-        expect(getLinkComponent().disabled).toBe(false);
+        expect(getLinkComponent().disabled()).toBe(false);
 
         quantityControl.disable({ emitEvent: false });
         // CartItemListRowComponent republishes this control on quantityDisabled changes.
@@ -333,7 +333,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         // Check from the fixture root after the context notification.
         changeDetectorRef.detectChanges();
 
-        expect(getLinkComponent().disabled).toBe(true);
+        expect(getLinkComponent().disabled()).toBe(true);
       });
     });
 
@@ -485,17 +485,17 @@ describe('Configurator edit availability through the real cart row context', () 
     const editLink = () =>
       row.debugElement.query(By.directive(MockConfigureCartEntryComponent))
         .componentInstance;
-    expect(editLink().disabled).toBe(false);
+    expect(editLink().disabled()).toBe(false);
 
     control.disable({ emitEvent: false });
     row.componentRef.setInput('quantityDisabled', true);
     row.detectChanges();
-    expect(editLink().disabled).toBe(true);
+    expect(editLink().disabled()).toBe(true);
 
     control.enable({ emitEvent: false });
     row.componentRef.setInput('quantityDisabled', false);
     row.detectChanges();
-    expect(editLink().disabled).toBe(false);
+    expect(editLink().disabled()).toBe(false);
     expect(row.componentInstance.quantityControl).toBe(control);
     expect(statusEvents).toEqual([]);
     expect(valueEvents).toEqual([]);

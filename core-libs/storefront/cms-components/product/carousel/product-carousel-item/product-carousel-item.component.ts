@@ -52,11 +52,15 @@ export class ProductCarouselItemComponent implements OnChanges {
   /**
    * The product item to be displayed in the carousel.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() item: Product;
 
   /**
    * The index of the item in the carousel.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() itemIndex: number;
 
   ngOnChanges(changes?: SimpleChanges): void {

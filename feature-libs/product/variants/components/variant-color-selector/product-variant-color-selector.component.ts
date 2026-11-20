@@ -9,6 +9,7 @@ import {
   Component,
   Input,
   inject,
+  input,
 } from '@angular/core';
 import {
   BaseOption,
@@ -28,9 +29,10 @@ import {
 export class ProductVariantColorSelectorComponent {
   private routingService = inject(RoutingService);
 
-  @Input()
-  product: Product;
+  readonly product = input<Product>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   variants: BaseOption;
 

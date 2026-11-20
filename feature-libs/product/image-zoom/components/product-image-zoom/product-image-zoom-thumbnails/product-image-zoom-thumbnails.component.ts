@@ -12,7 +12,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { ImageGroup, isNotNullable } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
@@ -38,10 +39,15 @@ import { filter, map } from 'rxjs/operators';
 export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
   private mainMediaContainer = new BehaviorSubject<ImageGroup>({});
 
-  @Output() productImage = new EventEmitter<{ image: any; index: number }>();
+  readonly productImage = output<{
+    image: any;
+    index: number;
+  }>();
 
-  @Input() thumbs$: Observable<ThumbnailsGroup[]>;
+  readonly thumbs$ = input<Observable<ThumbnailsGroup[]>>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() activeThumb: EventEmitter<ImageGroup>;
 
   protected subscription = new Subscription();

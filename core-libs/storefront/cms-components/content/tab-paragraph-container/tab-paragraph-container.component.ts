@@ -59,6 +59,8 @@ export class TabParagraphContainerComponent implements AfterViewInit {
 
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
+  // TODO: Skipped for migration because:
+  //  There are references to this query that cannot be migrated automatically.
   @ViewChildren('tabRef')
   tabRefs: QueryList<TemplateRef<any>>;
 

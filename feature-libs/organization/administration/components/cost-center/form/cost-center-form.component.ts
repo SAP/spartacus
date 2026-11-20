@@ -80,6 +80,8 @@ export class CostCenterFormComponent {
    *
    * If there's a unit provided, we disable the form control.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set unitKey(value: string | null) {
     if (value) {
       this.form?.get('unit.uid')?.setValue(value);

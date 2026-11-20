@@ -13,6 +13,7 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  input,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -185,8 +186,10 @@ export class ListComponent<T = any, P = PaginationModel>
       })
     );
 
-  @Input() key = this.service.key();
+  readonly key = input(this.service.key());
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() hideAddButton = false;
 
   /**

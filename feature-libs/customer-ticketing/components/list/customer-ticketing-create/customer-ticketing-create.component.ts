@@ -8,9 +8,9 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -28,12 +28,12 @@ export class CustomerTicketingCreateComponent implements OnDestroy {
 
   protected subscription = new Subscription();
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   openCreateNewTicketDialog() {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CUSTOMER_TICKETING_CREATE,
-      this.element,
+      this.element(),
       this.vcr
     );
     if (dialog) {

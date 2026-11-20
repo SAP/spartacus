@@ -7,6 +7,9 @@ import { EscapeFocusService } from './escape-focus.service';
 
 @Directive({ selector: '[cxEscFocus]' })
 class CustomFocusDirective extends EscapeFocusDirective {
+  // TODO: Skipped for migration because:
+  //  This input overrides a field from a superclass, while the superclass field
+  //  is not migrated.
   @Input('cxEscFocus') protected config: EscapeFocusConfig;
 }
 @Component({

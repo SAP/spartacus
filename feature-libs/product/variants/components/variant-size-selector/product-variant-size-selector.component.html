@@ -13,7 +13,7 @@
             ariaLabel$(v.variantOptionQualifiers, i, variants?.options?.length)
               | async
           "
-          [selected]="v.code === product?.code"
+          [selected]="v.code === product()?.code"
         >
           {{ getVariantOptionValue(v.variantOptionQualifiers) }}
         </option>

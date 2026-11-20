@@ -57,28 +57,44 @@ export class ConfigureCartEntryComponent {
 
   protected routingService = inject(RoutingService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cartEntry: OrderEntry;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() readOnly: boolean;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() msgBanner: boolean;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() disabled: boolean;
   /**
    * Indicates whether the link navigates from bundle information to the
    * configuration overview.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() isBundleOverviewLink = false;
   /**
    * Container row identifier of a bundle line item. When set, the link
    * navigates to the nested product configuration within the bundle.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() rowId?: string;
   /**
    * ID of an element that provides an additional description for the link.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() a11yDescriptionId?: string;
   /**
    * Name of the product the link refers to, used in the accessibility label
    * of edit links. Defaults to the product name of the cart entry.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() productName?: string;
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
 

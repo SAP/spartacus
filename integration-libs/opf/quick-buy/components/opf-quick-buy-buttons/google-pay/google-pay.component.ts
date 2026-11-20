@@ -29,9 +29,13 @@ export class OpfGooglePayComponent implements OnInit {
   protected opfGooglePayService = inject(OpfGooglePayService);
   protected changeDetectionRef = inject(ChangeDetectorRef);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() activeConfiguration:
     OpfActiveConfiguration | OpfActiveConfiguration[];
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('googlePayButtonContainer') googlePayButtonContainer: ElementRef;
 
   isReadyToPayState$: BehaviorSubject<boolean> = new BehaviorSubject(false);

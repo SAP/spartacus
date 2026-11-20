@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnDestroy, TemplateRef, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -29,7 +29,7 @@ class MockCarouselService {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({
@@ -126,23 +126,23 @@ describe('Carousel Component', () => {
     });
 
     it('should default to 300px itemWidth', () => {
-      expect(component.itemWidth).toEqual('300px');
+      expect(component.itemWidth()).toEqual('300px');
     });
 
     it('should default hideIndicators to false', () => {
-      expect(component.hideIndicators).toEqual(false);
+      expect(component.hideIndicators()).toEqual(false);
     });
 
     it('indicatorIcon should default to "CIRCLE"', () => {
-      expect(component.indicatorIcon).toEqual('CIRCLE');
+      expect(component.indicatorIcon()).toEqual('CIRCLE');
     });
 
     it('indicatorIcon should default to "CARET_LEFT"', () => {
-      expect(component.previousIcon).toEqual('CARET_LEFT');
+      expect(component.previousIcon()).toEqual('CARET_LEFT');
     });
 
     it('indicatorIcon should default to "CARET_RIGHT"', () => {
-      expect(component.nextIcon).toEqual('CARET_RIGHT');
+      expect(component.nextIcon()).toEqual('CARET_RIGHT');
     });
   });
 
@@ -747,7 +747,7 @@ describe('Carousel Component', () => {
   describe('default @Input trackByFn', () => {
     it('should return the item', () => {
       const item = { id: '123' };
-      expect(component.trackByFn(999, item)).toBe(item);
+      expect(component.trackByFn()(999, item)).toBe(item);
     });
   });
 });
@@ -757,16 +757,16 @@ describe('Carousel Component', () => {
   template: ` Test Carousel Item
     <div>
       Item testProperty:
-      <span class="child-item">{{ item.testProperty }}</span>
+      <span class="child-item">{{ item().testProperty }}</span>
     </div>
     <div>
       itemIndex:
-      <span class="child-itemIndex">{{ itemIndex }}</span>
+      <span class="child-itemIndex">{{ itemIndex() }}</span>
     </div>`,
 })
 class TestChildComponent implements OnDestroy {
-  @Input() item: any;
-  @Input() itemIndex: number;
+  readonly item = input<any>();
+  readonly itemIndex = input<number>();
 
   static destroyedCount = 0;
   ngOnDestroy() {

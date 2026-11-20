@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
@@ -28,12 +28,9 @@ class MockWishListService {
   template: '',
 })
 class MockWishListItemComponent {
-  @Input()
-  cartEntry: OrderEntry;
-  @Input()
-  isLoading = false;
-  @Output()
-  remove = new EventEmitter<OrderEntry>();
+  readonly cartEntry = input<OrderEntry>();
+  readonly isLoading = input(false);
+  readonly remove = output<OrderEntry>();
 }
 
 describe('WishListComponent', () => {

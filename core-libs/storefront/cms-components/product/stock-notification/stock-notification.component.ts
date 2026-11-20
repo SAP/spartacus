@@ -11,9 +11,9 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -64,7 +64,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   private subscribeSuccess$: Observable<boolean>;
   private subscriptions = new Subscription();
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   ngOnInit() {
     this.outOfStock$ = combineLatest([
@@ -176,7 +176,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
 
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.STOCK_NOTIFICATION,
-      this.element,
+      this.element(),
       this.vcr,
       modalInstanceData
     );

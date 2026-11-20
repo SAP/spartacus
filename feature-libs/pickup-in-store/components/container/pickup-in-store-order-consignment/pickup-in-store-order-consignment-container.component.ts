@@ -28,6 +28,8 @@ export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
     { optional: true }
   );
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() pointOfService$: Observable<PointOfService> | undefined;
 
   ngOnInit(): void {

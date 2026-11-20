@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
@@ -24,7 +24,7 @@ class MockLaunchDialogService {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({
@@ -32,7 +32,7 @@ class MockCxIconComponent {
   template: '',
 })
 class MockProductImageZoomViewComponent {
-  @Input() galleryIndex: number;
+  readonly galleryIndex = input<number>();
 }
 
 describe('ProductImageZoomDialogComponent', () => {

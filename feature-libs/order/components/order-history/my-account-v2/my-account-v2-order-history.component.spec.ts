@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Pipe, PipeTransform, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Params, RouterModule } from '@angular/router';
@@ -58,8 +51,8 @@ const mockEmptyOrderList: OrderHistoryList = {
   selector: 'cx-pagination',
 })
 class MockPaginationComponent {
-  @Input() pagination: any;
-  @Output() viewPageEvent = new EventEmitter<string>();
+  readonly pagination = input<any>();
+  readonly viewPageEvent = output<string>();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -114,7 +107,7 @@ class MockReplenishmentOrderHistoryFacade implements Partial<ReplenishmentOrderH
   template: '',
 })
 export class MockMyAccountV2OrderConsolidatedInformationComponent {
-  @Input() order?: OrderHistoryView;
+  readonly order = input<OrderHistoryView>();
 }
 
 @Component({

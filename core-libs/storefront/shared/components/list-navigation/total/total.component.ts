@@ -19,6 +19,8 @@ export class TotalComponent {
   get pagination(): PaginationModel {
     return this._pagination;
   }
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set pagination(paginationModel: PaginationModel | undefined) {
     this._pagination = paginationModel ?? { totalResults: 0 };
   }

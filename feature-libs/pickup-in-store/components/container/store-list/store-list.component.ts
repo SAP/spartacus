@@ -5,14 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  inject,
-} from '@angular/core';
+import { Component, Input, OnInit, inject, output } from '@angular/core';
 import { PointOfServiceStock, TranslatePipe } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
@@ -38,9 +31,11 @@ export class StoreListComponent implements OnInit {
   protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
 
   /** The product code for the stock levels at each location */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() productCode: string;
   /** Event emitter triggered when a store is selected for pickup */
-  @Output() storeSelected: EventEmitter<null> = new EventEmitter<null>();
+  readonly storeSelected = output<null | undefined>();
 
   stores$: Observable<PointOfServiceStock[]>;
   hasSearchStarted$: Observable<boolean>;
@@ -70,6 +65,6 @@ export class StoreListComponent implements OnInit {
       pickupOption: 'pickup',
     });
 
-    this.storeSelected.emit();
+    this.storeSelected.emit(undefined);
   }
 }

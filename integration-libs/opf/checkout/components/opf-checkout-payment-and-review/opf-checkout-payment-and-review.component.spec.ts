@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
@@ -49,14 +49,14 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 class MockPaymentsComponent {
-  @Input() elementsPerPage: number;
-  @Input() explicitTermsAndConditions: boolean | undefined;
-  @Input() disabled: boolean;
-  @Input() isHeadingDisplayed: boolean;
-  @Input() isPaymentRenderBelow: boolean;
-  @Input() isPaymentInfoMessageEnabled: boolean;
-  @Input() showBeforePaymentOptionsOutlet: boolean;
-  @Input() forceDefaultPaymentOptionInputSelection: boolean;
+  readonly elementsPerPage = input<number>();
+  readonly explicitTermsAndConditions = input<boolean>();
+  readonly disabled = input<boolean>();
+  readonly isHeadingDisplayed = input<boolean>();
+  readonly isPaymentRenderBelow = input<boolean>();
+  readonly isPaymentInfoMessageEnabled = input<boolean>();
+  readonly showBeforePaymentOptionsOutlet = input<boolean>();
+  readonly forceDefaultPaymentOptionInputSelection = input<boolean>();
 }
 
 @Component({
@@ -64,9 +64,9 @@ class MockPaymentsComponent {
   template: '',
 })
 class MockTermsAndConditionsAlertComponent {
-  @Input() isDismissible: boolean;
-  @Input() isVisible: boolean;
-  @Input() isExplicit: boolean | undefined;
+  readonly isDismissible = input<boolean>();
+  readonly isVisible = input<boolean>();
+  readonly isExplicit = input<boolean>();
 }
 
 @Component({
@@ -80,9 +80,9 @@ class MockBillingAddressFormComponent {}
   template: '',
 })
 class MockReviewCartDetailsComponent {
-  @Input() cart: any;
-  @Input() entries: any;
-  @Input() isAddressCardVisible: boolean;
+  readonly cart = input<any>();
+  readonly entries = input<any>();
+  readonly isAddressCardVisible = input<boolean>();
 }
 
 class MockTranslationService {

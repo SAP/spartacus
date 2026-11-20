@@ -367,8 +367,8 @@ describe('CustomerSelectionComponent', () => {
       await vi.advanceTimersByTimeAsync(300);
 
       fixture.detectChanges();
-      searchResultItems = component.searchResultItems.toArray();
-      component.searchTerm.nativeElement.focus();
+      searchResultItems = component.searchResultItems();
+      component.searchTerm().nativeElement.focus();
     });
     it('should navigate between result items', () => {
       vi.spyOn(searchResultItems[0].nativeElement, 'focus');
@@ -392,21 +392,20 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchTerm.nativeElement, 'focus');
+      const searchTerm = component.searchTerm();
+      vi.spyOn(searchTerm.nativeElement, 'focus');
 
-      component.searchTerm.nativeElement.selectionStart =
-        validSearchTerm.length - 5;
-      component.searchTerm.nativeElement.selectionEnd =
-        validSearchTerm.length - 5;
+      searchTerm.nativeElement.selectionStart = validSearchTerm.length - 5;
+      searchTerm.nativeElement.selectionEnd = validSearchTerm.length - 5;
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.focusInputText(event as KeyboardEvent);
 
-      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
-      expect(component.searchTerm.nativeElement.selectionStart).toEqual(
+      expect(searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(searchTerm.nativeElement.selectionStart).toEqual(
         validSearchTerm.length - 4
       );
-      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
+      expect(searchTerm.nativeElement.selectionEnd).toEqual(
         validSearchTerm.length - 4
       );
     });
@@ -417,21 +416,20 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchTerm.nativeElement, 'focus');
+      const searchTerm = component.searchTerm();
+      vi.spyOn(searchTerm.nativeElement, 'focus');
 
-      component.searchTerm.nativeElement.selectionStart =
-        validSearchTerm.length - 5;
-      component.searchTerm.nativeElement.selectionEnd =
-        validSearchTerm.length - 5;
+      searchTerm.nativeElement.selectionStart = validSearchTerm.length - 5;
+      searchTerm.nativeElement.selectionEnd = validSearchTerm.length - 5;
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.focusInputText(event as KeyboardEvent);
 
-      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
-      expect(component.searchTerm.nativeElement.selectionStart).toEqual(
+      expect(searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(searchTerm.nativeElement.selectionStart).toEqual(
         validSearchTerm.length - 6
       );
-      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
+      expect(searchTerm.nativeElement.selectionEnd).toEqual(
         validSearchTerm.length - 6
       );
     });
@@ -443,19 +441,18 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchTerm.nativeElement, 'focus');
+      const searchTerm = component.searchTerm();
+      vi.spyOn(searchTerm.nativeElement, 'focus');
 
-      component.searchTerm.nativeElement.selectionStart =
-        validSearchTerm.length - 5;
-      component.searchTerm.nativeElement.selectionEnd =
-        validSearchTerm.length - 5;
+      searchTerm.nativeElement.selectionStart = validSearchTerm.length - 5;
+      searchTerm.nativeElement.selectionEnd = validSearchTerm.length - 5;
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.focusInputText(event as KeyboardEvent);
 
-      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
-      expect(component.searchTerm.nativeElement.selectionStart).toEqual(0);
-      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(0);
+      expect(searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(searchTerm.nativeElement.selectionStart).toEqual(0);
+      expect(searchTerm.nativeElement.selectionEnd).toEqual(0);
     });
 
     it('should focus search text and set cursor at the end of text', () => {
@@ -465,21 +462,20 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchTerm.nativeElement, 'focus');
+      const searchTerm = component.searchTerm();
+      vi.spyOn(searchTerm.nativeElement, 'focus');
 
-      component.searchTerm.nativeElement.selectionStart =
-        validSearchTerm.length - 5;
-      component.searchTerm.nativeElement.selectionEnd =
-        validSearchTerm.length - 5;
+      searchTerm.nativeElement.selectionStart = validSearchTerm.length - 5;
+      searchTerm.nativeElement.selectionEnd = validSearchTerm.length - 5;
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.focusInputText(event as KeyboardEvent);
 
-      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
-      expect(component.searchTerm.nativeElement.selectionStart).toEqual(
+      expect(searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(searchTerm.nativeElement.selectionStart).toEqual(
         validSearchTerm.length
       );
-      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
+      expect(searchTerm.nativeElement.selectionEnd).toEqual(
         validSearchTerm.length
       );
     });
@@ -489,7 +485,7 @@ describe('CustomerSelectionComponent', () => {
       component.createCustomer();
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-        component.createCustomerLink
+        component.createCustomerLink()
       );
     });
   });
@@ -504,8 +500,8 @@ describe('CustomerSelectionComponent', () => {
       await vi.advanceTimersByTimeAsync(300);
 
       fixture.detectChanges();
-      searchResultItems = component.searchResultItems.toArray();
-      component.searchOrder.nativeElement.focus();
+      searchResultItems = component.searchResultItems();
+      component.searchOrder().nativeElement.focus();
     });
     it('should navigate between result items for order search', () => {
       vi.spyOn(searchResultItems[0].nativeElement, 'focus');
@@ -530,21 +526,20 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchOrder.nativeElement, 'focus');
+      const searchOrder = component.searchOrder();
+      vi.spyOn(searchOrder.nativeElement, 'focus');
 
-      component.searchOrder.nativeElement.selectionStart =
-        validSearchOrderID.length - 5;
-      component.searchOrder.nativeElement.selectionEnd =
-        validSearchOrderID.length - 5;
+      searchOrder.nativeElement.selectionStart = validSearchOrderID.length - 5;
+      searchOrder.nativeElement.selectionEnd = validSearchOrderID.length - 5;
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.focusOrderSearchInputText(event as KeyboardEvent);
 
-      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
-      expect(component.searchOrder.nativeElement.selectionStart).toEqual(
+      expect(searchOrder.nativeElement.focus).toHaveBeenCalled();
+      expect(searchOrder.nativeElement.selectionStart).toEqual(
         validSearchOrderID.length - 4
       );
-      expect(component.searchOrder.nativeElement.selectionEnd).toEqual(
+      expect(searchOrder.nativeElement.selectionEnd).toEqual(
         validSearchOrderID.length - 4
       );
     });
@@ -555,21 +550,20 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchOrder.nativeElement, 'focus');
+      const searchOrder = component.searchOrder();
+      vi.spyOn(searchOrder.nativeElement, 'focus');
 
-      component.searchOrder.nativeElement.selectionStart =
-        validSearchOrderID.length - 5;
-      component.searchOrder.nativeElement.selectionEnd =
-        validSearchOrderID.length - 5;
+      searchOrder.nativeElement.selectionStart = validSearchOrderID.length - 5;
+      searchOrder.nativeElement.selectionEnd = validSearchOrderID.length - 5;
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.focusOrderSearchInputText(event as KeyboardEvent);
 
-      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
-      expect(component.searchOrder.nativeElement.selectionStart).toEqual(
+      expect(searchOrder.nativeElement.focus).toHaveBeenCalled();
+      expect(searchOrder.nativeElement.selectionStart).toEqual(
         validSearchOrderID.length - 6
       );
-      expect(component.searchOrder.nativeElement.selectionEnd).toEqual(
+      expect(searchOrder.nativeElement.selectionEnd).toEqual(
         validSearchOrderID.length - 6
       );
     });
@@ -581,19 +575,18 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchOrder.nativeElement, 'focus');
+      const searchOrder = component.searchOrder();
+      vi.spyOn(searchOrder.nativeElement, 'focus');
 
-      component.searchOrder.nativeElement.selectionStart =
-        validSearchOrderID.length - 5;
-      component.searchOrder.nativeElement.selectionEnd =
-        validSearchOrderID.length - 5;
+      searchOrder.nativeElement.selectionStart = validSearchOrderID.length - 5;
+      searchOrder.nativeElement.selectionEnd = validSearchOrderID.length - 5;
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.focusOrderSearchInputText(event as KeyboardEvent);
 
-      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
-      expect(component.searchOrder.nativeElement.selectionStart).toEqual(0);
-      expect(component.searchOrder.nativeElement.selectionEnd).toEqual(0);
+      expect(searchOrder.nativeElement.focus).toHaveBeenCalled();
+      expect(searchOrder.nativeElement.selectionStart).toEqual(0);
+      expect(searchOrder.nativeElement.selectionEnd).toEqual(0);
     });
 
     it('should close the order search result list when keydown escape', () => {
@@ -603,13 +596,14 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchOrder.nativeElement, 'focus');
+      const searchOrder = component.searchOrder();
+      vi.spyOn(searchOrder.nativeElement, 'focus');
       vi.spyOn(asmService, 'customerSearchReset').mockImplementation(() => {});
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.closeOrderSearchResults(event as KeyboardEvent);
 
-      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
+      expect(searchOrder.nativeElement.focus).toHaveBeenCalled();
 
       expect(asmService.customerSearchReset).toHaveBeenCalled();
     });
@@ -621,13 +615,14 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchTerm.nativeElement, 'focus');
+      const searchTerm = component.searchTerm();
+      vi.spyOn(searchTerm.nativeElement, 'focus');
       vi.spyOn(asmService, 'customerSearchReset').mockImplementation(() => {});
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.closeResults(event as KeyboardEvent);
 
-      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(searchTerm.nativeElement.focus).toHaveBeenCalled();
 
       expect(asmService.customerSearchReset).toHaveBeenCalled();
     });
@@ -639,21 +634,20 @@ describe('CustomerSelectionComponent', () => {
         stopPropagation: () => {},
         preventDefault: () => {},
       };
-      vi.spyOn(component.searchOrder.nativeElement, 'focus');
+      const searchOrder = component.searchOrder();
+      vi.spyOn(searchOrder.nativeElement, 'focus');
 
-      component.searchOrder.nativeElement.selectionStart =
-        validSearchOrderID.length - 5;
-      component.searchOrder.nativeElement.selectionEnd =
-        validSearchOrderID.length - 5;
+      searchOrder.nativeElement.selectionStart = validSearchOrderID.length - 5;
+      searchOrder.nativeElement.selectionEnd = validSearchOrderID.length - 5;
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
       component.focusOrderSearchInputText(event as KeyboardEvent);
 
-      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
-      expect(component.searchOrder.nativeElement.selectionStart).toEqual(
+      expect(searchOrder.nativeElement.focus).toHaveBeenCalled();
+      expect(searchOrder.nativeElement.selectionStart).toEqual(
         validSearchOrderID.length
       );
-      expect(component.searchOrder.nativeElement.selectionEnd).toEqual(
+      expect(searchOrder.nativeElement.selectionEnd).toEqual(
         validSearchOrderID.length
       );
     });
@@ -663,7 +657,7 @@ describe('CustomerSelectionComponent', () => {
       component.createCustomer();
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-        component.createCustomerLink
+        component.createCustomerLink()
       );
     });
   });

@@ -3,8 +3,8 @@ import {
   Component,
   DebugElement,
   Directive,
-  Input,
   QueryList,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -27,11 +27,11 @@ import { FacetComponent } from './facet.component';
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 @Directive({ selector: '[cxFocus]' })
 class MockKeyboadFocusDirective {
-  @Input() cxFocus;
+  readonly cxFocus = input(undefined);
 }
 
 const MockFacetService = {

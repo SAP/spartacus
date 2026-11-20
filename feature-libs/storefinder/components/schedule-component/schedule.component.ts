@@ -17,6 +17,8 @@ import {
   imports: [TranslatePipe],
 })
 export class ScheduleComponent implements OnInit {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   location: PointOfService;
 

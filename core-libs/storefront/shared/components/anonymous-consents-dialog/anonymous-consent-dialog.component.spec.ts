@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -32,7 +32,7 @@ class MockCxSpinnerComponent {}
   template: ``,
 })
 class MockCxIconComponent {
-  @Input() type: string;
+  readonly type = input<string>();
 }
 
 @Component({
@@ -40,12 +40,9 @@ class MockCxIconComponent {
   template: ``,
 })
 class MockConsentManagementFormComponent {
-  @Input()
-  consentTemplate: ConsentTemplate;
-  @Input()
-  requiredConsents: string[] = [];
-  @Input()
-  consent: AnonymousConsent;
+  readonly consentTemplate = input<ConsentTemplate>();
+  readonly requiredConsents = input<string[]>([]);
+  readonly consent = input<AnonymousConsent>();
 }
 
 class MockAnonymousConsentsService {

@@ -11,9 +11,9 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -43,7 +43,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected loggedIn = false;
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   cart$: Observable<Cart>;
 
@@ -86,7 +86,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
   openDialog(cart: Cart) {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.SAVED_CART,
-      this.element,
+      this.element(),
       this.vcr,
       { cart, layoutOption: 'save' }
     );

@@ -12,9 +12,8 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  QueryList,
-  ViewChildren,
   inject,
+  viewChildren,
 } from '@angular/core';
 import { ArgsPipe } from '@spartacus/asm/core';
 import { getAsmDialogActionEvent } from '@spartacus/asm/customer-360/core';
@@ -83,9 +82,8 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
   @HostBinding('attr.aria-modal') modal = true;
   @HostBinding('attr.aria-labelledby') labelledby = 'asm-customer-360-title';
   @HostBinding('attr.aria-describedby') describedby = 'asm-customer-360-desc';
-  @ViewChildren('tabHeaderItem') tabHeaderItems: QueryList<
-    ElementRef<HTMLElement>
-  >;
+  readonly tabHeaderItems =
+    viewChildren<ElementRef<HTMLElement>>('tabHeaderItem');
   readonly cartIcon = ICON_TYPE.CART;
   readonly closeIcon = ICON_TYPE.CLOSE;
   readonly orderIcon = ICON_TYPE.ORDER;
@@ -255,7 +253,7 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
    * @param {number} selectedIndex - selected tab index
    */
   protected updateTabIndex(selectedIndex: number): void {
-    this.tabHeaderItems.toArray().forEach((tabHeaderItem, index) => {
+    this.tabHeaderItems().forEach((tabHeaderItem, index) => {
       if (index === selectedIndex) {
         tabHeaderItem.nativeElement.tabIndex = 0;
         tabHeaderItem.nativeElement.focus();

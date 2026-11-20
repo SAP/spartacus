@@ -7,9 +7,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Output,
   inject,
+  output,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -69,8 +68,7 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
 
-  @Output()
-  submitEvent = new EventEmitter<{
+  readonly submitEvent = output<{
     products: ProductData[];
     savedCartInfo?: {
       name: string;

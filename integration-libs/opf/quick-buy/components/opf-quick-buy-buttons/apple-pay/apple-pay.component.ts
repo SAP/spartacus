@@ -31,6 +31,8 @@ import { ApplePayService } from './apple-pay.service';
   imports: [AsyncPipe],
 })
 export class ApplePayComponent implements OnInit {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() activeConfiguration:
     OpfActiveConfiguration | OpfActiveConfiguration[];
 

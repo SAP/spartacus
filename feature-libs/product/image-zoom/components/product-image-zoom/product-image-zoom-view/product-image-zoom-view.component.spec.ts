@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, ElementRef, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -102,7 +96,7 @@ class MockBreakpointService {
   imports: [I18nTestingModule, FeaturesConfigModule],
 })
 class MockMediaComponent {
-  @Input() container;
+  readonly container = input(undefined);
 }
 
 @Component({
@@ -111,7 +105,7 @@ class MockMediaComponent {
   imports: [I18nTestingModule, FeaturesConfigModule],
 })
 class MockIconComponent {
-  @Input() type;
+  readonly type = input(undefined);
 }
 
 @Component({
@@ -120,9 +114,12 @@ class MockIconComponent {
   imports: [I18nTestingModule, FeaturesConfigModule],
 })
 export class MockProductImageZoomThumbnailsComponent {
-  @Output() productImage = new EventEmitter<{ image: any; index: number }>();
-  @Input() thumbs$: Observable<ThumbnailsGroup[]>;
-  @Input() activeThumb: EventEmitter<ImageGroup>;
+  readonly productImage = output<{
+    image: any;
+    index: number;
+  }>();
+  readonly thumbs$ = input<Observable<ThumbnailsGroup[]>>();
+  readonly activeThumb = input<EventEmitter<ImageGroup>>();
 }
 
 describe('ProductImageZoomViewComponent', () => {

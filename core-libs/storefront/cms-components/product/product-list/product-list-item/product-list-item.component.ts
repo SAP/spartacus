@@ -68,11 +68,15 @@ export class ProductListItemComponent implements OnChanges {
   /**
    * The product item to be displayed in the list.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() product: any;
 
   /**
    * The index of the item in the product list.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() itemIndex?: number;
 
   constructor() {

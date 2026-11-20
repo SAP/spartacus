@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -29,10 +29,10 @@ import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.co
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockAmendOrderActionComponent {
-  @Input() orderCode: string;
-  @Input() amendOrderForm: UntypedFormGroup;
-  @Input() backRoute: string;
-  @Input() forwardRoute: string;
+  readonly orderCode = input<string>();
+  readonly amendOrderForm = input<UntypedFormGroup>();
+  readonly backRoute = input<string>();
+  readonly forwardRoute = input<string>();
 }
 
 @Component({
@@ -41,8 +41,8 @@ class MockAmendOrderActionComponent {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCancelOrReturnItemsComponent {
-  @Input() entries: OrderEntry[];
-  @Input() isConfirmation = false;
+  readonly entries = input<OrderEntry[]>();
+  readonly isConfirmation = input(false);
 }
 
 const mockOrder: Order = {

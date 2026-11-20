@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -23,8 +23,8 @@ import { ProductIntroComponent } from './product-intro.component';
   template: '',
 })
 class MockStarRatingComponent {
-  @Input() rating: number;
-  @Input() disabled: boolean;
+  readonly rating = input<number>();
+  readonly disabled = input<boolean>();
 }
 
 class MockCurrentProductService {

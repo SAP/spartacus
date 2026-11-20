@@ -5,7 +5,7 @@
  */
 
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject, Input, Signal } from '@angular/core';
+import { Component, computed, inject, Signal, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Product, TranslatePipe } from '@spartacus/core';
 import {
@@ -25,11 +25,11 @@ import { SubscriptionProductUsageChargeComponent } from '../usage/subscription-p
   ],
 })
 export class SubscriptionProductPriceComponent {
-  @Input() productCode?: string;
+  readonly productCode = input<string>();
   protected productService = inject(SubscriptionProductService);
 
   productDetail: Signal<Product | null | undefined> = toSignal(
-    this.productService.getSubscriptionData(this.productCode)
+    this.productService.getSubscriptionData(this.productCode())
   );
 
   isCurrentProductSubscription: Signal<boolean> = computed(() => {

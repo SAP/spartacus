@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsNavigationComponent } from '@spartacus/core';
@@ -14,12 +14,9 @@ import { NavigationUIComponent } from './navigation-ui.component';
   template: '',
 })
 class MockNavigationUIComponent {
-  @Input()
-  dropdownMode = 'list';
-  @Input()
-  node: NavigationNode;
-  @Input()
-  navAriaLabel: string;
+  readonly dropdownMode = input('list');
+  readonly node = input<NavigationNode>();
+  readonly navAriaLabel = input<string>();
 }
 
 const mockCmsComponentData = <CmsNavigationComponent>{

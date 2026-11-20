@@ -11,6 +11,7 @@ import {
   Input,
   OnInit,
   inject,
+  input,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -76,8 +77,10 @@ export class UnitFormComponent implements OnInit {
   protected itemService = inject<ItemService<B2BUnit>>(ItemService);
   protected unitService = inject(OrgUnitService);
 
-  @Input() i18nRoot = 'orgUnit';
+  readonly i18nRoot = input('orgUnit');
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() createChildUnit = false;
 
   form: UntypedFormGroup | null = this.itemService.getForm();

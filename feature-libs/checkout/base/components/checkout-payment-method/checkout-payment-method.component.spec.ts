@@ -1,4 +1,4 @@
-import { Component, Directive, Input, Type } from '@angular/core';
+import { Component, Directive, Type, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -42,7 +42,7 @@ import { CheckoutPaymentMethodComponent } from './checkout-payment-method.compon
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 const mockPaymentDetails: PaymentDetails = {
@@ -159,14 +159,10 @@ const mockAddress: Address = {
   template: '',
 })
 class MockPaymentFormComponent {
-  @Input()
-  paymentMethodsCount: number;
-  @Input()
-  setAsDefaultField: boolean;
-  @Input()
-  loading: boolean;
-  @Input()
-  paymentDetails?: PaymentDetails;
+  readonly paymentMethodsCount = input<number>();
+  readonly setAsDefaultField = input<boolean>();
+  readonly loading = input<boolean>();
+  readonly paymentDetails = input<PaymentDetails>();
 }
 
 @Component({
@@ -177,7 +173,7 @@ class MockSpinnerComponent {}
 
 @Directive({ selector: '[cxFocus]' })
 class MockFocusDirective {
-  @Input() cxFocus: FocusConfig | undefined;
+  readonly cxFocus = input<FocusConfig>();
 }
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
@@ -782,7 +778,7 @@ describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
     expect(button).toBeTruthy();
 
     const directive = button.injector.get(MockFocusDirective);
-    expect(directive.cxFocus).toEqual(
+    expect(directive.cxFocus()).toEqual(
       expect.objectContaining({ autofocus: true })
     );
   });

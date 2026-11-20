@@ -59,6 +59,8 @@ export class SplitViewComponent implements OnInit, OnDestroy {
    *
    * The mode defaults to true, unless this is the first view; the first view is never hidden.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set hideMode(mode: boolean) {
     this.splitService.defaultHideMode = mode;

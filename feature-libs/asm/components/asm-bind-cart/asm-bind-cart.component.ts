@@ -11,8 +11,8 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -113,9 +113,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   displayBindCartBtn$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   displaySaveCartBtn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  @ViewChild('bindToCart') bindToCartElemRef: ElementRef<HTMLButtonElement>;
-  @ViewChild('saveInactiveCart')
-  saveInactiveCartElemRef: ElementRef<HTMLButtonElement>;
+  readonly bindToCartElemRef =
+    viewChild<ElementRef<HTMLButtonElement>>('bindToCart');
+  readonly saveInactiveCartElemRef =
+    viewChild<ElementRef<HTMLButtonElement>>('saveInactiveCart');
 
   protected subscription = new Subscription();
 
@@ -232,7 +233,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     return defer(() => {
       this.launchDialogService.openDialogAndSubscribe(
         LAUNCH_CALLER.ASM_BIND_CART,
-        this.bindToCartElemRef
+        this.bindToCartElemRef()
       );
       return this.launchDialogService.dialogClose.pipe(
         filter((result) => Boolean(result)),
@@ -314,7 +315,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   protected openASMSaveCartDialog(inactiveCart: Cart): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_SAVE_CART,
-      this.saveInactiveCartElemRef,
+      this.saveInactiveCartElemRef(),
       inactiveCart
     );
   }

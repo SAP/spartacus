@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AddOrderEntriesContext,
@@ -57,8 +57,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   template: '',
 })
 class MockImportEntriesFormComponent {
-  @Input()
-  type: OrderEntriesSource;
+  readonly type = input<OrderEntriesSource>();
 }
 
 @Component({
@@ -66,8 +65,7 @@ class MockImportEntriesFormComponent {
   template: '',
 })
 class MockImportToNewSavedCartFormComponent {
-  @Input()
-  type: OrderEntriesSource;
+  readonly type = input<OrderEntriesSource>();
 }
 
 @Component({
@@ -75,10 +73,8 @@ class MockImportToNewSavedCartFormComponent {
   template: '',
 })
 class MockImportEntriesSummaryComponent {
-  @Input()
-  summary: any;
-  @Input()
-  type: OrderEntriesSource;
+  readonly summary = input<any>();
+  readonly type = input<OrderEntriesSource>();
 }
 
 describe('ImportEntriesDialogComponent', () => {

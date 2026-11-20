@@ -9,12 +9,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   Injector,
   OnDestroy,
-  Output,
-  ViewChild,
   inject,
+  output,
+  viewChild,
 } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -32,9 +31,9 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
   protected injector = inject(Injector);
 
   // Emits true if user confirms captcha
-  @Output() confirmed = new EventEmitter<boolean>();
+  readonly confirmed = output<boolean>();
 
-  @ViewChild('captcha', { static: false }) captchaRef: ElementRef;
+  readonly captchaRef = viewChild.required<ElementRef>('captcha');
 
   protected subscription = new Subscription();
 
@@ -54,7 +53,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             concatMap((captchaConfig) => {
               if (captchaConfig?.enabled) {
                 return captchaRenderer.renderCaptcha({
-                  element: this.captchaRef.nativeElement,
+                  element: this.captchaRef().nativeElement,
                 });
               } else {
                 return of(null);

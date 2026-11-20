@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -20,7 +20,7 @@ import { FutureStockAccordionComponent } from './future-stock-accordion.componen
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 const mockFutureStocks = {
@@ -114,15 +114,15 @@ describe('FutureStockAccordionComponent', () => {
       let icon = fixture.debugElement.query(
         By.css('cx-icon')
       ).componentInstance;
-      expect(icon.type).toBe(ICON_TYPE.CARET_DOWN);
+      expect(icon.type()).toBe(ICON_TYPE.CARET_DOWN);
       button.click();
       fixture.detectChanges();
       icon = fixture.debugElement.query(By.css('cx-icon')).componentInstance;
-      expect(icon.type).toBe(ICON_TYPE.CARET_UP);
+      expect(icon.type()).toBe(ICON_TYPE.CARET_UP);
       button.click();
       fixture.detectChanges();
       icon = fixture.debugElement.query(By.css('cx-icon')).componentInstance;
-      expect(icon.type).toBe(ICON_TYPE.CARET_DOWN);
+      expect(icon.type()).toBe(ICON_TYPE.CARET_DOWN);
     });
   });
 

@@ -23,6 +23,8 @@ type OpeningTime = {
 })
 export class StoreScheduleComponent implements OnChanges {
   /** The details of the store */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() storeDetails: PointOfService = {};
 
   openingTimes: OpeningTime[] = [];

@@ -11,6 +11,6 @@
     (click)="isCollapsed = !isCollapsed"
     [attr.aria-expanded]="!isCollapsed"
   >
-    {{ (isCollapsed ? readMoreI18nKey! : readLessI18nKey!) | cxTranslate }}
+    {{ (isCollapsed ? readMoreI18nKey()! : readLessI18nKey()!) | cxTranslate }}
   </button>
 }

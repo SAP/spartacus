@@ -12,6 +12,7 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  input,
 } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -54,10 +55,12 @@ export class FormComponent<T> implements OnInit, OnDestroy {
    * i18n root for all localizations. The i18n root key is suffixed with
    * either `.edit` or `.create`, depending on the usage of the component.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() i18nRoot: string;
 
-  @Input() animateBack = true;
-  @Input() subtitle?: string;
+  readonly animateBack = input(true);
+  readonly subtitle = input<string>();
 
   /**
    * i18n key for the localizations.
@@ -125,7 +128,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   }
 
   back(event: MouseEvent, card: CardComponent<any>) {
-    if (this.animateBack) {
+    if (this.animateBack()) {
       card.closeView(event);
     }
   }

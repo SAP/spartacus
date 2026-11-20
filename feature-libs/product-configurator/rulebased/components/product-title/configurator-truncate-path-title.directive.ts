@@ -67,6 +67,8 @@ export class ConfiguratorTruncatePathTitleDirective
   /**
    * Full slash-separated product title to display.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input('cxConfiguratorTruncatePathTitle')
   set fullTitle(value: string) {
     this._fullTitle = value ?? '';

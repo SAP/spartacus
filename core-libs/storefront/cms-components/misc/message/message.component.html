@@ -33,7 +33,7 @@
       @if (actionButtonText) {
         <button
           (click)="buttonAction.emit()"
-          [cxAtMessage]="actionButtonMessage"
+          [cxAtMessage]="actionButtonMessage()"
           class="btn btn-link cx-action-link"
           type="button"
         >
@@ -41,7 +41,7 @@
         </button>
       }
 
-      @if (isVisibleCloseButton) {
+      @if (isVisibleCloseButton()) {
         <button
           (click)="closeMessage.emit()"
           [attr.aria-label]="'common.close' | cxTranslate"

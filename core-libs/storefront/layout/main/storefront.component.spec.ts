@@ -1,4 +1,4 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { Component, DebugElement, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FeatureDirective,
@@ -72,7 +72,7 @@ class MockHamburgerMenuService {
 
 @Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
+  readonly cxOutlet = input<string>();
 }
 
 @Directive({ selector: '[cxPageTemplateStyle]' })

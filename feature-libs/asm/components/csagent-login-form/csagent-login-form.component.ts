@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  inject,
-} from '@angular/core';
+import { Component, Input, OnInit, inject, output } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -44,11 +37,15 @@ export class CSAgentLoginFormComponent implements OnInit {
 
   csAgentLoginForm: UntypedFormGroup;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   csAgentTokenLoading = false;
 
-  @Output()
-  submitEvent = new EventEmitter<{ userId: string; password: string }>();
+  readonly submitEvent = output<{
+    userId: string;
+    password: string;
+  }>();
 
   ngOnInit(): void {
     this.csAgentLoginForm = this.fb.group({

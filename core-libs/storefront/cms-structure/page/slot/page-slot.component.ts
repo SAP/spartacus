@@ -66,6 +66,8 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * The position is used to find the CMS components for the page slot. It is also
    * added as an additional CSS class so that layout can be applied.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @HostBinding('attr.position')
   @Input()
   set position(value: string | undefined) {
@@ -78,11 +80,15 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   /**
    * Maintains css classes introduced by the host and adds additional classes.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() @HostBinding() class: string;
 
   /**
    * Indicates that the page slot is the last page slot above the fold.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @HostBinding('class.page-fold') @Input() isPageFold = false;
 
   /**
@@ -95,6 +101,8 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * Indicates that the page slot doesn't contain any components. This is no
    * longer used in spartacus, but kept for backwards compatibility.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @HostBinding('class.has-components') @Input() hasComponents = false;
 
   protected position$ = new BehaviorSubject<string | undefined>(undefined);

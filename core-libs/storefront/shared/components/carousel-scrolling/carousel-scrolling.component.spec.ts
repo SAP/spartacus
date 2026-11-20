@@ -1,4 +1,4 @@
-import { Component, Directive, Input, OnDestroy } from '@angular/core';
+import { Component, Directive, OnDestroy, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -35,7 +35,7 @@ const createKeyboardEvent = (key: string) =>
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Directive({
@@ -43,9 +43,9 @@ class MockCxIconComponent {
   exportAs: 'cxHorizontalScrollingPosition',
 })
 class MockHorizontalScrollingPositionDirective implements Partial<HorizontalScrollingPositionDirective> {
-  @Input() scrollingArea: HTMLElement;
-  @Input() scrollingAreaStart: HTMLElement;
-  @Input() scrollingAreaEnd: HTMLElement;
+  readonly scrollingArea = input<HTMLElement>();
+  readonly scrollingAreaStart = input<HTMLElement>();
+  readonly scrollingAreaEnd = input<HTMLElement>();
 
   isScrollStart$ = new BehaviorSubject<boolean>(false);
   isScrollEnd$ = new BehaviorSubject<boolean>(false);
@@ -59,16 +59,16 @@ class MockHorizontalScrollingPositionDirective implements Partial<HorizontalScro
   template: ` Test Carousel Item
     <div>
       Item testProperty:
-      <span class="child-item">{{ item.testProperty }}</span>
+      <span class="child-item">{{ item().testProperty }}</span>
     </div>
     <div>
       itemIndex:
-      <span class="child-itemIndex">{{ itemIndex }}</span>
+      <span class="child-itemIndex">{{ itemIndex() }}</span>
     </div>`,
 })
 class TestChildComponent implements OnDestroy {
-  @Input() item: any;
-  @Input() itemIndex: number;
+  readonly item = input<any>();
+  readonly itemIndex = input<number>();
 
   static destroyedCount = 0;
   ngOnDestroy() {
@@ -270,7 +270,7 @@ describe('CarouselScrollingComponent', () => {
           By.css('.carousel-panel .carousel-items .carousel-items-start')
         );
         expect(carouselItemsStart.length).toBe(1);
-        expect(horizontalScrollingPositionDirective.scrollingAreaStart).toBe(
+        expect(horizontalScrollingPositionDirective.scrollingAreaStart()).toBe(
           carouselItemsStart[0].nativeElement
         );
       });
@@ -280,7 +280,7 @@ describe('CarouselScrollingComponent', () => {
           By.css('.carousel-panel .carousel-items .carousel-items-end')
         );
         expect(carouselItemsEnd.length).toBe(1);
-        expect(horizontalScrollingPositionDirective.scrollingAreaEnd).toBe(
+        expect(horizontalScrollingPositionDirective.scrollingAreaEnd()).toBe(
           carouselItemsEnd[0].nativeElement
         );
       });
@@ -290,7 +290,7 @@ describe('CarouselScrollingComponent', () => {
           By.css('.carousel-panel .carousel-items')
         );
         expect(carouselItemsContainer.length).toBe(1);
-        expect(horizontalScrollingPositionDirective.scrollingArea).toBe(
+        expect(horizontalScrollingPositionDirective.scrollingArea()).toBe(
           carouselItemsContainer[0].nativeElement
         );
       });
@@ -300,7 +300,7 @@ describe('CarouselScrollingComponent', () => {
           By.css('.carousel-panel .carousel-items .carousel-items-end')
         );
         expect(carouselItemsEnd.length).toBe(1);
-        expect(horizontalScrollingPositionDirective.scrollingAreaEnd).toBe(
+        expect(horizontalScrollingPositionDirective.scrollingAreaEnd()).toBe(
           carouselItemsEnd[0].nativeElement
         );
       });
@@ -836,7 +836,7 @@ describe('CarouselScrollingComponent', () => {
 
     it('should use default trackByFn', () => {
       const item = { id: '123' };
-      expect(carouselScrollingComponent.trackByFn(999, item)).toBe(item);
+      expect(carouselScrollingComponent.trackByFn()(999, item)).toBe(item);
     });
   });
 });

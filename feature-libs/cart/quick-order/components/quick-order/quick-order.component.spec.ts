@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
@@ -139,8 +139,8 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   imports: [I18nTestingModule, MessageComponentModule],
 })
 class MockQuickOrderFormComponent {
-  @Input() isLoading: boolean;
-  @Input() limit: number;
+  readonly isLoading = input<boolean>();
+  readonly limit = input<number>();
 }
 
 @Component({
@@ -149,8 +149,8 @@ class MockQuickOrderFormComponent {
   imports: [I18nTestingModule, MessageComponentModule],
 })
 class MockQuickOrderTableComponent {
-  @Input() entries: OrderEntry[];
-  @Input() loading: boolean;
+  readonly entries = input<OrderEntry[]>();
+  readonly loading = input<boolean>();
 }
 
 @Component({
@@ -159,8 +159,8 @@ class MockQuickOrderTableComponent {
   imports: [I18nTestingModule, MessageComponentModule],
 })
 class MockProgressButtonComponent {
-  @Input() loading: boolean;
-  @Input() disabled: boolean;
+  readonly loading = input<boolean>();
+  readonly disabled = input<boolean>();
 }
 
 describe('QuickOrderComponent', () => {

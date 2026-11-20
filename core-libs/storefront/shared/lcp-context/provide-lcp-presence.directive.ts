@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, inject, Input, OnChanges } from '@angular/core';
+import { Directive, inject, OnChanges, input } from '@angular/core';
 import {
   distinctUntilChanged,
   Observable,
@@ -32,11 +32,11 @@ import { LCP_PRESENCE } from './lcp-presence.token';
   ],
 })
 export class ProvideLcpPresenceDirective implements OnChanges {
-  @Input() cxProvideLcpPresence?: LcpPresence | null;
+  readonly cxProvideLcpPresence = input<LcpPresence | null>();
   protected _lcpPresence$ = new ReplaySubject<LcpPresence>(1);
 
   ngOnChanges(): void {
-    const value = this.cxProvideLcpPresence ?? LcpPresence.NO_LCP;
+    const value = this.cxProvideLcpPresence() ?? LcpPresence.NO_LCP;
     this._lcpPresence$.next(value);
   }
 

@@ -10,7 +10,7 @@ import {
   Component,
   ElementRef,
   inject,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
@@ -51,8 +51,8 @@ export class CheckoutPaymentTypeComponent {
   protected activatedRoute = inject(ActivatedRoute);
   protected globalMessageService = inject(GlobalMessageService);
 
-  @ViewChild('poNumber', { static: false })
-  private poNumberInputElement: ElementRef<HTMLInputElement>;
+  private readonly poNumberInputElement =
+    viewChild<ElementRef<HTMLInputElement>>('poNumber');
 
   protected busy$ = new BehaviorSubject<boolean>(false);
 
@@ -112,7 +112,7 @@ export class CheckoutPaymentTypeComponent {
           this.checkoutPaymentTypeFacade
             .setPaymentType(
               availablePaymentTypes[0].code as string,
-              this.poNumberInputElement?.nativeElement?.value
+              this.poNumberInputElement()?.nativeElement?.value
             )
             .subscribe({
               complete: () => this.onSuccess(),
@@ -153,7 +153,7 @@ export class CheckoutPaymentTypeComponent {
     this.typeSelected = code;
 
     this.checkoutPaymentTypeFacade
-      .setPaymentType(code, this.poNumberInputElement.nativeElement.value)
+      .setPaymentType(code, this.poNumberInputElement()?.nativeElement.value)
       .subscribe({
         complete: () => this.onSuccess(),
         error: (error) => {
@@ -173,7 +173,7 @@ export class CheckoutPaymentTypeComponent {
       return;
     }
 
-    const poNumberInput = this.poNumberInputElement.nativeElement.value;
+    const poNumberInput = this.poNumberInputElement()?.nativeElement.value;
     // if the PO number didn't change
     if (poNumberInput === getLastValueSync(this.cartPoNumber$)) {
       this.checkoutStepService.next(this.activatedRoute);

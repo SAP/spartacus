@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
@@ -22,9 +22,10 @@ import { OpfCheckoutEmailUpdateComponent } from './opf-checkout-email-update.com
   template: '',
 })
 class MockFormErrorsComponent {
-  @Input() control: UntypedFormControl;
-  @Input()
-  translationParams: { [key: string]: string | null };
+  readonly control = input<UntypedFormControl>();
+  readonly translationParams = input<{
+    [key: string]: string | null;
+  }>();
 }
 
 describe('OpfCheckoutEmailUpdateComponent', () => {

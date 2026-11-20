@@ -10,8 +10,8 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -53,7 +53,8 @@ import { LoginFormComponentService } from './login-form-component.service';
 export class LoginFormComponent {
   protected service = inject(LoginFormComponentService);
 
-  @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
+  readonly loginForm =
+    viewChild<ElementRef<HTMLElementTagNameMap['form']>>('loginForm');
   @HostBinding('class.user-form') style = true;
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
@@ -67,6 +68,6 @@ export class LoginFormComponent {
   }
 
   onSubmit(): void {
-    this.service.login(this.loginForm?.nativeElement);
+    this.service.login(this.loginForm()?.nativeElement);
   }
 }

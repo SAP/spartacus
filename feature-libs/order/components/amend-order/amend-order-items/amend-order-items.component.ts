@@ -10,6 +10,7 @@ import {
   Component,
   Input,
   inject,
+  input,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -27,8 +28,10 @@ import { OrderAmendService } from '../amend-order.service';
 export class CancelOrReturnItemsComponent {
   protected orderAmendService = inject(OrderAmendService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() entries: OrderEntry[];
-  @Input() isConfirmation = false;
+  readonly isConfirmation = input(false);
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService.getForm();
 

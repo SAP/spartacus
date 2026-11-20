@@ -12,7 +12,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
@@ -125,8 +125,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   subscription: Subscription = new Subscription();
 
-  @ViewChild('customerListLink') element: ElementRef;
-  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
+  readonly element = viewChild<ElementRef>('customerListLink');
+  readonly addNewCustomerLink = viewChild<ElementRef>('addNewCustomerLink');
 
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
@@ -257,7 +257,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         const data = { customer: customer };
         this.launchDialogService.openDialogAndSubscribe(
           LAUNCH_CALLER.ASM_CUSTOMER_360,
-          this.element,
+          this.element(),
           data
         );
       });
@@ -324,7 +324,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             next: (switchCustomer) => {
               this.launchDialogService.openDialogAndSubscribe(
                 LAUNCH_CALLER.ASM_SWITCH_CUSTOMER,
-                this.element,
+                this.element(),
                 { curCustomer: curCustomer, switchCustomer: switchCustomer }
               );
             },
@@ -424,7 +424,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   showCustomList(): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CUSTOMER_LIST,
-      this.element
+      this.element()
     );
   }
 
@@ -435,7 +435,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   createCustomer(): void {
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      this.addNewCustomerLink
+      this.addNewCustomerLink()
     );
   }
 

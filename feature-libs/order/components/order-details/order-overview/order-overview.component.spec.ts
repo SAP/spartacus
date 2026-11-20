@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/base/root';
@@ -26,8 +26,7 @@ import { OrderOverviewComponent } from './order-overview.component';
   template: '',
 })
 class MockCardComponent {
-  @Input()
-  content: Card;
+  readonly content = input<Card>();
 }
 
 @Pipe({ name: 'cxUrl' })

@@ -1,4 +1,4 @@
-import { Component, Directive, Input, Type } from '@angular/core';
+import { Component, Directive, Type, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -127,7 +127,7 @@ class MockInnerComponentsHostDirective {}
 
 @Directive({ selector: '[cxFocus]' })
 class MockFocusDirective {
-  @Input() cxFocus: FocusConfig | undefined;
+  readonly cxFocus = input<FocusConfig>();
 }
 
 describe('CheckoutDeliveryModeComponent', () => {
@@ -437,7 +437,7 @@ describe('CheckoutDeliveryModeComponent', () => {
       const fieldset = fixture.debugElement.query(By.css('fieldset'));
       const directive = fieldset.injector.get(MockFocusDirective);
 
-      expect(directive.cxFocus).toEqual(
+      expect(directive.cxFocus()).toEqual(
         expect.objectContaining({ autofocus: true, refreshFocus: false })
       );
     });
@@ -448,7 +448,7 @@ describe('CheckoutDeliveryModeComponent', () => {
       expect(radios.length).toBe(mockSupportedDeliveryModes.length);
       radios.forEach((radio, i) => {
         const directive = radio.injector.get(MockFocusDirective);
-        expect(directive.cxFocus).toEqual(
+        expect(directive.cxFocus()).toEqual(
           expect.objectContaining({ key: mockSupportedDeliveryModes[i].code })
         );
       });

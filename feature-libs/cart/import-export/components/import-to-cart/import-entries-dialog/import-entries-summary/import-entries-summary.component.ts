@@ -7,9 +7,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import {
   OrderEntriesSource,
@@ -31,14 +31,14 @@ export class ImportEntriesSummaryComponent {
   warningDetailsOpened: boolean = false;
   errorDetailsOpened: boolean = false;
 
-  @Input()
-  type: string;
+  readonly type = input<string>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   summary: ProductImportSummary;
 
-  @Output()
-  closeEvent = new EventEmitter<string>();
+  readonly closeEvent = output<string>();
 
   close(reason: string): void {
     this.closeEvent.emit(reason);

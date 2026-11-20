@@ -35,6 +35,8 @@ export class OpfGiftCardAppliedComponent {
   protected activeCartFacade = inject(ActiveCartFacade);
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() opfGiftCards: OpfGiftCards[];
 
   removeGiftCard(giftCardId: string) {

@@ -7,10 +7,10 @@
 import {
   Directive,
   ElementRef,
-  Input,
   OnDestroy,
   OnInit,
   inject,
+  input,
 } from '@angular/core';
 import { SkipLinkService } from '../service/skip-link.service';
 
@@ -19,13 +19,13 @@ export class SkipLinkDirective implements OnInit, OnDestroy {
   protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected skipLinkService = inject(SkipLinkService);
 
-  @Input() cxSkipLink: string;
+  readonly cxSkipLink = input.required<string>();
 
   ngOnInit(): void {
-    this.skipLinkService.add(this.cxSkipLink, this.elementRef.nativeElement);
+    this.skipLinkService.add(this.cxSkipLink(), this.elementRef.nativeElement);
   }
 
   ngOnDestroy(): void {
-    this.skipLinkService.remove(this.cxSkipLink);
+    this.skipLinkService.remove(this.cxSkipLink());
   }
 }

@@ -88,6 +88,8 @@ export class UserFormComponent implements OnInit {
    *
    * If there's a unit provided, we disable the unit form control.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set unitKey(value: string | null) {
     if (value) {
       this.form?.get('orgUnit.uid')?.setValue(value);

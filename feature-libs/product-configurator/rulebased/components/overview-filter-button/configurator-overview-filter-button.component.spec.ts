@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
@@ -74,7 +74,7 @@ function initMocks() {
   template: '',
 })
 class MockConfiguratorOverviewFilterBarComponent {
-  @Input() config: Configurator.ConfigurationWithOverview;
+  readonly config = input<Configurator.ConfigurationWithOverview>();
 }
 
 let isDisplayOnlyVariant: boolean;
@@ -154,7 +154,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       .triggerEventHandler('click');
     expect(mockLaunchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
-      component.filterButton,
+      component.filterButton(),
       ovConfig
     );
   });

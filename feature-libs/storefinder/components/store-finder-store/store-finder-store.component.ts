@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PointOfService, RoutingService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
@@ -37,11 +37,11 @@ export class StoreFinderStoreComponent implements OnInit {
   isLoading$: Observable<any>;
   iconTypes = ICON_TYPE;
 
-  @Input() location: PointOfService;
-  @Input() disableMap: boolean;
+  readonly location = input<PointOfService>();
+  readonly disableMap = input<boolean>();
 
   ngOnInit() {
-    if (!this.location) {
+    if (!this.location()) {
       this.requestStoresData();
       this.location$ = this.storeFinderService.getFindStoreEntityById();
       this.isLoading$ = this.storeFinderService.getStoresLoading();

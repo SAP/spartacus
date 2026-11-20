@@ -62,7 +62,11 @@ export class AddToWishListComponent {
   wishListEntries$: Observable<OrderEntry[]>;
   loading$: Observable<boolean>;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('addToWishlistButton') addToWishlistButton: ElementRef;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('removeFromWishlistButton') removeFromWishlistButton: ElementRef;
 
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn().pipe(

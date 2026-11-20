@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
@@ -21,8 +21,7 @@ import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.com
   template: '',
 })
 class MockCardComponent {
-  @Input()
-  content: Card;
+  readonly content = input<Card>();
 }
 
 const mockDeliveryAddress: Address = {

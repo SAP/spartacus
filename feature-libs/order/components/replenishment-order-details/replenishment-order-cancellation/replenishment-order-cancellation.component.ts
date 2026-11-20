@@ -9,9 +9,9 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -45,7 +45,7 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
   protected vcr = inject(ViewContainerRef);
   protected launchDialogService = inject(LaunchDialogService);
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   private subscription = new Subscription();
 
@@ -55,7 +55,7 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
   openDialog() {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
-      this.element,
+      this.element(),
       this.vcr
     );
 

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, output, input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageService,
@@ -36,9 +36,9 @@ class MockSpinnerComponent {}
   template: '',
 })
 class MockDeletePaymentDialogComponent {
-  @Input() showDialog = false;
-  @Output() confirmDelete = new EventEmitter<void>();
-  @Output() cancelDelete = new EventEmitter<void>();
+  readonly showDialog = input(false);
+  readonly confirmDelete = output<void>();
+  readonly cancelDelete = output<void>();
 }
 
 describe('OpfTokenisationAccountPaymentMethodsComponent', () => {

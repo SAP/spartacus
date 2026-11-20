@@ -32,6 +32,8 @@ export class PunchoutRequisitionComponent implements OnInit {
   protected punchoutFacade = inject(PunchoutFacade);
   protected formBuilder = inject(FormBuilder);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('punchoutFormElement')
   punchoutFormElement!: ElementRef<HTMLFormElement>;
   punchoutFormGroup: FormGroup;

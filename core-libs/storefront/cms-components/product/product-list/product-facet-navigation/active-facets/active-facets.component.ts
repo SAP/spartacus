@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, HostBinding, Input, inject } from '@angular/core';
+import { Component, HostBinding, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Breadcrumb, FeatureDirective, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -44,7 +44,7 @@ export class ActiveFacetsComponent {
   facetList$: Observable<FacetList> = this.facetService.facetList$;
 
   /** Configurable icon which is used for the active facet close button */
-  @Input() closeIcon = ICON_TYPE.CLOSE;
+  readonly closeIcon = input(ICON_TYPE.CLOSE);
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(

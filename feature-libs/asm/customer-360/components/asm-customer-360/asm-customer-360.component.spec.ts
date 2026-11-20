@@ -341,7 +341,7 @@ describe('AsmCustomer360Component', () => {
 
   describe('Tab navigation', () => {
     it('should display tabs', () => {
-      expect(component.tabHeaderItems.length).toBe(
+      expect(component.tabHeaderItems().length).toBe(
         mockAsmConfig.asmCustomer360?.tabs?.length
       );
     });
@@ -350,8 +350,8 @@ describe('AsmCustomer360Component', () => {
     });
 
     it('should switch tab selection', () => {
-      const firstTab = component.tabHeaderItems.toArray()[0].nativeElement;
-      const secondTab = component.tabHeaderItems.toArray()[1].nativeElement;
+      const firstTab = component.tabHeaderItems()[0].nativeElement;
+      const secondTab = component.tabHeaderItems()[1].nativeElement;
 
       component.selectTab(0);
 

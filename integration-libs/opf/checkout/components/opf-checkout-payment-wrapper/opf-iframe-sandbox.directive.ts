@@ -13,6 +13,8 @@ export class OpfIframeSandboxDirective {
   protected el = inject<ElementRef<HTMLIFrameElement>>(ElementRef);
   protected renderer = inject(Renderer2);
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input('cxOpfSandbox') set sandboxValue(value: string | undefined) {
     if (value == null) {
       this.renderer.removeAttribute(this.el.nativeElement, 'sandbox');

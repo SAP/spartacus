@@ -1,5 +1,5 @@
 <!-- FORM -->
-@if (!loading) {
+@if (!loading()) {
   <cx-form-required-legend />
   <form
     (ngSubmit)="next()"

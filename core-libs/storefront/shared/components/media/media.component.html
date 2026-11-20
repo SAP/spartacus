@@ -34,7 +34,7 @@
         [attr.role]="media.role"
         [attr.width]="media.width"
         [attr.height]="media.height"
-        [attr.sizes]="sizesForImgElement"
+        [attr.sizes]="sizesForImgElement()"
         (load)="loadHandler()"
         (error)="errorHandler()"
       />

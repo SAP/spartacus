@@ -3,11 +3,11 @@
     <div class="variant-name">{{ 'productVariants.color' | cxTranslate }}:</div>
 
     <select
-      (change)="changeColor($event.target.value, product?.name)"
+      (change)="changeColor($event.target.value, product()?.name)"
       class="form-control variant-select"
     >
       @for (v of variants?.options; track v) {
-        <option value="{{ v.code }}" [selected]="v.code === product?.code">
+        <option value="{{ v.code }}" [selected]="v.code === product()?.code">
           {{ getVariantOptionValue(v.variantOptionQualifiers) }}
         </option>
       }

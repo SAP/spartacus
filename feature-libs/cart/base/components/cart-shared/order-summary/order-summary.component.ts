@@ -21,6 +21,8 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
     optional: true,
   });
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   cart: Cart;
 

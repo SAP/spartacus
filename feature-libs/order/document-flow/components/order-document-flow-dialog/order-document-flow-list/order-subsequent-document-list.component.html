@@ -22,7 +22,7 @@
     @if (documents) {
       <cx-order-subsequent-document-node
         [documents]="documents"
-        [selectedDocument]="selectedDocument"
+        [selectedDocument]="selectedDocument()"
         (documentSelected)="onDocumentSelection($event)"
       />
     }

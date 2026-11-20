@@ -8,12 +8,12 @@ import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   ViewChild,
   inject,
+  output,
+  input,
 } from '@angular/core';
 import {
   FormsModule,
@@ -66,23 +66,29 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   protected filesFormValidators = inject(FilesFormValidators);
 
   // can be undefined if you press add message button very fast on slow network
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild(FileUploadComponent) fileUploadComponent?: FileUploadComponent;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
-  @Input() scrollToInput?: boolean = true;
+  readonly scrollToInput = input<boolean | undefined>(true);
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() messagingConfigs?: MessagingConfigs;
 
-  @Output() send = new EventEmitter<{
+  readonly send = output<{
     files: File | undefined;
     message: string;
     itemId?: string;
   }>();
 
-  @Output() itemClicked = new EventEmitter<{
+  readonly itemClicked = output<{
     item: MessageEventBoundItem;
   }>();
 
-  @Output() downloadAttachment = new EventEmitter<{
+  readonly downloadAttachment = output<{
     messageCode: string | undefined;
     attachmentId: string | undefined;
     fileName: string | undefined;
@@ -132,7 +138,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    if (this.scrollToInput) {
+    if (this.scrollToInput()) {
       this.observeScroll();
       if (this.scrollOnceOnLoad) {
         this.scrollOnLoad();

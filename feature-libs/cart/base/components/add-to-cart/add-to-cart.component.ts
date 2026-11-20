@@ -15,8 +15,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -83,22 +83,36 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     optional: true,
   });
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() productCode: string;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() showQuantity = true;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() options: CartItemComponentOptions;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() pickupStore: string | undefined;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() savedCart: Cart | undefined;
 
   /**
    * As long as we do not support #5026, we require product input, as we need
    *  a reference to the product model to fetch the stock data.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() product: Product;
 
   /**
    * Element responsible for opening the modal. The reference is used to refocus the modal after it closes.
    */
-  @ViewChild('addToCartDialogTriggerEl') addToCartDialogTriggerEl: ElementRef;
+  readonly addToCartDialogTriggerEl = viewChild<ElementRef>(
+    'addToCartDialogTriggerEl'
+  );
 
   maxQuantity: number;
 
@@ -333,7 +347,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     newEvent.quantity = quantity;
     newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
     newEvent.pickupStoreName = storeName;
-    newEvent.triggerElementRef = this.addToCartDialogTriggerEl;
+    newEvent.triggerElementRef = this.addToCartDialogTriggerEl();
     return newEvent;
   }
 

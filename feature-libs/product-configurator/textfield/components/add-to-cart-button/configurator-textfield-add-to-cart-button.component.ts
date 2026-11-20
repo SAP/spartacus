@@ -9,6 +9,7 @@ import {
   Component,
   Input,
   inject,
+  input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -25,8 +26,10 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 export class ConfiguratorTextfieldAddToCartButtonComponent {
   protected configuratorTextfieldService = inject(ConfiguratorTextfieldService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() configuration: ConfiguratorTextfield.Configuration;
-  @Input() productCode: string;
+  readonly productCode = input<string>();
 
   /**
    * Adds the textfield configuration to the cart or updates it

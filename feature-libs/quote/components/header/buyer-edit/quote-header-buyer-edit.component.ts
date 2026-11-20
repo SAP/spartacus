@@ -5,7 +5,7 @@
  */
 
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -37,11 +37,11 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
   iconTypes = ICON_TYPE;
   editForm: FormGroup = new FormGroup({});
 
-  @Output()
-  saveCard: EventEmitter<SaveEvent> = new EventEmitter();
-  @Output()
-  cancelCard: EventEmitter<any> = new EventEmitter();
+  readonly saveCard = output<SaveEvent>();
+  readonly cancelCard = output<any>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   content: EditCard;
 
@@ -49,7 +49,7 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
    * Cancels the view of the edit card tile.
    */
   cancel(): void {
-    this.cancelCard.emit();
+    this.cancelCard.emit(undefined);
   }
 
   /**

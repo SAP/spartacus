@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -120,8 +120,7 @@ const mockScheduledAt = '2024-06-27T09:30:00-04:00';
   ],
 })
 class MockCardComponent {
-  @Input()
-  content: Card;
+  readonly content = input<Card>();
 }
 
 class MockCheckoutDeliveryAddressService implements Partial<CheckoutDeliveryAddressFacade> {

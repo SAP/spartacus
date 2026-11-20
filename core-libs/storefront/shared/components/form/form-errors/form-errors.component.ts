@@ -59,19 +59,27 @@ export class FormErrorsComponent implements DoCheck {
   /**
    * Prefix prepended to the translation key.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() prefix = 'formErrors.labeled';
 
   /**
    * Fallback prefix prepended to the translation key.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() fallbackPrefix = 'formErrors';
 
   /**
    * Translation params to enrich the error details object.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   translationParams: { [key: string]: string | null };
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set control(control: AbstractControl | UntypedFormControl | null) {
     if (!control) {

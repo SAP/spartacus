@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Directive, OnDestroy, OnInit, inject, input } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
 @Directive({
@@ -14,7 +14,9 @@ import { WindowRef } from '@spartacus/core';
 export class ConfiguratorMainAriaLabelledByDirective
   implements OnInit, OnDestroy
 {
-  @Input('cxConfiguratorMainAriaLabelledBy') labelledbyId: string;
+  readonly labelledbyId = input<string>(undefined, {
+    alias: 'cxConfiguratorMainAriaLabelledBy',
+  });
 
   protected winRef = inject(WindowRef);
 
@@ -22,8 +24,9 @@ export class ConfiguratorMainAriaLabelledByDirective
 
   ngOnInit() {
     this.mainEl = this.winRef.document.querySelector('main');
-    if (this.mainEl && this.labelledbyId) {
-      this.mainEl.setAttribute('aria-labelledby', this.labelledbyId);
+    const labelledbyId = this.labelledbyId();
+    if (this.mainEl && labelledbyId) {
+      this.mainEl.setAttribute('aria-labelledby', labelledbyId);
     }
   }
 

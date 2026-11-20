@@ -9,13 +9,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   HostBinding,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   inject,
+  output,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { Subscription, timer } from 'rxjs';
@@ -43,6 +42,8 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   protected _hidden: boolean | undefined;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   @HostBinding('attr.position')
   @HostBinding('style.--cx-view-position')
@@ -59,6 +60,8 @@ export class ViewComponent implements OnInit, OnDestroy {
    *
    * The hidden input supports 2-way binding, see `hiddenChange` property.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set hidden(hidden: boolean) {
     this._hidden = hidden;
@@ -68,9 +71,10 @@ export class ViewComponent implements OnInit, OnDestroy {
   /**
    * An update of the view visibility is emitted to the hiddenChange output.
    */
-  @Output()
-  hiddenChange = new EventEmitter();
+  readonly hiddenChange = output<boolean | undefined>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   viewTitle?: string;
 

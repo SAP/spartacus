@@ -82,7 +82,7 @@ describe('CustomerTicketingReopenComponent', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.CUSTOMER_TICKETING_REOPEN,
-      component.element,
+      component.element(),
       component['vcr']
     );
   });

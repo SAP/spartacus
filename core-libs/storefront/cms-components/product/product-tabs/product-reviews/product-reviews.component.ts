@@ -11,10 +11,9 @@ import {
   Component,
   ElementRef,
   inject,
-  Input,
-  QueryList,
-  ViewChild,
-  ViewChildren,
+  input,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
 import {
   FormsModule,
@@ -74,16 +73,14 @@ export class ProductReviewsComponent {
   private fb = inject(UntypedFormBuilder);
   protected cd = inject(ChangeDetectorRef);
 
-  @ViewChild('titleInput', { static: false }) titleInput: ElementRef;
-  @ViewChild('writeReviewButton', { static: false })
-  writeReviewButton: ElementRef;
-  @ViewChild('showMoreLessButton', { static: false })
-  showMoreLessButton: ElementRef;
-  @ViewChildren('reviewItem') reviewItems: QueryList<ElementRef<HTMLElement>>;
+  readonly titleInput = viewChild<ElementRef>('titleInput');
+  readonly writeReviewButton = viewChild<ElementRef>('writeReviewButton');
+  readonly showMoreLessButton = viewChild<ElementRef>('showMoreLessButton');
+  readonly reviewItems = viewChildren<ElementRef<HTMLElement>>('reviewItem');
 
-  @Input() maxLengthReviewTitle = 255;
-  @Input() maxLengthReviewComment = 2200;
-  @Input() maxLengthReviewerName = 64;
+  readonly maxLengthReviewTitle = input(255);
+  readonly maxLengthReviewComment = input(2200);
+  readonly maxLengthReviewerName = input(64);
   isWritingReview = false;
 
   // TODO: configurable
@@ -117,8 +114,9 @@ export class ProductReviewsComponent {
 
     this.cd.detectChanges();
 
-    if (this.titleInput && this.titleInput.nativeElement) {
-      this.titleInput.nativeElement.focus();
+    const titleInput = this.titleInput();
+    if (titleInput && titleInput.nativeElement) {
+      titleInput.nativeElement.focus();
     }
   }
 
@@ -131,13 +129,14 @@ export class ProductReviewsComponent {
 
     if (this.featureToggles.a11yShowMoreReviewsFocusVisible) {
       this.cd.detectChanges();
-      this.showMoreLessButton?.nativeElement?.scrollIntoView({
+      const showMoreLessButton = this.showMoreLessButton();
+      showMoreLessButton?.nativeElement?.scrollIntoView({
         block: 'center',
       });
       // Re-assert focus after re-render so :focus and :focus-visible states
       // are applied to the button, making the outline visible consistently
       // across platforms. `preventScroll` avoids a second scroll.
-      this.showMoreLessButton?.nativeElement?.focus({ preventScroll: true });
+      showMoreLessButton?.nativeElement?.focus({ preventScroll: true });
     }
   }
 
@@ -147,8 +146,9 @@ export class ProductReviewsComponent {
 
     this.cd.detectChanges();
 
-    if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
-      this.writeReviewButton.nativeElement.focus();
+    const writeReviewButton = this.writeReviewButton();
+    if (writeReviewButton && writeReviewButton.nativeElement) {
+      writeReviewButton.nativeElement.focus();
     }
   }
 
@@ -180,14 +180,15 @@ export class ProductReviewsComponent {
 
     this.cd.detectChanges();
 
-    if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
-      this.writeReviewButton.nativeElement.focus();
+    const writeReviewButton = this.writeReviewButton();
+    if (writeReviewButton && writeReviewButton.nativeElement) {
+      writeReviewButton.nativeElement.focus();
     }
   }
 
   focusNextReview(event: UIEvent, currentIndex: number): void {
     event.preventDefault();
-    const items = this.reviewItems.toArray();
+    const items = this.reviewItems();
     const nextIndex =
       currentIndex + 1 < items.length ? currentIndex + 1 : currentIndex;
     items[nextIndex]?.nativeElement.focus();
@@ -196,24 +197,27 @@ export class ProductReviewsComponent {
   focusPreviousReview(event: UIEvent, currentIndex: number): void {
     event.preventDefault();
     const prevIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : 0;
-    this.reviewItems.toArray()[prevIndex]?.nativeElement.focus();
+    this.reviewItems()[prevIndex]?.nativeElement.focus();
   }
 
   private resetReviewForm(): void {
     this.reviewForm = this.fb.group({
       title: [
         '',
-        [Validators.required, Validators.maxLength(this.maxLengthReviewTitle)],
+        [
+          Validators.required,
+          Validators.maxLength(this.maxLengthReviewTitle()),
+        ],
       ],
       comment: [
         '',
         [
           Validators.required,
-          Validators.maxLength(this.maxLengthReviewComment),
+          Validators.maxLength(this.maxLengthReviewComment()),
         ],
       ],
       rating: [null, Validators.required],
-      reviewerName: ['', Validators.maxLength(this.maxLengthReviewerName)],
+      reviewerName: ['', Validators.maxLength(this.maxLengthReviewerName())],
     });
   }
 }

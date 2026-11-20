@@ -11,8 +11,8 @@ import {
   DestroyRef,
   ElementRef,
   inject,
-  ViewChild,
   ViewContainerRef,
+  viewChild,
 } from '@angular/core';
 import { QueryService, TranslatePipe, UserIdService } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
@@ -34,13 +34,13 @@ export class OrderDocumentFlowComponent {
   protected queryService: QueryService = inject(QueryService);
   protected userIdService: UserIdService = inject(UserIdService);
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 
   onOrderDocumentFlowClick(orderCode: string): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ORDER_DOCUMENT_FLOW,
-      this.element,
+      this.element(),
       { orderCode }
     );
   }

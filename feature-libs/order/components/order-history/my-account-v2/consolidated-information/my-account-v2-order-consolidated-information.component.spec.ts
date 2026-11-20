@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -45,7 +45,7 @@ const mock_images: Images[] = [
   selector: 'cx-media',
 })
 class MockMediaComponent {
-  @Input() container: MediaContainer;
+  readonly container = input<MediaContainer>();
 }
 
 @Pipe({ name: 'cxUrl' })

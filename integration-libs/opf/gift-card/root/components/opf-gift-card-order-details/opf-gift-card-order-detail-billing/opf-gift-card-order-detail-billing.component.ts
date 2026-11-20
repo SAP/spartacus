@@ -44,6 +44,8 @@ export class OpfGiftCardOrderDetailBillingComponent
   private featureToggles = inject(FeatureToggles);
   protected cdr = inject(ChangeDetectorRef);
   protected subscription = new Subscription();
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   order: Order;
   protected routingService = inject(RoutingService);

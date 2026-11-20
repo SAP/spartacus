@@ -2,8 +2,8 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   Directive,
-  Input,
   NO_ERRORS_SCHEMA,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -198,7 +198,7 @@ class mockFeatureModulesService implements Partial<FeatureModulesService> {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 class MockBreakpointService {
@@ -234,7 +234,7 @@ class MockAsmCustomerListFacade implements Partial<AsmCustomerListFacade> {
 
 @Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
+  readonly config = input<FocusConfig>({}, { alias: 'cxFocus' });
 }
 
 describe('CustomerListComponent', () => {
@@ -727,7 +727,7 @@ describe('CustomerListComponent', () => {
     component.createCustomer();
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      component.addNewCustomerLink
+      component.addNewCustomerLink()
     );
   });
 

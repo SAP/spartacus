@@ -60,7 +60,7 @@
         </div>
       }
     </div>
-    @if (!disableMap) {
+    @if (!disableMap()) {
       <div class="cx-storeMap">
         <cx-store-finder-map [locations]="[location]" />
       </div>

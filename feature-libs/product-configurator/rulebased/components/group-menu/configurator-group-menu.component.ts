@@ -10,9 +10,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  QueryList,
-  ViewChildren,
   inject,
+  viewChildren,
 } from '@angular/core';
 import { TranslatePipe, TranslationService } from '@spartacus/core';
 import {
@@ -57,7 +56,7 @@ export class ConfiguratorGroupMenuComponent {
   protected translation = inject(TranslationService);
   protected configExpertModeService = inject(ConfiguratorExpertModeService);
 
-  @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
+  readonly groups = viewChildren<ElementRef<HTMLElement>>('groupItem');
 
   protected breakpointService = inject(BreakpointService);
 
@@ -577,14 +576,14 @@ export class ConfiguratorGroupMenuComponent {
       this.configGroupMenuService.switchGroupOnArrowPress(
         event,
         groupIndex,
-        this.groups
+        this.groups()
       );
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
         this.click(targetGroup, currentGroup);
       }
     } else if (this.isBackNavigation(event)) {
-      if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
+      if (this.configGroupMenuService.isBackBtnFocused(this.groups())) {
         this.navigateUp(currentGroup);
       }
     }
@@ -604,10 +603,9 @@ export class ConfiguratorGroupMenuComponent {
       .pipe(take(1))
       .subscribe((isMobile) => {
         if (isMobile && event.code === 'Tab' && !event.shiftKey) {
-          if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
-            if (
-              !this.configGroupMenuService.isActiveGroupInGroupList(this.groups)
-            ) {
+          const groups = this.groups();
+          if (this.configGroupMenuService.isBackBtnFocused(groups)) {
+            if (!this.configGroupMenuService.isActiveGroupInGroupList(groups)) {
               event.preventDefault();
               this.configUtils.focusFirstActiveElement('cx-hamburger-menu');
             }

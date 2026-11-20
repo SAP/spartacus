@@ -44,7 +44,11 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
     ConfiguratorStorefrontUtilsService
   );
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() showFilterBar: boolean = true;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() config: Configurator.ConfigurationWithOverview;
 
   priceFilter = new UntypedFormControl('');

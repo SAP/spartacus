@@ -39,6 +39,8 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   );
 
   readonly ICON_TYPE = ICON_TYPE;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() pointOfServiceName: PointOfServiceNames;
 
   public storeSelected$: Observable<PointOfServiceNames | null> =

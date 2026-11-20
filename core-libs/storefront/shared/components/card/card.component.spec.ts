@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewContainerRef,
   inject,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -26,7 +27,7 @@ import { Card, CardComponent, CardLinkAction } from './card.component';
 
 @Directive({ selector: '[cxAtMessage]' })
 export class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
+  readonly cxAtMessage = input<string | string[]>();
 }
 
 @Component({
@@ -34,7 +35,7 @@ export class MockAtMessageDirective {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({
@@ -42,9 +43,9 @@ class MockCxIconComponent {
   template: '',
 })
 class MockCxTruncateTextPopoverComponent {
-  @Input() content: string;
-  @Input() charactersLimit: number = 5;
-  @Input() customClass?: string;
+  readonly content = input<string>();
+  readonly charactersLimit = input<number>(5);
+  readonly customClass = input<string>();
 }
 
 function getTruncatedPopover(elem: DebugElement) {
@@ -56,6 +57,8 @@ class MockFeatureDirective {
   protected templateRef = inject<TemplateRef<any>>(TemplateRef);
   protected viewContainer = inject(ViewContainerRef);
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeature(feature: string) {
     const featureDesiredAndPresent = !feature.startsWith('!');
     const featureNotDesiredAndNotPresent = feature.startsWith('!');
@@ -286,7 +289,7 @@ describe('CardComponent', () => {
     };
     component.content = mockCard;
     fixture.detectChanges();
-    expect(getImage(el).componentInstance.type).toEqual(mockCard.img);
+    expect(getImage(el).componentInstance.type()).toEqual(mockCard.img);
   });
 
   it('should properly handle editMode', () => {

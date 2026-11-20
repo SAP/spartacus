@@ -15,5 +15,8 @@ export class FocusDirective extends LockFocusDirective {
 
   protected defaultConfig: FocusConfig = {};
 
+  // TODO: Skipped for migration because:
+  //  This input overrides a field from a superclass, while the superclass field
+  //  is not migrated.
   @Input('cxFocus') config: FocusConfig = {};
 }

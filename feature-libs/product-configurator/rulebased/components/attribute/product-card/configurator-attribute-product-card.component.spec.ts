@@ -2,9 +2,8 @@ import { MockMediaComponent } from 'core-libs/storefront/shared/test/mock-media.
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -109,7 +108,7 @@ let focusService: KeyboardFocusService;
   imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 @Component({
@@ -118,8 +117,9 @@ class MockConfiguratorPriceComponent {
   imports: [I18nTestingModule, ReactiveFormsModule, UrlTestingModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<number>();
+  readonly quantityOptions =
+    input<ConfiguratorAttributeQuantityComponentOptions>();
+  readonly changeQuantity = output<number>();
 }
 
 function setProductBoundValueAttributes(

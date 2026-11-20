@@ -7,9 +7,8 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  EventEmitter,
-  Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 
@@ -20,10 +19,10 @@ import { TranslatePipe } from '@spartacus/core';
   imports: [TranslatePipe],
 })
 export class OpfTokenisationDeletePaymentDialogComponent {
-  @Input() showDialog = false;
+  readonly showDialog = input(false);
 
-  @Output() confirmDelete = new EventEmitter<void>();
-  @Output() cancelDelete = new EventEmitter<void>();
+  readonly confirmDelete = output<void>();
+  readonly cancelDelete = output<void>();
 
   onConfirm(): void {
     this.confirmDelete.emit();

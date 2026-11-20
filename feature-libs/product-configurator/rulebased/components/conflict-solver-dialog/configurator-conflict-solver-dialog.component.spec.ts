@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
@@ -64,9 +64,9 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorDefaultFormComponent {
-  @Input() group: Configurator.Group;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() isNavigationToGroupEnabled = true;
+  readonly group = input<Configurator.Group>();
+  readonly owner = input<CommonConfigurator.Owner>();
+  readonly isNavigationToGroupEnabled = input(true);
 }
 
 class MockConfigUtilsService {

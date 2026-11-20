@@ -84,21 +84,31 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected userId: string;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() readonly: boolean = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() hasHeader: boolean = true;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
     displayAddToCart: false,
   };
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cartId: string;
 
   protected _items: OrderEntry[] = [];
   form: UntypedFormGroup = new UntypedFormGroup({});
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set items(items: OrderEntry[]) {
     this._setItems(items);
@@ -107,8 +117,12 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     return this._items;
   }
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cartIsLoading(value: boolean) {
     if (!this.readonly) {
       // Whenever the cart is loading, we disable the complete form

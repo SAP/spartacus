@@ -65,7 +65,7 @@ describe('SavedCartDetailsActionComponent', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.SAVED_CART,
-      component.element,
+      component.element(),
       component['vcr'],
       {
         cart: mockSavedCart,
@@ -79,7 +79,7 @@ describe('SavedCartDetailsActionComponent', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.SAVED_CART,
-      component.element,
+      component.element(),
       component['vcr'],
       {
         cart: mockSavedCart,

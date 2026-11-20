@@ -13,8 +13,8 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewContainerRef,
+  viewChild,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
@@ -66,7 +66,7 @@ export class QuoteSummaryActionsComponent
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
   QuoteActionType = QuoteActionType;
   protected subscription = new Subscription();
   isFixedPosition: boolean = true;
@@ -268,7 +268,7 @@ export class QuoteSummaryActionsComponent
     this.launchDialogService
       .openDialog(
         LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
-        this.element,
+        this.element(),
         this.viewContainerRef,
         { confirmationContext: context }
       )

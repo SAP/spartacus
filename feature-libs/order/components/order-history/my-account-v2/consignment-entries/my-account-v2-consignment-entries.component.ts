@@ -15,8 +15,12 @@ import { ConsignmentView } from '@spartacus/order/root';
   imports: [TranslatePipe, CxDatePipe],
 })
 export class MyAccountV2ConsignmentEntriesComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   consignments?: ConsignmentView[];
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   orderCode?: string;
 

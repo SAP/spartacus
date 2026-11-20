@@ -8,9 +8,9 @@ import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
@@ -25,10 +25,14 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 export class OrderSubsequentDocumentNodeComponent {
   iconTypes = ICON_TYPE;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() documents: OrderSubsequentDocument[];
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() selectedDocument?: OrderSubsequentDocument;
-  @Input() depth: number = 0;
-  @Output() documentSelected = new EventEmitter<OrderSubsequentDocument>();
+  readonly depth = input<number>(0);
+  readonly documentSelected = output<OrderSubsequentDocument>();
 
   haveSubNodes(document: OrderSubsequentDocument): boolean {
     return (

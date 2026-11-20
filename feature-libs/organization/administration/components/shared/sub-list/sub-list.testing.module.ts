@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, NgModule, input } from '@angular/core';
 import { ListService } from '../list/list.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { ListService } from '../list/list.service';
   template: '',
 })
 class MockSubListComponent {
-  @Input() i18nRoot;
+  readonly i18nRoot = input(undefined);
 }
 
 class MockListService {

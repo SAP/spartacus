@@ -14,6 +14,8 @@ import { Promotion } from '@spartacus/core';
   imports: [],
 })
 export class PromotionsComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   promotions: Promotion[];
 

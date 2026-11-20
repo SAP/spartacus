@@ -17,5 +17,8 @@ import { PointOfService } from '@spartacus/core';
 })
 export class StoreAddressComponent {
   /** The details of the store */
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() storeDetails: PointOfService = {};
 }

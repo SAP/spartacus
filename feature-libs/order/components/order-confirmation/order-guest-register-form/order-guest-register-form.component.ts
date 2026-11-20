@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, input } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -56,8 +56,10 @@ export class OrderGuestRegisterFormComponent {
       ]
     : CustomFormValidators.securePasswordValidators;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() guid: string;
-  @Input() email: string;
+  readonly email = input<string>();
 
   guestRegisterForm: UntypedFormGroup = this.fb.group(
     {

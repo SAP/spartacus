@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -41,10 +41,10 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorGroupComponent {
-  @Input() group: Configurator.Group;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() isNavigationToGroupEnabled = true;
-  @Input() isPricingAsync?: boolean;
+  readonly group = input<Configurator.Group>();
+  readonly owner = input<CommonConfigurator.Owner>();
+  readonly isNavigationToGroupEnabled = input(true);
+  readonly isPricingAsync = input<boolean>();
 }
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

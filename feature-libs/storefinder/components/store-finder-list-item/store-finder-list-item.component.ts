@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, output, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { StoreFinderOutlets } from '@spartacus/storefinder/root';
@@ -17,16 +17,14 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
   imports: [RouterLink, OutletDirective, TranslatePipe],
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   locationIndex: number | null = null;
-  @Input()
-  listOrderLabel: any;
-  @Input()
-  displayDistance: boolean;
-  @Input()
-  useClickEvent: boolean;
-  @Output()
-  storeItemClick: EventEmitter<number> = new EventEmitter();
+  readonly listOrderLabel = input<any>();
+  readonly displayDistance = input<boolean>();
+  readonly useClickEvent = input<boolean>();
+  readonly storeItemClick = output<number>();
 
   readonly StoreFinderOutlets = StoreFinderOutlets;
 

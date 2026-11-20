@@ -9,10 +9,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
-  Output,
-  ViewChild,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -24,36 +24,42 @@ import { IconComponent } from '../icon/icon.component';
   imports: [NgClass, IconComponent, AtMessageDirective, TranslatePipe],
 })
 export class MessageComponent implements AfterViewInit {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   text: string;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   actionButtonText: string;
 
-  @Input()
-  actionButtonMessage: string;
+  readonly actionButtonMessage = input<string>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   accordionText: string;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   showBody = false;
 
-  @Input()
-  isVisibleCloseButton = true;
+  readonly isVisibleCloseButton = input(true);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   type: GlobalMessageType;
 
-  @Output()
-  closeMessage: EventEmitter<void> = new EventEmitter();
+  readonly closeMessage = output<void>();
 
-  @Output()
-  buttonAction: EventEmitter<void> = new EventEmitter();
+  readonly buttonAction = output<void>();
 
   iconTypes = ICON_TYPE;
 
-  @ViewChild('messageContainer') messageContainer: ElementRef;
+  readonly messageContainer = viewChild<ElementRef>('messageContainer');
 
   constructor() {
     // Intentional empty constructor
@@ -84,7 +90,7 @@ export class MessageComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.accordionText || this.actionButtonText) {
-      this.messageContainer?.nativeElement.focus();
+      this.messageContainer()?.nativeElement.focus();
     }
   }
 }

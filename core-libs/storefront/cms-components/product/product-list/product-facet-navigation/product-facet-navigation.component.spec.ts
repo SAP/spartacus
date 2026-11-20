@@ -1,10 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -21,22 +15,22 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation.comp
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 @Component({
   selector: 'cx-active-facets',
   template: '',
 })
 class MockActiveFacetsComponent {
-  @Input() facetList;
+  readonly facetList = input(undefined);
 }
 @Component({
   selector: 'cx-facet-list',
   template: '',
 })
 class MockFacetListComponent {
-  @Input() isDialog;
-  @Output() closeDialog = new EventEmitter();
+  readonly isDialog = input(undefined);
+  readonly closeDialog = output();
 }
 
 class MockBreakpointService {

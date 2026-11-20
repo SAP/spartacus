@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnDestroy, inject, input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -36,6 +36,8 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
    *
    * `[i18nRoot].messages.deactivate`
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() i18nRoot: string;
 
   /**
@@ -43,12 +45,14 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
    *
    * Most _organization_ entities use the `code` key, but there is some variations.
    */
-  @Input() key = 'code';
+  readonly key = input('code');
 
   /**
    * The additionalParam input can be used to provide additional data if it's required
    * for API request
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() additionalParam?: string;
 
   /**
@@ -96,7 +100,7 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   protected confirmDelete(item: T): void {
     this.itemService
       .delete?.(
-        item[this.key as keyof BaseItem] as string,
+        item[this.key() as keyof BaseItem] as string,
         this.additionalParam
       )
       .pipe(

@@ -8,9 +8,9 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   inject,
-  Input,
   Optional,
   SimpleChanges,
+  input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
@@ -48,7 +48,8 @@ import { CartItemListComponentService } from './cart-item-list-row.component.ser
   ],
 })
 export class CartItemListRowComponent extends CartItemComponent {
-  @Optional() @Input() items: OrderEntry[];
+  @Optional()
+  readonly items = input<OrderEntry[]>();
 
   /**
    * Disabled state of the quantity control, passed as an explicit boolean input
@@ -58,7 +59,7 @@ export class CartItemListRowComponent extends CartItemComponent {
    * as a changing boolean input triggers `ngOnChanges`, letting the template
    * (e.g. the "Move to cart" optional button) reflect the current state.
    */
-  @Input() quantityDisabled = false;
+  readonly quantityDisabled = input(false);
 
   protected componentService = inject(CartItemListComponentService);
   isFlagQuote = this.componentService.showBasePriceWithDiscount();

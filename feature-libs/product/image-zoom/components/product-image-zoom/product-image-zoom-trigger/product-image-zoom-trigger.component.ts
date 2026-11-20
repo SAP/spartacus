@@ -9,13 +9,13 @@ import {
   Component,
   ComponentRef,
   ElementRef,
-  EventEmitter,
   Input,
   OnDestroy,
-  Output,
-  ViewChild,
   ViewContainerRef,
   inject,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -46,16 +46,18 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
   protected subscriptions = new Subscription();
 
   //Expose the expand button so it can gain focus on closing the zoom window
-  @ViewChild('expandButton') expandButton: ElementRef;
+  readonly expandButton = viewChild<ElementRef>('expandButton');
 
-  @Input() galleryIndex: number;
+  readonly galleryIndex = input<number>();
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set expandImage(expand: boolean) {
     if (expand) {
       this.triggerZoom();
     }
   }
 
-  @Output() dialogClose = new EventEmitter<void>();
+  readonly dialogClose = output<void>();
 
   constructor() {
     useFeatureStyles('a11yLinkBtnsToTertiaryBtns');
@@ -71,10 +73,11 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
         combineLatest([component, this.launchDialogService.dialogClose])
           .pipe(
             tap(([comp]) => {
-              if (this.galleryIndex) {
+              const galleryIndex = this.galleryIndex();
+              if (galleryIndex) {
                 (
                   comp as ComponentRef<ProductImageZoomDialogComponent>
-                ).instance.galleryIndex = this.galleryIndex;
+                ).instance.galleryIndex = galleryIndex;
               }
             }),
             filter(([, close]) => Boolean(close)),
@@ -82,7 +85,7 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
               this.launchDialogService.clear(LAUNCH_CALLER.PRODUCT_IMAGE_ZOOM);
               comp?.destroy();
               this.dialogClose.emit();
-              this.expandButton.nativeElement.focus();
+              this.expandButton()?.nativeElement.focus();
             })
           )
           .subscribe()

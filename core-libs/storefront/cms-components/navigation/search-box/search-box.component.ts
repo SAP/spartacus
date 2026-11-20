@@ -18,6 +18,7 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -101,11 +102,15 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private renderer = inject(Renderer2);
   private readonly featureToggles = inject(FeatureToggles);
   readonly searchBoxOutlets = SearchBoxOutlets;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() config: SearchBoxConfig;
 
   /**
    * Sets the search box input field
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set queryText(value: string) {
     if (value) {
@@ -134,9 +139,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Search input element reference.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('searchInput') searchInputEl: any;
 
-  @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
+  readonly searchButton = viewChild<ElementRef<HTMLElement>>('searchButton');
 
   @HostListener('keydown.escape')
   onEscape() {
@@ -540,7 +547,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
     this.changeDetectorRef.detectChanges();
-    this.searchButton?.nativeElement.focus();
+    this.searchButton()?.nativeElement.focus();
   }
 
   // Check if focus is on searchbox or result list elements

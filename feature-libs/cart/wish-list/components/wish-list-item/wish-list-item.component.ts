@@ -7,12 +7,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnChanges,
-  Output,
   SimpleChanges,
   inject,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -48,12 +47,15 @@ import {
 export class WishListItemComponent implements OnChanges {
   protected productListItemContextSource = inject(ProductListItemContextSource);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   isLoading = false;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cartEntry: OrderEntry;
 
-  @Output()
-  remove = new EventEmitter<OrderEntry>();
+  readonly remove = output<OrderEntry>();
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.cartEntry) {

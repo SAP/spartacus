@@ -27,6 +27,8 @@ export class JsonLdDirective {
   /**
    * Writes the schema data to a json-ld script element.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxJsonLd(schema: string | {}) {
     this.generateJsonLdScript(schema);
   }

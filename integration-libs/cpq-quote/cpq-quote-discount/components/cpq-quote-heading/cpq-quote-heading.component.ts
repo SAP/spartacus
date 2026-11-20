@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, input } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -23,8 +23,7 @@ export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);
   private cpqQuoteService = inject(CpqQuoteService);
 
-  @Input()
-  quoteDiscountData: OrderEntry;
+  readonly quoteDiscountData = input<OrderEntry>();
   protected subscription = new Subscription();
   discountLabel: string;
   datacheck: any;

@@ -1,11 +1,11 @@
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
-  Input,
   Pipe,
   PipeTransform,
   TemplateRef,
   TrackByFunction,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -36,10 +36,10 @@ import { ProductCarouselComponent } from './product-carousel.component';
   selector: 'cx-carousel',
   template: `
     cx-carousel
-    @for (item$ of items; track item$; let i = $index) {
+    @for (item$ of items(); track item$; let i = $index) {
       <ng-container
         *ngTemplateOutlet="
-          template;
+          template();
           context: { item: item$ | async, itemIndex: i }
         "
       />
@@ -48,20 +48,20 @@ import { ProductCarouselComponent } from './product-carousel.component';
   imports: [AsyncPipe, NgTemplateOutlet],
 })
 class MockCarouselComponent {
-  @Input() title: string;
-  @Input() template: TemplateRef<any>;
-  @Input() items: any[];
-  @Input() trackByFn: TrackByFunction<any>;
+  readonly title = input<string>();
+  readonly template = input<TemplateRef<any>>();
+  readonly items = input<any[]>();
+  readonly trackByFn = input<TrackByFunction<any>>();
 }
 
 @Component({
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
-    @for (item$ of items; track item$; let i = $index) {
+    @for (item$ of items(); track item$; let i = $index) {
       <ng-container
         *ngTemplateOutlet="
-          template;
+          template();
           context: { item: item$ | async, itemIndex: i }
         "
       />
@@ -70,10 +70,10 @@ class MockCarouselComponent {
   imports: [AsyncPipe, NgTemplateOutlet],
 })
 class MockCarouselScrollingComponent {
-  @Input() title: string;
-  @Input() template: TemplateRef<any>;
-  @Input() items: any[];
-  @Input() trackByFn: TrackByFunction<any>;
+  readonly title = input<string>();
+  readonly template = input<TemplateRef<any>>();
+  readonly items = input<any[]>();
+  readonly trackByFn = input<TrackByFunction<any>>();
 }
 
 @Component({
@@ -81,8 +81,8 @@ class MockCarouselScrollingComponent {
   template: '',
 })
 class MockProductCarouselItemComponent {
-  @Input() item: any;
-  @Input() itemIndex: number;
+  readonly item = input<any>();
+  readonly itemIndex = input<number>();
 }
 
 @Pipe({
@@ -97,8 +97,8 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: string;
+  readonly container = input<any>();
+  readonly format = input<string>();
 }
 
 const productCodeArray: string[] = ['1', '2'];
@@ -332,8 +332,8 @@ describe('ProductCarouselComponent', () => {
       const el = fixture.debugElement.queryAll(
         By.css('cx-product-carousel-item')
       );
-      expect(el[0].componentInstance.itemIndex).toEqual(0);
-      expect(el[1].componentInstance.itemIndex).toEqual(1);
+      expect(el[0].componentInstance.itemIndex()).toEqual(0);
+      expect(el[1].componentInstance.itemIndex()).toEqual(1);
     });
   });
 
@@ -478,10 +478,10 @@ describe('ProductCarouselComponent', () => {
     const carouselComponent = fixture.debugElement.query(
       By.directive(MockCarouselScrollingComponent)
     ).componentInstance;
-    expect(carouselComponent.trackByFn).toBeDefined();
+    expect(carouselComponent.trackByFn()).toBeDefined();
 
     const mockProduct = { code: 'test123', name: 'Test Product' };
-    const result = carouselComponent.trackByFn(999, mockProduct);
+    const result = carouselComponent.trackByFn()(999, mockProduct);
     expect(result).toBe('test123');
   });
 
@@ -491,7 +491,7 @@ describe('ProductCarouselComponent', () => {
       By.directive(MockCarouselScrollingComponent)
     ).componentInstance;
     const items = await firstValueFrom(component.items$);
-    const keys = items.map((item, index) => carousel.trackByFn(index, item));
+    const keys = items.map((item, index) => carousel.trackByFn()(index, item));
 
     expect(keys.length).toBeGreaterThan(1);
     expect(keys.every((key) => key !== undefined && key !== null)).toBe(true);

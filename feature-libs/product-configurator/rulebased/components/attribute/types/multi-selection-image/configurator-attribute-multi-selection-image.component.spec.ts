@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -44,7 +44,7 @@ const VALUE_NAME_3 = 'val3';
   ],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 class MockConfiguratorCommonsService {
@@ -222,7 +222,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     fixture.detectChanges();
     const icons = fixture.debugElement.queryAll(By.css('cx-icon'));
     const infoIcons = icons.filter(
-      (icon) => icon.componentInstance.type === ICON_TYPE.INFO
+      (icon) => icon.componentInstance.type() === ICON_TYPE.INFO
     );
     expect(infoIcons.length).toBe(2);
   });

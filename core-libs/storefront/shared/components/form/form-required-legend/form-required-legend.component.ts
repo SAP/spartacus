@@ -21,5 +21,7 @@ export class FormRequiredLegendComponent {
   /**
    * Form Legend translation (defaulted to 'formLegend.required')
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() formLegendTranslation?: string = 'formLegend.required';
 }

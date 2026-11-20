@@ -17,6 +17,8 @@ export class MockFeatureDirective {
   protected templateRef = inject<TemplateRef<any>>(TemplateRef);
   protected viewContainer = inject(ViewContainerRef);
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeature(_feature: string) {
     // ensure the deprecated DOM changes are not rendered during tests
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import {
@@ -18,8 +18,8 @@ describe('AccountSummaryListComponent', () => {
     selector: 'cx-org-list',
   })
   class MockListComponent {
-    @Input() key: any;
-    @Input() hideAddButton = false;
+    readonly key = input<any>();
+    readonly hideAddButton = input(false);
   }
 
   let component: AccountSummaryListComponent;

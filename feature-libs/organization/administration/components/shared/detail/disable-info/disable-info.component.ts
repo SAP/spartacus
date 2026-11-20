@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -30,11 +30,15 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
    *
    * `[i18nRoot].info.disabledEdit`
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() i18nRoot: string;
 
   /**
    * To configure the messages to display and override defaultMessageConfig
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() displayInfoConfig: {
     disabledCreate?: boolean;
     disabledEdit?: boolean;
@@ -45,7 +49,7 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**
    * Flag to enable display custom message(s) even if no condition has been met
    */
-  @Input() displayCustomInfo = false;
+  readonly displayCustomInfo = input(false);
 
   /**
    * resolves the current item.

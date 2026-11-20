@@ -83,7 +83,11 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected isPaymentDataReady = false;
   protected readonly PAYMENT_IFRAME_NAME = 'cx-payment-iframe';
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() selectedPaymentId: number;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('paymentForm') formElement!: ElementRef<HTMLFormElement>;
 
   renderPaymentMethodEvent$ = this.service.getRenderPaymentMethodEvent();

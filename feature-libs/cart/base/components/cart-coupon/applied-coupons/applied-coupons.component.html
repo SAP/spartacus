@@ -1,4 +1,4 @@
-@if (isReadOnly) {
+@if (isReadOnly()) {
   <div>
     @if (sortedVouchers.length > 0) {
       <div>
@@ -28,8 +28,8 @@
               title="{{ 'common.close' | cxTranslate }}"
               [attr.aria-label]="'common.close' | cxTranslate"
               (click)="removeVoucher(voucher.voucherCode)"
-              [disabled]="cartIsLoading"
-              [class.disabled]="cartIsLoading"
+              [disabled]="cartIsLoading()"
+              [class.disabled]="cartIsLoading()"
             >
               <span aria-hidden="true">
                 <cx-icon [type]="iconTypes.CLOSE" />

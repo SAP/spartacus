@@ -16,6 +16,8 @@ import { MessageEvent } from '../messaging/messaging.model';
   imports: [NgClass, IconComponent],
 })
 export class AvatarComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() message: MessageEvent;
   iconTypes = ICON_TYPE;
 

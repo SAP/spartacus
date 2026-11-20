@@ -38,7 +38,7 @@
     role="grid"
     [attr.aria-rowcount]="entries.length"
     [attr.aria-colcount]="columns.length"
-    [attr.data-per-page]="pageSize"
+    [attr.data-per-page]="pageSize()"
   >
     <caption class="cx-visually-hidden">
       {{
@@ -160,6 +160,6 @@
 }
 @if (!entryPages?.length) {
   <div class="cx-asm-customer-360-table-empty">
-    {{ emptyStateText }}
+    {{ emptyStateText() }}
   </div>
 }

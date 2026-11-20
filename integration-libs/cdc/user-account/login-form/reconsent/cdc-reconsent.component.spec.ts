@@ -1,4 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CdcConsentManagementComponentService } from '@spartacus/cdc/root';
 import {
@@ -23,7 +23,7 @@ import { CdcReconsentComponent } from './cdc-reconsent.component';
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: any;
+  readonly type = input<any>();
 }
 
 @Component({
@@ -37,14 +37,14 @@ class MockSpinnerComponent {}
   template: '',
 })
 class MockConsentManagementFormComponent {
-  @Input() consentTemplate: any;
+  readonly consentTemplate = input<any>();
 }
 
 @Directive({
   selector: '[cxFocus]',
 })
 class MockFocusDirective {
-  @Input() cxFocus: any;
+  readonly cxFocus = input<any>();
 }
 
 @Directive({

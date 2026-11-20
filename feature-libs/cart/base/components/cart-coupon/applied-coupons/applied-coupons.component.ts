@@ -9,6 +9,7 @@ import {
   Component,
   Input,
   inject,
+  input,
 } from '@angular/core';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -23,12 +24,11 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 export class AppliedCouponsComponent {
   protected cartVoucherService = inject(CartVoucherFacade);
 
+  // The getter initializes this input with ??=; the official migration misses that write.
   @Input()
   vouchers: Voucher[];
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  isReadOnly = false;
+  readonly cartIsLoading = input(false);
+  readonly isReadOnly = input(false);
 
   iconTypes = ICON_TYPE;
 

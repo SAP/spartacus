@@ -180,7 +180,7 @@
               [structure]="structure"
               [data]="data.values"
               [i18nRoot]="domainType"
-              [currentItem]="{ property: key, value: currentKey$ | async }"
+              [currentItem]="{ property: key(), value: currentKey$ | async }"
               (launch)="launchItem($event)"
               role="tree"
             />

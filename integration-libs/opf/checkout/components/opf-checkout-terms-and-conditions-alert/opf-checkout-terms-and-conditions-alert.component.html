@@ -16,13 +16,13 @@
         </span>
         <p class="message" tabindex="0" role="alert" aria-live="polite">
           {{
-            (isExplicit
+            (isExplicit()
               ? 'opfCheckout.checkTermsAndConditionsExplicit'
               : 'opfCheckout.checkTermsAndConditionsImplicit'
             ) | cxTranslate
           }}
         </p>
-        @if (isDismissible) {
+        @if (isDismissible()) {
           <button
             class="close"
             type="button"

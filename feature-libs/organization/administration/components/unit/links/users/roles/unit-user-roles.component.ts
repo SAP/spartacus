@@ -8,8 +8,8 @@ import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -66,8 +66,9 @@ export class UnitUserRolesFormComponent {
 
   protected item: B2BUser | undefined;
 
-  @ViewChild(MessageService, { read: MessageService })
-  messageService: MessageService;
+  readonly messageService = viewChild.required(MessageService, {
+    read: MessageService,
+  });
 
   form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
     tap((item) => {
@@ -104,7 +105,7 @@ export class UnitUserRolesFormComponent {
   }
 
   protected notify(item: B2BUser) {
-    this.messageService.add({
+    this.messageService().add({
       message: {
         key: 'orgUnitUserRoles.messages.rolesUpdated',
         params: { item },

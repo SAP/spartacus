@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  input,
+} from '@angular/core';
 import {
   Cart,
   CartOutlets,
@@ -29,10 +34,14 @@ import { OpfCheckoutReviewCardComponent } from '../opf-checkout-review-card';
   ],
 })
 export class OpfCheckoutReviewCartDetailsComponent extends CheckoutReviewSubmitComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cart: Cart | null;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() entries: any[] | null;
-  @Input() isAddressCardVisible = false;
+  readonly isAddressCardVisible = input(false);
   readonly promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   cartOutlets = CartOutlets;
 }

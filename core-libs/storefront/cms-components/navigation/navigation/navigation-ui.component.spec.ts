@@ -1,4 +1,4 @@
-import { Component, DebugElement, ElementRef, Input } from '@angular/core';
+import { Component, DebugElement, ElementRef, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -23,17 +23,17 @@ import { NavigationUIComponent } from './navigation-ui.component';
   template: '',
 })
 class MockIconComponent {
-  @Input() type: string;
+  readonly type = input<string>();
 }
 
 @Component({
   selector: 'cx-generic-link',
-  template: '<a href={{url}}>{{title}}</a>',
+  template: '<a href={{url()}}>{{title()}}</a>',
 })
 class MockGenericLinkComponent {
-  @Input() url: string | any[];
-  @Input() target: string;
-  @Input() title: string;
+  readonly url = input<string | any[]>();
+  readonly target = input<string>();
+  readonly title = input<string>();
 }
 
 class MockHamburgerMenuService {
@@ -162,7 +162,7 @@ describe('Navigation UI Component', () => {
     element = fixture.debugElement;
 
     navigationComponent.node = mockNode;
-    navigationComponent['resetMenuOnClose'] = false;
+    fixture.componentRef.setInput('resetMenuOnClose', false);
   });
 
   describe('calculate columns', () => {
@@ -328,7 +328,7 @@ describe('Navigation UI Component', () => {
     });
 
     it('should reinitialize menu, when menu is expanded', () => {
-      navigationComponent['resetMenuOnClose'] = true;
+      fixture.componentRef.setInput('resetMenuOnClose', true);
       vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(
         () => {}
       );
@@ -374,7 +374,7 @@ describe('Navigation UI Component', () => {
 
       const links = element.queryAll(By.css('cx-generic-link'));
       const targetLink = links.find(
-        (link) => link.componentInstance.url === '/sub-sub-child-1a'
+        (link) => link.componentInstance.url() === '/sub-sub-child-1a'
       );
       targetLink?.nativeElement.click();
       expect(

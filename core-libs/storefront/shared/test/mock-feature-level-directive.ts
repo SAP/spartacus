@@ -17,6 +17,8 @@ export class MockFeatureLevelDirective {
   protected templateRef = inject<TemplateRef<any>>(TemplateRef);
   protected viewContainer = inject(ViewContainerRef);
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeatureLevel(_feature: string | number) {
     this.viewContainer.createEmbeddedView(this.templateRef);
   }

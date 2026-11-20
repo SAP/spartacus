@@ -11,9 +11,9 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -43,10 +43,14 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
     'DELIVERY_REJECTED',
     'DELIVERING',
   ];
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   consignment: Consignment;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   orderCode: string;
   consignmentTracking$: Observable<ConsignmentTracking>;
@@ -70,7 +74,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
 
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CONSIGNMENT_TRACKING,
-      this.element,
+      this.element(),
       this.vcr,
       modalInstanceData
     );

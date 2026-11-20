@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, inject, output, input } from '@angular/core';
 import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { CurrentLocationService } from '../../services/current-location.service';
@@ -23,14 +23,14 @@ export class StoreSearchComponent {
   protected currentLocationService = inject(CurrentLocationService);
 
   /** Whether the hide out of stock checkbox appears checked */
-  @Input() hideOutOfStock = false;
+  readonly hideOutOfStock = input(false);
 
   /** Whether out of stock locations should be hidden in the search list */
-  @Output() eventHideOutOfStock = new EventEmitter<boolean>();
+  readonly eventHideOutOfStock = output<boolean>();
   /** The search parameters used to find pickup stores */
-  @Output() findStores = new EventEmitter<LocationSearchParams>();
+  readonly findStores = output<LocationSearchParams>();
   /** Whether the loading spinner should be displayed */
-  @Output() showSpinner = new EventEmitter<boolean>();
+  readonly showSpinner = output<boolean>();
 
   constructor() {
     useFeatureStyles('a11yHighContrastFix');
@@ -43,7 +43,7 @@ export class StoreSearchComponent {
 
   /** Toggle whether locations without stock should be displayed */
   onHideOutOfStock(): void {
-    this.eventHideOutOfStock.emit(!this.hideOutOfStock);
+    this.eventHideOutOfStock.emit(!this.hideOutOfStock());
   }
 
   /** Initiate a latitude and longitude search using the current browser location */

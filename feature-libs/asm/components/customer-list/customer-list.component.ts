@@ -11,7 +11,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -136,7 +136,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   protected teardown: Subscription = new Subscription();
 
-  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
+  readonly addNewCustomerLink = viewChild<ElementRef>('addNewCustomerLink');
 
   isAsmCustomer360Configured: boolean | undefined = false;
   protected featureModules = inject(FeatureModulesService);
@@ -421,7 +421,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      this.addNewCustomerLink
+      this.addNewCustomerLink()
     );
   }
 

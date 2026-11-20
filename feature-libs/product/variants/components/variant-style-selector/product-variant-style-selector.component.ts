@@ -38,6 +38,8 @@ export class ProductVariantStyleSelectorComponent {
 
   variantQualifier = VariantQualifier;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   variants: BaseOption;
 

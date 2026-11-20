@@ -39,6 +39,8 @@ export class UserGroupUserListComponent {
   protected currentUserGroupService = inject(CurrentUserGroupService);
   protected userGroupUserListService = inject(UserGroupUserListService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('subList')
   subList: SubListComponent;
 
@@ -59,7 +61,7 @@ export class UserGroupUserListComponent {
   }
 
   protected notify(item: UserGroup | undefined) {
-    this.subList.messageService.add({
+    this.subList.messageService().add({
       message: {
         key: `orgUserGroupUsers.unassignAllConfirmation`,
         params: {

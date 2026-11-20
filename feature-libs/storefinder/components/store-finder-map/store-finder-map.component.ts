@@ -7,13 +7,12 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnChanges,
-  Output,
   SimpleChanges,
   ViewChild,
   inject,
+  output,
 } from '@angular/core';
 import { GoogleMapRendererService } from '@spartacus/storefinder/core';
 
@@ -24,12 +23,15 @@ import { GoogleMapRendererService } from '@spartacus/storefinder/core';
 export class StoreFinderMapComponent implements OnChanges {
   private googleMapRendererService = inject(GoogleMapRendererService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('mapElement', { static: true })
   mapElement: ElementRef;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   locations: any[];
-  @Output()
-  selectedStoreItem: EventEmitter<number> = new EventEmitter();
+  readonly selectedStoreItem = output<number>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.locations && this.locations) {

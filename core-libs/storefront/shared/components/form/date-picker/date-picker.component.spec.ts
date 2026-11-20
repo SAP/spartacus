@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -12,8 +12,8 @@ import { DatePickerComponent } from './date-picker.component';
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockFormErrorComponent {
-  @Input() control: UntypedFormControl;
-  @Input() translationParams: any;
+  readonly control = input<UntypedFormControl>();
+  readonly translationParams = input<any>();
 }
 
 const mockEvent = {

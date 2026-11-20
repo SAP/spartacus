@@ -13,7 +13,7 @@ import {
 
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -112,10 +112,10 @@ class MockQuoteHeaderSellerEditComponentService {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockDatePickerComponent {
-  @Input() control: FormControl;
-  @Input() min: FormControl;
-  @Input() max: FormControl;
-  @Input() required: boolean;
+  readonly control = input<FormControl>();
+  readonly min = input<FormControl>();
+  readonly max = input<FormControl>();
+  readonly required = input<boolean>();
 }
 
 @Component({
@@ -124,7 +124,7 @@ class MockDatePickerComponent {
   imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 describe('QuoteSummarySellerEditComponent', () => {

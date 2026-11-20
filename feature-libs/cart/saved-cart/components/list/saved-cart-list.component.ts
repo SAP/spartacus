@@ -12,8 +12,8 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewContainerRef,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Cart } from '@spartacus/cart/base/root';
@@ -61,7 +61,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     optional: true,
   });
 
-  @ViewChild('element') restoreButton: ElementRef;
+  readonly restoreButton = viewChild<ElementRef>('element');
 
   isLoading$: Observable<boolean>;
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList().pipe(
@@ -95,7 +95,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   openDialog(event: Event, cart: Cart): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.SAVED_CART,
-      this.restoreButton,
+      this.restoreButton(),
       this.vcr,
       { cart, layoutOption: SavedCartFormType.RESTORE }
     );

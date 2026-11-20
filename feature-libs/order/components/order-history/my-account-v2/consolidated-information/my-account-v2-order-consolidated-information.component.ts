@@ -43,6 +43,8 @@ export class MyAccountV2OrderConsolidatedInformationComponent {
     MyAccountV2OrderConsignmentsService
   );
   protected criticalStatuses = Object.values(OrderCriticalStatus);
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   order?: OrderHistoryView;
   protected readonly IMAGE_COUNT = 4; //showing fixed no.of images, without using carousel

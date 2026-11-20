@@ -5,7 +5,7 @@
  */
 
 import { JsonPipe } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, input } from '@angular/core';
 import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
@@ -25,6 +25,9 @@ import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.co
 export class StoreFinderStoreDescriptionComponent extends AbstractStoreItemComponent {
   protected override storeFinderService = inject(StoreFinderService);
 
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() location: PointOfService;
-  @Input() disableMap: boolean;
+  readonly disableMap = input<boolean>();
 }

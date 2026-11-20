@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -72,8 +72,8 @@ class MockUserAddressService implements Partial<UserAddressService> {
   template: '<ng-content/>',
 })
 class MockCardComponent {
-  @Input() i18nRoot: any;
-  @Input() subtitle: any;
+  readonly i18nRoot = input<any>();
+  readonly subtitle = input<any>();
 }
 
 @Component({
@@ -81,9 +81,9 @@ class MockCardComponent {
   template: '',
 })
 class MockDeleteItemComponent {
-  @Input() key: any;
-  @Input() additionalParam: any;
-  @Input() i18nRoot: any;
+  readonly key = input<any>();
+  readonly additionalParam = input<any>();
+  readonly i18nRoot = input<any>();
 }
 
 describe('UnitAddressDetailsComponent', () => {

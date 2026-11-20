@@ -69,6 +69,8 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * The host element is either the actual host, or the parent element in case this
    * is used inside an `ng-template`.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input('cxPageTemplateStyle') set setTemplate(template: string) {
     if (template) {
       this.useTemplateFromInput = true;

@@ -1,9 +1,9 @@
 <ng-container>
   <div aria-relevant="all">
     <div class="cx-store-list-order">
-      {{ listOrderLabel }}
+      {{ listOrderLabel() }}
     </div>
-    @if (useClickEvent) {
+    @if (useClickEvent()) {
       <a
         (click)="handleStoreItemClick()"
         (keyup)="onKey($event)"
@@ -13,7 +13,7 @@
         {{ location.displayName || location.name }}
       </a>
     }
-    @if (!useClickEvent) {
+    @if (!useClickEvent()) {
       <a [routerLink]="[location.name]" class="cx-store-name" tabindex="0">
         {{ location.displayName || location.name }}
       </a>
@@ -30,7 +30,7 @@
             location.address.country.isocode,
           ])
         }}
-        @if (location.formattedDistance && displayDistance) {
+        @if (location.formattedDistance && displayDistance()) {
           <div class="cx-store-distance">
             {{ location.formattedDistance }}
           </div>

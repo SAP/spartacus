@@ -38,18 +38,24 @@ export class ProductScrollComponent implements OnDestroy {
 
   private subscription = new Subscription();
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set scrollConfig(inputConfig: ViewConfig) {
     this.setComponentConfigurations(inputConfig);
   }
 
   model: ProductSearchPage;
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input('model')
   set setModel(inputModel: ProductSearchPage) {
     this.infiniteScrollOperations(inputModel);
   }
 
   inputViewMode: ViewModes;
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input('inputViewMode')
   set setViewMode(inputViewMode: ViewModes) {
     this.inputViewMode = inputViewMode;

@@ -100,7 +100,7 @@
                   reviewForm.get('title')?.invalid
                 "
                 [attr.aria-errormessage]="'titleError'"
-                [maxLength]="maxLengthReviewTitle"
+                [maxLength]="maxLengthReviewTitle()"
               />
               <cx-form-errors
                 id="titleError"
@@ -128,7 +128,7 @@
                   reviewForm.get('comment')?.invalid
                 "
                 [attr.aria-errormessage]="'commentError'"
-                [maxLength]="maxLengthReviewComment"
+                [maxLength]="maxLengthReviewComment()"
               ></textarea>
               <cx-form-errors
                 id="commentError"
@@ -183,7 +183,7 @@
                 type="text"
                 class="form-control"
                 formControlName="reviewerName"
-                [maxLength]="maxLengthReviewerName"
+                [maxLength]="maxLengthReviewerName()"
               />
               <cx-form-errors
                 id="titleError"
@@ -198,7 +198,7 @@
                     | cxTranslate
                       : {
                           count:
-                            maxLengthReviewerName -
+                            maxLengthReviewerName() -
                             (reviewForm.get('reviewerName')?.value?.length ??
                               0),
                         }
@@ -244,7 +244,7 @@
                 reviewForm.get('title')?.invalid
               "
               [attr.aria-errormessage]="'titleError'"
-              [maxLength]="maxLengthReviewTitle"
+              [maxLength]="maxLengthReviewTitle()"
             />
             <cx-form-errors
               id="titleError"
@@ -272,7 +272,7 @@
                 reviewForm.get('comment')?.invalid
               "
               [attr.aria-errormessage]="'commentError'"
-              [maxLength]="maxLengthReviewComment"
+              [maxLength]="maxLengthReviewComment()"
             ></textarea>
             <cx-form-errors
               id="commentError"
@@ -327,7 +327,7 @@
               type="text"
               class="form-control"
               formControlName="reviewerName"
-              [maxLength]="maxLengthReviewerName"
+              [maxLength]="maxLengthReviewerName()"
             />
             <cx-form-errors
               id="titleError"
@@ -342,7 +342,7 @@
                   | cxTranslate
                     : {
                         count:
-                          maxLengthReviewerName -
+                          maxLengthReviewerName() -
                           (reviewForm.get('reviewerName')?.value?.length ?? 0),
                       }
               }}

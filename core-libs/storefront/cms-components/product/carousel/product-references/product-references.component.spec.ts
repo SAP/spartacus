@@ -1,11 +1,11 @@
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
-  Input,
   Pipe,
   PipeTransform,
   TemplateRef,
   TrackByFunction,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -31,19 +31,19 @@ import { ProductReferencesComponent } from './product-references.component';
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
-    @for (item$ of items; track item$) {
+    @for (item$ of items(); track item$) {
       <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async }"
+        *ngTemplateOutlet="template(); context: { item: item$ | async }"
       />
     }
   `,
   imports: [FeaturesConfigModule, NgTemplateOutlet, AsyncPipe],
 })
 class MockCarouselScrollingComponent {
-  @Input() title: string;
-  @Input() template: TemplateRef<any>;
-  @Input() items: any[];
-  @Input() trackByFn: TrackByFunction<any>;
+  readonly title = input<string>();
+  readonly template = input<TemplateRef<any>>();
+  readonly items = input<any[]>();
+  readonly trackByFn = input<TrackByFunction<any>>();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -57,8 +57,8 @@ class MockUrlPipe implements PipeTransform {
   imports: [FeaturesConfigModule],
 })
 class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: string;
+  readonly container = input<any>();
+  readonly format = input<string>();
 }
 
 const mockProduct: Product = {
@@ -138,7 +138,7 @@ describe('ProductReferencesComponent', () => {
       By.directive(MockCarouselScrollingComponent)
     ).componentInstance;
     const items = await firstValueFrom(component.items$);
-    const keys = items.map((item, index) => carousel.trackByFn(index, item));
+    const keys = items.map((item, index) => carousel.trackByFn()(index, item));
     expect(keys.length).toBeGreaterThan(1);
     expect(keys.every((key) => key != null)).toBe(true);
     expect(new Set(keys).size).toBe(items.length);

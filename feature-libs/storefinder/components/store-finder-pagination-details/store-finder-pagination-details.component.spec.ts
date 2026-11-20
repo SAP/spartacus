@@ -37,7 +37,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
       By.css('.cx-pagination-details')
     ).nativeElement;
     expect(detailsElement.textContent?.trim()).toContain(
-      `1 - ${component.pagination.pageSize} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+      `1 - ${component.pagination().pageSize} storeFinder.fromStoresFound count:${component.pagination().totalResults}`
     );
   });
 
@@ -54,7 +54,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.textContent?.trim()).toContain(
-      `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+      `1 - ${component.pagination().totalResults} storeFinder.fromStoresFound count:${component.pagination().totalResults}`
     );
   });
 
@@ -72,7 +72,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.textContent?.trim()).toContain(
-      `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+      `1 - ${component.pagination().totalResults} storeFinder.fromStoresFound count:${component.pagination().totalResults}`
     );
   });
 });

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import {
@@ -107,14 +107,16 @@ const mockUserId = 'test-user';
   imports: [ReactiveFormsModule, PromotionsModule, I18nTestingModule],
 })
 class MockCartItemComponent {
-  @Input() item;
-  @Input() readonly;
-  @Input() quantityControl;
-  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
-  @Input() options: CartItemComponentOptions = {
+  readonly item = input(undefined);
+  readonly readonly = input(undefined);
+  readonly quantityControl = input(undefined);
+  readonly promotionLocation = input<PromotionLocation>(
+    PromotionLocation.ActiveCart
+  );
+  readonly options = input<CartItemComponentOptions>({
     isSaveForLater: false,
     optionalBtn: null,
-  };
+  });
 }
 
 const mockContext = {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Cart,
@@ -32,8 +32,8 @@ import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-car
 
 @Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective {
-  @Input() cxOutlet: string;
-  @Input() cxOutletContext: any;
+  readonly cxOutlet = input<string>();
+  readonly cxOutletContext = input<any>();
 }
 
 @Component({
@@ -41,9 +41,9 @@ class MockOutletDirective {
   template: '',
 })
 class MockCartItemListComponent {
-  @Input() items: OrderEntry[];
-  @Input() readonly: boolean;
-  @Input() promotionLocation: PromotionLocation;
+  readonly items = input<OrderEntry[]>();
+  readonly readonly = input<boolean>();
+  readonly promotionLocation = input<PromotionLocation>();
 }
 
 @Component({
@@ -51,7 +51,7 @@ class MockCartItemListComponent {
   template: '',
 })
 class MockOrderSummaryComponent {
-  @Input() cart: Cart;
+  readonly cart = input<Cart>();
 }
 
 @Component({
@@ -59,8 +59,8 @@ class MockOrderSummaryComponent {
   template: '',
 })
 class MockAppliedCouponsComponent {
-  @Input() cart: Cart;
-  @Input() promotionLocation: PromotionLocation;
+  readonly cart = input<Cart>();
+  readonly promotionLocation = input<PromotionLocation>();
 }
 
 @Component({
@@ -68,7 +68,7 @@ class MockAppliedCouponsComponent {
   template: '',
 })
 class MockPromotionsComponent {
-  @Input() promotions: any[];
+  readonly promotions = input<any[]>();
 }
 
 @Component({

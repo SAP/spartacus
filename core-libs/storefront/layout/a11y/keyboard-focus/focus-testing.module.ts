@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, Input, NgModule } from '@angular/core';
+import { Directive, NgModule, input } from '@angular/core';
 import { FocusConfig } from './keyboard-focus.model';
 
 @Directive({ selector: '[cxFocus]' })
 export class MockKeyboardFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
+  readonly config = input<FocusConfig>({}, { alias: 'cxFocus' });
 }
 
 @NgModule({

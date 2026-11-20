@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Pipe, PipeTransform, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
@@ -79,8 +72,8 @@ const mockQuoteListState$ = new BehaviorSubject(mockQuoteListState);
   selector: 'cx-pagination',
 })
 class MockPaginationComponent {
-  @Input() pagination: PaginationModel;
-  @Output() viewPageEvent = new EventEmitter();
+  readonly pagination = input<PaginationModel>();
+  readonly viewPageEvent = output();
 }
 
 @Component({
@@ -88,11 +81,15 @@ class MockPaginationComponent {
   selector: 'cx-sorting',
 })
 class MockSortingComponent {
-  @Input() sortOptions: SortModel[];
-  @Input() sortLabels: { [key: string]: string }[];
-  @Input() selectedOption: string;
-  @Input() placeholder: string;
-  @Output() sortListEvent = new EventEmitter();
+  readonly sortOptions = input<SortModel[]>();
+  readonly sortLabels = input<
+    {
+      [key: string]: string;
+    }[]
+  >();
+  readonly selectedOption = input<string>();
+  readonly placeholder = input<string>();
+  readonly sortListEvent = output();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -105,7 +102,7 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 class MockCommerceQuotesListComponentService implements Partial<QuoteListComponentService> {

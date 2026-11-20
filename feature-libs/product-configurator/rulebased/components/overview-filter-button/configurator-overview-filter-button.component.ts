@@ -10,7 +10,7 @@ import {
   Component,
   ElementRef,
   inject,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -39,7 +39,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
     ConfiguratorStorefrontUtilsService
   );
 
-  @ViewChild('filterButton') filterButton: ElementRef;
+  readonly filterButton = viewChild<ElementRef>('filterButton');
 
   configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -76,7 +76,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
   openFilterModal(config: Configurator.ConfigurationWithOverview) {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
-      this.filterButton,
+      this.filterButton(),
       config
     );
   }

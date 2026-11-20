@@ -7,11 +7,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
   OnInit,
-  Output,
   inject,
+  output,
+  input,
 } from '@angular/core';
 import {
   FormsModule,
@@ -63,13 +62,11 @@ export class ImportEntriesFormComponent implements OnInit {
   formSubmitSubject$ = new Subject();
   globalMessageType = GlobalMessageType;
 
-  @Output()
-  submitEvent = new EventEmitter<{
+  readonly submitEvent = output<{
     products: ProductData[];
   }>();
 
-  @Input()
-  type: OrderEntriesSource;
+  readonly type = input<OrderEntriesSource>();
 
   ngOnInit() {
     this.form = this.buildForm();
@@ -147,8 +144,12 @@ export class ImportEntriesFormComponent implements OnInit {
   }
 
   protected get maxEntries(): number | undefined {
+    const type = this.type();
+    if (type === undefined) {
+      return undefined;
+    }
     return this.importExportConfig.cartImportExport?.import?.fileValidity
-      ?.maxEntries?.[this.type];
+      ?.maxEntries?.[type];
   }
 
   protected get separator(): string | undefined {

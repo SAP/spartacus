@@ -43,6 +43,8 @@ export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   readonly product$: Observable<Product> =
     this.productListItemContext?.product$ ?? EMPTY;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   variants: VariantOption[];
 

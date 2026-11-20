@@ -8,11 +8,10 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   HostListener,
   Input,
-  Output,
+  output,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
@@ -40,6 +39,8 @@ export class StarRatingComponent {
    *
    * Defaults to true.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() @HostBinding('attr.disabled') disabled = true;
 
   /**
@@ -47,6 +48,8 @@ export class StarRatingComponent {
    * precise number. The rating number is used for a CSS custom property
    * (AKA css variable) value. The actually coloring is done in CSS.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   @HostBinding('style.--star-fill')
   rating: number = this.initialRate;
@@ -55,7 +58,7 @@ export class StarRatingComponent {
    * Emits the given rating when the user clicks on a star.
    */
   // eslint-disable-next-line @angular-eslint/no-output-native
-  @Output() change = new EventEmitter<number>();
+  readonly change = output<number>();
 
   setRate(value: number): void {
     if (this.disabled) {

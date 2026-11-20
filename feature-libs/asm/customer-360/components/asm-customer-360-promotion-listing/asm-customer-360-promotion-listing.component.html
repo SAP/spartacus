@@ -7,14 +7,14 @@
 }
 <ng-content />
 <div class="message-container">
-  @if (showAlert) {
+  @if (showAlert()) {
     <cx-message
       [text]="'asmCustomer360.alertErrorMessage' | cxTranslate"
       [type]="globalMessageType.MSG_TYPE_ERROR"
       (closeMessage)="removeAlert.emit()"
     />
   }
-  @if (showAlertForApplyAction) {
+  @if (showAlertForApplyAction()) {
     <cx-message
       [text]="'asmCustomer360.applyActionAlter' | cxTranslate"
       [type]="globalMessageType.MSG_TYPE_ERROR"
@@ -38,7 +38,7 @@
       </th>
     </tr>
   </thead>
-  @for (entry of entries; track entry) {
+  @for (entry of entries(); track entry) {
     <tr class="cx-asm-customer-360-promotion-listing-row">
       <td>
         <tr
@@ -57,25 +57,25 @@
       </td>
       <td>
         @if (!entry.applied) {
-          @if (showApplyButton) {
+          @if (showApplyButton()) {
             <button
               class="cx-asm-customer-360-promotion-listing-apply-button"
               (click)="apply.emit(entry)"
             >
-              {{ applyButtonText }}
+              {{ applyButtonText() }}
             </button>
           }
         }
         @if (entry.applied) {
           <tr class="cx-asm-customer-360-promotion-listing-action">
-            @if (!isCustomerCoupon) {
+            @if (!isCustomerCoupon()) {
               <td>
                 <cx-icon class="success" type="SUCCESS" />
               </td>
               <td class="cx-asm-customer-360-promotion-listing-applied">
-                {{ applied }}
+                {{ applied() }}
               </td>
-              @if (showRemoveButton) {
+              @if (showRemoveButton()) {
                 <td
                   class="cx-asm-customer-360-promotion-listing-action-separator"
                 >
@@ -83,13 +83,13 @@
                 </td>
               }
             }
-            @if (showRemoveButton) {
+            @if (showRemoveButton()) {
               <td>
                 <button
                   class="cx-asm-customer-360-promotion-listing-remove-button"
                   (click)="remove.emit(entry)"
                 >
-                  {{ removeButtonText }}
+                  {{ removeButtonText() }}
                 </button>
               </td>
             }
@@ -99,14 +99,14 @@
     </tr>
   }
 </table>
-@if (!showAlert) {
+@if (!showAlert()) {
   <hr
     class="cx-asm-customer-360-promotion-listing-separator"
     aria-hidden="true"
   />
 }
-@if (entries?.length === 0 && !showAlert) {
+@if (entries()?.length === 0 && !showAlert()) {
   <div class="cx-asm-customer-360-promotion-listing-empty">
-    {{ emptyStateText }}
+    {{ emptyStateText() }}
   </div>
 }

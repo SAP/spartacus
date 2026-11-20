@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AsmCustomer360Facade,
@@ -20,17 +20,17 @@ describe('AsmCustomer360PromotionComponent', () => {
     template: '',
   })
   class MockAsmCustomer360PromotionListingComponent {
-    @Input() headerText: string;
-    @Input() emptyStateText: string;
-    @Input() applyButtonText: string;
-    @Input() applied: string;
-    @Input() removeButtonText: string;
-    @Input() entries: unknown;
-    @Input() showAlert: unknown;
-    @Input() showAlertForApplyAction: unknown;
-    @Input() showRemoveButton: boolean;
-    @Input() showApplyButton: boolean;
-    @Input() isCustomerCoupon: boolean;
+    readonly headerText = input<string>();
+    readonly emptyStateText = input<string>();
+    readonly applyButtonText = input<string>();
+    readonly applied = input<string>();
+    readonly removeButtonText = input<string>();
+    readonly entries = input<unknown>();
+    readonly showAlert = input<unknown>();
+    readonly showAlertForApplyAction = input<unknown>();
+    readonly showRemoveButton = input<boolean>();
+    readonly showApplyButton = input<boolean>();
+    readonly isCustomerCoupon = input<boolean>();
   }
 
   let component: AsmCustomer360PromotionComponent;

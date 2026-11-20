@@ -9,16 +9,15 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
-  EventEmitter,
   Injector,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   Renderer2,
   Type,
   ViewContainerRef,
   inject,
+  output,
 } from '@angular/core';
 import {
   ContentSlotComponentData,
@@ -51,8 +50,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   protected cmsInjector = inject(CmsInjectorService);
   protected eventService = inject(EventService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cxComponentWrapper: ContentSlotComponentData;
-  @Output() cxComponentRef = new EventEmitter<ComponentRef<any>>();
+  readonly cxComponentRef = output<ComponentRef<any> | undefined>();
 
   /**
    * This property in unsafe, i.e.

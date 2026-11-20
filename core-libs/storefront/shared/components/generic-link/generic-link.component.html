@@ -3,14 +3,14 @@
 @if (isExternalUrl()) {
   <a
     [href]="url"
-    [attr.target]="target"
+    [attr.target]="target()"
     [attr.rel]="rel"
-    [attr.id]="id"
+    [attr.id]="id()"
     [attr.class]="class"
     [attr.style]="style"
-    [attr.title]="title"
+    [attr.title]="title()"
     [attr.aria-label]="ariaLabel ? ariaLabel : null"
-    [tabindex]="tabindex"
+    [tabindex]="tabindex()"
   >
     <ng-container *ngTemplateOutlet="content" />
   </a>
@@ -19,13 +19,13 @@
     [routerLink]="routerUrl"
     [queryParams]="queryParams"
     [fragment]="fragment"
-    [target]="target || undefined"
-    [attr.id]="id"
+    [target]="target() || undefined"
+    [attr.id]="id()"
     [attr.class]="class"
     [attr.style]="style"
-    [attr.title]="title"
+    [attr.title]="title()"
     [attr.aria-label]="ariaLabel ? ariaLabel : null"
-    [tabindex]="tabindex"
+    [tabindex]="tabindex()"
   >
     <ng-container *ngTemplateOutlet="content" />
   </a>

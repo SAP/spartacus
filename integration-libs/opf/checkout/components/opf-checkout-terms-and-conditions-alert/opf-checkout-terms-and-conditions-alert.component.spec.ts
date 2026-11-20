@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
@@ -12,7 +12,7 @@ import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-term
   template: '<ng-content />',
 })
 class MockIconComponent {
-  @Input() type: string;
+  readonly type = input<string>();
 }
 
 const alertSelector = '.cx-opf-checkout-terms-and-conditions-alert';

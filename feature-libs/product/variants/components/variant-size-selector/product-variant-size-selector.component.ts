@@ -10,6 +10,7 @@ import {
   Component,
   inject,
   Input,
+  input,
 } from '@angular/core';
 import {
   BaseOption,
@@ -38,9 +39,10 @@ export class ProductVariantSizeSelectorComponent {
 
   protected translationService = inject(TranslationService);
 
-  @Input()
-  product: Product;
+  readonly product = input<Product>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   variants: BaseOption;
 

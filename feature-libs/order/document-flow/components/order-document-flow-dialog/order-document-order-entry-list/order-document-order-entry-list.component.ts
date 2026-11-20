@@ -15,5 +15,7 @@ import { OrderSubsequentDocumentEntry } from '@spartacus/order/document-flow/roo
   imports: [TranslatePipe, CxDatePipe],
 })
 export class OrderDocumentOrderEntryListComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() entries?: OrderSubsequentDocumentEntry[];
 }

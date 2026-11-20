@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -137,10 +137,8 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   template: '',
 })
 class MockConsignmentTrackingComponent {
-  @Input()
-  consignment: Consignment;
-  @Input()
-  orderCode: string;
+  readonly consignment = input<Consignment>();
+  readonly orderCode = input<string>();
 }
 
 describe('OrderDetailItemsComponent', () => {

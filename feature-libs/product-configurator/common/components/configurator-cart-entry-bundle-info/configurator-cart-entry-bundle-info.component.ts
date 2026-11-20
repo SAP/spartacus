@@ -10,8 +10,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
@@ -67,8 +67,8 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   protected cartItemContext? =
     inject(CartItemContext, { optional: true }) ?? undefined;
 
-  @ViewChild('toggleItemsButton')
-  protected toggleItemsButton?: ElementRef<HTMLButtonElement>;
+  protected readonly toggleItemsButton =
+    viewChild<ElementRef<HTMLButtonElement>>('toggleItemsButton');
 
   protected config = inject(CommonConfiguratorUISettingsConfig);
   private featureToggles = inject(FeatureToggles);
@@ -156,7 +156,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    * or collapses, including when nested configure links are rendered.
    */
   protected retainFocusOnToggleItemsButton(): void {
-    queueMicrotask(() => this.toggleItemsButton?.nativeElement?.focus());
+    queueMicrotask(() => this.toggleItemsButton()?.nativeElement?.focus());
   }
 
   /**

@@ -21,5 +21,7 @@ export class FormRequiredAsterisksComponent {
   /**
    * Component Title translation (defaulted to common.required)
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() titleTranslation?: string = 'common.required';
 }

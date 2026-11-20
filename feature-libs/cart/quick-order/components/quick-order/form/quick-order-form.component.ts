@@ -10,11 +10,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
   OnDestroy,
   OnInit,
-  ViewChild,
   inject,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -75,9 +75,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   noResults: boolean = false;
   results: Product[] = [];
 
-  @Input() limit: number;
+  readonly limit = input<number>();
 
-  @ViewChild('quickOrderInput') quickOrderInput: ElementRef;
+  readonly quickOrderInput = viewChild<ElementRef>('quickOrderInput');
 
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
@@ -109,7 +109,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
       if (!this.featureToggles.a11yQuickOrderResetFocus) {
         requestAnimationFrame(() => {
-          this.quickOrderInput.nativeElement.focus();
+          this.quickOrderInput()?.nativeElement.focus();
         });
       }
     }
@@ -128,7 +128,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.featureToggles.a11yQuickOrderResetFocus) {
       requestAnimationFrame(() => {
-        this.quickOrderInput.nativeElement.focus();
+        this.quickOrderInput()?.nativeElement.focus();
       });
     }
   }
@@ -148,7 +148,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     }
 
     this.quickOrderService.addProduct(product);
-    this.quickOrderInput.nativeElement.focus();
+    this.quickOrderInput()?.nativeElement.focus();
   }
 
   addProduct(event: Event): void {

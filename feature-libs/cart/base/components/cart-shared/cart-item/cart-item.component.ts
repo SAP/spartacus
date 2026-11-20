@@ -57,14 +57,26 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
 export class CartItemComponent implements OnChanges {
   protected cartItemContextSource = inject(CartItemContextSource);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() compact = false;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() item: OrderEntry;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() readonly = false;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() quantityControl: UntypedFormControl;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   // TODO: evaluate whether this is generic enough
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,

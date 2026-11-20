@@ -8,8 +8,8 @@
     >
       <button
         [attr.aria-label]="headerText"
-        [disabled]="headerInactive"
-        [class.inactive]="headerInactive"
+        [disabled]="headerInactive()"
+        [class.inactive]="headerInactive()"
         class="title-link link"
         (click)="clickHeader.emit()"
       >

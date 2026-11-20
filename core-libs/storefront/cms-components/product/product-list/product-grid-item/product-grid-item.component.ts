@@ -59,11 +59,15 @@ export class ProductGridItemComponent implements OnChanges {
   /**
    * The product item to be displayed in the grid.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() product: any;
 
   /**
    * The index of the item in the product grid.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() itemIndex?: number;
 
   constructor() {

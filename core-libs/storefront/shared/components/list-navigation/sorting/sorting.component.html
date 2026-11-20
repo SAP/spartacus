@@ -7,13 +7,13 @@
   }"
   [searchable]="false"
   [clearable]="false"
-  placeholder="{{ placeholder }}"
+  placeholder="{{ placeholder() }}"
   (change)="sortList($event)"
   [ngModel]="selectedOption"
   ariaLabelDropdown="{{ 'common.ngSelectDropdownOptionsList' | cxTranslate }}"
   [cxNgSelectA11y]="{
-    ariaLabel: ariaLabel || ('productList.sortResults' | cxTranslate),
-    ariaControls: ariaControls,
+    ariaLabel: ariaLabel() || ('productList.sortResults' | cxTranslate),
+    ariaControls: ariaControls(),
   }"
 >
   @for (sort of sortOptions; track sort) {

@@ -31,6 +31,8 @@ export interface ConfiguratorPriceComponentOptions {
 export class ConfiguratorPriceComponent {
   protected directionService = inject(DirectionService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() formula: ConfiguratorPriceComponentOptions;
 
   protected isRTLDirection(): boolean {

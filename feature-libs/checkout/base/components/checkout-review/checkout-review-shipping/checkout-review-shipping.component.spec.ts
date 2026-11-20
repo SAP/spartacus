@@ -22,9 +22,9 @@ import { firstValueFrom, of } from 'rxjs';
 import {
   ChangeDetectorRef,
   Component,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -126,14 +126,10 @@ class MockUrlPipe implements PipeTransform {
   imports: [I18nTestingModule, IconTestingModule, OutletModule],
 })
 class MockCardComponent {
-  @Input()
-  border: boolean;
-  @Input()
-  content: Card;
-  @Input()
-  fitToContainer: boolean;
-  @Input()
-  index: number;
+  readonly border = input<boolean>();
+  readonly content = input<Card>();
+  readonly fitToContainer = input<boolean>();
+  readonly index = input<number>();
 }
 
 describe('CheckoutReviewShippingComponent', () => {

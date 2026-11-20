@@ -9,8 +9,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   ORDER_ENTRIES_CONTEXT,
@@ -35,7 +35,7 @@ export class ImportOrderEntriesComponent {
   protected contextService = inject(ContextService);
 
   protected subscription = new Subscription();
-  @ViewChild('open') element: ElementRef;
+  readonly element = viewChild<ElementRef>('open');
 
   orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
@@ -43,7 +43,7 @@ export class ImportOrderEntriesComponent {
   openDialog(orderEntriesContext: OrderEntriesContext): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.IMPORT_TO_CART,
-      this.element,
+      this.element(),
       { orderEntriesContext }
     );
   }

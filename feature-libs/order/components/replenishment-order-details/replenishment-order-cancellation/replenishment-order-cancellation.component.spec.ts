@@ -123,7 +123,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
-      component.element,
+      component.element(),
       component['vcr']
     );
   });

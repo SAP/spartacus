@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, TitleCasePipe } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, input } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -38,10 +38,14 @@ import { ConsignmentTrackingComponent } from '../consignment-tracking/consignmen
   ],
 })
 export class OrderConsignedEntriesComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() consignments: Consignment[];
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() order: Order;
-  @Input() enableAddToCart: boolean | undefined;
-  @Input() buyItAgainTranslation: string;
+  readonly enableAddToCart = input<boolean>();
+  readonly buyItAgainTranslation = input<string>();
   protected translationService = inject(TranslationService);
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;

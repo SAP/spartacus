@@ -14,7 +14,7 @@
       (keydown.enter)="addProduct($event)"
       (keydown.escape)="clear($event)"
       [attr.aria-label]="
-        'quickOrderForm.searchBoxLabel' | cxTranslate: { limit: limit }
+        'quickOrderForm.searchBoxLabel' | cxTranslate: { limit: limit() }
       "
       aria-controls="quick-order-search-results"
       aria-describedby="quickOrderFormInitialDescription"

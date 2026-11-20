@@ -9,9 +9,9 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
@@ -35,7 +35,7 @@ export class CustomerTicketingCloseComponent implements OnDestroy {
     CustomerTicketingCloseComponentService
   );
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   enableCloseButton$: Observable<boolean | undefined> =
     this.customerTicketingCloseComponentService.enableCloseButton();
@@ -43,7 +43,7 @@ export class CustomerTicketingCloseComponent implements OnDestroy {
   openDialog() {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CUSTOMER_TICKETING_CLOSE,
-      this.element,
+      this.element(),
       this.vcr
     );
 

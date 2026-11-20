@@ -8,12 +8,12 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   inject,
+  output,
+  input,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -72,19 +72,18 @@ export class AccountSummaryDocumentFilterComponent
   protected translation = inject(TranslationService);
   protected fb = inject(FormBuilder);
 
-  @Input()
-  cxNgSelectA11yAriaControls?: string;
+  readonly cxNgSelectA11yAriaControls = input<string>();
 
-  @Input()
-  documentTypeOptions: Array<AccountSummaryDocumentType>;
+  readonly documentTypeOptions = input<Array<AccountSummaryDocumentType>>();
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set initialFilters(initialFilters: DocumentQueryParams) {
     this.initializeForm(initialFilters);
   }
 
-  @Output()
-  filterListEvent = new EventEmitter<DocumentQueryParams>();
+  readonly filterListEvent = output<DocumentQueryParams>();
 
   /* For Enum use in HTML */
   FilterByOptions = FilterByOptions;

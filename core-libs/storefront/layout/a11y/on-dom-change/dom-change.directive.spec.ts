@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { DomChangeDirective } from './dom-change.directive';
 
@@ -35,7 +36,9 @@ describe('DomChangeDirective', () => {
       .injector.get(DomChangeDirective);
     const newElement = document.createElement('div');
 
-    const mutationPromise = firstValueFrom(directive.cxDomChange);
+    const mutationPromise = firstValueFrom(
+      outputToObservable(directive.cxDomChange)
+    );
 
     // Set DOM
     testElement.nativeElement.appendChild(newElement);
@@ -52,7 +55,9 @@ describe('DomChangeDirective', () => {
     const childElement =
       testElement.nativeElement.querySelector('.targetElement');
 
-    const mutationPromise = firstValueFrom(directive.cxDomChange);
+    const mutationPromise = firstValueFrom(
+      outputToObservable(directive.cxDomChange)
+    );
 
     // Set DOM
     testElement.nativeElement.removeChild(childElement);
@@ -68,7 +73,9 @@ describe('DomChangeDirective', () => {
       .injector.get(DomChangeDirective);
     directive.cxDomChangeTargetSelector = '.targetElement';
 
-    const mutationPromise = firstValueFrom(directive.cxDomChange);
+    const mutationPromise = firstValueFrom(
+      outputToObservable(directive.cxDomChange)
+    );
 
     // Set DOM
     const targetElement =

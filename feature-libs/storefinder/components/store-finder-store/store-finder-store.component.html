@@ -1,6 +1,6 @@
 <div aria-live="assertive" aria-atomic="true" aria-relevant="additions">
   @if (
-    location || (!(isLoading$ | async) && (location$ | async));
+    location() || (!(isLoading$ | async) && (location$ | async));
     as location
   ) {
     <div class="container">
@@ -16,7 +16,7 @@
       <div class="row">
         <div class="col-12 p-0">
           <cx-store-finder-store-description
-            [disableMap]="disableMap"
+            [disableMap]="disableMap()"
             [location]="location"
           />
         </div>

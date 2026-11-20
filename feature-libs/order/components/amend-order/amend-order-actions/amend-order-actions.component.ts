@@ -10,6 +10,7 @@ import {
   HostBinding,
   Input,
   inject,
+  input,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -25,9 +26,15 @@ import { BtnLikeLinkDirective } from '@spartacus/storefront';
 export class AmendOrderActionsComponent {
   protected routingService = inject(RoutingService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() orderCode: string;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() amendOrderForm: UntypedFormGroup;
-  @Input() backRoute: string;
+  readonly backRoute = input<string>();
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() forwardRoute: string;
 
   @HostBinding('class') styles = 'row';

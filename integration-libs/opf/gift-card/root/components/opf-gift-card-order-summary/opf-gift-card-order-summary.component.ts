@@ -26,6 +26,8 @@ import { Router } from '@angular/router';
   imports: [CommonModule, TranslatePipe, I18nModule, AppliedCouponsComponent],
 })
 export class OpfGiftCardOrderSummaryComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cart: Cart | Order;
   protected checkoutStepService = inject(CheckoutStepService);
   protected router = inject(Router);

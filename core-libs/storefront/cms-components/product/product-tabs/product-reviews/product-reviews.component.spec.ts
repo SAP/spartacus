@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -50,8 +50,8 @@ class MockProductReviewService {
   ],
 })
 class MockStarRatingComponent {
-  @Input() rating;
-  @Input() disabled;
+  readonly rating = input(undefined);
+  readonly disabled = input(undefined);
 }
 
 const mockProduct: Product = { code: 'testProduct', name: 'mockProduct' };
@@ -181,7 +181,7 @@ describe('ProductReviewsComponent in product', () => {
 
   describe('Keyboard navigation', () => {
     it('should focus the next review item', () => {
-      const items = productReviewsComponent.reviewItems.toArray();
+      const items = productReviewsComponent.reviewItems();
       vi.spyOn(items[1].nativeElement, 'focus');
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
 
@@ -191,7 +191,7 @@ describe('ProductReviewsComponent in product', () => {
     });
 
     it('should stay on the last item when at the end', () => {
-      const items = productReviewsComponent.reviewItems.toArray();
+      const items = productReviewsComponent.reviewItems();
       const lastIndex = items.length - 1;
       vi.spyOn(items[lastIndex].nativeElement, 'focus');
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
@@ -202,7 +202,7 @@ describe('ProductReviewsComponent in product', () => {
     });
 
     it('should focus the previous review item', () => {
-      const items = productReviewsComponent.reviewItems.toArray();
+      const items = productReviewsComponent.reviewItems();
       vi.spyOn(items[0].nativeElement, 'focus');
       const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
 
@@ -212,7 +212,7 @@ describe('ProductReviewsComponent in product', () => {
     });
 
     it('should stay on the first item when at the beginning', () => {
-      const items = productReviewsComponent.reviewItems.toArray();
+      const items = productReviewsComponent.reviewItems();
       vi.spyOn(items[0].nativeElement, 'focus');
       const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
 
@@ -280,7 +280,7 @@ describe('ProductReviewsComponent in product', () => {
       productReviewsComponent.maxListItems =
         productReviewsComponent.initialMaxListItems;
       fixture.detectChanges();
-      return productReviewsComponent.showMoreLessButton
+      return productReviewsComponent.showMoreLessButton()
         .nativeElement as HTMLButtonElement;
     }
 

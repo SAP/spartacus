@@ -11,7 +11,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -79,7 +79,7 @@ export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
     map(([_localizationElements, quote]) => quote)
   );
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   form: FormGroup = new FormGroup({
     discount: new FormControl<string | null>(null),

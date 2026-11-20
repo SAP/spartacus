@@ -1,6 +1,6 @@
 @if (paymentMethods$ | async; as paymentMethods) {
   <div class="cx-payment container">
-    @if (showHeader) {
+    @if (showHeader()) {
       <div class="cx-header">
         <h2>
           {{ 'paymentMethods.paymentMethods' | cxTranslate }}
@@ -8,7 +8,7 @@
       </div>
     }
     <div class="cx-body">
-      @if (showHeader) {
+      @if (showHeader()) {
         <div class="cx-msg">
           {{
             'paymentMethods.newPaymentMethodsAreAddedDuringCheckout'

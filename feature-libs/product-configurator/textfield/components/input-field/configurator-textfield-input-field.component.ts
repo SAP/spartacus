@@ -7,10 +7,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
+  output,
 } from '@angular/core';
 import {
   FormsModule,
@@ -30,9 +29,10 @@ export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   PREFIX_TEXTFIELD = 'cx-configurator-textfield';
   attributeInputForm = new UntypedFormControl('');
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() attribute: ConfiguratorTextfield.ConfigurationInfo;
-  @Output()
-  inputChange = new EventEmitter<ConfiguratorTextfield.ConfigurationInfo>();
+  readonly inputChange = output<ConfiguratorTextfield.ConfigurationInfo>();
 
   constructor() {
     // Intentional empty constructor

@@ -5,7 +5,7 @@
  */
 
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-progress-button',
@@ -13,20 +13,27 @@ import { TranslatePipe } from '@spartacus/core';
   imports: [NgClass, TranslatePipe],
 })
 export class ProgressButtonComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   ariaLabel: string = '';
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   class: string = '';
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   disabled: boolean = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   loading: boolean = false;
 
-  @Output()
-  clickEvent = new EventEmitter<void>();
+  readonly clickEvent = output<void>();
 
   constructor() {
     // Intentional empty constructor

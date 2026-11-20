@@ -1,3 +1,4 @@
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
@@ -62,7 +63,7 @@ describe('AsmCustomer360SectionComponent', () => {
       AsmCustomer360SectionContext
     );
 
-    const eventPromise = firstValueFrom(component.navigate);
+    const eventPromise = firstValueFrom(outputToObservable(component.navigate));
 
     context.navigate$.next(command);
 

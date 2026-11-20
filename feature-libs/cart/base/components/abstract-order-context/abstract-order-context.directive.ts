@@ -6,10 +6,10 @@
 
 import {
   Directive,
-  Input,
   OnChanges,
   SimpleChanges,
   inject,
+  input,
 } from '@angular/core';
 
 import { AbstractOrderKey, AbstractOrderType } from '@spartacus/cart/base/root';
@@ -34,7 +34,7 @@ export interface AbstractOrderKeyInput {
   ],
 })
 export class AbstractOrderContextDirective implements OnChanges {
-  @Input() cxAbstractOrderContext: AbstractOrderKeyInput;
+  readonly cxAbstractOrderContext = input<AbstractOrderKeyInput>();
 
   protected abstractOrderContextSource = inject(AbstractOrderContextSource);
 

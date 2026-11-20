@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, OnInit, inject, output } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -26,8 +26,7 @@ export class DpPaymentFormComponent implements OnInit {
   private globalMsgService = inject(GlobalMessageService);
   private winRef = inject(WindowRef);
 
-  @Output()
-  closeForm = new EventEmitter<any>();
+  readonly closeForm = output<any>();
 
   ngOnInit(): void {
     this.dpPaymentService
@@ -41,7 +40,7 @@ export class DpPaymentFormComponent implements OnInit {
             { key: 'dpPaymentForm.error.redirect' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          this.closeForm.emit();
+          this.closeForm.emit(undefined);
         }
       });
   }

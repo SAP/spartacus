@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FeatureDirective } from '@spartacus/core';
 import { CarouselComponent } from '@spartacus/storefront';
@@ -29,16 +29,16 @@ const secondImage = {
 @Component({
   selector: 'cx-carousel',
   template: `
-    @for (item of items; track item) {
-      <ng-container *ngTemplateOutlet="template; context: { item: item }" />
+    @for (item of items(); track item) {
+      <ng-container *ngTemplateOutlet="template(); context: { item: item }" />
     }
   `,
 })
 class MockCarouselComponent {
-  @Input() items;
-  @Input() itemWidth;
-  @Input() template;
-  @Input() hideIndicators;
+  readonly items = input(undefined);
+  readonly itemWidth = input(undefined);
+  readonly template = input(undefined);
+  readonly hideIndicators = input(undefined);
 }
 
 describe('ProductImageZoomThumbnailsComponent', () => {

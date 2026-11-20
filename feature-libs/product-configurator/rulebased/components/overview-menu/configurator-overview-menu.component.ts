@@ -33,6 +33,8 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
 
   @HostBinding('style.height') height = this.getHeight();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() config: Configurator.ConfigurationWithOverview;
 
   protected elementRef = inject(ElementRef);

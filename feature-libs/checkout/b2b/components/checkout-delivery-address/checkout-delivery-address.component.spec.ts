@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Type, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -125,9 +125,9 @@ const mockActivatedRoute = {
   template: '',
 })
 class MockAddressFormComponent {
-  @Input() cancelBtnLabel: string;
-  @Input() showTitleCode: boolean;
-  @Input() setAsDefaultField: boolean;
+  readonly cancelBtnLabel = input<string>();
+  readonly showTitleCode = input<boolean>();
+  readonly setAsDefaultField = input<boolean>();
 }
 
 @Component({
@@ -141,14 +141,10 @@ class MockSpinnerComponent {}
   template: '',
 })
 class MockCardComponent {
-  @Input()
-  border: boolean;
-  @Input()
-  content: Card;
-  @Input()
-  fitToContainer: boolean;
-  @Input()
-  index: number;
+  readonly border = input<boolean>();
+  readonly content = input<Card>();
+  readonly fitToContainer = input<boolean>();
+  readonly index = input<number>();
 }
 
 describe('B2BCheckoutDeliveryAddressComponent', () => {

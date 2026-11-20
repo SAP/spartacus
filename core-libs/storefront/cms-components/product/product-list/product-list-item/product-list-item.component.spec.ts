@@ -2,10 +2,10 @@ import {
   Component,
   Directive,
   Injector,
-  Input,
   Pipe,
   PipeTransform,
   SimpleChange,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -40,8 +40,8 @@ import { ProductListItemComponent } from './product-list-item.component';
   template: '*****',
 })
 class MockStarRatingComponent {
-  @Input() rating: number;
-  @Input() disabled: boolean;
+  readonly rating = input<number>();
+  readonly disabled = input<boolean>();
 }
 
 @Component({
@@ -49,10 +49,11 @@ class MockStarRatingComponent {
   template: 'mock picture component',
 })
 class MockMediaComponent {
-  @Input() container:
-    MediaContainer | Image | ImageGroup | ImageGroup[] | undefined;
-  @Input() alt: string;
-  @Input() fetchPriority: ImageFetchPriority | null | undefined;
+  readonly container = input<
+    MediaContainer | Image | ImageGroup | ImageGroup[]
+  >();
+  readonly alt = input<string>();
+  readonly fetchPriority = input<ImageFetchPriority | null>();
 }
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -279,7 +280,7 @@ describe('ProductListItemComponent in product-list', () => {
         const mediaComponents = fixture.debugElement.queryAll(
           By.directive(MockMediaComponent)
         );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+        expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
           ImageFetchPriority.HIGH
         );
       });
@@ -290,7 +291,7 @@ describe('ProductListItemComponent in product-list', () => {
         const mediaComponents = fixture.debugElement.queryAll(
           By.directive(MockMediaComponent)
         );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+        expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
           undefined
         );
       });
@@ -306,7 +307,7 @@ describe('ProductListItemComponent in product-list', () => {
         const mediaComponents = fixture.debugElement.queryAll(
           By.directive(MockMediaComponent)
         );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+        expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
           undefined
         );
       });

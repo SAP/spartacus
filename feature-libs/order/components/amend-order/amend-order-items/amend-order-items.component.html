@@ -1,6 +1,6 @@
 @if (form$ | async; as form) {
   <div>
-    @if (!isConfirmation) {
+    @if (!isConfirmation()) {
       <button class="btn btn-link cx-action-link" (click)="setAll(form)">
         {{ 'orderDetails.cancellationAndReturn.setAll' | cxTranslate }}
       </button>
@@ -19,7 +19,7 @@
           <th role="columnheader" class="cx-item-list-price">
             {{ 'orderDetails.cancellationAndReturn.itemPrice' | cxTranslate }}
           </th>
-          @if (!isConfirmation) {
+          @if (!isConfirmation()) {
             <th role="columnheader" class="cx-item-list-amend-qty">
               {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
             </th>
@@ -32,7 +32,7 @@
               ) | cxTranslate
             }}
           </th>
-          @if (isConfirmation) {
+          @if (isConfirmation()) {
             <th role="columnheader" class="cx-item-list-total">
               {{
                 'orderDetails.cancellationAndReturn.totalPrice' | cxTranslate
@@ -93,7 +93,7 @@
                 </div>
               </td>
             }
-            @if (!isConfirmation) {
+            @if (!isConfirmation()) {
               <td role="cell" class="cx-request-qty">
                 <div
                   class="cx-mobile-header"
@@ -118,10 +118,10 @@
                 }}
               </div>
               <div class="cx-value">
-                @if (isConfirmation) {
+                @if (isConfirmation()) {
                   {{ getControl(form, item).value }}
                 }
-                @if (!isConfirmation) {
+                @if (!isConfirmation()) {
                   <cx-item-counter
                     [min]="0"
                     [max]="getMaxAmendQuantity(item)"
@@ -130,7 +130,7 @@
                 }
               </div>
             </td>
-            @if (isConfirmation) {
+            @if (isConfirmation()) {
               <td role="cell" class="cx-total">
                 <div class="cx-mobile-header">
                   {{

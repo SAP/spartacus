@@ -8,11 +8,11 @@ import {
   Directive,
   inject,
   Injector,
-  Input,
   isDevMode,
   OnChanges,
   OnInit,
   ViewContainerRef,
+  input,
 } from '@angular/core';
 import { LoggerService, ObjectComparisonUtils } from '@spartacus/core';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -31,8 +31,9 @@ export class ConfiguratorAttributeCompositionDirective
     ConfiguratorAttributeCompositionConfig
   );
 
-  @Input('cxConfiguratorAttributeComponent')
-  context: ConfiguratorAttributeCompositionContext;
+  readonly context = input.required<ConfiguratorAttributeCompositionContext>({
+    alias: 'cxConfiguratorAttributeComponent',
+  });
 
   protected lastRenderedAttribute: Configurator.Attribute;
   protected lastRenderedGroupId: string;
@@ -59,22 +60,22 @@ export class ConfiguratorAttributeCompositionDirective
   ngOnChanges(): void {
     const attributeChanged = !ObjectComparisonUtils.deepEqualObjects(
       this.lastRenderedAttribute,
-      this.context.attribute
+      this.context().attribute
     );
-    const groupChanged = this.lastRenderedGroupId !== this.context.group.id;
+    const groupChanged = this.lastRenderedGroupId !== this.context().group.id;
     // attribute can occur with same content twice in different groups
     // for example this happens for conflicts. An attribute is rendered differently (link from/to conflict) based on
     // if it is part of conflict group or of ordinary group
     if (attributeChanged || groupChanged) {
-      const key = this.context.componentKey;
+      const key = this.context().componentKey;
       this.renderComponent(this.attrComponentAssignment[key], key);
     }
   }
 
   protected renderComponent(component: any, componentKey: string) {
     if (component) {
-      this.lastRenderedAttribute = this.context.attribute;
-      this.lastRenderedGroupId = this.context.group.id;
+      this.lastRenderedAttribute = this.context().attribute;
+      this.lastRenderedGroupId = this.context().group.id;
       this.vcr.clear();
       this.vcr.createComponent(component, {
         injector: this.getComponentInjector(),
@@ -93,7 +94,7 @@ export class ConfiguratorAttributeCompositionDirective
       providers: [
         {
           provide: ConfiguratorAttributeCompositionContext,
-          useValue: this.context,
+          useValue: this.context(),
         },
       ],
       parent: this.vcr.injector,

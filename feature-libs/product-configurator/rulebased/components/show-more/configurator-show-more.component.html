@@ -3,7 +3,7 @@
   @if (showMore) {
     <button
       (click)="toggleShowMore()"
-      tabindex="{{ tabIndex }}"
+      tabindex="{{ tabIndex() }}"
       [attr.aria-label]="
         ariaLabelKey
           ? (ariaLabelKey!

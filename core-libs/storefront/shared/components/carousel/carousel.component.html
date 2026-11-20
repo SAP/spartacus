@@ -17,7 +17,7 @@
         (keydown.arrowup)="shareEvent($any($event))"
         (keydown.arrowdown)="shareEvent($any($event))"
       >
-        <cx-icon [type]="previousIcon" />
+        <cx-icon [type]="previousIcon()" />
       </button>
       <button
         *cxFeature="'!a11yCarouselPreventNavigationFocus'"
@@ -34,16 +34,16 @@
         (keydown.arrowup)="shareEvent($any($event))"
         (keydown.arrowdown)="shareEvent($any($event))"
       >
-        <cx-icon [type]="previousIcon" />
+        <cx-icon [type]="previousIcon()" />
       </button>
     }
     <div class="slides">
-      @for (_ of items; track trackByFn(i, _); let i = $index) {
+      @for (_ of items; track trackByFn()(i, _); let i = $index) {
         @if (i % size === 0) {
           <div class="slide" [class.active]="i === activeSlide">
             @for (
               item of items | slice: i : i + size;
-              track trackByFn(j, item);
+              track trackByFn()(j, item);
               let j = $index
             ) {
               @if (item | async; as data) {
@@ -82,7 +82,7 @@
         (keydown.arrowup)="shareEvent($any($event))"
         (keydown.arrowdown)="shareEvent($any($event))"
       >
-        <cx-icon [type]="nextIcon" />
+        <cx-icon [type]="nextIcon()" />
       </button>
       <button
         *cxFeature="'!a11yCarouselPreventNavigationFocus'"
@@ -101,11 +101,11 @@
         (keydown.arrowup)="shareEvent($any($event))"
         (keydown.arrowdown)="shareEvent($any($event))"
       >
-        <cx-icon [type]="nextIcon" />
+        <cx-icon [type]="nextIcon()" />
       </button>
     }
   </div>
-  @if (!hideIndicators && size < items.length) {
+  @if (!hideIndicators() && size < items.length) {
     <div class="indicators">
       @for (_ of items; track _; let i = $index) {
         @if (i % size === 0) {
@@ -131,7 +131,7 @@
                     }
             "
           >
-            <cx-icon [type]="indicatorIcon" aria-hidden="true" />
+            <cx-icon [type]="indicatorIcon()" aria-hidden="true" />
           </button>
         }
       }

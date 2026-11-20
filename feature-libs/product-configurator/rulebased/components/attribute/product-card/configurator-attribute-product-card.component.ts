@@ -9,13 +9,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   HostListener,
   inject,
   Input,
   OnInit,
-  Output,
-  ViewChild,
+  output,
+  viewChild,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -122,17 +121,17 @@ export class ConfiguratorAttributeProductCardComponent
    */
   isActionsMenuOpen = false;
 
-  @ViewChild('actionsMenu')
-  actionsMenu?: ElementRef<HTMLElement>;
+  readonly actionsMenu = viewChild<ElementRef<HTMLElement>>('actionsMenu');
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
 
-  @Output() handleDeselect = new EventEmitter<string>();
-  @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
-  @Output() handleSelect = new EventEmitter<string>();
-  @Output() handleRowAction =
-    new EventEmitter<Configurator.ContainerRowAction>();
+  readonly handleDeselect = output<string>();
+  readonly handleQuantity = output<QuantityUpdateEvent>();
+  readonly handleSelect = output<string>();
+  readonly handleRowAction = output<Configurator.ContainerRowAction>();
 
   constructor() {
     super();
@@ -529,7 +528,7 @@ export class ConfiguratorAttributeProductCardComponent
     if (!(target instanceof Node)) {
       return false;
     }
-    return this.actionsMenu?.nativeElement.contains(target) ?? false;
+    return this.actionsMenu()?.nativeElement.contains(target) ?? false;
   }
 
   getAriaLabelSingleUnselected(product: Product): string {

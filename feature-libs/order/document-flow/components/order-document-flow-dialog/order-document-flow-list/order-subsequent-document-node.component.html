@@ -1,6 +1,6 @@
 @for (document of documents; track document) {
   <tr [ngClass]="{ selected: document === selectedDocument }">
-    <td [style.padding-left.rem]="depth + 1">
+    <td [style.padding-left.rem]="depth() + 1">
       <div>
         <span>{{
           document.sapDocumentEntryIdColumnName + ' ' + document.sapDocumentId
@@ -56,7 +56,7 @@
     <cx-order-subsequent-document-node
       [documents]="document.sapSubsequentDocuments"
       [selectedDocument]="selectedDocument"
-      [depth]="depth + 1"
+      [depth]="depth() + 1"
       (documentSelected)="onDocumentSelection($event)"
     />
   }

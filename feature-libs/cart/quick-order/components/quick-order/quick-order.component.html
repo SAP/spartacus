@@ -6,7 +6,7 @@
 >
   @if (entries$ | async; as entries) {
     @if (!(canAddProduct() | async)) {
-      @if (quickOrderForm?.form?.get('product')?.dirty) {
+      @if (quickOrderForm()?.form?.get('product')?.dirty) {
         <cx-message
           [text]="
             'quickOrderList.errors.listIsFull'

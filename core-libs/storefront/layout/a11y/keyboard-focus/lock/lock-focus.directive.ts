@@ -7,13 +7,12 @@
 import {
   AfterViewInit,
   Directive,
-  EventEmitter,
   HostBinding,
   HostListener,
   OnInit,
-  Output,
   Renderer2,
   inject,
+  output,
 } from '@angular/core';
 import { FOCUS_GROUP_ATTR, LockFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from '../trap/trap-focus.directive';
@@ -56,7 +55,7 @@ export class LockFocusDirective
   /**
    * Emits an event when the host is unlocked.
    */
-  @Output() unlock = new EventEmitter<boolean>();
+  readonly unlock = output<boolean>();
 
   /**
    * When the user selects enter or space, the focusable childs are

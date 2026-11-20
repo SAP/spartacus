@@ -9,8 +9,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { asapScheduler, BehaviorSubject, Observable, of } from 'rxjs';
@@ -51,7 +51,7 @@ export class ProductFacetNavigationComponent {
    *
    * The reference is also used to refocus the trigger after the dialog is closed.
    */
-  @ViewChild('trigger') trigger: ElementRef<HTMLElement>;
+  readonly trigger = viewChild<ElementRef<HTMLElement>>('trigger');
 
   protected open$ = new BehaviorSubject(false);
 
@@ -92,7 +92,7 @@ export class ProductFacetNavigationComponent {
 
   close() {
     this.open$.next(false);
-    this.trigger.nativeElement.focus();
+    this.trigger()?.nativeElement.focus();
   }
 
   /**
@@ -101,6 +101,7 @@ export class ProductFacetNavigationComponent {
    * (display:none) for certain screen sizes.
    */
   get hasTrigger() {
-    return this.trigger.nativeElement.offsetParent !== null;
+    const trigger = this.trigger();
+    return !!trigger && trigger.nativeElement.offsetParent !== null;
   }
 }

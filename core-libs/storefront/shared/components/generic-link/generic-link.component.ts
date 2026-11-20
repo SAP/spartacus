@@ -11,6 +11,7 @@ import {
   OnChanges,
   SimpleChanges,
   inject,
+  input,
 } from '@angular/core';
 import { Params, Router, RouterLink } from '@angular/router';
 import { GenericLinkComponentService } from './generic-link-component.service';
@@ -53,21 +54,30 @@ export class GenericLinkComponent implements OnChanges {
    */
   protected routeParts: RouteParts = {};
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() url: string | any[];
-  @Input() target: string | null;
-  @Input() id: string;
+  readonly target = input<string | null>();
+  readonly id = input<string>();
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() class: string;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() style: string | undefined;
-  @Input() title: string;
+  readonly title = input<string>();
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() ariaLabel?: string;
-  @Input() tabindex: 0 | -1 = 0;
+  readonly tabindex = input<0 | -1>(0);
 
   isExternalUrl(): boolean {
     return this.service.isExternalUrl(this.url);
   }
 
   get rel() {
-    return this.target === '_blank' ? 'noopener' : null;
+    return this.target() === '_blank' ? 'noopener' : null;
   }
 
   ngOnChanges(changes: SimpleChanges) {

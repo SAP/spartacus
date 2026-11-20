@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, OnInit, inject, output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutBillingAddressFormComponent,
@@ -41,10 +41,8 @@ export class DpPaymentCallbackComponent implements OnInit {
   protected globalMsgService = inject(GlobalMessageService);
   protected route = inject(ActivatedRoute);
 
-  @Output()
-  closeCallback = new EventEmitter<any>();
-  @Output()
-  paymentDetailsAdded = new EventEmitter<any>();
+  readonly closeCallback = output<any>();
+  readonly paymentDetailsAdded = output<any>();
 
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
   protected launchDialogService = inject(LaunchDialogService);
@@ -61,7 +59,7 @@ export class DpPaymentCallbackComponent implements OnInit {
         { key: 'dpPaymentForm.cancelledOrFailed' },
         GlobalMessageType.MSG_TYPE_WARNING
       );
-      this.closeCallback.emit();
+      this.closeCallback.emit(undefined);
     }
   }
 
@@ -78,7 +76,7 @@ export class DpPaymentCallbackComponent implements OnInit {
             { key: 'dpPaymentForm.cancelledOrFailed' },
             GlobalMessageType.MSG_TYPE_WARNING
           );
-          this.closeCallback.emit();
+          this.closeCallback.emit(undefined);
         }
       });
     }
@@ -114,7 +112,7 @@ export class DpPaymentCallbackComponent implements OnInit {
               { key: 'dpPaymentForm.error.paymentFetch' },
               GlobalMessageType.MSG_TYPE_ERROR
             );
-            this.closeCallback.emit();
+            this.closeCallback.emit(undefined);
           }
         });
     } else {
@@ -122,7 +120,7 @@ export class DpPaymentCallbackComponent implements OnInit {
         { key: 'dpPaymentForm.error.unknown' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      this.closeCallback.emit();
+      this.closeCallback.emit(undefined);
     }
   }
 }

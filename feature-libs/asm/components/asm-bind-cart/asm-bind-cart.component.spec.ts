@@ -1,9 +1,9 @@
 import {
   Component,
   Injectable,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -51,7 +51,7 @@ import { AsmBindCartComponent } from './asm-bind-cart.component';
   imports: [FormsModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 class MockAuthService implements Partial<AuthService> {

@@ -20,11 +20,15 @@ export class TabPanelComponent {
   /**
    * Tab object to display content and set attributes to.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() tab: Tab;
 
   /**
    * In which layout to set the component (ie. Tab or Accordian).
    * Defaults to "Tab" mode.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() mode: TAB_MODE = TAB_MODE.TAB;
 }

@@ -1,6 +1,6 @@
 <div
   class="form-check"
-  [class.disabled-consent]="disabled || isRequired(consentTemplate?.id)"
+  [class.disabled-consent]="disabled() || isRequired(consentTemplate?.id)"
 >
   <label>
     <input
@@ -10,7 +10,7 @@
       (change)="onConsentChange()"
       [checked]="consentGiven"
       [name]="consentTemplate.id"
-      [disabled]="disabled || isRequired(consentTemplate?.id)"
+      [disabled]="disabled() || isRequired(consentTemplate?.id)"
     />
     <span class="form-check-label cx-be-bold">
       @if (consentTemplate?.name) {
@@ -26,7 +26,7 @@
 </div>
 
 <ng-template #requiredAsterisk>
-  @if (showMandatory) {
+  @if (showMandatory()) {
     <abbr
       aria-hidden="true"
       class="text-decoration-none required-asterisk"

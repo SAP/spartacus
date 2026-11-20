@@ -1,4 +1,4 @@
-@if (showDialog) {
+@if (showDialog()) {
   <div
     class="modal fade show"
     tabindex="-1"
@@ -43,6 +43,6 @@
     </div>
   </div>
 }
-@if (showDialog) {
+@if (showDialog()) {
   <div class="modal-backdrop fade show"></div>
 }

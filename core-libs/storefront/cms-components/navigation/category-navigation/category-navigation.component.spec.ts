@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -21,11 +21,11 @@ import { CategoryNavigationComponent } from './category-navigation.component';
   selector: 'cx-navigation-ui',
 })
 class MockNavigationComponent {
-  @Input() node: NavigationNode;
-  @Input() wrapAfter: number;
-  @Input() allowAlignToRight: number;
-  @Input() navAriaLabel: string;
-  @Input() resetMenuOnClose: boolean;
+  readonly node = input<NavigationNode>();
+  readonly wrapAfter = input<number>();
+  readonly allowAlignToRight = input<number>();
+  readonly navAriaLabel = input<string>();
+  readonly resetMenuOnClose = input<boolean>();
 }
 
 describe('CategoryNavigationComponent', () => {

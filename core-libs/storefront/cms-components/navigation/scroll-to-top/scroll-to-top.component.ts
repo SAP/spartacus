@@ -48,6 +48,8 @@ export class ScrollToTopComponent implements OnInit {
   protected displayThreshold: number = (this.window?.innerHeight ?? 400) / 2;
   protected triggedByKeypress: boolean = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('button')
   button: ElementRef;
 

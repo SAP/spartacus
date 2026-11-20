@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Pipe, PipeTransform, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -29,8 +22,8 @@ class MockTranslatePipe implements PipeTransform {
   imports: [ReactiveFormsModule],
 })
 class MockPaginationComponent {
-  @Input() pagination: PaginationModel;
-  @Output() viewPageEvent = new EventEmitter<string>();
+  readonly pagination = input<PaginationModel>();
+  readonly viewPageEvent = output<string>();
 }
 
 @Component({
@@ -39,7 +32,7 @@ class MockPaginationComponent {
   imports: [ReactiveFormsModule],
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 describe('UnitLevelOrderHistoryFilterComponent', () => {
@@ -367,10 +360,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       freshFixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(freshComponent.buyerFilterMobileId.nativeElement.value).toBe(
+      expect(freshComponent.buyerFilterMobileId().nativeElement.value).toBe(
         EMPTY_STRING
       );
-      expect(freshComponent.unitFilterMobileId.nativeElement.value).toBe(
+      expect(freshComponent.unitFilterMobileId().nativeElement.value).toBe(
         EMPTY_STRING
       );
     });

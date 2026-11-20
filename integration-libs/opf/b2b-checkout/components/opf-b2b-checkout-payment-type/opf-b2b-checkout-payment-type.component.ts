@@ -14,7 +14,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -82,8 +82,8 @@ export class OpfB2bCheckoutPaymentTypeComponent
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
 
-  @ViewChild('poNumber', { static: false })
-  protected poNumberInputElement: ElementRef<HTMLInputElement>;
+  protected readonly poNumberInputElement =
+    viewChild<ElementRef<HTMLInputElement>>('poNumber');
 
   protected isUpdating$ = new BehaviorSubject<boolean>(false);
   protected form: FormGroup;
@@ -101,8 +101,9 @@ export class OpfB2bCheckoutPaymentTypeComponent
   }
 
   protected updatePoNumberField(): void {
-    if (this.poNumberInputElement?.nativeElement && this.poNumberValue) {
-      this.poNumberInputElement.nativeElement.value = this.poNumberValue;
+    const poNumberInputElement = this.poNumberInputElement();
+    if (poNumberInputElement?.nativeElement && this.poNumberValue) {
+      poNumberInputElement.nativeElement.value = this.poNumberValue;
     }
   }
 

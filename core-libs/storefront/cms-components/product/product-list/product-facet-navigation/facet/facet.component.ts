@@ -17,6 +17,8 @@ import {
   ViewChild,
   ViewChildren,
   inject,
+  input,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -59,17 +61,23 @@ export class FacetComponent implements AfterViewInit {
 
   state$: Observable<FacetCollapseState>;
   /** configurable icon that is used to collapse the facet group  */
-  @Input() expandIcon: ICON_TYPE = ICON_TYPE.EXPAND;
-  @Input() collapseIcon: ICON_TYPE = ICON_TYPE.COLLAPSE;
+  readonly expandIcon = input<ICON_TYPE>(ICON_TYPE.EXPAND);
+  readonly collapseIcon = input<ICON_TYPE>(ICON_TYPE.COLLAPSE);
 
   @HostBinding('class.multi-select') isMultiSelect: boolean;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChildren('facetValue') values: QueryList<ElementRef<HTMLElement>>;
 
-  @ViewChild(FocusDirective) keyboardFocus: FocusDirective;
+  readonly keyboardFocus = viewChild(FocusDirective);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('facetHeader') facetHeader: ElementRef<HTMLElement>;
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set facet(value: Facet) {
     this._facet = value;

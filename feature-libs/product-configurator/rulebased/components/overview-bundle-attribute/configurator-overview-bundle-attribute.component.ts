@@ -49,21 +49,29 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
 
   product$: Observable<Product>;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() attributeOverview: Configurator.AttributeOverview;
 
   /**
    * Prefix that reflects parent groups in the overview hierarchy.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() overviewIdPrefix = '';
 
   /**
    * Id of the group that contains the bundle attribute.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() parentGroupId: string;
 
   /**
    * Indicates whether a configuration details section exists for this item.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() hasConfigurationDetails = false;
 
   protected configuratorStorefrontUtilsService = inject(

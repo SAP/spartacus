@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Type, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -97,10 +97,10 @@ const mockActivatedRoute = {
   template: '',
 })
 class MockAddressFormComponent {
-  @Input() cancelBtnLabel: string;
-  @Input() showTitleCode: boolean;
-  @Input() setAsDefaultField: boolean;
-  @Input() addressData: Address;
+  readonly cancelBtnLabel = input<string>();
+  readonly showTitleCode = input<boolean>();
+  readonly setAsDefaultField = input<boolean>();
+  readonly addressData = input<Address>();
 }
 
 @Component({
@@ -114,16 +114,11 @@ class MockSpinnerComponent {}
   template: '',
 })
 class MockCardComponent {
-  @Input()
-  border: boolean;
-  @Input()
-  content: Card;
-  @Input()
-  fitToContainer: boolean;
-  @Input()
-  index: number;
-  @Input()
-  role: string;
+  readonly border = input<boolean>();
+  readonly content = input<Card>();
+  readonly fitToContainer = input<boolean>();
+  readonly index = input<number>();
+  readonly role = input<string>();
 }
 
 class MockCheckoutDeliveryModesFacade implements Partial<CheckoutDeliveryModesFacade> {
@@ -391,10 +386,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
         const cards = fixture.debugElement.queryAll(By.css('cx-card'));
         const selectedCard = cards.find(
-          (card) => card.componentInstance.content?.role === 'region'
+          (card) => card.componentInstance.content()?.role === 'region'
         );
         expect(selectedCard).toBeTruthy();
-        expect(selectedCard?.componentInstance.role).toEqual('region');
+        expect(selectedCard?.componentInstance.role()).toEqual('region');
       });
 
       it('should pass "group" role to cx-card for non-selected addresses', () => {
@@ -407,11 +402,11 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
         const cards = fixture.debugElement.queryAll(By.css('cx-card'));
         const nonSelectedCards = cards.filter(
-          (card) => card.componentInstance.content?.role === 'group'
+          (card) => card.componentInstance.content()?.role === 'group'
         );
         expect(nonSelectedCards.length).toBeGreaterThan(0);
         nonSelectedCards.forEach((card) => {
-          expect(card.componentInstance.role).toEqual('group');
+          expect(card.componentInstance.role()).toEqual('group');
         });
       });
     });

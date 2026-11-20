@@ -75,6 +75,28 @@ Customer copies of framework templates can retain removed property bindings or o
 
 Cart/order entry products can be partial: their price can be on the entry instead of product.price. A PDP price/stock guard must not disable existing Buy Again or Add to Active Cart entry actions. Verify these interactions on actual order/saved-cart pages when customizing add-to-cart or copying its template.
 
+## Signal inputs, outputs and queries
+
+This release applies Angular's official output, signal-input and signal-query migrations to framework components and directives. The API is intentionally mixed: inputs with internal writes or unsupported setters, outputs not initialized as EventEmitter fields, and unsupported query patterns retain their previous declarations. Inspect the selected package's declaration for each member; do not assume every input or query is a signal. HostBinding and HostListener decorators are retained by this migration.
+
+For a migrated input, read its value by calling the signal. Preserve template binding names and aliases. Replace imperative input assignment with a host binding or ComponentRef.setInput; do not overwrite the signal property. For example, a test setting MediaComponent.format should use fixture.componentRef.setInput('format', 'product') and read component.format(). Review subclasses that override input fields, input setters, direct assignments, bracket access and untyped DebugElement.componentInstance references. The official migration cannot reliably infer every such usage.
+
+An input whose original value was itself a Signal retains that value type: SubscriptionProductUsageChargeComponent.product is now InputSignal<Signal<Product | null | undefined>>, so reading the product value uses product()(). Continue binding the original product signal to that input. Use setInput with the signal value in tests instead of replacing the input with Object.defineProperty. Required inputs must be set before the first read; the outlet/skip-link identifiers, ASM table pageSize and configurator attribute-composition context make their existing required configuration explicit.
+
+Migrated outputs use OutputEmitterRef rather than EventEmitter. Keep emit and subscribe usage where compatible; use outputToObservable from @angular/core/rxjs-interop when passing an output to RxJS operators or firstValueFrom. Subject operations such as next, complete and pipe are not part of OutputEmitterRef. Preserve existing event names and payloads, including outputs that previously emitted undefined. A constructor-initialized output or an output backed by BehaviorSubject can retain its old type; inspect its declaration before adapting it.
+
+Migrated viewChild/contentChild queries are signal reads; viewChildren/contentChildren return arrays rather than QueryList. Adapt callers of changes, toArray and direct query assignment where relevant. Required queries must have a matching node when read, and conditional queries can be undefined. Signal queries do not provide a static:true option: do not move a query used before the first view update without validating its lifecycle. The file-upload control retains its static ViewChild for ControlValueAccessor initialization.
+
+Angular's official generators can migrate the customer's own declarations and typed references. Run them with the installed Angular CLI, review the diff and skipped cases, and validate the actual application. These generators are not a complete migration of external Spartacus member usage or customer inheritance:
+
+~~~bash
+ng generate @angular/core:output-migration --path=src
+ng generate @angular/core:signal-input-migration --path=src --best-effort-mode=false --insert-todos=true
+ng generate @angular/core:signal-queries-migration --path=src --best-effort-mode=false --insert-todos=true
+~~~
+
+In an Nx workspace, include every relevant build and test tsconfig in the analysis. Vitest targets configured only through run-commands may not expose their tsconfig to Angular's discovery. An analysis that misses tests can convert a declaration while leaving its test accesses unchanged. Keep real builders and test configuration intact when arranging the migration analysis.
+
 ## EPD Visualization and styles
 
 EPD Visualization is retired with no replacement package in this release. Remove confirmed @spartacus/epd-visualization dependencies, imports, providers/modules, feature configuration, CMS mappings, global SCSS imports and customer routes that depend on it. Remove backend CMS placements or arrange that work with the backend owner. A similarly named independent customer visualization is not part of that removal.

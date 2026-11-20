@@ -1,4 +1,4 @@
-@if (cardContent$ | async; as content) {
+@if (cardContent$() | async; as content) {
   <cx-card [content]="content" />
   @if (editConfig?.route) {
     <button

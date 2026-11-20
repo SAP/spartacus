@@ -9,7 +9,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Input,
+  input,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -44,7 +44,7 @@ export class SiteContextSelectorComponent {
    * the context type can be set as an input. If the context is
    * not given, the context will be loaded from the backend.
    */
-  @Input() context: SiteContextType;
+  readonly context = input<SiteContextType>();
 
   protected translationService = inject(TranslationService);
 
@@ -53,19 +53,19 @@ export class SiteContextSelectorComponent {
   }
 
   get items$(): Observable<any> {
-    return this.componentService.getItems(this.context);
+    return this.componentService.getItems(this.context());
   }
 
   get activeItem$(): Observable<string> {
-    return this.componentService.getActiveItem(this.context);
+    return this.componentService.getActiveItem(this.context());
   }
 
   set active(value: string) {
-    this.componentService.setActive(value, this.context);
+    this.componentService.setActive(value, this.context());
   }
 
   get label$(): Observable<any> {
-    return this.componentService.getLabel(this.context);
+    return this.componentService.getLabel(this.context());
   }
 
   ariaLabel$(label: string, index: number, length: number): Observable<string> {

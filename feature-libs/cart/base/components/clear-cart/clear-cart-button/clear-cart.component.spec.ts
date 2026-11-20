@@ -92,7 +92,7 @@ describe('ClearCartComponent', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.CLEAR_CART,
-      component.element,
+      component.element(),
       component['vcr']
     );
   });

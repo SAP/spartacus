@@ -1,4 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -62,7 +62,7 @@ class MockCmsComponentData {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type;
+  readonly type = input(undefined);
 }
 
 @Component({
@@ -70,15 +70,15 @@ class MockCxIconComponent {
   template: '<img>',
 })
 class MockMediaComponent {
-  @Input() container;
-  @Input() format;
-  @Input() alt;
+  readonly container = input(undefined);
+  readonly format = input(undefined);
+  readonly alt = input(undefined);
 }
 
 @Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
-  @Input() cxOutletContext: string;
+  readonly cxOutlet = input<string>();
+  readonly cxOutletContext = input<string>();
 }
 
 @Component({
@@ -86,10 +86,10 @@ class MockOutletDirective implements Partial<OutletDirective> {
   template: ``,
 })
 class MockCarouselComponent {
-  @Input() items: any;
-  @Input() itemWidth: any;
-  @Input() template: any;
-  @Input() hideIndicators: any;
+  readonly items = input<any>();
+  readonly itemWidth = input<any>();
+  readonly template = input<any>();
+  readonly hideIndicators = input<any>();
 }
 const mockRouterState: RouterState = {
   nextState: undefined,

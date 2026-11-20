@@ -10,14 +10,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   forwardRef,
   inject,
   Input,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -133,37 +133,41 @@ export class AddressFormComponent implements OnInit, OnDestroy {
    */
   focusConfig: FocusConfig = { autofocus: false };
 
-  @Input()
-  addressData: Address;
+  readonly addressData = input<Address>();
 
-  @Input()
-  actionBtnLabel: string;
+  readonly actionBtnLabel = input<string>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   cancelBtnLabel: string;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   setAsDefaultField = true;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   showTitleCode: boolean;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   showCancelBtn = true;
 
-  @Input()
-  countries: Observable<Country[]>;
+  readonly countries = input<Observable<Country[]>>();
 
-  @Output()
-  submitAddress = new EventEmitter<any>();
+  readonly submitAddress = output<any>();
 
-  @Output()
-  backToAddress = new EventEmitter<any>();
+  readonly backToAddress = output<any>();
 
-  @ViewChild('submit') element: ElementRef;
+  readonly element = viewChild<ElementRef>('submit');
 
-  @ViewChild(forwardRef(() => FocusFirstInvalidFieldDirective))
-  protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
+  protected readonly firstInvalidFieldFocus = viewChild(
+    forwardRef(() => FocusFirstInvalidFieldDirective)
+  );
 
   subscription: Subscription = new Subscription();
 
@@ -202,7 +206,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     // `shareReplay` so the template's async pipe and the autofocus subscription
     // below share a single execution (no duplicate `loadDeliveryCountries()`).
     this.countries$ = (
-      this.countries ||
+      this.countries() ||
       this.userAddressService.getDeliveryCountries().pipe(
         tap((countries: Country[]) => {
           if (Object.keys(countries).length === 0) {
@@ -263,17 +267,18 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       })
     );
 
-    if (this.addressData && Object.keys(this.addressData).length !== 0) {
+    const addressData = this.addressData();
+    if (addressData && Object.keys(addressData).length !== 0) {
       if (this.featureToggles.enableHierarchicalAddressFormat) {
-        this.countrySelected(this.addressData.country);
-        this.addressForm.patchValue(this.addressData);
+        this.countrySelected(addressData.country);
+        this.addressForm.patchValue(addressData);
       } else {
-        this.addressForm.patchValue(this.addressData);
-        this.countrySelected(this.addressData.country);
+        this.addressForm.patchValue(addressData);
+        this.countrySelected(addressData.country);
       }
 
-      if (this.addressData.region) {
-        this.regionSelected(this.addressData.region);
+      if (addressData.region) {
+        this.regionSelected(addressData.region);
       }
     }
 
@@ -305,15 +310,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           } else {
             townControl?.enable();
           }
+          const addressData = this.addressData();
           if (
-            this.addressData?.city?.isocode &&
+            addressData?.city?.isocode &&
             !this.selectedCity$.value &&
-            this.selectedRegion$.value === this.addressData.region?.isocode
+            this.selectedRegion$.value === addressData.region?.isocode
           ) {
-            this.selectedCity$.next(this.addressData.city.isocode);
-            this.addressForm
-              .get('town')
-              ?.setValue(this.addressData.city.isocode);
+            this.selectedCity$.next(addressData.city.isocode);
+            this.addressForm.get('town')?.setValue(addressData.city.isocode);
           }
           this.cdr.markForCheck();
         })
@@ -333,13 +337,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         )
         .subscribe((districts) => {
           this.districts = districts;
+          const addressData = this.addressData();
           if (
-            this.addressData?.cityDistrict?.isocode &&
-            this.selectedCity$.value === this.addressData.city?.isocode
+            addressData?.cityDistrict?.isocode &&
+            this.selectedCity$.value === addressData.city?.isocode
           ) {
             this.addressForm
               .get('district')
-              ?.setValue(this.addressData.cityDistrict.isocode);
+              ?.setValue(addressData.cityDistrict.isocode);
           }
           this.cdr.markForCheck();
         })
@@ -470,7 +475,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   back(): void {
-    this.backToAddress.emit();
+    this.backToAddress.emit(undefined);
   }
 
   verifyAddress(): void {
@@ -520,7 +525,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_ASSISTIVE
       );
       if (this.featureToggles.a11yImproveAddressFormFocus) {
-        this.firstInvalidFieldFocus?.focusFirstInvalidField();
+        this.firstInvalidFieldFocus()?.focusFirstInvalidField();
       }
     }
   }
@@ -528,7 +533,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   openSuggestedAddress(results: AddressValidation): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.SUGGESTED_ADDRESSES,
-      this.element,
+      this.element(),
       {
         enteredAddress: this.addressForm.value,
         suggestedAddresses: results.suggestedAddresses,

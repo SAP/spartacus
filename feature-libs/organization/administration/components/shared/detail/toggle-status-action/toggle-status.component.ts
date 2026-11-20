@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnDestroy, inject, input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -40,6 +40,8 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    *
    * `[i18nRoot].messages.deactivate`
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() i18nRoot: string;
 
   /**
@@ -47,11 +49,13 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    *
    * Most _organization_ entities use the `code` key, but there is some variations.
    */
-  @Input() key = 'code';
+  readonly key = input('code');
 
   /**
    * The disabled state is calculated but can be provided as well.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() disabled: boolean;
 
   /**
@@ -118,7 +122,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected update(item: T): void {
     this.itemService
       .update(
-        item[this.key as keyof BaseItem] as string,
+        item[this.key() as keyof BaseItem] as string,
         this.getPatchedItem(item)
       )
       .pipe(
@@ -131,7 +135,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected getPatchedItem(item: T): T {
     const patch: BaseItem = {};
 
-    Object.assign(patch, { [this.key]: item[this.key as keyof T] });
+    Object.assign(patch, { [this.key()]: item[this.key() as keyof T] });
 
     patch.active = !item.active;
     return patch as T;

@@ -8,9 +8,8 @@ import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  output,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { IconComponent } from '../../../misc/icon/icon.component';
@@ -29,10 +28,11 @@ export enum ViewModes {
 })
 export class ProductViewComponent {
   iconTypes = ICON_TYPE;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   mode: ViewModes;
-  @Output()
-  modeChange = new EventEmitter<ViewModes>();
+  readonly modeChange = output<ViewModes>();
 
   get buttonClass() {
     const viewName: string = this.viewMode?.toLowerCase();

@@ -23,7 +23,7 @@
     <div class="cx-items-to-ship-label">
       {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
     </div>
-    @if (isAddressCardVisible) {
+    @if (isAddressCardVisible()) {
       <div class="cx-opf-review-card-wrapper">
         @if (deliveryAddress$ | async; as deliveryAddress) {
           <cx-opf-checkout-review-card

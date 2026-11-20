@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, NgModule, input } from '@angular/core';
 
 @Component({
   selector: 'cx-org-card',
   template: '<ng-content />',
 })
 export class MockCardComponent {
-  @Input() i18nRoot;
-  @Input() previous;
-  @Input() showHint? = false;
+  readonly i18nRoot = input(undefined);
+  readonly previous = input(undefined);
+  readonly showHint = input<boolean | undefined>(false);
 }
 
 @NgModule({

@@ -53,6 +53,8 @@ export class IconComponent {
    * The cxIcon directive is bound to the icon type. You can feed the `ICON_TYPE` to
    * accomplish a configurable button in the UI.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxIcon(type: ICON_TYPE) {
     this.setIcon(type);
   }
@@ -61,6 +63,8 @@ export class IconComponent {
    * The type input parameter is bound to the icon type. You can feed the `ICON_TYPE` to
    * accomplish a configurable button in the UI.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set type(type: ICON_TYPE) {
     this.setIcon(type);
   }

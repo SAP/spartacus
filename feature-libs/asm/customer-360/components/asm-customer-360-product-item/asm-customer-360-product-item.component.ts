@@ -7,9 +7,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  output,
 } from '@angular/core';
 import { Product, TranslatePipe } from '@spartacus/core';
 import { MediaComponent } from '@spartacus/storefront';
@@ -22,8 +21,14 @@ import { ProductItem } from '../asm-customer-360-product-listing/product-item.mo
   imports: [MediaComponent, TranslatePipe],
 })
 export class AsmCustomer360ProductItemComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() product: ProductItem;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() quantity: number;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() isOrderEntry = true;
-  @Output() selectProduct = new EventEmitter<Product>();
+  readonly selectProduct = output<Product>();
 }

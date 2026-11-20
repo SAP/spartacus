@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -52,11 +52,12 @@ describe('PickupOptionsComponent', () => {
     )[PickupOptionsTabs.DELIVERY].nativeElement;
     expect(activeTab.classList.contains('active')).toBeTruthy();
 
-    vi.spyOn(<any>component.tabComponent, 'select');
+    const tabComponent = component.tabComponent();
+    vi.spyOn(<any>tabComponent, 'select');
     component.selectedOption = 'pickup';
     component.ngOnChanges();
     fixture.detectChanges();
-    expect(component.tabComponent?.select).toHaveBeenCalledWith(
+    expect(tabComponent?.select).toHaveBeenCalledWith(
       PickupOptionsTabs.PICKUP,
       TAB_MODE.TAB
     );
@@ -68,7 +69,7 @@ describe('PickupOptionsComponent', () => {
 
     expect(component.pickupOptionChange.emit).toHaveBeenCalledWith({
       option: 'delivery',
-      triggerElement: component.triggerElement,
+      triggerElement: component.triggerElement(),
     });
   });
 
@@ -182,7 +183,7 @@ describe('PickupOptionsComponent', () => {
   template: '',
 })
 export class PickupOptionsStubComponent {
-  @Input() selectedOption: PickupOption;
-  @Input() displayPickupLocation: string | undefined;
-  @Input() disableControls: Observable<boolean>;
+  readonly selectedOption = input<PickupOption>();
+  readonly displayPickupLocation = input<string>();
+  readonly disableControls = input<Observable<boolean>>();
 }

@@ -7,14 +7,12 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
-  QueryList,
-  ViewChild,
-  ViewChildren,
   inject,
+  output,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
 import {
   FormsModule,
@@ -75,20 +73,18 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   activeFocusedButtonIndex = -1;
 
-  @Output()
-  submitEvent = new EventEmitter<{
+  readonly submitEvent = output<{
     customerId?: string;
     parameters?: AsmDeepLinkParameters;
   }>();
 
-  @ViewChild('resultList') resultList: ElementRef;
-  @ViewChild('searchTerm') searchTerm: ElementRef;
-  @ViewChild('searchOrder') searchOrder: ElementRef;
+  readonly resultList = viewChild<ElementRef>('resultList');
+  readonly searchTerm = viewChild<ElementRef>('searchTerm');
+  readonly searchOrder = viewChild<ElementRef>('searchOrder');
 
-  @ViewChild('createCustomerLink') createCustomerLink: ElementRef;
-  @ViewChildren('searchResultItem') searchResultItems: QueryList<
-    ElementRef<HTMLElement>
-  >;
+  readonly createCustomerLink = viewChild<ElementRef>('createCustomerLink');
+  readonly searchResultItems =
+    viewChildren<ElementRef<HTMLElement>>('searchResultItem');
 
   ngOnInit(): void {
     this.customerSelectionForm = this.fb.group({
@@ -229,10 +225,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   onDocumentClick(event: UIEvent) {
-    if (this.resultList) {
+    const resultList = this.resultList();
+    if (resultList) {
       if (
-        this.resultList.nativeElement.contains(event.target) ||
-        this.searchTerm.nativeElement.contains(event.target)
+        resultList.nativeElement.contains(event.target) ||
+        this.searchTerm()?.nativeElement.contains(event.target)
       ) {
         return;
       } else {
@@ -243,14 +240,14 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   closeResults(event: UIEvent) {
     this.asmService.customerSearchReset();
-    this.searchTerm.nativeElement.focus();
+    this.searchTerm()?.nativeElement.focus();
     event.preventDefault();
     event.stopPropagation();
   }
 
   closeOrderSearchResults(event: UIEvent) {
     this.asmService.customerSearchReset();
-    this.searchOrder.nativeElement.focus();
+    this.searchOrder()?.nativeElement.focus();
     event.preventDefault();
     event.stopPropagation();
   }
@@ -275,10 +272,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    */
   setSelectionEnd(event: UIEvent): void {
     event.preventDefault();
-    if (this.searchTerm.nativeElement.value?.length) {
-      const selectionStart = this.searchTerm.nativeElement.value.length;
-      this.searchTerm.nativeElement.selectionStart = selectionStart;
-      this.searchTerm.nativeElement.selectionEnd = selectionStart;
+    const searchTerm = this.searchTerm();
+    if (searchTerm?.nativeElement.value?.length) {
+      const selectionStart = searchTerm.nativeElement.value.length;
+      searchTerm.nativeElement.selectionStart = selectionStart;
+      searchTerm.nativeElement.selectionEnd = selectionStart;
     }
   }
 
@@ -288,10 +286,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    */
   setOrderSearchSelectionEnd(event: UIEvent): void {
     event.preventDefault();
-    if (this.searchOrder.nativeElement.value?.length) {
-      const selectionStart = this.searchOrder.nativeElement.value.length;
-      this.searchOrder.nativeElement.selectionStart = selectionStart;
-      this.searchOrder.nativeElement.selectionEnd = selectionStart;
+    const searchOrder = this.searchOrder();
+    if (searchOrder?.nativeElement.value?.length) {
+      const selectionStart = searchOrder.nativeElement.value.length;
+      searchOrder.nativeElement.selectionStart = selectionStart;
+      searchOrder.nativeElement.selectionEnd = selectionStart;
     }
   }
   /**
@@ -302,7 +301,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     event.preventDefault();
     this.activeFocusedButtonIndex--;
     if (this.activeFocusedButtonIndex < 0) {
-      this.activeFocusedButtonIndex = this.searchResultItems.length - 1;
+      this.activeFocusedButtonIndex = this.searchResultItems().length - 1;
     }
     this.updateItemIndex(this.activeFocusedButtonIndex);
   }
@@ -313,7 +312,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   focusNextChild(event: UIEvent): void {
     event.preventDefault();
     this.activeFocusedButtonIndex++;
-    if (this.activeFocusedButtonIndex > this.searchResultItems.length - 1) {
+    if (this.activeFocusedButtonIndex > this.searchResultItems().length - 1) {
       this.activeFocusedButtonIndex = 0;
     }
     this.updateItemIndex(this.activeFocusedButtonIndex);
@@ -325,10 +324,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   focusInputText(event: KeyboardEvent): void {
     event.preventDefault();
     this.activeFocusedButtonIndex = -1;
-    this.searchTerm.nativeElement.focus();
-    if (this.searchTerm.nativeElement.value?.length) {
-      let selectionPos = this.searchTerm.nativeElement.selectionEnd;
-      const searchTermLength = this.searchTerm.nativeElement.value.length;
+    this.searchTerm()?.nativeElement.focus();
+    const searchTerm = this.searchTerm();
+    if (searchTerm?.nativeElement.value?.length) {
+      let selectionPos = searchTerm.nativeElement.selectionEnd;
+      const searchTermLength = searchTerm.nativeElement.value.length;
 
       if (this.isBackNavigation(event)) {
         selectionPos = selectionPos <= 0 ? 0 : selectionPos - 1;
@@ -342,8 +342,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       } else if (event.code === 'End') {
         selectionPos = searchTermLength;
       }
-      this.searchTerm.nativeElement.selectionStart = selectionPos;
-      this.searchTerm.nativeElement.selectionEnd = selectionPos;
+      searchTerm.nativeElement.selectionStart = selectionPos;
+      searchTerm.nativeElement.selectionEnd = selectionPos;
     }
   }
 
@@ -354,10 +354,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   focusOrderSearchInputText(event: KeyboardEvent): void {
     event.preventDefault();
     this.activeFocusedButtonIndex = -1;
-    this.searchOrder.nativeElement.focus();
-    if (this.searchOrder.nativeElement.value?.length) {
-      let selectionPos = this.searchOrder.nativeElement.selectionEnd;
-      const searchTermLength = this.searchOrder.nativeElement.value.length;
+    this.searchOrder()?.nativeElement.focus();
+    const searchOrder = this.searchOrder();
+    if (searchOrder?.nativeElement.value?.length) {
+      let selectionPos = searchOrder.nativeElement.selectionEnd;
+      const searchTermLength = searchOrder.nativeElement.value.length;
 
       if (this.isBackNavigation(event)) {
         selectionPos = selectionPos <= 0 ? 0 : selectionPos - 1;
@@ -371,8 +372,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       } else if (event.code === 'End') {
         selectionPos = searchTermLength;
       }
-      this.searchOrder.nativeElement.selectionStart = selectionPos;
-      this.searchOrder.nativeElement.selectionEnd = selectionPos;
+      searchOrder.nativeElement.selectionStart = selectionPos;
+      searchOrder.nativeElement.selectionEnd = selectionPos;
     }
   }
   /**
@@ -380,18 +381,18 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    * @param {number} selectedIndex - current selected item index
    */
   updateItemIndex(selectedIndex: number): void {
-    this.searchResultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
+    this.searchResultItems()?.[selectedIndex]?.nativeElement.focus();
   }
 
   createCustomer(): void {
     this.asmService.customerSearchReset();
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      this.createCustomerLink
+      this.createCustomerLink()
     );
 
     setTimeout(() => {
-      this.searchTerm.nativeElement.blur();
+      this.searchTerm()?.nativeElement.blur();
     });
   }
   /**

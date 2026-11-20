@@ -11,9 +11,9 @@ import {
   Component,
   ComponentRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -33,7 +33,7 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
 
   // We use a child view container ref, as creating components will become siblings.
   // We like the message components to appear inside the `cx-org-message` instead.
-  @ViewChild('vcr', { read: ViewContainerRef }) vcr: ViewContainerRef;
+  readonly vcr = viewChild.required('vcr', { read: ViewContainerRef });
 
   protected subscription = new Subscription();
 
@@ -43,18 +43,18 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
         if (msg) {
           this.render(msg);
         } else {
-          this.vcr?.clear();
+          this.vcr()?.clear();
         }
       })
     );
   }
 
   protected render(msg: MessageData) {
-    const ref: ComponentRef<BaseMessageComponent> = this.vcr.createComponent(
+    const ref: ComponentRef<BaseMessageComponent> = this.vcr().createComponent(
       this.renderService.getComponent(msg),
       {
         index: 0,
-        injector: this.renderService.getInjector(msg, this.vcr.injector),
+        injector: this.renderService.getInjector(msg, this.vcr().injector),
       }
     );
     ref.injector.get(ChangeDetectorRef).markForCheck();

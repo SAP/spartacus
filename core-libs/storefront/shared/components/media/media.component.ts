@@ -7,13 +7,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   Input,
   OnChanges,
-  Output,
   TrackByFunction,
   inject,
+  output,
+  input,
 } from '@angular/core';
 import { Image, ImageGroup } from '@spartacus/core';
 import {
@@ -65,28 +65,32 @@ export class MediaComponent implements OnChanges {
    * can be provided in a `srcset` so the browser will figure out
    * the best media for the device.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() container: MediaInput | undefined;
 
   /**
    * if a media format is given, a media for the given format will be rendered
    */
-  @Input() format: string;
+  readonly format = input<string>();
 
   /**
    * A specific alt text for an image, which overrules the alt text
    * from the container data.
    */
-  @Input() alt: string;
+  readonly alt = input<string>();
 
   /**
    * set role of the image if different than what is intended (eg, role="presentation")
    */
-  @Input() role: string;
+  readonly role = input<string>();
 
   /**
    * Set the loading strategy of the media. Defaults to global loading strategy.
    * Use 'lazy' or 'eager' strategies.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
   /**
@@ -95,11 +99,15 @@ export class MediaComponent implements OnChanges {
    * and it will automatically use `loading="eager"` for optimal performance.
    * Valid values are: 'low', 'auto', or 'high'.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() fetchPriority?: ImageFetchPriority | null;
 
   /**
    * @default 'img'
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() elementType: 'img' | 'picture' = 'img';
 
   /**
@@ -115,12 +123,12 @@ export class MediaComponent implements OnChanges {
    * This input is applicable only when the `elementType` input is set to `'img'`, as the `sizes` attribute
    * is currently added only to the `<img>` HTML element.
    */
-  @Input() sizesForImgElement: string;
+  readonly sizesForImgElement = input<string>();
 
   /**
    * Once the media is loaded, we emit an event.
    */
-  @Output() loaded: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  readonly loaded = output<Boolean>();
 
   /**
    * The media contains the info for the UI to create the image. This media
@@ -162,9 +170,9 @@ export class MediaComponent implements OnChanges {
     this.media = this.mediaService.getMediaBasedOnHTMLElementType(
       this.elementType,
       this.container instanceof Array ? this.container[0] : this.container,
-      this.format,
-      this.alt,
-      this.role
+      this.format(),
+      this.alt(),
+      this.role()
     );
 
     if (!this.media?.src) {

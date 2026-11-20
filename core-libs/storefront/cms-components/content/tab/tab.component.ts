@@ -14,8 +14,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  QueryList,
-  ViewChildren,
+  input,
+  viewChildren,
 } from '@angular/core';
 import { TranslatePipe, TranslationService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
@@ -39,10 +39,16 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
    *
    * Note: You should NOT set the `tabs` property if using this.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() tabs$: Observable<Tab[] | any>;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() tabs: Tab[] | any;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() config: TabConfig | any;
-  @Input() disabled: boolean = false;
+  readonly disabled = input<boolean>(false);
 
   readonly TAB_MODE = TAB_MODE;
 
@@ -50,7 +56,7 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   protected translationService = inject(TranslationService);
   protected cd = inject(ChangeDetectorRef);
 
-  @ViewChildren('tabHeader') tabHeaders: QueryList<any>;
+  readonly tabHeaders = viewChildren<any>('tabHeader');
 
   openTabs$: BehaviorSubject<number[]>;
   mode$: Observable<TAB_MODE>;
@@ -101,7 +107,7 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
    * Focuses the given tab according to the number.
    */
   focus(tabNum: number): void {
-    this.tabHeaders.toArray()[tabNum].nativeElement.focus();
+    this.tabHeaders()[tabNum].nativeElement.focus();
   }
 
   /**

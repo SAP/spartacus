@@ -29,6 +29,8 @@ class TestFeatureDirective {
   private templateRef = inject<TemplateRef<any>>(TemplateRef);
   private viewContainer = inject(ViewContainerRef);
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeature(feature: string) {
     const negated = feature.startsWith('!');
     const key = negated ? feature.slice(1) : feature;

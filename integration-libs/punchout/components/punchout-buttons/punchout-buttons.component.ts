@@ -25,6 +25,8 @@ import { Observable } from 'rxjs';
   imports: [AsyncPipe, TranslatePipe],
 })
 export class PunchoutButtonsComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() removeCancelButton = false;
 
   protected punchoutUiRestrictionService = inject(PunchoutUiRestrictionService);

@@ -2,9 +2,9 @@ import {
   Component,
   ComponentRef,
   CUSTOM_ELEMENTS_SCHEMA,
-  Input,
   ViewContainerRef,
   inject as inject_1,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -25,7 +25,7 @@ import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.c
 class TestDialogComponent {
   vcr = inject_1(ViewContainerRef);
 
-  @Input() galleryItem: number;
+  readonly galleryItem = input<number>();
 }
 
 class MockLaunchDialogService {

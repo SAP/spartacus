@@ -9,8 +9,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Input,
   OnInit,
+  input,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -54,7 +54,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   loading$: Observable<boolean>;
   showDeleteDialog = false;
   paymentMethodToDelete: PaymentDetails | undefined;
-  @Input() showHeader = true;
+  readonly showHeader = input(true);
   protected autoDefaultRequested = false;
   iconTypes = ICON_TYPE;
 

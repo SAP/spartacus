@@ -251,7 +251,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
 
   onPickupOptionChange(event: {
     option: PickupOption;
-    triggerElement: ElementRef;
+    triggerElement: ElementRef | undefined;
   }): void {
     /* istanbul ignore else */
     this.pickupOptionFacade.setPickupOption(this.entryNumber, event.option);
@@ -289,7 +289,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  openDialog(triggerElement: ElementRef): void {
+  openDialog(triggerElement: ElementRef | undefined): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.PICKUP_IN_STORE,
       triggerElement,

@@ -29,6 +29,8 @@ export class ConfiguratorShowOptionsComponent {
 
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
 
   /**

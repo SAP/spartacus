@@ -28,8 +28,8 @@
             group: group,
             language: activeLanguage,
             expMode: (expMode | async) ?? false,
-            isNavigationToGroupEnabled: isNavigationToGroupEnabled,
-            isPricingAsync: isPricingAsync,
+            isNavigationToGroupEnabled: isNavigationToGroupEnabled(),
+            isPricingAsync: isPricingAsync(),
           }"
         ></div>
         <div
@@ -40,7 +40,7 @@
             group: group,
             language: activeLanguage,
             expMode: (expMode | async) ?? false,
-            isPricingAsync: isPricingAsync,
+            isPricingAsync: isPricingAsync(),
           }"
         ></div>
         <div
@@ -51,7 +51,7 @@
             group: group,
             language: activeLanguage,
             expMode: (expMode | async) ?? false,
-            isPricingAsync: isPricingAsync,
+            isPricingAsync: isPricingAsync(),
           }"
         ></div>
       }

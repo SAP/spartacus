@@ -20,8 +20,14 @@ import { Configurator } from '../../core/model/configurator.model';
   imports: [TranslatePipe],
 })
 export class ConfiguratorConflictSuggestionComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() currentGroup: Configurator.Group;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() attribute: Configurator.Attribute;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() suggestionNumber: number;
 
   groupType = Configurator.GroupType;

@@ -93,24 +93,18 @@ describe('SubscriptionProductUsageChargeComponent', () => {
     component = fixture.componentInstance;
   });
   it('should be created', () => {
-    Object.defineProperty(component, 'product', {
-      get: () => signal(null),
-    });
+    fixture.componentRef.setInput('product', signal(null));
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
   it('should return last tier value', () => {
-    Object.defineProperty(component, 'product', {
-      get: () => signal(null),
-    });
+    fixture.componentRef.setInput('product', signal(null));
     fixture.detectChanges();
     expect(component.getLastTierValue(mockTierEntries1)).toEqual(0);
     expect(component.getLastTierValue(mockTierEntries2)).toEqual(30);
   });
   it('should return included quantity', () => {
-    Object.defineProperty(component, 'product', {
-      get: () => signal(null),
-    });
+    fixture.componentRef.setInput('product', signal(null));
     fixture.detectChanges();
     expect(component.getIncludedQuantity(mockPerUnit[0])).toEqual('10 KGs');
     expect(component.getIncludedQuantity(mockPerUnit[1])).toEqual('1 KG');
@@ -118,9 +112,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
   });
   describe('with null product', () => {
     beforeEach(() => {
-      Object.defineProperty(component, 'product', {
-        get: () => signal(null),
-      });
+      fixture.componentRef.setInput('product', signal(null));
       fixture.detectChanges();
     });
     it('should return per unit usage charges', () => {
@@ -138,9 +130,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
   });
   describe('with defined product with empty price plan', () => {
     beforeEach(() => {
-      Object.defineProperty(component, 'product', {
-        get: () => mockProduct1,
-      });
+      fixture.componentRef.setInput('product', mockProduct1);
       fixture.detectChanges();
     });
     it('should return per unit usage charges', () => {
@@ -158,9 +148,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
   });
   describe('with defined product with non-empty price plan', () => {
     beforeEach(() => {
-      Object.defineProperty(component, 'product', {
-        get: () => mockProduct2,
-      });
+      fixture.componentRef.setInput('product', mockProduct2);
       fixture.detectChanges();
     });
     it('should return per unit usage charges', () => {

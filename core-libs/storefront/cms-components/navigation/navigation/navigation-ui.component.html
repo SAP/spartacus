@@ -1,4 +1,4 @@
-<nav [attr.aria-label]="navAriaLabel">
+<nav [attr.aria-label]="navAriaLabel()">
   <ul
     [attr.role]="
       flyout && (node?.children?.length ?? 0) > 1 ? 'list' : 'presentation'
@@ -103,7 +103,7 @@
           <span
             role="heading"
             [attr.aria-level]="depth + 2"
-            [attr.tabindex]="focusableNodeTitles ? 0 : -1"
+            [attr.tabindex]="focusableNodeTitles() ? 0 : -1"
           >
             {{ node.title }}
           </span>

@@ -9,9 +9,9 @@ import {
   Component,
   ElementRef,
   Optional,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { RoutingService, TranslatePipe } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -27,7 +27,7 @@ export class CloseAccountComponent {
   protected launchDialogService = inject(LaunchDialogService);
   protected vcr = inject(ViewContainerRef);
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
@@ -35,7 +35,7 @@ export class CloseAccountComponent {
   openModal(): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CLOSE_ACCOUNT,
-      this.element,
+      this.element(),
       this.vcr
     );
 

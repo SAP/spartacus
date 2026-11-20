@@ -33,6 +33,8 @@ import { PageTemplateDirective } from './page-template.directive';
 export class PageLayoutComponent {
   protected pageLayoutService = inject(PageLayoutService);
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set section(value: string) {
     this.section$.next(value);
   }

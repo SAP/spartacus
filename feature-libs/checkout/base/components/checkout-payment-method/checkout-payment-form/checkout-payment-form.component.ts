@@ -10,14 +10,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild,
   forwardRef,
   inject,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -117,29 +117,32 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
 
   cardTypes$: Observable<CardType[]>;
 
-  @Input()
-  loading: boolean;
+  readonly loading = input<boolean>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   setAsDefaultField: boolean;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   paymentMethodsCount: number;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   paymentDetails?: PaymentDetails;
 
-  @Output()
-  goBack = new EventEmitter<any>();
+  readonly goBack = output<any>();
 
-  @Output()
-  closeForm = new EventEmitter<any>();
+  readonly closeForm = output<any>();
 
-  @Output()
-  setPaymentDetails = new EventEmitter<any>();
+  readonly setPaymentDetails = output<any>();
 
-  @ViewChild(forwardRef(() => FocusFirstInvalidFieldDirective))
-  protected firstInvalidFieldFocus?: FocusFirstInvalidFieldDirective;
+  protected readonly firstInvalidFieldFocus = viewChild(
+    forwardRef(() => FocusFirstInvalidFieldDirective)
+  );
 
   cvvTooltipDismissed = false;
 
@@ -260,11 +263,11 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
-    this.closeForm.emit();
+    this.closeForm.emit(undefined);
   }
 
   back(): void {
-    this.goBack.emit();
+    this.goBack.emit(undefined);
   }
 
   next(): void {
@@ -303,7 +306,7 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
       }
 
       if (this.featureToggles.a11yImproveCheckoutFocus) {
-        this.firstInvalidFieldFocus?.focusFirstInvalidField();
+        this.firstInvalidFieldFocus()?.focusFirstInvalidField();
       }
     }
   }

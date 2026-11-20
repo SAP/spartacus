@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, Input, inject, output, input } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -38,13 +38,19 @@ import { DatePickerService } from './date-picker.service';
 export class DatePickerComponent {
   protected service = inject(DatePickerService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() control: UntypedFormControl;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() min?: string;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() max?: string;
-  @Input() required?: boolean;
-  @Input() label?: string = 'Date';
+  readonly required = input<boolean>();
+  readonly label = input<string | undefined>('Date');
 
-  @Output() update: EventEmitter<void> = new EventEmitter();
+  readonly update = output<void>();
 
   change() {
     this.update.emit();

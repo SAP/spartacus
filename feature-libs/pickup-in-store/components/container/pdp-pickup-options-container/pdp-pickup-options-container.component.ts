@@ -8,12 +8,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   inject,
   OnDestroy,
   OnInit,
-  Output,
   ViewContainerRef,
+  output,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 
@@ -71,9 +70,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
   protected vcr = inject(ViewContainerRef);
 
-  @Output() intendedPickupChange = new EventEmitter<
-    AugmentedPointOfService | undefined
-  >();
+  readonly intendedPickupChange = output<AugmentedPointOfService | undefined>();
   subscription = new Subscription();
 
   availableForPickup = false;
@@ -129,7 +126,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.intendedPickupLocation$.subscribe(this.intendedPickupChange)
+      this.intendedPickupLocation$.subscribe((location) =>
+        this.intendedPickupChange.emit(location)
+      )
     );
 
     this.subscription.add(
@@ -176,7 +175,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     );
   }
 
-  openDialog(triggerElement: ElementRef): void {
+  openDialog(triggerElement: ElementRef | undefined): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.PICKUP_IN_STORE,
       triggerElement,
@@ -191,7 +190,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
 
   onPickupOptionChange(event: {
     option: PickupOption;
-    triggerElement: ElementRef;
+    triggerElement: ElementRef | undefined;
   }): void {
     this.intendedPickupLocationService.setPickupOption(
       this.productCode,

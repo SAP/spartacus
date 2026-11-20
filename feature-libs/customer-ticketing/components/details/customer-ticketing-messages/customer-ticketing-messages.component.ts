@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, inject, viewChild } from '@angular/core';
 import { EventService, FeatureToggles } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
@@ -31,7 +31,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   protected customerTicketingFacade = inject(CustomerTicketingFacade);
   protected eventService = inject(EventService);
 
-  @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;
+  readonly messagingComponent = viewChild(MessagingComponent);
   protected customerTicketingMessagesComponentService = inject(
     CustomerTicketingMessagesComponentService
   );
@@ -62,7 +62,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
               createdEvent.code
             );
           }
-          this.messagingComponent?.resetForm();
+          this.messagingComponent()?.resetForm();
         })
     );
   }

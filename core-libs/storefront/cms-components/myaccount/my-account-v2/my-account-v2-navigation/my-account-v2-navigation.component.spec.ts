@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CmsNavigationComponent } from '@spartacus/core';
 import {
@@ -15,10 +15,8 @@ import { NavigationUIComponent } from '../../../navigation/navigation/navigation
   template: '',
 })
 class MockNavigationUIComponent {
-  @Input()
-  node: NavigationNode;
-  @Input()
-  navAriaLabel: string;
+  readonly node = input<NavigationNode>();
+  readonly navAriaLabel = input<string>();
 }
 const mockCmsComponentData = <CmsNavigationComponent>{
   styleClass: 'footer-styling',

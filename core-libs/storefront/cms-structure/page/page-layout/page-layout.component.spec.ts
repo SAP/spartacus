@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Injectable, Input } from '@angular/core';
+import { Component, Injectable, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -49,8 +49,8 @@ class MockHeaderComponent {}
   template: 'dynamic-slot.component',
 })
 class MockDynamicSlotComponent {
-  @Input() position: string;
-  @Input() isPageFold;
+  readonly position = input<string>();
+  readonly isPageFold = input(undefined);
 }
 
 @Injectable()

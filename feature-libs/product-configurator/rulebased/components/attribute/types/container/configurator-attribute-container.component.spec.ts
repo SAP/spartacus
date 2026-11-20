@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
@@ -64,11 +64,11 @@ import { ConfiguratorAttributeContainerComponent } from './configurator-attribut
   `,
 })
 class MockProductCardComponent {
-  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
-  @Output() handleSelect = new EventEmitter<string>();
-  @Output() handleDeselect = new EventEmitter<string>();
-  @Output() handleRowAction =
-    new EventEmitter<Configurator.ContainerRowAction>();
+  readonly productCardOptions =
+    input<ConfiguratorAttributeProductCardComponentOptions>();
+  readonly handleSelect = output<string>();
+  readonly handleDeselect = output<string>();
+  readonly handleRowAction = output<Configurator.ContainerRowAction>();
 
   deleteAction = Configurator.ContainerRowAction.DELETE;
   addAction = Configurator.ContainerRowAction.ADD;
@@ -357,8 +357,8 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         const icons = fixture.debugElement.queryAll(
           By.css('.cx-header button cx-icon')
         );
-        expect(icons[0].componentInstance.type).toBe(ICON_TYPE.COLLAPSE);
-        expect(icons[1].componentInstance.type).toBe(ICON_TYPE.COLLAPSE);
+        expect(icons[0].componentInstance.type()).toBe(ICON_TYPE.COLLAPSE);
+        expect(icons[1].componentInstance.type()).toBe(ICON_TYPE.COLLAPSE);
       });
     });
 
@@ -483,8 +483,9 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(component.selectedProductsExpanded).toBe(false);
       expect(component.selectedProductsToggleIcon).toBe(ICON_TYPE.EXPAND);
       expect(
-        fixture.debugElement.query(By.css('.cx-header button cx-icon'))
-          .componentInstance.type
+        fixture.debugElement
+          .query(By.css('.cx-header button cx-icon'))
+          .componentInstance.type()
       ).toBe(ICON_TYPE.EXPAND);
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -537,8 +538,9 @@ describe('ConfiguratorAttributeContainerComponent', () => {
 
       expect(component.availableProductsExpanded).toBe(false);
       expect(
-        fixture.debugElement.queryAll(By.css('.cx-header button cx-icon'))[1]
-          .componentInstance.type
+        fixture.debugElement
+          .queryAll(By.css('.cx-header button cx-icon'))[1]
+          .componentInstance.type()
       ).toBe(ICON_TYPE.EXPAND);
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -643,21 +645,21 @@ describe('ConfiguratorAttributeContainerComponent', () => {
         By.directive(MockProductCardComponent)
       );
 
-      expect(cards[0].componentInstance.productCardOptions).toEqual(
+      expect(cards[0].componentInstance.productCardOptions()).toEqual(
         component.extractProductCardParameters(
           component.selectedProducts[0],
           0,
           component.selectedProducts.length
         )
       );
-      expect(cards[1].componentInstance.productCardOptions).toEqual(
+      expect(cards[1].componentInstance.productCardOptions()).toEqual(
         component.extractProductCardParameters(
           component.availableProducts[0],
           0,
           component.availableProducts.length
         )
       );
-      expect(cards[2].componentInstance.productCardOptions).toEqual(
+      expect(cards[2].componentInstance.productCardOptions()).toEqual(
         component.extractProductCardParameters(
           component.availableProducts[1],
           1,
@@ -2165,8 +2167,9 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       expect(component.isAvailableProductsDropdownOpen).toBe(true);
       expect(component.availableProductsDropdownIcon).toBe(ICON_TYPE.CARET_UP);
       expect(
-        fixture.debugElement.query(By.css('.cx-trigger button cx-icon'))
-          .componentInstance.type
+        fixture.debugElement
+          .query(By.css('.cx-trigger button cx-icon'))
+          .componentInstance.type()
       ).toBe(ICON_TYPE.CARET_UP);
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -2295,10 +2298,10 @@ describe('ConfiguratorAttributeContainerComponent', () => {
       const card = fixture.debugElement.query(
         By.directive(MockProductCardComponent)
       );
-      expect(card.componentInstance.productCardOptions.itemIndex).toBe(
+      expect(card.componentInstance.productCardOptions().itemIndex).toBe(
         DEFAULT_THRESHOLD
       );
-      expect(card.componentInstance.productCardOptions.itemCount).toBe(
+      expect(card.componentInstance.productCardOptions().itemCount).toBe(
         DEFAULT_THRESHOLD + 1
       );
     });

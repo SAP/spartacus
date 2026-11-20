@@ -16,6 +16,8 @@ export class AbstractStoreItemComponent {
   protected storeLocationService = inject(StoreLocationService);
   protected storeFinderService = inject(StoreFinderService);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() location;
 
   getDirections(location: any): string {

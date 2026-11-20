@@ -7,9 +7,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 import { IconComponent, MessageComponent } from '@spartacus/storefront';
@@ -21,20 +21,23 @@ import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
   imports: [MessageComponent, IconComponent, TranslatePipe],
 })
 export class AsmCustomer360PromotionListingComponent {
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() headerText: string;
-  @Input() emptyStateText: string;
-  @Input() applyButtonText: string;
-  @Input() applied: string;
-  @Input() removeButtonText: string;
-  @Input() entries: Array<PromotionListEntry> | null;
-  @Input() showAlert: boolean | null;
-  @Input() showAlertForApplyAction: boolean | null;
-  @Input() showRemoveButton: boolean;
-  @Input() showApplyButton: boolean;
-  @Input() isCustomerCoupon: boolean;
-  @Output() apply = new EventEmitter<PromotionListEntry>();
-  @Output() remove = new EventEmitter<PromotionListEntry>();
-  @Output() removeAlert = new EventEmitter();
-  @Output() removeAlertForApplyAction = new EventEmitter();
+  readonly emptyStateText = input<string>();
+  readonly applyButtonText = input<string>();
+  readonly applied = input<string>();
+  readonly removeButtonText = input<string>();
+  readonly entries = input<Array<PromotionListEntry> | null>();
+  readonly showAlert = input<boolean | null>();
+  readonly showAlertForApplyAction = input<boolean | null>();
+  readonly showRemoveButton = input<boolean>();
+  readonly showApplyButton = input<boolean>();
+  readonly isCustomerCoupon = input<boolean>();
+  readonly apply = output<PromotionListEntry>();
+  readonly remove = output<PromotionListEntry>();
+  readonly removeAlert = output();
+  readonly removeAlertForApplyAction = output();
   globalMessageType = GlobalMessageType;
 }

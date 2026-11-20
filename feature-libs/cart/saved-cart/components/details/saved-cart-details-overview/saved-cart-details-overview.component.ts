@@ -9,9 +9,9 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewContainerRef,
   inject,
+  viewChild,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslatePipe, TranslationService } from '@spartacus/core';
@@ -40,7 +40,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
 
   private subscription = new Subscription();
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
   iconTypes = ICON_TYPE;
   savedCart$: Observable<Cart | undefined> =
@@ -121,7 +121,7 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
   openDialog(cart: Cart): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.SAVED_CART,
-      this.element,
+      this.element(),
       this.vcr,
       { cart, layoutOption: 'edit' }
     );

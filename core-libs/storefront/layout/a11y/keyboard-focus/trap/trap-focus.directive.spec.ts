@@ -7,6 +7,9 @@ import { TrapFocusService } from './trap-focus.service';
 
 @Directive({ selector: '[cxTrapFocus]' })
 class CustomFocusDirective extends TrapFocusDirective {
+  // TODO: Skipped for migration because:
+  //  This input overrides a field from a superclass, while the superclass field
+  //  is not migrated.
   @Input('cxTrapFocus') protected config: TrapFocusConfig;
 }
 

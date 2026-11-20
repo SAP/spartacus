@@ -12,7 +12,7 @@ import {
   inject,
   Input,
   viewChild,
-  ViewChild,
+  input,
 } from '@angular/core';
 import { FeatureToggles, PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreLocationService } from '@spartacus/storefinder/core';
@@ -41,12 +41,12 @@ export class StoreFinderListComponent {
   protected storeLocationService = inject(StoreLocationService);
   private document = inject(DOCUMENT);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   locations: any;
-  @Input()
-  useMylocation: boolean;
-  @ViewChild('storeMap')
-  storeMap: StoreFinderMapComponent;
+  readonly useMylocation = input<boolean>();
+  readonly storeMap = viewChild<StoreFinderMapComponent>('storeMap');
 
   selectedStore: PointOfService;
   selectedStoreIndex: number;
@@ -73,7 +73,7 @@ export class StoreFinderListComponent {
     this.showStoreDetails(location);
     this.selectedStoreIndex = index;
     this.selectedStore = location;
-    this.storeMap.centerMap(
+    this.storeMap().centerMap(
       this.storeLocationService.getStoreLatitude(this.locations.stores[index]),
       this.storeLocationService.getStoreLongitude(this.locations.stores[index])
     );
@@ -97,7 +97,7 @@ export class StoreFinderListComponent {
     this.isDetailsModeVisible = false;
     this.selectedStoreIndex = undefined;
     this.selectedStore = undefined;
-    this.storeMap.renderMap();
+    this.storeMap().renderMap();
   }
 
   setDisplayMode(mode: LocationDisplayMode): void {

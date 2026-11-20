@@ -20,6 +20,8 @@ import { Configurator } from '../../core/model/configurator.model';
   imports: [IconComponent],
 })
 export class ConfiguratorConflictDescriptionComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() currentGroup: Configurator.Group;
 
   groupType = Configurator.GroupType;
