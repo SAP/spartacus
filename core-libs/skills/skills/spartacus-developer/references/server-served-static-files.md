@@ -1,6 +1,6 @@
-# Server-Served Text Files
+# Server-Served Static Files
 
-Server-served text files are documents fetched directly from the application's server, independently of Angular page rendering. Their content can come from a deployed file or an application-owned handler. Follow the workflow for the requested document below.
+Server-served static files are documents fetched directly from the application's server, independently of Angular page rendering. Their content can come from a deployed file or an application-owned handler. Follow the workflow for the requested document below.
 
 ## Supported files
 
