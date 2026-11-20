@@ -1,6 +1,6 @@
 ---
 name: spartacus-developer
-description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration. Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
+description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, server-served static files, or backend integration. Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
 license: Apache-2.0
 ---
 
@@ -25,7 +25,8 @@ Each topic lives in its own `.md` file in the `references/` folder. Read a topic
 - [normalizers.md](references/normalizers.md) — read when surfacing extra OCC fields in the UI model.
 - [facades-not-store.md](references/facades-not-store.md) — read when reading or writing Spartacus state from a component.
 - [ssr-safety.md](references/ssr-safety.md) — read when touching `window`, `document`, `localStorage`, or any browser-only API.
-- [base-site-aware-handlers.md](references/base-site-aware-handlers.md) — read when adding or changing a custom Express endpoint that needs a base site, such as `llms.txt`, `robots.txt`, or a `.well-known` endpoint.
+- [server-served-static-files.md](references/server-served-static-files.md) — read when adding, publishing, or customizing server-served static files; currently covers `robots.txt`.
+- [base-site-aware-handlers.md](references/base-site-aware-handlers.md) — read when adding or changing a custom Express endpoint with base-site context; for server-served static files, start with [server-served-static-files.md](references/server-served-static-files.md).
 - [outlets.md](references/outlets.md) — read when sprinkling new UI into an existing Spartacus page without replacing it.
 
 Some topics link to further deep-dive material in the same `references/` folder.
