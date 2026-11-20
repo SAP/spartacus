@@ -14,3 +14,4 @@ export * from './models/response-status.model';
 export * from './store/actions/index';
 export * from './store/global-message-state';
 export * from './store/selectors/index';
+export * from './testing/index';

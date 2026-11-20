@@ -6,3 +6,4 @@
 
 export * from './cx-event';
 export { EventService } from './event.service';
+export * from './testing/index';
