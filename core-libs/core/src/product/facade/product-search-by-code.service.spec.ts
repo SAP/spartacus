@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { ProductSearchByCodeService } from './product-search-by-code.service';
 import { Store, StoreModule } from '@ngrx/store';

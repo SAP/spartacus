@@ -12,10 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { UserIdService, WindowRef } from '@spartacus/core';
-import {
-  ActiveCartFacade,
-  CartAccessCodeFacade,
-} from '@spartacus/cart/base/root';
+import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
 import {
   OpfKeyValueMap,
   OpfMetadataStoreService,
@@ -30,6 +27,7 @@ import {
   OpfPaymentUpdateConfig,
   OpfPaymentUpdatePayload,
 } from '@spartacus/opf/payment/root';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, combineLatest, lastValueFrom, throwError } from 'rxjs';
 import {
@@ -53,6 +51,7 @@ export type OpfSharedPaymentSubmitOptions = {
   paymentMethod: OpfPaymentMethod;
   paymentSessionId?: string;
   savePaymentMethod?: boolean;
+  cardNickName?: string;
 };
 
 export type OpfSharedPaymentSubmitCompleteOptions = {
@@ -64,6 +63,8 @@ export type OpfSharedPaymentSubmitCompleteOptions = {
   submitFailure: OpfPaymentMerchantCallback;
   submitCancel?: OpfPaymentMerchantCallback;
   paymentSessionId?: string;
+  savePaymentMethod?: boolean;
+  cardNickName?: string;
 };
 
 @Injectable()
@@ -73,14 +74,18 @@ export class OpfGlobalFunctionsSharedService {
   static readonly UPDATE_PAYMENT_TRANSACTION_RETRY_COUNT = 2;
   static readonly UPDATE_PAYMENT_TRANSACTION_RETRY_DELAY = 300;
 
+  protected isSubmitInProgress = false;
+
   protected winRef = inject(WindowRef);
   protected ngZone = inject(NgZone);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected launchDialogService = inject(LaunchDialogService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
-  protected activeCartFacade = inject(ActiveCartFacade);
   protected userIdService = inject(UserIdService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
+  protected opfQuickBuyTransactionService = inject(
+    OpfQuickBuyTransactionService
+  );
 
   resolvePaymentSessionId(paymentSessionId?: string): string | undefined {
     return (
@@ -107,6 +112,10 @@ export class OpfGlobalFunctionsSharedService {
     paymentSessionId?: string,
     vcr?: ViewContainerRef
   ): Promise<boolean> {
+    if (this.isSubmitInProgress) {
+      return Promise.resolve(false);
+    }
+
     return this.ngZone.run(() => {
       const finalPaymentSessionId = this.requirePaymentSessionId(
         options.paymentSessionId ?? paymentSessionId
@@ -132,6 +141,7 @@ export class OpfGlobalFunctionsSharedService {
         },
         paymentMethod,
         savePaymentMethod,
+        cardNickName,
       } = options;
 
       const callbacks: {
@@ -146,6 +156,8 @@ export class OpfGlobalFunctionsSharedService {
         onCancel: submitCancel,
       };
 
+      this.isSubmitInProgress = true;
+
       return lastValueFrom(
         this.opfPaymentFacade
           .submitPayment({
@@ -155,10 +167,12 @@ export class OpfGlobalFunctionsSharedService {
             paymentMethod,
             returnPath: undefined,
             savePaymentMethod,
+            cardNickName,
           })
           .pipe(
             last(() => true, true),
             finalize(() => {
+              this.isSubmitInProgress = false;
               if (overlayedSpinner) {
                 this.stopLoaderSpinner(overlayedSpinner);
               }
@@ -191,6 +205,8 @@ export class OpfGlobalFunctionsSharedService {
         submitCancel = (): void => {
           // this is intentional
         },
+        savePaymentMethod,
+        cardNickName,
       } = options;
 
       return this.runSubmitComplete(
@@ -203,7 +219,9 @@ export class OpfGlobalFunctionsSharedService {
         },
         finalPaymentSessionId,
         undefined,
-        vcr
+        vcr,
+        savePaymentMethod,
+        cardNickName
       );
     });
   }
@@ -218,7 +236,9 @@ export class OpfGlobalFunctionsSharedService {
     },
     paymentSessionId: string,
     returnPath?: string | undefined,
-    vcr?: ViewContainerRef
+    vcr?: ViewContainerRef,
+    savePaymentMethod: boolean | undefined = undefined,
+    cardNickName?: string
   ): Promise<boolean> {
     return this.ngZone.run(() => {
       let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
@@ -233,6 +253,8 @@ export class OpfGlobalFunctionsSharedService {
             paymentSessionId,
             callbacks,
             returnPath,
+            savePaymentMethod,
+            cardNickName,
           })
           .pipe(
             finalize(() => {
@@ -288,7 +310,9 @@ export class OpfGlobalFunctionsSharedService {
   protected executeUpdatePaymentTransaction(
     updatePaymentConfig: OpfPaymentUpdateConfig
   ): Promise<OpfPaymentSessionData> {
-    const cartId$ = this.activeCartFacade.getActiveCartId().pipe(take(1));
+    const cartId$ = this.opfQuickBuyTransactionService
+      .getCurrentCartId()
+      .pipe(take(1));
     const userId$ = this.userIdService.getUserId().pipe(take(1));
 
     return lastValueFrom(

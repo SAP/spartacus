@@ -5,7 +5,13 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -32,6 +38,7 @@ import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-
 @Component({
   selector: 'cx-opf-tokenisation-account-payment-methods',
   templateUrl: './opf-tokenisation-account-payment-methods.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     SpinnerComponent,

@@ -602,6 +602,15 @@ describe('CarouselScrollingComponent', () => {
     let parentFixture: ComponentFixture<TestParentWithCxFocusableCarouselItemComponent>;
     let carouselScrollingComponent: CarouselScrollingComponent;
 
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(async () => {
+      await vi.runAllTimersAsync();
+      vi.useRealTimers();
+    });
+
     beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
@@ -665,7 +674,7 @@ describe('CarouselScrollingComponent', () => {
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
             expect(firstChild.tabIndex).toBe(-1);
 
-            await new Promise((resolve) => requestAnimationFrame(resolve));
+            await vi.runAllTimersAsync();
             expect(secondChild.tabIndex).toBe(0);
           });
         });

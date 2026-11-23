@@ -3,7 +3,6 @@ import { ProductMultiDimensionalSelectorService } from './product-multi-dimensio
 import { ProductMultiDimensionalSelectorImagesService } from './product-multi-dimensional-selector-images.service';
 import { Product, VariantMatrixElement } from '@spartacus/core';
 import { VariantCategoryGroup } from '../model';
-import { vi } from 'vitest';
 
 describe('ProductMultiDimensionalSelectorService', () => {
   let service: ProductMultiDimensionalSelectorService;

@@ -40,5 +40,19 @@
         // justify-content: space-between;
       }
     }
+
+    // Gated behind the a11yTableKeyboardNavigation feature flag. When a row is
+    // focused via keyboard navigation, the browser scrolls it into view; the
+    // large block-axis scroll-margin gives breathing room above and below so
+    // the row lands around the middle of the page rather than at the viewport
+    // edge. This is an approximation: CSS cannot truly re-center a row that is
+    // already partially visible.
+    @include forFeature('a11yTableKeyboardNavigation') {
+      tbody[tabindex],
+      tr[tabindex],
+      td[tabindex] {
+        scroll-margin-block: 50vh;
+      }
+    }
   }
 }

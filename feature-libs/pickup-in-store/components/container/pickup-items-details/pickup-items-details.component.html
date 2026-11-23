@@ -21,19 +21,19 @@
             </p>
             <cx-store-address
               [storeDetails]="deliveryPointOfService?.storeDetails"
-            ></cx-store-address>
+            />
           </div>
           <div class="cx-pickup-items-details-store-schedule">
             <cx-store-schedule
               [storeDetails]="deliveryPointOfService?.storeDetails"
-            ></cx-store-schedule>
+            />
           </div>
           <div *ngIf="showEdit" class="cx-pickup-items-details-edit-icon">
             <a
               [attr.title]="'common.edit' | cxTranslate"
               [routerLink]="{ cxRoute: 'cart' } | cxUrl"
-              ><cx-icon [type]="ICON_TYPE.PENCIL"></cx-icon
-            ></a>
+              ><cx-icon [type]="ICON_TYPE.PENCIL"
+            /></a>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
               <cx-media
                 [container]="item.product?.images?.PRIMARY"
                 format="cartIcon"
-              ></cx-media>
+              />
             </a>
           </div>
           <!-- Item Information -->

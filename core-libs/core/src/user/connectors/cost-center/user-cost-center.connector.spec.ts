@@ -1,5 +1,4 @@
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { UserCostCenterConnector } from './user-cost-center.connector';
 
 const userId = 'userId';

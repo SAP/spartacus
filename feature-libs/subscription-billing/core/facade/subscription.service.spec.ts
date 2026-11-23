@@ -11,7 +11,6 @@ import {
   SubscriptionDetail,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
-import { vi } from 'vitest';
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockRouteState = {
   state: {

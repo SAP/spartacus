@@ -35,11 +35,21 @@ describe('ServiceDetailsCardComponent', () => {
     component = fixture.componentInstance;
     translateService = TestBed.inject(TranslationService);
     pickerService = TestBed.inject(CheckoutServiceSchedulePickerService);
-    spyOn(translateService, 'translate')
-      .withArgs('serviceOrderCheckout.serviceDetails')
-      .and.returnValue(of('card title'))
-      .withArgs('serviceOrderCheckout.cardLabel')
-      .and.returnValue(of('card bold text'));
+    //   vi.spyOn(translateService, 'translate')
+    //     .withArgs('serviceOrderCheckout.serviceDetails')
+    //     .mockReturnValue(of('card title'))
+    //     .withArgs('serviceOrderCheckout.cardLabel')
+    //     .mockReturnValue(of('card bold text'));
+    vi.spyOn(translateService, 'translate').mockImplementation(
+      (key: string) => {
+        if (key === 'serviceOrderCheckout.serviceDetails') {
+          return of('card title');
+        }
+        if (key === 'serviceOrderCheckout.cardLabel') {
+          return of('card bold text');
+        }
+      }
+    );
   });
 
   it('should create', () => {
@@ -47,7 +57,7 @@ describe('ServiceDetailsCardComponent', () => {
   });
 
   it('should return card with details', () => {
-    spyOn(pickerService, 'convertDateTimeToReadableString').and.returnValue(
+    vi.spyOn(pickerService, 'convertDateTimeToReadableString').mockReturnValue(
       '2023/12/12, 12:00'
     );
     component.getServiceDetailsCard('2023/12/12TY12:00').subscribe((card) => {
@@ -69,7 +79,7 @@ describe('ServiceDetailsCardComponent', () => {
   });
 
   it('should call ngOnDestroy', () => {
-    spyOn(component['subscription'], 'unsubscribe');
+    vi.spyOn(component['subscription'], 'unsubscribe');
     component.ngOnDestroy();
     expect(component['subscription'].unsubscribe).toHaveBeenCalled();
   });

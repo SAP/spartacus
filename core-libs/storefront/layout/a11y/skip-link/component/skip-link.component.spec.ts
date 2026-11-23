@@ -6,7 +6,6 @@ import { FocusDirective } from '../../keyboard-focus/focus.directive';
 import { SkipLink, SkipLinkConfig } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
 import { SkipLinkComponent } from './skip-link.component';
-import { vi } from 'vitest';
 
 const mockSkipLinks: SkipLink[] = [
   {

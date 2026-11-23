@@ -1,5 +1,4 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -8,11 +7,10 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CpqConfiguratorOccAdapter } from './cpq-configurator-occ.adapter';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
-import { vi } from 'vitest';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -104,6 +102,9 @@ describe('CpqConfiguratorOccAdapter', () => {
       readConfigurationForCartEntry: vi.fn(),
       readConfigurationForOrderEntry: vi.fn(),
       readConfigurationForQuoteEntry: vi.fn(),
+      addContainerRow: vi.fn(),
+      copyContainerRow: vi.fn(),
+      removeContainerRow: vi.fn(),
     } as any;
 
     asSpy(mockedOccService.createConfiguration).mockImplementation(() => {
@@ -148,6 +149,15 @@ describe('CpqConfiguratorOccAdapter', () => {
         return of(productConfiguration);
       }
     );
+    asSpy(mockedOccService.addContainerRow).mockImplementation(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.copyContainerRow).mockImplementation(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.removeContainerRow).mockImplementation(() => {
+      return of(productConfiguration);
+    });
 
     TestBed.configureTestingModule({
       providers: [
@@ -161,9 +171,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       ],
     });
 
-    adapterUnderTest = TestBed.inject(
-      CpqConfiguratorOccAdapter as Type<CpqConfiguratorOccAdapter>
-    );
+    adapterUnderTest = TestBed.inject(CpqConfiguratorOccAdapter);
 
     inputForUpdateConfiguration.updateType = Configurator.UpdateType.ATTRIBUTE;
   });
@@ -195,6 +203,18 @@ describe('CpqConfiguratorOccAdapter', () => {
       });
   });
 
+  it('should pass only the CPQ tab ID to OCC service when reading a tab of a nested configuration', () => {
+    const nestedTabGroupId = `${Configurator.ContainerRowGroupIdPrefix}@1067@c7764679-8b9c@57`;
+    adapterUnderTest
+      .readConfiguration(productConfiguration.configId, nestedTabGroupId, owner)
+      .subscribe(() => {
+        expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
+          productConfiguration.configId,
+          '57'
+        );
+      });
+  });
+
   // this ensures that there is a dummy response until the API is implemented,
   // otherwise this leads to an NPE on the UI
   it('should always return same configuration for price summary', () => {
@@ -216,8 +236,47 @@ describe('CpqConfiguratorOccAdapter', () => {
       });
   });
 
-  it('should throw error in case overview is to be updated', () => {
-    expect(() => adapterUnderTest.updateConfigurationOverview()).toThrow();
+  it('should filter overview client-side without calling OCC', () => {
+    const possibleGroups: Configurator.GroupOverview[] = [
+      {
+        id: '1',
+        groupDescription: 'Tab 1',
+        attributes: [
+          {
+            attribute: 'A',
+            value: 'V',
+            valuePrice: { currencyIso: 'USD', value: 5 },
+          },
+        ],
+      },
+      { id: '2', groupDescription: 'Tab 2', attributes: [] },
+    ];
+    const priceSummary: Configurator.PriceSummary = {
+      currentTotal: { currencyIso: 'USD', value: 100 },
+    };
+    const overviewInput: Configurator.Overview = {
+      configId: productConfiguration.configId,
+      productCode: productConfiguration.productCode,
+      attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
+      groupFilters: ['1'],
+      possibleGroups,
+      priceSummary,
+      totalNumberOfIssues: 0,
+    };
+
+    let overview: Configurator.Overview | undefined;
+    adapterUnderTest
+      .updateConfigurationOverview(overviewInput)
+      .subscribe((result) => {
+        overview = result;
+      });
+
+    expect(mockedOccService.readConfigurationOverview).not.toHaveBeenCalled();
+    expect(overview?.possibleGroups).toBe(possibleGroups);
+    expect(overview?.priceSummary).toBe(priceSummary);
+    expect(overview?.groups).toHaveLength(1);
+    expect(overview?.groups?.[0].id).toBe('1');
+    expect(overview?.groups?.[0].attributes).toHaveLength(1);
   });
 
   it('should delegate update value quantity to OCC service and map owner', () => {
@@ -246,6 +305,48 @@ describe('CpqConfiguratorOccAdapter', () => {
 
   it('should throw exception if variant search is attempted', () => {
     expect(() => adapterUnderTest.searchVariants()).toThrow();
+  });
+
+  it('should delegate addContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.AddContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      stdAttrCode: 598,
+      productSystemId: productCode,
+      parentRowId: '3',
+    };
+    adapterUnderTest.addContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.addContainerRow).toHaveBeenCalledWith(parameters);
+    });
+  });
+
+  it('should delegate copyContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.CopyContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      rowId: '3',
+    };
+    adapterUnderTest.copyContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.copyContainerRow).toHaveBeenCalledWith(
+        parameters
+      );
+    });
+  });
+
+  it('should delegate removeContainerRow to OCC service and map owner', () => {
+    const parameters: Configurator.RemoveContainerRowParameters = {
+      configId: productConfiguration.configId,
+      owner: owner,
+      rowId: '3',
+    };
+    adapterUnderTest.removeContainerRow(parameters).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedOccService.removeContainerRow).toHaveBeenCalledWith(
+        parameters
+      );
+    });
   });
 
   it('should delegate addToCart to OCC service', () => {

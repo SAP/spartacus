@@ -1,8 +1,7 @@
 <cx-spinner
   class="overlay"
   *ngIf="(isUpdating$ | async) || !(user$ | async); $"
->
-</cx-spinner>
+/>
 <div>
   <div class="flex-line">
     <span class="headertext">{{
@@ -29,7 +28,7 @@
     [text]="'myAccountV2Email.reloginIndicator' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_INFO"
     (closeMessage)="closeDialogConfirmationAlert()"
-  ></cx-message>
+  />
   <div *ngIf="isEditing" class="email-editing-area">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <fieldset>
@@ -73,7 +72,7 @@
               label: 'updateEmailForm.newEmailAddress.label' | cxTranslate,
             }"
             [control]="form.get('email')"
-          ></cx-form-errors>
+          />
         </label>
 
         <label>
@@ -103,7 +102,7 @@
                 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate,
             }"
             [control]="form.get('confirmEmail')"
-          ></cx-form-errors>
+          />
         </label>
 
         <label>
@@ -136,7 +135,7 @@
               label: 'updateEmailForm.password.label' | cxTranslate,
             }"
             [control]="form.get('password')"
-          ></cx-form-errors>
+          />
         </label>
 
         <div class="btn-group">

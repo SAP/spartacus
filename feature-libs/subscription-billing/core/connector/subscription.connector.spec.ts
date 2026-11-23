@@ -6,7 +6,6 @@ import {
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { of, take } from 'rxjs';
-import { vi } from 'vitest';
 const mockDetail: SubscriptionDetail = {
   id: '01',
   documentNumber: '2081',

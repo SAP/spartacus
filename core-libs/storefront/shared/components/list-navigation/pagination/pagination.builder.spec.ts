@@ -311,15 +311,14 @@ describe('PaginationBuilder', () => {
   describe('config with custom labels', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
-      const service = setup(
-        Object.assign(FULL_CONFIG, {
-          dotsLabel: 'd',
-          startLabel: 's',
-          endLabel: 'e',
-          previousLabel: 'p',
-          nextLabel: 'n',
-        })
-      );
+      const service = setup({
+        ...FULL_CONFIG,
+        dotsLabel: 'd',
+        startLabel: 's',
+        endLabel: 'e',
+        previousLabel: 'p',
+        nextLabel: 'n',
+      });
       pages = service.paginate(100, 50);
     });
     it('should return start label with "s"', () => {

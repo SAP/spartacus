@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
@@ -13,29 +13,28 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { CDCUpdateEmailComponentService } from './cdc-update-email-component.service';
-import createSpy = jasmine.createSpy;
 class MockUserEmailService implements Partial<UserEmailFacade> {
-  update = createSpy().and.returnValue(of({}));
+  update = vi.fn().mockReturnValue(of({}));
 }
 class MockAuthService {
-  coreLogout = createSpy().and.returnValue(Promise.resolve());
+  coreLogout = vi.fn().mockReturnValue(Promise.resolve());
 }
 class MockRoutingService {
-  go = createSpy().and.stub();
-  getUrl = createSpy().and.returnValue('');
+  go = vi.fn().mockImplementation(() => {});
+  getUrl = vi.fn().mockReturnValue('');
 }
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  setRedirectUrl = createSpy('setRedirectUrl');
+  setRedirectUrl = vi.fn();
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  updateUserEmailWithoutScreenSet = createSpy().and.returnValue(
-    of({ status: 'OK' })
-  );
+  updateUserEmailWithoutScreenSet = vi
+    .fn()
+    .mockReturnValue(of({ status: 'OK' }));
 }
 
 describe('UpdateEmailComponentService', () => {
@@ -120,43 +119,41 @@ describe('UpdateEmailComponentService', () => {
         expect(authService.coreLogout).toHaveBeenCalled();
       });
 
-      it('should reroute to the login page', waitForAsync(() => {
+      it('should reroute to the login page', async () => {
         service.save();
         expect(userService.update).not.toHaveBeenCalled();
         expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
-        authService.coreLogout().then(() => {
-          expect(routingService.go).toHaveBeenCalledWith(
-            { cxRoute: 'login' },
-            {
-              state: {
-                newUid: 'tester@sap.com',
-              },
-            }
-          );
-        });
-      }));
+        await authService.coreLogout();
+        expect(routingService.go).toHaveBeenCalledWith(
+          { cxRoute: 'login' },
+          {
+            state: {
+              newUid: 'tester@sap.com',
+            },
+          }
+        );
+      });
 
       it('reset form', () => {
-        spyOn(service.form, 'reset').and.callThrough();
+        vi.spyOn(service.form, 'reset');
         service.save();
         expect(userService.update).not.toHaveBeenCalled();
         expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
         expect(service.form.reset).toHaveBeenCalled();
       });
 
-      it('should set the redirect url to the home page before navigating to the login page', waitForAsync(() => {
+      it('should set the redirect url to the home page before navigating to the login page', async () => {
         service.save();
         expect(userService.update).not.toHaveBeenCalled();
         expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
         expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
           routingService.getUrl({ cxRoute: 'home' })
         );
-        authService.coreLogout().then(() => {
-          expect(authRedirectService.setRedirectUrl).toHaveBeenCalledBefore(
-            routingService.go
-          );
-        });
-      }));
+        await authService.coreLogout();
+        expect(authRedirectService.setRedirectUrl).toHaveBeenCalledBefore(
+          routingService.go
+        );
+      });
     });
 
     describe('error', () => {

@@ -93,7 +93,7 @@ export abstract class OrderAmendService {
     );
     this.form.addControl('entries', entryGroup);
 
-    (order.entries || []).forEach((entry) => {
+    order.entries?.forEach((entry) => {
       const key = entry?.entryNumber?.toString() ?? '';
       entryGroup.addControl(
         key,

@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FeatureDirective } from '@spartacus/core';
 import { CarouselComponent } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { vi } from 'vitest';
 import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
 
 const firstImage = {
@@ -31,9 +30,7 @@ const secondImage = {
   selector: 'cx-carousel',
   template: `
     <ng-container *ngFor="let item of items">
-      <ng-container
-        *ngTemplateOutlet="template; context: { item: item }"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="template; context: { item: item }" />
     </ng-container>
   `,
 })

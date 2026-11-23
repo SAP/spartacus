@@ -8,7 +8,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { FeatureToggles, LoggerService, ScriptLoader } from '@spartacus/core';
-// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';

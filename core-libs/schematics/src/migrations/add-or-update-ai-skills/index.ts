@@ -32,7 +32,18 @@ function writePromptLine(line: string): void {
 export function migrate(): Rule {
   return async (tree: Tree, context: SchematicContext): Promise<void> => {
     if (!isInteractiveTerminal()) {
-      printSkillsNotice(context);
+      const existingTools = detectInstalledTools(tree);
+      if (existingTools.length > 0) {
+        // CI / non-interactive: deterministically re-sync the skills that are
+        // already present. The delete + copy + integrity verify is idempotent,
+        // so this keeps automated `ng update` runs from silently drifting.
+        scheduleSkillsDeleteAndCopy(tree, context, existingTools);
+        context.logger.info('Re-syncing existing Spartacus AI skills…');
+      } else {
+        // Nothing installed yet — we can't guess a tool without a prompt, so
+        // fall back to the manual-install notice.
+        printSkillsNotice(context);
+      }
       return;
     }
 

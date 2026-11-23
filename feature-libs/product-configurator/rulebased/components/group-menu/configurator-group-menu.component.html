@@ -30,7 +30,7 @@
                 "
                 aria-describedby="listOfGroups"
                 [cxFocus]="{ key: 'cx-menu-back' }"
-                (click)="navigateUp(currentGroup)"
+                (click)="navigateUp(currentGroup, isPointerClick($event))"
                 (keydown)="
                   switchGroupOnArrowPress(
                     $event,
@@ -40,7 +40,7 @@
                   )
                 "
               >
-                <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+                <cx-icon [type]="iconTypes.CARET_LEFT" />
                 {{ 'configurator.button.back' | cxTranslate }}
               </button>
             </ng-container>
@@ -55,6 +55,7 @@
                 [class.DISABLED]="!group.configurable"
                 [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
                 [class.active]="isGroupSelected(group.id, currentGroup.id)"
+                [class.cx-menu-return-origin]="isMenuReturnOrigin(group.id)"
                 [class.disable]="!group.configurable"
                 [attr.aria-describedby]="
                   getAriaDescribedby(group, configuration) | async
@@ -100,7 +101,7 @@
                       title="{{
                         'configurator.icon.groupConflict' | cxTranslate
                       }}"
-                    ></cx-icon>
+                    />
                   </div>
                   <div class="groupStatusIndicator">
                     <cx-icon
@@ -113,7 +114,7 @@
                       title="{{
                         'configurator.icon.groupIncomplete' | cxTranslate
                       }}"
-                    ></cx-icon>
+                    />
                     <cx-icon
                       class="COMPLETE"
                       [type]="iconTypes.SUCCESS"
@@ -124,7 +125,7 @@
                       title="{{
                         'configurator.icon.groupComplete' | cxTranslate
                       }}"
-                    ></cx-icon>
+                    />
                   </div>
                   <div class="subGroupIndicator">
                     <cx-icon
@@ -135,7 +136,7 @@
                         'configurator.a11y.iconSubGroup' | cxTranslate
                       "
                       title="{{ 'configurator.icon.subgroup' | cxTranslate }}"
-                    ></cx-icon>
+                    />
                   </div>
                 </div>
               </button>
@@ -146,7 +147,7 @@
     </div> </ng-container
 ></ng-container>
 <ng-template #ghostGroups>
-  <div class="cx-ghost-group-menu">
+  <div class="cx-ghost-group-menu ghost">
     <div
       *ngFor="let number of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
       class="cx-ghost-menu-item"

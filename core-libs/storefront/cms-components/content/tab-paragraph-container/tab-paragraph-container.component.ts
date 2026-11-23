@@ -130,6 +130,8 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
           )
         )
       ).pipe(
+        // Remove tabs whose component data is null or undefined
+        map((tabs) => tabs.filter((tab) => tab != null)),
         // Update tablist label with name from CMS
         tap(() => {
           this.tabConfig$.next({
@@ -183,13 +185,13 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     ]).pipe(
       switchMap(([components, refs, params]) => {
         const paramObservables = components.map(
-          (component) => params.get(component.uid) || of(null)
+          (component) => params.get(component?.uid) || of(null)
         );
 
         return combineLatest(paramObservables).pipe(
           map((resolvedParams) =>
             components.map((component, index) => ({
-              headerKey: component.title,
+              headerKey: component?.title,
               content: refs.get(index),
               id: index,
               headerParams: { param: resolvedParams[index] },

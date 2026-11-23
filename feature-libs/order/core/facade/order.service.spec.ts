@@ -9,7 +9,6 @@ import { Order, OrderPlacedEvent } from '@spartacus/order/root';
 import { EMPTY, firstValueFrom, of } from 'rxjs';
 import { OrderConnector } from '../connectors/order.connector';
 import { OrderService } from './order.service';
-import { vi } from 'vitest';
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';

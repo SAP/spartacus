@@ -26,6 +26,7 @@ export interface OccQuote {
   sapQuoteDiscountsType?: QuoteDiscountType;
   sapAttachments?: QuoteAttachment[];
   state: QuoteState;
+  sapSubtotalExcludingOrderLevelDiscount?: Price;
   subTotalWithDiscounts?: Price;
   threshold?: number;
   totalItems?: number;

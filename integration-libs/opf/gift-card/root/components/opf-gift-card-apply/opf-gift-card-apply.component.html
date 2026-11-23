@@ -49,7 +49,7 @@
                 label: 'opfGiftCard.cardNumber' | cxTranslate,
               }"
               [control]="giftCardForm.get('cardNumber')"
-            ></cx-form-errors>
+            />
           </div>
 
           <div class="form-group">
@@ -69,7 +69,7 @@
                 label: 'opfGiftCard.pin' | cxTranslate,
               }"
               [control]="giftCardForm.get('pin')"
-            ></cx-form-errors>
+            />
           </div>
 
           <button
@@ -85,8 +85,8 @@
       <!-- Applied Gift Cards -->
       <cx-opf-gift-card-applied
         [opfGiftCards]="(appliedGiftCards$ | async) || []"
-      ></cx-opf-gift-card-applied>
-      <cx-opf-gift-card-checkout-place-order></cx-opf-gift-card-checkout-place-order>
+      />
+      <cx-opf-gift-card-checkout-place-order />
     </div>
   </ng-container>
 </ng-container>

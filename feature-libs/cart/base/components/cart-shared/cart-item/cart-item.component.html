@@ -1,9 +1,7 @@
 <!-- Item Start Outlet -->
 <ng-template [cxOutlet]="CartOutlets.ITEM">
-  <ng-template [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"></ng-template>
-  <cx-cart-item-validation-warning
-    [code]="item.product?.code"
-  ></cx-cart-item-validation-warning>
+  <ng-template [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES" />
+  <cx-cart-item-validation-warning [code]="item.product?.code" />
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
     <!-- Item Image -->
     <div class="col-2 cx-image-container">
@@ -14,7 +12,7 @@
         <cx-media
           [container]="item.product?.images?.PRIMARY"
           format="cartIcon"
-        ></cx-media>
+        />
       </a>
     </div>
     <!-- Item Information -->
@@ -36,7 +34,7 @@
           </div>
 
           <!-- Item Details Outlet -->
-          <ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS"> </ng-template>
+          <ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS" />
 
           <!-- Variants -->
           <ng-container *ngIf="item.product?.baseOptions?.length">
@@ -64,8 +62,7 @@
               item: item,
               parent: 'minicart',
             }"
-          >
-          </ng-template>
+          />
         </div>
         <!-- Item Price -->
         <div
@@ -101,8 +98,7 @@
               "
               [max]="item.product?.stock?.stockLevel"
               [allowZero]="true"
-            >
-            </cx-item-counter>
+            />
           </div>
         </div>
         <!-- Total -->
@@ -142,11 +138,11 @@
       </div>
 
       <!-- Item Bundle Details Outlet -->
-      <ng-template [cxOutlet]="CartOutlets.ITEM_BUNDLE_DETAILS"> </ng-template>
+      <ng-template [cxOutlet]="CartOutlets.ITEM_BUNDLE_DETAILS" />
 
       <!-- Promotion -->
 
-      <cx-promotions [promotions]="item.promotions"></cx-promotions>
+      <cx-promotions [promotions]="item.promotions" />
 
       <!-- Actions -->
       <div
@@ -161,7 +157,7 @@
                 $implicit: { loading: quantityControl.disabled, item: item },
               }
             "
-          ></ng-container>
+          />
         </ng-container>
 
         <div class="col-md-3 cx-remove-btn">

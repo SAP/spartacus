@@ -8,7 +8,7 @@
       displayCustomInfo
     "
   >
-    <cx-icon [type]="iconTypes.INFO"></cx-icon>
+    <cx-icon [type]="iconTypes.INFO" />
     <ul>
       <li *ngIf="displayDisabledEnable(item)">
         {{ i18nRoot + '.info.disabledEnable' | cxTranslate }}
@@ -22,7 +22,7 @@
       <li *ngIf="displayDisabledDisable(item)">
         {{ i18nRoot + '.info.disabledDisable' | cxTranslate }}
       </li>
-      <ng-content></ng-content>
+      <ng-content />
     </ul>
   </section>
 </ng-container>

@@ -9,11 +9,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideDefaultConfig } from '@spartacus/core';
 import { CommonConfiguratorModule } from '@spartacus/product-configurator/common';
-import {
-  CmsPageGuard,
-  LayoutConfig,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { TextfieldConfiguratorRootFeatureModule } from './textfield-configurator-root-feature.module';
 import { TextfieldConfiguratorRoutingModule } from './textfield-configurator-routing.module';
 
@@ -50,7 +46,7 @@ import { TextfieldConfiguratorRoutingModule } from './textfield-configurator-rou
     ]),
   ],
   providers: [
-    provideDefaultConfig(<LayoutConfig>{
+    provideDefaultConfig({
       layoutSlots: {
         TextfieldConfigurationTemplate: {
           slots: ['TextfieldConfigContent'],

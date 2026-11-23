@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -11,7 +11,6 @@ import {
   ConfiguratorPriceComponentOptions,
 } from '../price/configurator-price.component';
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
-import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -54,9 +53,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       value: 'Test Attribute Value',
     };
 
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
+    breakpointService = TestBed.inject(BreakpointService);
   });
 
   it('should create component', () => {
@@ -141,9 +138,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
         },
       };
 
-      breakpointService = TestBed.inject(
-        BreakpointService as Type<BreakpointService>
-      );
+      breakpointService = TestBed.inject(BreakpointService);
       vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
     });
 
@@ -157,9 +152,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       };
       fixture.detectChanges();
 
-      breakpointService = TestBed.inject(
-        BreakpointService as Type<BreakpointService>
-      );
+      breakpointService = TestBed.inject(BreakpointService);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -191,6 +184,19 @@ describe('ConfigurationOverviewAttributeComponent', () => {
           component.attributeOverview.valuePrice?.formattedValue +
           ' value:' +
           component.attributeOverview.value
+      );
+    });
+
+    it("should contain span element with class name 'cx-visually-hidden' and role 'paragraph' so that screen readers treat it as a separate line", () => {
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        'role',
+        'paragraph'
       );
     });
 

@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.
     ConfiguratorPriceSummaryComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConfiguratorPriceSummary: {
           component: ConfiguratorPriceSummaryComponent,

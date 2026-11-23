@@ -108,6 +108,44 @@ describe('OpfQuickBuyButtonsService', () => {
         (err) => expect(err).toBe(error)
       );
     });
+
+    it('should fetch all pages and return merged PAYMENT_GATEWAY configs when totalPages > 1', () => {
+      const page1Gateway = {
+        providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
+        id: 1,
+      };
+      const page1NonGateway = {
+        providerType: OpfPaymentProviderType.PAYMENT_METHOD,
+        id: 2,
+      };
+      const page2Gateway = {
+        providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
+        id: 3,
+      };
+
+      opfBaseFacadeMock.getActiveConfigurationsState.and.callFake(
+        (query?: any) => {
+          if (!query?.pageNumber || query.pageNumber === 1) {
+            return of({
+              data: {
+                value: [page1Gateway, page1NonGateway],
+                page: { totalPages: 2, number: 1 },
+              },
+            } as QueryState<OpfActiveConfigurationsResponse>);
+          }
+          return of({
+            data: {
+              value: [page2Gateway],
+              page: { totalPages: 2, number: 2 },
+            },
+          } as QueryState<OpfActiveConfigurationsResponse>);
+        }
+      );
+
+      service.getPaymentGatewayConfiguration().subscribe((result) => {
+        expect(result).toEqual([page1Gateway, page2Gateway] as any);
+      });
+    });
   });
 
   describe('isQuickBuyProviderEnabled', () => {

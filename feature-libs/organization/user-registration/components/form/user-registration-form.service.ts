@@ -36,30 +36,36 @@ import { filter, switchMap, take, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UserRegistrationFormService {
-  private _form: FormGroup = this.buildForm();
+  protected readonly maxFieldLength = 256;
   private featureToggles = inject(FeatureToggles);
+
+  private _form: FormGroup = this.buildForm();
 
   /*
    * Initializes form structure for registration.
    */
   protected buildForm(): FormGroup {
+    const maxLength = this.featureToggles.enableFormFieldMaxLength
+      ? [Validators.maxLength(this.maxFieldLength)]
+      : [];
+
     return this.formBuilder.group({
       titleCode: [null],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      companyName: ['', Validators.required],
+      firstName: ['', [Validators.required, ...maxLength]],
+      lastName: ['', [Validators.required, ...maxLength]],
+      companyName: ['', [Validators.required, ...maxLength]],
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       country: this.formBuilder.group({
         isocode: [null],
       }),
-      line1: [''],
-      line2: [''],
-      town: [''],
+      line1: ['', maxLength],
+      line2: ['', maxLength],
+      town: ['', maxLength],
       region: this.formBuilder.group({
         isocode: [null],
       }),
-      postalCode: [''],
-      phoneNumber: [''],
+      postalCode: ['', maxLength],
+      phoneNumber: ['', maxLength],
       message: [''],
     });
   }

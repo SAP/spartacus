@@ -12,7 +12,7 @@
       [attr.aria-label]="'common.close' | cxTranslate"
       (click)="closeFilterNav()"
     >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE" />
     </button>
   </div>
 
@@ -28,7 +28,7 @@
       "
       [attr.title]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
     >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
+      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT" />
     </button>
   </div>
 
@@ -44,7 +44,7 @@
       "
       [attr.title]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
     >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
+      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT" />
     </button>
   </div>
 </div>
@@ -60,7 +60,7 @@
       <div class="cx-filter-list">
         <div class="cx-filter-back-button" (click)="backFilterSubNav()">
           <button type="button" [attr.title]="'common.back' | cxTranslate">
-            <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
+            <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT" />
           </button>
           <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
         </div>
@@ -71,7 +71,7 @@
           [attr.aria-label]="'common.close' | cxTranslate"
           (click)="closeFilterNav()"
         >
-          <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE" />
         </button>
       </div>
 
@@ -98,7 +98,7 @@
           (keydown.enter)="clearBuyerMobile()"
           class="reset cx-unit-level-order-history-filter-reset-button"
         >
-          <cx-icon [type]="iconTypes.RESET"></cx-icon>
+          <cx-icon [type]="iconTypes.RESET" />
         </button>
 
         <div role="presentation" class="search-icon">
@@ -108,7 +108,7 @@
               'unitLevelOrderHistory.searchByNameBuyer' | cxTranslate
             "
             [type]="iconTypes.SEARCH"
-          ></cx-icon>
+          />
         </div>
       </label>
 
@@ -134,7 +134,7 @@
       <div class="cx-filter-list">
         <div class="cx-filter-back-button" (click)="backFilterSubNav()">
           <button type="button" [attr.title]="'common.back' | cxTranslate">
-            <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
+            <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT" />
           </button>
           <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>
         </div>
@@ -145,7 +145,7 @@
           [attr.aria-label]="'common.close' | cxTranslate"
           (click)="closeFilterNav()"
         >
-          <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE" />
         </button>
       </div>
 
@@ -171,7 +171,7 @@
           (keydown.enter)="clearUnitMobile()"
           class="reset cx-unit-level-order-history-filter-reset-button"
         >
-          <cx-icon [type]="iconTypes.RESET"></cx-icon>
+          <cx-icon [type]="iconTypes.RESET" />
         </button>
 
         <div role="presentation" class="search-icon">
@@ -181,7 +181,7 @@
               'unitLevelOrderHistory.searchByNameUnit' | cxTranslate
             "
             [type]="iconTypes.SEARCH"
-          ></cx-icon>
+          />
         </div>
       </label>
 
@@ -236,7 +236,7 @@
               (keydown.enter)="clearBuyer()"
               class="reset cx-unit-level-order-history-filter-reset-button"
             >
-              <cx-icon [type]="iconTypes.RESET"></cx-icon>
+              <cx-icon [type]="iconTypes.RESET" />
             </button>
 
             <div role="presentation" class="search-icon">
@@ -246,7 +246,7 @@
                   'unitLevelOrderHistory.searchByNameBuyer' | cxTranslate
                 "
                 [type]="iconTypes.SEARCH"
-              ></cx-icon>
+              />
             </div>
           </label>
         </div>
@@ -288,7 +288,7 @@
               (keydown.enter)="clearUnit()"
               class="reset cx-unit-level-order-history-filter-reset-button"
             >
-              <cx-icon [type]="iconTypes.RESET"></cx-icon>
+              <cx-icon [type]="iconTypes.RESET" />
             </button>
 
             <div role="presentation" class="search-icon">
@@ -298,7 +298,7 @@
                 "
                 class="search-icon-filter"
                 [type]="iconTypes.SEARCH"
-              ></cx-icon>
+              />
             </div>
           </label>
         </div>
@@ -332,7 +332,7 @@
     class="btn btn-action btn-block dialog-trigger"
     (click)="launchMobileFilters()"
   >
-    <cx-icon [type]="iconTypes.FILTER"></cx-icon>
+    <cx-icon [type]="iconTypes.FILTER" />
     {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
   </button>
 

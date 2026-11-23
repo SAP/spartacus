@@ -13,7 +13,7 @@ import { StorefrontComponent } from '@spartacus/storefront';
  */
 @Component({
   selector: 'app-root',
-  template: `<cx-storefront></cx-storefront>`,
+  template: `<cx-storefront />`,
   imports: [StorefrontComponent],
 })
 export class AppComponent {}

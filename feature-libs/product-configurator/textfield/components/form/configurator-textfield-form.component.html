@@ -10,12 +10,12 @@
       <cx-configurator-textfield-input-field
         [attribute]="attribute"
         (inputChange)="updateConfiguration($event)"
-      ></cx-configurator-textfield-input-field>
+      />
     </div>
 
     <cx-configurator-textfield-add-to-cart-button
       [configuration]="configuration"
-    ></cx-configurator-textfield-add-to-cart-button>
+    />
   </ng-container>
   <ng-template #readonly>
     <span class="cx-visually-hidden">
@@ -25,9 +25,7 @@
       class="cx-attribute"
       *ngFor="let attribute of configuration.configurationInfos"
     >
-      <cx-configurator-textfield-input-field-readonly
-        [attribute]="attribute"
-      ></cx-configurator-textfield-input-field-readonly>
+      <cx-configurator-textfield-input-field-readonly [attribute]="attribute" />
     </div>
   </ng-template>
 </ng-container>

@@ -49,7 +49,7 @@ describe('ServiceOrderGuard', () => {
     orderDetailsService = TestBed.inject(OrderDetailsService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, 'add').and.callThrough();
+    vi.spyOn(globalMessageService, 'add');
   });
 
   it('should be created', () => {
@@ -57,7 +57,7 @@ describe('ServiceOrderGuard', () => {
   });
 
   it('should allow to proceed for an order which is reschedulable', () => {
-    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+    vi.spyOn(orderDetailsService, 'getOrderDetails').mockReturnValue(
       of(mockOrderReschedulable)
     );
     (guard as any).canActivate().subscribe((result: boolean) => {
@@ -66,7 +66,7 @@ describe('ServiceOrderGuard', () => {
   });
 
   it('should not allow to proceed for an order which is not reschedulable', () => {
-    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+    vi.spyOn(orderDetailsService, 'getOrderDetails').mockReturnValue(
       of(mockOrderNotReschedulable)
     );
     (guard as any).canActivate().subscribe((result: boolean) => {

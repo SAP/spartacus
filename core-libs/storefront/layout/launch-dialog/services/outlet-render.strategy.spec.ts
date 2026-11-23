@@ -89,10 +89,6 @@ describe('OutletRenderStrategy', () => {
 
   describe('render', () => {
     describe('should render', () => {
-      beforeAll(() => {
-        vi.spyOn<any>(service, 'shouldRender').mockReturnValue(true);
-      });
-
       it('should add template to outlet', () => {
         const config = mockLaunchConfig.launch[
           'TEST_OUTLET'
@@ -128,10 +124,6 @@ describe('OutletRenderStrategy', () => {
       });
     });
     describe('should not render', () => {
-      beforeAll(() => {
-        vi.spyOn<any>(service, 'shouldRender').mockReturnValue(false);
-      });
-
       it('should not render', () => {
         expect(outletService.add).not.toHaveBeenCalled();
         expect(outletRendererService.render).not.toHaveBeenCalled();

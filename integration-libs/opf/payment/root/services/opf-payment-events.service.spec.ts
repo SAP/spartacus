@@ -66,4 +66,15 @@ describe('OpfPaymentEventsService', () => {
       service.emitReinitiatePaymentEvent(testPaymentOptionId);
     });
   });
+
+  describe('refreshActiveConfigurationsEvent$', () => {
+    it('should emit when emitRefreshActiveConfigurationsEvent is called', (done) => {
+      service.refreshActiveConfigurationsEvent$.subscribe(() => {
+        expect(true).toBeTrue();
+        done();
+      });
+
+      service.emitRefreshActiveConfigurationsEvent();
+    });
+  });
 });

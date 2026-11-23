@@ -1,5 +1,4 @@
 import { Applicable, resolveApplicable } from '@spartacus/core';
-import { vi } from 'vitest';
 
 describe('resolveApplicable', () => {
   it('should resolve applicable when hasMatch returns true', () => {

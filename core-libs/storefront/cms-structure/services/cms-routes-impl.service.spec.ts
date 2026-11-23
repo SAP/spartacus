@@ -11,7 +11,6 @@ import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
 import { CmsRoutesImplService } from './cms-routes-impl.service';
 import { GuardsComposer } from './guards-composer';
-import { vi } from 'vitest';
 
 describe('CmsRoutesImplService', () => {
   let service: CmsRoutesImplService;

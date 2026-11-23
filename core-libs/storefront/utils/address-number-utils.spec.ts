@@ -3,12 +3,16 @@ import { getAddressNumbers } from './address-number-utils';
 
 describe('Checkout utils', () => {
   describe('getAddressNumbers', () => {
-    const mockAddress: Address = {
-      firstName: 'Mock',
-      lastName: 'Address',
-      phone: '12345',
-      cellphone: '67890',
-    };
+    let mockAddress: Address;
+
+    beforeEach(() => {
+      mockAddress = {
+        firstName: 'Mock',
+        lastName: 'Address',
+        phone: '12345',
+        cellphone: '67890',
+      };
+    });
 
     it('should return phone number and mobile number when both are provided', () => {
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(

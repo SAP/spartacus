@@ -21,8 +21,8 @@ import {
   OpfQuickBuyDigitalWallet,
   OpfQuickBuyProviderType,
 } from '@spartacus/opf/quick-buy/root';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class OpfQuickBuyButtonsService {
@@ -37,16 +37,38 @@ export class OpfQuickBuyButtonsService {
   getPaymentGatewayConfiguration(): Observable<
     OpfActiveConfiguration | OpfActiveConfiguration[]
   > {
-    return this.opfBaseFacade
-      .getActiveConfigurationsState()
-      .pipe(
-        map((config) =>
-          (config?.data?.value || []).filter(
-            (item) =>
-              item?.providerType === OpfPaymentProviderType.PAYMENT_GATEWAY
-          )
+    return this.opfBaseFacade.getActiveConfigurationsState().pipe(
+      switchMap((firstPageState) => {
+        const firstPageItems = firstPageState?.data?.value ?? [];
+        const totalPages = firstPageState?.data?.page?.totalPages ?? 1;
+
+        if (totalPages <= 1) {
+          return of(firstPageItems);
+        }
+
+        const remainingPageRequests$ = Array.from(
+          { length: totalPages - 1 },
+          (_, i) =>
+            this.opfBaseFacade
+              .getActiveConfigurationsState({ pageNumber: i + 2 })
+              .pipe(
+                filter((state) => !state.loading),
+                take(1),
+                map((state) => state?.data?.value ?? [])
+              )
+        );
+
+        return forkJoin(remainingPageRequests$).pipe(
+          map((remainingPages) => [...firstPageItems, ...remainingPages.flat()])
+        );
+      }),
+      map((allItems) =>
+        allItems.filter(
+          (item) =>
+            item?.providerType === OpfPaymentProviderType.PAYMENT_GATEWAY
         )
-      );
+      )
+    );
   }
 
   getQuickBuyProviderConfig(

@@ -239,7 +239,7 @@ export const CART_SAVED_CART_SCHEMATICS_CONFIG: SchematicConfig = {
 };
 
 export const CART_WISHLIST_FEATURE_MODULE_NAME = 'WishList';
-export const CART_WISHLIST_MODULE = 'WishListModule';
+export const CART_WISHLIST_WITH_V2_MODULE = 'WishListWithV2Module';
 export const ADD_TO_WISHLIST_MODULE = 'AddToWishListModule';
 export const CART_WISHLIST_ROOT_MODULE = 'WishListRootModule';
 export const CART_WISHLIST_FEATURE_NAME_CONSTANT = 'CART_WISH_LIST_FEATURE';
@@ -258,7 +258,7 @@ export const CART_WISHLIST_SCHEMATICS_CONFIG: SchematicConfig = {
   moduleName: CART_WISHLIST_FEATURE_MODULE_NAME,
   featureModule: [
     {
-      name: CART_WISHLIST_MODULE,
+      name: CART_WISHLIST_WITH_V2_MODULE,
       importPath: SPARTACUS_CART_WISHLIST,
     },
     {

@@ -1,7 +1,5 @@
 <ng-container *ngIf="showFilterBar">
-  <cx-configurator-overview-filter-bar
-    [config]="config"
-  ></cx-configurator-overview-filter-bar>
+  <cx-configurator-overview-filter-bar [config]="config" />
 </ng-container>
 <ng-container *ngIf="!(isDisplayOnlyVariant() | async)">
   <div class="cx-overview-filter-header">
@@ -28,7 +26,10 @@
       >
     </div>
   </div>
-  <div class="cx-overview-filter-option">
+  <div
+    *ngIf="isMySelectionsFilterVisible(config)"
+    class="cx-overview-filter-option"
+  >
     <div class="form-check">
       <input
         id="cx-configurator-overview-filter-option-mySelections"

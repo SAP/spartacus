@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { LayoutConfig, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
+import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
 
 /**
@@ -17,7 +17,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
  */
 @NgModule({
   providers: [
-    provideDefaultConfig(<LayoutConfig>{
+    provideDefaultConfig({
       layoutSlots: {
         VariantConfigurationOverviewTemplate: {
           header: {

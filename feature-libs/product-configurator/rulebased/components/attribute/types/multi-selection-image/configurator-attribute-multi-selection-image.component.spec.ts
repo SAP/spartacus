@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -14,6 +9,7 @@ import {
   ICON_TYPE,
   IconComponent,
   IconTestingModule,
+  KeyboardFocusTestingModule,
   MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
@@ -31,16 +27,10 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
-import { vi } from 'vitest';
 
 class MockGroupService {}
 
 const VALUE_NAME_3 = 'val3';
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
 
 @Component({
   selector: 'cx-configurator-price',
@@ -103,7 +93,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         },
       }
     );
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
@@ -135,12 +125,14 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         },
         add: {
           imports: [
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorPriceComponent,
             MockIconComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
         },
+      })
+      .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

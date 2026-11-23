@@ -2,17 +2,16 @@ import { TestBed } from '@angular/core/testing';
 import { CdcLoginGuard } from './cdc-login.guard';
 import { AuthService, AuthConfigService } from '@spartacus/core';
 import { CmsPageGuard } from '@spartacus/storefront';
+import { firstValueFrom } from 'rxjs';
 
 describe('CdcLoginGuard', () => {
   let guard: CdcLoginGuard;
-  let mockAuthService: jasmine.SpyObj<AuthService>;
-  let mockCmsPageGuard: jasmine.SpyObj<CmsPageGuard>;
+  let mockAuthService: any;
+  let mockCmsPageGuard: any;
 
   beforeEach(() => {
-    mockAuthService = jasmine.createSpyObj('AuthService', [
-      'loginWithRedirect',
-    ]);
-    mockCmsPageGuard = jasmine.createSpyObj('CmsPageGuard', ['canActivate']);
+    mockAuthService = { loginWithRedirect: vi.fn() };
+    mockCmsPageGuard = { canActivate: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -26,10 +25,8 @@ describe('CdcLoginGuard', () => {
     guard = TestBed.inject(CdcLoginGuard);
   });
 
-  it('shouldRenderCMSPage should return true', (done) => {
-    guard['shouldRenderCMSPage']().subscribe((result) => {
-      expect(result).toEqual(true);
-      done();
-    });
+  it('shouldRenderCMSPage should return true', async () => {
+    const result = await firstValueFrom(guard['shouldRenderCMSPage']());
+    expect(result).toEqual(true);
   });
 });

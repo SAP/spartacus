@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { RedirectCommand, UrlTree } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { OrderReturnGuard } from './order-return.guard';
 import { OrderReturnService } from './order-return.service';
 
@@ -51,24 +51,21 @@ describe(`OrderReturnGuard`, () => {
     service = TestBed.inject(OrderReturnService);
 
     vi.spyOn(service, 'getForm').mockReturnValue(of(mockForm));
+
+    //to avoid leaks from different fixtures, reset the value of the form
+    mockControl.setValue(10);
   });
 
-  it(`should redirect to the order detail page`, () => {
-    let result: boolean | UrlTree | RedirectCommand | undefined;
-    guard
-      .canActivate()
-      .subscribe((r) => (result = r))
-      .unsubscribe();
+  it(`should redirect to the order detail page`, async () => {
+    let result: boolean | UrlTree | RedirectCommand | undefined =
+      await firstValueFrom(guard.canActivate());
     expect(result?.toString()).toEqual('/orders');
   });
 
-  it(`should return true when the form data is valid`, () => {
+  it(`should return true when the form data is valid`, async () => {
     mockControl.setValue(100);
-    let result: boolean | UrlTree | RedirectCommand | undefined;
-    guard
-      .canActivate()
-      .subscribe((r) => (result = r))
-      .unsubscribe();
+    let result: boolean | UrlTree | RedirectCommand | undefined =
+      await firstValueFrom(guard.canActivate());
     expect(result).toBeTruthy();
   });
 });

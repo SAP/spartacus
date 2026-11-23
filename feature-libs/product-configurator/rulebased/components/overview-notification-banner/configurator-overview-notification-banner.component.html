@@ -4,13 +4,14 @@
       class="cx-error-notification-banner"
       *ngIf="numberOfIssues$ | async as numberOfIssues"
     >
-      <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+      <cx-icon [type]="iconTypes.ERROR" />
       <div class="cx-error-msg" id="cx-configurator-overview-error-msg">
         {{
           'configurator.notificationBanner.numberOfIssues'
             | cxTranslate: { count: numberOfIssues }
         }}
         <button
+          *ngIf="!isResolveLinkHidden(routerData)"
           class="link cx-action-link"
           aria-describedby="cx-configurator-overview-error-msg"
           [routerLink]="
@@ -37,13 +38,14 @@
       class="cx-conflict-notification-banner"
       *ngIf="numberOfConflicts$ | async as numberOfConflicts"
     >
-      <cx-icon [type]="iconTypes.WARNING"></cx-icon>
+      <cx-icon [type]="iconTypes.WARNING" />
       <div class="cx-conflict-msg" id="cx-configurator-overview-conflict-msg">
         {{
           'configurator.notificationBanner.numberOfConflicts'
             | cxTranslate: { count: numberOfConflicts }
         }}
         <button
+          *ngIf="!isResolveLinkHidden(routerData)"
           class="link cx-action-link"
           aria-describedby="cx-configurator-overview-conflict-msg"
           [routerLink]="

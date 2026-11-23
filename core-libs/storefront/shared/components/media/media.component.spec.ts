@@ -16,7 +16,6 @@ import { MediaSourcesPipe } from './media-sources.pipe';
 import { MediaComponent } from './media.component';
 import { ImageFetchPriority, ImageLoadingStrategy, Media } from './media.model';
 import { MediaService } from './media.service';
-import { vi } from 'vitest';
 
 const IS_CONFIGURABLE_MEDIA_COMPONENT = new InjectionToken<boolean>(
   'IS_CONFIGURABLE_MEDIA_COMPONENT'

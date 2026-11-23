@@ -23,10 +23,18 @@
     margin-top: 40px;
   }
 
-  @include cx-highContrastTheme {
+  @include cx-highContrastTheme('a11yHighContrastFix') {
     .quick-order-form-body {
       background-color: var(--cx-color-background);
       border: 1px solid var(--cx-color-text);
+    }
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      &.ng-option-marked {
+        background-color: var(--cx-color-text);
+        color: var(--cx-color-background);
+      }
     }
   }
 }

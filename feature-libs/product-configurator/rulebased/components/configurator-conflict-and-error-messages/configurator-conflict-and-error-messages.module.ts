@@ -7,12 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-conflict-and-error-messages.component';
 
@@ -26,7 +21,7 @@ import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-co
     ConfiguratorConflictAndErrorMessagesComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         CpqConfiguratorConflictAndErrorMessagesComponent: {
           component: ConfiguratorConflictAndErrorMessagesComponent,

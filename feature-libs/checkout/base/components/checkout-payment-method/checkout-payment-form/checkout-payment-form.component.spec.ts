@@ -8,7 +8,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -42,8 +41,7 @@ import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { EMPTY, Observable, of } from 'rxjs';
-import { vi } from 'vitest';
+import { EMPTY, Observable, firstValueFrom, of } from 'rxjs';
 import {
   CheckoutBillingAddressFormComponent,
   CheckoutBillingAddressFormService,
@@ -325,15 +323,14 @@ describe('CheckoutPaymentFormComponent', () => {
     expect(component.paymentForm.patchValue).not.toHaveBeenCalled();
   });
 
-  it('should call ngOnInit to get supported card types if they exist', () => {
+  it('should call ngOnInit to get supported card types if they exist', async () => {
     mockCheckoutPaymentService.getPaymentCardTypes = vi
       .fn()
       .mockReturnValue(of(mockCardTypes));
 
     component.ngOnInit();
-    component.cardTypes$.subscribe((cardTypes: CardType[]) => {
-      expect(cardTypes).toBe(mockCardTypes);
-    });
+    const cardTypes = await firstValueFrom(component.cardTypes$);
+    expect(cardTypes).toBe(mockCardTypes);
   });
 
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
@@ -619,6 +616,175 @@ describe('CheckoutPaymentFormComponent', () => {
       getBackBtn().nativeElement.click();
       fixture.detectChanges();
       expect(component.close).toHaveBeenCalled();
+    });
+  });
+
+  describe('a11yCvvInfoIconKeyboardAccessible', () => {
+    let featureTogglesController: MockFeatureTogglesController;
+
+    const getCvvIcon = (): HTMLElement | null =>
+      fixture.debugElement.query(
+        By.css('cx-icon[placement="right"].cx-payment-form-tooltip')
+      )?.nativeElement || null;
+
+    const getCvvButton = (): HTMLElement | null =>
+      fixture.debugElement.query(
+        By.css('button.cx-payment-form-tooltip.cx-cvv-info-btn')
+      )?.nativeElement || null;
+
+    beforeEach(() => {
+      featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+      mockCheckoutPaymentService.getPaymentCardTypes = vi
+        .fn()
+        .mockReturnValue(of(mockCardTypes));
+    });
+
+    it('should render the CVV info icon when a11yCvvInfoIconKeyboardAccessible is disabled (default)', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', false);
+      fixture.detectChanges();
+
+      expect(getCvvIcon()).toBeTruthy();
+      expect(getCvvButton()).toBeNull();
+    });
+
+    it('should render the CVV info button when a11yCvvInfoIconKeyboardAccessible is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      expect(getCvvButton()).toBeTruthy();
+      expect(getCvvIcon()).toBeNull();
+    });
+
+    it('should have proper accessibility attributes on the CVV button when toggle is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const button = getCvvButton();
+      expect(button?.getAttribute('type')).toBe('button');
+      expect(button?.getAttribute('aria-label')).toBeTruthy();
+    });
+
+    it('should associate the CVV button with its tooltip hint when toggle is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const buttonEl = fixture.debugElement.query(
+        By.css('button.cx-payment-form-tooltip.cx-cvv-info-btn')
+      );
+      expect(buttonEl).toBeTruthy();
+      expect(buttonEl?.nativeElement.getAttribute('aria-describedby')).toBe(
+        'cvvInfoHint'
+      );
+
+      const tooltipEl = fixture.debugElement.query(
+        By.css('#cvvInfoHint.cx-cvv-tooltip')
+      );
+      expect(tooltipEl).toBeTruthy();
+      expect(tooltipEl?.nativeElement.getAttribute('role')).toBe('tooltip');
+    });
+
+    it('should be keyboard accessible when a11yCvvInfoIconKeyboardAccessible is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const button = getCvvButton();
+      expect(button?.getAttribute('type')).toBe('button');
+      // Verify it's a button element, not just an icon
+      expect(button?.tagName).toBe('BUTTON');
+    });
+
+    it('should have aria-required and aria-labelledby on input when toggle is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const input = fixture.debugElement.query(
+        By.css('input#cVVNumber')
+      )?.nativeElement;
+
+      expect(input?.getAttribute('aria-required')).toBe('true');
+      expect(input?.getAttribute('aria-labelledby')).toBe('cvvLabelText');
+    });
+
+    it('should not set aria-labelledby on input when toggle is disabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', false);
+      fixture.detectChanges();
+
+      const input = fixture.debugElement.query(
+        By.css('input#cVVNumber')
+      )?.nativeElement;
+
+      expect(input?.getAttribute('aria-labelledby')).toBeNull();
+    });
+
+    it('should set aria-invalid to true (not false) when input is touched and invalid', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const cvnControl = component.paymentForm.get('cvn');
+      cvnControl?.markAsTouched();
+      cvnControl?.setErrors({ required: true });
+      fixture.detectChanges();
+
+      const input = fixture.debugElement.query(
+        By.css('input#cVVNumber')
+      )?.nativeElement;
+      expect(input?.getAttribute('aria-invalid')).toBe('true');
+    });
+
+    it('should not render aria-invalid when input is untouched when toggle is enabled', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const input = fixture.debugElement.query(
+        By.css('input#cVVNumber')
+      )?.nativeElement;
+      expect(input?.getAttribute('aria-invalid')).toBeNull();
+    });
+
+    it('should add dismissed class to wrapper on Escape to keep tooltip hidden while focus stays on button', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(
+        By.css('button.cx-cvv-info-btn')
+      );
+      const event = new KeyboardEvent('keydown', { key: 'Escape' });
+      button.triggerEventHandler('keydown.escape', event);
+
+      expect(component.cvvTooltipDismissed).toBe(true);
+    });
+
+    it('should remove dismissed class on blur so tooltip re-enables on next focus', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      component.cvvTooltipDismissed = true;
+
+      const button = fixture.debugElement.query(
+        By.css('button.cx-cvv-info-btn')
+      );
+      button.triggerEventHandler('blur', {});
+
+      expect(component.cvvTooltipDismissed).toBe(false);
+    });
+
+    it('should not stop propagation on second Escape when tooltip is already dismissed', () => {
+      featureTogglesController.set('a11yCvvInfoIconKeyboardAccessible', true);
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(
+        By.css('button.cx-cvv-info-btn')
+      );
+
+      const firstEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+      vi.spyOn(firstEvent, 'stopPropagation');
+      button.triggerEventHandler('keydown.escape', firstEvent);
+      expect(component.cvvTooltipDismissed).toBe(true);
+
+      const secondEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+      vi.spyOn(secondEvent, 'stopPropagation');
+      button.triggerEventHandler('keydown.escape', secondEvent);
+      expect(secondEvent.stopPropagation).not.toHaveBeenCalled();
     });
   });
 });

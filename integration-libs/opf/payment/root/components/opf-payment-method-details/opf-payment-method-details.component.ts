@@ -6,6 +6,8 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -29,12 +31,14 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 @Component({
   selector: 'cx-opf-payment-method-details',
   templateUrl: './opf-payment-method-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, CardComponent, AsyncPipe, OutletModule],
 })
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
+  protected cdr = inject(ChangeDetectorRef);
   @Optional() protected orderOutlet = inject(OutletContextData);
   readonly opfCheckoutOutlets = OpfCheckoutOutlets;
   protected subscription = new Subscription();
@@ -45,12 +49,16 @@ export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
       if (this.featureToggles.opfUseDestroyRef) {
         this.orderOutlet.context$
           .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((context) => (this.order = context?.item));
+          .subscribe((context) => {
+            this.order = context?.item;
+            this.cdr.markForCheck();
+          });
       } else {
         this.subscription.add(
-          this.orderOutlet.context$.subscribe(
-            (context) => (this.order = context?.item)
-          )
+          this.orderOutlet.context$.subscribe((context) => {
+            this.order = context?.item;
+            this.cdr.markForCheck();
+          })
         );
       }
     }

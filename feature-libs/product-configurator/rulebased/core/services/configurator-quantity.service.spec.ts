@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { ConfiguratorQuantityService } from './configurator-quantity.service';
-import { cold } from 'jasmine-marbles';
 
 describe('ConfiguratorQuantityService', () => {
   let classUnderTest: ConfiguratorQuantityService;
@@ -15,8 +13,9 @@ describe('ConfiguratorQuantityService', () => {
   });
 
   describe('getQuantity', () => {
-    it('should not emit anything until it will be initialized from outside', () => {
-      expect(classUnderTest.getQuantity()).toBeObservable(cold(''));
+    it('should emit default quantity of 1', async () => {
+      const quantity = await firstValueFrom(classUnderTest.getQuantity());
+      expect(quantity).toBe(1);
     });
 
     it('should return value that was set with setQuantity', async () => {

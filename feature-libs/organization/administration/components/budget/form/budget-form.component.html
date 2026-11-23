@@ -25,7 +25,7 @@
           label: 'orgBudget.name' | cxTranslate,
         }"
         [control]="form.get('name')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -51,7 +51,7 @@
           label: 'orgBudget.code' | cxTranslate,
         }"
         [control]="form.get('code')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -65,7 +65,7 @@
         [required]="true"
         (update)="form.get('endDate')?.updateValueAndValidity()"
         label="orgBudget.startDate"
-      ></cx-date-picker>
+      />
     </label>
 
     <label>
@@ -80,7 +80,7 @@
         [required]="true"
         (update)="form.get('startDate')?.updateValueAndValidity()"
         label="orgBudget.endDate"
-      ></cx-date-picker>
+      />
     </label>
 
     <label [formGroup]="$any(form.get('currency'))">
@@ -105,8 +105,7 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         id="isocodeError"
@@ -114,7 +113,7 @@
           label: 'orgBudget.currency' | cxTranslate,
         }"
         [control]="form.get('currency.isocode')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -141,7 +140,7 @@
           label: 'orgBudget.amount' | cxTranslate,
         }"
         [control]="form.get('budget')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label
@@ -170,8 +169,7 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         id="uidError"
@@ -179,7 +177,7 @@
           label: 'orgBudget.businessUnits' | cxTranslate,
         }"
         [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
+      />
     </label>
   </ng-container>
 </cx-org-form>

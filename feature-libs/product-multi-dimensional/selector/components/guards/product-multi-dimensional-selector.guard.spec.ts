@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { of } from 'rxjs';
 import { Product, ProductService, SemanticPathService } from '@spartacus/core';
 import { ProductMultiDimensionalSelectorGuard } from './product-multi-dimensional-selector.guard';
-import { vi } from 'vitest';
 
 describe('ProductMultiDimensionalSelectorGuard', () => {
   let guard: ProductMultiDimensionalSelectorGuard;

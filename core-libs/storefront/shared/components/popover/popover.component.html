@@ -11,11 +11,11 @@
       (keydown.space)="close($event)"
       (click)="close($event)"
     >
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      <cx-icon [type]="iconTypes.CLOSE" />
     </button>
   </div>
   <ng-container *ngIf="isTemplate(content)">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-container *ngTemplateOutlet="content" />
   </ng-container>
   <span *ngIf="isString(content)">{{ content }}</span>
 </div>

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -9,7 +8,6 @@ import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
 import { ConfiguratorTextfieldConnector } from './configurator-textfield.connector';
-import { vi } from 'vitest';
 
 const USER_ID = 'theUser';
 const CART_ID = '98876';
@@ -57,9 +55,7 @@ describe('ConfiguratorTextfieldConnector', () => {
       ],
     });
 
-    service = TestBed.inject(
-      ConfiguratorTextfieldConnector as Type<ConfiguratorTextfieldConnector>
-    );
+    service = TestBed.inject(ConfiguratorTextfieldConnector);
   });
 
   it('should be created', () => {
@@ -67,9 +63,7 @@ describe('ConfiguratorTextfieldConnector', () => {
   });
 
   it('should call adapter on createConfiguration', () => {
-    const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
-    );
+    const adapter = TestBed.inject(ConfiguratorTextfieldAdapter);
 
     const owner = ConfiguratorModelUtils.createInitialOwner();
     service.createConfiguration(PRODUCT_CODE, owner).subscribe((res) => {
@@ -83,9 +77,7 @@ describe('ConfiguratorTextfieldConnector', () => {
   });
 
   it('should call adapter on readConfigurationForCartEntry', () => {
-    const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
-    );
+    const adapter = TestBed.inject(ConfiguratorTextfieldAdapter);
 
     const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
       {
@@ -100,9 +92,7 @@ describe('ConfiguratorTextfieldConnector', () => {
   });
 
   it('should call adapter on readConfigurationForOrderEntry', () => {
-    const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
-    );
+    const adapter = TestBed.inject(ConfiguratorTextfieldAdapter);
 
     const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
       {
@@ -117,9 +107,7 @@ describe('ConfiguratorTextfieldConnector', () => {
   });
 
   it('should call adapter on addToCart', () => {
-    const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
-    );
+    const adapter = TestBed.inject(ConfiguratorTextfieldAdapter);
 
     const parameters: ConfiguratorTextfield.AddToCartParameters = {
       userId: USER_ID,
@@ -135,9 +123,7 @@ describe('ConfiguratorTextfieldConnector', () => {
   });
 
   it('should call adapter on updateCartEntry', () => {
-    const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
-    );
+    const adapter = TestBed.inject(ConfiguratorTextfieldAdapter);
 
     const parameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
       userId: USER_ID,

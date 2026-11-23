@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import {
   I18nTestingModule,
   PaginationModel,

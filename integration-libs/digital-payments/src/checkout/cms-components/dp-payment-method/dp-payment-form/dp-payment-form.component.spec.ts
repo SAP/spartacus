@@ -87,7 +87,7 @@ describe('DpPaymentFormComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    spyOn(component.closeForm, 'emit').and.callThrough();
+    vi.spyOn(component.closeForm, 'emit');
   });
 
   it('should create', () => {
@@ -96,7 +96,7 @@ describe('DpPaymentFormComponent', () => {
 
   describe('ngOnInit()', () => {
     it('should redirect to provider page', () => {
-      spyOn(dpPaymentService, 'getCardRegistrationDetails').and.returnValue(
+      vi.spyOn(dpPaymentService, 'getCardRegistrationDetails').mockReturnValue(
         of(mockDpPaymentRequest)
       );
 
@@ -107,10 +107,10 @@ describe('DpPaymentFormComponent', () => {
     });
 
     it('should throw error on empty response', () => {
-      spyOn(dpPaymentService, 'getCardRegistrationDetails').and.returnValue(
+      vi.spyOn(dpPaymentService, 'getCardRegistrationDetails').mockReturnValue(
         of({})
       );
-      spyOn(msgService, 'add').and.stub();
+      vi.spyOn(msgService, 'add').mockImplementation(() => {});
 
       component.ngOnInit();
 

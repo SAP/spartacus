@@ -1,10 +1,9 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {
-  MockTranslatePipe,
+  I18nTestingModule,
   Product,
   ProductScope,
   RoutingService,
@@ -22,7 +21,6 @@ import {
   ReadOnlyPostfix,
 } from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
-import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 const configuratorType = ConfiguratorType.VARIANT;
@@ -62,11 +60,6 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
@@ -88,7 +81,7 @@ function setupWithCurrentProductService(
     productListItemContextReturnsNull
   ) {
     TestBed.configureTestingModule({
-      imports: [RouterModule, ConfigureProductComponent, MockUrlPipe],
+      imports: [RouterModule, ConfigureProductComponent],
       providers: [
         {
           provide: ProductListItemContext,
@@ -106,16 +99,12 @@ function setupWithCurrentProductService(
     })
       .overrideComponent(ConfigureProductComponent, {
         remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        add: { imports: [I18nTestingModule] },
       })
       .compileComponents();
   } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        ConfigureProductComponent,
-        MockUrlPipe,
-      ],
+      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
       providers: [
         {
           provide: CurrentProductService,
@@ -129,16 +118,12 @@ function setupWithCurrentProductService(
     })
       .overrideComponent(ConfigureProductComponent, {
         remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        add: { imports: [I18nTestingModule] },
       })
       .compileComponents();
   } else {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        ConfigureProductComponent,
-        MockUrlPipe,
-      ],
+      imports: [StoreModule.forRoot({}), ConfigureProductComponent],
       providers: [
         {
           provide: ProductListItemContext,
@@ -156,14 +141,12 @@ function setupWithCurrentProductService(
     })
       .overrideComponent(ConfigureProductComponent, {
         remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        add: { imports: [I18nTestingModule] },
       })
       .compileComponents();
   }
 
-  currentProductService = TestBed.inject(
-    CurrentProductService as Type<CurrentProductService>
-  );
+  currentProductService = TestBed.inject(CurrentProductService);
   routingService = TestBed.inject(RoutingService);
 
   vi.spyOn(currentProductService, 'getProduct');

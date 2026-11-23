@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { PaginationModel } from '@spartacus/core';
 import { of } from 'rxjs';

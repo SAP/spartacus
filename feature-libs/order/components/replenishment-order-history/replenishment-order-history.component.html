@@ -26,7 +26,7 @@
               placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
               [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
               ariaControls="replenishment-order-history-table"
-            ></cx-sorting>
+            />
           </label>
           <div
             class="cx-replenishment-order-history-pagination"
@@ -36,7 +36,7 @@
               [pagination]="replenishmentOrders.pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-top"
-            ></cx-pagination>
+            />
           </div>
         </div>
         <!-- TABLE -->
@@ -233,7 +233,7 @@
               (viewPageEvent)="pageChange($event)"
               *ngIf="replenishmentOrders.pagination.totalPages > 1"
               paginationID="pagination-bottom"
-            ></cx-pagination>
+            />
           </div>
         </div>
       </ng-container>

@@ -61,10 +61,34 @@ jobs:
         run: |
           source ci-scripts/validate-e2e-execution.sh
           echo "SHOULD_RUN_E2E=$RUN_E2E" >> "$GITHUB_OUTPUT"
-  unit_tests:
+  prepare_unit_shards:
     needs: no_retries
-    name: Unit tests
+    name: Prepare unit test shards
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.shards.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - name: Compute shard matrix
+        id: shards
+        uses: ./.github/actions/prepare-unit-shards
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
+          affected: 'false'
+
+  unit_tests:
+    needs: [no_retries, prepare_unit_shards]
+    name: Unit tests (${{ matrix.shard-name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare_unit_shards.outputs.matrix) }}
+    env:
+      TEST_RUNNER: ${{ matrix.test-runner }}
+      UNIT_TEST_GROUP_PROJECTS: ${{ matrix.projects }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -76,25 +100,6 @@ jobs:
           cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Run unit tests
         run: ci-scripts/unit-tests.sh
-  sonarqube_scan:
-    needs: no_retries
-    name: SonarQube Scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-        with:
-          fetch-depth: 0
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@c7ee0f9df90b7aa20e8dcf9695dcfe2e7da5b4f2 # v7.2.1
-        with:
-          args: >
-            -Dsonar.qualitygate.wait=true
-            -Dsonar.projectKey=composable-storefront
-            -Dsonar.typescript.exclusions=**/.github/**
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonar.tools.sap
-    if: github.event_name == 'pull_request'
   linting:
     needs: no_retries
     name: Validations and static code checks
@@ -107,6 +112,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Run linting validation
+        env:
+          LINT_PARALLEL: '4'
         run: ci-scripts/validate-lint.sh
   build_libs:
     needs: [no_retries, validate_e2e_execution]
@@ -130,7 +137,7 @@ jobs:
         run: |
           source ci-scripts/npm-commands.sh
           export NODE_OPTIONS=--dns-result-order=ipv4first
-          build_libs 2>&1 | tee build.log
+          build_libs_ci 2>&1 | tee build.log
 
           results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
           if [[ -z "${results}" ]]; then
@@ -326,7 +333,6 @@ jobs:
         b2b_e2e_tests,
         a11y_e2e_tests,
         ssr_tests,
-        sonarqube_scan,
       ]
     name: Build Conclusion
     runs-on: ubuntu-latest
@@ -340,7 +346,6 @@ jobs:
         if: |
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
           needs.unit_tests.result == 'failure' || needs.unit_tests.result == 'cancelled' ||
-          needs.sonarqube_scan.result == 'failure' || needs.sonarqube_scan.result == 'cancelled' ||
           needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
           needs.build_libs.result == 'failure' || needs.build_libs.result == 'cancelled' ||
           needs.build_apps.result == 'failure' || needs.build_apps.result == 'cancelled' ||

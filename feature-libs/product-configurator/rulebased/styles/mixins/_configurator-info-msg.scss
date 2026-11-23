@@ -1,0 +1,3 @@
+@mixin cx-configurator-info-msg() {
+  @include cx-configurator-severity-msg(var(--cx-color-text));
+}

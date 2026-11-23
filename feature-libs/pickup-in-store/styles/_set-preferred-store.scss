@@ -20,4 +20,13 @@
       color: inherit;
     }
   }
+
+  @include cx-highContrastTheme('a11yHighContrastFix') {
+    .icon-not-selected {
+      color: var(--cx-color-text);
+    }
+    .icon-selected {
+      color: var(--cx-color-primary);
+    }
+  }
 }

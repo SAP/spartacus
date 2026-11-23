@@ -13,7 +13,7 @@
   type="button"
   (click)="fileInput.click()"
 >
-  <ng-content></ng-content>
+  <ng-content />
 </button>
 <!-- TODO(Brian-Parth): CXEC-17196 -->
 <button
@@ -21,7 +21,7 @@
   *ngIf="customButton"
   (click)="fileInput.click()"
 >
-  <ng-container *ngTemplateOutlet="customButton"> </ng-container>
+  <ng-container *ngTemplateOutlet="customButton" />
 </button>
 <p *ngFor="let file of selectedFiles">
   {{ file?.name }}

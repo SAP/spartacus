@@ -6,6 +6,7 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   OnDestroy,
@@ -70,6 +71,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
+  protected cdr = inject(ChangeDetectorRef);
   protected subscription = new Subscription();
   giftCardForm: UntypedFormGroup;
   protected showGiftCardForm = signal(false);
@@ -130,6 +132,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
           this.toggleGiftCardForm();
           this.loadingSubject.next(false);
           this.opfPaymentEventsService.emitReinitiatePaymentEvent();
+          this.opfPaymentEventsService.emitRefreshActiveConfigurationsEvent();
         },
         error: (error: HttpErrorModel) => this.handleGiftCardError(error),
       });
@@ -200,6 +203,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe((context) => {
             this.isBillingAddressPresent$ = context?.disabled;
+            this.cdr.markForCheck();
           });
       }
     } else {
@@ -231,6 +235,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
         this.subscription.add(
           this.outlet.context$.subscribe((context) => {
             this.isBillingAddressPresent$ = context?.disabled;
+            this.cdr.markForCheck();
           })
         );
       }

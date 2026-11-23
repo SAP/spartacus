@@ -2,7 +2,8 @@
   "cartDetails": {
     "id": "ID",
     "proceedToCheckout": "Proceed to Checkout",
-    "cartName": "Cart #{{code}}"
+    "cartName": "Cart #{{code}}",
+    "updating": "Updating cart…"
   },
   "cartItems": {
     "id": "ID",

@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { vi } from 'vitest';
 import { LoggerService } from '../../logger';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { WindowRef } from '../../window';

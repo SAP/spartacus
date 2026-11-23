@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';

@@ -33,7 +33,7 @@
       [attr.title]="'common.reset' | cxTranslate"
       class="quick-order-form-reset-icon"
     >
-      <cx-icon [type]="iconTypes.RESET"></cx-icon>
+      <cx-icon [type]="iconTypes.RESET" />
     </button>
 
     <ng-template #searchIcon>
@@ -43,7 +43,7 @@
         [attr.title]="'common.productSearchDescription' | cxTranslate"
         tabindex="-1"
       >
-        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+        <cx-icon [type]="iconTypes.SEARCH" />
       </button>
     </ng-template>
 
@@ -88,7 +88,7 @@
             class="media"
             format="thumbnail"
             role="presentation"
-          ></cx-media>
+          />
           <div class="name" [innerHTML]="product.name"></div>
           <span class="id">
             {{

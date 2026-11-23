@@ -1,15 +1,14 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxNumericPipe,
-  MockTranslatePipe,
+  I18nTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
-import { vi } from 'vitest';
 
 @Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
@@ -43,7 +42,7 @@ describe('ConfiguratorPriceComponent', () => {
   let directionService: DirectionService;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [ConfiguratorPriceComponent],
       providers: [
         {
@@ -57,7 +56,7 @@ describe('ConfiguratorPriceComponent', () => {
           imports: [CxNumericPipe, TranslatePipe],
         },
         add: {
-          imports: [MockNumericPipe, MockTranslatePipe],
+          imports: [MockNumericPipe, I18nTestingModule],
         },
       })
       .compileComponents();
@@ -68,9 +67,7 @@ describe('ConfiguratorPriceComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
-    directionService = TestBed.inject(
-      DirectionService as Type<DirectionService>
-    );
+    directionService = TestBed.inject(DirectionService);
   });
 
   it('should be created', () => {

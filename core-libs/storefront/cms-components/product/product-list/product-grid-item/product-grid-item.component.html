@@ -12,7 +12,7 @@
     [fetchPriority]="
       itemIndex === 0 ? (lcpContext.fetchPriority$ | async) : undefined
     "
-  ></cx-media>
+  />
 </a>
 <a
   [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
@@ -25,7 +25,7 @@
     <cx-star-rating
       *ngIf="product.averageRating"
       [rating]="product?.averageRating"
-    ></cx-star-rating>
+    />
     <div *ngIf="!product.averageRating">
       {{ 'productDetails.noReviews' | cxTranslate }}
     </div>
@@ -42,6 +42,6 @@
 
 <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
   <ng-container *ngIf="!hideAddToCartButton">
-    <ng-container cxInnerComponentsHost></ng-container>
+    <ng-container cxInnerComponentsHost />
   </ng-container>
 </ng-template>

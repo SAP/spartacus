@@ -9,8 +9,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { vi } from 'vitest';
 import { StoreFinderConfig } from '../config/store-finder-config';
+import { MockWinRef } from 'core-libs/storefront/shared/test/mock-window-ref';
 import { StoreFinderSelectors } from '../store';
 import { StoreFinderActions } from '../store/actions/index';
 import {
@@ -31,6 +31,29 @@ class MockRoutingService implements Partial<RoutingService> {
 
 class MockStoreFinderConfig {
   radius: 50000;
+}
+
+const longitudeLatitude: GeoPoint = {
+  longitude: 10.1,
+  latitude: 20.2,
+};
+
+class LocalMockWinRef extends MockWinRef {
+  private readonly _nativeWindow = {
+    navigator: {
+      geolocation: {
+        watchPosition: (callback) => {
+          callback({ coords: longitudeLatitude });
+          return 1;
+        },
+        clearWatch: () => {},
+      },
+    },
+  } as unknown as Window;
+
+  override get nativeWindow(): Window {
+    return this._nativeWindow;
+  }
 }
 
 const location: PointOfService = {
@@ -143,26 +166,6 @@ describe('StoreFinderService', () => {
   const queryText = 'test';
 
   const storeId = 'shop_los_angeles_1';
-  const geolocationWatchId = 1;
-
-  const longitudeLatitude: GeoPoint = {
-    longitude: 10.1,
-    latitude: 20.2,
-  };
-
-  const MockWindowRef = {
-    nativeWindow: {
-      navigator: {
-        geolocation: {
-          watchPosition: (callback) => {
-            callback({ coords: longitudeLatitude });
-            return geolocationWatchId;
-          },
-          clearWatch: () => {},
-        },
-      },
-    },
-  };
 
   const mockStoreEntities: FindStoresState = {
     findStoresEntities: { pointOfServices: [] },
@@ -180,7 +183,7 @@ describe('StoreFinderService', () => {
     TestBed.configureTestingModule({
       providers: [
         StoreFinderService,
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useClass: LocalMockWinRef },
         { provide: RoutingService, useClass: MockRoutingService },
         GlobalMessageService,
         { provide: StoreFinderConfig, useClass: MockStoreFinderConfig },
@@ -266,6 +269,10 @@ describe('StoreFinderService', () => {
 
   describe('Find Stores with My Location', () => {
     it('should dispatch a OnHold action and a FindStores action', () => {
+      const spyWatchPosition = vi.spyOn(
+        winRef.nativeWindow.navigator.geolocation,
+        'watchPosition'
+      );
       service.findStoresAction(
         queryText,
         { currentPage: 0 },
@@ -278,9 +285,7 @@ describe('StoreFinderService', () => {
         new StoreFinderActions.FindStoresOnHold()
       );
 
-      expect(
-        winRef.nativeWindow.navigator.geolocation.watchPosition
-      ).toHaveBeenCalled();
+      expect(spyWatchPosition).toHaveBeenCalled();
     });
   });
 

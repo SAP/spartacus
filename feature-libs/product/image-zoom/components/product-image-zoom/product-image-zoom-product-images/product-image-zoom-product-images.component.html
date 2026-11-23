@@ -4,12 +4,12 @@
     (click)="triggerZoom(true)"
     *cxLcpContext="let lcpContext"
     [fetchPriority]="lcpContext.fetchPriority$ | async"
-  ></cx-media>
+  />
   <cx-product-image-zoom-trigger
     [expandImage]="expandImage.value"
     [galleryIndex]="selectedIndex"
     (dialogClose)="triggerZoom(false)"
-  ></cx-product-image-zoom-trigger>
+  />
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">
@@ -25,7 +25,7 @@
       [items]="thumbs"
       [template]="thumb"
       [trackByFn]="trackByFn"
-    ></cx-carousel-scrolling>
+    />
   </ng-container>
 </ng-container>
 
@@ -37,6 +37,5 @@
     (focus)="openImage(item.container)"
     [class.is-active]="isActive(item.container) | async"
     format="product"
-  >
-  </cx-media>
+  />
 </ng-template>

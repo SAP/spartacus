@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   ActiveCartFacade,
@@ -20,6 +20,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureToggles,
   TranslatePipe,
   TranslationService,
   UrlPipe,
@@ -52,6 +53,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   ],
 })
 export class CheckoutReviewShippingComponent {
+  private featureToggles = inject(FeatureToggles);
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
@@ -100,7 +102,8 @@ export class CheckoutReviewShippingComponent {
           textPhone,
           textMobile,
           deliveryAddress,
-          countryName
+          countryName,
+          this.featureToggles.addTitleToAddressCard
         )
       )
     );

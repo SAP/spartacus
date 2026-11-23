@@ -8,7 +8,7 @@
         *ngIf="getPreviousProduct(thumbs) | async as previousProduct"
         (click)="openImage(previousProduct.container)"
       >
-        <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+        <cx-icon [type]="iconType.CARET_LEFT" />
       </button>
     </div>
     <!-- TODO: (CXSPA-7492) - Remove feature flag next major release. -->
@@ -19,8 +19,7 @@
         (loaded)="onImageLoad()"
         *ngIf="!isZoomed"
         [container]="main"
-      >
-      </cx-media>
+      />
       <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
         <cx-media
           #zoomedImage
@@ -30,8 +29,7 @@
           (touchmove)="touchMove($event)"
           (touchend)="clearTouch()"
           (loaded)="onImageLoad()"
-        >
-        </cx-media>
+        />
       </div>
     </div>
     <ng-container *cxFeature="'!a11yKeyboardAccessibleZoom'">
@@ -39,9 +37,7 @@
         #defaultImage
         class="cx-default-image-zoom"
         *ngIf="!isZoomed"
-        [container]="main"
-      >
-      </cx-media>
+        [container]="main" />
       <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
         <cx-media
           #zoomedImage
@@ -50,8 +46,7 @@
           (mousemove)="pointerMove($event)"
           (touchmove)="touchMove($event)"
           (touchend)="clearTouch()"
-        >
-        </cx-media></div
+        /></div
     ></ng-container>
     <div class="cx-navigate-image">
       <button
@@ -61,7 +56,7 @@
         *ngIf="getNextProduct(thumbs) | async as nextProduct"
         (click)="openImage(nextProduct.container)"
       >
-        <cx-icon [type]="iconType.CARET_RIGHT"></cx-icon>
+        <cx-icon [type]="iconType.CARET_RIGHT" />
       </button>
     </div>
   </div>
@@ -86,12 +81,12 @@
         [type]="iconType.SEARCH_PLUS"
         *ngIf="!isZoomed"
         class="cx-zoom-indicator"
-      ></cx-icon>
+      />
       <cx-icon
         [type]="iconType.SEARCH_MINUS"
         *ngIf="isZoomed"
         class="cx-zoom-indicator"
-      ></cx-icon>
+      />
     </button>
   </div>
 </ng-container>
@@ -100,4 +95,4 @@
   [thumbs$]="thumbnails$"
   [activeThumb]="activeThumb"
   (productImage)="changeImage($event)"
-></cx-product-image-zoom-thumbnails>
+/>

@@ -8,6 +8,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Price, TranslatePipe } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
 
 @Component({
   selector: 'cx-quote-summary-prices',
@@ -16,8 +17,13 @@ import { QuoteFacade } from '@spartacus/quote/root';
 })
 export class QuoteSummaryPricesComponent {
   protected quoteFacade = inject(QuoteFacade);
+  protected quoteUIConfig = inject(QuoteUIConfig);
 
   quoteDetails$ = this.quoteFacade.getQuoteDetails();
+
+  get showSubtotalBeforeDiscounts(): boolean {
+    return this.quoteUIConfig.quote?.showSubtotalBeforeDiscounts ?? true;
+  }
 
   /**
    * Checks whether the price has a non-zero value.

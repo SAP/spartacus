@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
@@ -16,10 +16,16 @@ import {
 } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CpqConfiguratorOverviewFilterService } from '../common/cpq-configurator-overview-filter.service';
+import { CpqConfiguratorUtils } from '../rest/cpq-configurator-utils';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 
 @Injectable()
 export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
+  protected cpqOverviewFilterService = inject(
+    CpqConfiguratorOverviewFilterService
+  );
+
   constructor(protected cpqOccService: CpqConfiguratorOccService) {}
 
   getConfiguratorType(): string {
@@ -44,12 +50,14 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     groupId: string,
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.cpqOccService.readConfiguration(configId, groupId).pipe(
-      map((configResponse) => {
-        configResponse.owner = owner;
-        return configResponse;
-      })
-    );
+    return this.cpqOccService
+      .readConfiguration(configId, CpqConfiguratorUtils.getTabId(groupId))
+      .pipe(
+        map((configResponse) => {
+          configResponse.owner = owner;
+          return configResponse;
+        })
+      );
   }
 
   updateConfiguration(
@@ -67,10 +75,51 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     );
   }
 
-  updateConfigurationOverview(): Observable<Configurator.Overview> {
-    throw new Error(
-      'Update the configuration overview is not supported for the CPQ configurator'
+  addContainerRow(
+    parameters: Configurator.AddContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.addContainerRow(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
     );
+  }
+
+  copyContainerRow(
+    parameters: Configurator.CopyContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.copyContainerRow(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
+  }
+
+  removeContainerRow(
+    parameters: Configurator.RemoveContainerRowParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.removeContainerRow(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
+  }
+
+  updateConfigurationOverview(
+    ovInput: Configurator.Overview
+  ): Observable<Configurator.Overview> {
+    const groups = this.cpqOverviewFilterService.filter(
+      ovInput.possibleGroups ?? [],
+      ovInput.attributeFilters,
+      ovInput.groupFilters
+    );
+    return of({
+      ...ovInput,
+      groups,
+    });
   }
 
   addToCart(

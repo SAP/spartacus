@@ -18,7 +18,7 @@
           (click)="dismissDialog('Cross click', reconsentEvent.errorMessage)"
         >
           <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+            <cx-icon [type]="iconTypes.CLOSE" />
           </span>
         </button>
       </div>
@@ -44,7 +44,7 @@
             [showMandatory]="
               requiredReconsents.includes(consentTemplate.id ?? '')
             "
-          ></cx-consent-management-form>
+          />
         </div>
       </div>
       <!-- Actions -->
@@ -64,6 +64,6 @@
   </div>
 
   <ng-template #loading>
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </ng-template>
 </div>

@@ -13,7 +13,6 @@ import {
   VariantQualifier,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { vi } from 'vitest';
 import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
 
 class MockTranslationService {

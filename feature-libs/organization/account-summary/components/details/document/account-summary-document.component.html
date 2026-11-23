@@ -18,8 +18,7 @@
             ? 'cx-account-summary-document-table'
             : undefined
         "
-      >
-      </cx-account-summary-document-filter>
+      />
 
       <ng-container
         *ngIf="
@@ -39,7 +38,7 @@
               placeholder="{{ 'orgAccountSummary.sortBy' | cxTranslate }}"
               [ariaLabel]="'orgAccountSummary.sortDocuments' | cxTranslate"
               ariaControls="cx-account-summary-document-table"
-            ></cx-sorting>
+            />
           </label>
           <div
             class="cx-account-summary-document-pagination"
@@ -53,7 +52,7 @@
               [pagination]="accountSummary.pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-top"
-            ></cx-pagination>
+            />
           </div>
         </div>
 
@@ -92,7 +91,7 @@
                   title="{{
                     'orgAccountSummary.document.attachment' | cxTranslate
                   }}"
-                ></cx-icon>
+                />
               </th>
             </tr>
           </thead>
@@ -193,8 +192,7 @@
                       title="{{
                         'orgAccountSummary.document.download' | cxTranslate
                       }}"
-                    >
-                    </cx-icon>
+                    />
                     <span
                       class="cx-account-summary-document-attachment-text"
                       [innerText]="
@@ -223,7 +221,7 @@
               [pagination]="accountSummary.pagination"
               (viewPageEvent)="pageChange($event)"
               paginationID="pagination-bottom"
-            ></cx-pagination>
+            />
           </div>
         </div>
       </ng-container>

@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject, Optional } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Optional,
+} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { FeatureToggles, TranslatePipe } from '@spartacus/core';
@@ -14,9 +19,14 @@ import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 
+/**
+ * Requires default change detection strategy, as the disabled state of the quantity form control may change,
+ * which would not be properly detected with OnPush strategy.
+ */
 @Component({
   selector: 'cx-configurator-issues-notification',
   templateUrl: './configurator-issues-notification.component.html',
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     NgIf,
     IconComponent,

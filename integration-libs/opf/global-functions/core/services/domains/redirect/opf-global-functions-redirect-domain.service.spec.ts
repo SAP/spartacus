@@ -10,8 +10,17 @@ import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { WindowRef } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
 import { OpfGlobalFunctionsRedirectDomainService } from './opf-global-functions-redirect-domain.service';
+
+class MockOpfQuickBuyTransactionService
+  implements Partial<OpfQuickBuyTransactionService>
+{
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
+    .and.returnValue(of('test-cart-id'));
+}
 
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
   return jasmine.createSpyObj('OpfPaymentFacade', [
@@ -43,6 +52,10 @@ describe('OpfGlobalFunctionsRedirectDomainService', () => {
         OpfGlobalFunctionsRedirectDomainService,
         WindowRef,
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
         {
           provide: LaunchDialogService,
           useValue: jasmine.createSpyObj('LaunchDialogService', [
@@ -92,6 +105,8 @@ describe('OpfGlobalFunctionsRedirectDomainService', () => {
         jasmine.any(Object),
         mockPaymentSessionId,
         OpfPage.CHECKOUT_REVIEW_PAGE,
+        undefined,
+        undefined,
         undefined
       );
     });
@@ -114,6 +129,35 @@ describe('OpfGlobalFunctionsRedirectDomainService', () => {
       const callArgs =
         opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
       expect(callArgs.returnPath).toBe('opfCheckoutPaymentAndReview');
+    });
+
+    it('should forward cardNickName to runSubmitComplete', async () => {
+      spyOn(sharedService, 'runSubmitComplete').and.returnValue(
+        Promise.resolve(true)
+      );
+
+      await service.submitCompleteRedirect(
+        [],
+        {
+          onSuccess: () => {},
+          onPending: () => {},
+          onFailure: () => {},
+        },
+        mockPaymentSessionId,
+        undefined,
+        undefined,
+        'Corporate Card'
+      );
+
+      expect(sharedService.runSubmitComplete).toHaveBeenCalledWith(
+        [],
+        jasmine.any(Object),
+        mockPaymentSessionId,
+        OpfPage.CHECKOUT_REVIEW_PAGE,
+        undefined,
+        undefined,
+        'Corporate Card'
+      );
     });
   });
 });

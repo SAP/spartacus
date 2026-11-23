@@ -16,12 +16,12 @@
           items,
           parent: 'cart',
         }"
-      ></ng-template>
+      />
 
       <ng-template
         [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
         [cxOutletContext]="items"
-      ></ng-template>
+      />
       <th role="columnheader" scope="col" class="cx-item-list-qty">
         {{ 'cartItems.quantityFull' | cxTranslate }}
       </th>

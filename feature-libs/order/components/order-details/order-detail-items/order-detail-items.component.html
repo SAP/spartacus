@@ -7,9 +7,7 @@
         order.replenishmentOrderCode
       "
     >
-      <cx-promotions
-        [promotions]="order.appliedOrderPromotions || []"
-      ></cx-promotions>
+      <cx-promotions [promotions]="order.appliedOrderPromotions || []" />
     </ng-container>
 
     <!-- pickup consigned entries -->
@@ -25,7 +23,7 @@
       [consignments]="pickupConsignments"
       [enableAddToCart]="enableAddToCart$ | async"
       [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
-    ></cx-order-consigned-entries>
+    />
 
     <!-- delivery consignment address and delivery mode -->
     <ng-template
@@ -39,8 +37,7 @@
         showItemList: false,
         order: order,
       }"
-    >
-    </ng-template>
+    />
 
     <!-- delivery consigned entries -->
     <cx-order-consigned-entries
@@ -49,7 +46,7 @@
       [consignments]="deliveryConsignments"
       [enableAddToCart]="enableAddToCart$ | async"
       [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
-    ></cx-order-consigned-entries>
+    />
 
     <!-- unconsigned entries -->
     <ng-container *ngIf="order?.unconsignedEntries?.length">
@@ -82,8 +79,7 @@
                 optionalBtn: addToCartBtn,
               },
             }"
-          >
-          </ng-template>
+          />
         </div>
       </ng-container>
       <!-- pickup unconsigned entries, b2b does not have pickup items -->
@@ -108,8 +104,7 @@
                 optionalBtn: addToCartBtn,
               },
             }"
-          >
-          </ng-template>
+          />
         </div>
       </ng-container>
     </ng-container>
@@ -141,8 +136,7 @@
                 optionalBtn: addToCartBtn,
               },
             }"
-          >
-          </ng-template>
+          />
         </div>
       </div>
     </ng-container>
@@ -156,7 +150,6 @@
       [options]="ctx.options"
       [pickupStore]="ctx.item.deliveryPointOfService?.name"
       class="add-to-cart"
-    >
-    </cx-add-to-cart>
+    />
   </ng-template>
 </ng-container>

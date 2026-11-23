@@ -6,7 +6,6 @@ import {
   SubscriptionCancellationDetails,
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
-import { vi } from 'vitest';
 
 describe('SubscriptionActionsConnector', () => {
   let connector: SubscriptionActionsConnector;

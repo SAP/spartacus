@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AST_NODE_TYPES } from '@typescript-eslint/utils';
-import {
-  RuleFix,
-  RuleFixer,
-  SourceCode,
-} from '@typescript-eslint/utils/ts-eslint';
+import { AST_NODE_TYPES, TSESLint } from '@typescript-eslint/utils';
 
 /**
  * Adds an import in the file for `importedIdentifier` from `importPath`,
@@ -21,11 +16,11 @@ export function fixPossiblyMissingImport({
   importPath,
   sourceCode,
 }: {
-  fixer: RuleFixer;
+  fixer: TSESLint.RuleFixer;
   importedIdentifier: string;
   importPath: string;
-  sourceCode: SourceCode;
-}): RuleFix[] {
+  sourceCode: TSESLint.SourceCode;
+}): TSESLint.RuleFix[] {
   if (isIdentifierImported({ sourceCode, importedIdentifier, importPath })) {
     return [];
   }
@@ -48,7 +43,7 @@ export function isIdentifierImported({
 }: {
   importedIdentifier: string;
   importPath: string;
-  sourceCode: SourceCode;
+  sourceCode: TSESLint.SourceCode;
 }): boolean {
   const importDeclarations = sourceCode.ast.body.filter(
     (statement) => statement.type === AST_NODE_TYPES.ImportDeclaration
@@ -76,11 +71,11 @@ export function fixMissingImport({
   importPath,
   sourceCode,
 }: {
-  fixer: RuleFixer;
+  fixer: TSESLint.RuleFixer;
   importedIdentifier: string;
   importPath: string;
-  sourceCode: SourceCode;
-}): RuleFix[] {
+  sourceCode: TSESLint.SourceCode;
+}): TSESLint.RuleFix[] {
   const fixes = [];
   const importStatementText = `import { ${importedIdentifier} } from '${importPath}';\n`;
   const importDeclarations = sourceCode.ast.body.filter(

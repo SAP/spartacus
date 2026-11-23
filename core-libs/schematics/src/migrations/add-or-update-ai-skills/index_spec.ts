@@ -14,11 +14,7 @@ const MIGRATION_SCRIPT_NAME = 'add-or-update-ai-skills';
 const SKILLS_PACKAGE = '@spartacus/skills';
 const CLAUDE_SENTINEL = '.claude/skills/spartacus-developer/SKILL.md';
 
-// TODO CXSPA-13991: Re-enable once the `add-or-update-ai-skills` migration is
-// re-registered in migrations.json (skills passes audit and ships in the bundle).
-// The migration code is retained; only its collection registration is removed,
-// so this suite can't resolve the schematic and is skipped in the meantime.
-describe.skip('add/update AI skills migration', () => {
+describe('add/update AI skills migration', () => {
   let tree: Tree;
   let runner: SchematicTestRunner;
 
@@ -38,7 +34,7 @@ describe.skip('add/update AI skills migration', () => {
   }
 
   describe('non-interactive (CI / --force)', () => {
-    it('prints the manual-opt-in notice and changes nothing', async () => {
+    it('prints the manual-opt-in notice and changes nothing when no skills are present', async () => {
       jest.spyOn(utils, 'isInteractiveTerminal').mockReturnValue(false);
       const noticeSpy = jest.spyOn(utils, 'printSkillsNotice');
 
@@ -51,6 +47,37 @@ describe.skip('add/update AI skills migration', () => {
       expect(noticeSpy).toHaveBeenCalled();
       expect(runner.tasks).toEqual([]);
       expect(devDependencies(newTree)[SKILLS_PACKAGE]).toBeUndefined();
+    });
+
+    it('deterministically re-syncs already-installed skills instead of printing a notice', async () => {
+      tree.create(CLAUDE_SENTINEL, '# SKILL');
+      jest.spyOn(utils, 'isInteractiveTerminal').mockReturnValue(false);
+      const noticeSpy = jest.spyOn(utils, 'printSkillsNotice');
+      const scheduleSpy = jest.spyOn(utils, 'scheduleSkillsDeleteAndCopy');
+
+      const newTree = await runner.runSchematic(
+        MIGRATION_SCRIPT_NAME,
+        {},
+        tree
+      );
+
+      expect(noticeSpy).not.toHaveBeenCalled();
+      expect(scheduleSpy).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        ['claude']
+      );
+      expect(devDependencies(newTree)[SKILLS_PACKAGE]).toBeDefined();
+      const runSchematicTask = runner.tasks.find(
+        (task) => task.name === 'run-schematic'
+      );
+      expect(
+        (
+          runSchematicTask?.options as {
+            options?: { deleteBeforeCopy?: boolean };
+          }
+        )?.options?.deleteBeforeCopy
+      ).toBe(true);
     });
   });
 

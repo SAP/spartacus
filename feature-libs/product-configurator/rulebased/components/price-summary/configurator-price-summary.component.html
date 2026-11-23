@@ -2,7 +2,9 @@
   <ng-container *ngIf="configuration.pricingEnabled">
     <div class="cx-price-summary-container">
       <div class="cx-total-summary">
-        <ng-container *ngIf="!configuration.hideBasePriceAndSelectedOptions">
+        <ng-container
+          *ngIf="!shouldHideBasePriceAndSelectedOptions(configuration)"
+        >
           <div class="cx-summary-row cx-base-price">
             <div class="cx-label">
               {{ 'configurator.priceSummary.basePrice' | cxTranslate }}:

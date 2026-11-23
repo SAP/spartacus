@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -233,6 +232,8 @@ describe('QuoteSummaryActionsComponent', () => {
     mockQuoteDetails$.next(mockQuote);
     dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
     vi.spyOn(quoteStorefrontUtilsService, 'changeStyling');
+    currentCart.entries = undefined;
+    currentCart.quoteCode = undefined;
   });
 
   it('should create component', () => {

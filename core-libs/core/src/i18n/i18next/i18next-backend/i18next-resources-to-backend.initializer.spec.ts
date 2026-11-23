@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import type { i18n } from 'i18next';
 import { I18nConfig } from '../../config/i18n-config';

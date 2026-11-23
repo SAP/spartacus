@@ -135,5 +135,5 @@
     "enableResourceInlining": true,
     "strictTemplates": false
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "exclude": ["**/*.spec.ts"]
 }

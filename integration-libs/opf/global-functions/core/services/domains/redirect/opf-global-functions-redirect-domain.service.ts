@@ -28,14 +28,18 @@ export class OpfGlobalFunctionsRedirectDomainService {
       onCancel?: OpfPaymentMerchantCallback;
     },
     paymentSessionId: string,
-    vcr?: ViewContainerRef
+    vcr?: ViewContainerRef,
+    savePaymentMethod: boolean | undefined = undefined,
+    cardNickName?: string
   ): Promise<boolean> {
     return this.sharedService.runSubmitComplete(
       additionalData,
       callbacks,
       paymentSessionId,
       OpfPage.CHECKOUT_REVIEW_PAGE,
-      vcr
+      vcr,
+      savePaymentMethod,
+      cardNickName
     );
   }
 }

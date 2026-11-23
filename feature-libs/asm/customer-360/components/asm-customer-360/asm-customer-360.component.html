@@ -18,15 +18,14 @@
               | cxTranslate: { name: customer.firstName }
           }}
         </div>
-        <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+        <ng-template *ngTemplateOutlet="closeButton" />
       </div>
       <cx-message
         *ngIf="errorAlert$ | async"
         [text]="'asmCustomer360.alertErrorMessage' | cxTranslate"
         [type]="globalMessageType.MSG_TYPE_ERROR"
         (closeMessage)="closeErrorAlert()"
-      >
-      </cx-message>
+      />
       <div
         class="header-content"
         *ngIf="customerOverview$ | async as customerOverview"
@@ -40,7 +39,7 @@
               "
             >
               <div class="cx-avatar-image">
-                <cx-media [container]="avatarImage"></cx-media>
+                <cx-media [container]="avatarImage" />
               </div>
             </ng-container>
 
@@ -88,7 +87,7 @@
             class="header-account-details-active-cart"
             *ngIf="customerOverview?.cartCode"
           >
-            <cx-icon class="account-icon" [type]="cartIcon"></cx-icon>
+            <cx-icon class="account-icon" [type]="cartIcon" />
             {{
               'asmCustomer360.header.activeCartLabel'
                 | cxTranslate: { cartSize: customerOverview?.cartSize }
@@ -108,7 +107,7 @@
             class="header-account-details-recent-order"
             *ngIf="customerOverview?.latestOrderCode"
           >
-            <cx-icon class="account-icon" [type]="orderIcon"></cx-icon>
+            <cx-icon class="account-icon" [type]="orderIcon" />
             {{
               'asmCustomer360.header.recentOrderLabel'
                 | cxTranslate: { price: customerOverview?.latestOrderTotal }
@@ -137,7 +136,7 @@
             class="header-account-details-recent-ticket"
             *ngIf="customerOverview?.latestOpenedTicketId"
           >
-            <cx-icon class="account-icon" [type]="ticketIcon"></cx-icon>
+            <cx-icon class="account-icon" [type]="ticketIcon" />
             {{ 'asmCustomer360.header.recentTicketLabel' | cxTranslate }}
             <button
               [attr.aria-label]="
@@ -202,7 +201,7 @@
               [config]="config.config"
               [data]="asmCustomer360Tabs?.[i]"
               (navigate)="navigateTo($event)"
-            ></cx-asm-customer-360-section>
+            />
           </ng-container>
         </ng-template>
       </div>
@@ -218,6 +217,6 @@
     attr.title="{{ 'common.close' | cxTranslate }}"
     (click)="closeModal('Cross click')"
   >
-    <cx-icon [type]="closeIcon"></cx-icon>
+    <cx-icon [type]="closeIcon" />
   </button>
 </ng-template>

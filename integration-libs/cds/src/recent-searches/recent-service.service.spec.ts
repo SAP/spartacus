@@ -5,7 +5,7 @@
  *
  */
 
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RecentSearchesService } from './recent-searches.service';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -16,8 +16,16 @@ describe('RecentSearchesService', () => {
   let windowRef: WindowRef;
 
   beforeEach(() => {
+    const windowRefMock = {
+      isBrowser: () => false,
+      nativeWindow: {},
+    };
+
     TestBed.configureTestingModule({
-      providers: [RecentSearchesService, WindowRef],
+      providers: [
+        RecentSearchesService,
+        { provide: WindowRef, useValue: windowRefMock },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
@@ -29,11 +37,11 @@ describe('RecentSearchesService', () => {
     expect(recentSearchesService).toBeTruthy();
   });
 
-  it('should emit recent searches when available', fakeAsync(() => {
+  it('should emit recent searches when available', () => {
     const mockRecentSearches = ['query1', 'query2'];
 
-    spyOn(recentSearchesService['recentSearchesSource'], 'next');
-    spyOn<any>(recentSearchesService, 'checkAvailability').and.returnValue(
+    vi.spyOn(recentSearchesService['recentSearchesSource'], 'next');
+    vi.spyOn(recentSearchesService as any, 'checkAvailability').mockReturnValue(
       of(true)
     );
 
@@ -46,25 +54,21 @@ describe('RecentSearchesService', () => {
       },
     };
     recentSearchesService['addRecentSearchesListener']();
-    tick(150); // Simulate the interval
-    tick(0); // Simulate the end of the observable chain
 
     expect(
       recentSearchesService['recentSearchesSource'].next
     ).toHaveBeenCalledWith(mockRecentSearches);
-  }));
+  });
 
-  it('should not emit recent searches when not available', fakeAsync(() => {
-    spyOn(recentSearchesService['recentSearchesSource'], 'next');
-    spyOn<any>(recentSearchesService, 'checkAvailability').and.returnValue(
+  it('should not emit recent searches when not available', () => {
+    vi.spyOn(recentSearchesService['recentSearchesSource'], 'next');
+    vi.spyOn(recentSearchesService as any, 'checkAvailability').mockReturnValue(
       of(false)
     );
     recentSearchesService['addRecentSearchesListener']();
 
-    tick(150 * 5); // Simulate 5 intervals (the maximum in checkAvailability)
-
     expect(
       recentSearchesService['recentSearchesSource'].next
     ).not.toHaveBeenCalled();
-  }));
+  });
 });

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { BaseSite } from '../../../model/misc.model';

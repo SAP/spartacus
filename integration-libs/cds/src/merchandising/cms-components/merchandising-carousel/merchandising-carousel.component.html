@@ -11,8 +11,7 @@
     [title]="title$ | async"
     [template]="carouselItem"
     itemWidth="285px"
-  >
-  </cx-carousel>
+  />
 
   <ng-template #carouselItem let-item="item">
     <div
@@ -31,8 +30,7 @@
         *ngIf="item.images?.PRIMARY"
         [container]="item.images.PRIMARY"
         format="product"
-      >
-      </cx-media>
+      />
       <h4>{{ item.name }}</h4>
       <div class="price">
         {{ item.price?.formattedValue }}

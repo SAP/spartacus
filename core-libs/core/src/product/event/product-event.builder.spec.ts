@@ -4,12 +4,13 @@ import {
   ProductSearchPage,
   ProductSearchService,
 } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
-import { skip, take } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { ProductEventBuilder } from './product-event.builder';
 import { FacetChangedEvent } from './product.events';
 
-const getResultsBehavior = new BehaviorSubject<ProductSearchPage>(undefined);
+const getResultsBehavior = new BehaviorSubject<ProductSearchPage | undefined>(
+  undefined
+);
 class MockProductSearchService {
   getResults = () => getResultsBehavior;
 }
@@ -48,6 +49,7 @@ describe('ProductEventModule', () => {
   let eventService: EventService;
 
   beforeEach(() => {
+    getResultsBehavior.next(undefined);
     TestBed.configureTestingModule({
       providers: [
         { provide: ProductSearchService, useClass: MockProductSearchService },
@@ -59,19 +61,15 @@ describe('ProductEventModule', () => {
   });
 
   describe('FacetChangedEvent', () => {
-    it('should fire when the user toggle on a facet value', () => {
+    it('should fire when the user toggle on a facet value', async () => {
       const prevSearchResults = searchResult1;
       const currSearchResults = searchResult2;
 
-      let result: FacetChangedEvent;
-      eventService
-        .get(FacetChangedEvent)
-        .pipe(take(1))
-        .subscribe((value) => (result = value));
+      const result = firstValueFrom(eventService.get(FacetChangedEvent));
 
       getResultsBehavior.next(prevSearchResults);
       getResultsBehavior.next(currSearchResults);
-      expect(result).toEqual(
+      expect(await result).toEqual(
         expect.objectContaining({
           code: 'otherFacet',
           name: 'otherFacetName',
@@ -82,19 +80,15 @@ describe('ProductEventModule', () => {
       );
     });
 
-    it('should fire when the user toggle off a facet value', () => {
+    it('should fire when the user toggle off a facet value', async () => {
       const prevSearchResults = searchResult2;
       const currSearchResults = searchResult1;
 
-      let result: FacetChangedEvent;
-      eventService
-        .get(FacetChangedEvent)
-        .pipe(skip(1), take(1))
-        .subscribe((value) => (result = value));
+      const result = firstValueFrom(eventService.get(FacetChangedEvent));
 
       getResultsBehavior.next(prevSearchResults);
       getResultsBehavior.next(currSearchResults);
-      expect(result).toEqual(
+      expect(await result).toEqual(
         expect.objectContaining({
           code: 'otherFacet',
           name: 'otherFacetName',

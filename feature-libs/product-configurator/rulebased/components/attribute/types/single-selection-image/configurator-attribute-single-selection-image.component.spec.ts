@@ -1,26 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-
-import {
-  CxDatePipe,
-  I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
-  TranslatePipe,
-} from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import {
   FocusDirective,
   ICON_TYPE,
   IconComponent,
   IconTestingModule,
+  KeyboardFocusTestingModule,
   MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
@@ -38,15 +27,9 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
-import { vi } from 'vitest';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
-
-@Directive({ selector: '[cxFocus]' })
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
 
 @Component({
   selector: 'cx-configurator-price',
@@ -86,7 +69,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       ConfiguratorAttributeSingleSelectionImageComponent,
       {}
     );
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
@@ -125,13 +108,11 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
+            I18nTestingModule,
             MockIconComponent,
-            MockFocusDirective,
+            KeyboardFocusTestingModule,
             MockConfiguratorPriceComponent,
           ],
-          changeDetection: ChangeDetectionStrategy.Default,
           providers: [
             {
               provide: ConfiguratorAttributePriceChangeService,
@@ -139,6 +120,9 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
             },
           ],
         },
+      })
+      .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });

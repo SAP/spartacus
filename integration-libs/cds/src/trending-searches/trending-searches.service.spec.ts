@@ -13,7 +13,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { CdsConfig } from '@spartacus/cds';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -69,13 +69,15 @@ describe('TrendingSearchesService', () => {
 
   afterEach(() => {
     httpMock.verify();
+    vi.useRealTimers();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should emit trending searches when available', fakeAsync(() => {
+  it('should emit trending searches when available', async () => {
+    vi.useFakeTimers();
     const mockSearchPhrases: SearchPhrases[] = [
       { searchPhrase: 'test1', count: 10 },
       { searchPhrase: 'test2', count: 15 },
@@ -86,26 +88,22 @@ describe('TrendingSearchesService', () => {
       searchPhrases = result;
     });
 
-    // Fast-forward through the availability check
-    tick(250);
+    await vi.advanceTimersByTimeAsync(250);
 
-    // Handle the HTTP request
     const req = httpMock.expectOne(
       'https://storksfront-main.api.stage.context.cloud.sap/search-intelligence/v1/sites/main/trendingSearches'
     );
     expect(req.request.method).toBe('GET');
     req.flush({ searchPhrases: mockSearchPhrases });
 
-    // Verify the result
     expect(searchPhrases).toEqual(mockSearchPhrases);
 
-    // Clean up
     subscription.unsubscribe();
     service.ngOnDestroy();
-  }));
+  });
 
-  it('should not emit when cdsSiteId is not available', fakeAsync(() => {
-    // Reset window mock
+  it('should not emit when cdsSiteId is not available', async () => {
+    vi.useFakeTimers();
     (<any>windowRef.nativeWindow).Y_TRACKING = {
       config: {
         cdsSiteId: undefined,
@@ -117,14 +115,11 @@ describe('TrendingSearchesService', () => {
       emitted = true;
     });
 
-    for (let i = 0; i < 100; i++) {
-      tick(250);
-    }
+    await vi.advanceTimersByTimeAsync(250 * 100);
 
     expect(emitted).toBeFalsy();
 
-    // Clean up
     subscription.unsubscribe();
     service.ngOnDestroy();
-  }));
+  });
 });

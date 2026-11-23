@@ -7,6 +7,7 @@
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   EventEmitter,
@@ -84,6 +85,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected userPaymentService = inject(UserPaymentService);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
+  protected cdr = inject(ChangeDetectorRef);
 
   protected subscription = new Subscription();
 
@@ -190,7 +192,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
   ): boolean {
     return (
-      state.data?.value?.length === 1 && state.data?.page?.totalPages === 1
+      state.data?.value?.length === 1 &&
+      (state.data?.page?.totalPages ?? 1) === 1
     );
   }
 
@@ -334,6 +337,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
       disabled: this.disabled && this.explicitTermsAndConditions,
       savedCardsSelected: this.onSavedCardsSelected.bind(this),
     });
+    this.cdr.markForCheck();
   }
 
   onSavedCardsSelected(): void {
@@ -378,6 +382,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.updateActiveConfiguration();
     this.preselectPaymentOption();
     this.emitOutletContext();
+    this.subscription.add(
+      this.opfPaymentEventsService.refreshActiveConfigurationsEvent$.subscribe(
+        () => this.updateActiveConfiguration()
+      )
+    );
   }
 
   ngOnDestroy(): void {

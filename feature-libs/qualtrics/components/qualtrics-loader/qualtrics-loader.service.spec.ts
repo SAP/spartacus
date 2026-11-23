@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ScriptLoader, WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import {
   QualtricsLoaderService,
   QUALTRICS_EVENT_NAME,

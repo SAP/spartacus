@@ -10,14 +10,14 @@
         route: getCheckoutStepUrl(checkoutStepTypePaymentType),
         ariaLabelKey: 'checkoutReview.editPoNumber',
       }"
-    ></cx-opf-checkout-review-card>
+    />
     <cx-opf-checkout-review-card
       [cardContent$]="getCostCenterCard(costCenter$ | async)"
       [editConfig]="{
         route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
         ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
       }"
-    ></cx-opf-checkout-review-card>
+    />
     <cx-opf-checkout-review-card
       *ngIf="deliveryAddress$ | async as deliveryAddress"
       [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
@@ -25,7 +25,7 @@
         route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
         ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
       }"
-    ></cx-opf-checkout-review-card>
+    />
     <cx-opf-checkout-review-card
       *ngIf="deliveryMode$ | async as deliveryMode"
       [cardContent$]="getDeliveryModeCard(deliveryMode)"
@@ -33,7 +33,7 @@
         route: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
         ariaLabelKey: 'checkoutReview.editDeliveryMode',
       }"
-    ></cx-opf-checkout-review-card>
+    />
   </div>
 
   <cx-opf-checkout-terms-and-conditions-alert
@@ -42,7 +42,7 @@
     [isVisible]="termsAndConditionInvalid"
     [isExplicit]="explicitTermsAndConditions.value"
     [ngClass]="['for-mobile']"
-  ></cx-opf-checkout-terms-and-conditions-alert>
+  />
 
   <div
     *ngIf="explicitTermsAndConditions.value"
@@ -55,7 +55,7 @@
       [isVisible]="termsAndConditionInvalid"
       [isExplicit]="explicitTermsAndConditions.value"
       [isDismissible]="false"
-    ></cx-opf-checkout-terms-and-conditions-alert>
+    />
 
     <form
       class="cx-place-order-form form-check"
@@ -105,17 +105,15 @@
       [isVisible]="termsAndConditionInvalid"
       [isExplicit]="explicitTermsAndConditions.value"
       [ngClass]="['for-desktop']"
-    ></cx-opf-checkout-terms-and-conditions-alert>
+    />
   </cx-opf-checkout-payments>
 
   <cx-opf-checkout-review-cart-details
     [cart]="cart$ | async"
     [entries]="entries$ | async"
-  ></cx-opf-checkout-review-cart-details>
+  />
 
   <ng-template #placeOrderTemplate>
-    <cx-opf-b2b-checkout-place-order
-      [isDisabled]="false"
-    ></cx-opf-b2b-checkout-place-order>
+    <cx-opf-b2b-checkout-place-order [isDisabled]="false" />
   </ng-template>
 </ng-container>

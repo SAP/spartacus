@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -19,7 +18,6 @@ import {
   StateWithConfigurationTextfield,
 } from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
-import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -129,7 +127,7 @@ describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         ConfiguratorTextfieldService,
@@ -145,12 +143,8 @@ describe('ConfiguratorTextfieldService', () => {
     }).compileComponents();
   });
   beforeEach(() => {
-    serviceUnderTest = TestBed.inject(
-      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
-    );
-    store = TestBed.inject(
-      Store as Type<Store<StateWithConfigurationTextfield>>
-    );
+    serviceUnderTest = TestBed.inject(ConfiguratorTextfieldService);
+    store = TestBed.inject(Store);
 
     vi.spyOn(store, 'dispatch');
   });

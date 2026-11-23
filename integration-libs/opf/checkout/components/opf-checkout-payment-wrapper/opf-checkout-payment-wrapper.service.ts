@@ -39,7 +39,7 @@ import {
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
-import { OrderFacade } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import {
   BehaviorSubject,
   Observable,
@@ -141,17 +141,26 @@ export class OpfCheckoutPaymentWrapperService {
           );
 
           if (paymentSessionId) {
-            return this.opfPaymentFacade.updatePaymentTransaction({
-              paymentSessionId,
-              otpKey: params.otpKey,
-              config: {
-                configurationId: params.config?.configurationId,
-                browserInfo: params.config?.browserInfo,
-                channel: params.config?.channel,
-                resultURL: params.config?.resultURL,
-                cancelURL: params.config?.cancelURL,
-              },
-            });
+            return this.opfPaymentFacade
+              .updatePaymentTransaction({
+                paymentSessionId,
+                otpKey: params.otpKey,
+                config: {
+                  configurationId: params.config?.configurationId,
+                  browserInfo: params.config?.browserInfo,
+                  channel: params.config?.channel,
+                  resultURL: params.config?.resultURL,
+                  cancelURL: params.config?.cancelURL,
+                },
+              })
+              .pipe(
+                catchError((err: HttpErrorModel) => {
+                  if (Number(err.status) === HttpResponseStatus.CONFLICT) {
+                    return this.opfPaymentFacade.initiatePayment(params);
+                  }
+                  return throwError(() => err);
+                })
+              );
           }
         }
 
@@ -334,7 +343,7 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected handlePaymentAlreadyDoneError(): Observable<Error> {
-    return this.orderFacade.placePaymentAuthorizedOrder(true).pipe(
+    return this.placeOrder().pipe(
       catchError(() => {
         this.onPlaceOrderError();
 
@@ -347,6 +356,10 @@ export class OpfCheckoutPaymentWrapperService {
         return throwError(() => 'Payment already done');
       })
     );
+  }
+
+  protected placeOrder(cartId?: string): Observable<Order> {
+    return this.orderFacade.placePaymentAuthorizedOrder(true, cartId);
   }
 
   protected onPlaceOrderSuccess(): void {

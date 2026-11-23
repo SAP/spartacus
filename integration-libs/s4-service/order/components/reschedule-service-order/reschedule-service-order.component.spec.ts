@@ -25,7 +25,6 @@ import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of, throwError } from 'rxjs';
 import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
-import createSpy = jasmine.createSpy;
 
 const mockOrder = {
   code: '0005004001',
@@ -61,25 +60,26 @@ class MockRescheduleServiceOrderFacade {
   rescheduleService(_orderCode: string, _scheduledAt: ServiceDateTime) {}
 }
 class MockRoutingService {
-  go = createSpy().and.callThrough();
+  go = vi.fn();
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.callThrough();
+  add = vi.fn();
 }
 class MockCheckoutServiceSchedulePickerService {
-  getMinDateForService = createSpy().and.returnValue(
-    of('2024-07-06T11:00:00+0000')
-  );
-  getScheduledServiceTimes = createSpy().and.returnValue(
-    of(['08:00', '14:30', '16:00'])
-  );
-  convertDateTimeToReadableString =
-    createSpy().and.returnValue('11/07/2024, 14:30');
-  getServiceDetailsFromDateTime = createSpy().and.returnValue({
+  getMinDateForService = vi
+    .fn()
+    .mockReturnValue(of('2024-07-06T11:00:00+0000'));
+  getScheduledServiceTimes = vi
+    .fn()
+    .mockReturnValue(of(['08:00', '14:30', '16:00']));
+  convertDateTimeToReadableString = vi
+    .fn()
+    .mockReturnValue('11/07/2024, 14:30');
+  getServiceDetailsFromDateTime = vi.fn().mockReturnValue({
     date: '11/07/2024',
     time: '14:30',
   });
-  convertToDateTime = createSpy().and.returnValue('2024-06-27T14:30:00±HH:MM');
+  convertToDateTime = vi.fn().mockReturnValue('2024-06-27T14:30:00±HH:MM');
 }
 
 describe('RescheduleServiceOrderComponent', () => {
@@ -169,7 +169,7 @@ describe('RescheduleServiceOrderComponent', () => {
     expect(component.form?.get('scheduleTime')?.value).toEqual('16:00');
   });
   it('should show redirect to order details page with success message when successfully rescheduled', () => {
-    spyOn(rescheduleServiceOrderFacade, 'rescheduleService').and.returnValue(
+    vi.spyOn(rescheduleServiceOrderFacade, 'rescheduleService').mockReturnValue(
       of(200)
     );
     component.rescheduleServiceOrder();
@@ -183,7 +183,7 @@ describe('RescheduleServiceOrderComponent', () => {
     );
   });
   it('should show error message if any error thrown', () => {
-    spyOn(rescheduleServiceOrderFacade, 'rescheduleService').and.returnValue(
+    vi.spyOn(rescheduleServiceOrderFacade, 'rescheduleService').mockReturnValue(
       throwError('Throwing Error message')
     );
     component.rescheduleServiceOrder();

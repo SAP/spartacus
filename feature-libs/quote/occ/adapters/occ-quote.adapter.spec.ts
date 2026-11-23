@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpRequest,
   provideHttpClient,
@@ -149,6 +148,7 @@ describe(`OccQuoteAdapter`, () => {
 
   afterEach(() => {
     httpTestingController.verify();
+    vi.restoreAllMocks();
   });
 
   it('getQuotes should return users quotes list', async () => {

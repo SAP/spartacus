@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -95,6 +94,7 @@ describe('CartCouponComponent', () => {
   });
 
   beforeEach(() => {
+    vi.clearAllMocks();
     fixture = TestBed.createComponent(CartCouponComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
@@ -110,7 +110,6 @@ describe('CartCouponComponent', () => {
     mockCartVoucherService.resetAddVoucherProcessingState.mockImplementation(
       () => {}
     );
-    mockCartVoucherService.resetAddVoucherProcessingState.mockClear();
     mockCartVoucherService.getAddVoucherResultError.mockReturnValue(EMPTY);
     mockCustomerCouponService.loadCustomerCoupons.mockImplementation(() => {});
     mockCustomerCouponService.getCustomerCoupons.mockReturnValue(of({}));
@@ -227,8 +226,9 @@ describe('CartCouponComponent', () => {
       of(couponsSearchResult)
     );
     fixture.detectChanges();
-    const customerCoupon = el.queryAll(By.css('.cx-available-coupon .card'))[0]
-      .nativeElement;
+    const customerCoupon = el.queryAll(
+      By.css('.cx-available-coupon .card button')
+    )[0].nativeElement;
     customerCoupon.click();
     fixture.detectChanges();
     expect(mockCartVoucherService.addVoucher).toHaveBeenCalled();

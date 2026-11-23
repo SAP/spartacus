@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { PositioningService } from './positioning.service';
+import { vi } from 'vitest';
 
 @Component({
   template: `
@@ -47,15 +48,22 @@ describe('PositioningService', () => {
   // }
 
   class MockWindowRef {
-    nativeWindow = window;
     document = document;
+    nativeWindow = {
+      getComputedStyle: (el: Element) => window.getComputedStyle(el),
+      pageYOffset: 0,
+      pageXOffset: 0,
+      innerHeight: 768,
+      innerWidth: 1024,
+    };
   }
 
-  let element;
-  let targetElement;
-  let positioningService;
-  let documentMargin;
-  let bodyMargin;
+  let element: HTMLElement;
+  let targetElement: HTMLElement;
+  let positioningService: PositioningService;
+  let documentMargin: any;
+  let bodyMargin: any;
+
   beforeAll(() => {
     documentMargin = document.documentElement.style.margin;
     bodyMargin = document.body.style.margin;
@@ -79,11 +87,34 @@ describe('PositioningService', () => {
 
     element = fixture.nativeElement.querySelector('#element');
     targetElement = fixture.nativeElement.querySelector('#targetElement');
+
+    //these need to be mocked as vitest runs on jsdom, which doesn't implement layout, so any call to getBoundingClientRect() will return zeros for each prop
+    vi.spyOn(element, 'getBoundingClientRect').mockReturnValue({
+      height: 200,
+      width: 300,
+      top: 100,
+      bottom: 300,
+      left: 150,
+      right: 450,
+      x: 150,
+      y: 100,
+      toJSON: () => {},
+    });
+    vi.spyOn(targetElement, 'getBoundingClientRect').mockReturnValue({
+      height: 50,
+      width: 100,
+      top: 0,
+      bottom: 50,
+      left: 0,
+      right: 100,
+      x: 0,
+      y: 0,
+      toJSON: () => {},
+    });
   });
 
-  it.skip('should calculate the element offset', () => {
-    let position = positioningService.offset(element);
-
+  it('should calculate the element offset', () => {
+    let position = positioningService['offset'](element);
     expect(position.height).toBe(200);
     expect(position.width).toBe(300);
     expect(position.top).toBe(100);
@@ -92,7 +123,7 @@ describe('PositioningService', () => {
     expect(position.right).toBe(450);
   });
 
-  it.skip('should calculate the element offset when scrolled', () => {
+  it('should calculate the element offset when scrolled', () => {
     document.documentElement.scrollTop = 1000;
     document.documentElement.scrollLeft = 1000;
 
@@ -107,7 +138,7 @@ describe('PositioningService', () => {
     document.documentElement.scrollLeft = 0;
   });
 
-  it.skip('should calculate the element position', () => {
+  it('should calculate the element position', () => {
     let position = positioningService.position(element);
 
     expect(position.height).toBe(200);
@@ -118,7 +149,7 @@ describe('PositioningService', () => {
     expect(position.right).toBe(450);
   });
 
-  it.skip('should calculate the element position when scrolled', () => {
+  it('should calculate the element position when scrolled', () => {
     document.documentElement.scrollTop = 1000;
     document.documentElement.scrollLeft = 1000;
 
@@ -133,13 +164,27 @@ describe('PositioningService', () => {
     document.documentElement.scrollLeft = 0;
   });
 
-  it.skip('should calculate the element position on positioned ancestor', () => {
-    let childElement = createElement(100, 150, 50, 75);
-
+  it('should calculate the element position on positioned ancestor', () => {
+    const childElement = createElement(100, 150, 50, 75);
+    vi.spyOn(childElement, 'getBoundingClientRect').mockReturnValue({
+      height: 100,
+      width: 150,
+      top: 150,
+      bottom: 250,
+      left: 225,
+      right: 375,
+      x: 225,
+      y: 150,
+      toJSON: () => {},
+    });
     element.style.position = 'relative';
     element.appendChild(childElement);
+    Object.defineProperty(childElement, 'offsetParent', {
+      value: element,
+      configurable: true,
+    });
 
-    let position = positioningService.position(childElement);
+    let position = positioningService['position'](childElement);
 
     expect(position.top).toBe(50);
     expect(position.bottom).toBe(150);

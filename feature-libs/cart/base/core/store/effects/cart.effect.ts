@@ -27,6 +27,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  take,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CartConnector } from '../../connectors/cart/cart.connector';
@@ -280,7 +281,26 @@ export class CartEffects {
     )
   );
 
-  // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
+  // Reload the cart from the backend after entry/voucher mutations finish.
+  //
+  // The downstream loadCart$ effect drops any LoadCart while the cart has
+  // pending processes (cart.effect.ts:80). Without that filter, a burst of
+  // rapid add-to-cart clicks would dispatch one LoadCart per success, which
+  // a switchMap would then collapse into the LAST in-flight GET — and that
+  // GET races with the still-pending POSTs.
+  //
+  // The filter alone is not enough either: every per-success LoadCart was
+  // being dropped, so on a slow network the cart entity would never refresh
+  // until something *else* dispatched a LoadCart later. CXSPA-10582
+  // reproduced this on slow 3G — rapid multi-product adds finished POSTing
+  // server-side but the UI showed a stale cart.
+  //
+  // When `enableCartSlowNetworkResilience` is ON: wait until processesCount
+  // for THIS cart drops to 0 (the falling edge), then dispatch one
+  // LoadCart. The downstream filter still acts as defense-in-depth for any
+  // other LoadCart dispatcher (cart-page mount etc.) firing mid-burst.
+  // When OFF: fall back to the legacy synchronous map() that dispatched
+  // LoadCart immediately on every success.
   refreshWithoutProcesses$: Observable<CartActions.LoadCart> = createEffect(
     () =>
       this.actions$.pipe(
@@ -299,12 +319,31 @@ export class CartEffects {
               | CartActions.CartRemoveVoucherSuccess
           ) => action.payload
         ),
-        map(
-          (payload) =>
-            new CartActions.LoadCart({
-              userId: payload.userId,
-              cartId: payload.cartId,
-            })
+        mergeMap((payload) =>
+          this.featureToggles.enableCartSlowNetworkResilience
+            ? this.store
+                .pipe(
+                  select(
+                    getCartHasPendingProcessesSelectorFactory(payload.cartId)
+                  )
+                )
+                .pipe(
+                  filter((hasPending) => !hasPending),
+                  take(1),
+                  map(
+                    () =>
+                      new CartActions.LoadCart({
+                        userId: payload.userId,
+                        cartId: payload.cartId,
+                      })
+                  )
+                )
+            : of(
+                new CartActions.LoadCart({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                })
+              )
         )
       )
   );

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ElementRef } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { firstValueFrom, Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfiguratorConflictSolverDialogLauncherService } from './configurator-conflict-solver-dialog-launcher.service';
 import {
@@ -14,7 +14,6 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 let lastDialogData: any;

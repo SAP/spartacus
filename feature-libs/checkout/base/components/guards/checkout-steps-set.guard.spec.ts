@@ -11,6 +11,7 @@ import { RouteConfig, RoutingConfigService } from '@spartacus/core';
 import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
+import { vi } from 'vitest';
 
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
   getRouteConfig(stepRoute: string): RouteConfig | undefined {
@@ -108,6 +109,8 @@ describe(`CheckoutStepsSetGuard`, () => {
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(() => {
+    vi.clearAllMocks();
+    hasDeliveryItems$.next(false);
     TestBed.configureTestingModule({
       providers: [
         CheckoutStepsSetGuard,
@@ -278,6 +281,7 @@ describe(`CheckoutStepsSetGuard`, () => {
       expect(checkoutDeliveryModesFacade.setDeliveryMode).toHaveBeenCalledWith(
         'pickup'
       );
+      testStep.disabled = false;
     });
   });
 });

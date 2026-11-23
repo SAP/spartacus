@@ -32,12 +32,13 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { PaginationComponent } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/root';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 
 @Component({
   template: '',
@@ -129,8 +130,16 @@ describe('OpfCheckoutPaymentsComponent', () => {
   let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
   let el: DebugElement;
   let mockBillingAddressFormService: Partial<OpfCheckoutBillingAddressFormService>;
+  let refreshActiveConfigurationsSubject: Subject<void>;
+  let mockPaymentEventsService: Partial<OpfPaymentEventsService>;
 
   beforeEach(async () => {
+    refreshActiveConfigurationsSubject = new Subject<void>();
+    mockPaymentEventsService = {
+      refreshActiveConfigurationsEvent$:
+        refreshActiveConfigurationsSubject.asObservable(),
+    };
+
     opfMetadataStoreServiceMock = jasmine.createSpyObj(
       'OpfMetadataStoreService',
       ['getOpfMetadataState', 'updateOpfMetadata']
@@ -171,6 +180,10 @@ describe('OpfCheckoutPaymentsComponent', () => {
         {
           provide: CheckoutPaymentFacade,
           useClass: MockCheckoutPaymentFacade,
+        },
+        {
+          provide: OpfPaymentEventsService,
+          useValue: mockPaymentEventsService,
         },
       ],
     })
@@ -407,6 +420,17 @@ describe('OpfCheckoutPaymentsComponent', () => {
     });
   });
 
+  describe('refreshActiveConfigurationsEvent$', () => {
+    it('should call updateActiveConfiguration when event fires', () => {
+      fixture.detectChanges();
+      spyOn(component, 'updateActiveConfiguration');
+
+      refreshActiveConfigurationsSubject.next();
+
+      expect(component.updateActiveConfiguration).toHaveBeenCalled();
+    });
+  });
+
   describe('getPaginationModel', () => {
     it('should calculate pagination model from page data', () => {
       const paginationModel = component.getPaginationModel({
@@ -478,6 +502,19 @@ describe('OpfCheckoutPaymentsComponent', () => {
 
       const result = component['checkIfOnlyOnePaymentOptionAvailable'](state);
       expect(result).toBe(false);
+    });
+
+    it('should return true when one payment option available and page info is absent', () => {
+      const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
+        loading: false,
+        error: false,
+        data: {
+          value: [mockActiveConfigurations[0]],
+        },
+      };
+
+      const result = component['checkIfOnlyOnePaymentOptionAvailable'](state);
+      expect(result).toBe(true);
     });
   });
 

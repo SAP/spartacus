@@ -23,7 +23,7 @@
         id="nameError"
         [translationParams]="{ label: 'orgUserGroup.name' | cxTranslate }"
         [control]="form.get('name')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label>
@@ -47,7 +47,7 @@
         id="uidError"
         [translationParams]="{ label: 'orgUserGroup.uid' | cxTranslate }"
         [control]="form.get('uid')"
-      ></cx-form-errors>
+      />
     </label>
 
     <label [formGroup]="$any(form.get('orgUnit'))">
@@ -69,13 +69,12 @@
         ariaLabelDropdown="{{
           'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
-      >
-      </ng-select>
+      />
 
       <cx-form-errors
         [translationParams]="{ label: 'orgUserGroup.orgUnit' | cxTranslate }"
         [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
+      />
     </label>
   </ng-container>
 </cx-org-form>

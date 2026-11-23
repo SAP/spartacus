@@ -92,7 +92,8 @@ else
     npm ci
     (cd projects/storefrontapp-e2e-cypress && npm ci)
 
-    npm run build:libs 2>&1 | tee build.log
+    source ci-scripts/npm-commands.sh
+    build_libs_ci 2>&1 | tee build.log
 
     results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
     if [[ -z "${results}" ]]; then

@@ -1,6 +1,5 @@
 import { Component, DOCUMENT, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
@@ -91,13 +90,6 @@ describe('QuoteCommentsComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
-    mockQuoteItemsComponentService = {
-      setQuoteEntriesExpanded: vi.fn(),
-      getQuoteEntriesExpanded: vi.fn(),
-    } as any;
-    (
-      mockQuoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock
-    ).mockReturnValue(of(true));
     quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
   });
 
@@ -124,6 +116,14 @@ describe('QuoteCommentsComponent', () => {
     (quoteFacade.addQuoteComment as vi.Mock).mockReturnValue(of({}));
 
     eventService = { dispatch: vi.fn() } as any;
+
+    mockQuoteItemsComponentService = {
+      setQuoteEntriesExpanded: vi.fn(),
+      getQuoteEntriesExpanded: vi.fn(),
+    } as any;
+    (
+      mockQuoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock
+    ).mockReturnValue(of(true));
   }
 
   it('should create', () => {

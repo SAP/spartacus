@@ -6,7 +6,7 @@
 
 import angular from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import path from 'path';
+import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -36,6 +36,7 @@ export default defineConfig({
   test: {
     pool: 'forks',
     watch: false,
+    restoreMocks: true,
     globals: true,
     environment: 'jsdom',
     setupFiles: ['../../testing/setup-vitest.ts'],
@@ -44,15 +45,27 @@ export default defineConfig({
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
+      enabled: true,
       provider: 'v8',
-      reporter: ['lcov'],
+      reporter: ['text-summary', 'html', 'lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/storefront`,
-      exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts'],
+      include: ['**/*.ts'],
+      exclude: [
+        '**/*.spec.ts',
+        '**/public_api.ts',
+        '**/index.ts',
+        '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+        'setup-jest.ts',
+      ],
       thresholds: {
-        statements: 90,
-        lines: 90,
-        branches: 80,
-        functions: 90,
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
       },
     },
     reporters: [

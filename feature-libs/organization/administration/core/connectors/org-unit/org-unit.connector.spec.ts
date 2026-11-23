@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Address, B2BApprovalProcess, SearchConfig } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';

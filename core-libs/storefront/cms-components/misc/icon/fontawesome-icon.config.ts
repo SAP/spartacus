@@ -28,6 +28,7 @@ export const fontawesomeIconConfig: IconConfig = {
       CREDIT_CARD: 'fas fa-credit-card',
       DINERS_CLUB: 'fab fa-cc-diners-club',
       DOWNLOAD: 'fas fa-download',
+      ELLIPSIS: 'fas fa-ellipsis-h',
       EMPTY_HEART: 'far fa-heart',
       ERROR: 'fas fa-exclamation-circle',
       EXPAND_ARROWS: 'fas fa-expand',

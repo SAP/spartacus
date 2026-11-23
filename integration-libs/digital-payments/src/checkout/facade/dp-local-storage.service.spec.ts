@@ -2,8 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { DpLocalStorageService } from './dp-local-storage.service';
 import { StatePersistenceService } from '@spartacus/core';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
-
-import createSpy = jasmine.createSpy;
 const initialState: DpPaymentRequest = {};
 const mockDpPaymentRequest: DpPaymentRequest = {
   url: 'https://dummy.url',
@@ -12,10 +10,8 @@ const mockDpPaymentRequest: DpPaymentRequest = {
 };
 
 class MockStatePersistenceService implements Partial<StatePersistenceService> {
-  syncWithStorage = createSpy('syncWithStorage');
-  readStateFromStorage = createSpy('readStateFromStorage').and.returnValue(
-    mockDpPaymentRequest
-  );
+  syncWithStorage = vi.fn();
+  readStateFromStorage = vi.fn().mockReturnValue(mockDpPaymentRequest);
 }
 describe('DpLocalStorageService', () => {
   let service: DpLocalStorageService;
@@ -42,9 +38,9 @@ describe('DpLocalStorageService', () => {
     it('should sync state with storage', () => {
       service.syncCardRegistrationState(initialState);
       expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-        jasmine.objectContaining({
+        expect.objectContaining({
           key: 'digital-payment.checkout.request',
-          state$: jasmine.objectContaining(initialState),
+          state$: expect.objectContaining(initialState),
         })
       );
     });
@@ -59,7 +55,7 @@ describe('DpLocalStorageService', () => {
     });
 
     it('should call clearDpStorage() to reset state to empty', () => {
-      spyOn(service as any, 'clearDpStorage');
+      vi.spyOn(service as any, 'clearDpStorage');
       let state = service.readCardRegistrationState();
       expect(service['clearDpStorage']).toHaveBeenCalled();
       expect(state).toEqual(mockDpPaymentRequest);

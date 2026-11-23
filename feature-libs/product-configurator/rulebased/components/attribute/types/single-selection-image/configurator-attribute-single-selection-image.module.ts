@@ -14,7 +14,6 @@ import {
   PopoverModule,
 } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
 @NgModule({
@@ -30,7 +29,7 @@ import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurat
     ConfiguratorAttributeSingleSelectionImageComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_single_selection_image:

@@ -36,6 +36,8 @@ describe('AvatarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AvatarComponent);
     component = fixture.componentInstance;
+    mockEvent.author = 'Mark Rivers';
+    mockEvent.rightAlign = true;
     component.message = mockEvent;
   });
 

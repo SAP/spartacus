@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -20,7 +19,7 @@ import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes
 import { UnitTreeService } from '../services/unit-tree.service';
 
 @Component({
-  template: '<ng-content select="[actions]"></ng-content>',
+  template: '<ng-content select="[actions]"/>',
   selector: 'cx-org-list',
   imports: [I18nTestingModule, UrlTestingModule],
 })

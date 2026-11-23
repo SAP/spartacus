@@ -64,7 +64,7 @@ export class B2BCheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
   protected subscriptions = new Subscription();
-  private featureToggles = inject(FeatureToggles);
+  private b2bFeatureToggles = inject(FeatureToggles);
 
   protected isAccountPayment$: Observable<boolean> =
     this.checkoutPaymentTypeFacade
@@ -83,7 +83,7 @@ export class B2BCheckoutDeliveryAddressComponent
               .getCostCenterAddresses(costCenter.code)
               .pipe(
                 map((addresses) =>
-                  this.featureToggles.b2bCheckoutShippingAddressFilter
+                  this.b2bFeatureToggles.b2bCheckoutShippingAddressFilter
                     ? addresses.filter((a) => a.shippingAddress === true)
                     : addresses
                 )

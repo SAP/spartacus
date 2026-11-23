@@ -11,7 +11,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailActionsComponent } from './order-detail-actions.component';
 
@@ -60,6 +60,7 @@ describe('OrderDetailActionsComponent', () => {
   });
 
   beforeEach(() => {
+    mockOrder.returnable = true;
     fixture = TestBed.createComponent(OrderDetailActionsComponent);
     el = fixture.debugElement;
 
@@ -70,14 +71,9 @@ describe('OrderDetailActionsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize ', () => {
+  it('should initialize ', async () => {
     fixture.detectChanges();
-    let order: Order;
-    component.order$
-      .subscribe((value) => {
-        order = value;
-      })
-      .unsubscribe();
+    let order: Order = await firstValueFrom(component.order$);
     expect(order).toEqual(mockOrder);
   });
 

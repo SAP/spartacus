@@ -22,8 +22,7 @@
               [text]="'asm.createCustomerForm.createAccountAlert' | cxTranslate"
               [type]="globalMessageType.MSG_TYPE_INFO"
               (closeMessage)="closeDialogInfoAlert()"
-            >
-            </cx-message>
+            />
             <ng-container
               *ngFor="let errorMessage of backendErrorMessages; let i = index"
             >
@@ -32,8 +31,7 @@
                 [text]="errorMessage"
                 [type]="globalMessageType.MSG_TYPE_ERROR"
                 (closeMessage)="closeDialogBackendErroAlert(i)"
-              >
-              </cx-message>
+              />
             </ng-container>
           </div>
 
@@ -62,7 +60,7 @@
                 <cx-form-errors
                   id="firstNameError"
                   [control]="registerForm.get('firstName')"
-                ></cx-form-errors>
+                />
               </label>
             </div>
 
@@ -89,7 +87,7 @@
                 <cx-form-errors
                   id="lastNameError"
                   [control]="registerForm.get('lastName')"
-                ></cx-form-errors>
+                />
               </label>
             </div>
 
@@ -119,7 +117,7 @@
                 <cx-form-errors
                   id="emailError"
                   [control]="registerForm.get('email')"
-                ></cx-form-errors>
+                />
               </label>
             </div>
           </div>
@@ -146,5 +144,5 @@
 </div>
 
 <ng-template #loading>
-  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-spinner"><cx-spinner /></div>
 </ng-template>

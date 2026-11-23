@@ -6,7 +6,6 @@ import { ItemCounterComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
-import { vi } from 'vitest';
 
 const fakeDebounceTime = 750;
 const changedQty = 9;
@@ -53,7 +52,7 @@ class MockItemCounterComponent {
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [I18nTestingModule, ConfiguratorAttributeQuantityComponent],
       providers: [
         {

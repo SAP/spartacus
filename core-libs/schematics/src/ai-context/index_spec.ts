@@ -11,6 +11,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
+import { deleteSkillDir, SkillFile, verifySkillTree } from './index';
 
 const SKILLS_SOURCE_DIR = path.resolve(
   __dirname,
@@ -37,7 +38,11 @@ describe('ai-context standalone schematic', () => {
   });
 
   async function run(
-    options: { aiTools?: string[]; debug?: boolean } = {},
+    options: {
+      aiTools?: string[];
+      debug?: boolean;
+      deleteBeforeCopy?: boolean;
+    } = {},
     seed?: (tree: Tree) => void
   ): Promise<UnitTestTree> {
     const tree = Tree.empty();
@@ -130,5 +135,74 @@ describe('ai-context standalone schematic', () => {
     } finally {
       process.env.SPARTACUS_SKILLS_DIR = original;
     }
+  });
+
+  describe('partial-update hardening', () => {
+    const CLAUDE_BASE = '/.claude/skills/spartacus-developer';
+
+    it('removes stale files on a delete+copy and verifies the result', async () => {
+      const stale = `${CLAUDE_BASE}/references/OLD-STALE.md`;
+      const tree = await run(
+        { aiTools: ['claude'], deleteBeforeCopy: true },
+        (t) => t.create(stale, '# stale, no longer shipped\n')
+      );
+
+      expect(tree.exists(stale)).toBe(false);
+      expect(tree.exists(`${CLAUDE_BASE}/SKILL.md`)).toBe(true);
+    });
+
+    it('runs without throwing on the real shipped skills (integrity holds)', async () => {
+      await expect(run({ aiTools: ['claude'] })).resolves.toBeDefined();
+    });
+
+    describe('verifySkillTree', () => {
+      const files: SkillFile[] = [
+        { relativePath: 'SKILL.md', content: 'hello' },
+      ];
+
+      it('throws when an expected file is missing', () => {
+        const tree = Tree.empty();
+        expect(() => verifySkillTree(tree, files, CLAUDE_BASE)).toThrow(
+          /missing after copy/
+        );
+      });
+
+      it('throws when a file’s content does not match', () => {
+        const tree = Tree.empty();
+        tree.create(`${CLAUDE_BASE}/SKILL.md`, 'TAMPERED');
+        expect(() => verifySkillTree(tree, files, CLAUDE_BASE)).toThrow(
+          /does not match/
+        );
+      });
+
+      it('throws when an unexpected/stale file remains', () => {
+        const tree = Tree.empty();
+        tree.create(`${CLAUDE_BASE}/SKILL.md`, 'hello');
+        tree.create(`${CLAUDE_BASE}/references/EXTRA.md`, 'surprise');
+        expect(() => verifySkillTree(tree, files, CLAUDE_BASE)).toThrow(
+          /unexpected file/
+        );
+      });
+
+      it('passes when the tree exactly matches the manifest', () => {
+        const tree = Tree.empty();
+        tree.create(`${CLAUDE_BASE}/SKILL.md`, 'hello');
+        expect(() => verifySkillTree(tree, files, CLAUDE_BASE)).not.toThrow();
+      });
+    });
+
+    it('throws if the pre-copy delete leaves files behind', () => {
+      const tree = Tree.empty();
+      tree.create(
+        `${CLAUDE_BASE}/SKILL.md`,
+        '# will not actually be deleted\n'
+      );
+      // Simulate a delete that fails to remove anything.
+      jest.spyOn(tree, 'delete').mockImplementation(() => undefined);
+
+      expect(() => deleteSkillDir(tree, CLAUDE_BASE)).toThrow(
+        /Failed to clear/
+      );
+    });
   });
 });

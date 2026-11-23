@@ -5,6 +5,7 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { createHash } from 'node:crypto';
 import * as fs from 'fs';
 import * as path from 'path';
 import { AiTool } from '../add-spartacus/schema';
@@ -20,7 +21,7 @@ const SKILL_DEST: Record<AiTool, string> = {
   agents: `.agents/skills/${SKILL_DIR}`,
 };
 
-interface SkillFile {
+export interface SkillFile {
   relativePath: string;
   content: string;
 }
@@ -65,6 +66,8 @@ export function addAiContextSchematic(options: Schema): Rule {
     for (const target of targets) {
       copySkill(tree, files, target, {
         deleteBeforeCopy: options.deleteBeforeCopy,
+        debug: options.debug,
+        logger: context.logger,
       });
     }
 
@@ -128,21 +131,48 @@ function walk(root: string, rel: string, out: SkillFile[]): void {
   }
 }
 
+interface CopyOptions {
+  deleteBeforeCopy?: boolean;
+  debug?: boolean;
+  logger?: SchematicContext['logger'];
+}
+
 function copySkill(
   tree: Tree,
   files: SkillFile[],
   target: AiTool,
-  options?: { deleteBeforeCopy?: boolean }
+  options?: CopyOptions
 ): void {
   const dest = SKILL_DEST[target];
   if (options?.deleteBeforeCopy) {
     deleteSkillDir(tree, dest);
   }
   writeSkillTree(tree, files, dest);
+  verifySkillTree(tree, files, dest);
+  if (options?.debug) {
+    options.logger?.info(
+      `✅ Verified ${files.length} skill file(s) at ${dest}.`
+    );
+  }
 }
 
-function deleteSkillDir(tree: Tree, destBase: string): void {
+/**
+ * Deletes every file under `destBase`, then verifies the directory is actually
+ * empty. A residual file means the delete did not complete cleanly; we throw so
+ * the transactional Tree commit is aborted rather than leaving a half-updated,
+ * stale skill on disk.
+ */
+export function deleteSkillDir(tree: Tree, destBase: string): void {
   tree.getDir(destBase).visit((filePath) => tree.delete(filePath));
+
+  const leftovers: string[] = [];
+  tree.getDir(destBase).visit((filePath) => leftovers.push(filePath));
+  if (leftovers.length > 0) {
+    throw new Error(
+      `Failed to clear '${destBase}' before copy — ${leftovers.length} file(s) ` +
+        `remained (e.g. ${leftovers[0]}). Aborting to avoid a partial update.`
+    );
+  }
 }
 
 function writeSkillTree(
@@ -157,6 +187,69 @@ function writeSkillTree(
     } else {
       tree.create(dest, file.content);
     }
+  }
+}
+
+/** SHA-256 hex digest of a file's UTF-8 content. */
+function hashContent(content: string): string {
+  return createHash('sha256')
+    .update(Buffer.from(content, 'utf8'))
+    .digest('hex');
+}
+
+/**
+ * Verifies the copied skill tree against a runtime-computed manifest derived
+ * from the installed `@spartacus/skills` source (`files`). Throws on the first
+ * missing/mismatched file, or on any extra/stale file under `destBase`. Because
+ * this runs inside the schematic Rule, a throw aborts the Tree's transactional
+ * commit — the update is all-or-nothing.
+ */
+export function verifySkillTree(
+  tree: Tree,
+  files: SkillFile[],
+  destBase: string
+): void {
+  const expected = new Map<string, string>();
+  for (const file of files) {
+    expected.set(file.relativePath, hashContent(file.content));
+  }
+
+  // Every expected file must exist with the exact expected bytes.
+  for (const file of files) {
+    const dest = `${destBase}/${file.relativePath}`;
+    const buffer = tree.read(dest);
+    if (buffer === null) {
+      throw new Error(
+        `Skill integrity check failed: expected file '${dest}' is missing after copy.`
+      );
+    }
+    if (hashContent(buffer.toString('utf8')) !== hashContent(file.content)) {
+      throw new Error(
+        `Skill integrity check failed: content of '${dest}' does not match the ` +
+          `installed ${SKILLS_PACKAGE} source.`
+      );
+    }
+  }
+
+  // No extra/stale file may remain under the destination. `visit` yields
+  // absolute ('/'-prefixed) paths regardless of how `destBase` was written, so
+  // compare on the path relative to the destination root.
+  const base = (destBase.startsWith('/') ? destBase : `/${destBase}`).replace(
+    /\/$/,
+    ''
+  );
+  const extras: string[] = [];
+  tree.getDir(destBase).visit((filePath) => {
+    const relativePath = filePath.slice(base.length + 1);
+    if (!expected.has(relativePath)) {
+      extras.push(filePath);
+    }
+  });
+  if (extras.length > 0) {
+    throw new Error(
+      `Skill integrity check failed: ${extras.length} unexpected file(s) under ` +
+        `'${destBase}' (e.g. ${extras[0]}). The update is not clean.`
+    );
   }
 }
 

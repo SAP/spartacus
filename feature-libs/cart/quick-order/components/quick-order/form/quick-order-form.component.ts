@@ -29,6 +29,7 @@ import {
   Product,
   TranslatePipe,
   WindowRef,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
@@ -81,7 +82,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yHighContrastFix');
+  }
 
   ngOnInit(): void {
     this.buildForm();
