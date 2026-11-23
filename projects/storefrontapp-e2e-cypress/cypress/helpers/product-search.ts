@@ -247,10 +247,16 @@ export function clickFacet(header: string, force = false) {
     cy.get('a.value').first().click({ force: true });
   });
   cy.onMobile(() => {
-    cy.get('cx-product-facet-navigation').then(($nav) => {
-      const close = $nav.find('button.close:visible');
-      if (close.length) {
-        cy.wrap(close).click();
+    // Best-effort close: on some flows (e.g. category pages) applying a facet
+    // dismisses the dialog itself, so button.close may be mid-close (hidden or
+    // detaching). A native click has no Cypress retry/visibility/detachment
+    // checks, so it closes the dialog if still open and is a no-op otherwise.
+    cy.document().then((doc) => {
+      const close = doc.querySelector<HTMLElement>(
+        'cx-product-facet-navigation button.close'
+      );
+      if (close && close.offsetParent !== null) {
+        close.click();
       }
     });
   });
