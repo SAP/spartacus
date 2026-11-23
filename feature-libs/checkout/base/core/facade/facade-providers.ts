@@ -10,15 +10,19 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
+  CheckoutFiscalIdFacade,
   CheckoutQueryFacade,
 } from '@spartacus/checkout/base/root';
 import { CheckoutBillingAddressService } from './checkout-billing-address.service';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
+import { CheckoutFiscalIdService } from './checkout-fiscal-id.service';
 import { CheckoutPaymentService } from './checkout-payment.service';
 import { CheckoutQueryService } from './checkout-query.service';
 
 export const facadeProviders: Provider[] = [
+  CheckoutFiscalIdService,
+  { provide: CheckoutFiscalIdFacade, useExisting: CheckoutFiscalIdService },
   CheckoutDeliveryAddressService,
   {
     provide: CheckoutDeliveryAddressFacade,

@@ -83,7 +83,13 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
           currentStep = steps[currentIndex];
         }
         if (currentStep) {
-          return this.isB2BStepSet(steps[currentIndex - 1], isAccount);
+          return this.isB2BStepSet(steps[currentIndex - 1], isAccount).pipe(
+            switchMap((result) =>
+              result === true
+                ? this.isFiscalIdSet(steps, currentIndex)
+                : of(result)
+            )
+          );
         } else {
           if (isDevMode()) {
             this.logger.warn(

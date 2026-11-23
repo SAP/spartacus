@@ -1,13 +1,17 @@
 %cx-payment-method {
   @include checkout-media-style();
 
-  border: 1px solid var(--cx-color-medium);
-  border-radius: 10px;
   margin-top: 32px;
   margin-bottom: 30px;
-  padding-inline-start: 1.875rem;
-  padding-inline-end: 1.875rem;
-  padding-top: 1.875rem;
+  padding: 0;
+
+  > .cx-payment-options {
+    border: 1px solid var(--cx-color-medium);
+    border-radius: 10px;
+    padding-inline-start: 1.875rem;
+    padding-inline-end: 1.875rem;
+    padding-top: 1.875rem;
+  }
 
   @include media-breakpoint-down(md) {
     background-color: var(--cx-color-transparent);
@@ -112,6 +116,8 @@
   }
 
   @include cx-highContrastTheme {
-    border-color: var(--cx-color-dark);
+    > .cx-payment-options {
+      border-color: var(--cx-color-dark);
+    }
   }
 }

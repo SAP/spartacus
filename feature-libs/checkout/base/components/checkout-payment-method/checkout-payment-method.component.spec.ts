@@ -1,3 +1,4 @@
+import { FiscalIdFormComponent } from '../fiscal-id-form/fiscal-id-form.component';
 import { Component, Directive, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -6,6 +7,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
+  CheckoutFiscalIdFacade,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -120,6 +122,7 @@ class MockCheckoutDeliveryFacade
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
+  getCheckoutStep = vi.fn().mockReturnValue(undefined);
   next = vi.fn();
   back = vi.fn();
   getBackBntText(): string {
@@ -134,6 +137,7 @@ const mockActivatedRoute = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
+  getActive = vi.fn().mockReturnValue(of({}));
   isGuestCart(): Observable<boolean> {
     return of(false);
   }
@@ -161,6 +165,7 @@ const mockAddress: Address = {
   template: '',
 })
 class MockPaymentFormComponent {
+  @Input() validateAdditionalFields?: () => boolean;
   @Input()
   paymentMethodsCount: number;
   @Input()
@@ -206,6 +211,13 @@ describe('CheckoutPaymentMethodComponent', () => {
         SpinnerComponent,
       ],
       providers: [
+        {
+          provide: CheckoutFiscalIdFacade,
+          useValue: {
+            getConfiguration: () => of({ enabled: false, required: false }),
+            setFiscalId: () => of(undefined),
+          },
+        },
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
           provide: CheckoutDeliveryAddressFacade,
@@ -269,6 +281,38 @@ describe('CheckoutPaymentMethodComponent', () => {
 
     vi.spyOn(component, 'selectPaymentMethod');
     vi.spyOn(component, 'savePaymentMethod');
+  });
+
+  it('waits for Fiscal ID submission before navigating', () => {
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    const submission = new Subject<boolean>();
+    vi.spyOn(component.fiscalIdForm, 'submit').mockReturnValue(submission);
+    component.next();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+    submission.next(true);
+    expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
+  });
+
+  it('stays on Payment after failed Fiscal ID submission', () => {
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    vi.spyOn(component.fiscalIdForm, 'submit').mockReturnValue(of(false));
+    component.next();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+  });
+
+  it('validates Fiscal ID before creating a new payment method', () => {
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    vi.spyOn(component.fiscalIdForm, 'validate').mockReturnValue(false);
+    const create = vi.spyOn(mockCheckoutPaymentService, 'createPaymentDetails');
+    component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
+    expect(create).not.toHaveBeenCalled();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
   });
 
   it('should be created', () => {
@@ -714,6 +758,13 @@ describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
         SpinnerComponent,
       ],
       providers: [
+        {
+          provide: CheckoutFiscalIdFacade,
+          useValue: {
+            getConfiguration: () => of({ enabled: false, required: false }),
+            setFiscalId: () => of(undefined),
+          },
+        },
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
           provide: CheckoutDeliveryAddressFacade,

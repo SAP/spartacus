@@ -7,7 +7,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { PaymentDetails, TranslationService } from '@spartacus/core';
+import { FiscalId, PaymentDetails, TranslationService } from '@spartacus/core';
 import {
   Order,
   billingAddressCard,
@@ -33,16 +33,26 @@ export class OrderDetailBillingComponent {
     protected translationService: TranslationService
   ) {}
 
-  getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
+  getPaymentMethodCard(
+    paymentDetails: PaymentDetails,
+    fiscalId?: FiscalId
+  ): Observable<Card> {
     return combineLatest([
       this.translationService.translate('paymentForm.payment'),
+      this.translationService.translate('fiscalId.label'),
       this.translationService.translate('paymentCard.expires', {
         month: paymentDetails.expiryMonth,
         year: paymentDetails.expiryYear,
       }),
     ]).pipe(
-      map(([textTitle, textExpires]) =>
-        paymentMethodCard(textTitle, textExpires, paymentDetails)
+      map(([textTitle, fiscalIdLabel, textExpires]) =>
+        paymentMethodCard(
+          textTitle,
+          paymentDetails.cardNumber ? textExpires : '',
+          paymentDetails,
+          fiscalId,
+          fiscalIdLabel
+        )
       )
     );
   }

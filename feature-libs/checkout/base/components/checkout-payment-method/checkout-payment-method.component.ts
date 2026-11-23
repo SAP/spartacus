@@ -12,12 +12,14 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
+  CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -54,6 +56,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { FiscalIdFormComponent } from '../fiscal-id-form/fiscal-id-form.component';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 
@@ -66,6 +69,7 @@ import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-p
     NgFor,
     CardComponent,
     CheckoutPaymentFormComponent,
+    FiscalIdFormComponent,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
@@ -74,6 +78,17 @@ import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-p
   ],
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
+  @ViewChild(FiscalIdFormComponent)
+  fiscalIdForm?: FiscalIdFormComponent;
+
+  validateFiscalId = (): boolean => this.fiscalIdForm?.validate() ?? true;
+
+  get isB2BCheckout(): boolean {
+    return !!this.checkoutStepService.getCheckoutStep(
+      'paymentType' as CheckoutStepType
+    );
+  }
+
   protected subscriptions = new Subscription();
   protected deliveryAddress: Address | undefined;
   protected busy$ = new BehaviorSubject<boolean>(false);
@@ -282,6 +297,9 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     paymentDetails: PaymentDetails;
     billingAddress?: Address;
   }): void {
+    if (this.fiscalIdForm && !this.fiscalIdForm.validate()) {
+      return;
+    }
     this.paymentDetails = paymentDetails;
 
     const details: PaymentDetails = { ...paymentDetails };
@@ -301,7 +319,14 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    this.checkoutStepService.next(this.activatedRoute);
+    this.subscriptions.add(
+      (this.fiscalIdForm?.submit() ?? of(true)).subscribe((success) => {
+        this.onSuccess();
+        if (success) {
+          this.checkoutStepService.next(this.activatedRoute);
+        }
+      })
+    );
   }
 
   back(): void {

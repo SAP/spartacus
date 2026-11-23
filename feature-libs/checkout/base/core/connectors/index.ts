@@ -7,5 +7,6 @@
 export * from './checkout-billing-address/index';
 export * from './checkout-delivery-address/index';
 export * from './checkout-delivery-modes/index';
+export * from './checkout-fiscal-id/index';
 export * from './checkout-payment/index';
 export * from './checkout/index';

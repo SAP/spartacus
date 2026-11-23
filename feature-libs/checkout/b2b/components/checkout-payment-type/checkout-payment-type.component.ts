@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   inject,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -18,7 +19,10 @@ import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import {
+  CheckoutStepService,
+  FiscalIdFormComponent,
+} from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   getLastValueSync,
@@ -30,7 +34,13 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -43,9 +53,20 @@ import {
   selector: 'cx-payment-type',
   templateUrl: './checkout-payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, SpinnerComponent, AsyncPipe, TranslatePipe],
+  imports: [
+    NgIf,
+    NgFor,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    FiscalIdFormComponent,
+  ],
 })
-export class CheckoutPaymentTypeComponent {
+export class CheckoutPaymentTypeComponent implements OnDestroy {
+  @ViewChild(FiscalIdFormComponent)
+  fiscalIdForm?: FiscalIdFormComponent;
+
+  protected subscriptions = new Subscription();
   @ViewChild('poNumber', { static: false })
   private poNumberInputElement: ElementRef<HTMLInputElement>;
 
@@ -171,33 +192,53 @@ export class CheckoutPaymentTypeComponent {
   }
 
   next(): void {
-    if (!this.typeSelected) {
+    if (
+      !this.typeSelected ||
+      (this.fiscalIdForm && !this.fiscalIdForm.validate())
+    ) {
       return;
     }
 
     const poNumberInput = this.poNumberInputElement.nativeElement.value;
     // if the PO number didn't change
     if (poNumberInput === getLastValueSync(this.cartPoNumber$)) {
-      this.checkoutStepService.next(this.activatedRoute);
+      this.submitFiscalId();
       return;
     }
 
     this.busy$.next(true);
-    this.checkoutPaymentTypeFacade
-      .setPaymentType(this.typeSelected, poNumberInput)
-      .subscribe({
-        // we don't call onSuccess here, because it can cause a spinner flickering
-        complete: () => this.checkoutStepService.next(this.activatedRoute),
-        error: (error) => {
-          if (error.details?.[0]?.message) {
-            this.globalMessageService.add(
-              error.details?.[0]?.message,
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-          }
-          this.onError();
-        },
-      });
+    this.subscriptions.add(
+      this.checkoutPaymentTypeFacade
+        .setPaymentType(this.typeSelected, poNumberInput)
+        .subscribe({
+          // we don't call onSuccess here, because it can cause a spinner flickering
+          complete: () => this.submitFiscalId(),
+          error: (error) => {
+            if (error.details?.[0]?.message) {
+              this.globalMessageService.add(
+                error.details?.[0]?.message,
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+            }
+            this.onError();
+          },
+        })
+    );
+  }
+
+  protected submitFiscalId(): void {
+    this.subscriptions.add(
+      (this.fiscalIdForm?.submit() ?? of(true)).subscribe((success) => {
+        this.onSuccess();
+        if (success) {
+          this.checkoutStepService.next(this.activatedRoute);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   back(): void {

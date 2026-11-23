@@ -11,7 +11,8 @@ export const defaultOccOrderConfig: OccConfig = {
     occ: {
       endpoints: {
         orderHistory: 'users/${userId}/orders',
-        orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL',
+        orderDetail:
+          'users/${userId}/orders/${orderId}?fields=FULL,sapCustomerFiscalId(FULL)',
         quoteCode: 'users/${userId}/orders/${orderId}?fields=sapQuoteCode',
         consignmentTracking:
           'users/${userId}/orders/${orderCode}/consignments/${consignmentCode}/tracking',
@@ -34,9 +35,10 @@ export const defaultOccOrderConfig: OccConfig = {
         /** scheduled replenishment endpoints end */
 
         /** placing an order endpoints start **/
-        placeOrder: 'users/${userId}/orders?fields=FULL',
+        placeOrder:
+          'users/${userId}/orders?fields=FULL,sapCustomerFiscalId(FULL)',
         placePaymentAuthorizedOrder:
-          'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL',
+          'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL,sapCustomerFiscalId(FULL)',
         /** placing an order endpoints end **/
 
         /** order attachments endpoints start **/

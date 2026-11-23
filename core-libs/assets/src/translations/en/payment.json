@@ -1,4 +1,13 @@
 {
+  "fiscalId": {
+    "label": "Fiscal ID",
+    "placeholder": "Enter Fiscal ID",
+    "edit": "Edit Fiscal ID",
+    "errors": {
+      "fiscalId": "{{message}}",
+      "invalid": "Incomplete or incorrect. Please enter it again."
+    }
+  },
   "paymentForm": {
     "payment": "Payment",
     "choosePaymentMethod": "Choose a payment method",

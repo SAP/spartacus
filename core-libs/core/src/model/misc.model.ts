@@ -6,6 +6,7 @@
 
 import { B2BUnit } from '.';
 import { Address } from './address.model';
+import { FiscalIdMode, FiscalIdRule } from './fiscal-id.model';
 
 export interface Currency {
   active?: boolean;
@@ -90,6 +91,7 @@ export interface Title {
 }
 
 export interface ErrorModel {
+  errorCode?: string;
   message?: string;
   reason?: string;
   subject?: string;
@@ -106,6 +108,8 @@ export class HttpErrorModel {
 }
 
 export interface BaseStore {
+  sapFiscalIdMode?: FiscalIdMode | string;
+  sapFiscalIdRules?: FiscalIdRule[];
   currencies?: Currency[];
   defaultCurrency?: Currency;
   languages?: Language[];

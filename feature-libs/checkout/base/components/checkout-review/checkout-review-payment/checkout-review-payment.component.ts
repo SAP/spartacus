@@ -5,7 +5,8 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { RouterLink } from '@angular/router';
 import {
   CheckoutPaymentFacade,
@@ -13,6 +14,8 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   FeatureDirective,
+  FiscalId,
+  maskFiscalId,
   PaymentDetails,
   TranslatePipe,
   TranslationService,
@@ -48,6 +51,23 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 })
 export class CheckoutReviewPaymentComponent {
   iconTypes = ICON_TYPE;
+  protected activeCartFacade = inject(ActiveCartFacade);
+  fiscalId$ = this.activeCartFacade
+    .getActive()
+    .pipe(map((cart) => cart.sapCustomerFiscalId));
+  get isB2BCheckout(): boolean {
+    return !!this.checkoutStepService.getCheckoutStep(
+      'paymentType' as CheckoutStepType
+    );
+  }
+  getFiscalIdCard(fiscalId: FiscalId): Observable<Card> {
+    return this.translationService.translate('fiscalId.label').pipe(
+      map((title) => ({
+        title,
+        text: [maskFiscalId(fiscalId.sapFiscalIdEntries?.[0]?.sapValue)],
+      }))
+    );
+  }
 
   paymentDetailsStepRoute = this.checkoutStepService.getCheckoutStepRoute(
     CheckoutStepType.PAYMENT_DETAILS

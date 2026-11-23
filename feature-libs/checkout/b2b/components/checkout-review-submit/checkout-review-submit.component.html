@@ -59,10 +59,13 @@
 
   <!-- PAYMENT TYPE SECTION -->
   <ng-template #paymentType>
-    <div class="cx-review-summary-card">
+    <div class="cx-review-summary-card cx-review-card-payment-type">
       <cx-card
         *ngIf="paymentType$ | async as paymentType"
-        [content]="getPaymentTypeCard(paymentType) | async"
+        [content]="
+          getPaymentTypeCard(paymentType, (cart$ | async)?.sapCustomerFiscalId)
+            | async
+        "
       />
       <div class="cx-review-summary-edit-step">
         <a

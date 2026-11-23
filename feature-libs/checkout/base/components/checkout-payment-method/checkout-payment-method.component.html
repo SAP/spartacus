@@ -1,4 +1,12 @@
-<section [attr.aria-label]="'paymentForm.payment' | cxTranslate">
+<cx-fiscal-id-form
+  *ngIf="!isB2BCheckout"
+  [busy]="(isUpdating$ | async) ?? false"
+/>
+
+<section
+  class="cx-payment-options"
+  [attr.aria-label]="'paymentForm.payment' | cxTranslate"
+>
   <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'paymentForm.payment' | cxTranslate }}
   </h2>
@@ -74,7 +82,7 @@
         <div class="col-md-12 col-lg-6">
           <button
             class="btn btn-block btn-primary"
-            [disabled]="!(selectedMethod$ | async)?.id"
+            [disabled]="!(selectedMethod$ | async)?.id || fiscalIdForm?.saving"
             (click)="next()"
           >
             {{ 'common.continue' | cxTranslate }}
@@ -85,12 +93,13 @@
 
     <ng-template #newPaymentForm>
       <cx-payment-form
+        [validateAdditionalFields]="validateFiscalId"
         (setPaymentDetails)="setPaymentDetails($event)"
         (closeForm)="hideNewPaymentForm()"
         (goBack)="back()"
         [paymentMethodsCount]="cards?.length || 0"
         [setAsDefaultField]="!isGuestCheckout && !!cards?.length"
-        [loading]="(isUpdating$ | async) ?? false"
+        [loading]="((isUpdating$ | async) ?? false) || !!fiscalIdForm?.saving"
         [paymentDetails]="paymentDetails"
       />
     </ng-template>

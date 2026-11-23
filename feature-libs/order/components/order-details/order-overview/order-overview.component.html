@@ -1,4 +1,5 @@
 <div class="cx-order-summary" *ngIf="order$ | async as order">
+  @let isB2B = !!order.purchaseOrderNumber || order.purchaseOrderNumber === '';
   <ng-container *ngIf="!(isOrderLoading$ | async)">
     <div *ngIf="!(simple$ | async)" class="container">
       <ng-container *ngIf="order.replenishmentOrderCode; else otherOrder">
@@ -85,7 +86,12 @@
           />
 
           <cx-card
-            [content]="getMethodOfPaymentCardContent(order.paymentInfo) | async"
+            [content]="
+              getMethodOfPaymentCardContent(
+                order.paymentInfo,
+                order.sapCustomerFiscalId
+              ) | async
+            "
           />
 
           <ng-container *ngIf="order.costCenter">
@@ -115,17 +121,36 @@
         />
       </div>
 
-      <ng-container *ngIf="order.paymentInfo">
+      <ng-container
+        *ngIf="
+          order.paymentInfo ||
+          (!isB2B &&
+            order.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue)
+        "
+      >
         <div
           class="cx-summary-card"
           *ngIf="
             order?.paymentInfo?.billingAddress ||
-            isPaymentInfoCardFull(order?.paymentInfo)
+            isPaymentInfoCardFull(order?.paymentInfo) ||
+            (!isB2B &&
+              order.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue)
           "
         >
-          <ng-container *ngIf="isPaymentInfoCardFull(order?.paymentInfo)">
+          <ng-container
+            *ngIf="
+              isPaymentInfoCardFull(order?.paymentInfo) ||
+              (!isB2B &&
+                order.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue)
+            "
+          >
             <cx-card
-              [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
+              [content]="
+                getPaymentInfoCardContent(
+                  order?.paymentInfo,
+                  !isB2B ? order.sapCustomerFiscalId : undefined
+                ) | async
+              "
             />
           </ng-container>
 
@@ -165,10 +190,22 @@
           [cxOutletContext]="{ item: order, readonly: true }"
         />
       </div>
+      <cx-card
+        *ngIf="
+          isB2B && order.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue
+        "
+        [content]="
+          getMethodOfPaymentCardContent(
+            order.paymentInfo,
+            order.sapCustomerFiscalId
+          ) | async
+        "
+      />
       <cx-order-detail-billing
         *ngIf="
           isPaymentInfoCardFull(order?.paymentInfo) ||
-          order?.paymentInfo?.billingAddress
+          order?.paymentInfo?.billingAddress ||
+          order.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue
         "
       />
     </div>

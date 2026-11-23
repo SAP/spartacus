@@ -32,6 +32,8 @@ import {
 import {
   Address,
   FeatureToggles,
+  FiscalId,
+  maskFiscalId,
   PaymentDetails,
   TranslatePipe,
   TranslationService,
@@ -193,6 +195,15 @@ export class CheckoutReviewSubmitComponent {
           ],
         } as Card;
       })
+    );
+  }
+
+  getFiscalIdCard(fiscalId: FiscalId): Observable<Card> {
+    return this.translationService.translate('fiscalId.label').pipe(
+      map((title) => ({
+        title,
+        text: [maskFiscalId(fiscalId.sapFiscalIdEntries?.[0]?.sapValue)],
+      }))
     );
   }
 

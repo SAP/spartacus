@@ -18,6 +18,7 @@ import {
   B2BUnit,
   B2BUser,
   CostCenter,
+  FiscalId,
   PaginationModel,
   PaymentDetails,
   PointOfService,
@@ -101,6 +102,7 @@ export interface OrderHistoryList {
 }
 
 export interface Order {
+  sapCustomerFiscalId?: FiscalId;
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];
   appliedVouchers?: Voucher[];

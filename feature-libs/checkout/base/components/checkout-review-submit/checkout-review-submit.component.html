@@ -4,6 +4,28 @@
     {{ 'checkoutReview.review' | cxTranslate }}
   </h2>
 
+  <ng-container *ngIf="(cart$ | async)?.sapCustomerFiscalId as fiscalId">
+    <div
+      *ngIf="fiscalId.sapFiscalIdEntries?.[0]?.sapValue"
+      class="cx-review-summary mb-4"
+    >
+      <div class="cx-review-summary-card">
+        <cx-card [content]="getFiscalIdCard(fiscalId) | async" />
+        <div class="cx-review-summary-edit-step">
+          <a
+            [attr.title]="'fiscalId.edit' | cxTranslate"
+            [routerLink]="
+              { cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentDetails) }
+                | cxUrl
+            "
+          >
+            <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
   <div class="cx-review-summary row">
     <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col">

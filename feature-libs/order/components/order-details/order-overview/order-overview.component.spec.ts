@@ -390,6 +390,16 @@ describe('OrderOverviewComponent', () => {
       );
     });
 
+    it('preserves the payment method and adds Fiscal ID on one unindented line', async () => {
+      const card = await firstValueFrom(
+        component.getMethodOfPaymentCardContent(mockOrder.paymentInfo, {
+          sapFiscalIdEntries: [{ sapValue: '123456789' }],
+        })
+      );
+      expect(card.text).toEqual(['test', 'test: *****6789']);
+      expect(card.paragraphs).toBeUndefined();
+    });
+
     it('should call getMethodOfPaymentCardContent(hasPaymentInfo: PaymentDetails)', () => {
       vi.spyOn(component, 'getMethodOfPaymentCardContent');
 
@@ -429,6 +439,15 @@ describe('OrderOverviewComponent', () => {
   describe('when paymentInfo is defined', () => {
     beforeEach(() => {
       vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
+    });
+
+    it('shows Fiscal ID even when payment information is absent', async () => {
+      const card = await firstValueFrom(
+        component.getPaymentInfoCardContent(undefined, {
+          sapFiscalIdEntries: [{ sapValue: '1234' }],
+        })
+      );
+      expect(card.paragraphs).toEqual([{ title: 'test', text: ['****'] }]);
     });
 
     it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {

@@ -1,3 +1,4 @@
+import { CheckoutFiscalIdFacade } from '@spartacus/checkout/base/root';
 import { Component, DebugElement, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -13,7 +14,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of, Subject } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 
@@ -96,6 +97,13 @@ describe('CheckoutOnePaymentTypeComponent', () => {
       imports: [CheckoutPaymentTypeComponent],
       providers: [
         {
+          provide: CheckoutFiscalIdFacade,
+          useValue: {
+            getConfiguration: () => of({ enabled: false, required: false }),
+            setFiscalId: () => of(undefined),
+          },
+        },
+        {
           provide: CheckoutPaymentTypeFacade,
           useClass: MockCheckoutOnePaymentTypeService,
         },
@@ -159,6 +167,13 @@ describe('CheckoutPaymentTypeComponent', () => {
     TestBed.configureTestingModule({
       imports: [CheckoutPaymentTypeComponent],
       providers: [
+        {
+          provide: CheckoutFiscalIdFacade,
+          useValue: {
+            getConfiguration: () => of({ enabled: false, required: false }),
+            setFiscalId: () => of(undefined),
+          },
+        },
         {
           provide: CheckoutPaymentTypeFacade,
           useClass: MockCheckoutPaymentTypeService,
@@ -230,6 +245,19 @@ describe('CheckoutPaymentTypeComponent', () => {
       'ACCOUNT',
       'test-po'
     );
+  });
+
+  it('waits for Fiscal ID after saving a changed PO number', () => {
+    const pending = new Subject<boolean>();
+    const form = component.fiscalIdForm;
+    if (!form) {
+      throw new Error('Expected the Fiscal ID form');
+    }
+    vi.spyOn(form, 'submit').mockReturnValue(pending);
+    component.next();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+    pending.next(true);
+    expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
   });
 
   it('should set po number to cart if the cart po number does not match when calling next()', () => {

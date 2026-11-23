@@ -12,6 +12,8 @@ import {
   Address,
   CmsOrderDetailOverviewComponent,
   CostCenter,
+  FiscalId,
+  maskFiscalId,
   CxDatePipe,
   FeatureToggles,
   PaymentDetails,
@@ -187,16 +189,24 @@ export class OrderOverviewComponent {
   }
 
   getMethodOfPaymentCardContent(
-    hasPaymentInfo: PaymentDetails
+    hasPaymentInfo: PaymentDetails,
+    fiscalId?: FiscalId
   ): Observable<Card> {
+    const fiscalIdValue = fiscalId?.sapFiscalIdEntries?.[0]?.sapValue;
     return combineLatest([
       this.translation.translate('orderDetails.methodOfPayment'),
       this.translation.translate('paymentTypes.paymentType_ACCOUNT'),
       this.translation.translate('paymentTypes.paymentType_CARD'),
+      this.translation.translate('fiscalId.label'),
     ]).pipe(
-      map(([textTitle, textAccount, textCard]) => ({
+      map(([textTitle, textAccount, textCard, fiscalIdLabel]) => ({
         title: textTitle,
-        text: [hasPaymentInfo ? textCard : textAccount],
+        text: [
+          hasPaymentInfo ? textCard : textAccount,
+          ...(fiscalIdValue
+            ? [`${fiscalIdLabel}: ${maskFiscalId(fiscalIdValue)}`]
+            : []),
+        ],
       }))
     );
   }
@@ -255,17 +265,26 @@ export class OrderOverviewComponent {
     );
   }
 
-  getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card> {
+  getPaymentInfoCardContent(
+    payment: PaymentDetails | undefined,
+    fiscalId?: FiscalId
+  ): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
+      this.translation.translate('fiscalId.label'),
       this.translation.translate('paymentCard.expires', {
         month: payment ? payment.expiryMonth : '',
         year: payment ? payment.expiryYear : '',
       }),
     ]).pipe(
-      filter(() => Boolean(payment)),
-      map(([textTitle, textExpires]) =>
-        paymentMethodCard(textTitle, textExpires, payment)
+      map(([textTitle, fiscalIdLabel, textExpires]) =>
+        paymentMethodCard(
+          textTitle,
+          payment ? textExpires : '',
+          payment ?? {},
+          fiscalId,
+          fiscalIdLabel
+        )
       )
     );
   }

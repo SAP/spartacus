@@ -1,3 +1,4 @@
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   Component,
   Directive,
@@ -85,6 +86,7 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.PAYMENT_DETAILS],
     },
   ]);
+  getCheckoutStep = vi.fn().mockReturnValue(undefined);
   getCheckoutStepRoute = vi.fn().mockReturnValue(mockCheckoutStep.routeName);
 }
 
@@ -120,6 +122,7 @@ describe('CheckoutReviewPaymentComponent', () => {
         CheckoutReviewPaymentComponent,
       ],
       providers: [
+        { provide: ActiveCartFacade, useValue: { getActive: () => of({}) } },
         {
           provide: CheckoutPaymentFacade,
           useClass: MockCheckoutPaymentService,
@@ -212,6 +215,7 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
         CheckoutReviewPaymentComponent,
       ],
       providers: [
+        { provide: ActiveCartFacade, useValue: { getActive: () => of({}) } },
         {
           provide: CheckoutPaymentFacade,
           useClass: MockCheckoutPaymentService,

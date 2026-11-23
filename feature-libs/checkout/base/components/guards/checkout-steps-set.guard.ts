@@ -15,6 +15,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
+  CheckoutFiscalIdFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
@@ -36,6 +37,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 export class CheckoutStepsSetGuard implements OnDestroy {
   protected subscription: Subscription;
   protected logger = inject(LoggerService);
+  protected checkoutFiscalIdFacade = inject(CheckoutFiscalIdFacade);
 
   constructor(
     protected checkoutStepService: CheckoutStepService,
@@ -90,7 +92,13 @@ export class CheckoutStepsSetGuard implements OnDestroy {
           currentStep = steps[currentIndex];
         }
         if (currentStep) {
-          return this.isStepSet(steps[currentIndex - 1]);
+          return this.isStepSet(steps[currentIndex - 1]).pipe(
+            switchMap((result) =>
+              result === true
+                ? this.isFiscalIdSet(steps, currentIndex)
+                : of(result)
+            )
+          );
         } else {
           if (isDevMode()) {
             this.logger.warn(
@@ -99,6 +107,43 @@ export class CheckoutStepsSetGuard implements OnDestroy {
           }
           return of(this.getUrl('checkout'));
         }
+      })
+    );
+  }
+
+  protected isFiscalIdSet(
+    steps: CheckoutStep[],
+    currentIndex: number
+  ): Observable<GuardResult> {
+    let inputIndex = steps.findIndex((step) =>
+      step.type.includes('paymentType' as CheckoutStepType)
+    );
+    if (inputIndex < 0) {
+      inputIndex = steps.findIndex((step) =>
+        step.type.includes(CheckoutStepType.PAYMENT_DETAILS)
+      );
+    }
+
+    if (inputIndex < 0 || currentIndex <= inputIndex) {
+      return of(true);
+    }
+
+    return this.checkoutFiscalIdFacade.getConfiguration().pipe(
+      take(1),
+      switchMap((configuration) => {
+        if (!configuration.enabled || !configuration.required) {
+          return of(true);
+        }
+
+        return this.activeCartFacade
+          .takeActive()
+          .pipe(
+            map((cart) =>
+              cart.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue
+                ? true
+                : this.getUrl(steps[inputIndex].routeName)
+            )
+          );
       })
     );
   }

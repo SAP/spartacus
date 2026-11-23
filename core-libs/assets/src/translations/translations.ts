@@ -38,6 +38,7 @@ export const translationChunksConfig = {
     'myInterests',
   ],
   payment: [
+    'fiscalId',
     'paymentForm',
     'paymentMethods',
     'paymentCard',
