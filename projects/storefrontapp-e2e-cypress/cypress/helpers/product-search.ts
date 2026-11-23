@@ -247,7 +247,12 @@ export function clickFacet(header: string, force = false) {
     cy.get('a.value').first().click({ force: true });
   });
   cy.onMobile(() => {
-    cy.get('cx-product-facet-navigation button.close').click();
+    cy.get('cx-product-facet-navigation').then(($nav) => {
+      const close = $nav.find('button.close:visible');
+      if (close.length) {
+        cy.wrap(close).click();
+      }
+    });
   });
 }
 

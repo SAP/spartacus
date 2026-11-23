@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { waitForCategoryPage } from '../../../helpers/navigation';
 import * as productSearchFlow from '../../../helpers/product-search';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
@@ -47,6 +48,37 @@ context('Product search', { testIsolation: false }, () => {
 
         cy.log('CLEAR ACTIVE FACET:');
         productSearchFlow.clearActiveFacet();
+      });
+
+      it('should filter results using facet filtering and clear active facets', () => {
+        const categoryPage = waitForCategoryPage('575', 'getCategoryPage');
+        cy.visit('/c/575');
+        cy.wait(`@${categoryPage}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+
+        // Apply first filter for Stores
+        cy.intercept({
+          method: 'GET',
+          path: `${productSearchFlow.searchUrlPrefix}?fields=*`,
+        }).as('facets');
+        productSearchFlow.clickFacet('Stores'); // a facet that exists on this category
+        cy.wait('@facets').its('response.statusCode').should('eq', 200);
+        // Ensure the clear all button is present after applying one filter
+        cy.get('a.cx-clear-all-facets').should('be.visible');
+        // Apply first filter for Price
+        productSearchFlow.clickFacet('Price', true); // a facet that exists on this category
+
+        cy.get('a.cx-clear-all-facets').click();
+        // After clearing all facets, the clear-all link should no longer render
+        cy.get('a.cx-clear-all-facets').should('not.exist');
+        // Verify no filter is currently applied
+        cy.get('#cx-active-facets-groupName').should('not.exist');
+        cy.get('cx-active-facets a:not(.cx-clear-all-facets)').should(
+          'not.exist'
+        );
+        // Clearing resets the route, so the filter query should be gone
+        cy.url().should('not.include', 'availableInStores');
       });
     });
 
