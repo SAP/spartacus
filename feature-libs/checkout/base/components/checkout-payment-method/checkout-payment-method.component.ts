@@ -51,6 +51,7 @@ import {
 import {
   distinctUntilChanged,
   filter,
+  finalize,
   map,
   switchMap,
   take,
@@ -305,23 +306,31 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     const details: PaymentDetails = { ...paymentDetails };
     details.billingAddress = billingAddress ?? this.deliveryAddress;
     this.busy$.next(true);
+    // Save Fiscal ID first so a retry cannot create the same card twice.
     this.subscriptions.add(
-      this.checkoutPaymentFacade.createPaymentDetails(details).subscribe({
-        complete: () => {
-          // we don't call onSuccess here, because it can cause a spinner flickering
-          this.next();
-        },
-        error: () => {
-          this.onError();
-        },
-      })
+      (this.fiscalIdForm?.submit() ?? of(true))
+        .pipe(
+          filter(Boolean),
+          switchMap(() =>
+            this.checkoutPaymentFacade.createPaymentDetails(details).pipe(
+              tap({
+                complete: () =>
+                  this.checkoutStepService.next(this.activatedRoute),
+              })
+            )
+          ),
+          finalize(() => this.busy$.next(false))
+        )
+        .subscribe({
+          error: () => this.onError(),
+        })
     );
   }
 
   next(): void {
     this.subscriptions.add(
       (this.fiscalIdForm?.submit() ?? of(true)).subscribe((success) => {
-        this.onSuccess();
+        this.busy$.next(false);
         if (success) {
           this.checkoutStepService.next(this.activatedRoute);
         }

@@ -34,7 +34,14 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  Observable,
+  of,
+  Subject,
+  throwError,
+} from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
@@ -313,6 +320,69 @@ describe('CheckoutPaymentMethodComponent', () => {
     component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
     expect(create).not.toHaveBeenCalled();
     expect(checkoutStepService.next).not.toHaveBeenCalled();
+  });
+
+  it('creates a new payment method only once after correcting a rejected Fiscal ID', () => {
+    const fiscalIdFacade = TestBed.inject(CheckoutFiscalIdFacade);
+    vi.spyOn(fiscalIdFacade, 'getConfiguration').mockReturnValue(
+      of({ enabled: true, required: true })
+    );
+    const submit = vi
+      .spyOn(fiscalIdFacade, 'setFiscalId')
+      .mockReturnValueOnce(throwError(() => ({ status: 400 })))
+      .mockReturnValue(of(undefined));
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    component.fiscalIdForm.control.setValue('invalid');
+    component.showNewPaymentForm();
+    const create = vi.spyOn(mockCheckoutPaymentService, 'createPaymentDetails');
+
+    component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
+
+    expect(create).not.toHaveBeenCalled();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+    expect(component.fiscalIdForm.control.value).toBe('invalid');
+    expect(component['busy$'].value).toBe(false);
+
+    component.fiscalIdForm.control.setValue('123456789');
+    component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
+
+    expect(create).toHaveBeenCalledTimes(1);
+    expect(submit).toHaveBeenCalledTimes(2);
+    expect(checkoutStepService.next).toHaveBeenCalledExactlyOnceWith(
+      mockActivatedRoute
+    );
+  });
+
+  it('waits for Fiscal ID processing and then new payment creation before navigating', () => {
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    const fiscalIdRequest = new Subject<boolean>();
+    const paymentRequest = new Subject<unknown>();
+    const submit = vi
+      .spyOn(component.fiscalIdForm, 'submit')
+      .mockReturnValue(fiscalIdRequest);
+    const create = vi
+      .spyOn(mockCheckoutPaymentService, 'createPaymentDetails')
+      .mockReturnValue(paymentRequest);
+
+    component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
+    expect(create).not.toHaveBeenCalled();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+
+    fiscalIdRequest.next(true);
+    fiscalIdRequest.complete();
+    expect(create).toHaveBeenCalledTimes(1);
+    paymentRequest.next(mockPaymentDetails);
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+
+    paymentRequest.complete();
+    expect(submit).toHaveBeenCalledTimes(1);
+    expect(checkoutStepService.next).toHaveBeenCalledExactlyOnceWith(
+      mockActivatedRoute
+    );
   });
 
   it('should be created', () => {

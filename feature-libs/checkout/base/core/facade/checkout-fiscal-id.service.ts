@@ -5,8 +5,6 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { CartActions, StateWithMultiCart } from '@spartacus/cart/base/core';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutFiscalIdConfiguration,
@@ -36,7 +34,6 @@ export class CheckoutFiscalIdService implements CheckoutFiscalIdFacade {
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
   protected connector = inject(CheckoutFiscalIdConnector);
-  protected store = inject<Store<StateWithMultiCart>>(Store);
 
   getConfiguration(): Observable<CheckoutFiscalIdConfiguration> {
     return this.baseSiteService.get().pipe(
@@ -114,7 +111,7 @@ export class CheckoutFiscalIdService implements CheckoutFiscalIdFacade {
               })
             );
             return this.connector.setFiscalId(userId, cartId, fiscalId).pipe(
-              switchMap(() => this.refreshCart(userId, cartId, fiscalId)),
+              switchMap(() => this.refreshCart(userId, cartId)),
               takeUntil(contextChanged$)
             );
           })
@@ -123,11 +120,7 @@ export class CheckoutFiscalIdService implements CheckoutFiscalIdFacade {
     );
   }
 
-  protected refreshCart(
-    userId: string,
-    cartId: string,
-    fiscalId: FiscalId
-  ): Observable<void> {
+  protected refreshCart(userId: string, cartId: string): Observable<void> {
     return this.multiCartFacade.isStable(cartId).pipe(
       filter(Boolean),
       take(1),
@@ -151,12 +144,8 @@ export class CheckoutFiscalIdService implements CheckoutFiscalIdFacade {
                     return;
                   }
                   if (state.error) {
-                    this.store.dispatch(
-                      new CartActions.SetCartData({
-                        cartId,
-                        cart: { ...state.value, sapCustomerFiscalId: fiscalId },
-                      })
-                    );
+                    subscriber.error(new Error('Failed to refresh the cart.'));
+                    return;
                   }
                   subscriber.next();
                   subscriber.complete();

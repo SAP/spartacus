@@ -280,7 +280,7 @@ export class OrderOverviewComponent {
       map(([textTitle, fiscalIdLabel, textExpires]) =>
         paymentMethodCard(
           textTitle,
-          payment ? textExpires : '',
+          payment?.cardNumber ? textExpires : '',
           payment ?? {},
           fiscalId,
           fiscalIdLabel

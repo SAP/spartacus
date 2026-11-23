@@ -1,0 +1,21 @@
+%cx-fiscal-id-form {
+  display: block;
+
+  .cx-fiscal-id-form {
+    border: 1px solid var(--cx-color-medium);
+    border-radius: 10px;
+    padding: 1.875rem;
+    margin-block-end: 30px;
+
+    label {
+      display: block;
+      margin: 0;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    .cx-fiscal-id-form {
+      border-color: var(--cx-color-dark);
+    }
+  }
+}

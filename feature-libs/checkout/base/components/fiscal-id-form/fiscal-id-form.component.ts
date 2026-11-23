@@ -38,7 +38,6 @@ import { catchError, finalize, map } from 'rxjs/operators';
 @Component({
   selector: 'cx-fiscal-id-form',
   templateUrl: './fiscal-id-form.component.html',
-  styleUrl: './fiscal-id-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

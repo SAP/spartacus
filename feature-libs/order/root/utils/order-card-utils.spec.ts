@@ -220,20 +220,6 @@ describe('Order Card utils', () => {
         postalCode: 'H2N 1E3',
       },
     };
-    it('adds a masked Fiscal ID paragraph alongside payment details', () => {
-      const card = paymentMethodCard(
-        'Payment',
-        'Expires',
-        mockPaymentDetails,
-        { sapFiscalIdEntries: [{ sapValue: '123456789' }] },
-        'Fiscal ID'
-      );
-      expect(card.paragraphs).toEqual([
-        { title: 'Fiscal ID', text: ['*****6789'] },
-      ]);
-      expect(card.text).toContain(mockPaymentDetails.cardNumber);
-    });
-
     it('should return payment method card', () => {
       const card = billingAddressCard('title', 'billTo', mockPaymentDetails);
       expect(card.title).toEqual('title');

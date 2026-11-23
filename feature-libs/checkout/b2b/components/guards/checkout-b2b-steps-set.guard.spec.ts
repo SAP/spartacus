@@ -198,6 +198,10 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
     checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
   });
 
+  afterEach(() => {
+    isAccount.next(true);
+  });
+
   describe('Fiscal ID', () => {
     let reviewRoute: ActivatedRouteSnapshot;
     let checkoutFiscalIdFacade: CheckoutFiscalIdFacade;

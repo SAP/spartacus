@@ -1,5 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
@@ -17,6 +18,7 @@ import {
 import { Order, OrderConfig, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card, CardComponent, CmsComponentData } from '@spartacus/storefront';
 import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
+import { OrderDetailBillingComponent } from '../order-detail-billing/order-detail-billing.component';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponentService } from './order-overview-component.service';
 import { OrderOverviewComponent } from './order-overview.component';
@@ -29,6 +31,12 @@ class MockCardComponent {
   @Input()
   content: Card;
 }
+
+@Component({
+  selector: 'cx-order-detail-billing',
+  template: '',
+})
+class MockOrderDetailBillingComponent {}
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -179,7 +187,13 @@ describe('OrderOverviewComponent', () => {
     })
       .overrideComponent(OrderOverviewComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, CardComponent, UrlPipe],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CardComponent,
+            UrlPipe,
+            OrderDetailBillingComponent,
+          ],
         },
         add: {
           imports: [
@@ -187,6 +201,7 @@ describe('OrderOverviewComponent', () => {
             MockDatePipe,
             MockCardComponent,
             MockUrlPipe,
+            MockOrderDetailBillingComponent,
           ],
         },
       })
@@ -450,6 +465,18 @@ describe('OrderOverviewComponent', () => {
       expect(card.paragraphs).toEqual([{ title: 'test', text: ['****'] }]);
     });
 
+    it('omits card expiry when Fiscal ID is shown with billing-only payment information', async () => {
+      const card = await firstValueFrom(
+        component.getPaymentInfoCardContent(
+          { billingAddress: mockBillingAddress },
+          { sapFiscalIdEntries: [{ sapValue: '123456789' }] }
+        )
+      );
+
+      expect(card.text?.filter(Boolean)).toEqual([]);
+      expect(card.paragraphs).toEqual([{ title: 'test', text: ['*****6789'] }]);
+    });
+
     it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {
       vi.spyOn(component, 'getPaymentInfoCardContent');
 
@@ -666,6 +693,72 @@ describe('OrderOverviewComponent', () => {
         );
         expect(card.textBold).toEqual('John Smith');
       });
+    });
+  });
+
+  describe('Fiscal ID in the simple overview', () => {
+    beforeEach(() => {
+      component.simple$ = of(true);
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
+    });
+
+    it('shows the B2B Account Fiscal ID without an empty billing column', () => {
+      component.order$ = of({
+        ...mockOrder,
+        purchaseOrderNumber: '',
+        paymentInfo: undefined,
+        sapCustomerFiscalId: {
+          sapFiscalIdEntries: [{ sapValue: '123456789' }],
+        },
+      });
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(
+          By.directive(MockOrderDetailBillingComponent)
+        )
+      ).toBeNull();
+      const cards: Card[] = fixture.debugElement
+        .queryAll(By.directive(MockCardComponent))
+        .map((card) => card.componentInstance.content);
+      expect(cards.some((card) => card.text?.includes('test: *****6789'))).toBe(
+        true
+      );
+    });
+
+    it('keeps the billing column for a B2C order with only Fiscal ID', () => {
+      component.order$ = of({
+        ...mockOrder,
+        purchaseOrderNumber: undefined,
+        paymentInfo: undefined,
+        sapCustomerFiscalId: {
+          sapFiscalIdEntries: [{ sapValue: '123456789' }],
+        },
+      });
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(
+          By.directive(MockOrderDetailBillingComponent)
+        )
+      ).not.toBeNull();
+    });
+
+    it('keeps the billing column for a B2B order with a billing address', () => {
+      component.order$ = of({
+        ...mockOrder,
+        paymentInfo: { billingAddress: mockBillingAddress },
+        sapCustomerFiscalId: {
+          sapFiscalIdEntries: [{ sapValue: '123456789' }],
+        },
+      });
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(
+          By.directive(MockOrderDetailBillingComponent)
+        )
+      ).not.toBeNull();
     });
   });
 

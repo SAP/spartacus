@@ -151,4 +151,22 @@ describe('DpPaymentMethodComponent', () => {
     component.hideCallbackScreen();
     expect(component.showCallbackScreen).toBe(false);
   });
+
+  it('navigates once after registering a card without re-entering next', () => {
+    const navigate = vi.spyOn(TestBed.inject(CheckoutStepService), 'next');
+    const next = component.next.bind(component);
+    const continuePayment = vi
+      .spyOn(component, 'next')
+      .mockImplementation(() => {
+        // Bound the failing recursion while exercising the real success hook.
+        if (continuePayment.mock.calls.length === 1) {
+          next();
+        }
+      });
+
+    component.paymentDetailsAdded(mockPaymentDetails);
+
+    expect(continuePayment).toHaveBeenCalledTimes(1);
+    expect(navigate).toHaveBeenCalledExactlyOnceWith(mockActivatedRoute);
+  });
 });

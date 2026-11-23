@@ -205,7 +205,8 @@
         *ngIf="
           isPaymentInfoCardFull(order?.paymentInfo) ||
           order?.paymentInfo?.billingAddress ||
-          order.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue
+          (!isB2B &&
+            order.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue)
         "
       />
     </div>

@@ -137,4 +137,23 @@ describe('FiscalIdFormComponent', () => {
     expect(component.validate()).toBe(false);
     expect(component.control.hasError('maxlength')).toBe(true);
   });
+
+  it('preserves edited input after a cart refresh failure and allows retry', async () => {
+    component.control.setValue('987654321');
+    component.control.markAsDirty();
+    setFiscalId.mockReturnValueOnce(
+      throwError(() => new Error('Failed to refresh the cart.'))
+    );
+
+    expect(await firstValueFrom(component.submit())).toBe(false);
+    expect(component.control.dirty).toBe(true);
+    expect(component.saving).toBe(false);
+    cart.next({ ...cart.value, totalItems: 4 });
+    expect(component.control.value).toBe('987654321');
+
+    expect(await firstValueFrom(component.submit())).toBe(true);
+    expect(setFiscalId).toHaveBeenCalledTimes(2);
+    expect(setFiscalId).toHaveBeenLastCalledWith('987654321');
+    expect(component.control.pristine).toBe(true);
+  });
 });

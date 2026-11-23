@@ -12,7 +12,7 @@ $checkout-components-allowlist:
   cx-guest-register-form, cx-suggested-addresses-dialog,
   cx-checkout-review-shipping, cx-checkout-review-payment,
   cx-checkout-review-overview, cx-order-confirmation-shipping,
-  cx-checkout-billing-address-form !default;
+  cx-checkout-billing-address-form, cx-fiscal-id-form !default;
 
 $skipComponentStyles: () !default;
 

@@ -1,6 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -33,7 +31,6 @@ describe('CheckoutFiscalIdService', () => {
     getCartEntity: ReturnType<typeof vi.fn>;
     loadCart: ReturnType<typeof vi.fn>;
   };
-  let store: { dispatch: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
     cart = { code: 'cart', totalItems: 3 };
@@ -75,11 +72,6 @@ describe('CheckoutFiscalIdService', () => {
         });
       }),
     };
-    store = {
-      dispatch: vi.fn((action) => {
-        cart = action.payload.cart;
-      }),
-    };
     TestBed.configureTestingModule({
       providers: [
         CheckoutFiscalIdService,
@@ -100,7 +92,6 @@ describe('CheckoutFiscalIdService', () => {
           },
         },
         { provide: MultiCartFacade, useValue: multiCart },
-        { provide: Store, useValue: store },
         { provide: CheckoutFiscalIdConnector, useValue: connector },
       ],
     });
@@ -155,10 +146,10 @@ describe('CheckoutFiscalIdService', () => {
       sapCountry: 'PT',
       sapFiscalIdEntries: [{ sapValue: '123456789', sapType: 'NIF' }],
     });
+    await Promise.resolve();
     expect(completed).toBe(false);
     entity.next({ value: cart, loading: false, success: true });
     await saved;
-    expect(store.dispatch).not.toHaveBeenCalled();
   });
 
   it('omits an absent type and supports a guest cart GUID', async () => {
@@ -208,10 +199,9 @@ describe('CheckoutFiscalIdService', () => {
       status: 400,
     });
     expect(multiCart.loadCart).not.toHaveBeenCalled();
-    expect(store.dispatch).not.toHaveBeenCalled();
   });
 
-  it('merges the successfully submitted value into the latest Cart after reload failure', async () => {
+  it('rejects a failed cart refresh and waits for a successful refresh on retry', async () => {
     multiCart.loadCart.mockImplementation(() => {
       entity.next({ value: cart, loading: true });
       entity.next({
@@ -220,22 +210,37 @@ describe('CheckoutFiscalIdService', () => {
         error: true,
       });
     });
-    await firstValueFrom(service.setFiscalId('12345'));
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.SetCartData({
-        cartId: 'cart',
-        cart: {
-          code: 'cart',
-          totalItems: 8,
-          sapCustomerFiscalId: {
-            sapCountry: 'PT',
-            sapFiscalIdEntries: [{ sapValue: '12345', sapType: 'NIF' }],
-          },
-        },
-      })
+    await expect(firstValueFrom(service.setFiscalId('12345'))).rejects.toThrow(
+      'refresh'
     );
+    expect(cart.sapCustomerFiscalId).toBeUndefined();
+
+    multiCart.loadCart.mockImplementation(() => {
+      entity.next({ value: cart, loading: true });
+    });
+    let completed = false;
+    const retry = firstValueFrom(service.setFiscalId('12345')).then(() => {
+      completed = true;
+    });
+    expect(connector.setFiscalId).toHaveBeenCalledTimes(2);
+    expect(multiCart.loadCart).toHaveBeenCalledTimes(2);
+    await Promise.resolve();
+    expect(completed).toBe(false);
+
+    cart = {
+      ...cart,
+      totalItems: 8,
+      sapCustomerFiscalId: {
+        sapCountry: 'PT',
+        sapFiscalIdEntries: [{ sapValue: '12345', sapType: 'NIF' }],
+      },
+    };
+    entity.next({ value: cart, loading: false, success: true });
+    await retry;
+    expect(completed).toBe(true);
+
     await firstValueFrom(service.setFiscalId('12345'));
-    expect(connector.setFiscalId).toHaveBeenCalledTimes(1);
+    expect(connector.setFiscalId).toHaveBeenCalledTimes(2);
   });
 
   it('does not restore an invalidated cart', async () => {
@@ -246,7 +251,6 @@ describe('CheckoutFiscalIdService', () => {
     await expect(firstValueFrom(service.setFiscalId('12345'))).rejects.toThrow(
       'no longer available'
     );
-    expect(store.dispatch).not.toHaveBeenCalled();
   });
 
   it.each(['cart', 'user', 'site'])(
@@ -267,7 +271,6 @@ describe('CheckoutFiscalIdService', () => {
       await expect(result).rejects.toThrow('context changed');
       request.next();
       expect(multiCart.loadCart).not.toHaveBeenCalled();
-      expect(store.dispatch).not.toHaveBeenCalled();
     }
   );
 });
