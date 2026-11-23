@@ -21,7 +21,6 @@ export default defineConfig({
     runMode: 2,
     openMode: 2,
   },
-  videoUploadOnPasses: false,
   env: {
     API_URL,
     BASE_SITE: 'electronics-spa',

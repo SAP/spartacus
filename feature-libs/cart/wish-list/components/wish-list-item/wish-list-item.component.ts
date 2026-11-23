@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnChanges,
-  Output,
   SimpleChanges,
+  inject,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -39,8 +38,6 @@ import {
   imports: [
     RouterLink,
     MediaComponent,
-    NgIf,
-    NgFor,
     InnerComponentsHostDirective,
     AtMessageDirective,
     TranslatePipe,
@@ -48,16 +45,17 @@ import {
   ],
 })
 export class WishListItemComponent implements OnChanges {
+  protected productListItemContextSource = inject(ProductListItemContextSource);
+
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   isLoading = false;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cartEntry: OrderEntry;
 
-  @Output()
-  remove = new EventEmitter<OrderEntry>();
-
-  constructor(
-    protected productListItemContextSource: ProductListItemContextSource
-  ) {}
+  readonly remove = output<OrderEntry>();
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.cartEntry) {

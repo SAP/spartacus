@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserFormComponent } from '../../../../user/form/user-form.component';
 import { UserItemService } from '../../../../user/services/user-item.service';
@@ -28,6 +28,7 @@ import { UnitUserItemService } from './unit-user-item.service';
   imports: [UserFormComponent, AsyncPipe],
 })
 export class UnitUserCreateComponent {
+  protected unitService = inject(CurrentUnitService);
+
   unitKey$: Observable<string> = this.unitService.key$;
-  constructor(protected unitService: CurrentUnitService) {}
 }

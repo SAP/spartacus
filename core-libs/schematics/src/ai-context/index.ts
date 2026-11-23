@@ -10,16 +10,15 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { AiTool } from '../add-spartacus/schema';
 import { Schema } from './schema';
+import {
+  AI_SKILLS_DESTINATIONS,
+  SPARTACUS_SKILL_NAMES,
+} from './skill.constants';
 
 const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'agents'];
 
 const SKILLS_PACKAGE = '@spartacus/skills';
 const SKILL_DIR = 'spartacus-developer';
-
-const SKILL_DEST: Record<AiTool, string> = {
-  claude: `.claude/skills/${SKILL_DIR}`,
-  agents: `.agents/skills/${SKILL_DIR}`,
-};
 
 export interface SkillFile {
   relativePath: string;
@@ -27,12 +26,12 @@ export interface SkillFile {
 }
 
 /**
- * Standalone schematic that copies the Spartacus `spartacus-developer` skill
+ * Standalone schematic that copies the Spartacus development and upgrade skills
  * from an installed `@spartacus/skills` package into the project, shaped for
  * the selected AI assistants. Run it after installing `@spartacus/skills`:
  *
  *   ng g @spartacus/schematics:ai-context
- *   ng g @spartacus/schematics:ai-context --ai-tools=claude --ai-tools=cursor
+ *   ng g @spartacus/schematics:ai-context --ai-tools=claude --ai-tools=agents
  *
  * Note: Angular CLI auto-kebab-cases camelCase schema props (aiTools →
  * ai-tools) and refuses comma-separated values for array flags — repeat
@@ -62,13 +61,23 @@ export function addAiContextSchematic(options: Schema): Rule {
       context.logger.info(`⌛️ Writing AI context for: ${targets.join(', ')}`);
     }
 
-    const files = collectFiles(skillsRoot);
-    for (const target of targets) {
-      copySkill(tree, files, target, {
-        deleteBeforeCopy: options.deleteBeforeCopy,
-        debug: options.debug,
-        logger: context.logger,
-      });
+    for (const skillName of SPARTACUS_SKILL_NAMES) {
+      const root =
+        skillName === SKILL_DIR
+          ? skillsRoot
+          : path.join(skillsRoot, '..', skillName);
+      // Older installed skills packages may contain only the developer skill.
+      if (!fs.existsSync(root)) {
+        continue;
+      }
+      const files = collectFiles(root);
+      for (const target of targets) {
+        copySkill(tree, files, target, skillName, {
+          deleteBeforeCopy: options.deleteBeforeCopy,
+          debug: options.debug,
+          logger: context.logger,
+        });
+      }
     }
 
     if (options.debug) {
@@ -141,9 +150,10 @@ function copySkill(
   tree: Tree,
   files: SkillFile[],
   target: AiTool,
+  skillName: string,
   options?: CopyOptions
 ): void {
-  const dest = SKILL_DEST[target];
+  const dest = `${AI_SKILLS_DESTINATIONS[target]}/${skillName}`;
   if (options?.deleteBeforeCopy) {
     deleteSkillDir(tree, dest);
   }

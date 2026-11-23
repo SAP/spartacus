@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+  input,
+} from '@angular/core';
 import { LanguageService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -24,31 +30,31 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorConflictDescriptionComponent,
-    NgFor,
     ConfiguratorConflictSuggestionComponent,
     ConfiguratorAttributeCompositionDirective,
     AsyncPipe,
   ],
 })
 export class ConfiguratorGroupComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected languageService = inject(LanguageService);
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+
   protected readonly typePrefix = 'AttributeType_';
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() group: Configurator.Group;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() owner: CommonConfigurator.Owner;
-  @Input() isNavigationToGroupEnabled: boolean;
-  @Input() isPricingAsync?: boolean;
+  readonly isNavigationToGroupEnabled = input<boolean>();
+  readonly isPricingAsync = input<boolean>();
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected languageService: LanguageService,
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected configExpertModeService: ConfiguratorExpertModeService
-  ) {}
 
   /**
    * Updates a configuration, specified by the configuration form update event.

@@ -26,21 +26,15 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
   enabled = false;
 }
 
-class MockLanguageStatePersistenceService
-  implements Partial<LanguageStatePersistenceService>
-{
+class MockLanguageStatePersistenceService implements Partial<LanguageStatePersistenceService> {
   initSync = vi.fn().mockReturnValue(of(EMPTY));
 }
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable = () => of(mockSiteContextConfig);
 }
 
-class MockSiteContextRoutesHandler
-  implements Partial<SiteContextRoutesHandler>
-{
+class MockSiteContextRoutesHandler implements Partial<SiteContextRoutesHandler> {
   initOnce = vi.fn().mockReturnValue(of(undefined));
 }
 

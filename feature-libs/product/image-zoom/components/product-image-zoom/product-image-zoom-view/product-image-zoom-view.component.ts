@@ -4,19 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
   inject,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   FeatureToggles,
@@ -61,7 +62,6 @@ import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumb
   templateUrl: './product-image-zoom-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     IconComponent,
     FeatureDirective,
     MediaComponent,
@@ -71,9 +71,14 @@ import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumb
   ],
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
+  protected currentProductService = inject(CurrentProductService);
+  protected renderer = inject(Renderer2);
+  protected cdRef = inject(ChangeDetectorRef);
+  protected breakpointService = inject(BreakpointService);
+
   iconType = ICON_TYPE;
 
-  @Input() galleryIndex: number;
+  readonly galleryIndex = input<number>();
 
   private mainMediaContainer = new BehaviorSubject<ImageGroup | null>(null);
   private defaultImageReady = new BehaviorSubject<boolean>(false);
@@ -106,6 +111,8 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     return this._defaultImage;
   }
 
+  // TODO: Skipped for migration because:
+  //  Accessor queries cannot be migrated as they are too complex.
   @ViewChild('defaultImage', { read: ElementRef }) set defaultImage(
     el: ElementRef
   ) {
@@ -128,6 +135,8 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     return this._zoomImage;
   }
 
+  // TODO: Skipped for migration because:
+  //  Accessor queries cannot be migrated as they are too complex.
   @ViewChild('zoomContainer', { read: ElementRef }) set zoomImage(
     el: ElementRef
   ) {
@@ -137,8 +146,10 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
+  readonly zoomedImage = viewChild('zoomedImage', { read: ElementRef });
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('zoomButton') zoomButton: ElementRef;
 
   startCoords: { x: number; y: number } | null = null;
@@ -152,10 +163,10 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
       filter(isNotNullable),
       distinctUntilChanged(),
       tap((p: Product) => {
-        if (this.galleryIndex) {
+        if (this.galleryIndex()) {
           const image = Array.isArray(p.images?.GALLERY)
             ? p.images?.GALLERY.find(
-                (img) => img.zoom?.galleryIndex === this.galleryIndex
+                (img) => img.zoom?.galleryIndex === this.galleryIndex()
               )
             : p.images?.GALLERY;
           this.mainMediaContainer.next(image || null);
@@ -178,12 +189,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     this.mainMediaContainer$,
   ]).pipe(map(([, container]) => container));
 
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected renderer: Renderer2,
-    protected cdRef: ChangeDetectorRef,
-    protected breakpointService: BreakpointService
-  ) {
+  constructor() {
     useFeatureStyles('a11yKeyboardAccessibleZoom');
   }
 
@@ -250,9 +256,10 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
    */
   touchMove(event: TouchEvent): void {
     const touch = event.touches[0] || event.changedTouches[0];
+    const zoomedImage = this.zoomedImage();
     const boundingRect =
-      this.zoomedImage?.nativeElement?.getBoundingClientRect() as DOMRect;
-    const imageElement = this.zoomedImage?.nativeElement?.firstChild;
+      zoomedImage?.nativeElement?.getBoundingClientRect() as DOMRect;
+    const imageElement = zoomedImage?.nativeElement?.firstChild;
 
     if (!this.startCoords) {
       this.startCoords = { x: touch.clientX, y: touch.clientY };
@@ -278,12 +285,16 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
    * @param event
    */
   pointerMove(event: MouseEvent): void {
+    const zoomedImage = this.zoomedImage();
+    if (!zoomedImage) {
+      return;
+    }
     const boundingRect =
-      this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
-    const imageElement = this.zoomedImage.nativeElement.firstChild;
+      zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
+    const imageElement = zoomedImage.nativeElement.firstChild;
 
     const { positionX, positionY } = this.calculatePointerMovePosition(
-      this.zoomedImage,
+      zoomedImage,
       event.clientX,
       event.clientY
     );

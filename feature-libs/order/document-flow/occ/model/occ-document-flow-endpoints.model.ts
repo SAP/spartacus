@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 export interface DocumentFlowOccEndpoints {
   /**
    * Get order subsequent documents
    */
-  subsequentDocuments?: string | OccEndpoint;
+  subsequentDocuments?: string | CoreOccEndpoint;
 
   /**
    * Get order subsequent document entries
    */
-  subsequentDocumentsEntries?: string | OccEndpoint;
+  subsequentDocumentsEntries?: string | CoreOccEndpoint;
 }
 
 declare module '@spartacus/core' {

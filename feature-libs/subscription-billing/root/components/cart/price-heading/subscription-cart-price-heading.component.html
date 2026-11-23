@@ -1,5 +1,5 @@
-<ng-container *ngIf="subscriptionItem()">
+@if (subscriptionItem()) {
   <th role="columnheader" scope="col" class="cx-item-list-charges">
     <span>{{ 'subscriptionCartItemList.itemPriceHeader' | cxTranslate }}</span>
   </th>
-</ng-container>
+}

@@ -3,6 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { provideLocationMocks } from '@angular/common/testing';
+import { RouterModule, provideRouter } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -12,7 +14,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthConfigService,
   FeatureToggles,
@@ -53,9 +54,7 @@ class MockRoutingService {
   go = vi.fn();
 }
 
-class MockFormComponentService
-  implements Partial<RegistrationVerificationTokenFormComponentService>
-{
+class MockFormComponentService implements Partial<RegistrationVerificationTokenFormComponentService> {
   form: UntypedFormGroup = new UntypedFormGroup({
     tokenId: new UntypedFormControl(),
     tokenCode: new UntypedFormControl(),
@@ -64,16 +63,17 @@ class MockFormComponentService
   createVerificationToken = vi
     .fn()
     .mockReturnValue(of({ tokenId: 'testTokenId', expiresIn: '300' }));
-  displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
+  displayMessage = vi
+    .fn()
+    .mockName('displayMessage')
+    .mockImplementation(() => {});
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe = vi.fn().mockImplementation(() => {});
 }
 
-class MockRegistrationVerificationTokenFormComponentService
-  implements Partial<RegistrationVerificationTokenFormComponentService>
-{
+class MockRegistrationVerificationTokenFormComponentService implements Partial<RegistrationVerificationTokenFormComponentService> {
   postRegisterMessage = vi.fn();
   displayMessage = vi.fn();
 }
@@ -100,12 +100,14 @@ describe('RegistrationVerificationTokenFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         FormErrorsModule,
         SpinnerModule,
         RegistrationVerificationTokenFormComponent,
+        RouterModule,
       ],
       providers: [
+        provideRouter([]),
+        provideLocationMocks(),
         {
           provide: RegistrationVerificationTokenFormComponentService,
           useClass: MockFormComponentService,

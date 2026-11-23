@@ -6,6 +6,7 @@ import {
   Input,
   TemplateRef,
   ViewContainerRef,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -146,8 +147,8 @@ class MockProductService {
   template: '',
 })
 class MockConfiguratorOverviewFilterComponent {
-  @Input() showFilterBar: boolean = true;
-  @Input() config: Configurator.ConfigurationWithOverview;
+  readonly showFilterBar = input<boolean>(true);
+  readonly config = input<Configurator.ConfigurationWithOverview>();
 }
 
 @Component({
@@ -155,7 +156,7 @@ class MockConfiguratorOverviewFilterComponent {
   template: '',
 })
 class MockConfiguratorOverviewMenuComponent {
-  @Input() config: Configurator.ConfigurationWithOverview;
+  readonly config = input<Configurator.ConfigurationWithOverview>();
 }
 
 /**
@@ -170,6 +171,8 @@ class OverviewSidebarMockFeatureDirective {
     private viewContainer: ViewContainerRef
   ) {}
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeature(feature: string) {
     this.viewContainer.clear();
     const featureText = feature.toString();
@@ -252,7 +255,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorOverviewSidebarComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
     initTestComponent();

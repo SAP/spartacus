@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter, RouterLink } from '@angular/router';
@@ -30,7 +30,7 @@ class MockUrlPipe implements PipeTransform {
   imports: [I18nTestingModule, RouterLink],
 })
 class MockCxIconComponent {
-  @Input() type;
+  readonly type = input(undefined);
 }
 
 const updating$ = new BehaviorSubject<boolean>(false);

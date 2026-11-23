@@ -22,6 +22,12 @@ import { CaptchaRenderer } from './captcha.renderer';
   providedIn: 'root',
 })
 export abstract class CaptchaService implements CaptchaRenderer, OnDestroy {
+  protected adapter = inject(SiteAdapter);
+  protected apiConfig = inject(CaptchaApiConfig);
+  protected languageService = inject(LanguageService);
+  protected scriptLoader = inject(ScriptLoader);
+  protected baseSiteService = inject(BaseSiteService);
+
   protected rendererFactory = inject(RendererFactory2);
   protected token: string;
   protected subscription = new Subscription();
@@ -29,13 +35,7 @@ export abstract class CaptchaService implements CaptchaRenderer, OnDestroy {
   protected captchaConfig: CaptchaConfig;
   protected renderer = this.rendererFactory.createRenderer(null, null);
 
-  constructor(
-    protected adapter: SiteAdapter,
-    protected apiConfig: CaptchaApiConfig,
-    protected languageService: LanguageService,
-    protected scriptLoader: ScriptLoader,
-    protected baseSiteService: BaseSiteService
-  ) {
+  constructor() {
     this.initialize();
   }
 

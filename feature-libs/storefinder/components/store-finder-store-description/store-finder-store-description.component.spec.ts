@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
@@ -16,7 +16,7 @@ class StoreFinderServiceMock {
   template: '',
 })
 class MockScheduleComponent {
-  @Input() location;
+  readonly location = input(undefined);
 }
 
 @Component({
@@ -24,7 +24,7 @@ class MockScheduleComponent {
   template: '',
 })
 class MockStoreFinderMapComponent {
-  @Input() locations;
+  readonly locations = input(undefined);
 }
 
 describe('StoreFinderStoreDescriptionComponent', () => {

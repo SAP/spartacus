@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -25,10 +25,10 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
   template: '',
 })
 class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
+  readonly cartEntry = input<OrderEntry>();
+  readonly readOnly = input<boolean>();
+  readonly msgBanner = input<boolean>();
+  readonly disabled = input<boolean>();
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -94,7 +94,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         ConfiguratorIssuesNotificationComponent
       );
       component = fixture.componentInstance;
-      changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
+      changeDetectorRef = fixture.changeDetectorRef;
       htmlElem = fixture.nativeElement;
       mockCartItemContext = TestBed.inject(
         CartItemContext
@@ -247,7 +247,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(false);
+          expect(component.readOnly()).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
@@ -261,7 +261,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(false);
+          expect(component.readOnly()).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is false', () => {
@@ -271,7 +271,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(false);
+          expect(component.readOnly()).toBe(false);
         });
       });
 
@@ -286,14 +286,15 @@ describe('ConfigureIssuesNotificationComponent', () => {
           fixture.debugElement.query(By.css('cx-configure-cart-entry'))
             .componentInstance;
 
-        expect(getLinkComponent().disabled).toBe(false);
+        expect(getLinkComponent().disabled()).toBe(false);
 
         quantityControl.disable({ emitEvent: false });
-        // Same FormControl reference: default CD must refresh [disabled] without
-        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        // CartItemListRowComponent republishes this control on quantityDisabled changes.
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        // Check from the fixture root after the context notification.
         changeDetectorRef.detectChanges();
 
-        expect(getLinkComponent().disabled).toBe(true);
+        expect(getLinkComponent().disabled()).toBe(true);
       });
 
       it('should prevent the rendering of "edit configuration" if context is SaveForLater', () => {

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass } from '@angular/common';
 import { Component, OnInit, Optional, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoutingService, TranslatePipe } from '@spartacus/core';
@@ -12,16 +11,16 @@ import { RoutingService, TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-login-register',
   templateUrl: './login-register.component.html',
-  imports: [NgClass, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class LoginRegisterComponent implements OnInit {
+  protected activatedRoute = inject(ActivatedRoute);
+
   loginAsGuest = false;
 
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
-
-  constructor(protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];

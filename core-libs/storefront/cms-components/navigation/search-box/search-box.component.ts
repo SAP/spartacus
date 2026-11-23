@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,9 +16,9 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
   ViewChild,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -78,8 +78,6 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IconComponent,
-    NgIf,
-    NgFor,
     RouterLink,
     OutletDirective,
     MediaComponent,
@@ -92,15 +90,27 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   ],
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
+  protected searchBoxComponentService = inject(SearchBoxComponentService);
+  protected componentData = inject<CmsComponentData<CmsSearchBoxComponent>>(
+    CmsComponentData,
+    { optional: true }
+  );
+  protected winRef = inject(WindowRef);
+  protected routingService = inject(RoutingService);
+
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
   private readonly featureToggles = inject(FeatureToggles);
   readonly searchBoxOutlets = SearchBoxOutlets;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() config: SearchBoxConfig;
 
   /**
    * Sets the search box input field
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input()
   set queryText(value: string) {
     if (value) {
@@ -129,9 +139,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Search input element reference.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild('searchInput') searchInputEl: any;
 
-  @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
+  readonly searchButton = viewChild<ElementRef<HTMLElement>>('searchButton');
 
   @HostListener('keydown.escape')
   onEscape() {
@@ -225,13 +237,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected breakpointService = inject(BreakpointService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
 
-  constructor(
-    protected searchBoxComponentService: SearchBoxComponentService,
-    @Optional()
-    protected componentData: CmsComponentData<CmsSearchBoxComponent>,
-    protected winRef: WindowRef,
-    protected routingService: RoutingService
-  ) {
+  constructor() {
     useFeatureStyles('searchBoxRecentSearchesRemoval');
     useFeatureStyles('searchBoxEmptyQueryResultsPanel');
     useFeatureStyles('a11yFixSearchBoxDoubleFocus');
@@ -291,12 +297,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       .getRouterState()
       .pipe(filter((data) => !data.nextState))
       .subscribe((data) => {
-        if (
-          !(
-            data.state.context?.id === 'search' &&
-            data.state.context?.type === PageType.CONTENT_PAGE
-          )
-        ) {
+        if (!(
+          data.state.context?.id === 'search' &&
+          data.state.context?.type === PageType.CONTENT_PAGE
+        )) {
           this.updateChosenWord('');
         }
       });
@@ -543,7 +547,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
     this.changeDetectorRef.detectChanges();
-    this.searchButton?.nativeElement.focus();
+    this.searchButton()?.nativeElement.focus();
   }
 
   // Check if focus is on searchbox or result list elements

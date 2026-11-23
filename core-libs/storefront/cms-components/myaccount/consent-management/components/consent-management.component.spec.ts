@@ -1,10 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, output, input } from '@angular/core';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -46,13 +40,10 @@ class MockCxSpinnerComponent {}
   template: ` <div>form</div> `,
 })
 class MockConsentManagementFormComponent {
-  @Input()
-  consentTemplate: ConsentTemplate;
-  @Input()
-  requiredConsents: string[] = [];
-  @Input() disabled = false;
-  @Output()
-  consentChanged = new EventEmitter<{
+  readonly consentTemplate = input<ConsentTemplate>();
+  readonly requiredConsents = input<string[]>([]);
+  readonly disabled = input(false);
+  readonly consentChanged = output<{
     given: boolean;
     template: ConsentTemplate;
   }>();

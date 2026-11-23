@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  Output,
   Renderer2,
-  ViewChild,
+  inject,
+  output,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -26,15 +25,11 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 @Component({
   selector: 'cx-unit-level-order-history-filter',
   templateUrl: './unit-level-order-history-filter.component.html',
-  imports: [
-    IconComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    NgIf,
-    TranslatePipe,
-  ],
+  imports: [IconComponent, FormsModule, ReactiveFormsModule, TranslatePipe],
 })
 export class UnitLevelOrderHistoryFilterComponent {
+  protected renderer = inject(Renderer2);
+
   iconTypes = ICON_TYPE;
   encodedFilter: string;
 
@@ -51,22 +46,25 @@ export class UnitLevelOrderHistoryFilterComponent {
   filterByBuyer = 'filterByBuyer';
   filterByUnit = 'filterByUnit';
 
-  @ViewChild('filterNav', { read: ElementRef }) filterNav: ElementRef;
-  @ViewChild('filterNavUnit', { read: ElementRef }) filterNavUnit: ElementRef;
-  @ViewChild('filterNavBuyer', { read: ElementRef }) filterNavBuyer: ElementRef;
+  readonly filterNav = viewChild.required('filterNav', { read: ElementRef });
+  readonly filterNavUnit = viewChild.required('filterNavUnit', {
+    read: ElementRef,
+  });
+  readonly filterNavBuyer = viewChild.required('filterNavBuyer', {
+    read: ElementRef,
+  });
 
-  @ViewChild('buyerFilterMobileId', { read: ElementRef })
-  buyerFilterMobileId: ElementRef;
-  @ViewChild('unitFilterMobileId', { read: ElementRef })
-  unitFilterMobileId: ElementRef;
+  readonly buyerFilterMobileId = viewChild('buyerFilterMobileId', {
+    read: ElementRef,
+  });
+  readonly unitFilterMobileId = viewChild('unitFilterMobileId', {
+    read: ElementRef,
+  });
 
-  @Output()
-  filterListEvent = new EventEmitter<OrderHistoryQueryParams>();
+  readonly filterListEvent = output<OrderHistoryQueryParams>();
 
   unitFilterMobileValue: string | null;
   buyerFilterMobileValue: string | null;
-
-  constructor(protected renderer: Renderer2) {}
 
   searchUnitLevelOrders(): void {
     const buyer = this.filterForm.get('buyerFilter')?.value;
@@ -102,8 +100,8 @@ export class UnitLevelOrderHistoryFilterComponent {
   clearAll(): void {
     const buyer = this.filterForm.get('buyerFilter')?.value;
     const unit = this.filterForm.get('unitFilter')?.value;
-    const buyerMobile = this.buyerFilterMobileId?.nativeElement.value;
-    const unitMobile = this.unitFilterMobileId?.nativeElement.value;
+    const buyerMobile = this.buyerFilterMobileId()?.nativeElement.value;
+    const unitMobile = this.unitFilterMobileId()?.nativeElement.value;
 
     if (buyer || unit || buyerMobile || unitMobile) {
       this.filterForm.reset();
@@ -116,8 +114,9 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   launchMobileFilters(): void {
-    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
-    this.renderer.setStyle(this.filterNav.nativeElement, 'width', '100%');
+    const filterNav = this.filterNav();
+    this.renderer.setStyle(filterNav.nativeElement, 'display', 'flex');
+    this.renderer.setStyle(filterNav.nativeElement, 'width', '100%');
     this.renderer.setStyle(document.body, 'overflow', 'hidden');
   }
 
@@ -136,15 +135,20 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   closeFilterNav(): void {
-    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
+    const filterNav = this.filterNav();
+    this.renderer.setStyle(filterNav.nativeElement, 'display', 'none');
     this.renderer.setStyle(document.body, 'overflow', '');
-    this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
     this.renderer.setStyle(
-      this.filterNavBuyer.nativeElement,
+      this.filterNavUnit().nativeElement,
       'display',
       'none'
     );
-    this.renderer.setStyle(this.filterNav.nativeElement, 'width', '0');
+    this.renderer.setStyle(
+      this.filterNavBuyer().nativeElement,
+      'display',
+      'none'
+    );
+    this.renderer.setStyle(filterNav.nativeElement, 'width', '0');
     this.filterFormMobile.patchValue({
       buyerFilterMobile: this.buyerFilterMobileValue,
       unitFilterMobile: this.unitFilterMobileValue,
@@ -152,13 +156,17 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   backFilterSubNav(): void {
-    this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
     this.renderer.setStyle(
-      this.filterNavBuyer.nativeElement,
+      this.filterNavUnit().nativeElement,
       'display',
       'none'
     );
-    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
+    this.renderer.setStyle(
+      this.filterNavBuyer().nativeElement,
+      'display',
+      'none'
+    );
+    this.renderer.setStyle(this.filterNav().nativeElement, 'display', 'flex');
 
     this.filterFormMobile.patchValue({
       buyerFilterMobile: this.buyerFilterMobileValue,
@@ -167,17 +175,17 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   launchSubNav(option: string): void {
-    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.filterNav().nativeElement, 'display', 'none');
 
     if (option === this.filterByUnit) {
       this.renderer.setStyle(
-        this.filterNavUnit.nativeElement,
+        this.filterNavUnit().nativeElement,
         'display',
         'block'
       );
     } else if (option === this.filterByBuyer) {
       this.renderer.setStyle(
-        this.filterNavBuyer.nativeElement,
+        this.filterNavBuyer().nativeElement,
         'display',
         'block'
       );

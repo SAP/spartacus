@@ -14,7 +14,7 @@ export function countriesListTabbingOrder(config: TabElement[]) {
 
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/stores/storescounts*`,
   }).as('storesCounts');

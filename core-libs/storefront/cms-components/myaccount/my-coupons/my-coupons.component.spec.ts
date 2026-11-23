@@ -3,9 +3,8 @@ import {
   Component,
   DebugElement,
   ElementRef,
-  EventEmitter,
-  Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -39,21 +38,18 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
     <input
       type="checkbox"
       class="form-check-input"
-      [checked]="coupon?.notificationOn"
-      [class.disabled]="couponSubscriptionLoading$ | async"
-      [disabled]="couponSubscriptionLoading$ | async"
+      [checked]="coupon()?.notificationOn"
+      [class.disabled]="couponSubscriptionLoading$() | async"
+      [disabled]="couponSubscriptionLoading$() | async"
       (click)="notificationChange()"
     />
   `,
   imports: [I18nTestingModule, SpinnerModule, AsyncPipe],
 })
 class MockedCouponCardComponent {
-  @Input()
-  coupon: CustomerCoupon;
-  @Input()
-  couponSubscriptionLoading$: Observable<boolean>;
-  @Output()
-  notificationChanged = new EventEmitter<{
+  readonly coupon = input<CustomerCoupon>();
+  readonly couponSubscriptionLoading$ = input<Observable<boolean>>();
+  readonly notificationChanged = output<{
     couponId: string;
     notification: boolean;
   }>();
@@ -62,7 +58,7 @@ class MockedCouponCardComponent {
   notificationChange(): void {
     this.notificationOn = !this.notificationOn;
     this.notificationChanged.emit({
-      couponId: this.coupon.couponId,
+      couponId: this.coupon().couponId,
       notification: this.notificationOn,
     });
   }
@@ -74,7 +70,7 @@ class MockedCouponCardComponent {
   imports: [I18nTestingModule, SpinnerModule],
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 const subLoading$ = new BehaviorSubject<boolean>(false);
@@ -140,8 +136,8 @@ const sortLabels = {
   selector: 'cx-pagination',
 })
 class MockPaginationComponent {
-  @Input() pagination;
-  @Output() viewPageEvent = new EventEmitter<string>();
+  readonly pagination = input(undefined);
+  readonly viewPageEvent = output<string>();
 }
 
 @Component({
@@ -149,11 +145,11 @@ class MockPaginationComponent {
   selector: 'cx-sorting',
 })
 class MockSortingComponent {
-  @Input() sortOptions;
-  @Input() sortLabels;
-  @Input() selectedOption;
-  @Input() placeholder;
-  @Output() sortListEvent = new EventEmitter<string>();
+  readonly sortOptions = input(undefined);
+  readonly sortLabels = input(undefined);
+  readonly selectedOption = input(undefined);
+  readonly placeholder = input(undefined);
+  readonly sortListEvent = output<string>();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

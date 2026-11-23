@@ -1,4 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -39,7 +39,7 @@ class MockRoutingService implements Partial<RoutingService> {
 
 @Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
+  readonly config = input<FocusConfig>({}, { alias: 'cxFocus' });
 }
 
 @Component({
@@ -47,7 +47,7 @@ export class MockKeyboadFocusDirective {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 describe('CustomerTicketingReopenDialogComponent', () => {

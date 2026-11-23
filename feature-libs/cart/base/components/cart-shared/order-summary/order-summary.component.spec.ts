@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart, CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
@@ -12,12 +12,9 @@ import { OrderSummaryComponent } from './order-summary.component';
   template: '',
 })
 class MockAppliedCouponsComponent {
-  @Input()
-  vouchers: Voucher[];
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  isReadOnly = false;
+  readonly vouchers = input<Voucher[]>();
+  readonly cartIsLoading = input(false);
+  readonly isReadOnly = input(false);
 }
 
 const mockCart: Cart = {

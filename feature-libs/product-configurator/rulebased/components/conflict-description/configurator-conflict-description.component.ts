@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,9 +17,11 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-conflict-description',
   templateUrl: './configurator-conflict-description.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent],
+  imports: [IconComponent],
 })
 export class ConfiguratorConflictDescriptionComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() currentGroup: Configurator.Group;
 
   groupType = Configurator.GroupType;

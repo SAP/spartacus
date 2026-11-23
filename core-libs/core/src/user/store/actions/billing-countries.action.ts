@@ -34,6 +34,4 @@ export class LoadBillingCountriesSuccess implements Action {
 }
 
 export type BillingCountriesAction =
-  | LoadBillingCountries
-  | LoadBillingCountriesFail
-  | LoadBillingCountriesSuccess;
+  LoadBillingCountries | LoadBillingCountriesFail | LoadBillingCountriesSuccess;

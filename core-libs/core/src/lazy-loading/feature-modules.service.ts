@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, NgModuleRef } from '@angular/core';
+import { Injectable, NgModuleRef, inject } from '@angular/core';
 import { EMPTY, Observable, defer, forkJoin, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { CmsConfig, FeatureModuleConfig } from '../cms/config/cms-config';
@@ -14,16 +14,14 @@ import { LazyModulesService } from './lazy-modules.service';
   providedIn: 'root',
 })
 export class FeatureModulesService {
+  protected cmsConfig = inject(CmsConfig);
+  protected lazyModules = inject(LazyModulesService);
+
   /*
    * Contains resolvers for features.
    * Each resolver runs only once and caches the result.
    */
   private features: Map<string, Observable<NgModuleRef<any>>> = new Map();
-
-  constructor(
-    protected cmsConfig: CmsConfig,
-    protected lazyModules: LazyModulesService
-  ) {}
 
   /**
    * Check if feature is configured properly by providing module the shell app

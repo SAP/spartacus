@@ -4,16 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
   ElementRef,
-  EventEmitter,
   forwardRef,
-  Input,
-  Output,
   TemplateRef,
+  output,
+  input,
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -32,28 +31,30 @@ import { TranslatePipe } from '@spartacus/core';
       multi: true,
     },
   ],
-  imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe],
+  imports: [NgTemplateOutlet, TranslatePipe],
 })
 export class FileUploadComponent implements ControlValueAccessor {
   /**
    * Allowed file types. It's setting attribute used for OS window for choosing files.
    */
-  @Input() accept?: string | string[] = '*';
+  readonly accept = input<(string | string[]) | undefined>('*');
   /**
    * Allows selecting multiple files.
    */
-  @Input() multiple?: boolean = false;
+  readonly multiple = input<boolean | undefined>(false);
   /**
    * Use custom button html passed from parent.
    */
+  // TODO: Skipped for migration because:
+  //  This query is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @ContentChild(TemplateRef) customButton: any;
 
   // TODO: remove this event. Now it's used only to trigger some logic in the parent component.
   // Prerequisites (changes in the parent component):
   // - use an async validator that "opens file" using the value of the form control
   // - "open file" on form submit, but not on the form control change
-  @Output()
-  update = new EventEmitter<FileList | null>();
+  readonly update = output<FileList | null>();
 
   @ViewChild('fileInput', { static: true })
   protected fileInput: ElementRef<HTMLInputElement>;
@@ -73,8 +74,9 @@ export class FileUploadComponent implements ControlValueAccessor {
   }
 
   get selectedFiles(): File[] | undefined {
-    if (this.fileInput.nativeElement.files) {
-      return Array.from(this.fileInput.nativeElement.files);
+    const fileInput = this.fileInput;
+    if (fileInput.nativeElement.files) {
+      return Array.from(fileInput.nativeElement.files);
     }
     return undefined;
   }

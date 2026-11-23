@@ -16,7 +16,7 @@ export const newLastName = 'Z';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
 export function updateProfile(user?: SampleUser) {
-  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+  if (Cypress.expose('CX_MY_ACCOUNT_V2') === true) {
     cy.get('.editButton').click();
   }
   if (user) {
@@ -63,7 +63,7 @@ export function validateUpdateProfileForm(
 
 export function verifyUpdatedProfile() {
   // check where the user's details updated in the previous test
-  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+  if (Cypress.expose('CX_MY_ACCOUNT_V2') === true) {
     cy.get('.editButton').click();
   }
   cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
@@ -78,7 +78,7 @@ export function verifyUpdatedProfile() {
 
 export function testUpdateProfileDetails() {
   it('should be able to update profile details', () => {
-    if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+    if (Cypress.expose('CX_MY_ACCOUNT_V2') === true) {
       cy.get('.editButton').click();
     }
     cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
@@ -104,7 +104,7 @@ export function testUpdateProfileDetails() {
 
 export function testSeeNewProfileInfo() {
   it('should be able to see the new profile info', () => {
-    if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+    if (Cypress.expose('CX_MY_ACCOUNT_V2') === true) {
       cy.get('.editButton').click();
     }
     // check where the user's details updated in the previous test

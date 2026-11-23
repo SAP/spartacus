@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CdsBackendNotificationAdapter } from '../adapters/cds-backend-notification-adapter';
 
@@ -12,9 +12,8 @@ import { CdsBackendNotificationAdapter } from '../adapters/cds-backend-notificat
   providedIn: 'root',
 })
 export class CdsBackendConnector {
-  constructor(
-    private cdsBackendNotificationAdapter: CdsBackendNotificationAdapter
-  ) {}
+  private cdsBackendNotificationAdapter = inject(CdsBackendNotificationAdapter);
+
   notifySuccessfulLogin(): Observable<void> {
     return this.cdsBackendNotificationAdapter.notifySuccessfulLogin();
   }

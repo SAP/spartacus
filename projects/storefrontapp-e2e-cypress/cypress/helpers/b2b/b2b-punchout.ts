@@ -40,7 +40,7 @@ export function createPunchoutSessionIntercept(
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
         'BASE_SITE'
       )}/punchout/sessions/*`,
     },
@@ -51,7 +51,7 @@ export function createPunchoutSessionIntercept(
 export function createCartIntercept(punchoutSession, alias = 'cartRequest') {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*/carts/${punchoutSession.cartId}?*`
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}/users/*/carts/${punchoutSession.cartId}?*`
   ).as(alias);
 }
 
@@ -62,7 +62,7 @@ export function createPunchoutRequisitionIntercept(
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/punchout/sessions/*/requisition`,
+      pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}/punchout/sessions/*/requisition`,
     },
     mockResponse
   ).as(alias);
@@ -117,7 +117,7 @@ export function hackAddToCartModalStyleAndGoToCheckout() {
 export function verifyBackToAriba(discardCartEntries?: boolean) {
   cy.location('pathname').should(
     'contain',
-    `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/requisition`
+    `/${Cypress.expose('BASE_SITE')}/en/USD/punchout/cxml/requisition`
   );
   cy.location('pathname').should('contain', `/ariba-redirection-test`);
   cy.get('body > pre').should('contain', 'Cannot POST /ariba-redirection-test');
@@ -135,9 +135,9 @@ export function deleteStaleCart(punchoutSession) {
   // this is needed to delete the stale cart, single user is used for all tests, thus high carts volume expected.
   cy.request({
     method: 'DELETE',
-    url: `${Cypress.env('API_URL')}${Cypress.env(
+    url: `${Cypress.expose('API_URL')}${Cypress.expose(
       'OCC_PREFIX'
-    )}/${Cypress.env('BASE_SITE')}/users/current/carts/${punchoutSession.cartId}?lang=en&curr=USD`,
+    )}/${Cypress.expose('BASE_SITE')}/users/current/carts/${punchoutSession.cartId}?lang=en&curr=USD`,
     headers: {
       Authorization: `Bearer ${punchoutSession.token.accessToken}`,
     },

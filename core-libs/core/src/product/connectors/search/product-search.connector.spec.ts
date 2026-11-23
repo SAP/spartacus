@@ -1,3 +1,5 @@
+import { ProductSearchAdapter } from './product-search.adapter';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductSearchConnector } from './product-search.connector';
 
@@ -25,7 +27,13 @@ describe('ProductSearchConnector', () => {
           of({ products: [{ code: 'product1', scope }] })
         ),
     };
-    service = new ProductSearchConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        ProductSearchConnector,
+        { provide: ProductSearchAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(ProductSearchConnector);
   });
 
   it('should be created', () => {

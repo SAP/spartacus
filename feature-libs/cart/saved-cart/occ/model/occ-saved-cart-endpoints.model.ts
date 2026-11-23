@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 declare module '@spartacus/core' {
   interface OccEndpoints {
@@ -13,30 +13,30 @@ declare module '@spartacus/core' {
      *
      * * @member {string}
      */
-    savedCarts?: string | OccEndpoint;
+    savedCarts?: string | CoreOccEndpoint;
     /**
      * Endpoint to save a cart
      *
      * * @member {string}
      */
-    saveCart?: string | OccEndpoint;
+    saveCart?: string | CoreOccEndpoint;
     /**
      * Endpoint to get specific saved cart
      *
      * * @member {string}
      */
-    savedCart?: string | OccEndpoint;
+    savedCart?: string | CoreOccEndpoint;
     /**
      * Endpoint to make a saved cart active
      *
      * * @member {string}
      */
-    restoreSavedCart?: string | OccEndpoint;
+    restoreSavedCart?: string | CoreOccEndpoint;
     /**
      * Endpoint to clone a saved cart
      *
      * * @member {string}
      */
-    cloneSavedCart?: string | OccEndpoint;
+    cloneSavedCart?: string | CoreOccEndpoint;
   }
 }

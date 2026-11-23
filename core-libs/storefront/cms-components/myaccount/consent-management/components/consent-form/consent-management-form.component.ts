@@ -4,19 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
   ElementRef,
-  EventEmitter,
   inject,
   Input,
   OnChanges,
   OnInit,
-  Output,
   SimpleChanges,
-  ViewChild,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -29,34 +29,39 @@ import {
 @Component({
   selector: 'cx-consent-management-form',
   templateUrl: './consent-management-form.component.html',
-  imports: [NgIf, NgTemplateOutlet, TranslatePipe],
+  imports: [NgTemplateOutlet, TranslatePipe],
 })
 export class ConsentManagementFormComponent
   implements OnInit, OnChanges, AfterViewChecked
 {
   consentGiven = false;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   consentTemplate: ConsentTemplate;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   requiredConsents: string[] = [];
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   consent: AnonymousConsent | null;
 
-  @Input() disabled: boolean = false;
+  readonly disabled = input<boolean>(false);
 
-  @Input()
-  showMandatory: boolean = false;
+  readonly showMandatory = input<boolean>(false);
 
-  @Output()
-  consentChanged = new EventEmitter<{
+  readonly consentChanged = output<{
     given: boolean;
     template: ConsentTemplate;
   }>();
 
-  @ViewChild('checkboxInput') checkboxInput: ElementRef<HTMLInputElement>;
+  readonly checkboxInput =
+    viewChild<ElementRef<HTMLInputElement>>('checkboxInput');
 
   private hadFocus = false;
   private document = inject(ElementRef).nativeElement.ownerDocument;
@@ -79,19 +84,20 @@ export class ConsentManagementFormComponent
       this.featureToggles.a11yConsentManagementFocusPreservation
     ) {
       this.hadFocus =
-        this.checkboxInput?.nativeElement === this.document.activeElement;
+        this.checkboxInput()?.nativeElement === this.document.activeElement;
     }
   }
 
   ngAfterViewChecked(): void {
+    const checkboxInput = this.checkboxInput();
     if (
       this.hadFocus &&
-      !this.disabled &&
-      this.checkboxInput?.nativeElement &&
+      !this.disabled() &&
+      checkboxInput?.nativeElement &&
       this.featureToggles.a11yConsentManagementFocusPreservation
     ) {
       this.hadFocus = false;
-      this.checkboxInput.nativeElement.focus();
+      checkboxInput.nativeElement.focus();
     }
   }
 

@@ -5,6 +5,6 @@
  */
 
 export enum PickupOptionsTabs {
-  'DELIVERY',
-  'PICKUP',
+  DELIVERY,
+  PICKUP,
 }

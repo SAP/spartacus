@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import {
@@ -68,8 +68,8 @@ class MockCurrentProductService {
   template: '',
 })
 class MockCxProductStyleSelectorComponent {
-  @Input() product: Product;
-  @Input() variants: BaseOption;
+  readonly product = input<Product>();
+  readonly variants = input<BaseOption>();
 }
 
 @Component({
@@ -77,8 +77,8 @@ class MockCxProductStyleSelectorComponent {
   template: '',
 })
 class MockCxProductSizeSelectorComponent {
-  @Input() product: Product;
-  @Input() variants: BaseOption;
+  readonly product = input<Product>();
+  readonly variants = input<BaseOption>();
 }
 
 @Component({
@@ -86,8 +86,8 @@ class MockCxProductSizeSelectorComponent {
   template: '',
 })
 class MockCxProductColorSelectorComponent {
-  @Input() product: Product;
-  @Input() variants: BaseOption;
+  readonly product = input<Product>();
+  readonly variants = input<BaseOption>();
 }
 
 describe('ProductVariantsContainerComponent', () => {

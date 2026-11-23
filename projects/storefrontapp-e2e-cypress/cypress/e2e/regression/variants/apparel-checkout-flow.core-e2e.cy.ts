@@ -15,7 +15,7 @@ context('Apparel - checkout flow', () => {
   viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      Cypress.env('BASE_SITE', APPAREL_BASESITE);
+      Cypress.expose('BASE_SITE', APPAREL_BASESITE);
       checkoutVariants.generateVariantGuestUser();
     });
 

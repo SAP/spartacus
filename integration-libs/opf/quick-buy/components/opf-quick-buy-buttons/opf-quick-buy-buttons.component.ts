@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,7 +22,7 @@ import { OpfQuickBuyButtonsService } from './opf-quick-buy-buttons.service';
   selector: 'cx-opf-quick-buy-buttons',
   templateUrl: './opf-quick-buy-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, ApplePayComponent, OpfGooglePayComponent, AsyncPipe],
+  imports: [ApplePayComponent, OpfGooglePayComponent, AsyncPipe],
 })
 export class OpfQuickBuyButtonsComponent implements OnInit {
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);

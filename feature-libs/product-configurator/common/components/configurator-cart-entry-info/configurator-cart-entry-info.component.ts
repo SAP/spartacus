@@ -4,36 +4,49 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
-import { EMPTY, Observable } from 'rxjs';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 
-/**
- * Requires default change detection strategy, as the disabled state of the quantity form control may change,
- * which would not be properly detected with OnPush strategy.
- */
 @Component({
   selector: 'cx-configurator-cart-entry-info',
   templateUrl: './configurator-cart-entry-info.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
-  imports: [NgIf, NgFor, ConfigureCartEntryComponent, AsyncPipe, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ConfigureCartEntryComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorCartEntryInfoComponent {
-  constructor(
-    @Optional() protected cartItemContext: CartItemContext,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
-  ) {}
+  protected cartItemContext =
+    inject(CartItemContext, { optional: true }) ?? undefined;
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
 
   readonly quantityControl$: Observable<UntypedFormControl> =
     this.cartItemContext?.quantityControl$ ?? EMPTY;
+
+  /**
+   * Disabled state emitted when the control status or cart entry changes.
+   * The row republishes the quantity control when cart loading changes its
+   * disabled state, including changes made with suppressed control events.
+   */
+  readonly quantityControlDisabled$: Observable<boolean> = combineLatest([
+    this.quantityControl$,
+    this.orderEntry$.pipe(startWith(null)),
+  ]).pipe(
+    switchMap(([quantityControl]) =>
+      quantityControl.statusChanges.pipe(
+        startWith(quantityControl.status),
+        map(() => quantityControl.disabled)
+      )
+    )
+  );
 
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;

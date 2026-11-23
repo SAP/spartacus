@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -50,8 +49,8 @@ import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurat
   imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockProductCardComponent {
-  @Input()
-  productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+  readonly productCardOptions =
+    input<ConfiguratorAttributeProductCardComponentOptions>();
 }
 
 @Component({
@@ -60,8 +59,9 @@ class MockProductCardComponent {
   imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<number>();
+  readonly quantityOptions =
+    input<ConfiguratorAttributeQuantityComponentOptions>();
+  readonly changeQuantity = output<number>();
 }
 
 @Component({
@@ -70,7 +70,7 @@ class MockConfiguratorAttributeQuantityComponent {
   imports: [I18nTestingModule, UrlTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 function getSelected(
@@ -197,7 +197,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });
@@ -618,8 +618,9 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     }
 
     function getRenderedProductCardOptions(): ConfiguratorAttributeProductCardComponentOptions {
-      return fixture.debugElement.query(By.directive(MockProductCardComponent))
-        .componentInstance.productCardOptions;
+      return fixture.debugElement
+        .query(By.directive(MockProductCardComponent))
+        .componentInstance.productCardOptions();
     }
 
     beforeEach(() => {

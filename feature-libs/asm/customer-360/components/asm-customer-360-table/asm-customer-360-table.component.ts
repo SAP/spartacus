@@ -4,18 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnChanges,
-  Output,
   SimpleChanges,
-  ViewChild,
+  inject,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 import {
   ArgsPipe,
@@ -51,9 +52,6 @@ import {
   selector: 'cx-asm-customer-360-table',
   templateUrl: './asm-customer-360-table.component.html',
   imports: [
-    NgIf,
-    NgFor,
-    NgClass,
     StarRatingComponent,
     AsyncPipe,
     TranslatePipe,
@@ -64,21 +62,34 @@ import {
 export class AsmCustomer360TableComponent
   implements OnChanges, AfterViewChecked
 {
-  @ViewChild('table') table: ElementRef;
+  protected asmCustomer360Config = inject(AsmCustomer360Config);
+  protected directionService = inject(DirectionService);
 
+  readonly table = viewChild<ElementRef>('table');
+
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() columns: Array<CustomerTableColumn>;
 
-  @Input() emptyStateText: string;
+  readonly emptyStateText = input<string>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() entries: Array<TableEntry>;
 
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() headerText: string;
 
-  @Input() pageSize: number;
+  readonly pageSize = input.required<number>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() sortProperty: keyof TableEntry;
 
-  @Output() selectItem = new EventEmitter<TableEntry>();
+  readonly selectItem = output<TableEntry>();
 
   SortOrder = SortOrder;
 
@@ -97,11 +108,6 @@ export class AsmCustomer360TableComponent
   focusedTableRowIndex = 0;
 
   setFocusOnStartTableItem = false;
-
-  constructor(
-    protected asmCustomer360Config: AsmCustomer360Config,
-    protected directionService: DirectionService
-  ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.entries) {
@@ -237,7 +243,11 @@ export class AsmCustomer360TableComponent
    */
   setSelectedTabIndex(columnIndex: number, rowIndex: number): void {
     const maxColumn = this.columns.length - 1;
-    const maxRow = this.table.nativeElement.rows.length - 1;
+    const table = this.table();
+    if (!table) {
+      return;
+    }
+    const maxRow = table.nativeElement.rows.length - 1;
     if (columnIndex > maxColumn || rowIndex > maxRow) {
       return;
     }
@@ -247,8 +257,7 @@ export class AsmCustomer360TableComponent
     );
     this.focusedTableColumnIndex = columnIndex;
     this.focusedTableRowIndex = rowIndex;
-    const tableCell =
-      this.table.nativeElement.rows[rowIndex].cells[columnIndex];
+    const tableCell = table.nativeElement.rows[rowIndex].cells[columnIndex];
     const childElement = tableCell.firstChild;
     const elementToFocus =
       childElement.tagName === 'BUTTON' ? childElement : tableCell;
@@ -269,7 +278,11 @@ export class AsmCustomer360TableComponent
     }
   }
   protected moveFocusEnd(event: KeyboardEvent, rowIndex: number): void {
-    const maxRow = this.table.nativeElement.rows.length - 1;
+    const table = this.table();
+    if (!table) {
+      return;
+    }
+    const maxRow = table.nativeElement.rows.length - 1;
     rowIndex = event.ctrlKey ? maxRow : rowIndex;
     this.setSelectedTabIndex(this.columns.length - 1, rowIndex);
   }
@@ -282,7 +295,11 @@ export class AsmCustomer360TableComponent
     this.setSelectedTabIndex(columnIndex, rowIndex);
   }
   protected moveFocusDown(columnIndex: number, rowIndex: number): void {
-    const maxRow = this.table.nativeElement.rows.length - 1;
+    const table = this.table();
+    if (!table) {
+      return;
+    }
+    const maxRow = table.nativeElement.rows.length - 1;
     rowIndex = Math.min(maxRow, rowIndex + 1);
     this.setSelectedTabIndex(columnIndex, rowIndex);
   }
@@ -307,7 +324,7 @@ export class AsmCustomer360TableComponent
    */
   protected removeCellTabIndex(columnIndex: number, rowIndex: number): void {
     const tableCell =
-      this.table.nativeElement.rows?.[rowIndex]?.cells?.[columnIndex];
+      this.table()?.nativeElement.rows?.[rowIndex]?.cells?.[columnIndex];
     const childElement = tableCell?.firstChild;
     if (childElement) {
       if (childElement.tagName === 'BUTTON') {
@@ -343,8 +360,9 @@ export class AsmCustomer360TableComponent
     entries: Array<TableEntry>
   ): Array<Array<TableEntry>> {
     const newEntryPages = [];
-    for (let i = 0; i < entries.length; i += this.pageSize) {
-      newEntryPages.push(entries.slice(i, i + this.pageSize));
+    const pageSize = this.pageSize();
+    for (let i = 0; i < entries.length; i += pageSize) {
+      newEntryPages.push(entries.slice(i, i + pageSize));
     }
     return newEntryPages;
   }

@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostBinding,
-  ViewChild,
+  inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -35,7 +36,6 @@ import { LoginFormComponentService } from './login-form-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -51,7 +51,10 @@ import { LoginFormComponentService } from './login-form-component.service';
   ],
 })
 export class LoginFormComponent {
-  @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
+  protected service = inject(LoginFormComponentService);
+
+  readonly loginForm =
+    viewChild<ElementRef<HTMLElementTagNameMap['form']>>('loginForm');
   @HostBinding('class.user-form') style = true;
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
@@ -60,11 +63,11 @@ export class LoginFormComponent {
   method = this.service.method;
   showResetPassword = this.service.showResetPassword;
 
-  constructor(protected service: LoginFormComponentService) {
+  constructor() {
     this.service.handleCustomLoginError();
   }
 
   onSubmit(): void {
-    this.service.login(this.loginForm?.nativeElement);
+    this.service.login(this.loginForm()?.nativeElement);
   }
 }

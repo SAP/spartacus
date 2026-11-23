@@ -31,7 +31,7 @@ context('Checkout back-off test', () => {
     it('should verify back-off mechanism in checkout', () => {
       let retry = 1;
       cy.intercept(
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
           'BASE_SITE'
         )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
         (req) => {

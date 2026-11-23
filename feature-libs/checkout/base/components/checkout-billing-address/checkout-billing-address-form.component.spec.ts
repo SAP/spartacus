@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -55,13 +55,10 @@ const mockAddress: Address = {
   ],
 })
 class MockCardComponent {
-  @Input()
-  content: any;
+  readonly content = input<any>();
 }
 
-class MockCheckoutDeliveryService
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState = vi
     .fn()
     .mockReturnValue(of({ loading: false, error: false, data: undefined }));

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
@@ -34,12 +34,12 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
   imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
+  readonly text = input<string>();
+  readonly textSize = input(60);
+  readonly productName = input<string>();
+  readonly attributeLabel = input<string>();
+  readonly valueLabel = input<string>();
+  readonly itemLabel = input<string>();
 }
 
 @Component({
@@ -48,7 +48,8 @@ class MockConfiguratorShowMoreComponent {
   imports: [I18nTestingModule, IconTestingModule],
 })
 class MockConfiguratorShowOptionsComponent {
-  @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
+  readonly attributeComponentContext =
+    input<ConfiguratorAttributeCompositionContext>();
 }
 
 let isCartEntryOrGroupVisited = true;
@@ -174,7 +175,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

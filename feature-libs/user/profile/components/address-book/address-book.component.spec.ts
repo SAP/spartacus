@@ -1,10 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -90,29 +84,21 @@ class MockComponentService {
   imports: [SpinnerModule, I18nTestingModule, CardModule],
 })
 class MockAddressFormComponent {
-  @Input()
-  addressData: Address;
+  readonly addressData = input<Address>();
 
-  @Input()
-  actionBtnLabel: string;
+  readonly actionBtnLabel = input<string>();
 
-  @Input()
-  cancelBtnLabel: string;
+  readonly cancelBtnLabel = input<string>();
 
-  @Input()
-  setAsDefaultField: boolean;
+  readonly setAsDefaultField = input<boolean>();
 
-  @Input()
-  showTitleCode: boolean;
+  readonly showTitleCode = input<boolean>();
 
-  @Input()
-  showCancelBtn: boolean;
+  readonly showCancelBtn = input<boolean>();
 
-  @Output()
-  submitAddress = new EventEmitter<any>();
+  readonly submitAddress = output<any>();
 
-  @Output()
-  backToAddress = new EventEmitter<any>();
+  readonly backToAddress = output<any>();
 }
 
 describe('AddressBookComponent', () => {

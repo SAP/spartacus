@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CartConfigService } from '@spartacus/cart/base/core';
@@ -54,17 +54,15 @@ interface CartItemComponentOptions {
   imports: [PromotionsModule, I18nTestingModule],
 })
 class MockCartItemListComponent {
-  @Input()
-  items: OrderEntry[];
-  @Input()
-  cartIsLoading: Observable<boolean>;
-  @Input()
-  options: CartItemComponentOptions = {
+  readonly items = input<OrderEntry[]>();
+  readonly cartIsLoading = input<Observable<boolean>>();
+  readonly options = input<CartItemComponentOptions>({
     isSaveForLater: false,
     optionalBtn: null,
-  };
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  });
+  readonly promotionLocation = input<PromotionLocation>(
+    PromotionLocation.ActiveCart
+  );
 }
 
 @Component({

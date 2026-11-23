@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgTemplateOutlet,
-  SlicePipe,
-} from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,6 +17,7 @@ import {
   Output,
   TemplateRef,
   TrackByFunction,
+  input,
 } from '@angular/core';
 import {
   FeatureDirective as CxFeatureDirective,
@@ -64,10 +58,7 @@ import { CarouselService } from './carousel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
-    NgClass,
     IconComponent,
-    NgFor,
     NgTemplateOutlet,
     AsyncPipe,
     SlicePipe,
@@ -76,10 +67,15 @@ import { CarouselService } from './carousel.service';
   ],
 })
 export class CarouselComponent implements OnInit, OnChanges {
+  protected el = inject(ElementRef);
+  protected service = inject(CarouselService);
+
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() title: string | undefined | null;
 
   /**
@@ -87,6 +83,8 @@ export class CarouselComponent implements OnInit, OnChanges {
    * observables so that the items can be loaded on demand.
    */
   items: Observable<any>[];
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input('items')
   set setItems(inputItems: Observable<any>[]) {
     this.items = inputItems;
@@ -98,6 +96,8 @@ export class CarouselComponent implements OnInit, OnChanges {
    * The template is rendered for each item, so that the actual
    * view can be given by the compoent that uses the `CarouselComponent`.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() template: TemplateRef<any>;
 
   /**
@@ -107,16 +107,16 @@ export class CarouselComponent implements OnInit, OnChanges {
    * and the host element `clientWidth`, so that the carousel is reusable in
    * different layouts (for example in a 50% grid).
    */
-  @Input() itemWidth = '300px';
+  readonly itemWidth = input('300px');
 
   /**
    * Indicates whether the visual indicators are used.
    */
-  @Input() hideIndicators = false;
+  readonly hideIndicators = input(false);
 
-  @Input() indicatorIcon = ICON_TYPE.CIRCLE;
-  @Input() previousIcon = ICON_TYPE.CARET_LEFT;
-  @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
+  readonly indicatorIcon = input(ICON_TYPE.CIRCLE);
+  readonly previousIcon = input(ICON_TYPE.CARET_LEFT);
+  readonly nextIcon = input(ICON_TYPE.CARET_RIGHT);
 
   /**
    * Angular's trackBy function for iterating over carousel items.
@@ -128,7 +128,7 @@ export class CarouselComponent implements OnInit, OnChanges {
    * If the returned value is not unique, it may lead to unexpected behavior,
    * such as unwanted destroying and re-creating child templates on items array changes.
    */
-  @Input() trackByFn: TrackByFunction<any> = (_index, item) => item;
+  readonly trackByFn = input<TrackByFunction<any>>((_index, item) => item);
 
   activeSlide: number;
   size$: Observable<number>;
@@ -137,10 +137,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   private featureToggles = inject(FeatureToggles);
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected el: ElementRef,
-    protected service: CarouselService
-  ) {
+  constructor() {
     useFeatureStyles('a11yAddPaddingToCarouselPanel');
   }
 
@@ -153,7 +150,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   }
   ngOnChanges() {
     this.size$ = this.service
-      .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
+      .getItemsPerSlide(this.el.nativeElement, this.itemWidth())
       .pipe(tap(() => (this.activeSlide = 0)));
   }
   /**

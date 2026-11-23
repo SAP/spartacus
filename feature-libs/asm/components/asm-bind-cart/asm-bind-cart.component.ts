@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
+  inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -65,15 +66,22 @@ import { AsmComponentService } from '../services/asm-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
-    NgClass,
     ReactiveFormsModule,
-    NgIf,
     DotSpinnerComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
+  protected globalMessageService = inject(GlobalMessageService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected asmBindCartFacade = inject(AsmBindCartFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected savedCartFacade = inject(SavedCartFacade);
+  protected asmComponentService? = inject(AsmComponentService);
+  protected routing? = inject(RoutingService);
+
   activeCartValidator: ValidatorFn = (control) => {
     if (control.value === this.activeCartId) {
       return { activeCartError: true };
@@ -104,22 +112,12 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   displayBindCartBtn$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   displaySaveCartBtn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  @ViewChild('bindToCart') bindToCartElemRef: ElementRef<HTMLButtonElement>;
-  @ViewChild('saveInactiveCart')
-  saveInactiveCartElemRef: ElementRef<HTMLButtonElement>;
+  readonly bindToCartElemRef =
+    viewChild<ElementRef<HTMLButtonElement>>('bindToCart');
+  readonly saveInactiveCartElemRef =
+    viewChild<ElementRef<HTMLButtonElement>>('saveInactiveCart');
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected multiCartFacade: MultiCartFacade,
-    protected asmBindCartFacade: AsmBindCartFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected savedCartFacade: SavedCartFacade,
-    protected asmComponentService?: AsmComponentService,
-    protected routing?: RoutingService
-  ) {}
 
   ngOnInit(): void {
     this.subscribeForDeeplinkCart();
@@ -234,7 +232,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     return defer(() => {
       this.launchDialogService.openDialogAndSubscribe(
         LAUNCH_CALLER.ASM_BIND_CART,
-        this.bindToCartElemRef
+        this.bindToCartElemRef()
       );
       return this.launchDialogService.dialogClose.pipe(
         filter((result) => Boolean(result)),
@@ -316,7 +314,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   protected openASMSaveCartDialog(inactiveCart: Cart): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_SAVE_CART,
-      this.saveInactiveCartElemRef,
+      this.saveInactiveCartElemRef(),
       inactiveCart
     );
   }

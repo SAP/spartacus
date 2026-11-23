@@ -18,6 +18,8 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 export class ConfiguratorTextfieldInputFieldReadonlyComponent {
   PREFIX_TEXTFIELD = 'cx-configurator-textfield';
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() attribute: ConfiguratorTextfield.ConfigurationInfo;
 
   /**

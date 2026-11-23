@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
@@ -26,9 +26,12 @@ export enum SAVE_CART_DIALOG_ACTION {
 @Component({
   selector: 'cx-asm-save-cart-dialog',
   templateUrl: './asm-save-cart-dialog.component.html',
-  imports: [FocusDirective, NgIf, MessageComponent, AsyncPipe, TranslatePipe],
+  imports: [FocusDirective, MessageComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmSaveCartDialogComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected savedCartFacade = inject(SavedCartFacade);
+
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;
   showDialogAlert$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   globalMessageType = GlobalMessageType;
@@ -41,11 +44,6 @@ export class AsmSaveCartDialogComponent implements OnInit {
     autofocus: true,
     focusOnEscape: true,
   };
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected savedCartFacade: SavedCartFacade
-  ) {}
 
   ngOnInit(): void {
     this.launchDialogService.data$.pipe(take(1)).subscribe((data: Cart) => {

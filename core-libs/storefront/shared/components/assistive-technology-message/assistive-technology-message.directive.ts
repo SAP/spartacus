@@ -8,9 +8,9 @@ import {
   Directive,
   ElementRef,
   HostListener,
-  Input,
-  Optional,
   TemplateRef,
+  inject,
+  input,
 } from '@angular/core';
 import {
   GlobalMessageEntities,
@@ -21,16 +21,16 @@ import { take } from 'rxjs/operators';
 
 @Directive({ selector: '[cxAtMessage]' })
 export class AtMessageDirective {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected templateRef = inject<TemplateRef<HTMLElement>>(TemplateRef, {
+    optional: true,
+  });
+  protected globalMessageService = inject(GlobalMessageService);
+
   /**
    * Usage [cxAtMessage]="'translatableKey' | cxTranslate"
    */
-  @Input() cxAtMessage: string | string[] | undefined;
-
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    @Optional() protected templateRef: TemplateRef<HTMLElement>,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  readonly cxAtMessage = input<string | string[]>();
 
   protected get host(): HTMLElement {
     return !!this.templateRef
@@ -44,12 +44,13 @@ export class AtMessageDirective {
    */
   @HostListener('click', ['$event'])
   handleClick(event: MouseEvent): void {
-    if (this.host.contains(event?.target as Node) && this.cxAtMessage) {
+    const cxAtMessage = this.cxAtMessage();
+    if (this.host.contains(event?.target as Node) && cxAtMessage) {
       event?.preventDefault();
 
-      const message = Array.isArray(this.cxAtMessage)
-        ? this.cxAtMessage.join('\n')
-        : this.cxAtMessage;
+      const message = Array.isArray(cxAtMessage)
+        ? cxAtMessage.join('\n')
+        : cxAtMessage;
 
       this.globalMessageService
         .get()

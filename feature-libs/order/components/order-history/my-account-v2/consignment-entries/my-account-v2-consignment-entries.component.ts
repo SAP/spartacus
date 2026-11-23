@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { ConsignmentView } from '@spartacus/order/root';
@@ -13,11 +12,15 @@ import { ConsignmentView } from '@spartacus/order/root';
   selector: 'cx-my-account-v2-consignment-entries',
   templateUrl: './my-account-v2-consignment-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, NgIf, TranslatePipe, CxDatePipe],
+  imports: [TranslatePipe, CxDatePipe],
 })
 export class MyAccountV2ConsignmentEntriesComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   consignments?: ConsignmentView[];
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   orderCode?: string;
 

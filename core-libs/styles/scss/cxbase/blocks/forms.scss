@@ -45,7 +45,8 @@ cx-form-errors {
     margin: 6px 0;
     padding-inline-start: 25px;
     position: relative;
-    word-break: break-word;
+    word-break: normal;
+    overflow-wrap: anywhere;
     @include type('7');
 
     &::before,

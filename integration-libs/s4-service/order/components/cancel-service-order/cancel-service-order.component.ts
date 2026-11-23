@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -36,7 +36,6 @@ import { mergeMap } from 'rxjs/operators';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     RouterLink,
     AsyncPipe,
     TranslatePipe,

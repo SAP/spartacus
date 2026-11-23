@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -26,9 +26,9 @@ import { FooterNavigationComponent } from './footer-navigation.component';
   template: '',
 })
 class MockNavigationUIComponent {
-  @Input() flyout = true;
-  @Input() node: NavigationNode;
-  @Input() navAriaLabel: string;
+  readonly flyout = input(true);
+  readonly node = input<NavigationNode>();
+  readonly navAriaLabel = input<string>();
 }
 
 const mockAnonymousConsentsConfig = {
@@ -42,8 +42,8 @@ const mockAnonymousConsentsConfig = {
   template: '<ng-content />',
 })
 class MockGenericLinkComponent {
-  @Input() url: string | any[];
-  @Input() target: string;
+  readonly url = input<string | any[]>();
+  readonly target = input<string>();
 }
 
 describe('FooterNavigationComponent', () => {

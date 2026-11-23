@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -41,9 +41,7 @@ import { CdcReconsentComponentService } from './cdc-reconsent-component.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    NgIf,
     IconComponent,
-    NgFor,
     ConsentManagementFormComponent,
     BtnLikeLinkDirective,
     SpinnerComponent,
@@ -52,6 +50,10 @@ import { CdcReconsentComponentService } from './cdc-reconsent-component.service'
   ],
 })
 export class CdcReconsentComponent implements OnInit, OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected cdcReconsentService = inject(CdcReconsentComponentService);
+
   protected subscription = new Subscription();
   protected cdcConsentManagementComponentService = inject(
     CdcConsentManagementComponentService
@@ -72,12 +74,6 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
     autofocus: 'button',
     focusOnEscape: true,
   };
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected cdcReconsentService: CdcReconsentComponentService
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

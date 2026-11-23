@@ -1,12 +1,14 @@
-<ng-container *ngIf="cart$ | async as cart">
-  <div *ngIf="cart.totalItems > 0" class="clear-cart-wrapper">
-    <button
-      #element
-      (click)="openDialog($event)"
-      class="btn btn-tertiary clear-cart-btn"
-      type="button"
-    >
-      {{ 'clearCart.clearCart' | cxTranslate }}
-    </button>
-  </div>
-</ng-container>
+@if (cart$ | async; as cart) {
+  @if (cart.totalItems > 0) {
+    <div class="clear-cart-wrapper">
+      <button
+        #element
+        (click)="openDialog($event)"
+        class="btn btn-tertiary clear-cart-btn"
+        type="button"
+      >
+        {{ 'clearCart.clearCart' | cxTranslate }}
+      </button>
+    </div>
+  }
+}

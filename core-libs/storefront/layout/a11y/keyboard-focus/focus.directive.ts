@@ -4,22 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { Directive, Input, inject } from '@angular/core';
 import { FocusConfig } from './keyboard-focus.model';
 import { LockFocusDirective } from './lock/lock-focus.directive';
 import { KeyboardFocusService } from './services/keyboard-focus.service';
 
 @Directive({ selector: '[cxFocus]' })
 export class FocusDirective extends LockFocusDirective {
+  protected override service = inject(KeyboardFocusService);
+
   protected defaultConfig: FocusConfig = {};
 
+  // TODO: Skipped for migration because:
+  //  This input overrides a field from a superclass, while the superclass field
+  //  is not migrated.
   @Input('cxFocus') config: FocusConfig = {};
-
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: KeyboardFocusService,
-    protected renderer: Renderer2
-  ) {
-    super(elementRef, service, renderer);
-  }
 }

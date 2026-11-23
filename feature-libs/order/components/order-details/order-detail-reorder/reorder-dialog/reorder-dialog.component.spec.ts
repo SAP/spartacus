@@ -1,4 +1,4 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { Component, DebugElement, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -102,7 +102,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({
@@ -113,7 +113,7 @@ class MockSpinnerComponent {}
 
 @Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
+  protected readonly config = input<any>(undefined, { alias: 'cxFocus' });
 }
 
 describe('ReorderDialogComponent', () => {

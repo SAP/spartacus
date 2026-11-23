@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  ViewChild,
+  inject,
+  input,
+  viewChild,
 } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
@@ -34,7 +36,6 @@ import { BaseItem } from '../organization.model';
   providers: [MessageService],
   imports: [
     ViewComponent,
-    NgIf,
     PopoverDirective,
     IconComponent,
     RouterLink,
@@ -45,9 +46,18 @@ import { BaseItem } from '../organization.model';
   ],
 })
 export class CardComponent<T extends BaseItem> {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject(MessageService);
+
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() i18nRoot: string;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() previous: boolean | string = true;
-  @Input() subtitle?: string;
+  readonly subtitle = input<string>();
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() showHint? = false;
 
   protected itemKey: string | undefined;
@@ -58,12 +68,7 @@ export class CardComponent<T extends BaseItem> {
     tap((item) => this.refreshMessages(item))
   );
 
-  @ViewChild(ViewComponent, { read: ViewComponent }) view: ViewComponent;
-
-  constructor(
-    protected itemService: ItemService<T>,
-    protected messageService: MessageService
-  ) {}
+  readonly view = viewChild.required(ViewComponent, { read: ViewComponent });
 
   /**
    * The views are router based, which means if we close a view, the router outlet is
@@ -72,7 +77,7 @@ export class CardComponent<T extends BaseItem> {
    */
   closeView(event: MouseEvent) {
     event.stopPropagation();
-    this.view.toggle(true);
+    this.view().toggle(true);
 
     setTimeout(() => {
       (event.target as HTMLElement)?.parentElement?.click();

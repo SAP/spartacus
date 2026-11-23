@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, KeyValuePipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
-  ViewChild,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -43,9 +44,7 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
   templateUrl: './quick-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     MessageComponent,
-    NgFor,
     QuickOrderFormComponent,
     QuickOrderTableComponent,
     ProgressButtonComponent,
@@ -55,6 +54,15 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
   ],
 })
 export class QuickOrderComponent implements OnInit, OnDestroy {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected component =
+    inject<CmsComponentData<CmsQuickOrderComponent>>(CmsComponentData);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected quickOrderService = inject(QuickOrderFacade);
+  protected quickOrderStatePersistenceService = inject(
+    QuickOrderStatePersistenceService
+  );
+
   cartId$: Observable<string>;
   entries$: Observable<OrderEntry[]>;
   quickOrderListLimit$: Observable<number | undefined> =
@@ -73,8 +81,8 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   globalMessageType = GlobalMessageType;
   listLimitReached$: Observable<boolean>;
 
-  @ViewChild('quickOrderForm')
-  quickOrderForm: QuickOrderFormComponent;
+  readonly quickOrderForm =
+    viewChild<QuickOrderFormComponent>('quickOrderForm');
 
   protected cartErrors$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
   protected cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
@@ -84,16 +92,9 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     null
   );
 
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected component: CmsComponentData<CmsQuickOrderComponent>,
-    protected globalMessageService: GlobalMessageService,
-    protected quickOrderService: QuickOrderFacade,
-    protected quickOrderStatePersistenceService: QuickOrderStatePersistenceService
-  ) {
+  constructor() {
     useFeatureStyles('a11yHighContrastFix');
   }
-
   ngOnInit(): void {
     this.cartId$ = this.activeCartService.getActiveCartId();
     this.entries$ = this.quickOrderService.getEntries();

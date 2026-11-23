@@ -32,12 +32,10 @@ import { MultiCartSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class MultiCartService implements MultiCartFacade {
-  protected windowRef = inject(WindowRef);
+  protected store = inject<Store<StateWithMultiCart>>(Store);
+  protected userIdService = inject(UserIdService);
 
-  constructor(
-    protected store: Store<StateWithMultiCart>,
-    protected userIdService: UserIdService
-  ) {}
+  protected windowRef = inject(WindowRef);
 
   /**
    * Returns cart from store as an observable

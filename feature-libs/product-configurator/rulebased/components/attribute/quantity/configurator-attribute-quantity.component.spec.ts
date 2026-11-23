@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
@@ -43,11 +43,11 @@ function initializeWithObs(disableObs: Observable<boolean>) {
   selector: 'cx-item-counter',
 })
 class MockItemCounterComponent {
-  @Input() min: number;
-  @Input() max: number;
-  @Input() step: any;
-  @Input() control: any;
-  @Input() allowZero: boolean;
+  readonly min = input<number>();
+  readonly max = input<number>();
+  readonly step = input<any>();
+  readonly control = input<any>();
+  readonly allowZero = input<boolean>();
 }
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
@@ -67,7 +67,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
       })
       .overrideComponent(ConfiguratorAttributeQuantityComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
         },
       })
       .compileComponents();

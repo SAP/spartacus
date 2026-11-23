@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, Input, OnDestroy, inject, input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -25,15 +25,23 @@ import { DisableInfoService } from '../disable-info/disable-info.service';
   selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService =
+    inject<MessageService<ConfirmationMessageData>>(MessageService);
+  protected disableInfoService =
+    inject<DisableInfoService<T>>(DisableInfoService);
+
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
    *
    * `[i18nRoot].messages.deactivate`
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() i18nRoot: string;
 
   /**
@@ -41,11 +49,13 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    *
    * Most _organization_ entities use the `code` key, but there is some variations.
    */
-  @Input() key = 'code';
+  readonly key = input('code');
 
   /**
    * The disabled state is calculated but can be provided as well.
    */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() disabled: boolean;
 
   /**
@@ -60,12 +70,6 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
 
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData> | null;
-
-  constructor(
-    protected itemService: ItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>,
-    protected disableInfoService: DisableInfoService<T>
-  ) {}
 
   toggle(item: T) {
     if (!item.active) {
@@ -118,7 +122,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected update(item: T): void {
     this.itemService
       .update(
-        item[this.key as keyof BaseItem] as string,
+        item[this.key() as keyof BaseItem] as string,
         this.getPatchedItem(item)
       )
       .pipe(
@@ -131,7 +135,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected getPatchedItem(item: T): T {
     const patch: BaseItem = {};
 
-    Object.assign(patch, { [this.key]: item[this.key as keyof T] });
+    Object.assign(patch, { [this.key()]: item[this.key() as keyof T] });
 
     patch.active = !item.active;
     return patch as T;

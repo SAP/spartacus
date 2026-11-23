@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
@@ -14,12 +14,10 @@ import { FormService } from '../../../../shared/form/form.service';
   providedIn: 'root',
 })
 export class UnitUserRolesFormService extends FormService<B2BUser> {
+  protected userService = inject(B2BUserService);
+
   availableRoles: B2BUserRole[] = this.userService.getAllRoles();
   availableRights: B2BUserRight[] = this.userService.getAllRights();
-
-  constructor(protected userService: B2BUserService) {
-    super();
-  }
 
   getForm(item?: B2BUser): UntypedFormGroup | null {
     // if form already exist, while switching between users

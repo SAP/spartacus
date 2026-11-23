@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -81,9 +81,9 @@ class MockTranslationService {
   selector: 'cx-media',
 })
 class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: any;
-  @Input() alt: any;
+  readonly container = input<any>();
+  readonly format = input<any>();
+  readonly alt = input<any>();
 }
 
 @Component({

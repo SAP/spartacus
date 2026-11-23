@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DebugElement,
-  Input,
-} from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -126,10 +121,8 @@ const mockPayment: any = {
   ],
 })
 class MockBillingAddressFormComponent {
-  @Input()
-  billingAddress: Address;
-  @Input()
-  countries$: Observable<Country[]>;
+  readonly billingAddress = input<Address>();
+  readonly countries$ = input<Observable<Country[]>>();
 }
 
 @Component({
@@ -144,8 +137,7 @@ class MockBillingAddressFormComponent {
   ],
 })
 class MockCardComponent {
-  @Input()
-  content: any;
+  readonly content = input<any>();
 }
 
 @Component({
@@ -160,7 +152,7 @@ class MockCardComponent {
   ],
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
@@ -171,9 +163,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
     .mockReturnValue(of({ loading: false }));
 }
 
-class MockCheckoutDeliveryService
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState = vi
     .fn()
     .mockReturnValue(of({ loading: false, error: false, data: undefined }));
@@ -201,9 +191,7 @@ class MockUserAddressService implements Partial<UserAddressService> {
   verifyAddress = vi.fn().mockReturnValue(of({}));
 }
 
-class MockCheckoutBillingAddressFormService
-  implements Partial<CheckoutBillingAddressFormService>
-{
+class MockCheckoutBillingAddressFormService implements Partial<CheckoutBillingAddressFormService> {
   getBillingAddress(): Address {
     return mockBillingAddress;
   }
@@ -273,7 +261,6 @@ describe('CheckoutPaymentFormComponent', () => {
           ],
         },
         add: {
-          changeDetection: ChangeDetectionStrategy.Eager,
           imports: [
             MockTranslatePipe,
             MockDatePipe,
@@ -606,7 +593,7 @@ describe('CheckoutPaymentFormComponent', () => {
       vi.spyOn(component.goBack, 'emit');
       component.back();
 
-      expect(component.goBack.emit).toHaveBeenCalledWith();
+      expect(component.goBack.emit).toHaveBeenCalledWith(undefined);
     });
 
     it('should call "close" function after being clicked', () => {

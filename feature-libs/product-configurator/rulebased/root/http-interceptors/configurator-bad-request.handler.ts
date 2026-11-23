@@ -20,13 +20,11 @@ import {
   providedIn: 'root',
 })
 export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
+  protected override globalMessageService = inject(GlobalMessageService);
+
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
   private featureToggles = inject(FeatureToggles);
-
-  constructor(protected globalMessageService: GlobalMessageService) {
-    super(globalMessageService);
-  }
 
   getPriority(): Priority {
     return Priority.NORMAL;

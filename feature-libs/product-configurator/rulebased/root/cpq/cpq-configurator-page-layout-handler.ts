@@ -29,6 +29,15 @@ interface RouterResolution {
   providedIn: 'root',
 })
 export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
+  protected configuratorRouterExtractorService = inject(
+    ConfiguratorRouterExtractorService
+  );
+  protected breakpointService = inject(BreakpointService);
+  protected layoutConfig = inject(LayoutConfig);
+  protected commonConfiguratorUtilsService = inject(
+    CommonConfiguratorUtilsService
+  );
+
   protected static templateName = 'CpqConfigurationTemplate';
   protected static overviewNavigationSlot = 'CpqConfigOverviewNavigation';
   protected static sectionHeaderDisplayOnly = 'headerDisplayOnly';
@@ -37,13 +46,6 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
   protected static sectionNavigation = 'navigation';
 
   private featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected breakpointService: BreakpointService,
-    protected layoutConfig: LayoutConfig,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
-  ) {}
 
   handle(
     slots$: Observable<string[]>,

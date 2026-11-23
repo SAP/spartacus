@@ -17,12 +17,10 @@ import { WindowRef } from '@spartacus/core';
   providedIn: 'root',
 })
 export class PageMetaLinkService {
-  protected document: Document = inject(DOCUMENT);
+  protected winRef = inject(WindowRef);
+  protected rendererFactory = inject(RendererFactory2);
 
-  constructor(
-    protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
-  ) {}
+  protected document: Document = inject(DOCUMENT);
 
   /**
    * Adds a canonical link element to the document head.

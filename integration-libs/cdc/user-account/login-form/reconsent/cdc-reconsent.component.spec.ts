@@ -1,4 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CdcConsentManagementComponentService } from '@spartacus/cdc/root';
 import {
@@ -23,7 +23,7 @@ import { CdcReconsentComponent } from './cdc-reconsent.component';
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: any;
+  readonly type = input<any>();
 }
 
 @Component({
@@ -37,14 +37,14 @@ class MockSpinnerComponent {}
   template: '',
 })
 class MockConsentManagementFormComponent {
-  @Input() consentTemplate: any;
+  readonly consentTemplate = input<any>();
 }
 
 @Directive({
   selector: '[cxFocus]',
 })
 class MockFocusDirective {
-  @Input() cxFocus: any;
+  readonly cxFocus = input<any>();
 }
 
 @Directive({
@@ -69,16 +69,13 @@ class MockCdcReconsentService implements Partial<CdcReconsentComponentService> {
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   data$ = of(reconsentEvent);
 }
-class MockCdcConsentManagementComponentService
-  implements Partial<CdcConsentManagementComponentService>
-{
+class MockCdcConsentManagementComponentService implements Partial<CdcConsentManagementComponentService> {
   getConsents = vi.fn().mockReturnValue(of([]));
   getCdcConsentIDs = vi.fn().mockReturnValue(of([]));
   isConsentMandatory = vi.fn().mockReturnValue(true);
 }
 
-class MockAnonymousConsentsService
-  implements Partial<AnonymousConsentsService> {}
+class MockAnonymousConsentsService implements Partial<AnonymousConsentsService> {}
 describe('CdcReconsentComponent', () => {
   let component: CdcReconsentComponent;
   let fixture: ComponentFixture<CdcReconsentComponent>;

@@ -34,9 +34,7 @@ const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
   mockReplenishmentOrder
 );
 
-class MockReplenishmentOrderHistoryFacade
-  implements Partial<ReplenishmentOrderHistoryFacade>
-{
+class MockReplenishmentOrderHistoryFacade implements Partial<ReplenishmentOrderHistoryFacade> {
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return mockReplenishmentOrder$.asObservable();
   }
@@ -125,7 +123,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
-      component.element,
+      component.element(),
       component['vcr']
     );
   });

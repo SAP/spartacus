@@ -1,9 +1,9 @@
 import {
   ChangeDetectorRef,
   Component,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
@@ -70,14 +70,14 @@ class MockProductService implements Partial<ProductService> {
   template: '',
 })
 class MockConfigureCartEntryComponent {
-  @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
-  @Input() msgBanner: boolean;
-  @Input() disabled: boolean;
-  @Input() isBundleOverviewLink = false;
-  @Input() rowId?: string;
-  @Input() a11yDescriptionId?: string;
-  @Input() productName?: string;
+  readonly cartEntry = input<OrderEntry>();
+  readonly readOnly = input<boolean>();
+  readonly msgBanner = input<boolean>();
+  readonly disabled = input<boolean>();
+  readonly isBundleOverviewLink = input(false);
+  readonly rowId = input<string>();
+  readonly a11yDescriptionId = input<string>();
+  readonly productName = input<string>();
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -185,7 +185,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     breakpointService = TestBed.inject(BreakpointService);
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
-    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
+    changeDetectorRef = fixture.changeDetectorRef;
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
@@ -693,7 +693,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(false);
+          expect(component.readOnly()).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
@@ -707,7 +707,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(false);
+          expect(component.readOnly()).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is false', () => {
@@ -717,7 +717,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(false);
+          expect(component.readOnly()).toBe(false);
         });
 
         it('should expose readonly$ as true in case readonly$ is true', () => {
@@ -727,7 +727,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             By.css('cx-configure-cart-entry')
           ).componentInstance;
 
-          expect(component.readOnly).toBe(true);
+          expect(component.readOnly()).toBe(true);
         });
       });
 
@@ -765,14 +765,15 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           fixture.debugElement.query(By.css('cx-configure-cart-entry'))
             .componentInstance;
 
-        expect(getLinkComponent().disabled).toBe(false);
+        expect(getLinkComponent().disabled()).toBe(false);
 
         quantityControl.disable({ emitEvent: false });
-        // Same FormControl reference: default CD must refresh [disabled] without
-        // fixture.detectChanges() (triggers dev-mode NG0100 on this binding).
+        // CartItemListRowComponent republishes this control on quantityDisabled changes.
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        // Check from the fixture root after the context notification.
         changeDetectorRef.detectChanges();
 
-        expect(getLinkComponent().disabled).toBe(true);
+        expect(getLinkComponent().disabled()).toBe(true);
       });
     });
 
@@ -1094,11 +1095,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           By.css(TOGGLE_LINK)
         ).componentInstance;
 
-        expect(linkComponent.readOnly).toBe(true);
-        expect(linkComponent.msgBanner).toBe(false);
-        expect(linkComponent.disabled).toBe(false);
-        expect(linkComponent.isBundleOverviewLink).toBe(true);
-        expect(linkComponent.a11yDescriptionId).toBe('cx-item-list-info-3');
+        expect(linkComponent.readOnly()).toBe(true);
+        expect(linkComponent.msgBanner()).toBe(false);
+        expect(linkComponent.disabled()).toBe(false);
+        expect(linkComponent.isBundleOverviewLink()).toBe(true);
+        expect(linkComponent.a11yDescriptionId()).toBe('cx-item-list-info-3');
       });
 
       it('should hide the show/hide link if the threshold is exceeded in read-only mode', () => {
@@ -1483,12 +1484,12 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         const links = getNestedConfigureLinks();
         expect(links.length).toBe(1);
         const linkComponent = links[0].componentInstance;
-        expect(linkComponent.cartEntry.entryNumber).toBe(1);
-        expect(linkComponent.readOnly).toBe(false);
-        expect(linkComponent.msgBanner).toBe(false);
-        expect(linkComponent.disabled).toBe(true);
-        expect(linkComponent.rowId).toBe('row-1');
-        expect(linkComponent.productName).toBe('Configurable item');
+        expect(linkComponent.cartEntry().entryNumber).toBe(1);
+        expect(linkComponent.readOnly()).toBe(false);
+        expect(linkComponent.msgBanner()).toBe(false);
+        expect(linkComponent.disabled()).toBe(true);
+        expect(linkComponent.rowId()).toBe('row-1');
+        expect(linkComponent.productName()).toBe('Configurable item');
       });
 
       it('should disable the nested edit link when the quantity control is disabled after render', () => {
@@ -1505,15 +1506,17 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         mockCartItemContext.quantityControl$.next(quantityControl);
         fixture.detectChanges();
 
-        expect(getNestedConfigureLinks()[0].componentInstance.disabled).toBe(
+        expect(getNestedConfigureLinks()[0].componentInstance.disabled()).toBe(
           false
         );
 
         quantityControl.disable({ emitEvent: false });
-        // See shouldShowButton regression test for why not fixture.detectChanges().
+        // CartItemListRowComponent republishes this control on quantityDisabled changes.
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        // Check the nested link from the fixture root after the context notification.
         changeDetectorRef.detectChanges();
 
-        expect(getNestedConfigureLinks()[0].componentInstance.disabled).toBe(
+        expect(getNestedConfigureLinks()[0].componentInstance.disabled()).toBe(
           true
         );
       });

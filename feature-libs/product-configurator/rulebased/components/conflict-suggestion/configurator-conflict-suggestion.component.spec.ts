@@ -18,7 +18,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
     })
       .overrideComponent(ConfiguratorConflictSuggestionComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
         },
       })
       .compileComponents();

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, inject, output } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -21,15 +21,12 @@ import { DpLocalStorageService } from '../../../facade/dp-local-storage.service'
   imports: [SpinnerComponent, TranslatePipe],
 })
 export class DpPaymentFormComponent implements OnInit {
-  @Output()
-  closeForm = new EventEmitter<any>();
+  private dpPaymentService = inject(DpCheckoutPaymentService);
+  private dpStorageService = inject(DpLocalStorageService);
+  private globalMsgService = inject(GlobalMessageService);
+  private winRef = inject(WindowRef);
 
-  constructor(
-    private dpPaymentService: DpCheckoutPaymentService,
-    private dpStorageService: DpLocalStorageService,
-    private globalMsgService: GlobalMessageService,
-    private winRef: WindowRef
-  ) {}
+  readonly closeForm = output<any>();
 
   ngOnInit(): void {
     this.dpPaymentService
@@ -43,7 +40,7 @@ export class DpPaymentFormComponent implements OnInit {
             { key: 'dpPaymentForm.error.redirect' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          this.closeForm.emit();
+          this.closeForm.emit(undefined);
         }
       });
   }

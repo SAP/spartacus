@@ -63,7 +63,7 @@ export function verifyDetailsTabbingOrder() {
 export function interceptSaveCartEndpoint(cartCode: string) {
   cy.intercept(
     'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts/${cartCode}/save?*`
   ).as(SAVE_CART_ENDPOINT_ALIAS);
@@ -74,7 +74,7 @@ export function interceptSaveCartEndpoint(cartCode: string) {
 export function interceptAddToCartEndpoint() {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/*/carts/*/entries*`
   ).as(ADD_TO_CART_ENDPOINT_ALIAS);
@@ -85,7 +85,7 @@ export function interceptAddToCartEndpoint() {
 export function interceptGetAllSavedCartEndpoint() {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts?savedCartsOnly=true*`
   ).as(GET_ALL_SAVED_CART_ENDPOINT_ALIAS);
@@ -96,7 +96,7 @@ export function interceptGetAllSavedCartEndpoint() {
 export function interceptRestoreSavedCartEndpoint(cartCode: string) {
   cy.intercept(
     'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts/${cartCode}/restoresavedcart?*`
   ).as(RESTORE_SAVED_CART_ENDPOINT_ALIAS);
@@ -107,7 +107,7 @@ export function interceptRestoreSavedCartEndpoint(cartCode: string) {
 export function interceptGetSavedCartEndpoint(cartCode: string) {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts/${cartCode}/savedcart?*`
   ).as(GET_SAVED_CART_ENDPOINT_ALIAS);
@@ -118,7 +118,7 @@ export function interceptGetSavedCartEndpoint(cartCode: string) {
 export function interceptDeleteCartEndpoint(cartCode: string) {
   cy.intercept(
     'DELETE',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts/${cartCode}?*`
   ).as(DELETE_CART_ENDPOINT_ALIAS);
@@ -129,7 +129,7 @@ export function interceptDeleteCartEndpoint(cartCode: string) {
 export function interceptCloneSavedCartEndpoint(cartCode: string) {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/carts/${cartCode}/clonesavedcart?*`
   ).as(CLONE_SAVED_CART_ENDPOINT_ALIAS);

@@ -103,7 +103,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
 
         expect(launchDialogService.openDialog).toHaveBeenCalledWith(
           LAUNCH_CALLER.ANONYMOUS_CONSENT,
-          component.openElement,
+          component.openElement(),
           component['vcr']
         );
       });

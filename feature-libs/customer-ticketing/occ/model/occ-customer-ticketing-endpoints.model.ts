@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import type { OccEndpoint as CoreOccEndpoint } from '@spartacus/core';
 
 declare module '@spartacus/core' {
   interface OccEndpoints {
@@ -12,50 +12,50 @@ declare module '@spartacus/core' {
      * Endpoint to get ticket details by ticket id
      * @member {string}
      */
-    getTicket?: string | OccEndpoint;
+    getTicket?: string | CoreOccEndpoint;
 
     /**
      * Endpoint to get ticket list by customer id
      * @member {string}
      */
-    getTickets?: string | OccEndpoint;
+    getTickets?: string | CoreOccEndpoint;
 
     /**
      * Endpoint to create a ticket event
      *
      * * @member {string}
      */
-    createTicketEvent?: string | OccEndpoint;
+    createTicketEvent?: string | CoreOccEndpoint;
     /**
      * Endpoint to get ticket categories
      *
      * * @member {string}
      */
-    getTicketCategories?: string | OccEndpoint;
+    getTicketCategories?: string | CoreOccEndpoint;
     /**
      * Endpoint to get ticket associated objects
      *
      * * @member {string}
      */
-    getTicketAssociatedObjects?: string | OccEndpoint;
+    getTicketAssociatedObjects?: string | CoreOccEndpoint;
 
     /* Endpoint to create ticket
      *
      * * @member {string}
      */
-    createTicket?: string | OccEndpoint;
+    createTicket?: string | CoreOccEndpoint;
 
     /* Endpoint to upload an attachment
      *
      * * @member {string}
      */
-    uploadAttachment?: string | OccEndpoint;
+    uploadAttachment?: string | CoreOccEndpoint;
 
     /**
      * Endpoint to download an attachment
      *
      * * @member {string}
      */
-    downloadAttachment?: string | OccEndpoint;
+    downloadAttachment?: string | CoreOccEndpoint;
   }
 }

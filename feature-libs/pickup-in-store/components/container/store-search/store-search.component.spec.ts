@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FeatureStylesService,
@@ -59,7 +59,7 @@ describe('StoreSearchComponent', () => {
   it('onHideOutOfStock emits eventHideOutOfStock', () => {
     fixture.detectChanges();
     vi.spyOn(component.eventHideOutOfStock, 'emit');
-    expect(component.hideOutOfStock).toEqual(false);
+    expect(component.hideOutOfStock()).toEqual(false);
     component.onHideOutOfStock();
     expect(component.eventHideOutOfStock.emit).toHaveBeenCalledWith(true);
     fixture.componentRef.setInput('hideOutOfStock', true);
@@ -130,5 +130,5 @@ describe('StoreSearchComponent feature toggle registration', () => {
   template: '',
 })
 export class StoreSearchStubComponent {
-  @Input() hideOutOfStock = false;
+  readonly hideOutOfStock = input(false);
 }

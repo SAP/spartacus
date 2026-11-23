@@ -13,10 +13,10 @@ import {
 } from '@spartacus/core';
 import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { BehaviorSubject, of } from 'rxjs';
 import { UnitTreeService } from '../../services/unit-tree.service';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const mockContext = {
   expanded: true,
@@ -59,7 +59,7 @@ describe('ToggleLinkCellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: mockContext,
+            context$: of(mockContext),
             context$: of(mockContext),
           },
         },

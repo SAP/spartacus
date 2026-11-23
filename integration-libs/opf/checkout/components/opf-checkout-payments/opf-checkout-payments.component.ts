@@ -4,19 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   TemplateRef,
   inject,
+  output,
+  input,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -60,8 +60,6 @@ import { tap } from 'rxjs/operators';
   templateUrl: './opf-checkout-payments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     IconComponent,
     NgTemplateOutlet,
     OpfCheckoutPaymentWrapperComponent,
@@ -90,50 +88,51 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected paginationIndex = 0;
-  @Input()
-  isHeadingDisplayed? = true;
+  readonly isHeadingDisplayed = input<boolean | undefined>(true);
 
-  @Input()
-  headingTranslationKey?: string;
+  readonly headingTranslationKey = input<string>();
 
-  @Input()
-  isPaymentRenderBelow? = true;
+  readonly isPaymentRenderBelow = input<boolean | undefined>(true);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   isPaymentInfoMessageEnabled? = true;
 
-  @Input()
-  elementsPerPage?: number;
+  readonly elementsPerPage = input<number>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   disabled = true;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   explicitTermsAndConditions: boolean | null | undefined;
 
-  @Input()
-  onlyPaymentWrapperMode? = false;
+  readonly onlyPaymentWrapperMode = input<boolean | undefined>(false);
 
-  @Input()
-  showBeforePaymentOptionsOutlet? = true;
+  readonly showBeforePaymentOptionsOutlet = input<boolean | undefined>(true);
 
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input()
   customPaymentTemplate?: TemplateRef<any>;
 
-  @Input()
-  hideOnlyOnePaymentProviderLabel? = false;
+  readonly hideOnlyOnePaymentProviderLabel = input<boolean | undefined>(false);
 
-  @Input()
-  forceRadioInputsView? = false;
+  readonly forceRadioInputsView = input<boolean | undefined>(false);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   forceDefaultPaymentOptionInputSelection? = false;
 
-  @Input()
-  renderPaymentWrapper? = true;
+  readonly renderPaymentWrapper = input<boolean | undefined>(true);
 
-  @Input()
-  noRenderPaymentWrapperMessage?: string;
+  readonly noRenderPaymentWrapperMessage = input<string>();
 
   readonly opfCheckoutOutlets = OpfCheckoutOutlets;
 
@@ -149,9 +148,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
 
-  @Output() paymentChange = new EventEmitter<OpfActiveConfiguration>();
+  readonly paymentChange = output<OpfActiveConfiguration>();
 
-  @Output() selectedPaymentProviderName = new EventEmitter<string>();
+  readonly selectedPaymentProviderName = output<string>();
 
   protected paginationModel: PaginationModel | undefined;
   protected paymentDisabled$ =
@@ -202,7 +201,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   > {
     return this.opfBaseService
       .getActiveConfigurationsState({
-        pageSize: this.elementsPerPage,
+        pageSize: this.elementsPerPage(),
         pageNumber: this.paginationIndex + 1,
       })
       .pipe(
@@ -222,7 +221,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
                   x.providerType !== OpfPaymentProviderType.STORED_VALUE_PAYMENT
               );
 
-              if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
+              if (this.onlyPaymentWrapperMode() && this.selectedPaymentId) {
                 state.data.value = state.data.value.filter(
                   (config) => config.id === this.selectedPaymentId
                 );
@@ -256,7 +255,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   get isPaymentInfoMessageVisible(): boolean {
     return Boolean(
       this.opfConfig?.opf?.paymentOption?.enableInfoMessage &&
-        this.isPaymentInfoMessageEnabled
+      this.isPaymentInfoMessageEnabled
     );
   }
 

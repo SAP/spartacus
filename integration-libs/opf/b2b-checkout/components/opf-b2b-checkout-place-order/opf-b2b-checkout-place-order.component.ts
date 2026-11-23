@@ -30,6 +30,8 @@ export class OpfB2bCheckoutPlaceOrderComponent
   extends CheckoutPlaceOrderComponent
   implements OnInit
 {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   isDisabled?: boolean = false;
 

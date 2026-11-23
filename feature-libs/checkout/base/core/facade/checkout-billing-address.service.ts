@@ -22,9 +22,7 @@ import { map, switchMap, take } from 'rxjs/operators';
 import { CheckoutBillingAddressConnector } from '../connectors/checkout-billing-address/checkout-billing-address.connector';
 
 @Injectable()
-export class CheckoutBillingAddressService
-  implements CheckoutBillingAddressFacade
-{
+export class CheckoutBillingAddressService implements CheckoutBillingAddressFacade {
   protected activeCartFacade = inject(ActiveCartFacade);
   protected userIdService = inject(UserIdService);
   protected commandService = inject(CommandService);

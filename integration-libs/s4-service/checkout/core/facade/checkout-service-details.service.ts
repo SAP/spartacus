@@ -26,9 +26,7 @@ import {
 import { CheckoutServiceDetailsConnector } from '../connector/checkout-service-details.connector';
 
 @Injectable()
-export class CheckoutServiceDetailsService
-  implements CheckoutServiceDetailsFacade
-{
+export class CheckoutServiceDetailsService implements CheckoutServiceDetailsFacade {
   protected activeCartFacade = inject(ActiveCartFacade);
   protected userIdService = inject(UserIdService);
   protected commandService = inject(CommandService);

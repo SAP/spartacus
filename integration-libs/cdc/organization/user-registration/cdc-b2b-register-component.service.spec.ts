@@ -58,9 +58,7 @@ class MockUserRegistrationFacade implements Partial<UserRegistrationFacade> {
   }
 }
 
-class MockUserRegistrationConnector
-  implements Partial<UserRegistrationConnector>
-{
+class MockUserRegistrationConnector implements Partial<UserRegistrationConnector> {
   registerUser = vi.fn().mockImplementation((user: any) => of(user));
 }
 

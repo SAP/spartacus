@@ -4,8 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+  input,
+} from '@angular/core';
 import { Params, Router, RouterLink } from '@angular/router';
 import { GenericLinkComponentService } from './generic-link-component.service';
 
@@ -27,13 +34,11 @@ interface RouteParts {
 @Component({
   selector: 'cx-generic-link',
   templateUrl: './generic-link.component.html',
-  imports: [NgIf, NgTemplateOutlet, RouterLink],
+  imports: [NgTemplateOutlet, RouterLink],
 })
 export class GenericLinkComponent implements OnChanges {
-  constructor(
-    protected router: Router,
-    protected service: GenericLinkComponentService
-  ) {}
+  protected router = inject(Router);
+  protected service = inject(GenericLinkComponentService);
 
   /**
    * Used to split url into 2 parts:
@@ -49,21 +54,30 @@ export class GenericLinkComponent implements OnChanges {
    */
   protected routeParts: RouteParts = {};
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() url: string | any[];
-  @Input() target: string | null;
-  @Input() id: string;
+  readonly target = input<string | null>();
+  readonly id = input<string>();
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() class: string;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() style: string | undefined;
-  @Input() title: string;
+  readonly title = input<string>();
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() ariaLabel?: string;
-  @Input() tabindex: 0 | -1 = 0;
+  readonly tabindex = input<0 | -1>(0);
 
   isExternalUrl(): boolean {
     return this.service.isExternalUrl(this.url);
   }
 
   get rel() {
-    return this.target === '_blank' ? 'noopener' : null;
+    return this.target() === '_blank' ? 'noopener' : null;
   }
 
   ngOnChanges(changes: SimpleChanges) {

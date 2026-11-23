@@ -17,9 +17,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class RescheduleServiceOrderService
-  implements RescheduleServiceOrderFacade
-{
+export class RescheduleServiceOrderService implements RescheduleServiceOrderFacade {
   protected rescheduleServiceOrderConnector = inject(
     RescheduleServiceOrderConnector
   );

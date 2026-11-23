@@ -16,7 +16,7 @@ export const SEARCH_PRODUCTS_ENDPOINT_ALIAS = 'searchProducts';
 export function interceptAddToCartEndpoint() {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/orgUsers/*/carts/*/entries*`
   ).as(ADD_TO_CART_ENDPOINT_ALIAS);
@@ -27,7 +27,7 @@ export function interceptAddToCartEndpoint() {
 export function interceptSearchProductsEndpoint(query: string) {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/products/search?**`
   ).as(SEARCH_PRODUCTS_ENDPOINT_ALIAS);
@@ -215,7 +215,7 @@ export function addProductToCartWithQuickForm(
   const alias = this.interceptAddToCartEndpoint();
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/anonymous/carts/*`,
   }).as('getRefreshedCart');

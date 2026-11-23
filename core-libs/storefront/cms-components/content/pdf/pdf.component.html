@@ -1,4 +1,4 @@
-<ng-container *ngIf="data$ | async as data">
+@if (data$ | async; as data) {
   <div class="pdf-container">
     <a [href]="url" target="_blank" rel="noopener noreferrer">
       <span>{{
@@ -13,4 +13,4 @@
       </span>
     </a>
   </div>
-</ng-container>
+}

@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+  input,
+} from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Price, TranslatePipe } from '@spartacus/core';
@@ -17,22 +23,17 @@ import { OrderAmendService } from '../amend-order.service';
   selector: 'cx-amend-order-items',
   templateUrl: './amend-order-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    MediaComponent,
-    ItemCounterComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [MediaComponent, ItemCounterComponent, AsyncPipe, TranslatePipe],
 })
 export class CancelOrReturnItemsComponent {
+  protected orderAmendService = inject(OrderAmendService);
+
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() entries: OrderEntry[];
-  @Input() isConfirmation = false;
+  readonly isConfirmation = input(false);
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService.getForm();
-
-  constructor(protected orderAmendService: OrderAmendService) {}
 
   getControl(form: UntypedFormGroup, entry: OrderEntry): UntypedFormControl {
     const control = <UntypedFormControl>(

@@ -2,6 +2,6 @@
   {{ getResultsPerPage() }}
   {{
     'storeFinder.fromStoresFound'
-      | cxTranslate: { count: pagination.totalResults }
+      | cxTranslate: { count: pagination().totalResults }
   }}
 </span>

@@ -38,7 +38,7 @@ describe('OpfTokenisationDeletePaymentDialogComponent', () => {
   });
 
   it('should not show dialog by default', () => {
-    expect(component.showDialog).toBe(false);
+    expect(component.showDialog()).toBe(false);
   });
 
   describe('onConfirm', () => {

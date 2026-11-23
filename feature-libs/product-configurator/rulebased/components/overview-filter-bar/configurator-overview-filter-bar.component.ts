@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,19 +20,20 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-filter-bar',
   templateUrl: './configurator-overview-filter-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, IconComponent, NgIf, TranslatePipe],
+  imports: [IconComponent, TranslatePipe],
 })
 export class ConfiguratorOverviewFilterBarComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   readonly PREFIX_ID = 'cx-overview-filter-applied-';
   readonly FIRST_FILTER_CHECKBOX_ID =
     'cx-configurator-overview-filter-option-price';
   protected configuratorStorefrontUtilsService = inject(
     ConfiguratorStorefrontUtilsService
   );
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() config: Configurator.ConfigurationWithOverview;
 
   iconTypes = ICON_TYPE;

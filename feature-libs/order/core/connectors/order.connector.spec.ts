@@ -6,13 +6,15 @@ import { OrderConnector } from './order.connector';
 
 class MockOrderAdapter implements Partial<OrderAdapter> {
   placeOrder = vi
-    .fn('OrderAdapter.placeOrder')
+    .fn()
+    .mockName('OrderAdapter.placeOrder')
     .mockImplementation(
       (userId: string, cartId: string, termsChecked: boolean) =>
         of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
     );
   placePaymentAuthorizedOrder = vi
-    .fn('OrderAdapter.placePaymentAuthorizedOrder')
+    .fn()
+    .mockName('OrderAdapter.placePaymentAuthorizedOrder')
     .mockImplementation(
       (userId: string, cartId: string, termsChecked: boolean) =>
         of(`placePaymentAuthorizedOrder-${userId}-${cartId}-${termsChecked}`)

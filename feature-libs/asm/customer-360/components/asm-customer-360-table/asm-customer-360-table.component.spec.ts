@@ -5,6 +5,7 @@ import {
   Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -44,7 +45,7 @@ import {
   selector: '[cxFocus]',
 })
 export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
+  readonly config = input<FocusConfig>({}, { alias: 'cxFocus' });
 }
 
 describe('AsmCustomer360TableComponent', () => {
@@ -92,7 +93,7 @@ describe('AsmCustomer360TableComponent', () => {
     template: '',
   })
   class MockCxIconComponent {
-    @Input() type: ICON_TYPE;
+    readonly type = input<ICON_TYPE>();
   }
 
   class MockDirectionService {
@@ -220,11 +221,23 @@ describe('AsmCustomer360TableComponent', () => {
     imports: [AsmCustomer360TableComponent],
   })
   class TestHostComponent {
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() columns: Array<CustomerTableColumn>;
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() emptyStateText: string;
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() entries: Array<TableEntry>;
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() headerText: string;
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() pageSize: number;
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input() sortProperty: keyof TableEntry;
     itemSelected(): void {}
   }
@@ -303,7 +316,7 @@ describe('AsmCustomer360TableComponent', () => {
     const tableBody = el.query(By.css('tbody'));
 
     const tableRows = tableBody.queryAll(By.css('tr'));
-    expect(tableRows.length).toBe(component.pageSize);
+    expect(tableRows.length).toBe(component.pageSize());
   });
 
   it('should display correct date time format using configuration', () => {
@@ -419,7 +432,7 @@ describe('AsmCustomer360TableComponent', () => {
     });
 
     it('should sort when click a column header', () => {
-      const tableRows = component.table.nativeElement.rows;
+      const tableRows = component.table().nativeElement.rows;
       const childElement = tableRows[0].cells[0].firstChild;
 
       expect(tableRows[1].cells[0].textContent?.trim()).toBe('Ticket');
@@ -450,7 +463,7 @@ describe('AsmCustomer360TableComponent', () => {
         preventDefault: () => {},
       };
 
-      const tableCell = component.table.nativeElement.rows[0].cells[0];
+      const tableCell = component.table().nativeElement.rows[0].cells[0];
       const childElement = tableCell.firstChild;
       childElement.tabIndex = 0;
       childElement.focus();

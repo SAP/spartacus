@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -13,8 +13,8 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewContainerRef,
+  viewChild,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
@@ -49,7 +49,7 @@ import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.m
 @Component({
   selector: 'cx-quote-summary-actions',
   templateUrl: './quote-summary-actions.component.html',
-  imports: [NgIf, NgClass, NgFor, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class QuoteSummaryActionsComponent
   implements AfterViewInit, OnInit, OnDestroy
@@ -66,7 +66,7 @@ export class QuoteSummaryActionsComponent
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
   QuoteActionType = QuoteActionType;
   protected subscription = new Subscription();
   isFixedPosition: boolean = true;
@@ -268,7 +268,7 @@ export class QuoteSummaryActionsComponent
     this.launchDialogService
       .openDialog(
         LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
-        this.element,
+        this.element(),
         this.viewContainerRef,
         { confirmationContext: context }
       )

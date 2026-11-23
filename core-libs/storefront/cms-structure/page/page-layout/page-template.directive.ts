@@ -12,7 +12,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   TemplateRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -45,6 +44,13 @@ import { PageLayoutService } from './page-layout.service';
  */
 @Directive({ selector: '[cxPageTemplateStyle]' })
 export class PageTemplateDirective implements OnInit, OnDestroy {
+  protected pageLayoutService = inject(PageLayoutService);
+  protected elementRef = inject(ElementRef);
+  protected templateRef = inject<TemplateRef<HTMLElement>>(TemplateRef, {
+    optional: true,
+  });
+  protected cd = inject(ChangeDetectorRef);
+
   protected directiveStateTransferService = inject(
     DirectiveStateTransferService
   );
@@ -63,6 +69,8 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * The host element is either the actual host, or the parent element in case this
    * is used inside an `ng-template`.
    */
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input('cxPageTemplateStyle') set setTemplate(template: string) {
     if (template) {
       this.useTemplateFromInput = true;
@@ -85,13 +93,6 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
     this.host,
     this.transferStateKey
   ) as string;
-
-  constructor(
-    protected pageLayoutService: PageLayoutService,
-    protected elementRef: ElementRef,
-    @Optional() protected templateRef: TemplateRef<HTMLElement>,
-    protected cd: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     if (!this.useTemplateFromInput) {

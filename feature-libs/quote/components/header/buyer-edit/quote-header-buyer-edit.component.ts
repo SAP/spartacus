@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, Input, OnInit, output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -31,23 +31,17 @@ export interface EditCard {
 @Component({
   selector: 'cx-quote-header-buyer-edit',
   templateUrl: './quote-header-buyer-edit.component.html',
-  imports: [
-    NgIf,
-    FormsModule,
-    ReactiveFormsModule,
-    NgTemplateOutlet,
-    TranslatePipe,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, NgTemplateOutlet, TranslatePipe],
 })
 export class QuoteHeaderBuyerEditComponent implements OnInit {
   iconTypes = ICON_TYPE;
   editForm: FormGroup = new FormGroup({});
 
-  @Output()
-  saveCard: EventEmitter<SaveEvent> = new EventEmitter();
-  @Output()
-  cancelCard: EventEmitter<any> = new EventEmitter();
+  readonly saveCard = output<SaveEvent>();
+  readonly cancelCard = output<any>();
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   content: EditCard;
 
@@ -55,7 +49,7 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
    * Cancels the view of the edit card tile.
    */
   cancel(): void {
-    this.cancelCard.emit();
+    this.cancelCard.emit(undefined);
   }
 
   /**

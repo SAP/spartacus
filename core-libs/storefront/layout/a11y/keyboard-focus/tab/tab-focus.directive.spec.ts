@@ -7,6 +7,9 @@ import { TabFocusService } from './tab-focus.service';
 
 @Directive({ selector: '[cxTabFocus]' })
 class CustomFocusDirective extends TabFocusDirective {
+  // TODO: Skipped for migration because:
+  //  This input overrides a field from a superclass, while the superclass field
+  //  is not migrated.
   @Input('cxTabFocus') protected config: TabFocusConfig;
 }
 

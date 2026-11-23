@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -26,7 +26,7 @@ import { AccountSummaryHeaderComponent } from './account-summary-header.componen
   template: '',
 })
 class MockCardComponent {
-  @Input() content: any;
+  readonly content = input<any>();
 }
 
 class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
@@ -205,7 +205,7 @@ describe('AccountSummaryHeaderComponent', () => {
       title: string,
       text: string[]
     ): void => {
-      const content = card?.componentInstance?.content;
+      const content = card?.componentInstance?.content();
       expect(content.title).toEqual(title);
       expect(content.text).toEqual(text);
     };

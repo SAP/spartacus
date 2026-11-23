@@ -27,6 +27,12 @@ import { UserProfileService } from './user-profile.service';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
+  protected userProfile = inject(UserProfileService);
+  protected userConnector = inject(UserProfileConnector);
+  protected authService = inject(AuthService);
+  protected command = inject(CommandService);
+  protected store = inject(Store);
+
   private featureToggles = inject(FeatureToggles);
   protected routingService = inject(RoutingService);
 
@@ -60,14 +66,6 @@ export class UserRegisterService implements UserRegisterFacade {
       })
     )
   );
-
-  constructor(
-    protected userProfile: UserProfileService,
-    protected userConnector: UserProfileConnector,
-    protected authService: AuthService,
-    protected command: CommandService,
-    protected store: Store
-  ) {}
 
   /**
    * Register a new user.

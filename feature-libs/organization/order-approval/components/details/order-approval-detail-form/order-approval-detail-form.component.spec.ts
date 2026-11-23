@@ -1,9 +1,9 @@
 import {
   Component,
   DebugElement,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
@@ -59,9 +59,10 @@ class MockOrderApprovalDetailService {
   imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockFormErrorsComponent {
-  @Input() control: UntypedFormControl;
-  @Input()
-  translationParams: { [key: string]: string | null };
+  readonly control = input<UntypedFormControl>();
+  readonly translationParams = input<{
+    [key: string]: string | null;
+  }>();
 }
 
 @Component({

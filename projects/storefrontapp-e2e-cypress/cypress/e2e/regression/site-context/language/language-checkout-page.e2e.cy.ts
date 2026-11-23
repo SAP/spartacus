@@ -40,7 +40,7 @@ describe('Language switch - checkout page', () => {
       // page being already tested in language-address-book
       cy.intercept({
         method: 'PUT',
-        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        pathname: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
           'BASE_SITE'
         )}/users/current/carts/*/addresses/delivery`,
       }).as('setAddress');

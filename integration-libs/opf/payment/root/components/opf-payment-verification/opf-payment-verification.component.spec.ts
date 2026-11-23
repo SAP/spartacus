@@ -210,8 +210,7 @@ describe('OpfPaymentVerificationComponent', () => {
     });
 
     it('should call checkIfProcessingCartIdExist on init when feature toggle is disabled', () => {
-      featureToggles.opfPaymentVerificationCheckProcessingCartOnErrorOnly =
-        false;
+      featureToggles.opfPaymentVerificationCheckProcessingCartOnErrorOnly = false;
       opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(of());
 
       component.ngOnInit();
@@ -222,8 +221,7 @@ describe('OpfPaymentVerificationComponent', () => {
     });
 
     it('should not call checkIfProcessingCartIdExist in error path when feature toggle is disabled', () => {
-      featureToggles.opfPaymentVerificationCheckProcessingCartOnErrorOnly =
-        false;
+      featureToggles.opfPaymentVerificationCheckProcessingCartOnErrorOnly = false;
       const mockError: HttpErrorModel = { status: 500, message: 'Error' };
       const mockVerifyResult = {
         paymentSessionId: '1',

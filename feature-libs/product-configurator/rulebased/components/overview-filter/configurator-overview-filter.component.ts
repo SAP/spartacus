@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,25 +30,25 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorOverviewFilterBarComponent,
     FormsModule,
     ReactiveFormsModule,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   protected configuratorStorefrontUtilsService = inject(
     ConfiguratorStorefrontUtilsService
   );
 
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
-
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() showFilterBar: boolean = true;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() config: Configurator.ConfigurationWithOverview;
 
   priceFilter = new UntypedFormControl('');

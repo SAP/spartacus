@@ -27,12 +27,6 @@ export enum BREAKPOINT {
   xl = 'xl',
 }
 
-export type LayoutSections =
-  | 'header'
-  | 'footer'
-  | 'LandingPage2Template'
-  | string;
-
 export type SlotConfig = {
   /** The cms page slots are mapped by the `slot.position`. */
   slots?: string[];
@@ -57,7 +51,7 @@ export type SlotGroup = {
 };
 
 export type LayoutSlotConfig = {
-  [section in LayoutSections]: SlotConfig | SlotGroup | LayoutSlotConfig;
+  [section in string]: SlotConfig | SlotGroup | LayoutSlotConfig;
 };
 
 export interface BreakPoint {

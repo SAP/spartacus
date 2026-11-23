@@ -92,9 +92,7 @@ const oldClass = 'ssr-template-cls';
 })
 class MockTemplate6Component extends MockTemplateComponent {}
 
-class MockDirectiveStateTransferService
-  implements Partial<DirectiveStateTransferService>
-{
+class MockDirectiveStateTransferService implements Partial<DirectiveStateTransferService> {
   _data: Record<string, string> = {};
 
   get(_el: HTMLElement, key: string): string | undefined {

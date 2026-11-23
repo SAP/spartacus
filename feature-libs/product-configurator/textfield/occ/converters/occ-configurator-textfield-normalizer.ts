@@ -10,13 +10,10 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 import { OccConfiguratorTextfield } from '../occ-configurator-textfield.models';
 
 @Injectable({ providedIn: 'root' })
-export class OccConfiguratorTextfieldNormalizer
-  implements
-    Converter<
-      OccConfiguratorTextfield.Configuration,
-      ConfiguratorTextfield.Configuration
-    >
-{
+export class OccConfiguratorTextfieldNormalizer implements Converter<
+  OccConfiguratorTextfield.Configuration,
+  ConfiguratorTextfield.Configuration
+> {
   constructor() {
     // Intentional empty constructor
   }

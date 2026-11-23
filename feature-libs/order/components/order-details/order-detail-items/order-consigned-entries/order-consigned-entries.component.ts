@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { AsyncPipe, TitleCasePipe } from '@angular/common';
+import { Component, inject, Input, input } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -27,9 +27,7 @@ import { ConsignmentTrackingComponent } from '../consignment-tracking/consignmen
   selector: 'cx-order-consigned-entries',
   templateUrl: './order-consigned-entries.component.html',
   imports: [
-    NgFor,
     OutletDirective,
-    NgIf,
     FeatureDirective,
     ConsignmentTrackingComponent,
     AbstractOrderContextDirective,
@@ -40,10 +38,14 @@ import { ConsignmentTrackingComponent } from '../consignment-tracking/consignmen
   ],
 })
 export class OrderConsignedEntriesComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() consignments: Consignment[];
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() order: Order;
-  @Input() enableAddToCart: boolean | undefined;
-  @Input() buyItAgainTranslation: string;
+  readonly enableAddToCart = input<boolean>();
+  readonly buyItAgainTranslation = input<string>();
   protected translationService = inject(TranslationService);
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
@@ -31,7 +31,6 @@ import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
   imports: [
-    NgIf,
     PromotionsComponent,
     OrderConsignedEntriesComponent,
     OutletDirective,
@@ -43,6 +42,10 @@ import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-
   ],
 })
 export class OrderDetailItemsComponent {
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected component =
+    inject<CmsComponentData<CmsOrderDetailItemsComponent>>(CmsComponentData);
+
   protected orderConsignmentsService = inject(
     MyAccountV2OrderConsignmentsService
   );
@@ -83,11 +86,6 @@ export class OrderDetailItemsComponent {
   groupCartItems$: Observable<boolean | undefined> = this.component.data$.pipe(
     map((data) => data.groupCartItems)
   );
-
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailItemsComponent>
-  ) {}
 
   protected getGroupedConsignments(
     order: Order,

@@ -20,12 +20,14 @@
 
     .cx-label {
       @include type('8');
-      word-break: break-word;
+      word-break: normal;
+      overflow-wrap: anywhere;
     }
 
     .cx-value {
       @include type('7');
-      word-break: break-word;
+      word-break: normal;
+      overflow-wrap: anywhere;
       padding-inline-start: 0px;
     }
 

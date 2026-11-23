@@ -80,3 +80,5 @@ Thumbs.db
 .nx/workspace-data
 /.cursor
 .github/instructions/nx.instructions.md
+
+.nx/migrate-runs

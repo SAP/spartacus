@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { B2BUnit, TranslatePipe } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
@@ -30,7 +30,6 @@ import { UnitUserListService } from '../services/unit-user-list.service';
   ],
   imports: [
     SubListComponent,
-    NgIf,
     RouterLink,
     DisableInfoComponent,
     AsyncPipe,
@@ -38,6 +37,9 @@ import { UnitUserListService } from '../services/unit-user-list.service';
   ],
 })
 export class UnitUserListComponent {
+  protected currentUnitService = inject(CurrentUnitService);
+  protected b2bUserService = inject(B2BUserService);
+
   routerKey = ROUTE_PARAMS.userCode;
 
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService
@@ -45,9 +47,4 @@ export class UnitUserListComponent {
     : of({ active: true });
 
   isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
-
-  constructor(
-    protected currentUnitService: CurrentUnitService,
-    protected b2bUserService: B2BUserService
-  ) {}
 }

@@ -10,6 +10,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   AsmCustomer360Facade,
@@ -31,16 +32,16 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   imports: [AsmCustomer360PromotionListingComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
+  protected context = inject<
+    AsmCustomer360SectionContext<AsmCustomer360PromotionList>
+  >(AsmCustomer360SectionContext);
+  protected asmCustomer360Facade = inject(AsmCustomer360Facade);
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
   entries$ = new BehaviorSubject<Array<AsmCustomer360Promotion>>([]);
   subscription = new Subscription();
   userId: string;
-
-  constructor(
-    protected context: AsmCustomer360SectionContext<AsmCustomer360PromotionList>,
-    protected asmCustomer360Facade: AsmCustomer360Facade,
-    protected activeCartFacade: ActiveCartFacade
-  ) {}
 
   ngOnInit(): void {
     this.showErrorAlert$.next(false);

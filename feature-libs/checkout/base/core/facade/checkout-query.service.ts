@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutQueryFacade,
@@ -26,6 +26,11 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected queryService = inject(QueryService);
+  protected checkoutConnector = inject(CheckoutConnector);
+
   /**
    * Returns the reload events for the checkout query.
    */
@@ -52,13 +57,6 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
         resetOn: this.getCheckoutQueryResetEvents(),
       }
     );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
-    protected queryService: QueryService,
-    protected checkoutConnector: CheckoutConnector
-  ) {}
 
   /**
    * Performs the necessary checkout preconditions.

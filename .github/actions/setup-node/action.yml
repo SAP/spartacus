@@ -1,0 +1,28 @@
+name: Setup Node and npm
+description: Set up Node.js and the npm version declared by the workspace
+inputs:
+  node-version:
+    description: Node.js version to use
+    required: false
+    default: '22'
+outputs:
+  npm-version:
+    description: Installed npm version
+    value: ${{ steps.npm-version.outputs.version }}
+runs:
+  using: composite
+  steps:
+    - name: Setup node
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      with:
+        node-version: ${{ inputs.node-version }}
+    - name: Setup workspace npm
+      id: npm-version
+      shell: bash
+      run: |
+        # npm 10 misvalidates this workspace lockfile with scoped overrides.
+        npm_version=$(node -p "require('./package.json').packageManager.slice(4)")
+        npm install --global "npm@$npm_version"
+        echo "version=$npm_version" >> "$GITHUB_OUTPUT"
+        node --version
+        npm --version

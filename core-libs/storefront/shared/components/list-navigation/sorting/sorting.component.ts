@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +12,7 @@ import {
   Input,
   Output,
   viewChild,
+  input,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
@@ -28,7 +28,6 @@ import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.direc
     NgSelectComponent,
     FormsModule,
     NgSelectA11yDirective,
-    NgFor,
     NgOptionComponent,
     TranslatePipe,
     FocusDirective,
@@ -37,16 +36,19 @@ import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.direc
 export class SortingComponent {
   ngSelectComponent = viewChild.required(NgSelectComponent);
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   sortOptions: SortModel[] | undefined;
-  @Input()
-  ariaControls: string;
-  @Input()
-  ariaLabel: string | undefined;
+  readonly ariaControls = input<string>();
+  readonly ariaLabel = input<string>();
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   selectedOption: string | undefined;
-  @Input()
-  placeholder: string;
+  readonly placeholder = input<string>();
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   sortLabels: { [code: string]: string } | null;
 

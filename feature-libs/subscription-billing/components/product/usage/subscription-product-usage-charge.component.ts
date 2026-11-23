@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, Input, Signal } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, computed, Signal, input } from '@angular/core';
 import { Product, TranslatePipe } from '@spartacus/core';
 import {
   PerUnitUsageCharge,
@@ -17,14 +17,14 @@ import {
 @Component({
   selector: 'cx-subscription-product-usage-charge',
   templateUrl: './subscription-product-usage-charge.component.html',
-  imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe],
+  imports: [NgTemplateOutlet, TranslatePipe],
 })
 export class SubscriptionProductUsageChargeComponent {
-  @Input() product!: Signal<Product | undefined | null>;
+  readonly product = input.required<Signal<Product | undefined | null>>();
 
   blockUsageCharges: Signal<PerUnitUsageCharge[]> = computed(() => {
     return (
-      this.product()?.sapPricePlan?.perUnitUsageCharges?.filter(
+      this.product()()?.sapPricePlan?.perUnitUsageCharges?.filter(
         (item) => item.usageChargeType === UsageChargeType.BLOCK
       ) ?? []
     );
@@ -45,7 +45,7 @@ export class SubscriptionProductUsageChargeComponent {
 
   percentageUsageCharges: Signal<PerUnitUsageCharge[]> = computed(() => {
     return (
-      this.product()?.sapPricePlan?.perUnitUsageCharges?.filter(
+      this.product()()?.sapPricePlan?.perUnitUsageCharges?.filter(
         (item) => item.usageChargeType === UsageChargeType.PERCENTAGE
       ) ?? []
     );
@@ -53,14 +53,14 @@ export class SubscriptionProductUsageChargeComponent {
 
   tierUsageCharges: Signal<PerUnitUsageCharge[]> = computed(() => {
     return (
-      this.product()?.sapPricePlan?.perUnitUsageCharges?.filter(
+      this.product()()?.sapPricePlan?.perUnitUsageCharges?.filter(
         (item) => item.usageChargeType === UsageChargeType.TIER
       ) ?? []
     );
   });
 
   volumeUsageCharges: Signal<VolumeUsageCharge[]> = computed(
-    () => this.product()?.sapPricePlan?.volumeUsageCharges ?? []
+    () => this.product()()?.sapPricePlan?.volumeUsageCharges ?? []
   );
 
   getLastTierValue(tierUsageChargeEntries: TierUsageChargeEntry[]): number {
@@ -70,9 +70,10 @@ export class SubscriptionProductUsageChargeComponent {
   }
 
   isUsageChargePresent(): boolean {
+    const product = this.product();
     return Boolean(
-      this.product()?.sapPricePlan?.perUnitUsageCharges ??
-        this.product()?.sapPricePlan?.volumeUsageCharges
+      product()?.sapPricePlan?.perUnitUsageCharges ??
+      product()?.sapPricePlan?.volumeUsageCharges
     );
   }
 }

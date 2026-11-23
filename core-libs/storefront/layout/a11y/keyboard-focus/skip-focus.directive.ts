@@ -8,9 +8,9 @@ import {
   Directive,
   ElementRef,
   inject,
-  Input,
   OnChanges,
   Renderer2,
+  input,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
@@ -29,7 +29,10 @@ export interface SkipFocusConfig {
  */
 @Directive({ selector: '[cxSkipFocus]' })
 export class SkipFocusDirective implements OnChanges {
-  @Input('cxSkipFocus') config: SkipFocusConfig = { isEnabled: false };
+  readonly config = input<SkipFocusConfig>(
+    { isEnabled: false },
+    { alias: 'cxSkipFocus' }
+  );
 
   protected elementRef = inject(ElementRef);
   protected winRef = inject(WindowRef);
@@ -37,8 +40,8 @@ export class SkipFocusDirective implements OnChanges {
 
   public ngOnChanges(): void {
     this.excludeFromFocus(
-      this.config.isEnabled,
-      this.config.activeElementSelectors
+      this.config().isEnabled,
+      this.config().activeElementSelectors
     );
   }
 

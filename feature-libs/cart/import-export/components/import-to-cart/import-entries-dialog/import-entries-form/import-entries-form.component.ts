@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
   OnInit,
-  Output,
+  inject,
+  output,
+  input,
 } from '@angular/core';
 import {
   FormsModule,
@@ -42,7 +41,6 @@ import { ImportProductsFromCsvService } from '../../import-products-from-csv.ser
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     MessageComponent,
@@ -53,26 +51,22 @@ import { ImportProductsFromCsvService } from '../../import-products-from-csv.ser
   ],
 })
 export class ImportEntriesFormComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected importToCartService = inject(ImportProductsFromCsvService);
+  protected importCsvService = inject(ImportCsvFileService);
+  protected filesFormValidators = inject(FilesFormValidators);
+  protected importExportConfig = inject(ImportExportConfig);
+
   form: UntypedFormGroup;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
   globalMessageType = GlobalMessageType;
 
-  @Output()
-  submitEvent = new EventEmitter<{
+  readonly submitEvent = output<{
     products: ProductData[];
   }>();
 
-  @Input()
-  type: OrderEntriesSource;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportProductsFromCsvService,
-    protected importCsvService: ImportCsvFileService,
-    protected filesFormValidators: FilesFormValidators,
-    protected importExportConfig: ImportExportConfig
-  ) {}
+  readonly type = input<OrderEntriesSource>();
 
   ngOnInit() {
     this.form = this.buildForm();
@@ -150,8 +144,12 @@ export class ImportEntriesFormComponent implements OnInit {
   }
 
   protected get maxEntries(): number | undefined {
+    const type = this.type();
+    if (type === undefined) {
+      return undefined;
+    }
     return this.importExportConfig.cartImportExport?.import?.fileValidity
-      ?.maxEntries?.[this.type];
+      ?.maxEntries?.[type];
   }
 
   protected get separator(): string | undefined {

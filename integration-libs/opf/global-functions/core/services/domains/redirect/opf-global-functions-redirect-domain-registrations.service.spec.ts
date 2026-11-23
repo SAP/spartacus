@@ -18,9 +18,7 @@ import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shar
 import { OpfGlobalFunctionsSharedRegistrationsService } from '../../opf-global-functions-shared-registrations.service';
 import { OpfGlobalFunctionsRedirectDomainService } from './opf-global-functions-redirect-domain.service';
 
-class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService>
-{
+class MockOpfQuickBuyTransactionService implements Partial<OpfQuickBuyTransactionService> {
   getCurrentCartId = jasmine
     .createSpy('getCurrentCartId')
     .and.returnValue(of('test-cart-id'));

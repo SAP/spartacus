@@ -1,4 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -45,7 +45,7 @@ class MockRoutingService implements Partial<RoutingService> {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({
@@ -53,14 +53,14 @@ class MockCxIconComponent {
   template: '',
 })
 class MockCxMessagingComponent {
-  @Input() messageEvents$: Observable<Array<MessageEvent>>;
-  @Input() scrollToInput?: boolean = true;
-  @Input() messagingConfigs?: MessagingConfigs;
+  readonly messageEvents$ = input<Observable<Array<MessageEvent>>>();
+  readonly scrollToInput = input<boolean | undefined>(true);
+  readonly messagingConfigs = input<MessagingConfigs>();
 }
 
 @Directive({ selector: '[cxFocus]' })
 class MockKeyboardFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
+  readonly config = input<FocusConfig>({}, { alias: 'cxFocus' });
 }
 
 describe('CustomerTicketingCloseDialogComponent', () => {

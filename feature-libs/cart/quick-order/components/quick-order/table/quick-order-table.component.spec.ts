@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -24,9 +24,9 @@ const mockEntries: OrderEntry[] = [
   selector: '[cx-quick-order-item], cx-quick-order-item',
 })
 class MockQuickOrderItemComponent {
-  @Input() entry: OrderEntry;
-  @Input() index: number;
-  @Input() loading: boolean;
+  readonly entry = input<OrderEntry>();
+  readonly index = input<number>();
+  readonly loading = input<boolean>();
 }
 
 describe('QuickOrderTableComponent', () => {

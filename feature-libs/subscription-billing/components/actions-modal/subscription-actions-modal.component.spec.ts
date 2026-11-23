@@ -1,3 +1,5 @@
+import { provideLocationMocks } from '@angular/common/testing';
+import { RouterModule, provideRouter } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SubscriptionActionsModalComponent } from './subscription-actions-modal.component';
 import { Observable, of, throwError } from 'rxjs';
@@ -14,7 +16,6 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { signal } from '@angular/core';
 
@@ -78,8 +79,10 @@ describe('SubscriptionActionsModalComponent', () => {
     mockEventService = { dispatch: vi.fn() };
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, SubscriptionActionsModalComponent],
+      imports: [SubscriptionActionsModalComponent, RouterModule],
       providers: [
+        provideRouter([]),
+        provideLocationMocks(),
         provideMockStore(),
         {
           provide: SubscriptionActionsFacade,

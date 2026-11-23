@@ -28,16 +28,14 @@ import { WindowRef } from '../../../window/window-ref';
 
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected router = inject(Router, {
     optional: true,
   });
   protected winRef = inject(WindowRef);
-
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
 
   readonly DEFAULT_SEARCH_CONFIG: SearchConfig = {
     pageSize: 20,

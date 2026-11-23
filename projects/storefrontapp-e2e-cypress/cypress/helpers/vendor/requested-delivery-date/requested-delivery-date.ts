@@ -168,7 +168,7 @@ export function verifyRDDOrderDetailPage(date: string) {
 export function interceptPutRequestedRetrievalAtEndpoint() {
   cy.intercept({
     method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/**/requestedretrievaldate?requestedRetrievalAt=*`,
   }).as('putRetrievalAt');

@@ -10,6 +10,7 @@ import {
   ElementRef,
   HostListener,
   Input,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -33,6 +34,9 @@ import { ProductImageZoomViewComponent } from '../product-image-zoom-view/produc
   ],
 })
 export class ProductImageZoomDialogComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   iconType = ICON_TYPE;
 
   focusConfig: FocusConfig = {
@@ -42,6 +46,8 @@ export class ProductImageZoomDialogComponent {
     focusOnEscape: true,
   };
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() galleryIndex: number;
 
   @HostListener('click', ['$event'])
@@ -51,11 +57,6 @@ export class ProductImageZoomDialogComponent {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   close(reason = ''): void {
     this.launchDialogService.closeDialog(reason);

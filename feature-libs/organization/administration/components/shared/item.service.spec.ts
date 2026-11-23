@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   UntypedFormControl,
@@ -38,6 +38,10 @@ const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 @Injectable()
 class MockItemService extends ItemService<any> {
+  protected currentItemService =
+    inject<CurrentItemService<any>>(CurrentItemService);
+  protected formService = inject<FormService<any>>(FormService);
+
   getDetailsRoute() {
     return 'testRoute';
   }

@@ -5,12 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  facadeFactory,
-  GeoPoint,
-  PointOfService,
-  SearchConfig,
-} from '@spartacus/core';
+import { facadeFactory, GeoPoint, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { STORE_FINDER_FEATURE } from '../feature-name';
 import { StoreEntities } from '../model/store-entities.model';
@@ -22,7 +17,6 @@ import { StoreEntities } from '../model/store-entities.model';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      // @ts-ignore: Deprecated methods will be removed with next major release
       facade: StoreFinderFacade,
       feature: STORE_FINDER_FEATURE,
       methods: [
@@ -57,17 +51,6 @@ export abstract class StoreFinderFacade {
   abstract viewAllStores(): void;
   abstract viewStoreById(storeId: string): void;
   abstract callFindStoresAction(routeParams: { [key: string]: string }): void;
-  /**
-   * @deprecated Please use StoreLocationService instead,
-   */
-  abstract getStoreLatitude(location: PointOfService): number | undefined;
-  /**
-   * @deprecated Please use StoreLocationService instead,
-   */
-  abstract getStoreLongitude(location: PointOfService): number | undefined;
-  /**
-   * @deprecated Please use StoreLocationService instead,
-   */
-  abstract getDirections(location: PointOfService): string;
+
   abstract getFindStoreEntityById(): Observable<StoreEntities>;
 }

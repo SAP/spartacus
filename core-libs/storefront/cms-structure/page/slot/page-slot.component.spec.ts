@@ -2,8 +2,8 @@ import {
   ChangeDetectorRef,
   Component,
   Directive,
-  Input,
   Renderer2,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -83,7 +83,7 @@ class MockPageSlotService implements Partial<PageSlotService> {
 }
 @Directive({ selector: '[cxComponentWrapper]' })
 class MockComponentWrapperDirective {
-  @Input() cxComponentWrapper;
+  readonly cxComponentWrapper = input(undefined);
 }
 const providers = [
   Renderer2,

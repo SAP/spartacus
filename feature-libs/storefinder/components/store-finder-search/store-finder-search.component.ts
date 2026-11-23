@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -31,7 +31,6 @@ import {
     ReactiveFormsModule,
     IconComponent,
     RouterLink,
-    NgClass,
     NgTemplateOutlet,
     TranslatePipe,
     FeatureDirective,
@@ -39,10 +38,10 @@ import {
   ],
 })
 export class StoreFinderSearchComponent {
+  private routingService = inject(RoutingService);
+
   searchBox: UntypedFormControl = new UntypedFormControl();
   iconTypes = ICON_TYPE;
-
-  constructor(private routingService: RoutingService) {}
 
   findStores(address: string) {
     this.routingService.go(['store-finder/find'], {

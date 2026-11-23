@@ -4,22 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   inject,
   Input,
   OnChanges,
   OnDestroy,
   Optional,
-  Output,
   TemplateRef,
-  ViewChild,
+  output,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -40,36 +38,36 @@ import { PickupOptionsTabs } from './pickup-options.model';
   selector: 'cx-pickup-options',
   templateUrl: './pickup-options.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgIf,
-    TabComponent,
-    TranslatePipe,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, TabComponent, TranslatePipe],
 })
 export class PickupOptionsComponent
   implements OnChanges, AfterViewInit, OnDestroy
 {
   protected subscription = new Subscription();
   /** The selected option, either `'pickup'` or `'delivery'`. */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() selectedOption: PickupOption;
   /** The location to display in the pickup option. */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() displayPickupLocation: string | undefined;
 
   // /** Disable Radio Buttons */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() disableControls = false;
 
   /** Emitted when the selected option is changed. */
-  @Output() pickupOptionChange = new EventEmitter<{
+  readonly pickupOptionChange = output<{
     option: PickupOption;
-    triggerElement: ElementRef;
+    triggerElement: ElementRef | undefined;
   }>();
 
   /** Emitted when a new store should be selected. */
-  @Output() pickupLocationChange = new EventEmitter<ElementRef>();
+  readonly pickupLocationChange = output<ElementRef | undefined>();
 
-  @ViewChild('dialogTriggerEl') triggerElement: ElementRef;
+  readonly triggerElement = viewChild<ElementRef>('dialogTriggerEl');
 
   pickupId = `pickup-id:${Math.random().toString(16)}`;
   deliveryId = `delivery-id:${Math.random().toString(16)}`;
@@ -84,9 +82,9 @@ export class PickupOptionsComponent
     optional: true,
   });
 
-  @ViewChild('deliveryTabPanel') deliveryTabPanel: TemplateRef<any>;
-  @ViewChild('pickupTabPanel') pickupTabPanel: TemplateRef<any>;
-  @ViewChild(TabComponent) tabComponent: TabComponent | undefined;
+  readonly deliveryTabPanel = viewChild<TemplateRef<any>>('deliveryTabPanel');
+  readonly pickupTabPanel = viewChild<TemplateRef<any>>('pickupTabPanel');
+  readonly tabComponent = viewChild(TabComponent);
 
   get validationError() {
     if (this.selectedOption === 'pickup' && !this.displayPickupLocation) {
@@ -107,7 +105,7 @@ export class PickupOptionsComponent
   ngAfterViewInit() {
     this.initializeTabs();
     this.subscription.add(
-      this.tabComponent?.openTabs$.subscribe((openTabs) => {
+      this.tabComponent()?.openTabs$.subscribe((openTabs) => {
         // open tabs should have one tab opened for mode "TAB"
         const openedTab = openTabs[0];
         const selectedOption =
@@ -123,13 +121,13 @@ export class PickupOptionsComponent
   onPickupOptionChange(option: PickupOption): void {
     this.pickupOptionChange.emit({
       option,
-      triggerElement: this.triggerElement,
+      triggerElement: this.triggerElement(),
     });
   }
 
   /** Emit to indicate a new store should be selected. */
   onPickupLocationChange(): boolean {
-    this.pickupLocationChange.emit(this.triggerElement);
+    this.pickupLocationChange.emit(this.triggerElement());
 
     // Return false to stop `onPickupOptionChange` being called after this
     return false;
@@ -139,12 +137,12 @@ export class PickupOptionsComponent
     this.tabs = [
       {
         headerKey: 'pickupOptions.shipIt',
-        content: this.deliveryTabPanel,
+        content: this.deliveryTabPanel(),
         id: PickupOptionsTabs.DELIVERY,
       },
       {
         headerKey: 'pickupOptions.pickup',
-        content: this.pickupTabPanel,
+        content: this.pickupTabPanel(),
         id: PickupOptionsTabs.PICKUP,
         disableBorderFocus: true,
       },
@@ -161,17 +159,18 @@ export class PickupOptionsComponent
   }
 
   protected onSelectedOptionChange() {
-    if (!this.tabComponent) {
+    const tabComponent = this.tabComponent();
+    if (!tabComponent) {
       return;
     }
-    this.tabComponent.openTabs$.pipe(take(1)).subscribe((openTabs) => {
+    tabComponent.openTabs$.pipe(take(1)).subscribe((openTabs) => {
       const openedTab = openTabs[0];
       const shouldBeOpened =
         this.selectedOption === 'delivery'
           ? PickupOptionsTabs.DELIVERY
           : PickupOptionsTabs.PICKUP;
       if (openedTab !== shouldBeOpened) {
-        this.tabComponent?.select(shouldBeOpened, TAB_MODE.TAB);
+        this.tabComponent()?.select(shouldBeOpened, TAB_MODE.TAB);
       }
     });
   }

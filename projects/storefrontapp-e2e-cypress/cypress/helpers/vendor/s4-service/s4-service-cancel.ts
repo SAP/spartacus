@@ -20,7 +20,7 @@ export const DOWNLOAD_ATTACHMENT = '@DOWNLOAD_ATTACHMENT';
 export function interceptOrderList(alias, response) {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orders?*`,
     { statusCode: 200, body: response }
@@ -30,7 +30,7 @@ export function interceptOrderList(alias, response) {
 export function interceptOrderDetails(alias, response) {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orders/${ORDER_CODE}?*`,
     { statusCode: 200, body: response }
@@ -40,7 +40,7 @@ export function interceptOrderDetails(alias, response) {
 export function interceptCancelOrder(alias) {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/current/orders/${ORDER_CODE}/serviceOrder/cancellation?*`,
     { statusCode: 200 }

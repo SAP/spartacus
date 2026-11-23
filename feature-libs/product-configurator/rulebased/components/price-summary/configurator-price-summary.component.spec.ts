@@ -123,7 +123,7 @@ describe('ConfigPriceSummaryComponent', () => {
     })
       .overrideComponent(ConfiguratorPriceSummaryComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
         },
       })
       .compileComponents();

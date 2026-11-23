@@ -5,19 +5,18 @@
  */
 
 import {
-  ComponentFactory,
   ComponentRef,
   Directive,
   EmbeddedViewRef,
-  EventEmitter,
   Injector,
-  Input,
   OnChanges,
   OnDestroy,
-  Output,
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
+  inject,
+  output,
+  input,
 } from '@angular/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
@@ -32,45 +31,43 @@ import { OutletService } from './outlet.service';
 
 @Directive({ selector: '[cxOutlet]' })
 export class OutletDirective<T = any> implements OnDestroy, OnChanges {
+  private vcr = inject(ViewContainerRef);
+  private templateRef = inject<TemplateRef<any>>(TemplateRef);
+  private outletService = inject(OutletService);
+  private deferLoaderService = inject(DeferLoaderService);
+  private outletRendererService = inject(OutletRendererService);
+
   private renderedTemplate: any[] = [];
   public renderedComponents = new Map<
     OutletPosition,
     Array<ComponentRef<any> | EmbeddedViewRef<any>>
   >();
 
-  @Input() cxOutlet: string;
+  readonly cxOutlet = input.required<string>();
 
   /**
    * Context data to be provided to child view of the outlet
    */
-  @Input() cxOutletContext: T;
+  readonly cxOutletContext = input<T>();
 
   /**
    * Observable with current outlet context
    */
-  private readonly outletContext$ = new ReplaySubject<T>(1);
+  private readonly outletContext$ = new ReplaySubject<T | undefined>(1);
 
   /**
    * Defers loading options for the the templates of this outlet.
    */
-  @Input() cxOutletDefer: IntersectionOptions;
+  readonly cxOutletDefer = input<IntersectionOptions>();
 
-  @Output() loaded: EventEmitter<boolean> = new EventEmitter<boolean>(true);
+  readonly loaded = output<boolean>();
 
-  @Input() cxComponentRef: ComponentRef<any> | EmbeddedViewRef<any>;
-  @Output() cxComponentRefChange = new EventEmitter<
+  readonly cxComponentRef = input<ComponentRef<any> | EmbeddedViewRef<any>>();
+  readonly cxComponentRefChange = output<
     ComponentRef<any> | EmbeddedViewRef<any>
   >();
 
   subscription = new Subscription();
-
-  constructor(
-    private vcr: ViewContainerRef,
-    private templateRef: TemplateRef<any>,
-    private outletService: OutletService,
-    private deferLoaderService: DeferLoaderService,
-    private outletRendererService: OutletRendererService
-  ) {}
 
   /**
    * Renders view for outlet or defers it, depending on the input `cxOutletDefer`
@@ -82,7 +79,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
 
-    if (this.cxOutletDefer) {
+    if (this.cxOutletDefer()) {
       this.deferLoading();
     } else {
       this.build();
@@ -92,10 +89,10 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cxOutlet) {
       this.render();
-      this.outletRendererService.register(this.cxOutlet, this);
+      this.outletRendererService.register(this.cxOutlet(), this);
     }
     if (changes.cxOutletContext) {
-      this.outletContext$.next(this.cxOutletContext);
+      this.outletContext$.next(this.cxOutletContext());
     }
   }
 
@@ -107,7 +104,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     // the subscription on destroy.
     this.subscription.add(
       this.deferLoaderService
-        .load(hostElement, this.cxOutletDefer)
+        .load(hostElement, this.cxOutletDefer())
         .subscribe(() => {
           this.build();
           this.loaded.emit(true);
@@ -129,7 +126,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
    */
   private buildOutlet(position: OutletPosition): void {
     let templates: any[] = <any[]>(
-      this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
+      this.outletService.get(this.cxOutlet(), position, USE_STACKED_OUTLETS)
     );
 
     templates = templates?.filter((el) => !this.renderedTemplate.includes(el));
@@ -156,27 +153,19 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   }
 
   /**
-   * Renders view based on the given template or component factory
+   * Renders view based on the given template or component class
    */
   private create(
-    tmplOrFactory: any,
+    tmplOrComponent: any,
     position: OutletPosition
   ): ComponentRef<any> | EmbeddedViewRef<any> | undefined {
-    this.renderedTemplate.push(tmplOrFactory);
+    this.renderedTemplate.push(tmplOrComponent);
 
-    if (tmplOrFactory instanceof ComponentFactory) {
-      const component = this.vcr.createComponent(
-        tmplOrFactory,
-        undefined,
-        this.getComponentInjector(position)
-      );
-      this.cxComponentRefChange.emit(component);
-      return component;
-    } else if (tmplOrFactory instanceof TemplateRef) {
+    if (tmplOrComponent instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
-        <TemplateRef<any>>tmplOrFactory,
+        <TemplateRef<any>>tmplOrComponent,
         {
-          $implicit: this.cxOutletContext,
+          $implicit: this.cxOutletContext(),
         }
       );
 
@@ -186,6 +175,12 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
 
       this.cxComponentRefChange.emit(view);
       return view;
+    } else if (typeof tmplOrComponent === 'function') {
+      const component = this.vcr.createComponent(tmplOrComponent, {
+        injector: this.getComponentInjector(position),
+      });
+      this.cxComponentRefChange.emit(component);
+      return component;
     }
   }
 
@@ -194,10 +189,9 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
    * rendered in the outlet
    */
   private getComponentInjector(position: OutletPosition): Injector {
-    const contextData: OutletContextData<T> = {
-      reference: this.cxOutlet,
+    const contextData: OutletContextData<T | undefined> = {
+      reference: this.cxOutlet(),
       position,
-      context: this.cxOutletContext,
       context$: this.outletContext$.asObservable(),
     };
 

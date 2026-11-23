@@ -4,21 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Injectable, inject } from '@angular/core';
 import {
   AuthActions,
-  AuthMultisiteIsolationService,
-  AuthRedirectService,
   AuthService,
   AuthToken,
   GlobalMessageService,
   GlobalMessageType,
-  OAuthLibWrapperService,
   OCC_USER_ID_ANONYMOUS,
-  RoutingService,
-  StateWithClientAuth,
-  UserIdService,
 } from '@spartacus/core';
 import {
   combineLatest,
@@ -39,26 +32,8 @@ import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
   providedIn: 'root',
 })
 export class AsmAuthService extends AuthService {
-  constructor(
-    protected store: Store<StateWithClientAuth>,
-    protected userIdService: UserIdService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected authStorageService: AsmAuthStorageService,
-    protected authRedirectService: AuthRedirectService,
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
-  ) {
-    super(
-      store,
-      userIdService,
-      oAuthLibWrapperService,
-      authStorageService,
-      authRedirectService,
-      routingService,
-      authMultisiteIsolationService
-    );
-  }
+  protected override authStorageService = inject(AsmAuthStorageService);
+  protected globalMessageService = inject(GlobalMessageService);
 
   /**
    * After being redirected back from the authorization server, processes the OAuth

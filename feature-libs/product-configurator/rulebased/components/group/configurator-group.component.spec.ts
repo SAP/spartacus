@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -88,8 +87,8 @@ let conflictGroup: Configurator.Group;
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorConflictDescriptionComponent {
-  @Input() ownerType: CommonConfigurator.OwnerType;
-  @Input() currentGroup: Configurator.Group;
+  readonly ownerType = input<CommonConfigurator.OwnerType>();
+  readonly currentGroup = input<Configurator.Group>();
 }
 
 @Component({
@@ -98,7 +97,7 @@ class MockConfiguratorConflictDescriptionComponent {
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 @Component({
@@ -107,7 +106,8 @@ class MockConfiguratorPriceComponent {
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockProductCardComponent {
-  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+  readonly productCardOptions =
+    input<ConfiguratorAttributeProductCardComponentOptions>();
 }
 
 @Component({
@@ -116,12 +116,12 @@ class MockProductCardComponent {
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorAttributeInputFieldComponent {
-  @Input() ownerType: CommonConfigurator.OwnerType;
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
+  readonly ownerType = input<CommonConfigurator.OwnerType>();
+  readonly attribute = input<Configurator.Attribute>();
+  readonly group = input<string>();
+  readonly ownerKey = input<string>();
 
-  @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
+  readonly inputChange = output<ConfigFormUpdateEvent>();
 }
 
 @Component({
@@ -130,13 +130,13 @@ class MockConfiguratorAttributeInputFieldComponent {
   imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorAttributeNumericInputFieldComponent {
-  @Input() ownerType: CommonConfigurator.OwnerType;
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
-  @Input() language: string;
+  readonly ownerType = input<CommonConfigurator.OwnerType>();
+  readonly attribute = input<Configurator.Attribute>();
+  readonly group = input<string>();
+  readonly ownerKey = input<string>();
+  readonly language = input<string>();
 
-  @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
+  readonly inputChange = output<ConfigFormUpdateEvent>();
 }
 
 let currentGroupObservable: Observable<string> = EMPTY;
@@ -364,7 +364,7 @@ describe('ConfiguratorGroupComponent', () => {
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
         },
       })
       .compileComponents();

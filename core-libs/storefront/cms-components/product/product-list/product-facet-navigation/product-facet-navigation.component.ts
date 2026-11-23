@@ -4,16 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
-import { asapScheduler, BehaviorSubject, interval, Observable, of } from 'rxjs';
-import { delayWhen, observeOn, switchMap } from 'rxjs/operators';
+import { asapScheduler, BehaviorSubject, Observable, of } from 'rxjs';
+import { delay, observeOn, switchMap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { IconComponent } from '../../../misc/icon/icon.component';
@@ -27,13 +28,14 @@ import { FacetListComponent } from './facet-list/facet-list.component';
   imports: [
     IconComponent,
     ActiveFacetsComponent,
-    NgIf,
     FacetListComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
 export class ProductFacetNavigationComponent {
+  protected breakpointService = inject(BreakpointService);
+
   iconTypes = ICON_TYPE;
 
   /**
@@ -49,7 +51,7 @@ export class ProductFacetNavigationComponent {
    *
    * The reference is also used to refocus the trigger after the dialog is closed.
    */
-  @ViewChild('trigger') trigger: ElementRef<HTMLElement>;
+  readonly trigger = viewChild<ElementRef<HTMLElement>>('trigger');
 
   protected open$ = new BehaviorSubject(false);
 
@@ -67,7 +69,10 @@ export class ProductFacetNavigationComponent {
     // method represents the actual UI state.
     observeOn(asapScheduler),
     switchMap(() => (this.hasTrigger ? this.open$ : of(true))),
-    delayWhen((launched) => interval(launched ? 0 : this.CLOSE_DELAY))
+    // Opening again must cancel an earlier close animation's delayed emission.
+    switchMap((launched) =>
+      of(launched).pipe(delay(launched ? 0 : this.CLOSE_DELAY))
+    )
   );
 
   /**
@@ -81,15 +86,13 @@ export class ProductFacetNavigationComponent {
     observeOn(asapScheduler)
   );
 
-  constructor(protected breakpointService: BreakpointService) {}
-
   launch() {
     this.open$.next(true);
   }
 
   close() {
     this.open$.next(false);
-    this.trigger.nativeElement.focus();
+    this.trigger()?.nativeElement.focus();
   }
 
   /**
@@ -98,6 +101,7 @@ export class ProductFacetNavigationComponent {
    * (display:none) for certain screen sizes.
    */
   get hasTrigger() {
-    return this.trigger.nativeElement.offsetParent !== null;
+    const trigger = this.trigger();
+    return !!trigger && trigger.nativeElement.offsetParent !== null;
   }
 }

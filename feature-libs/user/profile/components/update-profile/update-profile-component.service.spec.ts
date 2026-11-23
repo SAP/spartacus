@@ -19,10 +19,13 @@ const mockUser = {
 };
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  get = vi.fn('UserProfileFacade.get').mockReturnValue(of({}));
-  getTitles = vi.fn('UserProfileFacade.getTitles').mockReturnValue(EMPTY);
-  update = vi.fn('UserProfileFacade.update').mockReturnValue(of({}));
-  close = vi.fn('UserProfileFacade.close').mockReturnValue(EMPTY);
+  get = vi.fn().mockName('UserProfileFacade.get').mockReturnValue(of({}));
+  getTitles = vi
+    .fn()
+    .mockName('UserProfileFacade.getTitles')
+    .mockReturnValue(EMPTY);
+  update = vi.fn().mockName('UserProfileFacade.update').mockReturnValue(of({}));
+  close = vi.fn().mockName('UserProfileFacade.close').mockReturnValue(EMPTY);
 }
 class MockGlobalMessageService {
   add = vi.fn().mockImplementation(() => {});

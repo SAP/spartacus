@@ -42,7 +42,8 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Setup node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
+        id: setup-node
+        uses: ./.github/actions/setup-node
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
@@ -53,8 +54,8 @@ jobs:
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+          key: nodemodules-node${{ env.NODE_VERSION }}-npm${{ steps.setup-node.outputs.npm-version }}-${{ github.event.pull_request.base.sha }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: nodemodules-node${{ env.NODE_VERSION }}-npm${{ steps.setup-node.outputs.npm-version }}-${{ github.event.pull_request.base.sha }}-
       - name: Cache Nx build artifacts
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:

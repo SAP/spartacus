@@ -4,15 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   ViewChild,
+  inject,
+  output,
+  input,
 } from '@angular/core';
 import {
   FormsModule,
@@ -46,9 +47,6 @@ import {
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
   imports: [
-    NgIf,
-    NgFor,
-    NgClass,
     AvatarComponent,
     IconComponent,
     FormsModule,
@@ -63,24 +61,33 @@ import {
   ],
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
+  protected windowRef = inject(WindowRef);
+  protected filesFormValidators = inject(FilesFormValidators);
+
   // can be undefined if you press add message button very fast on slow network
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the query. This prevents migration.
   @ViewChild(FileUploadComponent) fileUploadComponent?: FileUploadComponent;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
-  @Input() scrollToInput?: boolean = true;
+  readonly scrollToInput = input<boolean | undefined>(true);
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() messagingConfigs?: MessagingConfigs;
 
-  @Output() send = new EventEmitter<{
+  readonly send = output<{
     files: File | undefined;
     message: string;
     itemId?: string;
   }>();
 
-  @Output() itemClicked = new EventEmitter<{
+  readonly itemClicked = output<{
     item: MessageEventBoundItem;
   }>();
 
-  @Output() downloadAttachment = new EventEmitter<{
+  readonly downloadAttachment = output<{
     messageCode: string | undefined;
     attachmentId: string | undefined;
     fileName: string | undefined;
@@ -121,10 +128,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     return this.messagingConfigs?.attachmentRestrictions?.allowedTypes ?? [];
   }
 
-  constructor(
-    protected windowRef: WindowRef,
-    protected filesFormValidators: FilesFormValidators
-  ) {
+  constructor() {
     useFeatureStyles('a11yMessagingListKeyboardFocus');
   }
 
@@ -133,7 +137,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    if (this.scrollToInput) {
+    if (this.scrollToInput()) {
       this.observeScroll();
       if (this.scrollOnceOnLoad) {
         this.scrollOnLoad();

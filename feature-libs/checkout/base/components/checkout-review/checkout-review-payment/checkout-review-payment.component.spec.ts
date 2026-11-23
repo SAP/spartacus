@@ -1,9 +1,9 @@
 import {
   Component,
   Directive,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -94,8 +94,7 @@ class MockCheckoutStepService {
   imports: [I18nTestingModule, IconTestingModule],
 })
 class MockCardComponent {
-  @Input()
-  content: Card;
+  readonly content = input<Card>();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -105,7 +104,7 @@ class MockUrlPipe implements PipeTransform {
 
 @Directive({ selector: '[cxFocus]' })
 class MockFocusDirective {
-  @Input() cxFocus: FocusConfig | undefined;
+  readonly cxFocus = input<FocusConfig>();
 }
 
 describe('CheckoutReviewPaymentComponent', () => {
@@ -261,7 +260,7 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
         fixture.debugElement.query(By.css('.cx-review-summary-edit-step'))
       ).toBeTruthy();
       const directive = summary.injector.get(MockFocusDirective);
-      expect(directive.cxFocus).toEqual(
+      expect(directive.cxFocus()).toEqual(
         expect.objectContaining({ autofocus: true })
       );
     });

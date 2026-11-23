@@ -32,9 +32,10 @@ export class OccCartAccessCodeAdapter implements CartAccessCodeAdapter {
     cartId: string
   ): Observable<string | undefined> {
     return this.http
-      .post<
-        string | undefined
-      >(this.getCartAccessCodeEndpoint(userId, cartId), null)
+      .post<string | undefined>(
+        this.getCartAccessCodeEndpoint(userId, cartId),
+        null
+      )
       .pipe(
         catchError((error) => {
           throw tryNormalizeHttpError(error, this.logger);

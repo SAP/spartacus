@@ -26,9 +26,7 @@ class MockSpinnerComponent {}
 class MockGlobalMessageService {
   add = vi.fn();
 }
-class MockCheckoutPaymentTypeService
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
   getPaymentTypes = vi.fn().mockReturnValue(of(mockPaymentTypes));
   setPaymentType = vi.fn().mockReturnValue(of('setPaymentType'));
   getSelectedPaymentTypeState = vi
@@ -39,9 +37,7 @@ class MockCheckoutPaymentTypeService
     .mockReturnValue(of({ loading: false, error: false, data: 'test-po' }));
 }
 
-class MockCheckoutOnePaymentTypeService
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutOnePaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
   getPaymentTypes = vi.fn().mockReturnValue(of(mockDisableOnePaymentTypes));
   setPaymentType = vi.fn().mockReturnValue(of(undefined));
   getSelectedPaymentTypeState = vi
@@ -234,7 +230,7 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   it('should set po number to cart if the cart po number does not match when calling next()', () => {
     component.typeSelected = 'test-code';
-    component['poNumberInputElement'].nativeElement.value = 'test-po';
+    component['poNumberInputElement']().nativeElement.value = 'test-po';
     component.cartPoNumber$ = of('test-cart-po');
 
     component.next();
@@ -248,7 +244,7 @@ describe('CheckoutPaymentTypeComponent', () => {
   it('should NOT set po number to cart if the cart po number does match when calling next()', () => {
     component.typeSelected = 'test-code';
     const mockPoNumber = 'test-po';
-    component['poNumberInputElement'].nativeElement.value = mockPoNumber;
+    component['poNumberInputElement']().nativeElement.value = mockPoNumber;
     component.cartPoNumber$ = of(mockPoNumber);
 
     fixture.detectChanges();

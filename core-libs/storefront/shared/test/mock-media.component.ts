@@ -4,23 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'cx-media',
   template: `@if (src) {
-    <img [src]="src" [attr.alt]="alt" />
+    <img [src]="src" [attr.alt]="alt()" />
   }`,
 })
 export class MockMediaComponent {
-  @Input() container: unknown;
-  @Input() format: unknown;
-  @Input() alt: unknown;
+  readonly container = input<unknown>();
+  readonly format = input<unknown>();
+  readonly alt = input<unknown>();
 
   get src(): string | undefined {
-    const container = this.container as
-      | { product?: { url?: string }; url?: string }
-      | undefined;
+    const container = this.container() as
+      { product?: { url?: string }; url?: string } | undefined;
     return container?.product?.url ?? container?.url;
   }
 }

@@ -3,10 +3,10 @@ import {
   Component,
   Directive,
   Injector,
-  Input,
   Pipe,
   PipeTransform,
   SimpleChange,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -43,9 +43,9 @@ import { ProductGridItemComponent } from './product-grid-item.component';
   imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockStarRatingComponent {
-  @Input() rating;
-  @Input() disabled;
-  @Input() steps;
+  readonly rating = input(undefined);
+  readonly disabled = input(undefined);
+  readonly steps = input(undefined);
 }
 
 @Component({
@@ -54,9 +54,9 @@ class MockStarRatingComponent {
   imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockMediaComponent {
-  @Input() container;
-  @Input() alt;
-  @Input() fetchPriority: ImageFetchPriority | null | undefined;
+  readonly container = input(undefined);
+  readonly alt = input(undefined);
+  readonly fetchPriority = input<ImageFetchPriority | null>();
 }
 
 @Component({
@@ -65,7 +65,7 @@ class MockMediaComponent {
   imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockCxIconComponent {
-  @Input() type;
+  readonly type = input(undefined);
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -201,7 +201,7 @@ describe('ProductGridItemComponent in product-list', () => {
         const mediaComponents = fixture.debugElement.queryAll(
           By.directive(MockMediaComponent)
         );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+        expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
           ImageFetchPriority.HIGH
         );
       });
@@ -212,7 +212,7 @@ describe('ProductGridItemComponent in product-list', () => {
         const mediaComponents = fixture.debugElement.queryAll(
           By.directive(MockMediaComponent)
         );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+        expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
           undefined
         );
       });
@@ -228,7 +228,7 @@ describe('ProductGridItemComponent in product-list', () => {
         const mediaComponents = fixture.debugElement.queryAll(
           By.directive(MockMediaComponent)
         );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+        expect(mediaComponents[0].componentInstance.fetchPriority()).toBe(
           undefined
         );
       });

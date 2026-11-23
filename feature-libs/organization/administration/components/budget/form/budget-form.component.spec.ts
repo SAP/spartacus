@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -80,10 +80,10 @@ class MockItemService {
   ],
 })
 class MockDatePickerComponent {
-  @Input() control: UntypedFormControl;
-  @Input() min: UntypedFormControl;
-  @Input() max: UntypedFormControl;
-  @Input() required?: boolean;
+  readonly control = input<UntypedFormControl>();
+  readonly min = input<UntypedFormControl>();
+  readonly max = input<UntypedFormControl>();
+  readonly required = input<boolean>();
 }
 
 describe('BudgetFormComponent', () => {

@@ -66,9 +66,7 @@ class MockEventService implements Partial<EventService> {
   dispatch = vi.fn();
 }
 
-class MockCheckoutServiceDetailsConnector
-  implements Partial<CheckoutServiceDetailsConnector>
-{
+class MockCheckoutServiceDetailsConnector implements Partial<CheckoutServiceDetailsConnector> {
   setServiceScheduleSlot = vi.fn().mockReturnValue(of('service-details'));
 }
 

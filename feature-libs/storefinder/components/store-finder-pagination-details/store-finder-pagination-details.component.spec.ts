@@ -22,7 +22,8 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderPaginationDetailsComponent);
     component = fixture.componentInstance;
-    component.pagination = { ...mockPagination };
+    // Use setInput so the OnPush component (v22 default) is marked for check.
+    fixture.componentRef.setInput('pagination', { ...mockPagination });
   });
 
   it('should create', () => {
@@ -36,12 +37,16 @@ describe('StoreFinderPaginationDetailsComponent', () => {
       By.css('.cx-pagination-details')
     ).nativeElement;
     expect(detailsElement.textContent?.trim()).toContain(
-      `1 - ${component.pagination.pageSize} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+      `1 - ${component.pagination().pageSize} storeFinder.fromStoresFound count:${component.pagination().totalResults}`
     );
   });
 
   it('should display last page', () => {
-    component.pagination.currentPage = 2;
+    fixture.componentRef.setInput('pagination', {
+      ...mockPagination,
+      currentPage: 2,
+    });
+    fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
 
     const detailsElement = fixture.debugElement.query(
@@ -49,12 +54,16 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.textContent?.trim()).toContain(
-      `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+      `1 - ${component.pagination().totalResults} storeFinder.fromStoresFound count:${component.pagination().totalResults}`
     );
   });
 
   it('should display proper pagination results info when there is only one page', () => {
-    component.pagination.totalResults = 15;
+    fixture.componentRef.setInput('pagination', {
+      ...mockPagination,
+      totalResults: 15,
+    });
+    fixture.changeDetectorRef.markForCheck();
 
     fixture.detectChanges();
 
@@ -63,7 +72,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.textContent?.trim()).toContain(
-      `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+      `1 - ${component.pagination().totalResults} storeFinder.fromStoresFound count:${component.pagination().totalResults}`
     );
   });
 });

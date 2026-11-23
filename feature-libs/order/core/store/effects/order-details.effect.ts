@@ -30,6 +30,12 @@ import { StateWithOrder } from '../order-state';
 
 @Injectable()
 export class OrderDetailsEffect {
+  private actions$ = inject(Actions);
+  private orderConnector = inject(OrderHistoryConnector);
+  private globalMessageService = inject(GlobalMessageService);
+  private userIdService = inject(UserIdService);
+  private store = inject<Store<StateWithOrder>>(Store);
+
   protected logger = inject(LoggerService);
 
   loadOrderDetails$: Observable<OrderActions.OrderDetailsAction> = createEffect(
@@ -118,12 +124,4 @@ export class OrderDetailsEffect {
       })
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private orderConnector: OrderHistoryConnector,
-    private globalMessageService: GlobalMessageService,
-    private userIdService: UserIdService,
-    private store: Store<StateWithOrder>
-  ) {}
 }

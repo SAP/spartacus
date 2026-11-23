@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
@@ -21,7 +21,7 @@ const coupon2: Voucher = { code: 'coupon2', voucherCode: 'coupon2' };
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({

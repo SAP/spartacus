@@ -4,23 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ElementRef, Injectable, QueryList } from '@angular/core';
+import { ElementRef, Injectable, QueryList, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
+
+type GroupElements =
+  QueryList<ElementRef<HTMLElement>> | readonly ElementRef<HTMLElement>[];
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupMenuService {
-  constructor(protected windowRef: WindowRef) {}
+  protected windowRef = inject(WindowRef);
 
   /**
    * Retrieves the focused group index.
    *
-   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
+   * @param {GroupElements} groups - List of the groups
    * @returns {number | undefined} - focused group index
    * @protected
    */
-  protected getFocusedGroupIndex(
-    groups: QueryList<ElementRef<HTMLElement>>
-  ): number | undefined {
+  protected getFocusedGroupIndex(groups: GroupElements): number | undefined {
     if (groups) {
       const group = groups.find(
         (groupHTMLEl) =>
@@ -28,7 +29,7 @@ export class ConfiguratorGroupMenuService {
           this.windowRef?.document?.activeElement?.id
       );
       if (group) {
-        return groups.toArray().indexOf(group);
+        return Array.from(groups).indexOf(group);
       }
     }
     return undefined;
@@ -59,12 +60,12 @@ export class ConfiguratorGroupMenuService {
    * Focuses the next group.
    *
    * @param {number} currentGroupIndex - Current group index
-   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
+   * @param {GroupElements} groups - List of the groups
    * @protected
    */
   protected focusNextGroup(
     currentGroupIndex: number,
-    groups: QueryList<ElementRef<HTMLElement>>
+    groups: GroupElements
   ): void {
     const focusedGroupIndex = this.getFocusedGroupIndex(groups);
     currentGroupIndex = this.updateCurrentGroupIndex(
@@ -74,9 +75,9 @@ export class ConfiguratorGroupMenuService {
 
     if (groups) {
       if (currentGroupIndex === groups.length - 1) {
-        groups.first?.nativeElement?.focus();
+        Array.from(groups)[0]?.nativeElement?.focus();
       } else {
-        groups.toArray()[currentGroupIndex + 1]?.nativeElement.focus();
+        Array.from(groups)[currentGroupIndex + 1]?.nativeElement.focus();
       }
     }
   }
@@ -85,12 +86,12 @@ export class ConfiguratorGroupMenuService {
    * Focuses the previous group.
    *
    * @param {number} currentGroupIndex - Current group index
-   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
+   * @param {GroupElements} groups - List of the groups
    * @protected
    */
   protected focusPreviousGroup(
     currentGroupIndex: number,
-    groups: QueryList<ElementRef<HTMLElement>>
+    groups: GroupElements
   ): void {
     const focusedGroupIndex = this.getFocusedGroupIndex(groups);
     currentGroupIndex = this.updateCurrentGroupIndex(
@@ -100,9 +101,9 @@ export class ConfiguratorGroupMenuService {
 
     if (groups) {
       if (currentGroupIndex === 0) {
-        groups.last?.nativeElement?.focus();
+        Array.from(groups)[groups.length - 1]?.nativeElement?.focus();
       } else {
-        groups.toArray()[currentGroupIndex - 1]?.nativeElement?.focus();
+        Array.from(groups)[currentGroupIndex - 1]?.nativeElement?.focus();
       }
     }
   }
@@ -112,12 +113,12 @@ export class ConfiguratorGroupMenuService {
    *
    * @param {KeyboardEvent} event - keyboard event
    * @param {number} groupIndex - Group index
-   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
+   * @param {GroupElements} groups - List of the groups
    */
   switchGroupOnArrowPress(
     event: KeyboardEvent,
     groupIndex: number,
-    groups: QueryList<ElementRef<HTMLElement>>
+    groups: GroupElements
   ): void {
     event.preventDefault();
     if (event.code === 'ArrowUp') {
@@ -130,18 +131,17 @@ export class ConfiguratorGroupMenuService {
   /**
    * Verifies whether the first group in the group list is `Back` button.
    *
-   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
+   * @param {GroupElements} groups - List of the groups
    * @returns {boolean} - returns `true` if the first group in the group list is `Back` button, otherwise `false`
    */
-  isBackBtnFocused(
-    groups: QueryList<ElementRef<HTMLElement>>
-  ): boolean | undefined {
+  isBackBtnFocused(groups: GroupElements): boolean | undefined {
     if (groups) {
       return (
-        groups.first?.nativeElement?.classList?.value?.indexOf(
+        Array.from(groups)[0]?.nativeElement?.classList?.value?.indexOf(
           'cx-menu-back'
         ) !== -1 &&
-        this.windowRef?.document?.activeElement === groups.first?.nativeElement
+        this.windowRef?.document?.activeElement ===
+          Array.from(groups)[0]?.nativeElement
       );
     }
     return undefined;
@@ -150,12 +150,10 @@ export class ConfiguratorGroupMenuService {
   /**
    * Verifies whether the active group is part of the group list.
    *
-   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
+   * @param {GroupElements} groups - List of the groups
    * @returns {boolean} - returns `true` if the active group is in the group list, otherwise `false`
    */
-  isActiveGroupInGroupList(
-    groups: QueryList<ElementRef<HTMLElement>>
-  ): boolean {
+  isActiveGroupInGroupList(groups: GroupElements): boolean {
     let activeGroup;
     if (groups) {
       activeGroup = groups.find(

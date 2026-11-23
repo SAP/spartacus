@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import { FeatureModulesService, TranslatePipe, User } from '@spartacus/core';
@@ -24,26 +25,25 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  imports: [NgIf, AsmBindCartComponent, AsyncPipe, TranslatePipe],
+  imports: [AsmBindCartComponent, AsyncPipe, TranslatePipe],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
+  protected asmComponentService = inject(AsmComponentService);
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected launchDialogService? = inject(LaunchDialogService);
+  protected featureModules? = inject(FeatureModulesService);
+
   customer: User;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
 
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
 
-  @ViewChild('asmCustomer360Launcher')
-  asmCustomer360LauncherElement: ElementRef;
+  readonly asmCustomer360LauncherElement = viewChild<ElementRef>(
+    'asmCustomer360Launcher'
+  );
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected asmComponentService: AsmComponentService,
-    protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService?: LaunchDialogService,
-    protected featureModules?: FeatureModulesService
-  ) {}
 
   ngOnInit() {
     this.isAsmCustomer360Configured =
@@ -78,7 +78,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
           const data = { customer: this.customer };
           this.launchDialogService?.openDialogAndSubscribe(
             LAUNCH_CALLER.ASM_CUSTOMER_360,
-            this.asmCustomer360LauncherElement,
+            this.asmCustomer360LauncherElement(),
             data
           );
 

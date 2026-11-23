@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -112,18 +106,17 @@ class ActivatedRouteMock {
   template: '',
 })
 class MockTableComponent {
-  @Input() data;
-  @Input() structure;
-  @Input() currentItem;
-  @Input() i18nRoot;
-  @Output() launch = new EventEmitter();
-  @Input() showHint = true;
+  readonly data = input(undefined);
+  readonly structure = input(undefined);
+  readonly currentItem = input(undefined);
+  readonly i18nRoot = input(undefined);
+  readonly launch = output();
+  readonly showHint = input(true);
 }
 
 @Component({
   templateUrl: './list.component.html',
   imports: [
-    CommonModule,
     I18nTestingModule,
     UrlTestingModule,
     SplitViewTestingModule,
@@ -132,6 +125,7 @@ class MockTableComponent {
     NgSelectModule,
     FormsModule,
     KeyboardFocusTestingModule,
+    CommonModule,
     PopoverModule,
   ],
 })
@@ -218,7 +212,7 @@ describe('ListComponent', () => {
 
     it('should resolve get property', () => {
       expect(service.key).toHaveBeenCalled();
-      expect(component.key).toEqual('code');
+      expect(component.key()).toEqual('code');
     });
 
     it('should return list count', () => {

@@ -25,16 +25,12 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OccScheduledReplenishmentOrderAdapter
-  implements ScheduledReplenishmentOrderAdapter
-{
-  protected logger = inject(LoggerService);
+export class OccScheduledReplenishmentOrderAdapter implements ScheduledReplenishmentOrderAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   scheduleReplenishmentOrder(
     cartId: string,

@@ -60,9 +60,7 @@ class MockOrderHistoryService implements Partial<OrderHistoryService> {
   clearOrderList = vi.fn();
   getOrderHistoryList = vi.fn();
 }
-class MockOrderReturnRequestService
-  implements Partial<OrderReturnRequestService>
-{
+class MockOrderReturnRequestService implements Partial<OrderReturnRequestService> {
   getOrderReturnRequestList = vi.fn();
 }
 

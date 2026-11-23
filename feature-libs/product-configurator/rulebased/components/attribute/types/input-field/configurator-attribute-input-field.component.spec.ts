@@ -74,7 +74,7 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

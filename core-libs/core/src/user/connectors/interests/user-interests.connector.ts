@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UserInterestsAdapter } from './user-interests.adapter';
 import { Observable } from 'rxjs';
 import {
@@ -17,7 +17,8 @@ import {
   providedIn: 'root',
 })
 export class UserInterestsConnector {
-  constructor(protected adapter: UserInterestsAdapter) {}
+  protected adapter = inject(UserInterestsAdapter);
+
   getInterests(
     userId: string,
     pageSize?: number,

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
@@ -48,5 +48,5 @@ describe('StoreAddressComponent', () => {
   template: '',
 })
 export class StoreAddressStubComponent {
-  @Input() storeDetails: PointOfService;
+  readonly storeDetails = input<PointOfService>();
 }

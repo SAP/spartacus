@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ProcessSelectors,
@@ -24,16 +24,13 @@ import { map, take, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
 import { OrderSelectors } from '../store/selectors/index';
-import { Params } from '@angular/router';
 
 @Injectable()
 export class OrderHistoryService implements OrderHistoryFacade {
-  constructor(
-    protected store: Store<StateWithOrder>,
-    protected processStateStore: Store<StateWithProcess<void>>,
-    protected userIdService: UserIdService,
-    protected routingService: RoutingService
-  ) {}
+  protected store = inject<Store<StateWithOrder>>(Store);
+  protected processStateStore = inject<Store<StateWithProcess<void>>>(Store);
+  protected userIdService = inject(UserIdService);
+  protected routingService = inject(RoutingService);
 
   /**
    * Returns an order's detail
@@ -215,12 +212,5 @@ export class OrderHistoryService implements OrderHistoryFacade {
    */
   getOrderDetailsLoading(): Observable<boolean> {
     return this.store.pipe(select(OrderSelectors.getOrderDetailsLoading));
-  }
-
-  /**
-   * @deprecated: Method doesn't pass facade method's requirements (returns void or Observable)
-   */
-  getQueryParams(_order: Order): Params | null {
-    return null;
   }
 }

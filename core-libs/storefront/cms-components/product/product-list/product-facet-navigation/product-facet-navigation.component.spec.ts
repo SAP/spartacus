@@ -1,10 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -21,22 +15,22 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation.comp
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 @Component({
   selector: 'cx-active-facets',
   template: '',
 })
 class MockActiveFacetsComponent {
-  @Input() facetList;
+  readonly facetList = input(undefined);
 }
 @Component({
   selector: 'cx-facet-list',
   template: '',
 })
 class MockFacetListComponent {
-  @Input() isDialog;
-  @Output() closeDialog = new EventEmitter();
+  readonly isDialog = input(undefined);
+  readonly closeDialog = output();
 }
 
 class MockBreakpointService {
@@ -139,6 +133,43 @@ describe('ProductFacetNavigationComponent', () => {
       facetList.dispatchEvent(new Event('closeList'));
 
       expect(component.close).toHaveBeenCalled();
+    });
+
+    it('should keep the dialog open when launched before the initial close delay expires', async () => {
+      fixture.detectChanges();
+      await vi.advanceTimersByTimeAsync(0);
+
+      component.launch();
+      await vi.advanceTimersByTimeAsync(0);
+      fixture.detectChanges();
+      expect(element.query(By.css('cx-facet-list'))).not.toBeNull();
+
+      await vi.advanceTimersByTimeAsync(300);
+      fixture.detectChanges();
+      expect(element.query(By.css('cx-facet-list'))).not.toBeNull();
+    });
+
+    it('should cancel a pending close when the dialog is reopened', async () => {
+      fixture.detectChanges();
+      await vi.advanceTimersByTimeAsync(300);
+      component.launch();
+      await vi.advanceTimersByTimeAsync(0);
+      fixture.detectChanges();
+
+      component.close();
+      await vi.advanceTimersByTimeAsync(100);
+      fixture.detectChanges();
+      expect(element.query(By.css('cx-facet-list'))).not.toBeNull();
+
+      component.launch();
+      await vi.advanceTimersByTimeAsync(300);
+      fixture.detectChanges();
+      expect(element.query(By.css('cx-facet-list'))).not.toBeNull();
+
+      component.close();
+      await vi.advanceTimersByTimeAsync(300);
+      fixture.detectChanges();
+      expect(element.query(By.css('cx-facet-list'))).toBeNull();
     });
   });
 

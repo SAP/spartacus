@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+  input,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -18,12 +24,12 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
   imports: [RouterLink, TranslatePipe, UrlPipe],
 })
 export class ConfiguratorTextfieldAddToCartButtonComponent {
-  @Input() configuration: ConfiguratorTextfield.Configuration;
-  @Input() productCode: string;
+  protected configuratorTextfieldService = inject(ConfiguratorTextfieldService);
 
-  constructor(
-    protected configuratorTextfieldService: ConfiguratorTextfieldService
-  ) {}
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
+  @Input() configuration: ConfiguratorTextfield.Configuration;
+  readonly productCode = input<string>();
 
   /**
    * Adds the textfield configuration to the cart or updates it

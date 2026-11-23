@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,8 +11,9 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewContainerRef,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -29,9 +29,13 @@ import { take } from 'rxjs/operators';
   selector: 'cx-consignment-tracking',
   templateUrl: './consignment-tracking.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   consignmentStatus: string[] = [
     'SHIPPED',
     'IN_TRANSIT',
@@ -39,19 +43,17 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
     'DELIVERY_REJECTED',
     'DELIVERING',
   ];
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   consignment: Consignment;
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   orderCode: string;
   consignmentTracking$: Observable<ConsignmentTracking>;
-
-  constructor(
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   ngOnInit() {
     this.consignmentTracking$ =
@@ -72,7 +74,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
 
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CONSIGNMENT_TRACKING,
-      this.element,
+      this.element(),
       this.vcr,
       modalInstanceData
     );

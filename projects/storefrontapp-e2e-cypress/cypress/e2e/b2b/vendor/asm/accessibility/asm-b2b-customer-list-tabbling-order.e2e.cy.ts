@@ -14,11 +14,11 @@ context('Tabbing order for ASM B2b Customer List', () => {
   const b2bAgent2 = getB2BAgent2();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
   after(() => {
-    Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
+    Cypress.expose('BASE_SITE', ELECTRONICS_BASESITE);
   });
 
   describe('ASM', () => {

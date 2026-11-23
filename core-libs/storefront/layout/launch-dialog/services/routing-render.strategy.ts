@@ -5,20 +5,17 @@
  */
 
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, RendererFactory2 } from '@angular/core';
+import { Injectable, RendererFactory2, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchRoute } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingRenderStrategy extends LaunchRenderStrategy {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected routingService: RoutingService
-  ) {
-    super(document, rendererFactory);
-  }
+  protected override document = inject(DOCUMENT);
+  protected override rendererFactory = inject(RendererFactory2);
+  protected routingService = inject(RoutingService);
+
   /**
    * Navigates to the route configured for the caller
    */

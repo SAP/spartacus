@@ -24,9 +24,7 @@ import {
 const mockUserId = 'test-user-id';
 const mockCartId = 'test-cart-id';
 
-class MockCheckoutDeliveryAddressFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+class MockCheckoutDeliveryAddressFacade implements Partial<CheckoutDeliveryAddressFacade> {
   clearCheckoutDeliveryAddress = vi.fn().mockReturnValue(EMPTY);
 }
 

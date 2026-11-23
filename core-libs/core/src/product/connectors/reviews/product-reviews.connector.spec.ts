@@ -1,3 +1,5 @@
+import { ProductReviewsAdapter } from './product-reviews.adapter';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductReviewsConnector } from './product-reviews.connector';
 
@@ -13,7 +15,13 @@ describe('ProductReviewsConnector', () => {
       load: vi.fn().mockImplementation((code) => of('product' + code)),
       post: vi.fn().mockReturnValue(of('')),
     };
-    service = new ProductReviewsConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        ProductReviewsConnector,
+        { provide: ProductReviewsAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(ProductReviewsConnector);
   });
 
   it('should be created', () => {

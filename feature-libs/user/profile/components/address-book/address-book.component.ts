@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   Address,
@@ -38,8 +38,6 @@ import { AddressFormComponent } from './address-form/address-form.component';
   selector: 'cx-address-book',
   templateUrl: './address-book.component.html',
   imports: [
-    NgIf,
-    NgFor,
     CardComponent,
     AddressFormComponent,
     SpinnerComponent,
@@ -48,6 +46,10 @@ import { AddressFormComponent } from './address-form/address-form.component';
   ],
 })
 export class AddressBookComponent implements OnInit, OnDestroy {
+  service = inject(AddressBookComponentService);
+  protected translation = inject(TranslationService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   addresses$: Observable<Address[]>;
   cards$: Observable<Card[]>;
   addressesStateLoading$: Observable<boolean>;
@@ -62,12 +64,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   protected languageService = inject(LanguageService);
   private featureToggles = inject(FeatureToggles);
   protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
-
-  constructor(
-    public service: AddressBookComponentService,
-    protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit(): void {
     this.addresses$ = this.service.getAddresses();

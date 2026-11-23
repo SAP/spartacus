@@ -31,7 +31,7 @@ export function createReplenishmentDetailsRequestRoute(
 ) {
   cy.intercept({
     method: requestMethod,
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    path: `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose(
       'BASE_SITE'
     )}/users/*/replenishmentOrders/${replenishmentOrderCode}*`,
   }).as(alias);

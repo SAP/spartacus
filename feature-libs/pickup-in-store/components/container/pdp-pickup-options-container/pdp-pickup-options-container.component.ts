@@ -5,17 +5,18 @@
  */
 
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
+  inject,
   OnDestroy,
   OnInit,
-  Output,
   ViewContainerRef,
+  output,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AugmentedPointOfService,
   getProperty,
@@ -56,12 +57,20 @@ function isProductWithCode(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'pdp-pickup-options-container.component.html',
-  imports: [PickupOptionsComponent, AsyncPipe, NgIf],
+  imports: [PickupOptionsComponent, AsyncPipe],
 })
 export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
-  @Output() intendedPickupChange = new EventEmitter<
-    AugmentedPointOfService | undefined
-  >();
+  protected currentProductService = inject(CurrentProductService);
+  protected intendedPickupLocationService = inject(
+    IntendedPickupLocationFacade
+  );
+  protected launchDialogService = inject(LaunchDialogService);
+  protected pickupOptionFacade = inject(PickupOptionFacade);
+  protected preferredStoreFacade = inject(PreferredStoreFacade);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected vcr = inject(ViewContainerRef);
+
+  readonly intendedPickupChange = output<AugmentedPointOfService | undefined>();
   subscription = new Subscription();
 
   availableForPickup = false;
@@ -69,18 +78,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   pickupOption$: Observable<PickupOption>;
   intendedPickupLocation$: Observable<AugmentedPointOfService | undefined>;
   private productCode: string;
-
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreFacade: PreferredStoreFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected vcr: ViewContainerRef
-  ) {
-    // Intentional empty constructor
-  }
+  protected cd = inject(ChangeDetectorRef);
 
   ngOnInit() {
     this.pickupOptionFacade.setPageContext('PDP');
@@ -89,6 +87,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       map((product) => {
         this.productCode = product.code;
         this.availableForPickup = !!product.availableForPickup;
+        // OnPush (v22 default): availableForPickup/pickupOption$ are assigned
+        // from this async stream and read by the template, so mark for check.
+        this.cd.markForCheck();
         return this.productCode;
       }),
       tap(
@@ -125,7 +126,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.intendedPickupLocation$.subscribe(this.intendedPickupChange)
+      this.intendedPickupLocation$.subscribe((location) =>
+        this.intendedPickupChange.emit(location)
+      )
     );
 
     this.subscription.add(
@@ -172,7 +175,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     );
   }
 
-  openDialog(triggerElement: ElementRef): void {
+  openDialog(triggerElement: ElementRef | undefined): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.PICKUP_IN_STORE,
       triggerElement,
@@ -187,7 +190,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
 
   onPickupOptionChange(event: {
     option: PickupOption;
-    triggerElement: ElementRef;
+    triggerElement: ElementRef | undefined;
   }): void {
     this.intendedPickupLocationService.setPickupOption(
       this.productCode,

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
+import { Component, inject, viewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   EventService,
@@ -33,7 +33,7 @@ const ALL_PRODUCTS_ID = '';
 @Component({
   selector: 'cx-quote-comments',
   templateUrl: './quote-comments.component.html',
-  imports: [NgIf, IconComponent, MessagingComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, MessagingComponent, AsyncPipe, TranslatePipe],
 })
 export class QuoteCommentsComponent {
   protected quoteFacade = inject(QuoteFacade);
@@ -43,7 +43,7 @@ export class QuoteCommentsComponent {
   protected quoteUIConfig = inject(QuoteUIConfig);
   protected document = inject(DOCUMENT);
 
-  @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
+  readonly commentsComponent = viewChild(MessagingComponent);
 
   expandComments = true;
   iconTypes = ICON_TYPE;
@@ -65,7 +65,7 @@ export class QuoteCommentsComponent {
       .pipe(
         take(1),
         // do for error and success
-        finalize(() => this.commentsComponent.resetForm())
+        finalize(() => this.commentsComponent()?.resetForm())
       )
       .subscribe(
         // success

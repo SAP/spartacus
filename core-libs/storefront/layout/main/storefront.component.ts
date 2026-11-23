@@ -16,7 +16,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
@@ -65,6 +65,11 @@ import { StorefrontOutlets } from './storefront-outlets.model';
   ],
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
+  private hamburgerMenuService = inject(HamburgerMenuService);
+  private routingService = inject(RoutingService);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected keyboardFocusService = inject(KeyboardFocusService);
+
   navigateSubscription: Subscription;
   focusConfig: FocusConfig = { disableMouseFocus: true, trap: false };
   skipFocusConfig: SkipFocusConfig = {
@@ -89,7 +94,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   // required by esc focus
   @HostBinding('tabindex') tabindex = '-1';
 
-  @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
+  readonly child = viewChild(SkipLinkComponent);
 
   private keyboardFocusConfig: FocusConfig = {
     focusOnEscape: true,
@@ -109,12 +114,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   protected categoryPageFocusSelector = 'cx-breadcrumb nav a';
 
-  constructor(
-    private hamburgerMenuService: HamburgerMenuService,
-    private routingService: RoutingService,
-    protected elementRef: ElementRef<HTMLElement>,
-    protected keyboardFocusService: KeyboardFocusService
-  ) {
+  constructor() {
     useFeatureStyles('a11yPreventWindowsHighContrastOverride');
     useFeatureStyles('alignNavigationMenuWithHeader');
     useFeatureStyles('cdsBottomHeaderSlotAdjustPosition');

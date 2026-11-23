@@ -1,11 +1,11 @@
-import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Directive,
-  Input,
   Pipe,
   PipeTransform,
   TemplateRef,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -36,18 +36,18 @@ import { MerchandisingCarouselModel } from './model/index';
 @Component({
   selector: 'cx-carousel',
   template: `
-    <ng-container *ngFor="let item$ of items">
+    @for (item$ of items(); track item$) {
       <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async }"
+        *ngTemplateOutlet="template(); context: { item: item$ | async }"
       />
-    </ng-container>
+    }
   `,
-  imports: [NgTemplateOutlet, NgFor, AsyncPipe],
+  imports: [NgTemplateOutlet, AsyncPipe],
 })
 class MockCarouselComponent {
-  @Input() title: string;
-  @Input() template: TemplateRef<any>;
-  @Input() items: any[];
+  readonly title = input<string>();
+  readonly template = input<TemplateRef<any>>();
+  readonly items = input<any[]>();
 }
 
 /*
@@ -61,8 +61,10 @@ class MockCarouselComponent {
   inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
 })
 class MockAttributesDirective {
-  @Input() cxAttributes: { [attribute: string]: any };
-  @Input() cxAttributesNamePrefix: string;
+  readonly cxAttributes = input<{
+    [attribute: string]: any;
+  }>();
+  readonly cxAttributesNamePrefix = input<string>();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -75,8 +77,8 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: string;
+  readonly container = input<any>();
+  readonly format = input<string>();
 }
 
 const mockComponentData: CmsMerchandisingCarouselComponent = {

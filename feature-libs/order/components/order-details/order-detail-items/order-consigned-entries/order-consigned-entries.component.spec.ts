@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PromotionLocation } from '@spartacus/cart/base/root';
@@ -80,8 +80,8 @@ const mockOrder: Order = {
   imports: [CardModule, I18nTestingModule, OutletModule],
 })
 class MockConsignmentTrackingComponent {
-  @Input() consignment: Consignment;
-  @Input() orderCode: string;
+  readonly consignment = input<Consignment>();
+  readonly orderCode = input<string>();
 }
 
 describe('OrderConsignedEntriesComponent', () => {

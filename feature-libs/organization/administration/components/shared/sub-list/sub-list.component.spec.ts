@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Directive,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, Directive, output, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -54,7 +48,6 @@ const mockEmptyList: EntitiesModel<any> = {
   selector: 'cx-table',
   template: '',
   imports: [
-    CommonModule,
     CardTestingModule,
     MessageTestingModule,
     I18nTestingModule,
@@ -62,11 +55,11 @@ const mockEmptyList: EntitiesModel<any> = {
   ],
 })
 class MockTableComponent {
-  @Input() data;
-  @Input() structure;
-  @Input() currentItem;
-  @Input() i18nRoot;
-  @Output() launch = new EventEmitter();
+  readonly data = input(undefined);
+  readonly structure = input(undefined);
+  readonly currentItem = input(undefined);
+  readonly i18nRoot = input(undefined);
+  readonly launch = output();
 }
 
 class MockBaseListService {
@@ -111,7 +104,7 @@ class ActivatedRouteMock {
   selector: '[cxFocus]',
 })
 export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
+  readonly config = input<FocusConfig>({}, { alias: 'cxFocus' });
 }
 
 describe('SubListComponent', () => {

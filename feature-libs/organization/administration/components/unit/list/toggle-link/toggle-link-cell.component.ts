@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,9 +36,13 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, RouterLink, IconComponent, UrlPipe, TranslatePipe],
+  imports: [AsyncPipe, RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
+  protected override outlet =
+    inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+  protected unitTreeService = inject(UnitTreeService);
+
   @HostBinding('style.--cx-depth-level')
   get depthLevel() {
     return this.model.depthLevel;
@@ -51,13 +55,6 @@ export class ToggleLinkCellComponent extends CellComponent {
   protected readonly isLargeScreen$ = inject(BreakpointService).isUp(
     BREAKPOINT.lg
   );
-
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected unitTreeService: UnitTreeService
-  ) {
-    super(outlet);
-  }
 
   get combinedName() {
     return this.property ? `${this.property} (${this.count})` : '';
@@ -96,10 +93,10 @@ export class ToggleLinkCellComponent extends CellComponent {
   }
 
   protected get item(): B2BUnit | null {
-    if (!this.outlet.context) {
+    if (!this.model) {
       return null;
     }
-    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
+    const { _field, _options, _type, _i18nRoot, ...all } = this.model;
     return all as B2BUnit;
   }
 
@@ -144,7 +141,7 @@ export class ToggleLinkCellComponent extends CellComponent {
       ?.go({ cxRoute: this.route, params: this.routeModel })
       .then(() => {
         if (!this.featureService.a11yCardNotificationMessage) {
-          this.restoreFocus();
+          this.focusUnitLink();
         }
       });
   }
@@ -171,7 +168,7 @@ export class ToggleLinkCellComponent extends CellComponent {
     if (!this.expanded && this.isSwitchable) {
       this.toggleItem(event);
       if (!this.featureService.a11yCardNotificationMessage) {
-        this.restoreFocus();
+        this.focusUnitLink();
       }
     }
   }
@@ -180,16 +177,12 @@ export class ToggleLinkCellComponent extends CellComponent {
     if (this.expanded && this.isSwitchable) {
       this.toggleItem(event);
       if (!this.featureService.a11yCardNotificationMessage) {
-        this.restoreFocus();
+        this.focusUnitLink();
       }
     }
   }
 
-  /**
-   * To be removed when a11yCardNotificationMessage is enabled.
-   * @deprecated
-   */
-  restoreFocus(): void {
+  protected focusUnitLink(): void {
     const focusedElementId = document.activeElement?.id || '';
     this.unitTreeService.treeToggle$.pipe(take(1)).subscribe(() => {
       setTimeout(() => {

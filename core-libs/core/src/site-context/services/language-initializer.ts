@@ -18,14 +18,14 @@ import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageInitializer {
+  protected languageService = inject(LanguageService);
+  protected languageStatePersistenceService = inject(
+    LanguageStatePersistenceService
+  );
+  protected configInit = inject(ConfigInitializerService);
+
   siteContextRoutesHandler = inject(SiteContextRoutesHandler);
   federatedLoginService = inject(FederatedLoginService);
-
-  constructor(
-    protected languageService: LanguageService,
-    protected languageStatePersistenceService: LanguageStatePersistenceService,
-    protected configInit: ConfigInitializerService
-  ) {}
 
   /**
    * Initializes the value of the active language.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StateEventService } from '../../state/event/state-event.service';
 import { UserActions } from '../store/actions/index';
 import {
@@ -15,7 +15,9 @@ import {
 
 @Injectable()
 export class UserEventBuilder {
-  constructor(protected stateEventService: StateEventService) {
+  protected stateEventService = inject(StateEventService);
+
+  constructor() {
     this.register();
   }
 

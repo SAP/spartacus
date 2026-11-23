@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -31,8 +31,6 @@ import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-
   templateUrl: './opf-tokenisation-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     SlicePipe,
     CardComponent,
     IconComponent,

@@ -5,9 +5,7 @@ import { take } from 'rxjs/operators';
 import { CheckoutBillingAddressAdapter } from './checkout-billing-address.adapter';
 import { CheckoutBillingAddressConnector } from './checkout-billing-address.connector';
 
-class MockCheckoutBillingAddressAdapter
-  implements CheckoutBillingAddressAdapter
-{
+class MockCheckoutBillingAddressAdapter implements CheckoutBillingAddressAdapter {
   setBillingAddress = vi.fn().mockReturnValue(of({}));
 }
 

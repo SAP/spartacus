@@ -11,9 +11,10 @@ import { OrderApprovalDecision } from '../../core/model/order-approval.model';
 @Injectable({
   providedIn: 'root',
 })
-export class OccOrderApprovalDecisionNormalizer
-  implements Converter<Occ.OrderApprovalDecision, OrderApprovalDecision>
-{
+export class OccOrderApprovalDecisionNormalizer implements Converter<
+  Occ.OrderApprovalDecision,
+  OrderApprovalDecision
+> {
   constructor() {
     // Intentional empty constructor
   }

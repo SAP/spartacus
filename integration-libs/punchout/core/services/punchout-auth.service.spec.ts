@@ -56,9 +56,7 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   setRedirectUrl = jasmine.createSpy('setRedirectUrl');
 }
 
-class MockPunchoutDetectionService
-  implements Partial<PunchoutDetectionService>
-{
+class MockPunchoutDetectionService implements Partial<PunchoutDetectionService> {
   isPunchoutSessionPage(): boolean {
     return true;
   }

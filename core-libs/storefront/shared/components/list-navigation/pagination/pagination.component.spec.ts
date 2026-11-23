@@ -1,4 +1,4 @@
-import { DebugElement, Directive, Input } from '@angular/core';
+import { DebugElement, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -32,7 +32,7 @@ const mockActivatedRoute = {
   standalone: true,
 })
 export class MockFocusDirective {
-  @Input('cxFocus') config: FocusConfig;
+  readonly config = input<FocusConfig>(undefined, { alias: 'cxFocus' });
 }
 
 describe('PaginationComponent', () => {

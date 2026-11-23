@@ -80,7 +80,7 @@ describe('OPF payment options', () => {
 
         cy.intercept(
           'POST',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/payments`
+          `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}/payments`
         ).as('payments');
 
         cy.get('.cx-payment-options-list input[type="radio"]').first().check();
@@ -99,7 +99,7 @@ describe('OPF payment options', () => {
 
         cy.intercept(
           'POST',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/payments`
+          `${Cypress.expose('OCC_PREFIX')}/${Cypress.expose('BASE_SITE')}/payments`
         ).as('payments');
 
         cy.get('.cx-payment-options-list input[type="radio"]').first().check();

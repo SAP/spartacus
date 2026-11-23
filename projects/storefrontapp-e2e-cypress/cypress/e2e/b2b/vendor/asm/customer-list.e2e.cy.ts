@@ -23,11 +23,11 @@ context('Assisted Service Module', () => {
   const b2bAgent2 = getB2BAgent2();
   before(() => {
     clearAllStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    Cypress.expose('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
   after(() => {
-    Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
+    Cypress.expose('BASE_SITE', ELECTRONICS_BASESITE);
   });
   describe('ASM Customer list', () => {
     it('checking custom list features (CXSPA-1595)', () => {

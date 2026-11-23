@@ -59,7 +59,7 @@ describe('CloseAccountComponent', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.CLOSE_ACCOUNT,
-      component['element'],
+      component['element'](),
       component['vcr']
     );
   });

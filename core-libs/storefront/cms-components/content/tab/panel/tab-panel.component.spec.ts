@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import {
@@ -19,7 +19,7 @@ const mockTab: Tab | any = {
   imports: [KeyboardFocusTestingModule],
 })
 class MockComponent {
-  @ViewChild('templateRef') templateRef: TemplateRef<any>;
+  readonly templateRef = viewChild<TemplateRef<any>>('templateRef');
 }
 
 describe('TabPanelComponent', () => {
@@ -84,7 +84,7 @@ describe('TabPanelComponent', () => {
   it('should display template ref', () => {
     const mockFixture = TestBed.createComponent(MockComponent);
     mockFixture.detectChanges();
-    const templateRef = mockFixture.componentInstance.templateRef;
+    const templateRef = mockFixture.componentInstance.templateRef();
 
     fixture = TestBed.createComponent(TabPanelComponent);
     component = fixture.componentInstance;

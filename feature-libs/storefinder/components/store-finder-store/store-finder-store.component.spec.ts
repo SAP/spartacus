@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -26,7 +26,7 @@ class MockStoreFinderService implements Partial<StoreFinderService> {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Component({
@@ -34,8 +34,8 @@ class MockCxIconComponent {
   template: '',
 })
 class MockStoreFinderStoreDescriptionComponent {
-  @Input() location: PointOfService;
-  @Input() disableMap: boolean;
+  readonly location = input<PointOfService>();
+  readonly disableMap = input<boolean>();
 }
 
 const mockActivatedRoute = {

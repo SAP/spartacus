@@ -3,10 +3,10 @@ import {
   DebugElement,
   Directive,
   Injector,
-  Input,
   Pipe,
   PipeTransform,
   SimpleChange,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -47,8 +47,8 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-media',
 })
 class MockMediaComponent {
-  @Input() container;
-  @Input() format;
+  readonly container = input(undefined);
+  readonly format = input(undefined);
 }
 
 @Component({
@@ -56,10 +56,10 @@ class MockMediaComponent {
   selector: 'cx-item-counter',
 })
 class MockItemCounterComponent {
-  @Input() control;
-  @Input() readonly;
-  @Input() max;
-  @Input() allowZero;
+  readonly control = input(undefined);
+  readonly readonly = input(undefined);
+  readonly max = input(undefined);
+  readonly allowZero = input(undefined);
 }
 
 @Component({
@@ -67,7 +67,7 @@ class MockItemCounterComponent {
   selector: 'cx-promotions',
 })
 class MockPromotionsComponent {
-  @Input() promotions;
+  readonly promotions = input(undefined);
 }
 
 const mockProduct = {
@@ -97,12 +97,12 @@ const mockProduct = {
   template: '',
 })
 class MockCartItemValidationWarningComponent {
-  @Input() code: string;
+  readonly code = input<string>();
 }
 
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
+  readonly cxAtMessage = input<string | string[]>();
 }
 
 describe('CartItemComponent', () => {

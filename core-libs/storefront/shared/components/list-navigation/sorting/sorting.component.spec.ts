@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -9,7 +9,10 @@ import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/fe
 describe('SortingComponent', () => {
   @Directive({ selector: '[cxNgSelectA11y]' })
   class MockNgSelectA11yDirective {
-    @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
+    readonly cxNgSelectA11y = input<{
+      ariaLabel?: string;
+      ariaControls?: string;
+    }>();
   }
 
   const mockFeatureToggles: FeatureToggles = {

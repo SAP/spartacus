@@ -1,9 +1,9 @@
 import {
   Component,
   DebugElement,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -53,7 +53,7 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
     template: '',
   })
   class MockCxIconComponent {
-    @Input() type: ICON_TYPE;
+    readonly type = input<ICON_TYPE>();
   }
 
   @Component({
@@ -61,7 +61,7 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
     template: '',
   })
   class MockCxStarRatingnComponent {
-    @Input() rating: number;
+    readonly rating = input<number>();
   }
 
   let component: AsmCustomer360ProductReviewsComponent;

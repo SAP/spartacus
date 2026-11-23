@@ -57,7 +57,4 @@ export class ClearUserOrders extends StateUtils.LoaderResetAction {
 }
 
 export type UserOrdersAction =
-  | LoadUserOrders
-  | LoadUserOrdersFail
-  | LoadUserOrdersSuccess
-  | ClearUserOrders;
+  LoadUserOrders | LoadUserOrdersFail | LoadUserOrdersSuccess | ClearUserOrders;

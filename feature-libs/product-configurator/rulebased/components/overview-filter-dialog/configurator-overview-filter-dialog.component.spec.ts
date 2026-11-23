@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -49,8 +49,8 @@ function initializeMocks() {
   template: '',
 })
 class MockConfiguratorOverviewFilterComponent {
-  @Input() showFilterBar: boolean = true;
-  @Input() config: Configurator.ConfigurationWithOverview;
+  readonly showFilterBar = input<boolean>(true);
+  readonly config = input<Configurator.ConfigurationWithOverview>();
 }
 
 describe('ConfiguratorOverviewFilterDialogComponent', () => {

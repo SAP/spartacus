@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@spartacus/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
@@ -20,7 +21,10 @@ import {
   imports: [TranslatePipe],
 })
 export class TableHeaderCellComponent {
-  constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}
+  protected outlet =
+    inject<OutletContextData<TableHeaderOutletContext>>(OutletContextData);
+
+  protected readonly outletContext = toSignal(this.outlet.context$);
 
   /**
    * Returns the static label for the given field, if available.
@@ -42,6 +46,9 @@ export class TableHeaderCellComponent {
    * The localized header can be translated with the `cxTranslate` pipe or `TranslationService`.
    */
   get localizedHeader(): string {
+    if (!this.field) {
+      return '';
+    }
     return (
       (this.fieldOptions?.label as TableHeader)?.i18nKey ||
       `${this.i18nRoot}.${this.field}`
@@ -49,18 +56,18 @@ export class TableHeaderCellComponent {
   }
 
   protected get fieldOptions(): TableFieldOptions | undefined {
-    return this.outlet?.context._options?.cells?.[this.field];
+    return this.outletContext()?._options?.cells?.[this.field];
   }
 
   protected get field(): string {
-    return this.outlet?.context?._field;
+    return this.outletContext()?._field ?? '';
   }
 
   protected get type(): string {
-    return this.outlet?.context?._type;
+    return this.outletContext()?._type ?? '';
   }
 
   protected get i18nRoot(): string | undefined {
-    return this.outlet?.context?._i18nRoot;
+    return this.outletContext()?._i18nRoot;
   }
 }

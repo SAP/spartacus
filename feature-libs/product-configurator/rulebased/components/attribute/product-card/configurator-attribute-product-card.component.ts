@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   HostListener,
+  inject,
   Input,
   OnInit,
-  Output,
-  ViewChild,
+  output,
+  viewChild,
 } from '@angular/core';
 import {
   FeatureDirective,
@@ -35,7 +35,6 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, take, tap } from 'rxjs/operators';
-import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { ConfiguratorMessageComponent } from '../../message/configurator-message.component';
@@ -43,6 +42,7 @@ import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
 } from '../../price/configurator-price.component';
+import { ConfiguratorMessageGroup } from '../../service/configurator-message.service';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import {
   ConfiguratorAttributeQuantityComponent,
@@ -62,10 +62,9 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   multiSelect?: boolean;
   productBoundValue: Configurator.Value;
   /**
-   * Configurator attribute. Prefer this over the deprecated {@link attributeId},
-   * {@link attributeLabel}, and {@link attributeName} fields.
+   * Configurator attribute for labels, UI keys and focus management.
    */
-  attribute?: Configurator.Attribute;
+  attribute: Configurator.Attribute;
   singleDropdown?: boolean;
   withQuantity?: boolean;
   /**
@@ -75,24 +74,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
    */
   loading$?: Observable<boolean>;
   messages?: ConfiguratorMessageGroup[];
-  /**
-   * @deprecated since 221121.23 - Use `this.getAttributeCode(this.attribute)` instead which will be
-   * used in the components. This property remains for backward
-   * compatibility and will be removed in a future major version.
-   */
-  attributeId: number;
-  /**
-   * @deprecated since 221121.23 - Use `attribute.label` instead which will be
-   * used in the components. This property remains for backward
-   * compatibility and will be removed in a future major version.
-   */
-  attributeLabel?: string;
-  /**
-   * @deprecated since 221121.23 - Use `attribute.name` instead which will be
-   * used in the components. This property remains for backward
-   * compatibility and will be removed in a future major version.
-   */
-  attributeName: string;
+
   itemCount: number;
   itemIndex: number;
   containerRow?: Configurator.ContainerRow;
@@ -103,9 +85,6 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   templateUrl: './configurator-attribute-product-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
-    NgClass,
     MediaComponent,
     ConfiguratorShowMoreComponent,
     ConfiguratorAttributeQuantityComponent,
@@ -122,6 +101,10 @@ export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected productService = inject(ProductService);
+  protected keyBoardFocus = inject(KeyboardFocusService);
+  protected translation = inject(TranslationService);
+
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
   /**
@@ -137,23 +120,19 @@ export class ConfiguratorAttributeProductCardComponent
    */
   isActionsMenuOpen = false;
 
-  @ViewChild('actionsMenu')
-  actionsMenu?: ElementRef<HTMLElement>;
+  readonly actionsMenu = viewChild<ElementRef<HTMLElement>>('actionsMenu');
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
 
-  @Output() handleDeselect = new EventEmitter<string>();
-  @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
-  @Output() handleSelect = new EventEmitter<string>();
-  @Output() handleRowAction =
-    new EventEmitter<Configurator.ContainerRowAction>();
+  readonly handleDeselect = output<string>();
+  readonly handleQuantity = output<QuantityUpdateEvent>();
+  readonly handleSelect = output<string>();
+  readonly handleRowAction = output<Configurator.ContainerRowAction>();
 
-  constructor(
-    protected productService: ProductService,
-    protected keyBoardFocus: KeyboardFocusService,
-    protected translation: TranslationService
-  ) {
+  constructor() {
     super();
     useFeatureStyles('productConfiguratorCPQContainer');
   }
@@ -245,21 +224,14 @@ export class ConfiguratorAttributeProductCardComponent
    * Attribute label for a11y and show-more. Prefers {@link ConfiguratorAttributeProductCardComponentOptions.attribute}.
    */
   get productCardAttributeLabel(): string {
-    return (
-      this.productCardOptions.attribute?.label ??
-      this.productCardOptions.attributeLabel ??
-      ''
-    );
+    return this.productCardOptions.attribute?.label ?? '';
   }
 
   /**
    * Attribute name for UI keys and a11y. Prefers {@link ConfiguratorAttributeProductCardComponentOptions.attribute}.
    */
   get productCardAttributeName(): string {
-    return (
-      this.productCardOptions.attribute?.name ??
-      this.productCardOptions.attributeName
-    );
+    return this.productCardOptions.attribute?.name ?? '';
   }
 
   get focusConfig(): FocusConfig {
@@ -272,14 +244,10 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   /**
-   * Focus key segment derived from attribute code or deprecated {@link ConfiguratorAttributeProductCardComponentOptions.attributeId}.
+   * Focus key segment derived from the attribute code.
    */
   protected getProductCardAttributeFocusKey(): string {
-    const attribute = this.productCardOptions.attribute;
-    if (attribute?.attrCode) {
-      return this.getAttributeCode(attribute).toString();
-    }
-    return this.productCardOptions.attributeId.toString();
+    return this.getAttributeCode(this.productCardOptions.attribute).toString();
   }
 
   onHandleSelect(): void {
@@ -559,7 +527,7 @@ export class ConfiguratorAttributeProductCardComponent
     if (!(target instanceof Node)) {
       return false;
     }
-    return this.actionsMenu?.nativeElement.contains(target) ?? false;
+    return this.actionsMenu()?.nativeElement.contains(target) ?? false;
   }
 
   getAriaLabelSingleUnselected(product: Product): string {

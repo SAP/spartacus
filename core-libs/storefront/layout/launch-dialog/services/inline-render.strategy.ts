@@ -5,10 +5,8 @@
  */
 
 import {
-  ComponentFactoryResolver,
   ComponentRef,
   inject,
-  Inject,
   Injectable,
   isDevMode,
   RendererFactory2,
@@ -22,15 +20,10 @@ import { DOCUMENT } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRenderStrategy extends LaunchRenderStrategy {
-  protected logger = inject(LoggerService);
+  protected override document = inject(DOCUMENT);
+  protected override rendererFactory = inject(RendererFactory2);
 
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected componentFactoryResolver: ComponentFactoryResolver
-  ) {
-    super(document, rendererFactory);
-  }
+  protected logger = inject(LoggerService);
 
   /**
    * Renders the component from the configuration in the view container ref
@@ -46,11 +39,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
   ): Observable<ComponentRef<any>> | void {
     // Only render if a ViewContainerRef is provided
     if (vcr && this.shouldRender(caller, config)) {
-      const template = this.componentFactoryResolver.resolveComponentFactory(
-        config.component
-      );
-
-      const component = vcr.createComponent(template);
+      const component = vcr.createComponent(config.component);
 
       if (config?.dialogType) {
         this.applyClasses(component, config?.dialogType);

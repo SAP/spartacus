@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -57,10 +57,8 @@ interface PreferredStoreContent {
   templateUrl: 'my-preferred-store.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgClass,
     CardComponent,
     StoreAddressComponent,
-    NgIf,
     IconComponent,
     StoreScheduleComponent,
     AsyncPipe,
@@ -68,6 +66,12 @@ interface PreferredStoreContent {
   ],
 })
 export class MyPreferredStoreComponent implements OnInit {
+  private preferredStoreFacade = inject(PreferredStoreFacade);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected routingService = inject(RoutingService);
+  protected storeFinderService = inject(StoreFinderFacade);
+  protected cmsService = inject(CmsService);
+
   protected storeLocationService: StoreLocationService =
     inject(StoreLocationService);
   preferredStore$: Observable<PointOfService>;
@@ -87,16 +91,9 @@ export class MyPreferredStoreComponent implements OnInit {
 
   protected cdr = inject(ChangeDetectorRef, { optional: true });
 
-  constructor(
-    private preferredStoreFacade: PreferredStoreFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected routingService: RoutingService,
-    protected storeFinderService: StoreFinderFacade,
-    protected cmsService: CmsService
-  ) {
+  constructor() {
     useFeatureStyles('a11yHighContrastFix');
   }
-
   ngOnInit(): void {
     this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
       filter(

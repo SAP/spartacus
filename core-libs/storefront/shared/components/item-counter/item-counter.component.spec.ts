@@ -4,6 +4,7 @@ import {
   Input,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -25,11 +26,11 @@ let activeToggles: Record<string, boolean> = {};
 
 @Directive({ selector: '[cxFeature]' })
 class TestFeatureDirective {
-  constructor(
-    private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef
-  ) {}
+  private templateRef = inject<TemplateRef<any>>(TemplateRef);
+  private viewContainer = inject(ViewContainerRef);
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeature(feature: string) {
     const negated = feature.startsWith('!');
     const key = negated ? feature.slice(1) : feature;

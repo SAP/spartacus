@@ -13,8 +13,7 @@ import { BreadcrumbMeta } from '../../model/page.model';
  * Angular ActivatedRouteSnapshot extended with the custom configuration
  * of the page meta in the property `data.cxPageMeta`.
  */
-export interface ActivatedRouteSnapshotWithPageMeta
-  extends ActivatedRouteSnapshot {
+export interface ActivatedRouteSnapshotWithPageMeta extends ActivatedRouteSnapshot {
   routeConfig:
     | (Route & {
         data?: Data & {

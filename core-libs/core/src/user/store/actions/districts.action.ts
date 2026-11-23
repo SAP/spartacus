@@ -52,7 +52,4 @@ export class ClearDistricts implements Action {
 }
 
 export type DistrictsAction =
-  | LoadDistricts
-  | LoadDistrictsFail
-  | LoadDistrictsSuccess
-  | ClearDistricts;
+  LoadDistricts | LoadDistrictsFail | LoadDistrictsSuccess | ClearDistricts;

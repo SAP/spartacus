@@ -1,4 +1,4 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { Component, DebugElement, Directive, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -34,12 +34,12 @@ const mockCssClassForMessage: Record<string, boolean> = {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
+  readonly cxAtMessage = input<string | string[]>();
 }
 
 describe('MessageComponent', () => {
@@ -90,6 +90,24 @@ describe('MessageComponent', () => {
     fixture.detectChanges();
 
     expect(component.getCssClassesForMessage).toEqual(mockCssClassForMessage);
+  });
+
+  it('should replace status classes while retaining the base message class', () => {
+    fixture.componentRef.setInput(
+      'type',
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    fixture.detectChanges();
+    let classes = el.query(By.css('.cx-message')).nativeElement.classList;
+    expect(classes).toContain('cx-message-success');
+    expect(classes).not.toContain('cx-message-danger');
+
+    fixture.componentRef.setInput('type', GlobalMessageType.MSG_TYPE_ERROR);
+    fixture.detectChanges();
+    classes = el.query(By.css('.cx-message')).nativeElement.classList;
+    expect(classes).toContain('cx-message');
+    expect(classes).toContain('cx-message-danger');
+    expect(classes).not.toContain('cx-message-success');
   });
 
   it('should return proper icon type base on type from input', () => {
@@ -148,7 +166,7 @@ describe('MessageComponent', () => {
   it('should focus on messageContainer after a message with an accordion renders', () => {
     fixture.detectChanges();
     const focusSpy = vi.spyOn(
-      component.messageContainer.nativeElement,
+      component.messageContainer().nativeElement,
       'focus'
     );
     component.accordionText = 'Test';
@@ -161,7 +179,7 @@ describe('MessageComponent', () => {
   it('should focus on messageContainer after a message with a button renders', () => {
     fixture.detectChanges();
     const focusSpy = vi.spyOn(
-      component.messageContainer.nativeElement,
+      component.messageContainer().nativeElement,
       'focus'
     );
     component.actionButtonText = 'Test';

@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsBannerComponentMedia,
@@ -40,7 +40,7 @@ class MockMediaService {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: any;
+  readonly type = input<any>();
 }
 
 const mockCmsBannerComponentMedia: CmsBannerComponentMedia = {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
@@ -24,7 +24,7 @@ const ctaElementSelector = 'cx-opf-cta-element';
   template: '',
 })
 export class MockOpfCtaElementComponent {
-  @Input() ctaScriptHtml: string;
+  readonly ctaScriptHtml = input<string>();
 }
 
 @Component({

@@ -29,9 +29,7 @@ const mockCostCenters: CostCenter[] = [
   },
 ];
 
-class MockCheckoutCostCenterService
-  implements Partial<CheckoutCostCenterFacade>
-{
+class MockCheckoutCostCenterService implements Partial<CheckoutCostCenterFacade> {
   getCostCenterState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: mockCostCenters[0] })
   );
@@ -40,9 +38,7 @@ class MockCheckoutCostCenterService
 }
 
 const accountPayment$ = new BehaviorSubject<boolean>(false);
-class MockCheckoutPaymentTypeFacade
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+class MockCheckoutPaymentTypeFacade implements Partial<CheckoutPaymentTypeFacade> {
   isAccountPayment(): Observable<boolean> {
     return accountPayment$.asObservable();
   }

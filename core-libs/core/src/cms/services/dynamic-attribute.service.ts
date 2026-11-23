@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, inject } from '@angular/core';
 import { shareReplay } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
@@ -21,6 +21,8 @@ import { ContentSlotData } from '../model/content-slot-data.model';
   providedIn: 'root',
 })
 export class DynamicAttributeService {
+  protected unifiedInjector = inject(UnifiedInjector);
+
   private componentDecorators$ = this.unifiedInjector
     .getMulti(ComponentDecorator)
     .pipe(shareReplay(1));
@@ -28,8 +30,6 @@ export class DynamicAttributeService {
   private slotDecorators$ = this.unifiedInjector
     .getMulti(SlotDecorator)
     .pipe(shareReplay(1));
-
-  constructor(protected unifiedInjector: UnifiedInjector) {}
 
   /**
    * Add dynamic attributes to CMS component element

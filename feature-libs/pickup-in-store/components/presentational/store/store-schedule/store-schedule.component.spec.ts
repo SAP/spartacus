@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, PointOfService } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';
@@ -81,5 +81,5 @@ describe('StoreScheduleComponent', () => {
   template: '',
 })
 export class StoreScheduleStubComponent {
-  @Input() storeDetails: PointOfService;
+  readonly storeDetails = input<PointOfService>();
 }

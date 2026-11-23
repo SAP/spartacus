@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, output } from '@angular/core';
 import {
   PointOfServiceStock,
   TranslatePipe,
@@ -27,20 +26,18 @@ import { StoreScheduleComponent } from './store-schedule/store-schedule.componen
   imports: [
     StoreAddressComponent,
     IconComponent,
-    NgIf,
     StoreScheduleComponent,
     SetPreferredStoreComponent,
-    NgClass,
     TranslatePipe,
   ],
 })
 export class StoreComponent implements OnInit {
   /** The details of the store to be displayed */
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() storeDetails: PointOfServiceStock = {};
   /** An event emitter triggered when this store is selected for pickup */
-  @Output()
-  storeSelected: EventEmitter<PointOfServiceStock> =
-    new EventEmitter<PointOfServiceStock>();
+  readonly storeSelected = output<PointOfServiceStock>();
 
   isInStock: boolean;
   openHoursOpen = false;

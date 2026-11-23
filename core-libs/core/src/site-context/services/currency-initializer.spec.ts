@@ -20,21 +20,15 @@ class MockCurrencyService implements Partial<CurrencyService> {
   setActive = vi.fn().mockImplementation(() => {});
 }
 
-class MockCurrencyStatePersistenceService
-  implements Partial<CurrencyStatePersistenceService>
-{
+class MockCurrencyStatePersistenceService implements Partial<CurrencyStatePersistenceService> {
   initSync = vi.fn().mockReturnValue(of(EMPTY));
 }
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
+class MockConfigInitializerService implements Partial<ConfigInitializerService> {
   getStable = () => of(mockSiteContextConfig);
 }
 
-class MockSiteContextRoutesHandler
-  implements Partial<SiteContextRoutesHandler>
-{
+class MockSiteContextRoutesHandler implements Partial<SiteContextRoutesHandler> {
   initOnce = vi.fn().mockReturnValue(of(undefined));
 }
 

@@ -1,3 +1,5 @@
+import { UserCostCenterAdapter } from './user-cost-center.adapter';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserCostCenterConnector } from './user-cost-center.connector';
 
@@ -16,7 +18,13 @@ describe('UserCostCenterConnector', () => {
     adapter = {
       loadActiveList: vi.fn().mockReturnValue(of([costCenter])),
     };
-    service = new UserCostCenterConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        UserCostCenterConnector,
+        { provide: UserCostCenterAdapter, useValue: adapter },
+      ],
+    });
+    service = TestBed.inject(UserCostCenterConnector);
   });
 
   it('should be created', () => {

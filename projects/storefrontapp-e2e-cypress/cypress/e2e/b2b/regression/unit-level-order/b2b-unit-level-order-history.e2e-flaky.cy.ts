@@ -46,7 +46,7 @@ describe('B2B - Unit-Level Orders History', () => {
 
       cy.location('pathname').should(
         'eq',
-        `/${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+        `/${Cypress.expose('BASE_SITE')}/${Cypress.expose('BASE_LANG')}/${Cypress.expose(
           'BASE_CURRENCY'
         )}/`
       );

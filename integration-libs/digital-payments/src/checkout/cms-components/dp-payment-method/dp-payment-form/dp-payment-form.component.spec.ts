@@ -27,9 +27,7 @@ const mockWinRef: WindowRef = {
   },
 } as WindowRef;
 
-class MockDpCheckoutPaymentService
-  implements Partial<DpCheckoutPaymentService>
-{
+class MockDpCheckoutPaymentService implements Partial<DpCheckoutPaymentService> {
   getCardRegistrationDetails(): Observable<DpPaymentRequest | undefined> {
     return of({});
   }

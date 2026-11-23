@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, NgModule, Output } from '@angular/core';
+import { Component, NgModule, Output, input } from '@angular/core';
 
 // PRIVATE TESTING UTIL
 @Component({
@@ -12,7 +12,7 @@ import { Component, Input, NgModule, Output } from '@angular/core';
   selector: 'cx-split-view',
 })
 export class MockSplitViewComponent {
-  @Input() hideMode;
+  readonly hideMode = input(undefined);
 }
 
 @Component({
@@ -20,8 +20,8 @@ export class MockSplitViewComponent {
   selector: 'cx-view',
 })
 export class MockViewComponent {
-  @Input() position: number;
-  @Input() hidden;
+  readonly position = input<number>();
+  readonly hidden = input(undefined);
   @Output() hiddenChange;
 }
 

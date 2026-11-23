@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, inject, viewChild } from '@angular/core';
 import { EventService, FeatureToggles } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
@@ -27,7 +27,11 @@ import { CustomerTicketingMessagesComponentService } from './customer-ticketing-
   imports: [MessagingComponent],
 })
 export class CustomerTicketingMessagesComponent implements OnDestroy {
-  @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;
+  protected customerTicketingConfig = inject(CustomerTicketingConfig);
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected eventService = inject(EventService);
+
+  readonly messagingComponent = viewChild(MessagingComponent);
   protected customerTicketingMessagesComponentService = inject(
     CustomerTicketingMessagesComponentService
   );
@@ -35,12 +39,6 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
 
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
-
-  constructor(
-    protected customerTicketingConfig: CustomerTicketingConfig,
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected eventService: EventService
-  ) {}
 
   subscription = new Subscription();
 
@@ -64,7 +62,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
               createdEvent.code
             );
           }
-          this.messagingComponent?.resetForm();
+          this.messagingComponent()?.resetForm();
         })
     );
   }
@@ -91,14 +89,12 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
     return this.ticketDetails$.pipe(
       map(
         (ticket) =>
-          ticket?.ticketEvents?.map(
-            (event: TicketEvent): MessageEvent => ({
-              ...event,
-              text: event.message ?? '',
-              rightAlign: event.addedByAgent || false,
-              attachments: event.ticketEventAttachments ?? [],
-            })
-          ) ?? []
+          ticket?.ticketEvents?.map((event: TicketEvent): MessageEvent => ({
+            ...event,
+            text: event.message ?? '',
+            rightAlign: event.addedByAgent || false,
+            attachments: event.ticketEventAttachments ?? [],
+          })) ?? []
       )
     );
   }

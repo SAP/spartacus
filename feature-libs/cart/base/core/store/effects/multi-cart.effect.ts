@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { CartType } from '@spartacus/cart/base/root';
@@ -17,6 +17,9 @@ import { MultiCartEffectsService } from './multi-cart-effect.service';
 
 @Injectable()
 export class MultiCartEffects {
+  private actions$ = inject(Actions);
+  private multiCartEffectsService = inject(MultiCartEffectsService);
+
   // TODO(#7241): Remove when we drop ADD_VOUCHER process and we sort out checkout and cart dependencies
 
   processesIncrement$: Observable<CartActions.CartProcessesIncrement> =
@@ -136,9 +139,4 @@ export class MultiCartEffects {
     }
     return undefined;
   }
-
-  constructor(
-    private actions$: Actions,
-    private multiCartEffectsService: MultiCartEffectsService
-  ) {}
 }

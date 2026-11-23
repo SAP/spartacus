@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
 import { UnitCellComponent } from '..';
 
 describe('UnitCellComponent', () => {
@@ -15,11 +16,11 @@ describe('UnitCellComponent', () => {
         {
           provide: OutletContextData,
           useValue: {
-            context: {
+            context$: of({
               unit: {
                 name: 'unit name',
               },
-            },
+            }),
           },
         },
       ],

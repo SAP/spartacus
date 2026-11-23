@@ -50,7 +50,8 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
         of(`editQuote-${userId}-${quoteCode}-${quoteMetadata}`)
     );
   performQuoteAction = vi
-    .fn('CommerceQuotesAdapter.performQuoteAction')
+    .fn()
+    .mockName('CommerceQuotesAdapter.performQuoteAction')
     .mockImplementation(
       (userId: string, quoteCode: string, quoteAction: QuoteActionType) =>
         of(`performQuoteAction-${userId}-${quoteCode}-${quoteAction}`)
@@ -68,7 +69,8 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
         of(`addDiscount-${userId}-${quoteCode}-${discount}`)
     );
   addQuoteEntryComment = vi
-    .fn('CommerceQuotesAdapter.addQuoteEntryComment')
+    .fn()
+    .mockName('CommerceQuotesAdapter.addQuoteEntryComment')
     .mockImplementation(
       (
         userId: string,
@@ -81,7 +83,8 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
         )
     );
   downloadAttachment = vi
-    .fn('CommerceQuotesAdapter.downloadAttachment')
+    .fn()
+    .mockName('CommerceQuotesAdapter.downloadAttachment')
     .mockImplementation(
       (userId: string, quoteCode: string, attachmentId: string) =>
         of(`downloadAttachment-${userId}-${quoteCode}-${attachmentId}`)

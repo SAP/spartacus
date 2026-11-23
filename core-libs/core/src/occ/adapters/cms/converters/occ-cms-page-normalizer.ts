@@ -20,9 +20,10 @@ import { Converter } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable({ providedIn: 'root' })
-export class OccCmsPageNormalizer
-  implements Converter<Occ.CMSPage, CmsStructureModel>
-{
+export class OccCmsPageNormalizer implements Converter<
+  Occ.CMSPage,
+  CmsStructureModel
+> {
   convert(
     source: Occ.CMSPage,
     target: CmsStructureModel = {}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -50,7 +50,8 @@ const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
   ],
 })
 class MockProductCardComponent {
-  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+  readonly productCardOptions =
+    input<ConfiguratorAttributeProductCardComponentOptions>();
 }
 
 @Component({
@@ -64,7 +65,8 @@ class MockProductCardComponent {
   ],
 })
 class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  readonly quantityOptions =
+    input<ConfiguratorAttributeQuantityComponentOptions>();
 }
 
 @Component({
@@ -78,7 +80,7 @@ class MockConfiguratorAttributeQuantityComponent {
   ],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 class MockConfiguratorCommonsService {
@@ -279,7 +281,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       .overrideComponent(
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
+          set: { changeDetection: ChangeDetectionStrategy.Eager },
         }
       )
       .compileComponents();

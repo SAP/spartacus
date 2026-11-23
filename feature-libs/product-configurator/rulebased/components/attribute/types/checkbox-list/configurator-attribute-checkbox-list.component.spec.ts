@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  output,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -48,8 +47,9 @@ class MockGroupService {}
   imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<number>();
+  readonly quantityOptions =
+    input<ConfiguratorAttributeQuantityComponentOptions>();
+  readonly changeQuantity = output<number>();
 }
 
 @Component({
@@ -58,7 +58,7 @@ class MockConfiguratorAttributeQuantityComponent {
   imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 @Component({
@@ -67,12 +67,12 @@ class MockConfiguratorPriceComponent {
   imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
+  readonly text = input<string>();
+  readonly textSize = input(60);
+  readonly productName = input<string>();
+  readonly attributeLabel = input<string>();
+  readonly valueLabel = input<string>();
+  readonly itemLabel = input<string>();
 }
 
 const VALUE_1 = 'val1';
@@ -173,7 +173,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

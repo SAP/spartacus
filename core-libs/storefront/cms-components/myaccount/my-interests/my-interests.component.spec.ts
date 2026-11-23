@@ -2,11 +2,10 @@ import {
   Component,
   DebugElement,
   Directive,
-  EventEmitter,
-  Input,
-  Output,
   Pipe,
   PipeTransform,
+  output,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -49,19 +48,19 @@ import { MyInterestsComponent } from './my-interests.component';
   selector: 'cx-pagination',
 })
 class MockPaginationComponent {
-  @Input() pagination;
-  @Output() viewPageEvent = new EventEmitter<string>();
+  readonly pagination = input(undefined);
+  readonly viewPageEvent = output<string>();
 }
 @Component({
   template: '',
   selector: 'cx-sorting',
 })
 class MockSortingComponent {
-  @Input() sortOptions;
-  @Input() sortLabels;
-  @Input() selectedOption;
-  @Input() placeholder;
-  @Output() sortListEvent = new EventEmitter<string>();
+  readonly sortOptions = input(undefined);
+  readonly sortLabels = input(undefined);
+  readonly selectedOption = input(undefined);
+  readonly placeholder = input(undefined);
+  readonly sortListEvent = output<string>();
 }
 
 @Component({
@@ -69,8 +68,8 @@ class MockSortingComponent {
   selector: 'cx-media',
 })
 class MockMediaComponent {
-  @Input() container;
-  @Input() format;
+  readonly container = input(undefined);
+  readonly format = input(undefined);
 }
 
 const MockOccModuleConfig: OccConfig = {
@@ -104,7 +103,7 @@ class MockSpinnerComponent {}
 
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
+  readonly cxAtMessage = input<string | string[]>();
 }
 
 const p553637$: Observable<Product> = of({

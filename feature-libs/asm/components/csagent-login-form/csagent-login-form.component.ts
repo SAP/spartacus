@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, inject, output } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -25,7 +24,6 @@ import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
   templateUrl: './csagent-login-form.component.html',
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     FormErrorsComponent,
@@ -35,15 +33,19 @@ import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
   ],
 })
 export class CSAgentLoginFormComponent implements OnInit {
+  protected fb = inject(UntypedFormBuilder);
+
   csAgentLoginForm: UntypedFormGroup;
 
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   csAgentTokenLoading = false;
 
-  @Output()
-  submitEvent = new EventEmitter<{ userId: string; password: string }>();
-
-  constructor(protected fb: UntypedFormBuilder) {}
+  readonly submitEvent = output<{
+    userId: string;
+    password: string;
+  }>();
 
   ngOnInit(): void {
     this.csAgentLoginForm = this.fb.group({

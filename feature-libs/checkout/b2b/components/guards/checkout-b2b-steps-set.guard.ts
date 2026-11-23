@@ -30,29 +30,21 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
-  protected logger = inject(LoggerService);
+  protected override checkoutStepService = inject(CheckoutStepService);
+  protected override routingConfigService = inject(RoutingConfigService);
+  protected override checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected override checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected override checkoutDeliveryModesFacade = inject(
+    CheckoutDeliveryModesFacade
+  );
+  protected override router = inject(Router);
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
+  protected override activeCartFacade = inject(ActiveCartFacade);
 
-  constructor(
-    protected checkoutStepService: CheckoutStepService,
-    protected routingConfigService: RoutingConfigService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected router: Router,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected activeCartFacade: ActiveCartFacade
-  ) {
-    super(
-      checkoutStepService,
-      routingConfigService,
-      checkoutDeliveryAddressFacade,
-      checkoutPaymentFacade,
-      checkoutDeliveryModesFacade,
-      router,
-      activeCartFacade
-    );
-  }
+  protected logger = inject(LoggerService);
 
   canActivate(route: ActivatedRouteSnapshot): Observable<GuardResult> {
     let currentIndex = -1;

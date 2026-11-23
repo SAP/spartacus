@@ -16,7 +16,8 @@ describe('AsmAuthStorageService', () => {
   };
 
   beforeEach(() => {
-    service = new AsmAuthStorageService();
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(AsmAuthStorageService);
     service.setTokenTarget(TokenTarget.User);
   });
 
@@ -33,6 +34,7 @@ describe('AsmAuthStorageService', () => {
 
   describe('initial state from storage', () => {
     it('should restore token target and emulated user token from persisted asm state', async () => {
+      TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         providers: [
           {

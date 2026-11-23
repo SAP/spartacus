@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { MergeCartSuccessEvent } from '@spartacus/cart/base/root';
 import {
   RestoreSavedCartSuccessEvent,
@@ -31,6 +31,8 @@ import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
   providedIn: 'root',
 })
 export class CheckoutReplenishmentFormService implements OnDestroy {
+  protected eventService = inject(EventService);
+
   protected subscriptions = new Subscription();
 
   /**
@@ -51,7 +53,7 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
   protected orderType$: Observable<ORDER_TYPE> =
     new BehaviorSubject<ORDER_TYPE>(ORDER_TYPE.PLACE_ORDER);
 
-  constructor(protected eventService: EventService) {
+  constructor() {
     this.registerOrderTypeEventListers();
   }
 

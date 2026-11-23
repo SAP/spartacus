@@ -1,10 +1,10 @@
 import {
   Component,
   DebugElement,
-  EventEmitter,
   Input,
-  Output,
-  ViewChild,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -33,10 +33,10 @@ describe('AsmCustomer360ProductListingComponent', () => {
       '[cx-asm-customer-360-product-item], cx-asm-customer-360-product-item',
   })
   class MockAsmProductItemComponent {
-    @Input() product: Product;
-    @Input() quantity: number;
-    @Input() isOrderEntry = true;
-    @Output() selectProduct = new EventEmitter<Product>();
+    readonly product = input<Product>();
+    readonly quantity = input<number>();
+    readonly isOrderEntry = input(true);
+    readonly selectProduct = output<Product>();
   }
 
   @Component({
@@ -60,15 +60,20 @@ describe('AsmCustomer360ProductListingComponent', () => {
   })
   // eslint-disable-next-line @angular-eslint/component-class-suffix
   class AsmCustomerProductListingComponentTest {
-    @ViewChild(AsmCustomer360ProductListingComponent)
-    componentRef: AsmCustomer360ProductListingComponent;
+    readonly componentRef = viewChild(AsmCustomer360ProductListingComponent);
 
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input()
     headerInactive: boolean;
 
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input()
     products: Array<ProductItem>;
 
+    // TODO: Skipped for migration because:
+    //  Your application code writes to the input. This prevents migration.
     @Input()
     headerText: string;
 

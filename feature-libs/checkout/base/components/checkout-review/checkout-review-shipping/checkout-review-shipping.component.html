@@ -1,42 +1,38 @@
-<ng-container *ngIf="entries$ | async as entries">
-  <ng-container *ngIf="entries.length > 0">
+@if (entries$ | async; as entries) {
+  @if (entries.length > 0) {
     <h2 class="cx-review-header">
       {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
     </h2>
-
     <div class="cx-review-summary cx-review-shipping-summary">
       <!-- DELIVERY ADDRESS SECTION -->
       <div class="cx-review-summary-card-container">
-        <div
-          *ngIf="deliveryAddress$ | async as deliveryAddress"
-          class="cx-review-summary-card cx-review-card-address"
-        >
-          <cx-card
-            [content]="getDeliveryAddressCard(deliveryAddress) | async"
-          />
-          <div class="cx-review-summary-edit-step">
-            <a
-              [attr.title]="
-                'checkoutReview.editDeliveryAddressDetails' | cxTranslate
-              "
-              [routerLink]="
-                {
-                  cxRoute: deliveryAddressStepRoute,
-                } | cxUrl
-              "
-              ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"
-            /></a>
+        @if (deliveryAddress$ | async; as deliveryAddress) {
+          <div class="cx-review-summary-card cx-review-card-address">
+            <cx-card
+              [content]="getDeliveryAddressCard(deliveryAddress) | async"
+            />
+            <div class="cx-review-summary-edit-step">
+              <a
+                [attr.title]="
+                  'checkoutReview.editDeliveryAddressDetails' | cxTranslate
+                "
+                [routerLink]="
+                  {
+                    cxRoute: deliveryAddressStepRoute,
+                  } | cxUrl
+                "
+                ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"
+              /></a>
+            </div>
           </div>
-        </div>
+        }
       </div>
-
       <!-- DELIVERY MODE SECTION -->
       <div class="cx-review-summary-card-container">
         <div class="cx-review-summary-card cx-review-card-address">
-          <cx-card
-            *ngIf="deliveryMode$ | async as deliveryMode"
-            [content]="getDeliveryModeCard(deliveryMode) | async"
-          />
+          @if (deliveryMode$ | async; as deliveryMode) {
+            <cx-card [content]="getDeliveryModeCard(deliveryMode) | async" />
+          }
           <div class="cx-review-summary-edit-step">
             <a
               [attr.title]="'checkoutReview.editDeliveryMode' | cxTranslate"
@@ -48,7 +44,6 @@
         </div>
       </div>
     </div>
-
     <!-- CART ITEM SECTION -->
     <div class="cx-review-cart-item">
       <ng-template
@@ -59,5 +54,5 @@
         }"
       />
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

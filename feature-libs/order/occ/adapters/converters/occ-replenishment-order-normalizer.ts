@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from '@spartacus/cart/base/root';
+import { Injectable, inject } from '@angular/core';
+import {
+  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import {
   Converter,
   ConverterService,
@@ -15,10 +18,11 @@ import {
 import { ReplenishmentOrder } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
-export class OccReplenishmentOrderNormalizer
-  implements Converter<Occ.ReplenishmentOrder, ReplenishmentOrder>
-{
-  constructor(private converter: ConverterService) {}
+export class OccReplenishmentOrderNormalizer implements Converter<
+  Occ.ReplenishmentOrder,
+  ReplenishmentOrder
+> {
+  private converter = inject(ConverterService);
 
   convert(
     source: Occ.ReplenishmentOrder,
@@ -30,7 +34,7 @@ export class OccReplenishmentOrderNormalizer
 
     if (source.entries) {
       target.entries = source.entries.map((entry) => ({
-        ...entry,
+        ...(entry as unknown as OrderEntry),
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
         promotions: this.converter.convert(
           { item: entry, promotions: source.appliedProductPromotions },

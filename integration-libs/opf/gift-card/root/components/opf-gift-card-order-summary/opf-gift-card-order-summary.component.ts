@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -23,15 +23,11 @@ import { Router } from '@angular/router';
   selector: 'cx-opf-gift-card-order-summary',
   templateUrl: './opf-gift-card-order-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    NgIf,
-    TranslatePipe,
-    I18nModule,
-    AppliedCouponsComponent,
-  ],
+  imports: [CommonModule, TranslatePipe, I18nModule, AppliedCouponsComponent],
 })
 export class OpfGiftCardOrderSummaryComponent {
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input() cart: Cart | Order;
   protected checkoutStepService = inject(CheckoutStepService);
   protected router = inject(Router);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
@@ -22,7 +22,7 @@ import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute
   imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
+  readonly formula = input<ConfiguratorPriceComponentOptions>();
 }
 
 @Component({
@@ -31,12 +31,12 @@ class MockConfiguratorPriceComponent {
   imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
-  @Input() text: string;
-  @Input() textSize = 60;
-  @Input() productName: string;
-  @Input() attributeLabel?: string;
-  @Input() valueLabel?: string;
-  @Input() itemLabel?: string;
+  readonly text = input<string>();
+  readonly textSize = input(60);
+  readonly productName = input<string>();
+  readonly attributeLabel = input<string>();
+  readonly valueLabel = input<string>();
+  readonly itemLabel = input<string>();
 }
 
 const priceDetails: Configurator.PriceDetails = {
@@ -121,7 +121,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         },
       })
       .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
   });

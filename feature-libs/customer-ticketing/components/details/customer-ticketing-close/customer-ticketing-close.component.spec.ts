@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, ViewContainerRef, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
@@ -57,7 +57,7 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 describe('CustomerTicketingCloseComponent', () => {
@@ -103,7 +103,7 @@ describe('CustomerTicketingCloseComponent', () => {
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.CUSTOMER_TICKETING_CLOSE,
-      component.element,
+      component.element(),
       component['vcr']
     );
   });

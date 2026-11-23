@@ -1,11 +1,26 @@
-import { ViewContainerRef } from '@angular/core';
+import { Component, inject, signal, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService, LoggerTestingModule } from '@spartacus/core';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorAttributeCompositionConfig } from './configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionDirective } from './configurator-attribute-composition.directive';
+import { ConfiguratorAttributeCompositionContext } from './configurator-attribute-composition.model';
 
-class TestComponent {}
+@Component({
+  selector: 'cx-test-attribute',
+  template: '{{ context.group.id }}',
+})
+class TestComponent {
+  protected context = inject(ConfiguratorAttributeCompositionContext);
+}
+
+@Component({
+  template: '<ng-template [cxConfiguratorAttributeComponent]="context()" />',
+  imports: [ConfiguratorAttributeCompositionDirective],
+})
+class TestHostComponent {
+  context = signal(ConfiguratorTestUtils.getAttributeContext());
+}
 
 class MockViewContainerRef {
   clear = vi.fn();
@@ -16,6 +31,7 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
   let classUnderTest: ConfiguratorAttributeCompositionDirective;
   let viewContainerRef: ViewContainerRef;
   let loggerService: LoggerService;
+  let context: ConfiguratorAttributeCompositionContext;
 
   function init() {
     classUnderTest = TestBed.inject(ConfiguratorAttributeCompositionDirective);
@@ -23,7 +39,8 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     loggerService = TestBed.inject(LoggerService);
     vi.spyOn(loggerService, 'warn');
 
-    classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
+    context = ConfiguratorTestUtils.getAttributeContext();
+    vi.spyOn(classUnderTest, 'context').mockImplementation(() => context);
   }
 
   beforeEach(() => {
@@ -52,6 +69,30 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     expect(classUnderTest).toBeDefined();
   });
 
+  it('binds the aliased signal input and rerenders the attribute when its group changes', () => {
+    const fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+    const firstAttribute =
+      fixture.nativeElement.querySelector('cx-test-attribute');
+    expect(firstAttribute.textContent).toBe(
+      fixture.componentInstance.context().group.id
+    );
+
+    fixture.componentInstance.context.update((context) => ({
+      ...context,
+      group: {
+        ...context.group,
+        id: 'changed-group',
+      },
+    }));
+    fixture.detectChanges();
+
+    const nextAttribute =
+      fixture.nativeElement.querySelector('cx-test-attribute');
+    expect(nextAttribute.textContent).toBe('changed-group');
+    expect(nextAttribute).not.toBe(firstAttribute);
+  });
+
   it('should handle missing assignment config', () => {
     TestBed.overrideProvider(ConfiguratorAttributeCompositionConfig, {
       useValue: {
@@ -75,7 +116,7 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     it('should render the attribute only once if it did not change', () => {
       classUnderTest.ngOnChanges();
       // re-create another context with the same attribute
-      classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
+      context = ConfiguratorTestUtils.getAttributeContext();
       classUnderTest.ngOnChanges();
       expectComponentRendered(1);
     });
@@ -83,8 +124,8 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     it('should re-render the attribute if it changed', () => {
       classUnderTest.ngOnChanges();
       // re-create another context with the different attribute
-      classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
-      classUnderTest['context'].attribute.selectedSingleValue = 'changed';
+      context = ConfiguratorTestUtils.getAttributeContext();
+      context.attribute.selectedSingleValue = 'changed';
       classUnderTest.ngOnChanges();
       expectComponentRendered(2);
     });
@@ -92,14 +133,14 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     it('should re-render the attribute if group changes', () => {
       classUnderTest.ngOnChanges();
       // re-create another context with the different attribute
-      classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
-      classUnderTest['context'].group.id = 'changed';
+      context = ConfiguratorTestUtils.getAttributeContext();
+      context.group.id = 'changed';
       classUnderTest.ngOnChanges();
       expectComponentRendered(2);
     });
 
     it('should log if performance feature toggle is on but no component found', () => {
-      classUnderTest['context'].componentKey = 'not.existing';
+      context.componentKey = 'not.existing';
       classUnderTest.ngOnChanges();
       expectComponentNotRendered(true);
     });

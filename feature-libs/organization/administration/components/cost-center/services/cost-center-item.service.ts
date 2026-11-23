@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CostCenter, RoutingService } from '@spartacus/core';
 import {
   CostCenterService,
@@ -19,14 +19,10 @@ import { CurrentCostCenterService } from './current-cost-center.service';
   providedIn: 'root',
 })
 export class CostCenterItemService extends ItemService<CostCenter> {
-  constructor(
-    protected currentItemService: CurrentCostCenterService,
-    protected routingService: RoutingService,
-    protected formService: CostCenterFormService,
-    protected costCenterService: CostCenterService
-  ) {
-    super(currentItemService, routingService, formService);
-  }
+  protected override currentItemService = inject(CurrentCostCenterService);
+  protected override routingService = inject(RoutingService);
+  protected override formService = inject(CostCenterFormService);
+  protected costCenterService = inject(CostCenterService);
 
   load(code: string): Observable<CostCenter> {
     this.costCenterService.load(code);

@@ -39,6 +39,4 @@ export class SearchVariantsSuccess extends StateUtils.EntitySuccessAction {
 }
 
 export type ConfiguratorVariantAction =
-  | SearchVariants
-  | SearchVariantsFail
-  | SearchVariantsSuccess;
+  SearchVariants | SearchVariantsFail | SearchVariantsSuccess;

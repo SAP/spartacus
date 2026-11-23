@@ -55,7 +55,9 @@ export class LoadNotificationPreferencesFail
   }
 }
 
-export class LoadNotificationPreferencesSuccess extends StateUtils.LoaderSuccessAction {
+export class LoadNotificationPreferencesSuccess
+  extends StateUtils.LoaderSuccessAction
+{
   readonly type = LOAD_NOTIFICATION_PREFERENCES_SUCCESS;
 
   constructor(public payload: NotificationPreference[]) {

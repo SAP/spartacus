@@ -13,10 +13,10 @@ import {
   ElementRef,
   HostListener,
   inject,
-  Input,
   PLATFORM_ID,
   Renderer2,
   SecurityContext,
+  input,
 } from '@angular/core';
 import {
   outputToObservable,
@@ -39,12 +39,18 @@ const ARIA_HIDDEN = 'aria-hidden';
 
 @Directive({ selector: '[cxNgSelectA11y]' })
 export class NgSelectA11yDirective implements AfterViewInit {
+  private renderer = inject(Renderer2);
+  private elementRef = inject(ElementRef);
+
   /**
    * Use directive to bind aria attribute to inner element of ng-select
    * Angular component for accessibility compliance. If ng-select controls itself
    * ariaControls is not needed, instead bind a specific id to the <ng-select> element.
    */
-  @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
+  readonly cxNgSelectA11y = input<{
+    ariaLabel?: string;
+    ariaControls?: string;
+  }>();
 
   protected translationService = inject(TranslationService);
   protected domSanitizer = inject(DomSanitizer);
@@ -95,10 +101,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     });
   }
 
-  constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef
-  ) {
+  constructor() {
     useFeatureStyles('a11yNgSelectUnicodeCarets');
     if (this.featureToggles.a11yVocalizeDropdownItemCount) {
       this.vocalizeItemCount();
@@ -144,9 +147,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
         }
       });
 
-    const ariaLabel = this.cxNgSelectA11y.ariaLabel;
+    const ariaLabel = this.cxNgSelectA11y()?.ariaLabel;
     const elementId = nativeEl.id;
-    const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
+    const ariaControls = this.cxNgSelectA11y()?.ariaControls ?? elementId;
 
     if (ariaLabel) {
       this.renderer.setAttribute(inputCombobox, ARIA_LABEL, ariaLabel);

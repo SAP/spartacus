@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
@@ -24,10 +24,11 @@ import { OrderAmendService } from '../../amend-order.service';
     AmendOrderActionsComponent,
     NgTemplateOutlet,
     AsyncPipe,
-    NgIf,
   ],
 })
 export class CancelOrderConfirmationComponent {
+  protected orderAmendService = inject(OrderAmendService);
+
   orderCode: string;
 
   form$ = this.orderAmendService
@@ -36,8 +37,6 @@ export class CancelOrderConfirmationComponent {
 
   entries$: Observable<OrderEntry[]> =
     this.orderAmendService.getAmendedEntries();
-
-  constructor(protected orderAmendService: OrderAmendService) {}
 
   submit(form: UntypedFormGroup) {
     if (form.valid) {

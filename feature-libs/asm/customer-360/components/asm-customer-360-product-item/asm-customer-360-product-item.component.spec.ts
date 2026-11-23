@@ -1,9 +1,9 @@
 import {
   Component,
   DebugElement,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageType, Product, TranslatePipe } from '@spartacus/core';
@@ -17,9 +17,9 @@ import { AsmCustomer360ProductItemComponent } from './asm-customer-360-product-i
   selector: 'cx-media',
 })
 class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: any;
-  @Input() alt: any;
+  readonly container = input<any>();
+  readonly format = input<any>();
+  readonly alt = input<any>();
 }
 
 describe('AsmCustomer360ProductItemComponent', () => {

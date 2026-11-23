@@ -1,8 +1,9 @@
+import { provideLocationMocks } from '@angular/common/testing';
+import { RouterModule, provideRouter } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Country,
@@ -86,9 +87,7 @@ const mockCountries: Country[] = [
   },
 ];
 
-class MockUserRegistrationFormService
-  implements Partial<UserRegistrationFormService>
-{
+class MockUserRegistrationFormService implements Partial<UserRegistrationFormService> {
   getTitles(): Observable<Title[]> {
     return of(mockTitles);
   }
@@ -119,7 +118,6 @@ describe('UserRegistrationOTPFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         NgSelectModule,
         FormErrorsModule,
@@ -128,8 +126,11 @@ describe('UserRegistrationOTPFormComponent', () => {
         NgSelectA11yDirective,
         SpinnerComponent,
         MockFeatureDirective,
+        RouterModule,
       ],
       providers: [
+        provideRouter([]),
+        provideLocationMocks(),
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {

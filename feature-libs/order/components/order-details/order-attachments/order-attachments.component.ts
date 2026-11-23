@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
   inject,
-  ViewChild,
   ViewContainerRef,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe } from '@spartacus/core';
@@ -26,7 +26,7 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-attachments',
   templateUrl: './order-attachments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class OrderAttachmentsComponent {
   protected orderDetailsService = inject(OrderDetailsService);
@@ -34,13 +34,13 @@ export class OrderAttachmentsComponent {
   protected vcr = inject(ViewContainerRef);
   protected destroyRef = inject(DestroyRef);
 
-  @ViewChild('element') element: ElementRef;
+  readonly element = viewChild<ElementRef>('element');
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 
   onOrderAttachmentsClick(orderCode: string): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.ORDER_ATTACHMENTS,
-      this.element,
+      this.element(),
       this.vcr,
       { orderCode }
     );

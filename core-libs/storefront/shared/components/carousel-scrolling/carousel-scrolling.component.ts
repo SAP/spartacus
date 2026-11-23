@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,6 +15,7 @@ import {
   OnInit,
   TemplateRef,
   TrackByFunction,
+  input,
 } from '@angular/core';
 import { LoggerService, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -55,10 +56,8 @@ enum KeyboardEventKeys {
   templateUrl: './carousel-scrolling.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     HorizontalScrollingPositionDirective,
     IconComponent,
-    NgFor,
     NgTemplateOutlet,
     AsyncPipe,
     TranslatePipe,
@@ -71,21 +70,28 @@ export class CarouselScrollingComponent<Item = any> implements OnInit {
   /**
    * The title is rendered as the carousel heading.
    */
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() title: string | undefined | null;
 
   /**
    * The items represent the carousel items. The items are
    * observables so that the items can be loaded on demand.
    */
+  // TODO: Skipped for migration because:
+  //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+  //  and migrating would break narrowing currently.
   @Input() items: Observable<Item>[];
 
   /**
    * The template rendered for each carousel item
    */
-  @Input() template: TemplateRef<CarouselScrollingTemplateContext<Item>>;
+  readonly template =
+    input<TemplateRef<CarouselScrollingTemplateContext<Item>>>();
 
-  @Input() previousIcon = ICON_TYPE.CARET_LEFT;
-  @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
+  readonly previousIcon = input(ICON_TYPE.CARET_LEFT);
+  readonly nextIcon = input(ICON_TYPE.CARET_RIGHT);
 
   /**
    * Angular's trackBy function for iterating over carousel items.
@@ -97,10 +103,10 @@ export class CarouselScrollingComponent<Item = any> implements OnInit {
    * If the returned value is not unique, it may lead to unexpected behavior,
    * such as unwanted destroying and re-creating child templates on items array changes.
    */
-  @Input() trackByFn: TrackByFunction<any> = (_index, item) => item;
+  readonly trackByFn = input<TrackByFunction<any>>((_index, item) => item);
 
   ngOnInit() {
-    if (!this.template && isDevMode()) {
+    if (!this.template() && isDevMode()) {
       this.logger.error(
         'No template reference provided to render the carousel items for the `cx-carousel-scrolling`'
       );

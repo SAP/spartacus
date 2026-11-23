@@ -20,29 +20,29 @@ export const LANGUAGE_LABEL = 'Language';
 export const CURRENCY_LABEL = 'Currency';
 
 export const BASE_URL = Cypress.config().baseUrl;
-export const CONTENT_CATALOG = Cypress.env('BASE_SITE');
+export const CONTENT_CATALOG = Cypress.expose('BASE_SITE');
 export const CURRENCY_USD = 'USD';
 export const CURRENCY_JPY = 'JPY';
 export const LANGUAGE_EN = 'en';
 export const LANGUAGE_DE = 'de';
 export const CART_REQUEST_ALIAS = 'cart_request_alias';
 
-export const LANGUAGE_REQUEST = `${Cypress.env(
+export const LANGUAGE_REQUEST = `${Cypress.expose(
   'OCC_PREFIX'
 )}/${CONTENT_CATALOG}/languages?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
-export const CURRENCY_REQUEST = `${Cypress.env(
+export const CURRENCY_REQUEST = `${Cypress.expose(
   'OCC_PREFIX'
 )}/${CONTENT_CATALOG}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
-export const CART_REQUEST = `${Cypress.env(
+export const CART_REQUEST = `${Cypress.expose(
   'OCC_PREFIX'
 )}/${CONTENT_CATALOG}/users/current/carts/*`;
 
-export const PAGE_REQUEST = `${Cypress.env(
+export const PAGE_REQUEST = `${Cypress.expose(
   'OCC_PREFIX'
 )}/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=CategoryPage&code=574&lang=${LANGUAGE_DE}&curr=${CURRENCY_USD}`;
 
-export const TITLE_REQUEST = `${Cypress.env(
+export const TITLE_REQUEST = `${Cypress.expose(
   'OCC_PREFIX'
 )}/${CONTENT_CATALOG}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 

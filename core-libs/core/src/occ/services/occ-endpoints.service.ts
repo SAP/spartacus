@@ -5,7 +5,7 @@
  */
 
 import { HttpParams, HttpParamsOptions } from '@angular/common/http';
-import { Injectable, Optional, inject, isDevMode } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
 import { StringTemplate } from '../../config/utils/string-template';
 import { LoggerService } from '../../logger';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
@@ -32,6 +32,9 @@ export interface DynamicAttributes {
   providedIn: 'root',
 })
 export class OccEndpointsService {
+  private config = inject(OccConfig);
+  private baseSiteService = inject(BaseSiteService, { optional: true });
+
   private _activeBaseSite: string;
 
   private get activeBaseSite(): string {
@@ -43,10 +46,7 @@ export class OccEndpointsService {
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    private config: OccConfig,
-    @Optional() private baseSiteService: BaseSiteService
-  ) {
+  constructor() {
     if (this.baseSiteService) {
       this.baseSiteService
         .getActive()

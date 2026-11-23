@@ -12,13 +12,13 @@ export const APPAREL_CURRENCY = 'EUR';
 describe('Segment Reference', () => {
   beforeEach(() => {
     cy.restoreLocalStorage();
-    Cypress.env('BASE_SITE', APPAREL_BASESITE);
-    Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
+    Cypress.expose('BASE_SITE', APPAREL_BASESITE);
+    Cypress.expose('BASE_CURRENCY', APPAREL_CURRENCY);
   });
   it('should fetch appropriate banner customization', () => {
     interceptGet('segmentRefApi', `${cmsEndpoints.pages}*`);
     cy.visit(
-      `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+      `${Cypress.expose('BASE_SITE')}/${Cypress.expose('BASE_LANG')}/${Cypress.expose(
         'BASE_CURRENCY'
       )}/?segmentrefs=footwear`
     );

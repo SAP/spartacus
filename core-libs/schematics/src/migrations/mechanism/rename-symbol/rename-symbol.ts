@@ -26,8 +26,7 @@ export function migrateRenamedSymbols(
       const importDeclarationStructures: ImportDeclarationStructure[] = [];
 
       sourceFile.getImportDeclarations().forEach((id) => {
-        id
-          .getImportClause()
+        id.getImportClause()
           ?.getNamedImports()
           .forEach((namedImport) => {
             const importName = namedImport.getName();

@@ -12,9 +12,10 @@ import { OccDpPaymentRequest } from './occ.models';
 @Injectable({
   providedIn: 'root',
 })
-export class OccDpRequestNormalizer
-  implements Converter<OccDpPaymentRequest, DpPaymentRequest>
-{
+export class OccDpRequestNormalizer implements Converter<
+  OccDpPaymentRequest,
+  DpPaymentRequest
+> {
   convert(
     source: OccDpPaymentRequest,
     target: DpPaymentRequest

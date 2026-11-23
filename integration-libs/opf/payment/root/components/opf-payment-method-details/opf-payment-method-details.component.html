@@ -1,12 +1,13 @@
-<ng-container *ngIf="isPaymentMethodDetailsInfoPresent(order)">
-  <cx-card
-    *ngIf="order.paymentInfo"
-    [content]="
-      getPaymentMethodDetailsCardContent(order.paymentInfo.sapPaymentMethod)
-        | async
-    "
-  />
-</ng-container>
+@if (isPaymentMethodDetailsInfoPresent(order)) {
+  @if (order.paymentInfo) {
+    <cx-card
+      [content]="
+        getPaymentMethodDetailsCardContent(order.paymentInfo.sapPaymentMethod)
+          | async
+      "
+    />
+  }
+}
 <ng-template
   [cxOutlet]="opfCheckoutOutlets.ORDER_DETAILS_AFTER_PAYMENT_OPTIONS"
   [cxOutletContext]="order"

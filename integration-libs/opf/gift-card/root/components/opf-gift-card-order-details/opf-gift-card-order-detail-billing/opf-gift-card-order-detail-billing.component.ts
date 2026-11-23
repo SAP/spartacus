@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,7 +14,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
@@ -32,21 +31,23 @@ import { combineLatest, map, Observable, Subscription } from 'rxjs';
   selector: 'cx-opf-gift-card-order-detail-billing',
   templateUrl: './opf-gift-card-order-detail-billing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe, CommonModule, TranslatePipe],
+  imports: [CardComponent, AsyncPipe, CommonModule, TranslatePipe],
   standalone: true,
 })
 export class OpfGiftCardOrderDetailBillingComponent
   implements OnInit, OnDestroy
 {
+  protected orderOutlet? = inject(OutletContextData, { optional: true });
+
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
   private featureToggles = inject(FeatureToggles);
   protected cdr = inject(ChangeDetectorRef);
   protected subscription = new Subscription();
+  // TODO: Skipped for migration because:
+  //  Your application code writes to the input. This prevents migration.
   @Input()
   order: Order;
-
-  constructor(@Optional() protected orderOutlet?: OutletContextData) {}
   protected routingService = inject(RoutingService);
 
   ngOnInit(): void {

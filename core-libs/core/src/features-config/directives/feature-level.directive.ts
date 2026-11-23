@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import {
+  Directive,
+  Input,
+  TemplateRef,
+  ViewContainerRef,
+  inject,
+} from '@angular/core';
 import { FeatureConfigService } from '../services/feature-config.service';
 
 /**
@@ -12,14 +18,14 @@ import { FeatureConfigService } from '../services/feature-config.service';
  */
 @Directive({ selector: '[cxFeatureLevel]' })
 export class FeatureLevelDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef,
-    protected featureConfig: FeatureConfigService
-  ) {}
+  protected templateRef = inject<TemplateRef<any>>(TemplateRef);
+  protected viewContainer = inject(ViewContainerRef);
+  private featureConfig = inject(FeatureConfigService);
 
   private hasView = false;
 
+  // TODO: Skipped for migration because:
+  //  Accessor inputs cannot be migrated as they are too complex.
   @Input() set cxFeatureLevel(level: string | number) {
     if (this.featureConfig.isLevel(level.toString()) && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);

@@ -1,9 +1,9 @@
 import {
   Component,
   DebugElement,
-  Input,
   Pipe,
   PipeTransform,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -119,7 +119,7 @@ const mockOrderEntries: OrderEntry[] = [
   ],
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  readonly type = input<ICON_TYPE>();
 }
 
 const routerState = new BehaviorSubject<RouterState>({
@@ -144,11 +144,13 @@ class MockRoutingService implements Partial<RoutingService> {
   ],
 })
 class MockCartItemComponent {
-  @Input() compact = false;
-  @Input() item: Observable<OrderEntry>;
-  @Input() readonly = false;
-  @Input() quantityControl: UntypedFormControl;
-  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  readonly compact = input(false);
+  readonly item = input<Observable<OrderEntry>>();
+  readonly readonly = input(false);
+  readonly quantityControl = input<UntypedFormControl>();
+  readonly promotionLocation = input<PromotionLocation>(
+    PromotionLocation.ActiveCart
+  );
 }
 
 @Pipe({ name: 'cxUrl' })
