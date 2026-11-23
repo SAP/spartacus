@@ -669,6 +669,34 @@ describe('OccConfigurationVariantAdapter', () => {
       );
       mockReq.flush(productConfigurationOcc);
     });
+
+    it('should request the configuration read-only if requested', async () => {
+      occConfiguratorVariantAdapter
+        .readConfigurationForCartEntry({ ...params, readOnly: true })
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'GET' &&
+          req.url === 'readVariantConfigurationForCartEntry'
+        );
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'readVariantConfigurationForCartEntry',
+        {
+          urlParams: {
+            userId,
+            cartId: documentId,
+            cartEntryNumber: documentEntryNumber,
+          },
+          queryParams: { expMode, readOnly: true },
+        }
+      );
+      mockReq.flush(productConfigurationOcc);
+    });
   });
 
   it('should call readVariantConfigurationOverviewForOrderEntry endpoint', async () => {

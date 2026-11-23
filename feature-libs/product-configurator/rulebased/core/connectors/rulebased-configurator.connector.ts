@@ -140,10 +140,19 @@ export class RulebasedConfiguratorConnector {
   ): Observable<Configurator.Overview> {
     const overview = configuration.overview;
 
-    return overview
+    const enrichedOverview: Configurator.Overview | undefined = overview
+      ? {
+          ...overview,
+          priceSummary: overview.priceSummary ?? configuration.priceSummary,
+          totalNumberOfIssues:
+            overview.totalNumberOfIssues ?? configuration.totalNumberOfIssues,
+        }
+      : undefined;
+
+    return enrichedOverview
       ? this.getAdapter(
           configuration.owner.configuratorType
-        ).updateConfigurationOverview(overview)
+        ).updateConfigurationOverview(enrichedOverview)
       : this.getAdapter(
           configuration.owner.configuratorType
         ).getConfigurationOverview(configuration.configId);

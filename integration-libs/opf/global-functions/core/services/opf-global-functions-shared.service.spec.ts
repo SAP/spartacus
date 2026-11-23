@@ -12,10 +12,7 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import {
-  ActiveCartFacade,
-  CartAccessCodeFacade,
-} from '@spartacus/cart/base/root';
+import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
 import {
   OpfMetadataModel,
   OpfMetadataStoreService,
@@ -27,6 +24,7 @@ import {
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { OpfGlobalFunctionsSharedService } from './opf-global-functions-shared.service';
 import { UserIdService } from '@spartacus/core';
 
@@ -38,9 +36,11 @@ class TestContainerComponent {
 const mockPaymentMethod =
   OpfQuickBuyProviderType.APPLE_PAY as unknown as OpfPaymentMethod;
 
-class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine
-    .createSpy('getActiveCartId')
+class MockOpfQuickBuyTransactionService
+  implements Partial<OpfQuickBuyTransactionService>
+{
+  getCurrentCartId = jasmine
+    .createSpy('getCurrentCartId')
     .and.returnValue(of('test-cart-id'));
 }
 
@@ -127,9 +127,12 @@ describe('OpfGlobalFunctionsSharedService', () => {
           provide: OpfMetadataStoreService,
           useClass: MockOpfMetadataStoreService,
         },
-        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
         { provide: UserIdService, useClass: MockUserIdService },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
       ],
     });
     service = TestBed.inject(OpfGlobalFunctionsSharedService);
@@ -201,6 +204,29 @@ describe('OpfGlobalFunctionsSharedService', () => {
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 
+    it('should forward cardNickName to submitPayment facade', async () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+
+      await service.submit(
+        { ...submitOptions, cardNickName: 'Corporate Card' },
+        mockPaymentSessionId
+      );
+
+      const callArgs =
+        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+      expect(callArgs.cardNickName).toBe('Corporate Card');
+    });
+
+    it('should not include cardNickName when omitted', async () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+
+      await service.submit({ ...submitOptions }, mockPaymentSessionId);
+
+      const callArgs =
+        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+      expect(callArgs.cardNickName).toBeUndefined();
+    });
+
     it('should use paymentSessionId from options when provided', async () => {
       opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
 
@@ -227,6 +253,20 @@ describe('OpfGlobalFunctionsSharedService', () => {
       );
 
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
+    });
+
+    it('should block concurrent submit calls while one is in progress (CXSPA-14589)', async () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+
+      (service as any).isSubmitInProgress = true;
+
+      const result = await service.submit(
+        { ...submitOptions },
+        mockPaymentSessionId
+      );
+
+      expect(result).toBe(false);
+      expect(opfPaymentFacadeMock.submitPayment).not.toHaveBeenCalled();
     });
   });
 
@@ -256,6 +296,29 @@ describe('OpfGlobalFunctionsSharedService', () => {
       const callArgs =
         opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
+    });
+
+    it('should forward cardNickName to submitCompletePayment facade', async () => {
+      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+
+      await service.submitComplete(
+        { ...submitOptions, cardNickName: 'Travel Card' },
+        mockPaymentSessionId
+      );
+
+      const callArgs =
+        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+      expect(callArgs.cardNickName).toBe('Travel Card');
+    });
+
+    it('should not include cardNickName when omitted', async () => {
+      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+
+      await service.submitComplete({ ...submitOptions }, mockPaymentSessionId);
+
+      const callArgs =
+        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+      expect(callArgs.cardNickName).toBeUndefined();
     });
 
     it('should use default callbacks when none are provided', async () => {
@@ -314,8 +377,12 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
   describe('updatePaymentTransaction', () => {
     it('should wrap errors with a helpful message', async () => {
-      const activeCartFacade = TestBed.inject(ActiveCartFacade) as any;
-      activeCartFacade.getActiveCartId.and.returnValue(of(undefined));
+      const opfQuickBuyTransactionService = TestBed.inject(
+        OpfQuickBuyTransactionService
+      ) as unknown as MockOpfQuickBuyTransactionService;
+      opfQuickBuyTransactionService.getCurrentCartId.and.returnValue(
+        of(undefined)
+      );
 
       await expectAsync(
         service.updatePaymentTransaction({ paymentSessionId: 's' } as any)

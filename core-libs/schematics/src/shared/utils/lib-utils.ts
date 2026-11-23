@@ -651,7 +651,7 @@ export function addLibraryStyles(
 
     const featureLibStyleImport = `@import "${stylingConfig.importStyle}";`;
     const additionalImports =
-      stylingConfig.importStyles?.map((style) => `@import "${style}";`) || [];
+      stylingConfig.importStyles?.map((style) => `@import "${style}";`) ?? [];
 
     if (tree.exists(libraryScssPath)) {
       const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';

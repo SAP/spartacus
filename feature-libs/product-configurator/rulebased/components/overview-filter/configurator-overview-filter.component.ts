@@ -18,6 +18,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
+import { ConfiguratorType } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -83,6 +84,15 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
    */
   isDisplayOnlyVariant(): Observable<boolean> {
     return this.configuratorStorefrontUtilsService.isDisplayOnlyVariant();
+  }
+
+  /**
+   * Returns whether the "My selections" attribute filter is shown (not used for CPQ).
+   */
+  isMySelectionsFilterVisible(
+    config: Configurator.ConfigurationWithOverview
+  ): boolean {
+    return config.owner.configuratorType !== ConfiguratorType.CPQ;
   }
 
   protected extractGroupFilterState(

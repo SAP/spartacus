@@ -5,14 +5,13 @@
  */
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Translatable } from '../../../../i18n/translatable';
 import { ErrorModel } from '../../../../model/misc.model';
 import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
-import { Translatable } from '../../../../i18n/translatable';
-import { FeatureToggles } from '../../../../features-config';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -21,7 +20,6 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 })
 export class BadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
-  private featureToggles = inject(FeatureToggles);
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadPassword(request, response);
@@ -47,13 +45,11 @@ export class BadRequestHandler extends HttpErrorHandler {
         errorMessage:
           response.error.error_description || response.message || '',
       };
-      if (this.featureToggles.enablePasswordExpiredErrorTranslation) {
-        const isPasswordExpiredError = key.startsWith(
-          `${translationPrefix}.password_expired_for_the_user`
-        );
-        if (isPasswordExpiredError) {
-          key = `${translationPrefix}.password_expired`;
-        }
+      const isPasswordExpiredError = key.startsWith(
+        `${translationPrefix}.password_expired_for_the_user`
+      );
+      if (isPasswordExpiredError) {
+        key = `${translationPrefix}.password_expired`;
       }
       this.globalMessageService.add(
         {
@@ -153,7 +149,7 @@ export class BadRequestHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || []).filter(
+    return (response.error?.errors ?? []).filter(
       (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError'
     );
   }
