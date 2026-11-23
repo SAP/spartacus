@@ -50,7 +50,7 @@ context('Product search', { testIsolation: false }, () => {
         productSearchFlow.clearActiveFacet();
       });
 
-      it('should filter results using facet filtering and clear active facets', () => {
+      it('should filter results using facet filtering and clear all active facets at once', () => {
         const categoryPage = waitForCategoryPage('575', 'getCategoryPage');
         cy.visit('/c/575');
         cy.wait(`@${categoryPage}`)
