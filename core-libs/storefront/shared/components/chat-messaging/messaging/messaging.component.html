@@ -21,7 +21,7 @@
           *cxFeature="'a11yMessagingListKeyboardFocus'"
           class="cx-message-card"
           role="listitem"
-          [ngClass]="{ 'cx-message-display': message.rightAlign ?? false }"
+          [class.cx-message-display]="message.rightAlign ?? false"
           [tabindex]="i ? -1 : 0"
           [cxFocus]="i === 0 ? { autofocus: ':host' } : {}"
           [attr.aria-describedby]="
@@ -49,7 +49,7 @@
                 dateFormatA11y
             }}</label>
             <div
-              [ngClass]="
+              [class]="
                 (message.rightAlign ?? false)
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
@@ -87,7 +87,7 @@
           *cxFeature="'!a11yMessagingListKeyboardFocus'"
           class="cx-message-card"
           role="listitem"
-          [ngClass]="{ 'cx-message-display': message.rightAlign ?? false }"
+          [class.cx-message-display]="message.rightAlign ?? false"
         >
           <cx-avatar [message]="message" />
           <div>
@@ -96,7 +96,7 @@
                 dateFormat
             }}</label>
             <div
-              [ngClass]="
+              [class]="
                 (message.rightAlign ?? false)
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
@@ -191,7 +191,7 @@
             <button
               aria-labelledby="cx-messaging-footer-label"
               class="btn btn-block cx-send"
-              [ngClass]="
+              [class]="
                 !!messagingConfigs?.sendBtnIsNotPrimary
                   ? 'btn-secondary'
                   : 'btn-primary'

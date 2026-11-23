@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -66,7 +66,6 @@ import { AsmComponentService } from '../services/asm-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
-    NgClass,
     ReactiveFormsModule,
     DotSpinnerComponent,
     AsyncPipe,

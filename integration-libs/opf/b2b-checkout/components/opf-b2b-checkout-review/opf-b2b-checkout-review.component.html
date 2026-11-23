@@ -43,7 +43,7 @@
       [isDismissible]="true"
       [isVisible]="termsAndConditionInvalid"
       [isExplicit]="explicitTermsAndConditions.value"
-      [ngClass]="['for-mobile']"
+      [class]="['for-mobile']"
     />
   }
   @if (explicitTermsAndConditions.value) {
@@ -104,7 +104,7 @@
         [isDismissible]="true"
         [isVisible]="termsAndConditionInvalid"
         [isExplicit]="explicitTermsAndConditions.value"
-        [ngClass]="['for-desktop']"
+        [class]="['for-desktop']"
       />
     }
   </cx-opf-checkout-payments>

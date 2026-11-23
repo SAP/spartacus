@@ -3,12 +3,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { provideLocationMocks } from '@angular/common/testing';
+import { RouterModule, provideRouter } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -162,15 +163,17 @@ describe('OneTimePasswordRegisterComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         FormErrorsModule,
         NgSelectModule,
         PasswordVisibilityToggleModule,
         NgSelectA11yModule,
         CaptchaModule,
         OneTimePasswordRegisterComponent,
+        RouterModule,
       ],
       providers: [
+        provideRouter([]),
+        provideLocationMocks(),
         {
           provide: RegisterComponentService,
           useClass: MockRegisterComponentService,

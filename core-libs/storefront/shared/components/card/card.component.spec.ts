@@ -202,6 +202,38 @@ describe('CardComponent', () => {
     expect(lineNodes[1].nativeElement.textContent).toContain(mockCard.text[1]);
   });
 
+  it('should retain base text classes while updating and removing custom classes', () => {
+    fixture.componentRef.setInput('content', {
+      text: ['First line'],
+      customClass: 'first-custom second-custom',
+    });
+    fixture.detectChanges();
+    expect(
+      el.query(By.css('.cx-card-label')).nativeElement.classList
+    ).toContain('first-custom');
+    expect(
+      el.query(By.css('.cx-card-label')).nativeElement.classList
+    ).toContain('second-custom');
+
+    fixture.componentRef.setInput('content', {
+      text: ['First line'],
+      customClass: 'replacement-custom',
+    });
+    fixture.detectChanges();
+    const replacementClasses = el.query(By.css('.cx-card-label')).nativeElement
+      .classList;
+    expect(replacementClasses).toContain('replacement-custom');
+    expect(replacementClasses).not.toContain('first-custom');
+    expect(replacementClasses).not.toContain('second-custom');
+
+    fixture.componentRef.setInput('content', { text: ['First line'] });
+    fixture.detectChanges();
+    const defaultClasses = el.query(By.css('.cx-card-label')).nativeElement
+      .classList;
+    expect(defaultClasses).toContain('cx-card-label');
+    expect(defaultClasses).not.toContain('replacement-custom');
+  });
+
   it('should render passed text for truncated text popover for a long text', () => {
     const mockCard: Card = {
       text: ['First line', 'Second line'],

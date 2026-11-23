@@ -27,7 +27,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   FeatureToggles,
   LoggerService,
@@ -48,7 +48,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgTemplateOutlet,
-    NgClass,
     ConfiguratorOverviewAttributeComponent,
     ConfiguratorOverviewBundleAttributeComponent,
     AsyncPipe,

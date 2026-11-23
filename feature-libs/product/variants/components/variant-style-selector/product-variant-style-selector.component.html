@@ -10,11 +10,7 @@
     }
     <ul class="variant-list">
       @for (v of variants?.options; track v) {
-        <li
-          [ngClass]="{
-            'selected-variant': v.code === variants?.selected?.code,
-          }"
-        >
+        <li [class.selected-variant]="v.code === variants?.selected?.code">
           <button class="variant-button" (click)="changeStyle(v.code)">
             <img
               src="{{ getVariantThumbnailUrl(v.variantOptionQualifiers) }}"

@@ -92,6 +92,24 @@ describe('MessageComponent', () => {
     expect(component.getCssClassesForMessage).toEqual(mockCssClassForMessage);
   });
 
+  it('should replace status classes while retaining the base message class', () => {
+    fixture.componentRef.setInput(
+      'type',
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    fixture.detectChanges();
+    let classes = el.query(By.css('.cx-message')).nativeElement.classList;
+    expect(classes).toContain('cx-message-success');
+    expect(classes).not.toContain('cx-message-danger');
+
+    fixture.componentRef.setInput('type', GlobalMessageType.MSG_TYPE_ERROR);
+    fixture.detectChanges();
+    classes = el.query(By.css('.cx-message')).nativeElement.classList;
+    expect(classes).toContain('cx-message');
+    expect(classes).toContain('cx-message-danger');
+    expect(classes).not.toContain('cx-message-success');
+  });
+
   it('should return proper icon type base on type from input', () => {
     component.type = GlobalMessageType.MSG_TYPE_CONFIRMATION;
     fixture.detectChanges();

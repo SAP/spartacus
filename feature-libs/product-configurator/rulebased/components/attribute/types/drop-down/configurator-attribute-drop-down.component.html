@@ -17,9 +17,7 @@
         <select
           id="{{ createAttributeIdForConfigurator(attribute) }}"
           class="form-control"
-          [ngClass]="{
-            'cx-required-error-msg ': (showRequiredErrorMessage$ | async),
-          }"
+          [class.cx-required-error-msg]="showRequiredErrorMessage$ | async"
           [formControl]="attributeDropDownForm"
           [cxFocus]="{ key: attribute.name }"
           (change)="onSelect(attributeDropDownForm.value)"

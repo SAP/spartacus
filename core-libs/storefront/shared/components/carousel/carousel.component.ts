@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgClass,
-  NgTemplateOutlet,
-  SlicePipe,
-} from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -63,7 +58,6 @@ import { CarouselService } from './carousel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgClass,
     IconComponent,
     NgTemplateOutlet,
     AsyncPipe,

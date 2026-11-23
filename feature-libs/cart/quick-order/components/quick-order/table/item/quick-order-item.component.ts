@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -28,7 +27,6 @@ import { Subscription } from 'rxjs';
   templateUrl: './quick-order-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgClass,
     RouterLink,
     MediaComponent,
     ItemCounterComponent,

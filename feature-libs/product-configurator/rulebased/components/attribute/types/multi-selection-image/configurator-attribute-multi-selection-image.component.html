@@ -52,7 +52,7 @@
             >
               @if (getImage(value); as image) {
                 <img
-                  [ngClass]="getImgStyleClasses(attribute, value, 'cx-img')"
+                  [class]="getImgStyleClasses(attribute, value, 'cx-img')"
                   src="{{ image?.url }}"
                   alt="{{ image?.altText }}"
                   title="{{ image?.altText }}"
@@ -60,9 +60,7 @@
               }
               @if (!getImage(value)) {
                 <div
-                  [ngClass]="
-                    getImgStyleClasses(attribute, value, 'cx-img-dummy')
-                  "
+                  [class]="getImgStyleClasses(attribute, value, 'cx-img-dummy')"
                 ></div>
               }
               {{ getImageLabel(expMode, value.valueDisplay, value.valueCode) }}

@@ -58,7 +58,7 @@
               sortDirection
                 | cxArgs: column.property : sortProperty : listSortOrder
             "
-            [ngClass]="{
+            [class]="{
               'text-start':
                 column.headerTextAlign === CustomerTableTextAlign.START,
               'text-center':
@@ -99,7 +99,7 @@
               tabindex="-1"
               (keydown)="onKeyDownCell($event, columnIndex, rowIndex + 1)"
               (click)="setSelectedTabIndex(columnIndex, rowIndex + 1)"
-              [ngClass]="{
+              [class]="{
                 'text-start': column.textAlign === CustomerTableTextAlign.START,
                 'text-center':
                   column.textAlign === CustomerTableTextAlign.CENTER,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -44,7 +44,6 @@ import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
     FocusDirective,
     IconComponent,
     MessageComponent,
-    NgClass,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,

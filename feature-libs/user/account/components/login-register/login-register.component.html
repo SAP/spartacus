@@ -6,7 +6,7 @@
   <button
     (click)="navigateTo(loginAsGuest ? 'checkoutLogin' : 'register')"
     class="btn btn-block btn-secondary"
-    [ngClass]="loginAsGuest ? 'btn-guest' : 'btn-register'"
+    [class]="loginAsGuest ? 'btn-guest' : 'btn-register'"
     aria-describedby="register-section-label"
   >
     {{

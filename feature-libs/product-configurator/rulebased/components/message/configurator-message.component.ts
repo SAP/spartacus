@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -20,7 +19,7 @@ import { ConfiguratorTranslatableMessage } from '../service/configurator-message
   selector: 'cx-configurator-message',
   templateUrl: './configurator-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, IconComponent, TranslatePipe],
+  imports: [IconComponent, TranslatePipe],
 })
 export class ConfiguratorMessageComponent {
   /**

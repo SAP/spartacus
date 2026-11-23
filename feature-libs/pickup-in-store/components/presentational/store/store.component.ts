@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass } from '@angular/common';
 import { Component, Input, OnInit, output } from '@angular/core';
 import {
   PointOfServiceStock,
@@ -29,7 +28,6 @@ import { StoreScheduleComponent } from './store-schedule/store-schedule.componen
     IconComponent,
     StoreScheduleComponent,
     SetPreferredStoreComponent,
-    NgClass,
     TranslatePipe,
   ],
 })

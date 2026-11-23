@@ -32,7 +32,7 @@
 >
   <ul>
     @for (group of overviewGroups; track group) {
-      <li [ngClass]="getGroupLevelStyleClasses(level)">
+      <li [class]="getGroupLevelStyleClasses(level)">
         <button
           id="{{ getMenuItemId(idPrefix, group.id) }}"
           class="cx-menu-item"

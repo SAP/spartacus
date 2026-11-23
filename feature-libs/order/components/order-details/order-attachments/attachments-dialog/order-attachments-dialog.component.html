@@ -54,11 +54,11 @@
                           'attachments.dialog.preview' | cxTranslate
                         }}"
                         title="{{ 'attachments.dialog.preview' | cxTranslate }}"
-                        [ngClass]="{
-                          disabled: loadingAttachments.includes(
+                        [class.disabled]="
+                          loadingAttachments.includes(
                             attachment.sapAttachmentId
-                          ),
-                        }"
+                          )
+                        "
                         (mousedown)="
                           onMouseDown(
                             $event,
@@ -79,11 +79,11 @@
                     <td>
                       <div
                         class="inline-spinner"
-                        [ngClass]="{
-                          hidden: !loadingAttachments.includes(
+                        [class.hidden]="
+                          !loadingAttachments.includes(
                             attachment.sapAttachmentId
-                          ),
-                        }"
+                          )
+                        "
                       >
                         <cx-spinner />
                       </div>
@@ -97,11 +97,11 @@
                           'attachments.dialog.preview' | cxTranslate
                         }}"
                         title="{{ 'attachments.dialog.preview' | cxTranslate }}"
-                        [ngClass]="{
-                          disabled: loadingAttachments.includes(
+                        [class.disabled]="
+                          loadingAttachments.includes(
                             attachment.sapAttachmentId
-                          ),
-                        }"
+                          )
+                        "
                         (click)="
                           openOrderAttachment(
                             attachment.sapAttachmentId,

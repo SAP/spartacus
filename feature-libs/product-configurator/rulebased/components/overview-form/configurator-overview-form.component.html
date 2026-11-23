@@ -83,7 +83,7 @@
           ? null
           : getGroupId(idPrefix, group.id)
       "
-      [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)"
+      [class]="getGroupLevelStyleClasses(level, group.subGroups)"
     >
       <h2 [attr.tabindex]="isInPageNavigationEnabled ? -1 : null">
         <span class="cx-visually-hidden">
@@ -103,7 +103,7 @@
       ) {
         <div
           class="cx-attribute-value-pair"
-          [ngClass]="getStyleClasses(group.attributes, i)"
+          [class]="getStyleClasses(group.attributes, i)"
         >
           @switch (attributeOverview?.type) {
             @case (attributeOverviewType.GENERAL) {

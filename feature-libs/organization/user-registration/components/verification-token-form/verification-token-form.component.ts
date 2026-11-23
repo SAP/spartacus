@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -52,7 +52,6 @@ import { RegisterVerificationTokenFormComponentService } from './verification-to
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
-    NgClass,
     RouterLink,
     AsyncPipe,
     UrlPipe,

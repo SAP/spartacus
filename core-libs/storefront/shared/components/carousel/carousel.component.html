@@ -2,7 +2,7 @@
   @if (title) {
     <h2>{{ title }}</h2>
   }
-  <div class="carousel-panel" [ngClass]="'size-' + size">
+  <div class="carousel-panel" [class]="'size-' + size">
     @if (size < items.length) {
       <button
         *cxFeature="'a11yCarouselPreventNavigationFocus'"

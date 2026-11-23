@@ -11,7 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -39,7 +39,6 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-inpu
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
     FormsModule,
-    NgClass,
     ReactiveFormsModule,
     FocusDirective,
     ConfiguratorShowMoreComponent,

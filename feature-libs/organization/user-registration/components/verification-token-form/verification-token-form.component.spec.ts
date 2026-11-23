@@ -1,3 +1,5 @@
+import { provideLocationMocks } from '@angular/common/testing';
+import { RouterModule, provideRouter } from '@angular/router';
 import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -6,7 +8,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import {
   MockTranslatePipe,
@@ -66,12 +67,14 @@ describe('RegisterVerificationTokenFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         FormErrorsModule,
         SpinnerModule,
         RegisterVerificationTokenFormComponent,
+        RouterModule,
       ],
       providers: [
+        provideRouter([]),
+        provideLocationMocks(),
         { provide: Store, useClass: MockStore },
         {
           provide: RegisterVerificationTokenFormComponent,

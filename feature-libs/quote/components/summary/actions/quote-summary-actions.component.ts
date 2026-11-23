@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -49,7 +49,7 @@ import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.m
 @Component({
   selector: 'cx-quote-summary-actions',
   templateUrl: './quote-summary-actions.component.html',
-  imports: [NgClass, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class QuoteSummaryActionsComponent
   implements AfterViewInit, OnInit, OnDestroy

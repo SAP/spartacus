@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-store-finder-stores-count',
   templateUrl: './store-finder-stores-count.component.html',
-  imports: [RouterLink, NgClass, SpinnerComponent, AsyncPipe, TranslatePipe],
+  imports: [RouterLink, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class StoreFinderStoresCountComponent implements OnInit {
   private storeFinderService = inject(StoreFinderService);

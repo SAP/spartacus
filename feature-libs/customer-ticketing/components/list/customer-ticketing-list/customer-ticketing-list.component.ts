@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -39,7 +39,6 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
     SortingComponent,
     CustomerTicketingCreateComponent,
     RouterLink,
-    NgClass,
     PaginationComponent,
     SpinnerComponent,
     AsyncPipe,

@@ -13,7 +13,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import {
   PointOfServiceNames,
@@ -29,7 +29,7 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-set-preferred-store',
   templateUrl: './set-preferred-store.component.html',
-  imports: [NgClass, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   protected preferredStoreFacade = inject(PreferredStoreFacade);

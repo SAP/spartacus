@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -52,7 +52,6 @@ import {
   selector: 'cx-asm-customer-360-table',
   templateUrl: './asm-customer-360-table.component.html',
   imports: [
-    NgClass,
     StarRatingComponent,
     AsyncPipe,
     TranslatePipe,

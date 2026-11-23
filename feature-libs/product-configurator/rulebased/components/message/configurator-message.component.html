@@ -1,6 +1,6 @@
 @for (message of messages; track $index; let i = $index) {
   <div
-    [ngClass]="messageClass"
+    [class]="messageClass"
     [attr.aria-live]="role ? null : 'assertive'"
     [attr.aria-atomic]="role ? null : true"
     [attr.role]="role"

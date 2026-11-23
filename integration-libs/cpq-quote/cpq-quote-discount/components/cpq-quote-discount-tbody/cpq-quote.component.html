@@ -22,12 +22,11 @@
     <!-- Iterate over quoteDiscountData.basePrice -->
     <span
       class="cx-formatted-value"
-      [ngClass]="{
-        'strike-through':
-          quoteDiscountData &&
-          quoteDiscountData.cpqDiscounts &&
-          quoteDiscountData.cpqDiscounts.length > 0,
-      }"
+      [class.strike-through]="
+        quoteDiscountData &&
+        quoteDiscountData.cpqDiscounts &&
+        quoteDiscountData.cpqDiscounts.length > 0
+      "
     >
       {{ quoteDiscountData?.basePrice?.formattedValue }}
     </span>

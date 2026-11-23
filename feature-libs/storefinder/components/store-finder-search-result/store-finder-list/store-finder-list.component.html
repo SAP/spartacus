@@ -44,9 +44,7 @@
               ) {
                 <li
                   id="{{ 'item-' + i }}"
-                  [ngClass]="{
-                    'cx-selected-item': selectedStoreIndex === i,
-                  }"
+                  [class.cx-selected-item]="selectedStoreIndex === i"
                   class="cx-list-items"
                 >
                   <cx-store-finder-list-item
@@ -85,7 +83,7 @@
               <button
                 [id]="'tab-' + mode?.value"
                 role="tab"
-                [ngClass]="{
+                [class]="{
                   'nav-link': true,
                   active: isDisplayModeActive(mode?.value),
                 }"
@@ -126,9 +124,7 @@
                         ) {
                           <li
                             id="{{ 'item-' + i }}"
-                            [ngClass]="{
-                              'cx-selected-item': selectedStoreIndex === i,
-                            }"
+                            [class.cx-selected-item]="selectedStoreIndex === i"
                             class="cx-list-items"
                           >
                             <cx-store-finder-list-item

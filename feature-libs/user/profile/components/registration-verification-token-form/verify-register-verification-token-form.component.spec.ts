@@ -3,6 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { provideLocationMocks } from '@angular/common/testing';
+import { RouterModule, provideRouter } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -12,7 +14,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthConfigService,
   FeatureToggles,
@@ -99,12 +100,14 @@ describe('RegistrationVerificationTokenFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         FormErrorsModule,
         SpinnerModule,
         RegistrationVerificationTokenFormComponent,
+        RouterModule,
       ],
       providers: [
+        provideRouter([]),
+        provideLocationMocks(),
         {
           provide: RegistrationVerificationTokenFormComponentService,
           useClass: MockFormComponentService,

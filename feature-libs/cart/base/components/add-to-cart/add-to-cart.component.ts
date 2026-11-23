@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -66,7 +66,6 @@ import { filter, map, startWith, take } from 'rxjs/operators';
     ReactiveFormsModule,
     ItemCounterComponent,
     OutletDirective,
-    NgClass,
     IconComponent,
     AsyncPipe,
     TranslatePipe,

@@ -2,7 +2,7 @@
   @if (cart$ | async; as cart) {
     <div
       class="cx-opf-gift-card-apply"
-      [ngClass]="{ 'cx-disabled': (isBillingAddressPresent$ | async) }"
+      [class.cx-disabled]="isBillingAddressPresent$ | async"
     >
       <!-- Header -->
       <div class="cx-opf-gift-card-apply-header">

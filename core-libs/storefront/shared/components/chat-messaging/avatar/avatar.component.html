@@ -1,5 +1,5 @@
 @if (message) {
-  <div class="cx-avatar" [ngClass]="{ 'right-align': message.rightAlign }">
+  <div class="cx-avatar" [class.right-align]="message.rightAlign">
     @if (!message.rightAlign && message?.author) {
       <span>
         {{ getInitials(message?.author || '') }}

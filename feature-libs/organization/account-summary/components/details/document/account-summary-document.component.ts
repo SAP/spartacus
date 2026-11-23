@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -48,7 +48,6 @@ import { AccountSummaryDocumentFilterComponent } from './filter/account-summary-
     SortingComponent,
     PaginationComponent,
     IconComponent,
-    NgClass,
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
@@ -13,7 +12,7 @@ import { MessageEvent } from '../messaging/messaging.model';
 @Component({
   selector: 'cx-avatar',
   templateUrl: './avatar.component.html',
-  imports: [NgClass, IconComponent],
+  imports: [IconComponent],
 })
 export class AvatarComponent {
   // TODO: Skipped for migration because:

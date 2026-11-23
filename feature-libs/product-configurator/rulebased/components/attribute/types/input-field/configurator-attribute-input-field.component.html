@@ -24,9 +24,7 @@
     class="form-control"
     type="{{ inputType }}"
     (keydown)="activateDebounceDate()"
-    [ngClass]="{
-      'cx-required-error-msg ': (showRequiredErrorMessage$ | async),
-    }"
+    [class.cx-required-error-msg]="showRequiredErrorMessage$ | async"
     [class.ng-invalid]="isRequired && isUserInputEmpty"
     maxlength="{{ attribute.maxlength }}"
     [attr.aria-label]="

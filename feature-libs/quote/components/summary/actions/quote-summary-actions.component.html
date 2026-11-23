@@ -1,7 +1,7 @@
 @if (quoteDetails$ | async; as quoteDetails) {
   @if (cartDetails$ | async; as cartDetails) {
     @if (areButtonsRendered(quoteDetails.allowedActions)) {
-      <section [ngClass]="isFixedPosition ? 'fixed' : 'sticky'">
+      <section [class]="isFixedPosition ? 'fixed' : 'sticky'">
         @for (
           action of getFilteredActions(quoteDetails.allowedActions);
           track action
@@ -10,7 +10,7 @@
             #element
             type="button"
             class="btn"
-            [ngClass]="getButtonStyle(quoteDetails.allowedActions, action)"
+            [class]="getButtonStyle(quoteDetails.allowedActions, action)"
             [disabled]="mustDisableAction(action.type, quoteDetails)"
             (click)="onClick(action.type, quoteDetails, cartDetails)"
           >

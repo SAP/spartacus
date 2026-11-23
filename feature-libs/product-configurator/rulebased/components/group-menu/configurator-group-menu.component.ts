@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -41,7 +41,7 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
   selector: 'cx-configurator-group-menu',
   templateUrl: './configurator-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, IconComponent, NgClass, AsyncPipe, TranslatePipe],
+  imports: [FocusDirective, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorGroupMenuComponent {
   protected configCommonsService = inject(ConfiguratorCommonsService);

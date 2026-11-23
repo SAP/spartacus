@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +25,7 @@ export interface ConfiguratorPriceComponentOptions {
   selector: 'cx-configurator-price',
   templateUrl: './configurator-price.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, TranslatePipe, CxNumericPipe],
+  imports: [TranslatePipe, CxNumericPipe],
 })
 export class ConfiguratorPriceComponent {
   protected directionService = inject(DirectionService);

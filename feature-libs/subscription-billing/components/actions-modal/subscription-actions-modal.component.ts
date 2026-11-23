@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
@@ -45,7 +44,6 @@ import { SubscriptionActionsModalComponentService } from './subscription-actions
   standalone: true,
   templateUrl: './subscription-actions-modal.component.html',
   imports: [
-    CommonModule,
     CardModule,
     RouterModule,
     I18nModule,

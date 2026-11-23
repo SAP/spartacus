@@ -21,9 +21,9 @@
           (keyup)="onKey($event)"
           [routerLink]="['/store-finder/find']"
           [queryParams]="{ query: queryInput.value }"
-          [ngClass]="{
-            'disabled-action': !(queryInput.value && queryInput.value.length),
-          }"
+          [class.disabled-action]="
+            !(queryInput.value && queryInput.value.length)
+          "
         />
       </div>
     </div>
@@ -59,11 +59,9 @@
               (keyup)="onKey($event)"
               [routerLink]="['/store-finder/find']"
               [queryParams]="{ query: queryInput.value }"
-              [ngClass]="{
-                'disabled-action': !(
-                  queryInput.value && queryInput.value.length
-                ),
-              }"
+              [class.disabled-action]="
+                !(queryInput.value && queryInput.value.length)
+              "
             />
           </div>
         </label>

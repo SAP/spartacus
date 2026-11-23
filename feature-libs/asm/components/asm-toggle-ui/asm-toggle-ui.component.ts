@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmUi } from '@spartacus/asm/root';
@@ -14,7 +13,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-asm-toggle-ui',
   templateUrl: './asm-toggle-ui.component.html',
-  imports: [NgClass, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {
   protected asmService = inject(AsmService);

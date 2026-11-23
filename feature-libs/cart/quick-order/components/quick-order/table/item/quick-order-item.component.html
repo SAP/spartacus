@@ -1,7 +1,7 @@
 <td role="cell">
   <div class="cx-table-item-container">
     <a
-      [ngClass]="{
+      [class]="{
         disabled: loading(),
         'img-missing': !entry?.product?.images?.PRIMARY,
       }"
@@ -17,7 +17,7 @@
     <div class="cx-info">
       <div class="cx-name">
         <a
-          [ngClass]="{ disabled: loading() }"
+          [class.disabled]="loading()"
           [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
           class="cx-link"
           >{{ entry.product?.name || '-' }}

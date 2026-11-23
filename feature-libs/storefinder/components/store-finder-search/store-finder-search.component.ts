@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormsModule,
@@ -31,7 +31,6 @@ import {
     ReactiveFormsModule,
     IconComponent,
     RouterLink,
-    NgClass,
     NgTemplateOutlet,
     TranslatePipe,
     FeatureDirective,

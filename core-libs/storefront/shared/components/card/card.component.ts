@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, Input, OnInit, output, input } from '@angular/core';
 import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
@@ -50,7 +50,6 @@ export interface Card {
     FocusDirective,
     AtMessageDirective,
     GenericLinkComponent,
-    NgClass,
     TruncateTextPopoverComponent,
     TranslatePipe,
   ],

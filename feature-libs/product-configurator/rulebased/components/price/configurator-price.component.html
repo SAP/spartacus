@@ -1,7 +1,7 @@
 @if (displayFormula()) {
   @if (displayPriceOnly()) {
     <div
-      [ngClass]="styleClass"
+      [class]="styleClass"
       [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
     >
       {{ price }}

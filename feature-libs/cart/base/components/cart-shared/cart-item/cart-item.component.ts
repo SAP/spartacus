@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -43,7 +43,6 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
   imports: [
     OutletDirective,
     CartItemValidationWarningComponent,
-    NgClass,
     RouterLink,
     MediaComponent,
     ItemCounterComponent,

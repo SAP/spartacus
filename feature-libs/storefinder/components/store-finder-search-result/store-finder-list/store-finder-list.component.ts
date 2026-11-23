@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT, KeyValuePipe, NgClass } from '@angular/common';
+import { DOCUMENT, KeyValuePipe } from '@angular/common';
 import {
   Component,
   effect,
@@ -30,7 +30,6 @@ import { LocationDisplayMode } from './store-finder-list.model';
     StoreFinderPaginationDetailsComponent,
     IconComponent,
     StoreFinderStoreDescriptionComponent,
-    NgClass,
     StoreFinderListItemComponent,
     StoreFinderMapComponent,
     KeyValuePipe,

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,7 +28,7 @@ import { filter, take } from 'rxjs/operators';
   selector: 'cx-product-variant-style-selector',
   templateUrl: './product-variant-style-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class ProductVariantStyleSelectorComponent {
   private config = inject(OccConfig);

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -29,7 +29,6 @@ import { combineLatest, filter, map, Observable } from 'rxjs';
   imports: [
     OpfCheckoutReviewCardComponent,
     OpfCheckoutTermsAndConditionsAlertComponent,
-    NgClass,
     FormsModule,
     ReactiveFormsModule,
     RouterLink,

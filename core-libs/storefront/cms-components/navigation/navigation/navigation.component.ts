@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ import { NavigationService } from './navigation.service';
   selector: 'cx-navigation',
   templateUrl: './navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NavigationUIComponent, NgClass, AsyncPipe],
+  imports: [NavigationUIComponent, AsyncPipe],
 })
 export class NavigationComponent {
   protected componentData =

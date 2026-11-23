@@ -34,7 +34,7 @@
     @if (hasStock && isPurchasable) {
       <button
         #addToCartDialogTriggerEl
-        [ngClass]="
+        [class]="
           options?.displayAddToCart
             ? 'btn btn-tertiary'
             : 'btn btn-primary btn-block'
@@ -56,7 +56,7 @@
           <span class="repeat-icon"><cx-icon [type]="iconTypes.REPEAT" /></span>
         }
         <span
-          [ngClass]="
+          [class]="
             options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
               ? 'buyItAgainLink'
               : ''

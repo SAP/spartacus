@@ -1,5 +1,5 @@
 @for (document of documents; track document) {
-  <tr [ngClass]="{ selected: document === selectedDocument }">
+  <tr [class.selected]="document === selectedDocument">
     <td [style.padding-left.rem]="depth() + 1">
       <div>
         <span>{{

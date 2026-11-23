@@ -22,7 +22,7 @@
     @if (numberofColumns$ | async; as numberofColumns) {
       <div
         class="product-listing-items"
-        [ngClass]="'column-' + numberofColumns"
+        [class]="'column-' + numberofColumns"
         [class.show-more]="showMore"
       >
         @for (product of products; track product; let i = $index) {

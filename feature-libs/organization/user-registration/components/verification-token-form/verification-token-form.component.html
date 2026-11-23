@@ -45,7 +45,7 @@
             (keydown.space)="resendOTP()"
             (click)="resendOTP()"
             class="btn-link"
-            [ngClass]="{ 'disabled-link': isResendDisabled }"
+            [class.disabled-link]="isResendDisabled"
           >
             {{ 'verificationTokenForm.resend' | cxTranslate }}
           </a>

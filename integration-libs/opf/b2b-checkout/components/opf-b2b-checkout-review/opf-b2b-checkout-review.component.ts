@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -55,7 +55,6 @@ import { OpfB2bCheckoutPlaceOrderComponent } from '../opf-b2b-checkout-place-ord
   imports: [
     OpfCheckoutReviewCardComponent,
     OpfCheckoutTermsAndConditionsAlertComponent,
-    NgClass,
     FormsModule,
     ReactiveFormsModule,
     RouterLink,

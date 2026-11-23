@@ -1,7 +1,7 @@
 <form>
   <label for="cartNumber">{{ 'asm.bindCart.cartNumber' | cxTranslate }} </label>
   <div
-    [ngClass]="'cx-asm-assignCart-input-show-no-button'"
+    [class]="'cx-asm-assignCart-input-show-no-button'"
     [class.active]="valid$ | async"
     (click)="cartIdElement.focus()"
   >

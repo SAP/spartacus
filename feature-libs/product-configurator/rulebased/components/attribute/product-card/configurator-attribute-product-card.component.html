@@ -3,9 +3,7 @@
   <ng-container *cxFeature="'!productConfiguratorCPQContainer'">
     <div
       class="cx-product-card"
-      [ngClass]="{
-        'cx-product-card-selected': isProductCardSelected(),
-      }"
+      [class.cx-product-card-selected]="isProductCardSelected()"
       [attr.aria-label]="
         'configurator.a11y.itemOfAttribute'
           | cxTranslate
@@ -216,9 +214,7 @@
   <ng-container *cxFeature="'productConfiguratorCPQContainer'">
     <div
       class="cx-product-card-container"
-      [ngClass]="{
-        'cx-product-card-container-selected': isProductCardSelected(),
-      }"
+      [class.cx-product-card-container-selected]="isProductCardSelected()"
       [attr.aria-label]="
         'configurator.a11y.itemOfAttribute'
           | cxTranslate

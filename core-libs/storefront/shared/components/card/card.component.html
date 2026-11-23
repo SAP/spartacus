@@ -194,7 +194,7 @@
   let-text="text"
 >
   @if (!truncateText) {
-    <div [class]="class" [ngClass]="content.customClass">
+    <div [class]="(class ?? '') + ' ' + (content.customClass ?? '')">
       {{ text }}
     </div>
   }
