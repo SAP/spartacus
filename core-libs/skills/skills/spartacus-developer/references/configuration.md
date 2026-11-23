@@ -65,7 +65,7 @@ provideConfig({
 @NgModule({
   providers: [
     provideDefaultConfig({
-      backend: { occ: { endpoints: { product: 'products/${productCode}?fields=FULL' } } },
+      backend: { occ: { endpoints: { productReviews: 'products/${productCode}/reviews?maxCount=5' } } },
     }),
   ],
 })
@@ -77,7 +77,7 @@ export class AppOccConfigModule {}
 @NgModule({
   providers: [
     provideConfig({
-      backend: { occ: { endpoints: { product: 'products/${productCode}?fields=FULL' } } },
+      backend: { occ: { endpoints: { productReviews: 'products/${productCode}/reviews?maxCount=5' } } },
     }),
   ],
 })

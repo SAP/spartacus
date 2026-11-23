@@ -52,3 +52,7 @@ AVOID `disableSSR` on publicly crawlable pages — the SSR-to-CSR transition cau
 
 - `WindowRef` from `@spartacus/core` — `isBrowser()`, `nativeWindow`, `nativeDocument`, `localStorage`, `sessionStorage`.
 - `disableSSR` is handled by `ComponentWrapperDirective` in `@spartacus/storefront`.
+
+## Supplemental Information
+
+- [performance.md](performance.md) — what keeps the server render from finishing (timers, pending or failing calls), and what it has to contain for a fast first load.

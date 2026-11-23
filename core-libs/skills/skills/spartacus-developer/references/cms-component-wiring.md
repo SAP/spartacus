@@ -107,3 +107,4 @@ If your component type isn't listed in any slot, the CMS backoffice hasn't place
 ## Supplemental Information
 
 - [placement-mechanisms.md](placement-mechanisms.md) — the three placement mechanisms in detail, including the `cmsStructure` config for development/demo.
+- [performance.md](performance.md) — performance rules for any component: server rendering, backend requests, media, reserved space, lazy loading and cleanup.

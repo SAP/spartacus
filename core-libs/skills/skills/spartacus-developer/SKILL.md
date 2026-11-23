@@ -1,6 +1,6 @@
 ---
 name: spartacus-developer
-description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration. Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
+description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration, and for any review or audit of such an application, including its performance (Core Web Vitals, server rendering, requests, bundle size, memory). Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
 license: Apache-2.0
 ---
 
@@ -26,6 +26,7 @@ Each topic lives in its own `.md` file in the `references/` folder. Read a topic
 - [facades-not-store.md](references/facades-not-store.md) — read when reading or writing Spartacus state from a component.
 - [ssr-safety.md](references/ssr-safety.md) — read when touching `window`, `document`, `localStorage`, or any browser-only API.
 - [outlets.md](references/outlets.md) — read when sprinkling new UI into an existing Spartacus page without replacing it.
+- [performance.md](references/performance.md) — read before adding or changing a component, a data call, a timer or listener, a library or a third-party script, and whenever you review, audit or improve a storefront's performance.
 
 Some topics link to further deep-dive material in the same `references/` folder.
 
@@ -38,7 +39,7 @@ Backend, routing, and lazy loading:
 - NEVER use `loadChildren` — Spartacus has its own CMS-driven lazy loading.
 
 Templates and styling:
-- NEVER hardcode user-facing strings — use the `cxTranslate` pipe.
+- NEVER hardcode user-facing strings — use the `cxTranslate` pipe, and register new keys as `lang → chunk → namespace → keys` with a matching `chunks` entry ([i18n.md](references/i18n.md)); a missing level renders blank or bracketed text.
 - NEVER hardcode router links — use the `cxUrl` pipe.
 - For brand-new custom components, component-scoped styles are fine; for tweaking Spartacus OOTB components, use global SCSS so `@spartacus/styles` overrides win.
 
@@ -49,8 +50,16 @@ State and customization:
 
 Components and SSR:
 - ALWAYS use `ChangeDetectionStrategy.OnPush` on new components, paired with the `async` pipe (preserve `Default` when extending a Spartacus component that uses it).
-- AVOID `.subscribe()` in components when the data drives the template; if you reach for `markForCheck()`, the data should be a stream.
+- AVOID `.subscribe()` in components when the data drives the template; if you reach for `markForCheck()`, the data should be a stream. In a zoneless app (the default for new storefronts) a field set inside `subscribe`, a timer or a `fetch` callback does not re-render: hand it to the template through the `async` pipe or a signal.
+- ALWAYS call `takeUntilDestroyed()` without arguments only in a constructor or field initializer; in `ngOnInit` or later pass an injected `DestroyRef` (`takeUntilDestroyed(this.destroyRef)`), otherwise it throws at runtime.
 - NEVER reference `window`/`document`/`localStorage` without guarding via `WindowRef.isBrowser()`.
+
+Performance (see [performance.md](references/performance.md)):
+- With SSR, ALWAYS keep first-screen content in the server render, and NEVER start timers, intervals or polling outside the browser — on the server they keep the render from settling (the empty client page is sent after 3 seconds) or leak with every request.
+- ALWAYS load data through Spartacus services with the narrowest scope (`ProductScope`); a list of product codes goes through `ProductSearchByCodeService` (one search request); NEVER `HttpClient` for product data, `fields=FULL`, a request per item, or a second subscription that repeats the request.
+- ALWAYS render backend media with `cx-media`, mark a page's main image (`*cxLcpContext`, `lcpCmsComponents`) and reserve the space of images and late-arriving blocks. NEVER convert or replace image files — report oversized ones.
+- NEVER put page-specific features, heavy libraries or data files into code that loads with every page — use a lazy feature module or `import()`.
+- ALWAYS end subscriptions and remove listeners and timers on destroy, and keep handlers light (`debounceTime`, `track`, `OnPush`).
 
 Configuration:
 - ALWAYS use `provideConfig()` (not `provideDefaultConfig()`)
