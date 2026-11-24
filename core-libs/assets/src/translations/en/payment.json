@@ -5,10 +5,10 @@
     "edit": "Edit Fiscal ID",
     "errors": {
       "invalid": "Incomplete or incorrect. Please enter it again.",
-      "invalidFormat": "Fiscal ID format is invalid for country {{country}}",
+      "invalidFormat": "Fiscal ID format is invalid for country {{ country }}",
       "checksumInvalid": "Fiscal ID checksum validation failed",
       "customValidationFailed": "Fiscal ID validation failed",
-      "rulesNotConfigured": "Fiscal ID validation is not configured for country {{country}}",
+      "rulesNotConfigured": "Fiscal ID validation is not configured for country {{ country }}",
       "countryRequired": "Country code is required for fiscal ID validation",
       "storeDisabled": "Fiscal ID is not enabled for this store",
       "unknown": "Unable to save your Fiscal ID. Please try again."
