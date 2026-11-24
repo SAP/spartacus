@@ -140,6 +140,7 @@ describe('TabParagraphContainerComponent', () => {
         flexType: mockComponents[i],
         uid: mockComponents[i],
         title: `TabPanelContainer.tabs.${mockComponents[i]}`,
+        nested: true,
       });
     }
   });
@@ -161,11 +162,13 @@ describe('TabParagraphContainerComponent', () => {
         flexType: mockTabComponentData1.uid,
         uid: mockTabComponentData1.uid,
         title: `TabPanelContainer.tabs.${mockTabComponentData1.uid}`,
+        nested: true,
       },
       {
         flexType: mockTabComponentData3.uid,
         uid: mockTabComponentData3.uid,
         title: `TabPanelContainer.tabs.${mockTabComponentData3.uid}`,
+        nested: true,
       },
     ]);
   });
