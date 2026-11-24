@@ -732,6 +732,7 @@ export function loginCustomerWithNameAndPassword(
   password: string
 ) {
   const authRequest = listenForAuthenticationRequest();
+  cy.wait(8000); // wait for SSR timeout to pass (8s)
   login(name, password);
   cy.wait(authRequest).its('response.statusCode').should('eq', 200);
 }

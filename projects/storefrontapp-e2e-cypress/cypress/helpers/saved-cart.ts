@@ -190,7 +190,7 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
   });
 
   cy.get('cx-item-counter input').type(`{selectall}${quantity.toString()}`);
-
+  cy.wait(8000); // wait for SSR timeout to pass (8s)
   cart.clickAddToCart();
 
   cy.wait(`@${alias2}`).its('response.statusCode').should('eq', 200);
