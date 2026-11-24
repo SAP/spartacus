@@ -19,6 +19,8 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutFiscalIdConfiguration,
   CheckoutFiscalIdFacade,
+  getFiscalIdErrorKey,
+  getFiscalIdErrorParams,
 } from '@spartacus/checkout/base/root';
 import {
   FeatureToggles,
@@ -125,6 +127,7 @@ export class FiscalIdFormComponent implements OnInit, OnDestroy {
       }
       this.saving = true;
       this.changeDetectorRef.markForCheck();
+      const submittedCountry = this.configuration.sapCountry;
       return this.fiscalIdFacade.setFiscalId(this.control.value).pipe(
         map(() => {
           this.control.markAsPristine();
@@ -134,15 +137,20 @@ export class FiscalIdFormComponent implements OnInit, OnDestroy {
           const errors = error.details?.filter(
             (detail) =>
               detail.errorCode?.startsWith('fiscal.id.') ||
+              detail.type === 'FiscalIdValidationError' ||
               detail.type === 'ValidationError'
           );
           if (errors?.length) {
-            const message = errors
-              .map((detail) => detail.message)
-              .filter(Boolean)
-              .join(' ');
             this.control.setErrors(
-              message ? { fiscalId: { message } } : { invalid: true }
+              Object.fromEntries(
+                errors.map((detail) => {
+                  const key = getFiscalIdErrorKey(detail.errorCode);
+                  return [
+                    key,
+                    getFiscalIdErrorParams(key, submittedCountry) ?? true,
+                  ];
+                })
+              )
             );
             this.control.markAsTouched();
             this.focusInvalidField();

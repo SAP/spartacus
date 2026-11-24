@@ -7,6 +7,10 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  getFiscalIdErrorKey,
+  getFiscalIdErrorParams,
+} from '@spartacus/checkout/base/root';
+import {
   ErrorModel,
   GlobalMessageType,
   HttpErrorHandler,
@@ -33,26 +37,31 @@ export class FiscalIdRequestHandler extends HttpErrorHandler {
   }
 
   handleError(
-    _request: HttpRequest<unknown>,
+    request: HttpRequest<unknown>,
     response: HttpErrorResponse
   ): void {
     const errors = this.getErrors(response);
-    const messages = new Set(
-      errors.map((error) => error.message).filter(Boolean)
+    const errorKeys = new Set(
+      errors.map((error) => getFiscalIdErrorKey(error.errorCode))
     );
-    if (!messages.size) {
+    if (!errorKeys.size) {
+      errorKeys.add(getFiscalIdErrorKey());
+    }
+    const body = request.body;
+    const country =
+      body &&
+      typeof body === 'object' &&
+      'sapCountry' in body &&
+      typeof body.sapCountry === 'string'
+        ? body.sapCountry
+        : undefined;
+    errorKeys.forEach((key) => {
+      const params = getFiscalIdErrorParams(key, country);
       this.globalMessageService.add(
-        { key: 'httpHandlers.otherCartErrors' },
+        { key: 'fiscalId.errors.' + key, ...(params ? { params } : {}) },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      return;
-    }
-    messages.forEach((message) =>
-      this.globalMessageService.add(
-        message as string,
-        GlobalMessageType.MSG_TYPE_ERROR
-      )
-    );
+    });
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
