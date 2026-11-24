@@ -15,7 +15,11 @@ import {
 import { META_REDUCERS } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { Config } from '../../config/config-tokens';
-import { getTransferStateReducer } from './transfer-state.reducer';
+import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
+import {
+  getBeforeAppSerializedTransferStateProvider,
+  getTransferStateReducer,
+} from './transfer-state.reducer';
 
 export { getStateSlice } from '../utils/get-state-slice';
 export * from './transfer-state.reducer';
@@ -33,6 +37,7 @@ export const stateMetaReducers: Provider[] = [
       [new Optional(), TransferState],
       [new Optional(), Config],
       [new Optional(), AuthStatePersistenceService],
+      [new Optional(), FeatureToggles],
     ],
   },
   {
@@ -40,4 +45,5 @@ export const stateMetaReducers: Provider[] = [
     useExisting: TRANSFER_STATE_META_REDUCER,
     multi: true,
   },
+  getBeforeAppSerializedTransferStateProvider(),
 ];

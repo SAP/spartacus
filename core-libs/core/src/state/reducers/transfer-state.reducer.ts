@@ -5,13 +5,22 @@
  */
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-
-import { INIT } from '@ngrx/store';
+import {
+  Optional,
+  PLATFORM_ID,
+  Provider,
+  TransferState,
+  makeStateKey,
+  StateKey,
+} from '@angular/core';
+import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
+import { INIT, Store } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
-import { makeStateKey, StateKey, TransferState } from '@angular/core';
+import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 
 export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 
@@ -19,7 +28,8 @@ export function getTransferStateReducer(
   platformId: Object,
   transferState?: TransferState,
   config?: StateConfig,
-  authStatePersistenceService?: AuthStatePersistenceService
+  authStatePersistenceService?: AuthStatePersistenceService,
+  featureToggles?: FeatureToggles
 ) {
   if (transferState && config?.state?.ssrTransfer?.keys) {
     if (isPlatformBrowser(platformId)) {
@@ -28,8 +38,11 @@ export function getTransferStateReducer(
         config.state.ssrTransfer.keys,
         Boolean(authStatePersistenceService?.isUserLoggedIn())
       );
-    } else if (isPlatformServer(platformId)) {
-      return getServerTransferStateReducer(
+    } else if (
+      isPlatformServer(platformId) &&
+      !featureToggles?.ssrTransferStateBeforeAppSerialized
+    ) {
+      return getLegacyServerTransferStateReducer(
         transferState,
         config.state.ssrTransfer.keys
       );
@@ -39,7 +52,7 @@ export function getTransferStateReducer(
   return (reducer: any) => reducer;
 }
 
-export function getServerTransferStateReducer(
+export function getLegacyServerTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType | undefined }
 ) {
@@ -58,6 +71,48 @@ export function getServerTransferStateReducer(
 
       return newState;
     };
+  };
+}
+
+export function getBeforeAppSerializedTransferStateProvider(): Provider {
+  return {
+    provide: BEFORE_APP_SERIALIZED,
+    useFactory: (
+      store: Store,
+      transferState: TransferState,
+      config: StateConfig | null,
+      platformId: Object,
+      featureToggles: FeatureToggles | null
+    ) =>
+      async (): Promise<void> => {
+        if (
+          !isPlatformServer(platformId) ||
+          !featureToggles?.ssrTransferStateBeforeAppSerialized
+        ) {
+          return;
+        }
+        if (!config?.state?.ssrTransfer?.keys) {
+          return;
+        }
+
+        const state = await firstValueFrom(store);
+        if (state) {
+          const transferStateKeys = filterKeysByType(
+            config.state.ssrTransfer.keys,
+            StateTransferType.TRANSFER_STATE
+          );
+          const stateSlice = getStateSlice(transferStateKeys, [], state);
+          transferState.set(CX_KEY, stateSlice);
+        }
+      },
+    deps: [
+      Store,
+      TransferState,
+      [new Optional(), StateConfig],
+      PLATFORM_ID,
+      [new Optional(), FeatureToggles],
+    ],
+    multi: true,
   };
 }
 
