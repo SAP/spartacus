@@ -79,7 +79,7 @@ context('Product search', { testIsolation: false }, () => {
         );
       });
 
-      it('should filter results using facet filtering and clear all active facets at once (CXSPA-14675)', () => {
+      it('should filter results using facet filtering and clear all applied facets at once (CXSPA-14675)', () => {
         const categoryPage = waitForCategoryPage('575', 'getCategoryPage');
         cy.visit('/c/575');
         cy.wait(`@${categoryPage}`)
@@ -88,19 +88,7 @@ context('Product search', { testIsolation: false }, () => {
 
         // Wait until the product results count is rendered (it loads via a
         // separate search request, after the CMS page), then capture it.
-        cy.get(productSearchFlow.resultsTitleSelector)
-          .invoke('text')
-          .should('match', /\d/)
-          .then((text) =>
-            parseInt(
-              text
-                .trim()
-                .match(/[\d,]+/)[0]
-                .replace(/,/g, ''),
-              10
-            )
-          )
-          .as('resultsCount');
+        productSearchFlow.getResultsCount().as('resultsCount');
 
         // Apply first filter for Stores
         cy.intercept({
@@ -133,20 +121,9 @@ context('Product search', { testIsolation: false }, () => {
         // Compare results count before applying filters and after clearing all
         cy.get('@resultsCount').then((firstResult) => {
           // After clearing, wait for the count to render again, then compare
-          cy.get(productSearchFlow.resultsTitleSelector)
-            .invoke('text')
-            .should('match', /\d/)
-            .then((text) => {
-              const endResult = parseInt(
-                text
-                  .trim()
-                  .match(/[\d,]+/)[0]
-                  .replace(/,/g, ''),
-                10
-              );
-
-              expect(firstResult).to.equal(endResult);
-            });
+          productSearchFlow.getResultsCount().then((endResult) => {
+            expect(firstResult).to.equal(endResult);
+          });
         });
       });
     });

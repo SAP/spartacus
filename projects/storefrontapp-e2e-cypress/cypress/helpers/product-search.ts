@@ -179,6 +179,27 @@ export function clearActiveFacet() {
   cy.get(resultsTitleSelector).should('contain', 'results for "camera"');
 }
 
+/**
+ * Reads the total results count from the breadcrumb title ("N results for ...").
+ * Waits until the count has rendered (it loads via a separate search request),
+ * then returns it as a number (comma thousands-separators are stripped).
+ */
+export function getResultsCount() {
+  return cy
+    .get(resultsTitleSelector)
+    .invoke('text')
+    .should('match', /\d/)
+    .then((text) =>
+      parseInt(
+        text
+          .trim()
+          .match(/[\d,]+/)[0]
+          .replace(/,/g, ''),
+        10
+      )
+    );
+}
+
 export function sortByLowestPrice() {
   clickSearchIcon();
   enterProduct();
@@ -234,14 +255,17 @@ export function clickFacet(header: string, force = false) {
   cy.onMobile(() => {
     cy.get('cx-product-facet-navigation button').click();
   });
-  cy.get('cx-facet-list cx-tab button.tab-btn')
-    .contains(header)
-    .then((el) => {
-      if (el.find('.tab-icon[outerText^="+"]').length || force) {
-        // TODO Remove force once you can scroll facets on mobile
-        cy.wrap(el).click({ force: true });
-      }
-    });
+  cy.contains('cx-facet-list cx-tab button.tab-btn', header).then((el) => {
+    // Expand the facet group only when it is collapsed. Keying off the real
+    // aria-expanded state (instead of a broken icon check) makes this
+    // order-independent: it never toggles an already-open group closed.
+    // The two-arg cy.contains guarantees `el` is the button (not an inner
+    // span), so aria-expanded is read reliably. `force` still allows clicking
+    // a tab header that is off-screen on mobile.
+    if (el.attr('aria-expanded') !== 'true') {
+      cy.wrap(el).click({ force });
+    }
+  });
   cy.get(`cx-facet[aria-label^="${header}"]`).within(() => {
     // TODO Remove force once you can scroll facets on mobile
     cy.get('a.value').first().click({ force: true });
