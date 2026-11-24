@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   CartAddEntryFailEvent,
@@ -19,9 +19,12 @@ import {
 } from '@spartacus/cart/quick-order/root';
 import {
   Config,
+  CurrencyService,
   EventService,
+  FeatureToggles,
   HttpErrorModel,
   Product,
+  ProductConnector,
   ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
@@ -31,10 +34,21 @@ import {
   Observable,
   Subject,
   Subscription,
+  forkJoin,
   of,
   timer,
 } from 'rxjs';
-import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  first,
+  map,
+  skip,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable()
 export class QuickOrderService implements QuickOrderFacade, OnDestroy {
@@ -50,6 +64,16 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     this.config.quickOrder?.list?.hardDeleteTimeout || 7000;
   protected quickOrderListLimit = 0;
   protected clearDeleteTimeouts: Record<string, Subscription> = {};
+  private featureToggles = inject(FeatureToggles);
+  protected currencyService = inject(CurrencyService);
+  protected productConnector = inject(ProductConnector);
+  protected lifecycleSubscription: Subscription = this.featureToggles
+    .quickOrderRefreshPricesOnCurrencyChange
+    ? this.currencyService
+        .getActive()
+        .pipe(skip(1), distinctUntilChanged())
+        .subscribe(() => this.refreshEntriesPrices())
+    : new Subscription();
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -59,6 +83,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
+    this.lifecycleSubscription.unsubscribe();
     this.clearDeletedEntries();
   }
 
@@ -447,6 +472,57 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     }
 
     return evt;
+  }
+
+  protected refreshEntriesPrices(): void {
+    const entries = this.entries$.getValue();
+    // Nothing to refresh when the list is empty
+    if (!entries.length) {
+      return;
+    }
+
+    // Extract product codes, skipping entries without one
+    const productCodes = entries
+      .map((entry) => entry.product?.code)
+      .filter((code): code is string => !!code);
+
+    // Fire one backend request per product in parallel; failed individual
+    // fetches resolve to null so the rest still succeed
+    const priceRequests = productCodes.map((code) =>
+      this.productConnector.get(code).pipe(
+        first(),
+        catchError(() => of(null))
+      )
+    );
+
+    // Wait for all requests to complete, then patch prices in one pass
+    forkJoin(priceRequests)
+      .pipe(first())
+      .subscribe((products) => {
+        // Index successfully fetched products by code for O(1) lookup
+        const productMap = new Map<string, Product>(
+          products
+            .filter((p): p is Product => !!p)
+            .map((p) => [p.code as string, p])
+        );
+
+        // Replace price fields on each entry; leave unchanged if fetch failed
+        const updatedEntries = entries.map((entry) => {
+          const code = entry.product?.code;
+          const updatedProduct = code ? productMap.get(code) : undefined;
+          if (updatedProduct?.price) {
+            return {
+              ...entry,
+              basePrice: updatedProduct.price,
+              totalPrice: updatedProduct.price,
+              product: { ...entry.product, price: updatedProduct.price },
+            };
+          }
+          return entry;
+        });
+
+        this.entries$.next(updatedEntries);
+      });
   }
 
   protected clearDeleteTimeout(productCode: string): void {

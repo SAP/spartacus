@@ -7,13 +7,16 @@ import {
 } from '@spartacus/cart/base/root';
 import { defaultQuickOrderConfig } from '@spartacus/cart/quick-order/root';
 import {
+  CurrencyService,
   EventService,
+  FeatureToggles,
   Product,
+  ProductConnector,
   ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
-import { Observable, of, queueScheduler, firstValueFrom } from 'rxjs';
+import { Observable, Subject, of, queueScheduler, firstValueFrom } from 'rxjs';
 import { observeOn, take, tap } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';
 
@@ -84,6 +87,24 @@ class MockProductSearchConnector implements Partial<ProductSearchConnector> {
   }
 }
 
+const mockActiveCurrency$ = new Subject<string>();
+
+class MockCurrencyService implements Partial<CurrencyService> {
+  getActive(): Observable<string> {
+    return mockActiveCurrency$.asObservable();
+  }
+}
+
+class MockProductConnector implements Partial<ProductConnector> {
+  get(productCode: string): Observable<Product> {
+    const products: Record<string, Product> = {
+      [mockProduct1Code]: mockProduct1,
+      [mockProduct2Code]: mockProduct2,
+    };
+    return of(products[productCode] ?? { code: productCode });
+  }
+}
+
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
@@ -104,6 +125,7 @@ class MockEventService implements Partial<EventService> {
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
   let productSearchConnector: ProductSearchConnector;
+  let productConnector: ProductConnector;
   let activeCartService: ActiveCartFacade;
 
   beforeEach(() => {
@@ -122,11 +144,24 @@ describe('QuickOrderService', () => {
           provide: ProductSearchConnector,
           useClass: MockProductSearchConnector,
         },
+        {
+          provide: CurrencyService,
+          useClass: MockCurrencyService,
+        },
+        {
+          provide: ProductConnector,
+          useClass: MockProductConnector,
+        },
+        {
+          provide: FeatureToggles,
+          useValue: { quickOrderRefreshPricesOnCurrencyChange: true },
+        },
       ],
     });
 
     service = TestBed.inject(QuickOrderService);
     productSearchConnector = TestBed.inject(ProductSearchConnector);
+    productConnector = TestBed.inject(ProductConnector);
     activeCartService = TestBed.inject(ActiveCartFacade);
   });
 
@@ -455,6 +490,84 @@ describe('QuickOrderService', () => {
         service.getNonPurchasableProductError()
       );
       expect(value).toBeNull();
+    });
+  });
+
+  describe('refreshEntriesPrices on currency change', () => {
+    const mockUpdatedPrice = { value: 2, formattedValue: '€2.00' };
+    const mockProduct1WithNewPrice: Product = {
+      ...mockProduct1,
+      price: mockUpdatedPrice,
+    };
+
+    beforeEach(() => {
+      vi.spyOn(productConnector, 'get').mockReturnValue(
+        of(mockProduct1WithNewPrice)
+      );
+    });
+
+    it('should re-fetch prices for all entries when currency changes', async () => {
+      service.loadEntries([
+        {
+          product: mockProduct1,
+          quantity: 1,
+          basePrice: mockProduct1.price,
+          totalPrice: mockProduct1.price,
+        },
+      ]);
+
+      // First emission simulates the initial active currency (skipped by skip(1))
+      mockActiveCurrency$.next('USD');
+      // Second emission simulates the actual currency change
+      mockActiveCurrency$.next('EUR');
+
+      const entries = await firstValueFrom(service.getEntries());
+      expect(productConnector.get).toHaveBeenCalledWith(mockProduct1Code);
+      expect(entries[0].basePrice).toEqual(mockUpdatedPrice);
+      expect(entries[0].totalPrice).toEqual(mockUpdatedPrice);
+      expect(entries[0].product?.price).toEqual(mockUpdatedPrice);
+    });
+
+    it('should not call productConnector when list is empty on currency change', () => {
+      // First emission simulates initial active currency (skipped by skip(1))
+      mockActiveCurrency$.next('USD');
+      // Second emission simulates actual currency change
+      mockActiveCurrency$.next('EUR');
+
+      expect(productConnector.get).not.toHaveBeenCalled();
+    });
+
+    it('should not refresh prices when toggle is disabled', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          QuickOrderService,
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
+          { provide: EventService, useClass: MockEventService },
+          {
+            provide: ProductSearchConnector,
+            useClass: MockProductSearchConnector,
+          },
+          { provide: CurrencyService, useClass: MockCurrencyService },
+          { provide: ProductConnector, useClass: MockProductConnector },
+          {
+            provide: FeatureToggles,
+            useValue: { quickOrderRefreshPricesOnCurrencyChange: false },
+          },
+        ],
+      });
+
+      const serviceWithToggleOff = TestBed.inject(QuickOrderService);
+      const connectorWithToggleOff = TestBed.inject(ProductConnector);
+      vi.spyOn(connectorWithToggleOff, 'get');
+
+      serviceWithToggleOff.loadEntries([
+        { product: mockProduct1, quantity: 1 },
+      ]);
+      mockActiveCurrency$.next('USD');
+      mockActiveCurrency$.next('EUR');
+
+      expect(connectorWithToggleOff.get).not.toHaveBeenCalled();
     });
   });
 });
