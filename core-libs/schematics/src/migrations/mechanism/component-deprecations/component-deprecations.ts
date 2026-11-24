@@ -101,7 +101,7 @@ function overwriteInheritedRemovedProperties(
   sourceRoot: string | undefined,
   deprecatedComponent: ComponentData
 ) {
-  for (const removedProperty of deprecatedComponent.removedProperties || []) {
+  for (const removedProperty of deprecatedComponent.removedProperties ?? []) {
     // 'source' has to be reloaded after each committed change
     const source = getTsSourceFile(tree, sourcePath);
     const changes = insertCommentAboveIdentifier(

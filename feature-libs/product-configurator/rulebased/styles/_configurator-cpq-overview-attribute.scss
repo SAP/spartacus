@@ -78,20 +78,29 @@
     .cx-attribute-price-container {
       display: flex;
       flex-direction: row;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       color: var(--cx-color-secondary);
       width: 60%;
+      min-width: 0;
 
       @include media-breakpoint-down(sm) {
         width: 100%;
-        align-items: flex-start;
         padding-block-start: 5px;
       }
 
       .cx-attribute-label {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         padding-inline-end: 10px;
+      }
+
+      cx-configurator-price {
+        flex-shrink: 0;
       }
     }
   }

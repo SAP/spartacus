@@ -17,7 +17,7 @@ export function getDefaultUrlMatcherFactory(
   const factory = (route: Route) => {
     const routeName = route.data && route.data['cxRoute'];
     const routeConfig = routingConfigService.getRouteConfig(routeName);
-    const paths = (routeConfig && routeConfig.paths) || [];
+    const paths = routeConfig?.paths ?? [];
     return urlMatcherService.getFromPaths(paths);
   };
   return factory;

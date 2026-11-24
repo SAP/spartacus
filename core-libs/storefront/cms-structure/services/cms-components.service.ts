@@ -233,11 +233,11 @@ export class CmsComponentsService {
   ): CmsComponentChildRoutesConfig {
     const result: CmsComponentChildRoutesConfig = { children: [] };
 
-    (childRoutesConfigs || []).forEach((config) => {
+    childRoutesConfigs?.forEach((config) => {
       if (Array.isArray(config)) {
         result.children?.push(...config);
       } else {
-        result.children?.push(...(config.children || []));
+        result.children?.push(...(config.children ?? []));
         if (config.parent) {
           result.parent = config.parent;
         }
