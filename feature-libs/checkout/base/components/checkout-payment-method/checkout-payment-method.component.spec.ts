@@ -311,6 +311,76 @@ describe('CheckoutPaymentMethodComponent', () => {
     expect(checkoutStepService.next).not.toHaveBeenCalled();
   });
 
+  it.each([true, false])(
+    'locks payment options during Fiscal ID submission and releases them afterward (success: %s)',
+    (success) => {
+      vi.spyOn(mockUserPaymentService, 'getPaymentMethods').mockReturnValue(
+        of(mockPayments)
+      );
+      vi.spyOn(
+        mockUserPaymentService,
+        'getPaymentMethodsLoading'
+      ).mockReturnValue(of(false));
+      vi.spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).mockReturnValue(
+        of({ loading: false, error: false, data: mockPaymentDetails })
+      );
+      const fiscalIdFacade = TestBed.inject(CheckoutFiscalIdFacade);
+      vi.spyOn(fiscalIdFacade, 'getConfiguration').mockReturnValue(
+        of({ enabled: true, required: true })
+      );
+      const pending = new Subject<void>();
+      const save = vi
+        .spyOn(fiscalIdFacade, 'setFiscalId')
+        .mockReturnValue(pending);
+      fixture = TestBed.createComponent(CheckoutPaymentMethodComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      component.fiscalIdForm?.control.setValue('123456789');
+
+      expect(fixture.debugElement.queryAll(By.css('cx-card'))).toHaveLength(
+        mockPayments.length
+      );
+      fixture.debugElement
+        .query(By.css('.btn-primary'))
+        .triggerEventHandler('click');
+      // A second Continue must not release the first submission's lock.
+      component.next();
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('cx-card'))).toBeNull();
+      expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeTruthy();
+      expect(save).toHaveBeenCalledTimes(1);
+      expect(checkoutStepService.next).not.toHaveBeenCalled();
+
+      if (success) {
+        pending.next();
+        pending.complete();
+      } else {
+        pending.error(new Error('Fiscal ID save failed'));
+        expect(checkoutStepService.next).not.toHaveBeenCalled();
+      }
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeNull();
+      expect(fixture.debugElement.queryAll(By.css('cx-card'))).toHaveLength(
+        mockPayments.length
+      );
+      if (!success) {
+        expect(component.fiscalIdForm?.control.value).toBe('123456789');
+        save.mockReturnValue(of(undefined));
+        fixture.debugElement
+          .query(By.css('.btn-primary'))
+          .triggerEventHandler('click');
+      }
+      expect(checkoutStepService.next).toHaveBeenCalledExactlyOnceWith(
+        mockActivatedRoute
+      );
+    }
+  );
+
   it('validates Fiscal ID before creating a new payment method', () => {
     const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
     fiscalFixture.detectChanges();

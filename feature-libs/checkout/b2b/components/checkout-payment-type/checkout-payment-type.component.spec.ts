@@ -1,5 +1,5 @@
 import { CheckoutFiscalIdFacade } from '@spartacus/checkout/base/root';
-import { Component, DebugElement, Type } from '@angular/core';
+import { Component, DebugElement, Renderer2, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -248,17 +248,87 @@ describe('CheckoutPaymentTypeComponent', () => {
   });
 
   it('waits for Fiscal ID after saving a changed PO number', () => {
+    const paymentRequest = new Subject<void>();
+    vi.spyOn(checkoutPaymentTypeFacade, 'setPaymentType').mockReturnValue(
+      paymentRequest
+    );
+    fixture.componentRef.injector
+      .get(Renderer2)
+      .setProperty(
+        el.query(By.css('#poNumberInput')).nativeElement,
+        'value',
+        'changed-po'
+      );
     const pending = new Subject<boolean>();
     const form = component.fiscalIdForm;
     if (!form) {
       throw new Error('Expected the Fiscal ID form');
     }
-    vi.spyOn(form, 'submit').mockReturnValue(pending);
+    const submit = vi.spyOn(form, 'submit').mockReturnValue(pending);
     component.next();
+    fixture.detectChanges();
+    expect(el.query(By.css('div.cx-spinner'))).toBeTruthy();
+    expect(submit).not.toHaveBeenCalled();
+
+    paymentRequest.next();
+    paymentRequest.complete();
+    fixture.detectChanges();
+    expect(submit).toHaveBeenCalledTimes(1);
+    expect(el.query(By.css('div.cx-spinner'))).toBeTruthy();
     expect(checkoutStepService.next).not.toHaveBeenCalled();
     pending.next(true);
+    pending.complete();
+    fixture.detectChanges();
+    expect(el.query(By.css('div.cx-spinner'))).toBeNull();
     expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
   });
+
+  it.each([true, false])(
+    'locks payment type and unchanged PO during Fiscal ID submission and releases them afterward (success: %s)',
+    (success) => {
+      const fiscalIdFacade = TestBed.inject(CheckoutFiscalIdFacade);
+      const pending = new Subject<void>();
+      const save = vi
+        .spyOn(fiscalIdFacade, 'setFiscalId')
+        .mockReturnValue(pending);
+      component.fiscalIdForm?.control.setValue('123456789');
+
+      el.query(By.css('.btn-primary')).triggerEventHandler('click');
+      // A second Continue must not release the first submission's lock.
+      component.next();
+      fixture.detectChanges();
+
+      expect(el.query(By.css('input[type=radio]'))).toBeNull();
+      expect(el.query(By.css('#poNumberInput'))).toBeNull();
+      expect(el.query(By.css('div.cx-spinner'))).toBeTruthy();
+      expect(save).toHaveBeenCalledTimes(1);
+      expect(checkoutPaymentTypeFacade.setPaymentType).not.toHaveBeenCalled();
+      expect(checkoutStepService.next).not.toHaveBeenCalled();
+
+      if (success) {
+        pending.next();
+        pending.complete();
+      } else {
+        pending.error(new Error('Fiscal ID save failed'));
+        expect(checkoutStepService.next).not.toHaveBeenCalled();
+      }
+      fixture.detectChanges();
+
+      expect(el.query(By.css('div.cx-spinner'))).toBeNull();
+      expect(el.queryAll(By.css('input[type=radio]'))).toHaveLength(
+        mockPaymentTypes.length
+      );
+      expect(el.query(By.css('#poNumberInput'))).toBeTruthy();
+      if (!success) {
+        expect(component.fiscalIdForm?.control.value).toBe('123456789');
+        save.mockReturnValue(of(undefined));
+        el.query(By.css('.btn-primary')).triggerEventHandler('click');
+      }
+      expect(checkoutStepService.next).toHaveBeenCalledExactlyOnceWith(
+        mockActivatedRoute
+      );
+    }
+  );
 
   it('should set po number to cart if the cart po number does not match when calling next()', () => {
     component.typeSelected = 'test-code';

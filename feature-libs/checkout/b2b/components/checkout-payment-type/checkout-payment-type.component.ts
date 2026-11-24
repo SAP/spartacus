@@ -45,6 +45,7 @@ import {
   catchError,
   distinctUntilChanged,
   filter,
+  finalize,
   map,
   tap,
 } from 'rxjs/operators';
@@ -193,6 +194,7 @@ export class CheckoutPaymentTypeComponent implements OnDestroy {
 
   next(): void {
     if (
+      this.busy$.value ||
       !this.typeSelected ||
       (this.fiscalIdForm && !this.fiscalIdForm.validate())
     ) {
@@ -227,13 +229,15 @@ export class CheckoutPaymentTypeComponent implements OnDestroy {
   }
 
   protected submitFiscalId(): void {
+    this.busy$.next(true);
     this.subscriptions.add(
-      (this.fiscalIdForm?.submit() ?? of(true)).subscribe((success) => {
-        this.onSuccess();
-        if (success) {
-          this.checkoutStepService.next(this.activatedRoute);
-        }
-      })
+      (this.fiscalIdForm?.submit() ?? of(true))
+        .pipe(finalize(() => this.onSuccess()))
+        .subscribe((success) => {
+          if (success) {
+            this.checkoutStepService.next(this.activatedRoute);
+          }
+        })
     );
   }
 

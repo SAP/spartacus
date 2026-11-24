@@ -328,13 +328,18 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
+    if (this.busy$.value) {
+      return;
+    }
+    this.busy$.next(true);
     this.subscriptions.add(
-      (this.fiscalIdForm?.submit() ?? of(true)).subscribe((success) => {
-        this.busy$.next(false);
-        if (success) {
-          this.checkoutStepService.next(this.activatedRoute);
-        }
-      })
+      (this.fiscalIdForm?.submit() ?? of(true))
+        .pipe(finalize(() => this.busy$.next(false)))
+        .subscribe((success) => {
+          if (success) {
+            this.checkoutStepService.next(this.activatedRoute);
+          }
+        })
     );
   }
 
