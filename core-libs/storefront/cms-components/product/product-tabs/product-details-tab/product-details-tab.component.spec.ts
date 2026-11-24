@@ -124,6 +124,7 @@ describe('ProductDetailsTabComponent', () => {
     expect(result).toContainEqual({
       ...mockPDFComponent,
       flexType: mockPDFComponent.typeCode,
+      nested: true,
     });
   });
 

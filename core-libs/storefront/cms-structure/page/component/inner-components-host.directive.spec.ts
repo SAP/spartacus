@@ -148,6 +148,19 @@ describe('InnerComponentsHostDirective', () => {
       expect(content).toEqual('_A__B__A_');
     });
 
+    it('should set nested: true on inner component wrappers', () => {
+      fixture.detectChanges();
+      const directive = fixture.debugElement.childNodes[0].injector.get(
+        InnerComponentsHostDirective
+      );
+      const wrappers: ComponentWrapperDirective[] = (directive as any)
+        .componentWrappers;
+      expect(wrappers.length).toBeGreaterThan(0);
+      wrappers.forEach((wrapper) => {
+        expect(wrapper.cxComponentWrapper.nested).toBe(true);
+      });
+    });
+
     it('directive should destroy child components on destroy', () => {
       fixture.detectChanges();
       const contentBefore = fixture.debugElement.nativeElement.textContent;
