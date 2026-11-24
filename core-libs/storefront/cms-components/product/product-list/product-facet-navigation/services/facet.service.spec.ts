@@ -235,4 +235,117 @@ describe('FacetService', () => {
       expect(result).toEqual({ query: 'test test' });
     });
   });
+
+  describe('getResetQuery', () => {
+    it('should return an empty query when there are no active facets', () => {
+      expect(service.getResetQuery([])).toEqual('');
+    });
+
+    it('should return an empty query when active facets have no removeQuery', () => {
+      expect(service.getResetQuery([{ facetName: 'a' }])).toEqual('');
+    });
+
+    it('should keep the category context for a single active facet', () => {
+      const activeFacets = [
+        {
+          facetCode: 'brand',
+          facetValueCode: 'Sony',
+          removeQuery: { query: { value: ':relevance:allCategories:575' } },
+        },
+      ] as Breadcrumb[];
+      expect(service.getResetQuery(activeFacets)).toEqual(
+        ':relevance:allCategories:575'
+      );
+    });
+
+    it('should strip every active facet while keeping the free text search', () => {
+      const activeFacets = [
+        {
+          facetCode: 'brand',
+          facetValueCode: 'Sony',
+          removeQuery: { query: { value: 'camera:relevance:megapixel:20' } },
+        },
+        {
+          facetCode: 'megapixel',
+          facetValueCode: '20',
+          removeQuery: { query: { value: 'camera:relevance:brand:Sony' } },
+        },
+      ] as Breadcrumb[];
+      expect(service.getResetQuery(activeFacets)).toEqual('camera:relevance');
+    });
+
+    it('should preserve the category context while removing user facets', () => {
+      const activeFacets = [
+        {
+          facetCode: 'color',
+          facetValueCode: 'red',
+          removeQuery: {
+            query: { value: ':relevance:allCategories:575:brand:Sony' },
+          },
+        },
+        {
+          facetCode: 'brand',
+          facetValueCode: 'Sony',
+          removeQuery: {
+            query: { value: ':relevance:allCategories:575:color:red' },
+          },
+        },
+      ] as Breadcrumb[];
+      expect(service.getResetQuery(activeFacets)).toEqual(
+        ':relevance:allCategories:575'
+      );
+    });
+
+    it('should strip a backend-retained facet with three or more active facets', () => {
+      // `availableInStores` is kept by the backend inside the other facets'
+      // removeQuery values, so it must be removed by its code/value pair even
+      // when several facets are active.
+      const activeFacets = [
+        {
+          facetCode: 'availableInStores',
+          facetValueCode: 'Chiba',
+          removeQuery: {
+            query: { value: 'camera:relevance:brand:Sony:color:red' },
+          },
+        },
+        {
+          facetCode: 'brand',
+          facetValueCode: 'Sony',
+          removeQuery: {
+            query: {
+              value: 'camera:relevance:availableInStores:Chiba:color:red',
+            },
+          },
+        },
+        {
+          facetCode: 'color',
+          facetValueCode: 'red',
+          removeQuery: {
+            query: {
+              value: 'camera:relevance:availableInStores:Chiba:brand:Sony',
+            },
+          },
+        },
+      ] as Breadcrumb[];
+      expect(service.getResetQuery(activeFacets)).toEqual('camera:relevance');
+    });
+
+    it('should match facet values regardless of encoding', () => {
+      const activeFacets = [
+        {
+          facetCode: 'color',
+          facetValueCode: 'red',
+          removeQuery: {
+            query: { value: 'camera:relevance:brand:Sony+Corporation' },
+          },
+        },
+        {
+          facetCode: 'brand',
+          facetValueCode: 'Sony Corporation',
+          removeQuery: { query: { value: 'camera:relevance:color:red' } },
+        },
+      ] as Breadcrumb[];
+      expect(service.getResetQuery(activeFacets)).toEqual('camera:relevance');
+    });
+  });
 });
