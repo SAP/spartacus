@@ -2,10 +2,10 @@ import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
 import { INIT } from '@ngrx/store';
 import { of } from 'rxjs';
 import { StateConfig, StateTransferType } from '../config/state-config';
+import { getBeforeAppSerializedTransferStateProvider } from './before-app-serialized-transfer-state.provider';
 import {
   CX_KEY,
   getBrowserTransferStateReducer,
-  getBeforeAppSerializedTransferStateProvider,
   getLegacyServerTransferStateReducer,
   getTransferStateReducer,
 } from './transfer-state.reducer';

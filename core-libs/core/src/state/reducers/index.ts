@@ -16,10 +16,8 @@ import { META_REDUCERS } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { Config } from '../../config/config-tokens';
 import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
-import {
-  getBeforeAppSerializedTransferStateProvider,
-  getTransferStateReducer,
-} from './transfer-state.reducer';
+import { getBeforeAppSerializedTransferStateProvider } from './before-app-serialized-transfer-state.provider';
+import { getTransferStateReducer } from './transfer-state.reducer';
 
 export { getStateSlice } from '../utils/get-state-slice';
 export * from './transfer-state.reducer';

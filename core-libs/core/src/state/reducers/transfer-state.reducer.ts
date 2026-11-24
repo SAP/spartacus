@@ -6,16 +6,11 @@
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import {
-  Optional,
-  PLATFORM_ID,
-  Provider,
   TransferState,
   makeStateKey,
   StateKey,
 } from '@angular/core';
-import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
 import { INIT, Store } from '@ngrx/store';
-import { firstValueFrom } from 'rxjs';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
@@ -71,48 +66,6 @@ export function getLegacyServerTransferStateReducer(
 
       return newState;
     };
-  };
-}
-
-export function getBeforeAppSerializedTransferStateProvider(): Provider {
-  return {
-    provide: BEFORE_APP_SERIALIZED,
-    useFactory: (
-      store: Store,
-      transferState: TransferState,
-      config: StateConfig | null,
-      platformId: Object,
-      featureToggles: FeatureToggles | null
-    ) =>
-      async (): Promise<void> => {
-        if (
-          !isPlatformServer(platformId) ||
-          !featureToggles?.ssrTransferStateBeforeAppSerialized
-        ) {
-          return;
-        }
-        if (!config?.state?.ssrTransfer?.keys) {
-          return;
-        }
-
-        const state = await firstValueFrom(store);
-        if (state) {
-          const transferStateKeys = filterKeysByType(
-            config.state.ssrTransfer.keys,
-            StateTransferType.TRANSFER_STATE
-          );
-          const stateSlice = getStateSlice(transferStateKeys, [], state);
-          transferState.set(CX_KEY, stateSlice);
-        }
-      },
-    deps: [
-      Store,
-      TransferState,
-      [new Optional(), StateConfig],
-      PLATFORM_ID,
-      [new Optional(), FeatureToggles],
-    ],
-    multi: true,
   };
 }
 
