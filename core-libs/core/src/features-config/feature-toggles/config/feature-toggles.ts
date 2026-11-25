@@ -172,6 +172,20 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
+   * When enabled, the SSR transfer-state write is deferred to a single
+   * BEFORE_APP_SERIALIZED callback instead of running on every dispatched
+   * NgRx action. Angular's SSR pipeline calls BEFORE_APP_SERIALIZED after
+   * `applicationRef.whenStable()` and before `renderToString()`, so the
+   * callback captures the final settled state exactly once.
+   *
+   * This eliminates O(N) redundant `transferState.set()` calls and
+   * significantly reduces SSR render times on pages with many store dispatches.
+   *
+   * Affects: `stateMetaReducers` (transfer-state meta-reducer)
+   */
+  ssrTransferStateBeforeAppSerialized?: boolean;
+
+  /**
    * When enabled, the media prefix from the backend config will be used
    * when constructing media URLs in the MediaService.
    * Affects: `MediaService`
@@ -1134,4 +1148,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
   a11yHighContrastFix: false,
+  ssrTransferStateBeforeAppSerialized: false,
 };

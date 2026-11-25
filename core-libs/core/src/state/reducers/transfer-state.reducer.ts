@@ -5,13 +5,17 @@
  */
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-
+import {
+  TransferState,
+  makeStateKey,
+  StateKey,
+} from '@angular/core';
 import { INIT } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
-import { makeStateKey, StateKey, TransferState } from '@angular/core';
+import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 
 export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 
@@ -19,7 +23,8 @@ export function getTransferStateReducer(
   platformId: Object,
   transferState?: TransferState,
   config?: StateConfig,
-  authStatePersistenceService?: AuthStatePersistenceService
+  authStatePersistenceService?: AuthStatePersistenceService,
+  featureToggles?: FeatureToggles
 ) {
   if (transferState && config?.state?.ssrTransfer?.keys) {
     if (isPlatformBrowser(platformId)) {
@@ -28,7 +33,10 @@ export function getTransferStateReducer(
         config.state.ssrTransfer.keys,
         Boolean(authStatePersistenceService?.isUserLoggedIn())
       );
-    } else if (isPlatformServer(platformId)) {
+    } else if (
+      isPlatformServer(platformId) &&
+      !featureToggles?.ssrTransferStateBeforeAppSerialized
+    ) {
       return getServerTransferStateReducer(
         transferState,
         config.state.ssrTransfer.keys
@@ -39,6 +47,9 @@ export function getTransferStateReducer(
   return (reducer: any) => reducer;
 }
 
+/**
+ * @deprecated
+ */
 export function getServerTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType | undefined }
