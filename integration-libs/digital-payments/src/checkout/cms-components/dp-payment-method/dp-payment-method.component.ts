@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutStepService,
+  FiscalIdFormComponent,
   CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
 } from '@spartacus/checkout/base/components';
 import {
@@ -24,6 +25,8 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import { defer, of } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 import { DpPaymentCallbackComponent } from './dp-payment-callback/dp-payment-callback.component';
 import { DpPaymentFormComponent } from './dp-payment-form/dp-payment-form.component';
@@ -36,6 +39,7 @@ import { DpPaymentFormComponent } from './dp-payment-form/dp-payment-form.compon
     NgIf,
     NgFor,
     CardComponent,
+    FiscalIdFormComponent,
     DpPaymentFormComponent,
     SpinnerComponent,
     DpPaymentCallbackComponent,
@@ -45,6 +49,19 @@ import { DpPaymentFormComponent } from './dp-payment-form/dp-payment-form.compon
 })
 export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
   showCallbackScreen = false;
+  callbackSubmitting = false;
+  protected callbackPaymentPending = false;
+
+  submitFiscalId = () =>
+    defer(() => {
+      if (this.busy$.value) {
+        return of(false);
+      }
+      this.busy$.next(true);
+      return (this.fiscalIdForm?.submit() ?? of(true)).pipe(
+        finalize(() => this.busy$.next(false))
+      );
+    });
 
   isDpCallback(): boolean {
     const queryParams = this.activatedRoute.snapshot.queryParamMap.get(
@@ -59,12 +76,23 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
   }
 
   paymentDetailsAdded(paymentDetails: PaymentDetails) {
+    this.callbackPaymentPending = true;
     this.savePaymentMethod(paymentDetails);
   }
 
   protected onSuccess(): void {
     super.onSuccess();
-    this.next();
+    // Callback Continue has already saved Fiscal ID before creating the card.
+    // Selecting an existing card must leave time to enter Fiscal ID.
+    if (this.callbackPaymentPending) {
+      this.callbackPaymentPending = false;
+      this.checkoutStepService.next(this.activatedRoute);
+    }
+  }
+
+  protected onError(): void {
+    this.callbackPaymentPending = false;
+    super.onError();
   }
 
   // TODO:#checkout - handle breaking changes
