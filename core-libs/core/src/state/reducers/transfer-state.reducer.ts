@@ -37,7 +37,7 @@ export function getTransferStateReducer(
       isPlatformServer(platformId) &&
       !featureToggles?.ssrTransferStateBeforeAppSerialized
     ) {
-      return getLegacyServerTransferStateReducer(
+      return getServerTransferStateReducer(
         transferState,
         config.state.ssrTransfer.keys
       );
@@ -47,7 +47,10 @@ export function getTransferStateReducer(
   return (reducer: any) => reducer;
 }
 
-export function getLegacyServerTransferStateReducer(
+/**
+ * @deprecated
+ */
+export function getServerTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType | undefined }
 ) {
