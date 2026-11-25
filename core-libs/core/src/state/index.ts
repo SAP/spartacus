@@ -6,6 +6,7 @@
 
 export * from './config/state-config';
 export * from './event/index';
+export * from './reducers/before-app-serialized-transfer-state.provider';
 export * from './services/state-persistence.service';
 export * from './state.module';
 export * from './utils/index';

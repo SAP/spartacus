@@ -17,6 +17,7 @@ import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { serverLoggerServiceFactory } from '../logger';
 import { REQUEST } from '../tokens/express.tokens';
+import { getBeforeAppSerializedTransferStateProvider } from './before-app-serialized-transfer-state.provider';
 import { ServerOptions } from './model';
 import { serverRequestOriginFactory } from './server-request-origin';
 import { serverRequestUrlFactory } from './server-request-url';
@@ -43,6 +44,7 @@ export function provideServer(options?: ServerOptions): Provider[] {
       useExisting: PropagatingToServerErrorHandler,
       multi: true,
     },
+    getBeforeAppSerializedTransferStateProvider(),
   ];
 }
 /**
