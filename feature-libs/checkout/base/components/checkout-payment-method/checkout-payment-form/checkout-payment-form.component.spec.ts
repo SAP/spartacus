@@ -345,6 +345,15 @@ describe('CheckoutPaymentFormComponent', () => {
     expect(component.paymentForm.value.defaultPayment).toBeFalsy();
   });
 
+  it('checks the shared Fiscal ID form before emitting valid new payment details', () => {
+    component.paymentForm.setValue(mockPayment);
+    component.validateAdditionalFields = vi.fn().mockReturnValue(false);
+    const emitted = vi.spyOn(component.setPaymentDetails, 'emit');
+    component.next();
+    expect(component.validateAdditionalFields).toHaveBeenCalledTimes(1);
+    expect(emitted).not.toHaveBeenCalled();
+  });
+
   it('should call next()', () => {
     component.paymentForm.setValue(mockPayment);
     component.next();

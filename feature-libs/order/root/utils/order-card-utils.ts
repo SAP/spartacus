@@ -5,7 +5,12 @@
  */
 
 import { DeliveryMode } from '@spartacus/cart/base/root';
-import { Address, PaymentDetails } from '@spartacus/core';
+import {
+  Address,
+  FiscalId,
+  maskFiscalId,
+  PaymentDetails,
+} from '@spartacus/core';
 import { Card, getAddressNumbers } from '@spartacus/storefront';
 
 /**
@@ -96,9 +101,15 @@ export function deliveryModeCard(
 export function paymentMethodCard(
   textTitle: string,
   textExpires: string,
-  paymentDetails: PaymentDetails
+  paymentDetails: PaymentDetails,
+  fiscalId?: FiscalId,
+  fiscalIdLabel?: string
 ): Card {
+  const value = fiscalId?.sapFiscalIdEntries?.[0]?.sapValue;
   return {
+    ...(value
+      ? { paragraphs: [{ title: fiscalIdLabel, text: [maskFiscalId(value)] }] }
+      : {}),
     title: textTitle,
     text: [
       paymentDetails.cardType?.name,

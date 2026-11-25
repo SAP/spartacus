@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   CheckoutAdapter,
+  CheckoutFiscalIdAdapter,
   CheckoutBillingAddressAdapter,
   CheckoutDeliveryAddressAdapter,
   CheckoutDeliveryModesAdapter,
@@ -18,6 +19,7 @@ import { OccCheckoutBillingAddressAdapter } from './adapters/occ-checkout-billin
 import { OccCheckoutDeliveryAddressAdapter } from './adapters/occ-checkout-delivery-address.adapter';
 import { OccCheckoutDeliveryModesAdapter } from './adapters/occ-checkout-delivery-modes.adapter';
 import { OccCheckoutPaymentAdapter } from './adapters/occ-checkout-payment.adapter';
+import { OccCheckoutFiscalIdAdapter } from './adapters/occ-checkout-fiscal-id.adapter';
 import { OccCheckoutAdapter } from './adapters/occ-checkout.adapter';
 import { defaultOccCheckoutConfig } from './config/default-occ-checkout-config';
 
@@ -25,6 +27,7 @@ import { defaultOccCheckoutConfig } from './config/default-occ-checkout-config';
   imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccCheckoutConfig),
+    { provide: CheckoutFiscalIdAdapter, useClass: OccCheckoutFiscalIdAdapter },
     {
       provide: CheckoutAdapter,
       useClass: OccCheckoutAdapter,

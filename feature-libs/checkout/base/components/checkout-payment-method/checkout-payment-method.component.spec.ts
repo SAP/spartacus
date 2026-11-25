@@ -1,3 +1,4 @@
+import { FiscalIdFormComponent } from '../fiscal-id-form/fiscal-id-form.component';
 import { Component, Directive, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -6,6 +7,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
+  CheckoutFiscalIdFacade,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -32,7 +34,14 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  Observable,
+  of,
+  Subject,
+  throwError,
+} from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
@@ -120,6 +129,7 @@ class MockCheckoutDeliveryFacade
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
+  getCheckoutStep = vi.fn().mockReturnValue(undefined);
   next = vi.fn();
   back = vi.fn();
   getBackBntText(): string {
@@ -134,6 +144,7 @@ const mockActivatedRoute = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
+  getActive = vi.fn().mockReturnValue(of({}));
   isGuestCart(): Observable<boolean> {
     return of(false);
   }
@@ -161,6 +172,7 @@ const mockAddress: Address = {
   template: '',
 })
 class MockPaymentFormComponent {
+  @Input() validateAdditionalFields?: () => boolean;
   @Input()
   paymentMethodsCount: number;
   @Input()
@@ -206,6 +218,13 @@ describe('CheckoutPaymentMethodComponent', () => {
         SpinnerComponent,
       ],
       providers: [
+        {
+          provide: CheckoutFiscalIdFacade,
+          useValue: {
+            getConfiguration: () => of({ enabled: false, required: false }),
+            setFiscalId: () => of(undefined),
+          },
+        },
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
           provide: CheckoutDeliveryAddressFacade,
@@ -269,6 +288,168 @@ describe('CheckoutPaymentMethodComponent', () => {
 
     vi.spyOn(component, 'selectPaymentMethod');
     vi.spyOn(component, 'savePaymentMethod');
+  });
+
+  it('waits for Fiscal ID submission before navigating', () => {
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    const submission = new Subject<boolean>();
+    vi.spyOn(component.fiscalIdForm, 'submit').mockReturnValue(submission);
+    component.next();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+    submission.next(true);
+    expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
+  });
+
+  it('stays on Payment after failed Fiscal ID submission', () => {
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    vi.spyOn(component.fiscalIdForm, 'submit').mockReturnValue(of(false));
+    component.next();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+  });
+
+  it.each([true, false])(
+    'locks payment options during Fiscal ID submission and releases them afterward (success: %s)',
+    (success) => {
+      vi.spyOn(mockUserPaymentService, 'getPaymentMethods').mockReturnValue(
+        of(mockPayments)
+      );
+      vi.spyOn(
+        mockUserPaymentService,
+        'getPaymentMethodsLoading'
+      ).mockReturnValue(of(false));
+      vi.spyOn(
+        mockCheckoutPaymentService,
+        'getPaymentDetailsState'
+      ).mockReturnValue(
+        of({ loading: false, error: false, data: mockPaymentDetails })
+      );
+      const fiscalIdFacade = TestBed.inject(CheckoutFiscalIdFacade);
+      vi.spyOn(fiscalIdFacade, 'getConfiguration').mockReturnValue(
+        of({ enabled: true, required: true })
+      );
+      const pending = new Subject<void>();
+      const save = vi
+        .spyOn(fiscalIdFacade, 'setFiscalId')
+        .mockReturnValue(pending);
+      fixture = TestBed.createComponent(CheckoutPaymentMethodComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      component.fiscalIdForm?.control.setValue('123456789');
+
+      expect(fixture.debugElement.queryAll(By.css('cx-card'))).toHaveLength(
+        mockPayments.length
+      );
+      fixture.debugElement
+        .query(By.css('.btn-primary'))
+        .triggerEventHandler('click');
+      // A second Continue must not release the first submission's lock.
+      component.next();
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('cx-card'))).toBeNull();
+      expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeTruthy();
+      expect(save).toHaveBeenCalledTimes(1);
+      expect(checkoutStepService.next).not.toHaveBeenCalled();
+
+      if (success) {
+        pending.next();
+        pending.complete();
+      } else {
+        pending.error(new Error('Fiscal ID save failed'));
+        expect(checkoutStepService.next).not.toHaveBeenCalled();
+      }
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeNull();
+      expect(fixture.debugElement.queryAll(By.css('cx-card'))).toHaveLength(
+        mockPayments.length
+      );
+      if (!success) {
+        expect(component.fiscalIdForm?.control.value).toBe('123456789');
+        save.mockReturnValue(of(undefined));
+        fixture.debugElement
+          .query(By.css('.btn-primary'))
+          .triggerEventHandler('click');
+      }
+      expect(checkoutStepService.next).toHaveBeenCalledTimes(1);
+      expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
+    }
+  );
+
+  it('validates Fiscal ID before creating a new payment method', () => {
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    vi.spyOn(component.fiscalIdForm, 'validate').mockReturnValue(false);
+    const create = vi.spyOn(mockCheckoutPaymentService, 'createPaymentDetails');
+    component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
+    expect(create).not.toHaveBeenCalled();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+  });
+
+  it('creates a new payment method only once after correcting a rejected Fiscal ID', () => {
+    const fiscalIdFacade = TestBed.inject(CheckoutFiscalIdFacade);
+    vi.spyOn(fiscalIdFacade, 'getConfiguration').mockReturnValue(
+      of({ enabled: true, required: true })
+    );
+    const submit = vi
+      .spyOn(fiscalIdFacade, 'setFiscalId')
+      .mockReturnValueOnce(throwError(() => ({ status: 400 })))
+      .mockReturnValue(of(undefined));
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    component.fiscalIdForm.control.setValue('invalid');
+    component.showNewPaymentForm();
+    const create = vi.spyOn(mockCheckoutPaymentService, 'createPaymentDetails');
+
+    component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
+
+    expect(create).not.toHaveBeenCalled();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+    expect(component.fiscalIdForm.control.value).toBe('invalid');
+    expect(component['busy$'].value).toBe(false);
+
+    component.fiscalIdForm.control.setValue('123456789');
+    component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
+
+    expect(create).toHaveBeenCalledTimes(1);
+    expect(submit).toHaveBeenCalledTimes(2);
+    expect(checkoutStepService.next).toHaveBeenCalledTimes(1);
+    expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
+  });
+
+  it('waits for Fiscal ID processing and then new payment creation before navigating', () => {
+    const fiscalFixture = TestBed.createComponent(FiscalIdFormComponent);
+    fiscalFixture.detectChanges();
+    component.fiscalIdForm = fiscalFixture.componentInstance;
+    const fiscalIdRequest = new Subject<boolean>();
+    const paymentRequest = new Subject<unknown>();
+    const submit = vi
+      .spyOn(component.fiscalIdForm, 'submit')
+      .mockReturnValue(fiscalIdRequest);
+    const create = vi
+      .spyOn(mockCheckoutPaymentService, 'createPaymentDetails')
+      .mockReturnValue(paymentRequest);
+
+    component.setPaymentDetails({ paymentDetails: mockPaymentDetails });
+    expect(create).not.toHaveBeenCalled();
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+
+    fiscalIdRequest.next(true);
+    fiscalIdRequest.complete();
+    expect(create).toHaveBeenCalledTimes(1);
+    paymentRequest.next(mockPaymentDetails);
+    expect(checkoutStepService.next).not.toHaveBeenCalled();
+
+    paymentRequest.complete();
+    expect(submit).toHaveBeenCalledTimes(1);
+    expect(checkoutStepService.next).toHaveBeenCalledTimes(1);
+    expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
   });
 
   it('should be created', () => {
@@ -714,6 +895,13 @@ describe('CheckoutPaymentMethodComponent - a11yImproveCheckoutFocus', () => {
         SpinnerComponent,
       ],
       providers: [
+        {
+          provide: CheckoutFiscalIdFacade,
+          useValue: {
+            getConfiguration: () => of({ enabled: false, required: false }),
+            setFiscalId: () => of(undefined),
+          },
+        },
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
           provide: CheckoutDeliveryAddressFacade,

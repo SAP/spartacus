@@ -31,6 +31,8 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   CostCenter,
+  FiscalId,
+  maskFiscalId,
   TranslatePipe,
   TranslationService,
   UrlPipe,
@@ -151,17 +153,25 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
     );
   }
 
-  getPaymentTypeCard(paymentType: PaymentType): Observable<Card> {
+  getPaymentTypeCard(
+    paymentType: PaymentType,
+    fiscalId?: FiscalId
+  ): Observable<Card> {
+    const fiscalIdValue = fiscalId?.sapFiscalIdEntries?.[0]?.sapValue;
     return combineLatest([
       this.translationService.translate('checkoutB2B.progress.methodOfPayment'),
       this.translationService.translate(
         'paymentTypes.paymentType_' + paymentType.code
       ),
+      this.translationService.translate('fiscalId.label'),
     ]).pipe(
-      map(([textTitle, paymentTypeTranslation]) => {
+      map(([textTitle, paymentTypeTranslation, fiscalIdLabel]) => {
         return {
           title: textTitle,
           textBold: paymentTypeTranslation,
+          paragraphs: fiscalIdValue
+            ? [{ title: fiscalIdLabel, text: [maskFiscalId(fiscalIdValue)] }]
+            : undefined,
         };
       })
     );

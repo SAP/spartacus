@@ -24,7 +24,7 @@ import {
   LaunchDialogService,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, of, throwError } from 'rxjs';
 import { DpCheckoutPaymentService } from './../../../facade/dp-checkout-payment.service';
 import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
 import { DpPaymentRequest } from './../../../models/dp-checkout.model';
@@ -202,6 +202,82 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         mockSignature,
         undefined
       );
+    });
+    it('waits for Fiscal ID before creating payment details and ignores duplicate submissions', () => {
+      const saved$ = new Subject<boolean>();
+      component.submitAdditionalFields = vi.fn(() => saved$);
+      vi.spyOn(component.submittingChange, 'emit');
+      component.next();
+      component.next();
+      expect(component.submitAdditionalFields).toHaveBeenCalledTimes(1);
+      expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalled();
+      expect(component.submittingChange.emit).toHaveBeenCalledWith(true);
+      saved$.next(true);
+      saved$.complete();
+      expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledTimes(1);
+      expect(component.paymentDetailsAdded.emit).toHaveBeenCalledWith(
+        mockPaymentDetails
+      );
+      expect(component.submittingChange.emit).toHaveBeenLastCalledWith(false);
+    });
+
+    it('does not create a card when Fiscal ID validation or binding fails', () => {
+      component.submitAdditionalFields = () => of(false);
+      component.next();
+      expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalled();
+      expect(component.paymentDetailsAdded.emit).not.toHaveBeenCalled();
+      expect(component.closeCallback.emit).not.toHaveBeenCalled();
+      expect(component.submitting).toBe(false);
+    });
+
+    it('keeps the controls locked while payment details are being created', () => {
+      const details$ = new Subject<PaymentDetails>();
+      vi.mocked(dpPaymentService.createPaymentDetails).mockReturnValue(
+        details$
+      );
+      fixture.nativeElement.querySelector('button.btn-primary').click();
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('button.btn-primary').disabled
+      ).toBe(true);
+      expect(
+        fixture.nativeElement.querySelector('button.btn-secondary').disabled
+      ).toBe(true);
+      component.next();
+      expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledTimes(1);
+      details$.next(mockPaymentDetails);
+      details$.complete();
+      expect(component.submitting).toBe(false);
+    });
+
+    it('allows retry if creating payment details fails', () => {
+      vi.mocked(dpPaymentService.createPaymentDetails).mockReturnValue(
+        throwError(() => new Error('failed'))
+      );
+      component.next();
+      expect(component.submitting).toBe(false);
+      expect(component.paymentDetailsAdded.emit).not.toHaveBeenCalled();
+      expect(msgService.add).toHaveBeenCalledWith(
+        { key: 'dpPaymentForm.error.paymentFetch' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      vi.mocked(dpPaymentService.createPaymentDetails).mockReturnValue(
+        of(mockPaymentDetails)
+      );
+      component.next();
+      expect(component.paymentDetailsAdded.emit).toHaveBeenCalledWith(
+        mockPaymentDetails
+      );
+    });
+
+    it('cancels pending Fiscal ID submission when the callback is destroyed', () => {
+      const saved$ = new Subject<boolean>();
+      component.submitAdditionalFields = () => saved$;
+      component.next();
+      fixture.destroy();
+      saved$.next(true);
+      saved$.complete();
+      expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalled();
     });
     describe('checking 2 buttons on billing address form', () => {
       beforeEach(() => {

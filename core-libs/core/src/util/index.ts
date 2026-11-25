@@ -14,6 +14,7 @@ export * from './glob.service';
 export * from './http-params-uri.encoder';
 export * from './is-key-invalid';
 export * from './java-reg-exp-converter/index';
+export * from './mask-fiscal-id';
 export * from './normalize-empty';
 export * from './object-comparison-utils';
 export * from './occ-http-error-constants';

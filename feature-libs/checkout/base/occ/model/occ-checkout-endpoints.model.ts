@@ -7,6 +7,8 @@
 import { OccEndpoint } from '@spartacus/core';
 
 export interface CheckoutOccEndpoints {
+  /** Sets fiscal ID entries on the cart. */
+  setCartFiscalId?: string | OccEndpoint;
   /**
    * Endpoint for set delivery address to cart
    */

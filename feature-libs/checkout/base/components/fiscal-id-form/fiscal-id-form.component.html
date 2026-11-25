@@ -1,0 +1,35 @@
+@if (configuration.enabled) {
+  <div
+    class="cx-fiscal-id-form"
+    cxFocusFirstInvalidField
+    [attr.aria-busy]="busy || saving"
+  >
+    <label for="fiscalIdInput">
+      <span class="label-content">
+        {{ 'fiscalId.label' | cxTranslate }}
+        @if (configuration.required) {
+          <cx-form-required-asterisks />
+        }
+      </span>
+      <input
+        id="fiscalIdInput"
+        class="form-control"
+        type="text"
+        [formControl]="control"
+        [required]="configuration.required"
+        [readOnly]="busy || saving"
+        maxlength="255"
+        placeholder="{{ 'fiscalId.placeholder' | cxTranslate }}"
+        [attr.aria-invalid]="control.touched && control.invalid"
+        aria-errormessage="fiscalIdError"
+      />
+      <cx-form-errors
+        id="fiscalIdError"
+        [control]="control"
+        prefix="fiscalId.errors"
+        fallbackPrefix="formErrors.labeled"
+        [translationParams]="{ label: 'fiscalId.label' | cxTranslate }"
+      />
+    </label>
+  </div>
+}

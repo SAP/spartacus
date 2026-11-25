@@ -22,6 +22,7 @@ export const defaultOccCheckoutConfig: OccConfig = {
         clearDeliveryMode: DELIVERY_MODE_ENDPOINT,
         deliveryModes: `${DELIVERY_MODE_ENDPOINT}s`,
         setCartPaymentDetails: 'users/${userId}/carts/${cartId}/paymentdetails',
+        setCartFiscalId: 'users/${userId}/carts/${cartId}/fiscalIds',
         paymentProviderSubInfo:
           'users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl',
         createPaymentDetails:

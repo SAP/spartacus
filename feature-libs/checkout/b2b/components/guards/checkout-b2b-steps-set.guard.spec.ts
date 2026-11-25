@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRouteSnapshot, UrlSegment } from '@angular/router';
 import {
   ActiveCartFacade,
   DeliveryMode,
@@ -12,6 +13,7 @@ import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
+  CheckoutFiscalIdFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
@@ -137,6 +139,13 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
 
 class MockCartService implements Partial<ActiveCartFacade> {
   hasDeliveryItems = vi.fn().mockReturnValue(of(false));
+  takeActive = vi.fn().mockReturnValue(of({}));
+}
+
+class MockCheckoutFiscalIdFacade implements Partial<CheckoutFiscalIdFacade> {
+  getConfiguration = vi
+    .fn()
+    .mockReturnValue(of({ enabled: false, required: false }));
 }
 
 describe(`CheckoutB2BStepsSetGuard`, () => {
@@ -173,6 +182,10 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
         },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: ActiveCartFacade, useClass: MockCartService },
+        {
+          provide: CheckoutFiscalIdFacade,
+          useClass: MockCheckoutFiscalIdFacade,
+        },
       ],
     });
 
@@ -183,6 +196,97 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
     );
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
+  });
+
+  afterEach(() => {
+    isAccount.next(true);
+  });
+
+  describe('Fiscal ID', () => {
+    let reviewRoute: ActivatedRouteSnapshot;
+    let checkoutFiscalIdFacade: CheckoutFiscalIdFacade;
+    let checkoutStepService: CheckoutStepService;
+    let activeCartFacade: ActiveCartFacade;
+
+    beforeEach(() => {
+      reviewRoute = new ActivatedRouteSnapshot();
+      reviewRoute.url = [
+        new UrlSegment('checkout', {}),
+        new UrlSegment('route4', {}),
+      ];
+      checkoutFiscalIdFacade = TestBed.inject(CheckoutFiscalIdFacade);
+      checkoutStepService = TestBed.inject(CheckoutStepService);
+      activeCartFacade = TestBed.inject(ActiveCartFacade);
+      vi.spyOn(checkoutFiscalIdFacade, 'getConfiguration').mockReturnValue(
+        of({ enabled: true, required: true })
+      );
+      vi.spyOn(
+        checkoutPaymentTypeFacade,
+        'getSelectedPaymentTypeState'
+      ).mockReturnValue(
+        of({ loading: false, error: false, data: { code: 'ACCOUNT' } })
+      );
+      vi.spyOn(checkoutPaymentFacade, 'getPaymentDetailsState').mockReturnValue(
+        of({ loading: false, error: false, data: { id: 'saved-payment' } })
+      );
+      vi.spyOn(
+        checkoutDeliveryModesFacade,
+        'getSelectedDeliveryModeState'
+      ).mockReturnValue(
+        of({ loading: false, error: false, data: { code: 'standard' } })
+      );
+    });
+
+    it.each([true, false])(
+      'redirects Review to Method of Payment when required Fiscal ID is missing and account payment is %s',
+      async (accountPayment) => {
+        isAccount.next(accountPayment);
+        checkoutStepService.steps$.next(
+          mockCheckoutSteps.filter(
+            (step) =>
+              !accountPayment ||
+              !step.type.includes(CheckoutStepType.PAYMENT_DETAILS)
+          )
+        );
+
+        const result = await firstValueFrom(guard.canActivate(reviewRoute));
+
+        expect(result.toString()).toEqual('/checkout/route0');
+      }
+    );
+
+    it('allows Review with Account payment when Fiscal ID is already bound', async () => {
+      isAccount.next(true);
+      checkoutStepService.steps$.next(
+        mockCheckoutSteps.filter(
+          (step) => !step.type.includes(CheckoutStepType.PAYMENT_DETAILS)
+        )
+      );
+      vi.spyOn(activeCartFacade, 'takeActive').mockReturnValue(
+        of({
+          sapCustomerFiscalId: {
+            sapFiscalIdEntries: [{ sapValue: '123456789' }],
+          },
+        })
+      );
+
+      expect(await firstValueFrom(guard.canActivate(reviewRoute))).toBe(true);
+    });
+
+    it('allows entering Method of Payment to fill in the required value', async () => {
+      reviewRoute.url[1] = new UrlSegment('route0', {});
+
+      expect(await firstValueFrom(guard.canActivate(reviewRoute))).toBe(true);
+      expect(checkoutFiscalIdFacade.getConfiguration).not.toHaveBeenCalled();
+    });
+
+    it('checks Fiscal ID before leaving Method of Payment for Shipping Address', async () => {
+      reviewRoute.url[1] = new UrlSegment('route1', {});
+
+      const result = await firstValueFrom(guard.canActivate(reviewRoute));
+
+      expect(result.toString()).toEqual('/checkout/route0');
+    });
   });
 
   describe('When CARD payment', () => {

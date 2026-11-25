@@ -5,6 +5,7 @@
  */
 
 export * from './checkout-components.module';
+export * from './fiscal-id-form/fiscal-id-form.component';
 export * from './checkout-delivery-address/checkout-delivery-address.component';
 export * from './checkout-delivery-address/checkout-delivery-address.module';
 export * from './checkout-delivery-mode/checkout-delivery-mode.component';

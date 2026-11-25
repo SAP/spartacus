@@ -69,6 +69,16 @@
         font-style: italic;
       }
 
+      &.cx-review-card-payment-type {
+        .cx-card-paragraph {
+          padding-inline-start: 0;
+        }
+
+        .cx-card-paragraph-title {
+          font-style: normal;
+        }
+      }
+
       .cx-review-summary-edit-step {
         align-self: flex-start;
         padding: 20px;

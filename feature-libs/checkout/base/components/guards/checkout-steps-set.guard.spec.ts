@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRouteSnapshot, UrlSegment } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
+  CheckoutFiscalIdFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
@@ -96,9 +98,16 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
     .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
+class MockCheckoutFiscalIdFacade implements Partial<CheckoutFiscalIdFacade> {
+  getConfiguration = vi
+    .fn()
+    .mockReturnValue(of({ enabled: false, required: false }));
+}
+
 const hasDeliveryItems$ = new BehaviorSubject<boolean>(false);
 class MockCartService implements Partial<ActiveCartFacade> {
   hasDeliveryItems = () => hasDeliveryItems$.asObservable();
+  takeActive = vi.fn().mockReturnValue(of({}));
 }
 
 describe(`CheckoutStepsSetGuard`, () => {
@@ -107,6 +116,8 @@ describe(`CheckoutStepsSetGuard`, () => {
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let checkoutPaymentFacade: CheckoutPaymentFacade;
   let checkoutStepService: CheckoutStepService;
+  let checkoutFiscalIdFacade: CheckoutFiscalIdFacade;
+  let activeCartFacade: ActiveCartFacade;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -129,6 +140,10 @@ describe(`CheckoutStepsSetGuard`, () => {
         },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: ActiveCartFacade, useClass: MockCartService },
+        {
+          provide: CheckoutFiscalIdFacade,
+          useClass: MockCheckoutFiscalIdFacade,
+        },
       ],
     });
 
@@ -139,6 +154,80 @@ describe(`CheckoutStepsSetGuard`, () => {
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
     checkoutStepService = TestBed.inject(CheckoutStepService);
+    checkoutFiscalIdFacade = TestBed.inject(CheckoutFiscalIdFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+  });
+
+  describe('Fiscal ID', () => {
+    let reviewRoute: ActivatedRouteSnapshot;
+
+    beforeEach(() => {
+      reviewRoute = new ActivatedRouteSnapshot();
+      reviewRoute.url = [
+        new UrlSegment('checkout', {}),
+        new UrlSegment('route4', {}),
+      ];
+      vi.spyOn(checkoutFiscalIdFacade, 'getConfiguration').mockReturnValue(
+        of({ enabled: true, required: true })
+      );
+      vi.spyOn(checkoutPaymentFacade, 'getPaymentDetailsState').mockReturnValue(
+        of({ loading: false, error: false, data: { id: 'saved-payment' } })
+      );
+    });
+
+    it('redirects an Express Checkout jump to Review to Payment when the required value is missing', async () => {
+      const result = await firstValueFrom(guard.canActivate(reviewRoute));
+
+      expect(result.toString()).toEqual('/checkout/route3');
+    });
+
+    it('allows Review when the required value is already bound', async () => {
+      vi.spyOn(activeCartFacade, 'takeActive').mockReturnValue(
+        of({
+          sapCustomerFiscalId: {
+            sapFiscalIdEntries: [{ sapValue: '123456789' }],
+          },
+        })
+      );
+
+      expect(await firstValueFrom(guard.canActivate(reviewRoute))).toBe(true);
+    });
+
+    it.each([
+      { enabled: true, required: false },
+      { enabled: false, required: true },
+    ])('allows Review for configuration %o', async (configuration) => {
+      vi.spyOn(checkoutFiscalIdFacade, 'getConfiguration').mockReturnValue(
+        of(configuration)
+      );
+
+      expect(await firstValueFrom(guard.canActivate(reviewRoute))).toBe(true);
+      expect(activeCartFacade.takeActive).not.toHaveBeenCalled();
+    });
+
+    it('allows entering the Fiscal ID input step', async () => {
+      vi.spyOn(
+        checkoutDeliveryModesFacade,
+        'getSelectedDeliveryModeState'
+      ).mockReturnValue(
+        of({ loading: false, error: false, data: { code: 'standard' } })
+      );
+      reviewRoute.url[1] = new UrlSegment('route3', {});
+
+      expect(await firstValueFrom(guard.canActivate(reviewRoute))).toBe(true);
+      expect(checkoutFiscalIdFacade.getConfiguration).not.toHaveBeenCalled();
+    });
+
+    it('preserves the existing incomplete payment redirect', async () => {
+      vi.spyOn(checkoutPaymentFacade, 'getPaymentDetailsState').mockReturnValue(
+        of({ loading: false, error: false, data: undefined })
+      );
+
+      const result = await firstValueFrom(guard.canActivate(reviewRoute));
+
+      expect(result.toString()).toEqual('/checkout/route3');
+      expect(checkoutFiscalIdFacade.getConfiguration).not.toHaveBeenCalled();
+    });
   });
 
   describe('should be able to disable/enable delivery address and delivery mode step', () => {

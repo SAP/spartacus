@@ -1,3 +1,25 @@
+<ng-container *ngIf="!isB2BCheckout">
+  <ng-container *ngIf="fiscalId$ | async as fiscalId">
+    <div
+      *ngIf="fiscalId.sapFiscalIdEntries?.[0]?.sapValue"
+      class="cx-review-summary mb-4"
+    >
+      <div
+        class="cx-review-summary-card cx-review-summary-payment-card w-100 mx-0 mb-0"
+      >
+        <cx-card [content]="getFiscalIdCard(fiscalId) | async" />
+        <div class="cx-review-summary-edit-step">
+          <a
+            [attr.title]="'fiscalId.edit' | cxTranslate"
+            [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
+          >
+            <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
 <ng-container *cxFeature="'a11yImproveCheckoutFocus'">
   <div
     class="cx-review-summary"

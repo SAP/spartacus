@@ -5,11 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { PageMetaResolver } from '@spartacus/core';
+import { HttpErrorHandler, PageMetaResolver } from '@spartacus/core';
 import { CheckoutBillingAddressConnector } from './connectors/checkout-billing-address/checkout-billing-address.connector';
 import { CheckoutDeliveryAddressConnector } from './connectors/checkout-delivery-address/checkout-delivery-address.connector';
 import { CheckoutDeliveryModesConnector } from './connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 import { CheckoutPaymentConnector } from './connectors/checkout-payment/checkout-payment.connector';
+import { CheckoutFiscalIdConnector } from './connectors/checkout-fiscal-id/checkout-fiscal-id.connector';
+import { FiscalIdRequestHandler } from './http-interceptors/fiscal-id-request.handler';
 import { CheckoutConnector } from './connectors/checkout/checkout.connector';
 import { facadeProviders } from './facade/facade-providers';
 import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver';
@@ -17,6 +19,12 @@ import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver
 @NgModule({
   providers: [
     ...facadeProviders,
+    CheckoutFiscalIdConnector,
+    {
+      provide: HttpErrorHandler,
+      useClass: FiscalIdRequestHandler,
+      multi: true,
+    },
     CheckoutDeliveryAddressConnector,
     CheckoutBillingAddressConnector,
     CheckoutDeliveryModesConnector,

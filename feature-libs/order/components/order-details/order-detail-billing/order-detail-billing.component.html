@@ -1,10 +1,27 @@
 <div class="cx-order-items" *ngIf="order$ | async as order">
-  <div class="cx-review-summary" *ngIf="order.paymentInfo as paymentDetails">
+  @let isB2B = !!order.purchaseOrderNumber || order.purchaseOrderNumber === '';
+  <div
+    class="cx-review-summary"
+    *ngIf="
+      order.paymentInfo ||
+      order.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue
+    "
+  >
     <div
       class="cx-review-summary-card cx-review-summary-payment-card"
-      *ngIf="isPaymentInfoCardFull(paymentDetails)"
+      *ngIf="
+        isPaymentInfoCardFull(order.paymentInfo!) ||
+        (!isB2B && order.sapCustomerFiscalId?.sapFiscalIdEntries?.[0]?.sapValue)
+      "
     >
-      <cx-card [content]="getPaymentMethodCard(paymentDetails) | async" />
+      <cx-card
+        [content]="
+          getPaymentMethodCard(
+            order.paymentInfo || {},
+            !isB2B ? order.sapCustomerFiscalId : undefined
+          ) | async
+        "
+      />
     </div>
     <ng-template
       [cxOutlet]="cartOutlets.ORDER_DETAILS_AFTER_PAYMENT_METHOD"
@@ -13,9 +30,9 @@
 
     <div
       class="cx-review-summary-card cx-review-summary-payment-card"
-      *ngIf="paymentDetails?.billingAddress"
+      *ngIf="order.paymentInfo?.billingAddress"
     >
-      <cx-card [content]="getBillingAddressCard(paymentDetails) | async" />
+      <cx-card [content]="getBillingAddressCard(order.paymentInfo!) | async" />
     </div>
   </div>
 </div>

@@ -8,6 +8,7 @@ import {
   Address,
   CostCenter,
   Currency,
+  FiscalId,
   PaymentDetails,
   PointOfService,
   Price,
@@ -60,6 +61,7 @@ export interface SaveCartResult {
 }
 
 export interface Cart {
+  sapCustomerFiscalId?: FiscalId;
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];
   appliedVouchers?: Voucher[];

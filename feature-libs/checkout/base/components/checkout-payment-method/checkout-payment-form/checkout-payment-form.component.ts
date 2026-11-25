@@ -108,6 +108,9 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   cardTypes$: Observable<CardType[]>;
 
   @Input()
+  validateAdditionalFields: () => boolean = () => true;
+
+  @Input()
   loading: boolean;
 
   @Input()
@@ -271,6 +274,7 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
+    const additionalFieldsValid = this.validateAdditionalFields();
     const sameAsDeliveryAddress =
       this.billingAddressService.isBillingAddressSameAsDeliveryAddress();
     const isBillingAddressFormValid =
@@ -279,6 +283,9 @@ export class CheckoutPaymentFormComponent implements OnInit, OnDestroy {
       this.billingAddressService.getBillingAddress();
 
     if (this.paymentForm.valid) {
+      if (!additionalFieldsValid) {
+        return;
+      }
       if (sameAsDeliveryAddress) {
         this.setPaymentDetails.emit({
           paymentDetails: this.paymentForm.value,
