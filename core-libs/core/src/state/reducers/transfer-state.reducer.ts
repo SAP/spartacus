@@ -10,7 +10,7 @@ import {
   makeStateKey,
   StateKey,
 } from '@angular/core';
-import { INIT, Store } from '@ngrx/store';
+import { INIT } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
@@ -37,7 +37,7 @@ export function getTransferStateReducer(
       isPlatformServer(platformId) &&
       !featureToggles?.ssrTransferStateBeforeAppSerialized
     ) {
-      return getLegacyServerTransferStateReducer(
+      return getServerTransferStateReducer(
         transferState,
         config.state.ssrTransfer.keys
       );
@@ -47,7 +47,10 @@ export function getTransferStateReducer(
   return (reducer: any) => reducer;
 }
 
-export function getLegacyServerTransferStateReducer(
+/**
+ * @deprecated
+ */
+export function getServerTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType | undefined }
 ) {

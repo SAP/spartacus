@@ -6,7 +6,7 @@ import { getBeforeAppSerializedTransferStateProvider } from './before-app-serial
 import {
   CX_KEY,
   getBrowserTransferStateReducer,
-  getLegacyServerTransferStateReducer,
+  getServerTransferStateReducer,
   getTransferStateReducer,
 } from './transfer-state.reducer';
 
@@ -103,7 +103,7 @@ describe('TransferStateReducer', () => {
     });
   });
 
-  describe('getLegacyServerTransferStateReducer', () => {
+  describe('getServerTransferStateReducer', () => {
     let transferStateMock: any;
     let subReducer: any;
     let metaReducer: any;
@@ -114,7 +114,7 @@ describe('TransferStateReducer', () => {
         set: vi.fn(),
       } as any;
       subReducer = (state: any, action: any) => (action.payload ? action.payload : state);
-      metaReducer = getLegacyServerTransferStateReducer(transferStateMock, {
+      metaReducer = getServerTransferStateReducer(transferStateMock, {
         test: StateTransferType.TRANSFER_STATE,
       });
       reducer = metaReducer(subReducer);
@@ -145,7 +145,7 @@ describe('TransferStateReducer', () => {
 
     it('should not call transferState.set when newState is falsy', () => {
       const falsySubReducer = (_state: any, _action: any) => null;
-      const falsyMetaReducer = getLegacyServerTransferStateReducer(
+      const falsyMetaReducer = getServerTransferStateReducer(
         transferStateMock,
         { test: StateTransferType.TRANSFER_STATE }
       );
