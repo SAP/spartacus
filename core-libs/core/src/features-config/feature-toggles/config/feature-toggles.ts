@@ -1059,7 +1059,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   enableMediaPrefix: true,
-  ssrTransferStateBeforeAppSerialized: true,
+  ssrTransferStateBeforeAppSerialized: false,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,

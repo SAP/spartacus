@@ -1,8 +1,7 @@
-import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
 import { INIT } from '@ngrx/store';
 import { of } from 'rxjs';
 import { StateConfig, StateTransferType } from '../config/state-config';
-import { getBeforeAppSerializedTransferStateProvider } from './before-app-serialized-transfer-state.provider';
+import { serializeNgrxStateToTransferState } from './before-app-serialized-transfer-state.provider';
 import {
   CX_KEY,
   getBrowserTransferStateReducer,
@@ -203,13 +202,7 @@ describe('TransferStateReducer', () => {
     });
   });
 
-  describe('getBeforeAppSerializedTransferStateProvider', () => {
-    it('should return a provider with provide: BEFORE_APP_SERIALIZED and multi: true', () => {
-      const provider = getBeforeAppSerializedTransferStateProvider() as any;
-      expect(provider.provide).toBe(BEFORE_APP_SERIALIZED);
-      expect(provider.multi).toBe(true);
-    });
-
+  describe('serializeNgrxStateToTransferState', () => {
     it('should call transferState.set with the filtered state slice when feature toggle is true on server', async () => {
       const serverState = { test: 'serverValue', other: 'ignore' };
       const storeMock = of(serverState) as any;
@@ -219,19 +212,15 @@ describe('TransferStateReducer', () => {
           ssrTransfer: { keys: { test: StateTransferType.TRANSFER_STATE } },
         },
       } as StateConfig;
-      const platformId = 'server';
       const featureToggles = { ssrTransferStateBeforeAppSerialized: true } as any;
 
-      const provider = getBeforeAppSerializedTransferStateProvider() as any;
-      const callback = provider.useFactory(
+      await serializeNgrxStateToTransferState(
         storeMock,
         transferStateMock,
         config,
-        platformId,
+        'server',
         featureToggles
       );
-
-      await callback();
 
       expect(transferStateMock.set).toHaveBeenCalledWith(CX_KEY, { test: 'serverValue' });
     });
@@ -246,16 +235,13 @@ describe('TransferStateReducer', () => {
       } as StateConfig;
       const featureToggles = { ssrTransferStateBeforeAppSerialized: false } as any;
 
-      const provider = getBeforeAppSerializedTransferStateProvider() as any;
-      const callback = provider.useFactory(
+      await serializeNgrxStateToTransferState(
         storeMock,
         transferStateMock,
         config,
         'server',
         featureToggles
       );
-
-      await callback();
 
       expect(transferStateMock.set).not.toHaveBeenCalled();
     });
@@ -265,16 +251,13 @@ describe('TransferStateReducer', () => {
       const transferStateMock = { set: vi.fn() } as any;
       const featureToggles = { ssrTransferStateBeforeAppSerialized: true } as any;
 
-      const provider = getBeforeAppSerializedTransferStateProvider() as any;
-      const callback = provider.useFactory(
+      await serializeNgrxStateToTransferState(
         storeMock,
         transferStateMock,
         null,
         'server',
         featureToggles
       );
-
-      await callback();
 
       expect(transferStateMock.set).not.toHaveBeenCalled();
     });
@@ -285,16 +268,13 @@ describe('TransferStateReducer', () => {
       const config: StateConfig = { state: {} } as StateConfig;
       const featureToggles = { ssrTransferStateBeforeAppSerialized: true } as any;
 
-      const provider = getBeforeAppSerializedTransferStateProvider() as any;
-      const callback = provider.useFactory(
+      await serializeNgrxStateToTransferState(
         storeMock,
         transferStateMock,
         config,
         'server',
         featureToggles
       );
-
-      await callback();
 
       expect(transferStateMock.set).not.toHaveBeenCalled();
     });
@@ -309,16 +289,13 @@ describe('TransferStateReducer', () => {
       } as StateConfig;
       const featureToggles = { ssrTransferStateBeforeAppSerialized: true } as any;
 
-      const provider = getBeforeAppSerializedTransferStateProvider() as any;
-      const callback = provider.useFactory(
+      await serializeNgrxStateToTransferState(
         storeMock,
         transferStateMock,
         config,
         'browser',
         featureToggles
       );
-
-      await callback();
 
       expect(transferStateMock.set).not.toHaveBeenCalled();
     });

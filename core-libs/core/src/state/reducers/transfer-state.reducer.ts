@@ -10,7 +10,7 @@ import {
   makeStateKey,
   StateKey,
 } from '@angular/core';
-import { INIT, Store } from '@ngrx/store';
+import { INIT } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
