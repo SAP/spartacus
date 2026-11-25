@@ -478,6 +478,36 @@ describe('Configurator reducer', () => {
       const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;
       expect(price).toBeUndefined();
     });
+
+    it('should not overwrite navigation state from a stale price summary response', () => {
+      const stateWithNavigation = {
+        ...CONFIGURATION,
+        interactionState: {
+          ...INTERACTION_STATE,
+          currentGroup: 'CONTAINER_ROW@1067@row@85',
+          menuParentGroup: 'CONTAINER_ROW@1067@row',
+        },
+      };
+      const action = new ConfiguratorActions.UpdatePriceSummarySuccess({
+        ...CONFIGURATION,
+        interactionState: {
+          currentGroup: GROUP_ID_2,
+        },
+        priceSummary: { basePrice: PRICE_DETAILS },
+      });
+
+      const state = StateReduce.configuratorReducer(
+        stateWithNavigation,
+        action
+      );
+
+      expect(state.interactionState.currentGroup).toBe(
+        'CONTAINER_ROW@1067@row@85'
+      );
+      expect(state.interactionState.menuParentGroup).toBe(
+        'CONTAINER_ROW@1067@row'
+      );
+    });
   });
 
   describe('RemoveConfiguration action', () => {

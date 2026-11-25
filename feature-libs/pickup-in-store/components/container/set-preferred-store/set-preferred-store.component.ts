@@ -7,7 +7,7 @@
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import {
   PointOfServiceNames,
   PreferredStoreFacade,
@@ -35,7 +35,9 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   constructor(
     protected preferredStoreFacade: PreferredStoreFacade,
     @Optional() protected outlet: OutletContextData<PointOfServiceNames>
-  ) {}
+  ) {
+    useFeatureStyles('a11yHighContrastFix');
+  }
 
   ngOnInit() {
     this.subscription.add(

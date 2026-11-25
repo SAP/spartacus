@@ -1,15 +1,11 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import {
-  ICON_TYPE,
-  IconLoaderService,
-  IconModule,
-} from '@spartacus/storefront';
+import { IconComponent, IconTestingModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
@@ -18,20 +14,6 @@ import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils'
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
-
-export class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
-  }
-
-  getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-circle';
-  }
-
-  addLinkResource() {}
-  getHtml(_iconType: ICON_TYPE) {}
-  getFlipDirection(): void {}
-}
 
 let showRequiredMessageForUserInput: boolean;
 class MockConfigUtilsService {
@@ -79,15 +61,12 @@ const owner = ConfiguratorModelUtils.createOwner(
 
 describe('ConfigAttributeFooterComponent', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        IconModule,
         ConfiguratorAttributeFooterComponent,
         MockFeatureLevelDirective,
       ],
       providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
@@ -99,9 +78,15 @@ describe('ConfigAttributeFooterComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeFooterComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [TranslatePipe, IconComponent],
         },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule],
+        },
+      })
+      .overrideComponent(ConfiguratorAttributeFooterComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   });
@@ -365,40 +350,26 @@ describe('ConfigAttributeFooterComponent', () => {
       fixture.detectChanges();
     });
 
-    it("should contain div element with class name 'cx-required-error-msg' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain div element with class name 'cx-required-error-msg' and 'role=alert' so that the message is announced once", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'div',
         'cx-required-error-msg',
         0,
-        'aria-label',
+        'role',
+        'alert',
         'configurator.attribute.defaultRequiredMessage'
       );
     });
 
-    it("should contain div element with class name 'cx-required-error-msg' and 'aria-live' attribute that indicates that an element will be updated, and describes the types of updates a user can expect from the live region", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'div',
-        'cx-required-error-msg',
-        0,
-        'aria-live',
-        'assertive'
-      );
-    });
-
-    it("should contain div element with class name 'cx-required-error-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'div',
-        'cx-required-error-msg',
-        0,
-        'aria-atomic',
-        'true'
-      );
+    it("should not duplicate the announcement of the 'cx-required-error-msg' element via aria-label, aria-live or aria-atomic", () => {
+      const message = htmlElem.querySelector(
+        '.cx-required-error-msg'
+      ) as HTMLElement;
+      expect(message.hasAttribute('aria-label')).toBe(false);
+      expect(message.hasAttribute('aria-live')).toBe(false);
+      expect(message.hasAttribute('aria-atomic')).toBe(false);
     });
   });
 });

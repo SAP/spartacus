@@ -6,11 +6,13 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { provideDefaultConfig } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import {
   PageLayoutComponent,
   PageLayoutModule,
 } from '../../../cms-structure/page/index';
+import { defaultLogoutConfig } from './config/default-logout-config';
 import { LogoutGuard } from './logout.guard';
 
 @NgModule({
@@ -26,5 +28,6 @@ import { LogoutGuard } from './logout.guard';
       },
     ]),
   ],
+  providers: [provideDefaultConfig(defaultLogoutConfig)],
 })
 export class LogoutModule {}

@@ -65,6 +65,7 @@ export class OpfGlobalFunctionsRedirectDomainRegistrationsService {
         // this is intentional
       },
       savePaymentMethod,
+      cardNickName,
     }: {
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
@@ -72,6 +73,7 @@ export class OpfGlobalFunctionsRedirectDomainRegistrationsService {
       submitFailure: OpfPaymentMerchantCallback;
       submitCancel?: OpfPaymentMerchantCallback;
       savePaymentMethod?: boolean;
+      cardNickName?: string;
     }): Promise<boolean> => {
       return this.domainService.submitCompleteRedirect(
         additionalData,
@@ -83,7 +85,8 @@ export class OpfGlobalFunctionsRedirectDomainRegistrationsService {
         },
         paymentSessionId,
         vcr,
-        savePaymentMethod
+        savePaymentMethod,
+        cardNickName
       );
     };
   }

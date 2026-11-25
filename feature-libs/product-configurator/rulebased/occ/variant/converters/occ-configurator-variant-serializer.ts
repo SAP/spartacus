@@ -242,6 +242,10 @@ export class OccConfiguratorVariantSerializer
         return OccConfigurator.GroupType.CONFLICT;
       case Configurator.GroupType.CONFLICT_HEADER_GROUP:
         return OccConfigurator.GroupType.CONFLICT_HEADER;
+      case Configurator.GroupType.CONTAINER_ROW_GROUP:
+        throw new Error(
+          'Group type CONTAINER_ROW_GROUP is not supported for the variant configurator'
+        );
     }
   }
 }

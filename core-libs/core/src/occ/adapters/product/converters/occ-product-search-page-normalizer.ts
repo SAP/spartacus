@@ -92,10 +92,9 @@ export class OccProductSearchPageNormalizer
     if (target.facets) {
       target.facets = target.facets.map((facetSource: Facet) => {
         const { topValues, ...facetTarget } = facetSource;
-        facetTarget.topValueCount =
-          topValues && topValues.length > 0
-            ? topValues.length
-            : this.DEFAULT_TOP_VALUES;
+        facetTarget.topValueCount = topValues?.length
+          ? topValues.length
+          : this.DEFAULT_TOP_VALUES;
         return facetTarget;
       });
     }

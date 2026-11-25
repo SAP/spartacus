@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 
 @NgModule({
@@ -23,7 +22,7 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-
     ConfiguratorAttributeNumericInputFieldComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_numeric:

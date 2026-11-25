@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { ConfiguratorExpertModeService } from './configurator-expert-mode.service';
 
 describe('ConfiguratorExpertModeService', () => {

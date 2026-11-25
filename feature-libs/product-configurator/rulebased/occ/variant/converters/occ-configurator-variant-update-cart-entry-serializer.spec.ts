@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConfiguratorModelUtils,
@@ -51,7 +50,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
     });
 
     occConfiguratorVariantUpdateCartEntrySerializer = TestBed.inject(
-      OccConfiguratorVariantUpdateCartEntrySerializer as Type<OccConfiguratorVariantUpdateCartEntrySerializer>
+      OccConfiguratorVariantUpdateCartEntrySerializer
     );
   });
 

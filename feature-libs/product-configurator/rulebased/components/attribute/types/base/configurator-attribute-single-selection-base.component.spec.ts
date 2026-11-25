@@ -103,7 +103,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   const selectedValue = 'a';
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         StoreModule.forRoot({}),

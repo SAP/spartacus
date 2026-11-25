@@ -6,25 +6,26 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
-  inject,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, OperatorFunction } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { filter, Observable, OperatorFunction, tap } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configurator-overview-filter-button',
   templateUrl: './configurator-overview-filter-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     ConfiguratorOverviewFilterBarComponent,
@@ -44,7 +45,16 @@ export class ConfiguratorOverviewFilterButtonComponent {
   ) {}
 
   @ViewChild('filterButton') filterButton: ElementRef;
-  @HostBinding('class.ghost') ghostStyle = true;
+
+  /**
+   * @deprecated since 221121.23 - Prefer the `#ghostFilterButton` template
+   * (`.cx-ghost-filter-button.ghost`) for loading UI. Host `class.ghost` via
+   * `@HostBinding` was removed because CMS slots do not refresh host bindings
+   * when filter data resolves. This flag is still cleared when data arrives for
+   * compatibility; it no longer affects the host. Will be removed in the next
+   * major.
+   */
+  ghostStyle = true;
 
   configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(

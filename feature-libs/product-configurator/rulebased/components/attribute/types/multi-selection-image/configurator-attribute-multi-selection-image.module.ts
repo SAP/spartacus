@@ -14,7 +14,6 @@ import {
   PopoverModule,
 } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 
 @NgModule({
@@ -30,7 +29,7 @@ import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurato
     ConfiguratorAttributeMultiSelectionImageComponent,
   ],
   providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+    provideDefaultConfig({
       productConfigurator: {
         assignment: {
           AttributeType_multi_selection_image:

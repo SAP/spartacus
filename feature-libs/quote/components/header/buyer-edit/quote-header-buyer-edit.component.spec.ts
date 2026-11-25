@@ -35,7 +35,6 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.content = mockCard;
-    component.enablePurchaseOrderNumber = true;
     // No detectChanges() here — tests that mutate form state call it themselves
 
     vi.spyOn(component.saveCard, 'emit');

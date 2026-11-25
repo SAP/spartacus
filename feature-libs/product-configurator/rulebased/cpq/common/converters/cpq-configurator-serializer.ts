@@ -35,13 +35,13 @@ export class CpqConfiguratorSerializer
     const updateInformation =
       CpqConfiguratorUtils.getUpdateInformation(attribute);
 
-    const updateAttribute: Cpq.UpdateAttribute = {
+    return {
       configurationId: configId,
       standardAttributeCode: updateInformation.standardAttributeCode,
       changeAttributeValue: { quantity: attribute.quantity },
       tabId: updateInformation.tabId,
+      rowId: updateInformation.rowId,
     };
-    return updateAttribute;
   }
 
   protected convertAttribute(
@@ -55,6 +55,7 @@ export class CpqConfiguratorSerializer
       standardAttributeCode: updateInformation.standardAttributeCode,
       changeAttributeValue: {},
       tabId: updateInformation.tabId,
+      rowId: updateInformation.rowId,
     };
 
     if (

@@ -23,7 +23,7 @@ export class CheckoutConfigService {
   private express: boolean = this.checkoutConfig.checkout?.express ?? false;
   private guest: boolean = this.checkoutConfig.checkout?.guest ?? false;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
-    this.checkoutConfig.checkout?.defaultDeliveryMode || [];
+    this.checkoutConfig.checkout?.defaultDeliveryMode ?? [];
 
   protected checkoutFlow =
     this.checkoutFlowOrchestratorService?.getCheckoutFlow();
@@ -32,7 +32,7 @@ export class CheckoutConfigService {
     if (this.checkoutFlowOrchestratorService) {
       this.express = this.checkoutFlow?.express ?? false;
       this.guest = this.checkoutFlow?.guest ?? false;
-      this.defaultDeliveryMode = this.checkoutFlow?.defaultDeliveryMode || [];
+      this.defaultDeliveryMode = this.checkoutFlow?.defaultDeliveryMode ?? [];
     }
   }
 

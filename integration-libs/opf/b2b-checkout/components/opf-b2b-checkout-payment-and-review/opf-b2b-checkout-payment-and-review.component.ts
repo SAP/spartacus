@@ -20,7 +20,7 @@ import {
   OpfCheckoutTermsAndConditionsAlertComponent,
 } from '@spartacus/opf/checkout/components';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, filter, map, Observable, take } from 'rxjs';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-payment-and-review',
@@ -70,15 +70,6 @@ export class OpfB2bCheckoutPaymentAndReviewComponent
       })
     );
   }
-
-  getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();
-
-  getSelectedPaymentId$ = this.opfMetadataStoreService
-    .getOpfMetadataState()
-    .pipe(
-      take(1),
-      map((data) => data?.selectedPaymentOptionId)
-    );
 
   getPaymentMethodNameCard(methodName?: string): Observable<Card> {
     return combineLatest([

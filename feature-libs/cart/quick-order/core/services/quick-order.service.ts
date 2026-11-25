@@ -374,7 +374,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Verify if product is already on the list
    */
   protected isProductOnTheList(productCode: string): boolean {
-    const entries = this.entries$.getValue() || [];
+    const entries = this.entries$.getValue() ?? [];
 
     return !!entries.find(
       (item: OrderEntry) => item.product?.code === productCode
@@ -385,7 +385,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     code?: string,
     productsData?: ProductData[]
   ): boolean {
-    const entries = this.entries$.getValue() || [];
+    const entries = this.entries$.getValue() ?? [];
 
     /**
      * Used to offset the amount of existing entries with the index of the missing
@@ -417,7 +417,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
           !entries
             .map((entry) => entry.product?.code)
             .includes(product.productCode)
-      ) || [];
+      ) ?? [];
     return missingProducts.findIndex((product) => product.productCode === code);
   }
 

@@ -5,9 +5,9 @@
  */
 
 import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UrlPipe } from '@spartacus/core';
+import { FeatureToggles, UrlPipe } from '@spartacus/core';
 import { CellComponent } from '../cell.component';
 
 @Component({
@@ -17,7 +17,9 @@ import { CellComponent } from '../cell.component';
   imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe],
 })
 export class ActiveLinkCellComponent extends CellComponent {
-  get tabIndex() {
-    return 0;
+  private activeLinkFeatureToggles = inject(FeatureToggles);
+
+  override get tabIndex() {
+    return this.activeLinkFeatureToggles.a11yTableKeyboardNavigation ? -1 : 0;
   }
 }

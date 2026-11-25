@@ -5,6 +5,7 @@ import {
   CmsConfig,
   CmsService,
   ConfigModule,
+  FeatureStylesService,
   I18nTestingModule,
   Page,
   PointOfService,
@@ -274,5 +275,41 @@ describe('MyPreferredStoreComponent', () => {
       'button.btn-tertiary'
     );
     expect(changeStoreButton.textContent).toEqual(' Change Store ');
+  });
+});
+
+class MockFeatureStylesService {
+  registerUsage = vi.fn();
+  unregisterUsage = vi.fn();
+}
+
+describe('MyPreferredStoreComponent feature toggle registration', () => {
+  let featureStylesService: FeatureStylesService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [MyPreferredStoreComponent, I18nTestingModule],
+      providers: [
+        { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
+        {
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: StoreFinderFacade, useClass: MockStoreLocationService },
+        { provide: StoreLocationService, useClass: MockStoreLocationService },
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: FeatureStylesService, useClass: MockFeatureStylesService },
+      ],
+    }).compileComponents();
+    featureStylesService = TestBed.inject(FeatureStylesService);
+    vi.spyOn(featureStylesService, 'registerUsage');
+  });
+
+  it('should register useFeatureStyles for a11yHighContrastFix', () => {
+    TestBed.createComponent(MyPreferredStoreComponent);
+    expect(featureStylesService.registerUsage).toHaveBeenCalledWith(
+      'a11yHighContrastFix'
+    );
   });
 });

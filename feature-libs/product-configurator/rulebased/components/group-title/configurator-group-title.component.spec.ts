@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
@@ -9,9 +9,9 @@ import {
   BreakpointService,
   HamburgerMenuComponent,
   HamburgerMenuService,
-  IconLoaderService,
+  IconTestingModule,
 } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { NEVER, Observable, of, Subscription } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -26,6 +26,7 @@ const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
 let routerStateObservable: Observable<RouterState>;
+let currentGroupObservable: Observable<Configurator.Group>;
 const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
 
 class MockRoutingService {
@@ -42,7 +43,7 @@ class MockConfiguratorGroupService {
   navigateToGroup(): void {}
 
   getCurrentGroup(): Observable<Configurator.Group> {
-    return of(group);
+    return currentGroupObservable;
   }
 }
 
@@ -58,10 +59,6 @@ class MockConfiguratorCommonsService {
   readConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
   }
-}
-
-export class MockIconFontLoaderService {
-  getFlipDirection(): void {}
 }
 
 class MockBreakpointService {
@@ -96,8 +93,10 @@ describe('ConfiguratorGroupTitleComponent', () => {
 
   beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
-    TestBed.configureTestingModule({
+    currentGroupObservable = of(group);
+    await TestBed.configureTestingModule({
       imports: [
+        IconTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorGroupTitleComponent,
@@ -120,7 +119,6 @@ describe('ConfiguratorGroupTitleComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupService,
         },
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,
@@ -135,13 +133,15 @@ describe('ConfiguratorGroupTitleComponent', () => {
         remove: { imports: [HamburgerMenuComponent] },
         add: { imports: [MockHamburgerMenuComponent] },
       })
+      .overrideComponent(ConfiguratorGroupTitleComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
       .compileComponents();
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    component.ghostStyle = false;
 
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
@@ -173,6 +173,41 @@ describe('ConfiguratorGroupTitleComponent', () => {
 
     hamburgerMenuService = TestBed.inject(HamburgerMenuService);
     vi.spyOn(hamburgerMenuService, 'toggle');
+  });
+
+  it('should create component', () => {
+    expect(component).toBeDefined();
+  });
+
+  describe('ghost loading placeholder', () => {
+    it('should render ghost group title when group data is not available', () => {
+      currentGroupObservable = NEVER;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-group-title.ghost'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-group-title'
+      );
+    });
+
+    it('should render group title when group data is available', () => {
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-group-title'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-group-title.ghost'
+      );
+    });
   });
 
   it('should create component with expanded hamburger menu icon', () => {
@@ -223,6 +258,18 @@ describe('ConfiguratorGroupTitleComponent', () => {
     expect(
       configuratorStorefrontUtilsService.focusFirstActiveElement
     ).toHaveBeenCalledWith('.cx-group-title');
+  });
+
+  it("should render the group heading with 'tabindex=-1' so that it can be focused programmatically", () => {
+    vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+      expect,
+      htmlElem,
+      '.cx-group-title',
+      'tabindex',
+      '-1'
+    );
   });
 
   it('should get group id as part of group', () => {
