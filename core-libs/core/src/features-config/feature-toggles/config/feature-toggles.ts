@@ -1059,7 +1059,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   enableMediaPrefix: true,
-  ssrTransferStateBeforeAppSerialized: true,
   a11yCustomerTicketingVisualFocusFix: true,
   a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,
@@ -1149,4 +1148,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
   a11yHighContrastFix: false,
+  ssrTransferStateBeforeAppSerialized: false,
 };
