@@ -190,7 +190,8 @@ describe('DpPaymentMethodComponent', () => {
     continueButton().click();
     component.next();
     fixture.detectChanges();
-    expect(setFiscalId).toHaveBeenCalledExactlyOnceWith('123456789');
+    expect(setFiscalId).toHaveBeenCalledTimes(1);
+    expect(setFiscalId).toHaveBeenCalledWith('123456789');
     expect(
       fixture.nativeElement.querySelector('cx-dp-payment-form')
     ).toBeNull();
@@ -200,7 +201,8 @@ describe('DpPaymentMethodComponent', () => {
     saved$.next();
     saved$.complete();
     fixture.detectChanges();
-    expect(nextStep).toHaveBeenCalledExactlyOnceWith(route);
+    expect(nextStep).toHaveBeenCalledTimes(1);
+    expect(nextStep).toHaveBeenCalledWith(route);
   });
 
   it('preserves the value and shows the localized error when binding fails, allowing retry', () => {
@@ -230,7 +232,8 @@ describe('DpPaymentMethodComponent', () => {
     setFiscalId.mockReturnValue(of(undefined));
     continueButton().click();
     fixture.detectChanges();
-    expect(nextStep).toHaveBeenCalledExactlyOnceWith(route);
+    expect(nextStep).toHaveBeenCalledTimes(1);
+    expect(nextStep).toHaveBeenCalledWith(route);
   });
 
   it('allows optional empty Fiscal ID to proceed', () => {
@@ -238,7 +241,8 @@ describe('DpPaymentMethodComponent', () => {
     fixture.detectChanges();
     continueButton().click();
     fixture.detectChanges();
-    expect(nextStep).toHaveBeenCalledExactlyOnceWith(route);
+    expect(nextStep).toHaveBeenCalledTimes(1);
+    expect(nextStep).toHaveBeenCalledWith(route);
   });
 
   it('retains automatic registration when Fiscal ID is disabled', () => {
@@ -288,7 +292,8 @@ describe('DpPaymentMethodComponent', () => {
     enterFiscalId();
     continueButton().click();
     expect(setFiscalId).toHaveBeenCalledWith('123456789');
-    expect(nextStep).toHaveBeenCalledExactlyOnceWith(route);
+    expect(nextStep).toHaveBeenCalledTimes(1);
+    expect(nextStep).toHaveBeenCalledWith(route);
   });
 
   it('blocks existing-card Continue when Fiscal ID is invalid', () => {
@@ -321,6 +326,86 @@ describe('DpPaymentMethodComponent', () => {
     expect(setFiscalId).not.toHaveBeenCalled();
   });
 
+  describe('guest checkout', () => {
+    let host: HTMLElement;
+
+    beforeEach(() => {
+      fixture.destroy();
+      vi.spyOn(TestBed.inject(ActiveCartFacade), 'isGuestCart').mockReturnValue(
+        of(true)
+      );
+      vi.spyOn(TestBed.inject(ActiveCartFacade), 'getActive').mockReturnValue(
+        of({
+          code: 'cart',
+          sapCustomerFiscalId: {
+            sapFiscalIdEntries: [{ sapValue: '123456789' }],
+          },
+        })
+      );
+      methods$.next([]);
+      fixture = TestBed.createComponent(DpPaymentMethodComponent);
+      component = fixture.componentInstance;
+      host = fixture.nativeElement;
+    });
+
+    it('lets a guest edit Fiscal ID using the cart payment without registering a new card', () => {
+      selected$.next({ loading: true, error: false, data: undefined });
+      fixture.detectChanges();
+      expect(host.querySelector('cx-dp-payment-form')).toBeNull();
+
+      selected$.next({
+        loading: false,
+        error: false,
+        data: { ...payment, cardNumber: '********1234' },
+      });
+      fixture.detectChanges();
+      expect(host.querySelector('cx-dp-payment-form')).toBeNull();
+      expect(host.textContent).toContain('********1234');
+      expect(
+        host.querySelector<HTMLInputElement>('#fiscalIdInput')?.value
+      ).toBe('123456789');
+
+      const saved$ = new Subject<void>();
+      setFiscalId.mockReturnValue(saved$);
+      enterFiscalId('987654321');
+      continueButton().click();
+      fixture.detectChanges();
+      expect(setFiscalId).toHaveBeenCalledTimes(1);
+      expect(setFiscalId).toHaveBeenCalledWith('987654321');
+      expect(nextStep).not.toHaveBeenCalled();
+      expect(setPaymentDetails).not.toHaveBeenCalled();
+      expect(host.querySelector('cx-dp-payment-form')).toBeNull();
+
+      saved$.next();
+      saved$.complete();
+      fixture.detectChanges();
+      expect(nextStep).toHaveBeenCalledTimes(1);
+      expect(nextStep).toHaveBeenCalledWith(route);
+      expect(setPaymentDetails).not.toHaveBeenCalled();
+    });
+
+    it.each([undefined, {}])(
+      'starts card registration when the cart has no payment ID (%j)',
+      (paymentDetails) => {
+        selected$.next({ loading: false, error: false, data: paymentDetails });
+        fixture.detectChanges();
+        expect(host.querySelector('cx-dp-payment-form')).toBeTruthy();
+        expect(host.querySelector('cx-fiscal-id-form')).toBeNull();
+        expect(continueButton()).toBeNull();
+      }
+    );
+
+    it('allows a guest with a cart payment to register a different card', () => {
+      fixture.detectChanges();
+      expect(host.querySelector('cx-dp-payment-form')).toBeNull();
+      host.querySelector<HTMLButtonElement>('button.btn-secondary')?.click();
+      fixture.detectChanges();
+      expect(host.querySelector('cx-dp-payment-form')).toBeTruthy();
+      expect(host.querySelector('cx-fiscal-id-form')).toBeNull();
+      expect(continueButton()).toBeNull();
+    });
+  });
+
   it('detects the callback and navigates once after binding its payment details without submitting Fiscal ID twice', () => {
     route.snapshot.queryParamMap = convertToParamMap({
       'x-card-registration-status': 'SUCCESSFUL',
@@ -328,7 +413,8 @@ describe('DpPaymentMethodComponent', () => {
     expect(component.isDpCallback()).toBe(true);
     component.paymentDetailsAdded(payment);
     expect(setPaymentDetails).toHaveBeenCalledWith(payment);
-    expect(nextStep).toHaveBeenCalledExactlyOnceWith(route);
+    expect(nextStep).toHaveBeenCalledTimes(1);
+    expect(nextStep).toHaveBeenCalledWith(route);
     expect(setFiscalId).not.toHaveBeenCalled();
   });
 
@@ -364,7 +450,8 @@ describe('DpPaymentMethodComponent', () => {
       false
     );
     callback.paymentDetailsAdded.emit(payment);
-    expect(nextStep).toHaveBeenCalledExactlyOnceWith(route);
+    expect(nextStep).toHaveBeenCalledTimes(1);
+    expect(nextStep).toHaveBeenCalledWith(route);
   });
 
   it('hides the callback after cancellation', () => {

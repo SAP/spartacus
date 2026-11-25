@@ -375,9 +375,8 @@ describe('CheckoutPaymentMethodComponent', () => {
           .query(By.css('.btn-primary'))
           .triggerEventHandler('click');
       }
-      expect(checkoutStepService.next).toHaveBeenCalledExactlyOnceWith(
-        mockActivatedRoute
-      );
+      expect(checkoutStepService.next).toHaveBeenCalledTimes(1);
+      expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
     }
   );
 
@@ -420,9 +419,8 @@ describe('CheckoutPaymentMethodComponent', () => {
 
     expect(create).toHaveBeenCalledTimes(1);
     expect(submit).toHaveBeenCalledTimes(2);
-    expect(checkoutStepService.next).toHaveBeenCalledExactlyOnceWith(
-      mockActivatedRoute
-    );
+    expect(checkoutStepService.next).toHaveBeenCalledTimes(1);
+    expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
   });
 
   it('waits for Fiscal ID processing and then new payment creation before navigating', () => {
@@ -450,9 +448,8 @@ describe('CheckoutPaymentMethodComponent', () => {
 
     paymentRequest.complete();
     expect(submit).toHaveBeenCalledTimes(1);
-    expect(checkoutStepService.next).toHaveBeenCalledExactlyOnceWith(
-      mockActivatedRoute
-    );
+    expect(checkoutStepService.next).toHaveBeenCalledTimes(1);
+    expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
   });
 
   it('should be created', () => {

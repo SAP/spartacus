@@ -324,9 +324,8 @@ describe('CheckoutPaymentTypeComponent', () => {
         save.mockReturnValue(of(undefined));
         el.query(By.css('.btn-primary')).triggerEventHandler('click');
       }
-      expect(checkoutStepService.next).toHaveBeenCalledExactlyOnceWith(
-        mockActivatedRoute
-      );
+      expect(checkoutStepService.next).toHaveBeenCalledTimes(1);
+      expect(checkoutStepService.next).toHaveBeenCalledWith(mockActivatedRoute);
     }
   );
 

@@ -42,7 +42,8 @@ describe('FiscalIdRequestHandler', () => {
         response
       );
 
-      expect(add).toHaveBeenCalledExactlyOnceWith(
+      expect(add).toHaveBeenCalledTimes(1);
+      expect(add).toHaveBeenCalledWith(
         { key: 'fiscalId.errors.' + key, ...(params ? { params } : {}) },
         GlobalMessageType.MSG_TYPE_ERROR
       );
@@ -152,7 +153,8 @@ describe('FiscalIdRequestHandler', () => {
       })
     );
 
-    expect(add).toHaveBeenCalledExactlyOnceWith(
+    expect(add).toHaveBeenCalledTimes(1);
+    expect(add).toHaveBeenCalledWith(
       { key: 'fiscalId.errors.unknown' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
@@ -166,7 +168,8 @@ describe('FiscalIdRequestHandler', () => {
         new HttpErrorResponse({ status: 400, error })
       );
 
-      expect(add).toHaveBeenCalledExactlyOnceWith(
+      expect(add).toHaveBeenCalledTimes(1);
+      expect(add).toHaveBeenCalledWith(
         { key: 'fiscalId.errors.unknown' },
         GlobalMessageType.MSG_TYPE_ERROR
       );

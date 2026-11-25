@@ -25,8 +25,8 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { CardComponent, SpinnerComponent } from '@spartacus/storefront';
-import { defer, of } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { defer, Observable, of } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 import { DpPaymentCallbackComponent } from './dp-payment-callback/dp-payment-callback.component';
 import { DpPaymentFormComponent } from './dp-payment-form/dp-payment-form.component';
@@ -51,6 +51,15 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
   showCallbackScreen = false;
   callbackSubmitting = false;
   protected callbackPaymentPending = false;
+
+  override get existingPaymentMethods$(): Observable<PaymentDetails[]> {
+    // Guest checkout reuses the payment method already bound to the cart.
+    return this.isGuestCheckout
+      ? this.selectedMethod$.pipe(
+          map((payment) => (payment?.id ? [payment] : []))
+        )
+      : super.existingPaymentMethods$;
+  }
 
   submitFiscalId = () =>
     defer(() => {
