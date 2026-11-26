@@ -557,17 +557,17 @@ describe('QuickOrderService', () => {
         ],
       });
 
-      const serviceWithToggleOff = TestBed.inject(QuickOrderService);
-      const connectorWithToggleOff = TestBed.inject(ProductConnector);
-      vi.spyOn(connectorWithToggleOff, 'get');
+      const quickOrderServiceWithToggleOff = TestBed.inject(QuickOrderService);
+      const productConnectorWithToggleOff = TestBed.inject(ProductConnector);
+      vi.spyOn(productConnectorWithToggleOff, 'get');
 
-      serviceWithToggleOff.loadEntries([
+      quickOrderServiceWithToggleOff.loadEntries([
         { product: mockProduct1, quantity: 1 },
       ]);
       mockActiveCurrency$.next('USD');
       mockActiveCurrency$.next('EUR');
 
-      expect(connectorWithToggleOff.get).not.toHaveBeenCalled();
+      expect(productConnectorWithToggleOff.get).not.toHaveBeenCalled();
     });
   });
 });
