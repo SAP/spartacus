@@ -14,6 +14,8 @@ This document can also serve as the guideline for the future schematic that can 
   - [Generating a library](#generating-a-library)
   - [Aligning with the other libs](#aligning-with-the-other-libs)
     - [Modifying the generated files](#modifying-the-generated-files)
+      - [KARMA](#karma)
+      - [VITEST](#vitest)
     - [Additional changes to existing files](#additional-changes-to-existing-files)
     - [Sample data release entry ONLY if applicable](#sample-data-release-entry-only-if-applicable)
   - [Multi-entry point library](#multi-entry-point-library)
@@ -54,6 +56,10 @@ If you are generating a library, which purpose is to be a `multi-entry point lib
 The list of the files that need to modified:
 
 - `README.md` - replace the default content with some relevant information about the library.
+
+> **DEPRECATED** — use Vitest for new libraries. This section is kept for reference only.
+
+#### KARMA
 
 - `karma.conf.js`
 
@@ -107,6 +113,69 @@ module.exports = function (config) {
 };
 ```
 
+#### VITEST
+- `vitest.config.ts`
+
+Just copy paste the following and make sure to rename `<lib-name>` to your lib's name:
+
+```ts
+// Vitest configuration file, see link for more information
+// https://vitest.dev/config/
+
+import angular from '@analogjs/vite-plugin-angular';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  root: import.meta.dirname,
+  plugins: [angular(), nxViteTsPaths()],
+  test: {
+    clearMocks: true,
+    restoreMocks: true,
+    pool: 'forks',
+    watch: false,
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['../../testing/setup-vitest.ts'],
+    include: ['**/*.spec.ts'],
+    typecheck: {
+      tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
+    },
+    coverage: {
+      enabled: true,
+      provider: 'v8',
+      reporter: ['text-summary', 'html', 'lcov'],
+      reportsDirectory: `${import.meta.dirname}/../../coverage/<lib-name>`, // ← adjust
+      include: ['**/*.ts'],
+      exclude: [
+        '**/*.spec.ts',
+        '**/public_api.ts',
+        '**/index.ts',
+        '**/*.module.ts',
+        '**/vitest.config.ts',
+        '**/assets/**',
+        '**/testing/**',
+        '**/schematics/**',
+        'setup-jest.ts',
+      ],
+      thresholds: {
+        statements: 85,
+        lines: 85,
+        branches: 65,
+        functions: 85,
+      },
+    },
+    reporters: [
+      'default',
+      ['junit', {
+        outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-<lib-name>.xml`, // ← adjust
+      }],
+    ],
+  },
+});
+
+```
+
 - `project.json`
 
   - add the lint `targets > lint`
@@ -134,6 +203,18 @@ module.exports = function (config) {
       "options": {
         "command": "npm run test:schematics",
         "cwd": "feature-libs/TODO:
+      }
+    }
+    ```
+
+  - add the test-vitest `targets > test-vitest`
+
+    ```json
+    "test-vitest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vitest run --config vitest.config.ts",
+        "cwd": "{projectRoot}"
       }
     }
     ```
@@ -383,7 +464,7 @@ If adding multiple entry points to the generated library, make sure to do the fo
 
 Don't forget to:
 
-- run the tests for the generated library - `npx nx test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
+- run the tests for the generated library - `npx nx test-vitest <lib-name> -- --coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/<lib-name>/lcov-report/index.html`
 - build the generated library _with Ivy enabled_ - `npx nx build <lib-name>`
 - build the generated library (without Ivy) - `npx nx build <lib-name> --configuration production`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
