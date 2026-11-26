@@ -1024,6 +1024,14 @@ export interface FeatureTogglesInterface {
    * - `core-libs/styles/scss/components/layout/header/_site-context-selector.scss`
    */
   a11yHighContrastFix?: boolean;
+
+  /**
+   * When enabled, re-fetches product prices for all entries in the Quick Order
+   * list when the active currency changes, so displayed prices stay in sync with
+   * the selected currency.
+   * Affects: `QuickOrderService`
+   */
+  quickOrderRefreshPricesOnCurrencyChange?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1134,4 +1142,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
   a11yHighContrastFix: false,
+  quickOrderRefreshPricesOnCurrencyChange: false,
 };
