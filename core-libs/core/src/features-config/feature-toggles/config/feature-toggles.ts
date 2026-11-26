@@ -576,14 +576,6 @@ export interface FeatureTogglesInterface {
   enableCartSlowNetworkResilience?: boolean;
 
   /**
-   * When enabled, re-fetches product prices for all entries in the Quick Order
-   * list when the active currency changes, so displayed prices stay in sync with
-   * the selected currency.
-   * Affects: `QuickOrderService`
-   */
-  quickOrderRefreshPricesOnCurrencyChange?: boolean;
-
-  /**
    * When enabled, adds an 8px top margin to the "Add to Wish List" button
    * for consistent spacing.
    * Affects: AddToWishListComponent
@@ -823,14 +815,18 @@ export interface FeatureTogglesInterface {
    * elements (input fields, search box, comboboxes, checkboxes, radio buttons,
    * etc.) meets the WCAG 1.4.11 non-text contrast requirement of >=3:1 against
    * the adjacent surface.
+   *
+   * @deprecated No longer has any effect: the SCSS override that consumed this
+   * toggle has been removed.
    */
   a11yFocusIndicatorContrast?: boolean;
 
   /**
    * When enabled, the default theme's primary color (`--cx-color-primary`) is
    * darkened so the contrast meets the contrast requirement of >= 4.5:1.
-   * This toggle can be removed if santorini-updated in theme.scss is uncommented
-   * as part of next major release.
+   *
+   * @deprecated No longer has any effect: the SCSS override that consumed this
+   * toggle has been removed.
    */
   a11yPrimaryColorContrast?: boolean;
 
@@ -1028,6 +1024,14 @@ export interface FeatureTogglesInterface {
    * - `core-libs/styles/scss/components/layout/header/_site-context-selector.scss`
    */
   a11yHighContrastFix?: boolean;
+
+  /**
+   * When enabled, re-fetches product prices for all entries in the Quick Order
+   * list when the active currency changes, so displayed prices stay in sync with
+   * the selected currency.
+   * Affects: `QuickOrderService`
+   */
+  quickOrderRefreshPricesOnCurrencyChange?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1102,7 +1106,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfCheckoutUseUpdatePaymentTransaction: false,
   enableCartSlowNetworkResilience: false,
   a11yRegistrationTermsAsteriskMargin: false,
-  quickOrderRefreshPricesOnCurrencyChange: false,
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
@@ -1139,4 +1142,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponDialogResetButtonKeyboardAccessible: false,
   a11yInStockInfoTextContrast: false,
   a11yHighContrastFix: false,
+  quickOrderRefreshPricesOnCurrencyChange: false,
 };
