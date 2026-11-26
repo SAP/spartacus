@@ -14,7 +14,7 @@ This document can also serve as the guideline for the future schematic that can 
   - [Generating a library](#generating-a-library)
   - [Aligning with the other libs](#aligning-with-the-other-libs)
     - [Modifying the generated files](#modifying-the-generated-files)
-      - [KARMA (deprecated)](#karma)
+      - [KARMA](#karma)
       - [VITEST](#vitest)
     - [Additional changes to existing files](#additional-changes-to-existing-files)
     - [Sample data release entry ONLY if applicable](#sample-data-release-entry-only-if-applicable)
@@ -464,7 +464,7 @@ If adding multiple entry points to the generated library, make sure to do the fo
 
 Don't forget to:
 
-- run the tests for the generated library - `npx nx test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
+- run the tests for the generated library - `npx nx test-vitest <lib-name> -- --coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/<lib-name>/lcov-report/index.html`
 - build the generated library _with Ivy enabled_ - `npx nx build <lib-name>`
 - build the generated library (without Ivy) - `npx nx build <lib-name> --configuration production`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
