@@ -6,6 +6,8 @@
 
 export * from './engine-decorator/index';
 export * from './express-utils/express-origin-validation-middleware';
+export * from './express-utils/express-request-origin';
+export * from './express-utils/express-request-url';
 export * from './engine/cx-common-engine';
 export * from './engine/ng-express-engine';
 export * from './error-handling/index';

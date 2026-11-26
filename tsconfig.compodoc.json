@@ -32,6 +32,9 @@
       "@spartacus/setup/ssr": [
         "core-libs/setup/ssr/public_api"
       ],
+      "@spartacus/setup/ssr/express-base-site": [
+        "core-libs/setup/ssr/express-base-site/public_api"
+      ],
       "@spartacus/core": [
         "core-libs/core/public_api"
       ],

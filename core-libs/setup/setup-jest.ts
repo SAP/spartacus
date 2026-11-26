@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'zone.js';
-import 'zone.js/testing';
+import './setup-zone';
 import { getTestBed } from '@angular/core/testing';
 import {
   platformServerTesting,

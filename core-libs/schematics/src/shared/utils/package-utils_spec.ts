@@ -118,7 +118,9 @@ describe('Package utils', () => {
     const createWorkspace = (
       builderType: string,
       serverPath?: string,
-      ssrEntry?: string
+      ssrEntry?: string,
+      additionalOptions: Record<string, unknown> = {},
+      configurations: Record<string, unknown> = {}
     ) => {
       const angularJson = {
         projects: {
@@ -129,7 +131,9 @@ describe('Package utils', () => {
                 options: {
                   ...(serverPath && { server: serverPath }),
                   ...(ssrEntry && { ssr: { entry: ssrEntry } }),
+                  ...additionalOptions,
                 },
+                configurations,
               },
             },
           },
@@ -180,6 +184,100 @@ describe('Package utils', () => {
         );
         ssrTree.create('server.ts', 'export const server = {};');
         expect(isSsrUsed(ssrTree)).toBeTruthy();
+      });
+
+      it.each([
+        { name: 'disabled SSR', options: { ssr: false } },
+        { name: 'missing entry', options: { ssr: {} } },
+        { name: 'missing server', options: { server: undefined } },
+        { name: 'invalid entry', options: { ssr: { entry: 42 } } },
+        { name: 'invalid server', options: { server: true } },
+      ])(
+        'returns false for $name despite an existing server file',
+        ({ options }) => {
+          createWorkspace(
+            '@angular/build:application',
+            'src/main.server.ts',
+            'server.ts',
+            options
+          );
+          ssrTree.create('server.ts', 'export const server = {};');
+
+          expect(isSsrUsed(ssrTree)).toBe(false);
+        }
+      );
+
+      it.each(['', ' \n  '])(
+        'returns false for an empty server entry',
+        (content) => {
+          createWorkspace(
+            '@angular/build:application',
+            'src/main.server.ts',
+            'server.ts'
+          );
+          ssrTree.create('server.ts', content);
+
+          expect(isSsrUsed(ssrTree)).toBe(false);
+        }
+      );
+
+      it('does not infer SSR from its dependency or an unconfigured server file', () => {
+        createWorkspace('@angular/build:application');
+        ssrTree.create('server.ts', 'export const server = {};');
+        ssrTree.create(
+          'package.json',
+          JSON.stringify({ dependencies: { '@angular/ssr': '21.2.23' } })
+        );
+
+        expect(isSsrUsed(ssrTree)).toBe(false);
+      });
+
+      it('accepts SSR with prerender disabled and a separate noSsr configuration', () => {
+        createWorkspace(
+          '@angular/build:application',
+          'src/main.server.ts',
+          'server.ts',
+          { prerender: false },
+          { noSsr: { ssr: false, server: undefined } }
+        );
+        ssrTree.create('server.ts', 'export const server = {};');
+
+        expect(isSsrUsed(ssrTree)).toBe(true);
+      });
+
+      it('uses the selected project consistently when finding the server entry', () => {
+        ssrTree.create(
+          'angular.json',
+          JSON.stringify({
+            projects: {
+              csr: {
+                architect: {
+                  build: { builder: '@angular/build:application', options: {} },
+                },
+              },
+              ssr: {
+                architect: {
+                  build: {
+                    builder: '@angular/build:application',
+                    options: {
+                      server: 'ssr/main.server.ts',
+                      ssr: { entry: 'ssr/server.ts' },
+                    },
+                  },
+                },
+              },
+            },
+          })
+        );
+        ssrTree.create('ssr/server.ts', 'export const server = {};');
+
+        expect(isSsrUsed(ssrTree)).toBe(false);
+        expect(isSsrUsed(ssrTree, 'csr')).toBe(false);
+        expect(isSsrUsed(ssrTree, 'ssr')).toBe(true);
+        expect(getServerTsPathForApplicationBuilder(ssrTree, 'ssr')).toBe(
+          'ssr/server.ts'
+        );
+        expect(getServerTsPathForApplicationBuilder(ssrTree, 'csr')).toBeNull();
       });
     });
 

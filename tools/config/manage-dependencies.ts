@@ -401,10 +401,11 @@ function filterNativeNodeAPIs(
               // Don't allow to use node api outside of schematics files
               if (imp.usageIn.spec || imp.usageIn.lib) {
                 imp.files.forEach((file) => {
-                  // Allow to use Node APIs in SSR and in build-time config files
-                  // (e.g. vitest.config.ts), which are never shipped to the browser
+                  // Allow Node APIs in SSR, test setup, and build-time config
+                  // files, which are never shipped to the browser.
                   if (
                     !file.includes('ssr') &&
+                    file !== `${lib.directory}/setup-jest.ts` &&
                     !file.endsWith('vitest.config.ts')
                   ) {
                     errorsFound = true;
@@ -416,7 +417,7 @@ function filterNativeNodeAPIs(
                         )}\` is referenced.`,
                       ],
                       [
-                        `Node.js APIs can only be used in SSR code or in schematics.`,
+                        `Node.js APIs can only be used in SSR code, schematics, or test/build configuration.`,
                         `You might have wanted to import it from some library instead.`,
                       ]
                     );
