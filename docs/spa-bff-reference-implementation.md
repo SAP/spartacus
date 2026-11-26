@@ -1568,5 +1568,5 @@ certificates, and the browser will also reject them without a manual exception.
 
 [Hosting Portal Documentation](https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/0fa6bcf4736c46f78c248512391eb467/2bb13fbce5d145ec89b09ea5d2feef25.html?ai=true)
 
-[Frontend Developer Guide](https://help.sap.com/docs/CC_CEE/098d0a4925094840a656c02370c78e30/8c69eda100354c66b33bb0d6f9648b17.html?ai=true)
+[Composable Storefront for SAP Commerce Cloud](https://help.sap.com/docs/CC_CEE/098d0a4925094840a656c02370c78e30/8c69eda100354c66b33bb0d6f9648b17.html?ai=true)
 
