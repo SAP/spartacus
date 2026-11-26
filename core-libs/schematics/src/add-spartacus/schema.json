@@ -383,6 +383,12 @@
       "description": "Add Server-side rendering support to the project.",
       "default": false
     },
+    "runtimeConfig": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable runtime configuration via /config.json (recommended for SAP Hosting Portal deployments). Wraps bootstrapApplication in a pre-bootstrap fetch so environment variables can be injected at runtime without a rebuild.",
+      "x-prompt": "Would you like to enable runtime configuration via /config.json? (recommended for SAP Hosting Portal deployments)"
+    },
     "theme": {
       "type": "string",
       "description": "Select a style theme to add. E.g: santorini"

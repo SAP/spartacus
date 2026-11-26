@@ -19,6 +19,7 @@ export * from './object-comparison-utils';
 export * from './occ-http-error-constants';
 export * from './occ-http-error-handlers';
 export * from './regex-pattern';
+export * from './runtime-config.token';
 export * from './rxjs/index';
 export * from './script-loader.service';
 export * from './ssr.tokens';

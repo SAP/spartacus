@@ -5,8 +5,17 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { FeaturesConfigModule } from '@spartacus/core';
+import {
+  APP_INITIALIZER,
+  inject,
+  ModuleWithProviders,
+  NgModule,
+} from '@angular/core';
+import {
+  ENVIRONMENT,
+  FeaturesConfigModule,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import { MediaPreconnectService } from '../../../cms-structure';
 import { MediaSourcesPipe } from './media-sources.pipe';
 import { MediaComponent } from './media.component';
@@ -37,6 +46,12 @@ export class MediaModule {
           deps: [MediaPreconnectService],
           multi: true,
         },
+        provideDefaultConfigFactory(() => {
+          const env = inject(ENVIRONMENT, { optional: true }) ?? {};
+          return env['MEDIA_BASE_URL']
+            ? { backend: { media: { baseUrl: env['MEDIA_BASE_URL'] } } }
+            : {};
+        }),
       ],
     };
   }
