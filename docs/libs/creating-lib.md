@@ -57,7 +57,7 @@ The list of the files that need to modified:
 
 - `README.md` - replace the default content with some relevant information about the library.
 
-##### THE FOLLOWING SECTION IS DEPRECATED AND HERE ONLY FOR REFERENCE PURPOSES - use vitest instead when starting a new lib
+> **DEPRECATED** — use Vitest for new libraries. This section is kept for reference only.
 
 #### KARMA
 
@@ -116,7 +116,7 @@ module.exports = function (config) {
 #### VITEST
 - `vitest.config.ts`
 
-Just copy paste the following and and make sure to rename `<lib-name>` to you lib's name:
+Just copy paste the following and make sure to rename `<lib-name>` to your lib's name:
 
 ```ts
 // Vitest configuration file, see link for more information
@@ -203,6 +203,18 @@ export default defineConfig({
       "options": {
         "command": "npm run test:schematics",
         "cwd": "feature-libs/TODO:
+      }
+    }
+    ```
+
+  - add the test-vitest `targets > test-vitest`
+
+    ```json
+    "test-vitest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vitest run --config vitest.config.ts",
+        "cwd": "{projectRoot}"
       }
     }
     ```
