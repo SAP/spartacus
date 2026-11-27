@@ -44,6 +44,7 @@ export function addProductToCart() {
     'cart_refresh',
     '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
   );
+  cy.wait(8000);
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();

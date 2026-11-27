@@ -697,7 +697,6 @@ context('Assisted Service Module', () => {
         cy.getLoginRegisterLink({ clickAndWait: true });
       });
 
-      visitLoginPage();
       login(customer.email, customer.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -777,7 +776,7 @@ context('Assisted Service Module', () => {
         cy.visit('/');
         cy.getLoginRegisterLink({ clickAndWait: true });
       });
-      visitLoginPage();
+
       login(customer.email, customer.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 

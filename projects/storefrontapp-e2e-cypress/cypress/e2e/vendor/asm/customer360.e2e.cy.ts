@@ -233,9 +233,9 @@ context('Assisted Service Module', () => {
         .first()
         .within(() => {
           cy.wait(1000);
-          cy.intercept('POST', /\.*\/vouchers\?voucherId=.*/).as('applyCoupon');
+          cy.intercept('POST', /\.*\/applyVoucher*/).as('applyCoupon');
           cy.get('button').contains('Apply to Cart').click();
-          cy.wait('@applyCoupon').its('response.statusCode').should('eq', 200);
+          cy.wait('@applyCoupon').its('response.statusCode').should('eq', 204);
           cy.get('button').should('not.contain', 'Apply to Cart');
           cy.get('button').contains('Remove').should('be.visible');
           cy.intercept('POST', '**/removeVoucher').as('removeCoupon');
