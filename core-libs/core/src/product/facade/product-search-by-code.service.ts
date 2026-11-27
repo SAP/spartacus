@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable, PendingTasks } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { auditTime, map, Observable, tap, using } from 'rxjs';
+import { withPendingTask } from '../../util/rxjs/with-pending-task';
 import { Product } from '../../model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -17,6 +18,8 @@ import { ProductSelectors } from '../store/selectors/index';
 })
 export class ProductSearchByCodeService {
   protected store = inject(Store<StateWithProduct>);
+  protected pendingTasks = inject(PendingTasks);
+  protected destroyRef = inject(DestroyRef);
 
   load({ code, scope }: { code: string; scope?: string }): void {
     this.store.dispatch(
@@ -44,7 +47,7 @@ export class ProductSearchByCodeService {
     );
 
     const loading$ = state$.pipe(
-      auditTime(0),
+      withPendingTask(auditTime(0), this.pendingTasks, this.destroyRef),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.load({ code, scope });

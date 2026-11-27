@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import {
+  DestroyRef,
+  inject,
+  Injectable,
+  Injector,
+  PendingTasks,
+} from '@angular/core';
+import { pendingUntilEvent } from '@angular/core/rxjs-interop';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { merge, Observable, of } from 'rxjs';
@@ -14,6 +21,7 @@ import { LoggerService } from '../../../logger';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
+import { withPendingTask } from '../../../util/rxjs/with-pending-task';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { ProductConnector } from '../../connectors/product/product.connector';
 import { ScopedProductData } from '../../connectors/product/scoped-product-data';
@@ -22,6 +30,9 @@ import { ProductActions } from '../actions/index';
 @Injectable()
 export class ProductEffects {
   protected logger = inject(LoggerService);
+  protected pendingTasks = inject(PendingTasks);
+  protected destroyRef = inject(DestroyRef);
+  protected injector = inject(Injector);
 
   // we want to cancel all ongoing requests when currency or language changes,
   private contextChange$: Observable<Action> = this.actions$.pipe(
@@ -44,7 +55,11 @@ export class ProductEffects {
           })),
           // we are grouping all load actions that happens at the same time
           // to optimize loading and pass them all to productConnector.getMany
-          bufferDebounceTime(debounce, scheduler),
+          withPendingTask(
+            bufferDebounceTime(debounce, scheduler),
+            this.pendingTasks,
+            this.destroyRef
+          ),
           mergeMap((products) =>
             merge(
               ...this.productConnector
@@ -63,6 +78,7 @@ export class ProductEffects {
   > {
     return (
       productLoad.data$?.pipe(
+        pendingUntilEvent(this.injector),
         map(
           (data) =>
             new ProductActions.LoadProductSuccess(

@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import {
+  DestroyRef,
+  inject,
+  Injectable,
+  Injector,
+  PendingTasks,
+} from '@angular/core';
+import { pendingUntilEvent } from '@angular/core/rxjs-interop';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { AuthActions } from '../../../auth/user-auth/store/actions';
@@ -14,6 +21,7 @@ import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger/logger.service';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
+import { withPendingTask } from '../../../util/rxjs/with-pending-task';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';
@@ -21,6 +29,9 @@ import { ProductActions } from '../actions/index';
 @Injectable()
 export class ProductSearchByCodeEffects {
   protected logger = inject(LoggerService);
+  protected pendingTasks = inject(PendingTasks);
+  protected destroyRef = inject(DestroyRef);
+  protected injector = inject(Injector);
   private actions$ = inject(Actions);
   private productSearchConnector = inject(ProductSearchConnector);
 
@@ -58,7 +69,11 @@ export class ProductSearchByCodeEffects {
 
               // We are grouping all load actions that happen at the same time
               // to optimize loading and pass them all in a single call to the Connector.
-              bufferDebounceTime(debounce, scheduler),
+              withPendingTask(
+                bufferDebounceTime(debounce, scheduler),
+                this.pendingTasks,
+                this.destroyRef
+              ),
 
               mergeMap((payloads: { code: string; scope: string }[]) => {
                 const codes = payloads.map((payload) => payload.code);
@@ -66,6 +81,7 @@ export class ProductSearchByCodeEffects {
                 return this.productSearchConnector
                   .searchByCodes(codes, scope)
                   .pipe(
+                    pendingUntilEvent(this.injector),
                     switchMap(
                       (
                         searchResults

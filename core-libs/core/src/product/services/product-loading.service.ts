@@ -5,7 +5,14 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {
+  DestroyRef,
+  inject,
+  Inject,
+  Injectable,
+  PendingTasks,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { defer, merge, Observable, of, SchedulerLike, using } from 'rxjs';
@@ -24,6 +31,7 @@ import { EventService } from '../../event/event.service';
 import { Product } from '../../model/product.model';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
+import { withPendingTask } from '../../util/rxjs/with-pending-task';
 import { withdrawOn } from '../../util/rxjs/withdraw-on';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -34,6 +42,8 @@ import { isKeyInvalid } from '../../util';
   providedIn: 'root',
 })
 export class ProductLoadingService {
+  protected pendingTasks = inject(PendingTasks);
+  protected destroyRef = inject(DestroyRef);
   protected products: {
     [code: string]: { [scope: string]: Observable<Product> };
   } = {};
@@ -121,7 +131,7 @@ export class ProductLoadingService {
       shouldLoad$,
       ...this.getProductReloadTriggers(productCode, scope)
     ).pipe(
-      debounceTime(0),
+      withPendingTask(debounceTime(0), this.pendingTasks, this.destroyRef),
       withLatestFrom(isLoading$),
       tap(([, isLoading]) => {
         if (!isLoading) {
