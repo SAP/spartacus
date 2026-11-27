@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import {
+  DestroyRef,
+  inject,
+  Injectable,
+  Injector,
+  PendingTasks,
+} from '@angular/core';
+import { pendingUntilEvent } from '@angular/core/rxjs-interop';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { forkJoin, Observable } from 'rxjs';
@@ -12,6 +19,7 @@ import { catchError, groupBy, map, mergeMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger/logger.service';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
+import { withPendingTask } from '../../../util/rxjs/with-pending-task';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';
@@ -20,6 +28,9 @@ import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 @Injectable()
 export class ProductSearchByCategoryEffects {
   protected logger = inject(LoggerService);
+  protected pendingTasks = inject(PendingTasks);
+  protected destroyRef = inject(DestroyRef);
+  protected injector = inject(Injector);
   private actions$ = inject(Actions);
   private productSearchConnector = inject(ProductSearchConnector);
 
@@ -52,7 +63,11 @@ export class ProductSearchByCategoryEffects {
                   action.payload
               ),
 
-              bufferDebounceTime(debounce, scheduler),
+              withPendingTask(
+                bufferDebounceTime(debounce, scheduler),
+                this.pendingTasks,
+                this.destroyRef
+              ),
 
               mergeMap(
                 (payloads: { categoryCode: string; scope: string }[]) => {
@@ -68,6 +83,7 @@ export class ProductSearchByCategoryEffects {
                       )
                     )
                   ).pipe(
+                    pendingUntilEvent(this.injector),
                     mergeMap((searchResults, _index) => {
                       return categoryCodes.map((categoryCode, idx) => {
                         const categoryProducts =
